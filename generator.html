@@ -5103,8 +5103,29 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                     return; 
                 }
                 
-                // 1️⃣ VÉRIFIER SI L'UTILISATEUR EST CONNECTÉ
-                const isLoggedIn = window.isUserLoggedIn && window.isUserLoggedIn();
+                // 1️⃣ VÉRIFIER SI L'UTILISATEUR EST CONNECTÉ (via Supabase OU localStorage)
+                let isLoggedIn = false;
+                let userEmail = localStorage.getItem('userEmail');
+                
+                // Double vérification: localStorage ET session Supabase
+                if (userEmail) {
+                    isLoggedIn = true;
+                } else if (window.supabaseClient) {
+                    try {
+                        const { data: { session } } = await window.supabaseClient.auth.getSession();
+                        if (session && session.user) {
+                            isLoggedIn = true;
+                            userEmail = session.user.email;
+                            localStorage.setItem('userEmail', userEmail);
+                            // Rafraîchir les crédits
+                            if (window.refreshExportCredits) {
+                                await window.refreshExportCredits();
+                            }
+                        }
+                    } catch (e) {
+                        console.log('Erreur vérification session:', e);
+                    }
+                }
                 
                 if (!isLoggedIn) {
                     // 💾 Sauvegarder le design AVANT de rediriger
@@ -5117,8 +5138,19 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                         backCoverTextColor, backCoverTextFont, backCoverTextSize,
                         backCoverBgColor,
                         bookTitleX, bookTitleY, authorNameX, authorNameY,
-                        frontImage: frontImage ? { url: frontImage.url, naturalWidth: frontImage.naturalWidth, naturalHeight: frontImage.naturalHeight } : null,
-                        backImage: backImage ? { url: backImage.url, naturalWidth: backImage.naturalWidth, naturalHeight: backImage.naturalHeight } : null,
+                        // Sauvegarder aussi le mode full cover
+                        isFullCover: !!(frontImage && frontImage.isFullCover),
+                        frontImage: frontImage ? { 
+                            url: frontImage.url, 
+                            naturalWidth: frontImage.naturalWidth, 
+                            naturalHeight: frontImage.naturalHeight,
+                            isFullCover: frontImage.isFullCover 
+                        } : null,
+                        backImage: backImage ? { 
+                            url: backImage.url, 
+                            naturalWidth: backImage.naturalWidth, 
+                            naturalHeight: backImage.naturalHeight 
+                        } : null,
                     };
                     window.saveTempDesign && window.saveTempDesign(designData);
                     
