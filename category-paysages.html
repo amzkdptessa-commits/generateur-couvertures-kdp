@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paysages Templates - GabaritKDP Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; }
+        
+        /* Header */
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none; }
+        .logo span { color: #22c55e; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: white; }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a { color: #94a3b8; text-decoration: none; }
+        .breadcrumb a:hover { color: white; }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #22c55e22 0%, transparent 50%),
+                        url('https://cdn.gabaritkdp.com/fullcovers/Paysages/Paysages%20(1).jpg') center/cover;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, #0f172a 100%);
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero h1 .icon { font-size: 2.5rem; margin-right: 0.5rem; }
+        .hero p { color: #94a3b8; font-size: 1.125rem; max-width: 600px; margin: 0 auto 1.5rem; }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #22c55e; }
+        .stat-label { font-size: 0.875rem; color: #94a3b8; }
+        
+        /* Filters */
+        .filters {
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            padding: 0.625rem 1.25rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.875rem;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .filter-btn.active { background: #22c55e; color: white; border-color: #22c55e; }
+        
+        /* Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Card */
+        .product-card {
+            background: #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: #22c55e;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .product-card.hidden { display: none; }
+        .card-image {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+            background: #0f172a;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .product-card:hover .card-image img { transform: scale(1.05); }
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-free { background: #22c55e; color: white; }
+        .badge-pro { background: #22c55e; color: white; }
+        .card-content { padding: 1rem; }
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-price { color: #22c55e; font-weight: 700; }
+        .card-price.free { color: #22c55e; }
+        
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer p { color: #64748b; }
+        .footer a { color: #22c55e; text-decoration: none; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .products-grid { padding: 1rem; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="marketplace.html" class="logo">Gabarit<span>KDP</span></a>
+        <nav class="nav-links">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="generator.html">Générateur</a>
+            <a href="pricing.html">Pricing</a>
+        </nav>
+    </header>
+    
+    <div class="breadcrumb">
+        <a href="index.html">Accueil</a> / <a href="marketplace.html">Marketplace</a> / <strong>Paysages</strong>
+    </div>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1><span class="icon">🏔️</span> Paysages</h1>
+            <p>Découvrez notre collection de templates paysages professionnels, prêts à personnaliser pour Amazon KDP.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value" id="totalCount">69</div>
+                    <div class="stat-label">Templates</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="freeCount">13</div>
+                    <div class="stat-label">Gratuits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="other">Other</button>
+        <button class="filter-btn" data-filter="free">🆓 Gratuits</button>
+    </div>
+    
+    <div class="products-grid" id="productsGrid"></div>
+    
+    <footer class="footer">
+        <p>© 2025 GabaritKDP - <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+    
+    <script>
+    const products = [
+      { id: 1, title: "FULL COVER – Landscapes 1", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(1).png", price: 4.99 },
+  { id: 2, title: "FULL COVER – Landscapes 10", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(10).png", price: 4.99 },
+  { id: 3, title: "FULL COVER – Landscapes 11", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(11).png", price: 4.99 },
+  { id: 4, title: "FULL COVER – Landscapes 12", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(12).png", price: 4.99 },
+  { id: 5, title: "FULL COVER – Landscapes 13", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(13).png", price: 0 },
+  { id: 6, title: "FULL COVER – Landscapes 14", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(14).png", price: 4.99 },
+  { id: 7, title: "FULL COVER – Landscapes 15", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(15).png", price: 4.99 },
+  { id: 8, title: "FULL COVER – Landscapes 16", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(16).png", price: 4.99 },
+  { id: 9, title: "FULL COVER – Landscapes 17", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(17).png", price: 4.99 },
+  { id: 10, title: "FULL COVER – Landscapes 18", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(18).png", price: 0 },
+  { id: 11, title: "FULL COVER – Landscapes 19", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(19).png", price: 4.99 },
+  { id: 12, title: "FULL COVER – Landscapes 2", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(2).png", price: 4.99 },
+  { id: 13, title: "FULL COVER – Landscapes 20", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(20).png", price: 4.99 },
+  { id: 14, title: "FULL COVER – Landscapes 21", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(21).png", price: 4.99 },
+  { id: 15, title: "FULL COVER – Landscapes 22", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(22).png", price: 0 },
+  { id: 16, title: "FULL COVER – Landscapes 23", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(23).png", price: 4.99 },
+  { id: 17, title: "FULL COVER – Landscapes 24", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(24).png", price: 4.99 },
+  { id: 18, title: "FULL COVER – Landscapes 25", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(25).png", price: 4.99 },
+  { id: 19, title: "FULL COVER – Landscapes 26", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(26).png", price: 4.99 },
+  { id: 20, title: "FULL COVER – Landscapes 27", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(27).png", price: 0 },
+  { id: 21, title: "FULL COVER – Landscapes 28", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(28).png", price: 4.99 },
+  { id: 22, title: "FULL COVER – Landscapes 29", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(29).png", price: 4.99 },
+  { id: 23, title: "FULL COVER – Landscapes 3", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(3).png", price: 4.99 },
+  { id: 24, title: "FULL COVER – Landscapes 30", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(30).png", price: 4.99 },
+  { id: 25, title: "FULL COVER – Landscapes 31", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(31).png", price: 0 },
+  { id: 26, title: "FULL COVER – Landscapes 32", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(32).png", price: 4.99 },
+  { id: 27, title: "FULL COVER – Landscapes 33", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(33).png", price: 4.99 },
+  { id: 28, title: "FULL COVER – Landscapes 34", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(34).png", price: 4.99 },
+  { id: 29, title: "FULL COVER – Landscapes 35", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(35).png", price: 4.99 },
+  { id: 30, title: "FULL COVER – Landscapes 36", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(36).png", price: 0 },
+  { id: 31, title: "FULL COVER – Landscapes 37", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(37).png", price: 4.99 },
+  { id: 32, title: "FULL COVER – Landscapes 38", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(38).png", price: 4.99 },
+  { id: 33, title: "FULL COVER – Landscapes 39", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(39).png", price: 4.99 },
+  { id: 34, title: "FULL COVER – Landscapes 4", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(4).png", price: 4.99 },
+  { id: 35, title: "FULL COVER – Landscapes 40", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(40).png", price: 0 },
+  { id: 36, title: "FULL COVER – Landscapes 41", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(41).png", price: 4.99 },
+  { id: 37, title: "FULL COVER – Landscapes 42", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(42).png", price: 4.99 },
+  { id: 38, title: "FULL COVER – Landscapes 43", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(43).png", price: 4.99 },
+  { id: 39, title: "FULL COVER – Landscapes 44", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(44).png", price: 4.99 },
+  { id: 40, title: "FULL COVER – Landscapes 45", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(45).png", price: 0 },
+  { id: 41, title: "FULL COVER – Landscapes 46", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(46).png", price: 4.99 },
+  { id: 42, title: "FULL COVER – Landscapes 47", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(47).png", price: 4.99 },
+  { id: 43, title: "FULL COVER – Landscapes 48", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(48).png", price: 4.99 },
+  { id: 44, title: "FULL COVER – Landscapes 49", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(49).png", price: 4.99 },
+  { id: 45, title: "FULL COVER – Landscapes 5", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(5).png", price: 0 },
+  { id: 46, title: "FULL COVER – Landscapes 50", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(50).png", price: 4.99 },
+  { id: 47, title: "FULL COVER – Landscapes 51", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(51).png", price: 4.99 },
+  { id: 48, title: "FULL COVER – Landscapes 52", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(52).png", price: 4.99 },
+  { id: 49, title: "FULL COVER – Landscapes 53", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(53).png", price: 4.99 },
+  { id: 50, title: "FULL COVER – Landscapes 54", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(54).png", price: 0 },
+  { id: 51, title: "FULL COVER – Landscapes 55", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(55).png", price: 4.99 },
+  { id: 52, title: "FULL COVER – Landscapes 56", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(56).png", price: 4.99 },
+  { id: 53, title: "FULL COVER – Landscapes 57", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(57).png", price: 4.99 },
+  { id: 54, title: "FULL COVER – Landscapes 58", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(58).png", price: 4.99 },
+  { id: 55, title: "FULL COVER – Landscapes 59", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(59).png", price: 0 },
+  { id: 56, title: "FULL COVER – Landscapes 6", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(6).png", price: 4.99 },
+  { id: 57, title: "FULL COVER – Landscapes 60", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(60).png", price: 4.99 },
+  { id: 58, title: "FULL COVER – Landscapes 61", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(61).png", price: 4.99 },
+  { id: 59, title: "FULL COVER – Landscapes 62", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(62).png", price: 4.99 },
+  { id: 60, title: "FULL COVER – Landscapes 63", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(63).png", price: 0 },
+  { id: 61, title: "FULL COVER – Landscapes 64", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(64).png", price: 4.99 },
+  { id: 62, title: "FULL COVER – Landscapes 65", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(65).png", price: 4.99 },
+  { id: 63, title: "FULL COVER – Landscapes 66", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(66).png", price: 4.99 },
+  { id: 64, title: "FULL COVER – Landscapes 67", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(67).png", price: 4.99 },
+  { id: 65, title: "FULL COVER – Landscapes 68", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(68).png", price: 0 },
+  { id: 66, title: "FULL COVER – Landscapes 69", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(69).png", price: 4.99 },
+  { id: 67, title: "FULL COVER – Landscapes 7", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(7).png", price: 4.99 },
+  { id: 68, title: "FULL COVER – Landscapes 8", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(8).png", price: 4.99 },
+  { id: 69, title: "FULL COVER – Landscapes 9", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Paysages/FULL%20COVER%20–%20Landscapes%20(9).png", price: 4.99 },
+    ];
+    
+    const grid = document.getElementById('productsGrid');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Render products
+    function renderProducts(filter = 'all') {
+        grid.innerHTML = '';
+        
+        let filtered = products;
+        if (filter === 'free') {
+            filtered = products.filter(p => p.price === 0);
+        } else if (filter !== 'all') {
+            filtered = products.filter(p => p.cat === filter);
+        }
+        
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="card-image">
+                    <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400?text=Loading...'">
+                    <span class="badge ${p.price === 0 ? 'badge-free' : 'badge-pro'}">${p.price === 0 ? 'FREE' : 'PRO'}</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">${p.title}</div>
+                    <div class="card-price ${p.price === 0 ? 'free' : ''}">${p.price === 0 ? 'Gratuit' : p.price.toFixed(2) + ' €'}</div>
+                </div>
+            `;
+            card.onclick = () => {
+                window.location.href = 'generator.html?template=' + encodeURIComponent(p.img);
+            };
+            grid.appendChild(card);
+        });
+        
+        // Update counter
+        document.getElementById('totalCount').textContent = filtered.length;
+        document.getElementById('freeCount').textContent = filtered.filter(p => p.price === 0).length;
+    }
+    
+    // Filter click handlers
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts(btn.dataset.filter);
+        });
+    });
+    
+    // Initial render
+    renderProducts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery Loader - Exemple d'utilisation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-card h3 {
+            margin: 0 0 10px 0;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: bold;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            background: #5568d3;
+        }
+        input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 300px;
+        }
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+        .category-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .category-badge {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎨 Gallery Loader - Exemple d'utilisation</h1>
+
+    <!-- Stats Section -->
+    <div class="section">
+        <h2>📊 Statistiques de la galerie</h2>
+        <div id="stats-container" class="stats">
+            <div class="loading">Chargement des statistiques...</div>
+        </div>
+    </div>
+
+    <!-- Catégories Section -->
+    <div class="section">
+        <h2>📁 Catégories disponibles</h2>
+        <div id="categories-container">
+            <div class="loading">Chargement des catégories...</div>
+        </div>
+    </div>
+
+    <!-- Recherche Section -->
+    <div class="section">
+        <h2>🔍 Recherche</h2>
+        <input type="text" id="search-input" placeholder="Rechercher par mot-clé...">
+        <button onclick="searchImages()">Rechercher</button>
+        <button onclick="loadCategory('ANIMAUX')">Animaux</button>
+        <button onclick="loadCategory('Romance')">Romance</button>
+        <button onclick="loadCategory('Fantasy')">Fantasy</button>
+        <button onclick="loadAllBackgrounds()">Tous les backgrounds</button>
+    </div>
+
+    <!-- Gallery Section -->
+    <div class="section">
+        <h2>🖼️ Galerie</h2>
+        <div id="gallery-container" class="gallery">
+            <div class="loading">Sélectionnez une catégorie ou effectuez une recherche...</div>
+        </div>
+    </div>
+
+    <!-- Script Gallery Loader -->
+    <script src="/gallery-loader.js"></script>
+
+    <script>
+        // Initialisation au chargement
+        document.addEventListener('DOMContentLoaded', async () => {
+            await loadStats();
+            await loadCategories();
+        });
+
+        /**
+         * Charge et affiche les statistiques
+         */
+        async function loadStats() {
+            try {
+                const stats = await galleryLoader.getStats();
+                
+                document.getElementById('stats-container').innerHTML = `
+                    <div class="stat-card">
+                        <h3>Backgrounds</h3>
+                        <div class="number">${stats.backgrounds.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Full Covers</h3>
+                        <div class="number">${stats.fullCovers.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total Images</h3>
+                        <div class="number">${stats.total.toLocaleString()}</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Taille totale</h3>
+                        <div class="number">${stats.totalSizeMB} MB</div>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Erreur chargement stats:', error);
+                document.getElementById('stats-container').innerHTML = 
+                    '<div style="color: red;">Erreur de chargement des statistiques</div>';
+            }
+        }
+
+        /**
+         * Charge et affiche les catégories
+         */
+        async function loadCategories() {
+            try {
+                const categories = await galleryLoader.getCategories('backgrounds');
+                
+                const html = categories.map(cat => `
+                    <div class="category-badge">
+                        <strong>${cat.name}</strong> (${cat.count})
+                        ${cat.subcategories.length > 0 ? 
+                            `<br><small>${cat.subcategories.join(', ')}</small>` : 
+                            ''}
+                    </div>
+                `).join('');
+
+                document.getElementById('categories-container').innerHTML = 
+                    `<div class="category-list">${html}</div>`;
+            } catch (error) {
+                console.error('Erreur chargement catégories:', error);
+            }
+        }
+
+        /**
+         * Charge les images d'une catégorie
+         */
+        async function loadCategory(category) {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '<div class="loading">Chargement...</div>';
+
+            try {
+                const images = await galleryLoader.getByCategory(category);
+                displayImages(images);
+            } catch (error) {
+                console.error('Erreur chargement catégorie:', error);
+                container.innerHTML = '<div style="color: red;">Erreur de chargement</div>';
+            }
+        }
+
+        /**
+         * Charge tous les backgrounds
+         */
+        async function loadAllBackgrounds() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '<div class="loading">Chargement...</div>';
+
+            try {
+                const images = await galleryLoader.getBackgrounds();
+                displayImages(images.slice(0, 50)); // Limite à 50 pour performance
+            } catch (error) {
+                console.error('Erreur chargement:', error);
+                container.innerHTML = '<div style="color: red;">Erreur de chargement</div>';
+            }
+        }
+
+        /**
+         * Recherche d'images
+         */
+        async function searchImages() {
+            const keyword = document.getElementById('search-input').value;
+            if (!keyword) return;
+
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = '<div class="loading">Recherche...</div>';
+
+            try {
+                const images = await galleryLoader.search(keyword);
+                displayImages(images);
+            } catch (error) {
+                console.error('Erreur recherche:', error);
+                container.innerHTML = '<div style="color: red;">Erreur de recherche</div>';
+            }
+        }
+
+        /**
+         * Affiche les images dans la galerie
+         */
+        function displayImages(images) {
+            const container = document.getElementById('gallery-container');
+
+            if (images.length === 0) {
+                container.innerHTML = '<div>Aucune image trouvée</div>';
+                return;
+            }
+
+            const html = images.map(img => `
+                <div>
+                    <img 
+                        src="${img.url}" 
+                        alt="${img.filename}"
+                        title="${img.folder} - ${img.tags.join(', ')}"
+                        onclick="selectImage('${img.url}', '${img.filename}')"
+                        loading="lazy"
+                    >
+                </div>
+            `).join('');
+
+            container.innerHTML = html;
+        }
+
+        /**
+         * Sélectionne une image (exemple)
+         */
+        function selectImage(url, filename) {
+            console.log('Image sélectionnée:', { url, filename });
+            alert(`Image sélectionnée: ${filename}\n\nURL: ${url}`);
+            // Ici tu peux intégrer avec ton générateur de couvertures
+        }
+
+        // Recherche au clavier
+        document.getElementById('search-input')?.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                searchImages();
+            }
+        });
+    </script>
+</body>
+</html>

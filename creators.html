@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GabaritKDP Creators - Exclusive Beta Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .pulse-red { animation: pulse-red 2s infinite; }
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .typing-animation {
+            border-right: 2px solid #667eea;
+            animation: typing 3s steps(30) infinite;
+        }
+        @keyframes typing {
+            0%, 50% { border-right-color: transparent; }
+            51%, 100% { border-right-color: #667eea; }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-ruler text-white text-lg"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">GabaritKDP</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
+                    <a href="/generator.html" class="text-gray-600 hover:text-gray-900">Generator</a>
+                    <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full text-sm font-medium pulse-red">
+                        BETA EXCLUSIVE
+                    </span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg py-20">
+        <div class="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <div class="bg-red-600 text-white px-4 py-2 rounded-full inline-block mb-6 pulse-red">
+                <i class="fas fa-fire mr-2"></i>
+                <span class="font-bold">BETA FERMÉE - PLACES LIMITÉES</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-bold text-white mb-6">
+                Rejoignez l'Elite des
+                <span class="block typing-animation">Créateurs KDP</span>
+            </h1>
+            
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+                Accès anticipé à l'outil qui va révolutionner la création de couvertures. 
+                <strong>Réservé aux créateurs de contenu KDP.</strong>
+            </p>
+            
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-6 mb-8">
+                <div class="text-3xl font-bold text-white mb-2">23/50</div>
+                <div class="text-blue-100">Créateurs déjà sélectionnés</div>
+            </div>
+            
+            <button onclick="openApplication()" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+                <i class="fas fa-crown mr-2"></i>
+                DEMANDER MON ACCÈS VIP
+            </button>
+        </div>
+    </section>
+
+    <!-- Exclusive Program Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4">Le Programme Exclusif</h2>
+                <p class="text-xl text-gray-600">Ce que vous obtenez en tant que Creator Beta</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- What You Get -->
+                <div class="bg-green-50 border-l-4 border-green-500 p-6 rounded-lg card-hover">
+                    <h3 class="text-xl font-bold text-green-800 mb-4">
+                        <i class="fas fa-gift mr-2"></i>
+                        CE QUE VOUS OBTENEZ
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-green-700">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>Accès gratuit illimité (valeur : $29/mois)</span>
+                        </li>
+                        <li class="flex items-center text-green-700">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>Codes promo personnalisés pour votre audience</span>
+                        </li>
+                        <li class="flex items-center text-green-700">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>Early access aux nouvelles fonctionnalités</span>
+                        </li>
+                        <li class="flex items-center text-green-700">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>Co-création de contenu avec notre équipe</span>
+                        </li>
+                        <li class="flex items-center text-green-700">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>Commission 20% sur les conversions</span>
+                        </li>
+                        <li class="flex items-center text-green-700">
+                            <i class="fas fa-check-circle mr-3"></i>
+                            <span>Badge "Official GabaritKDP Creator"</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- What We Look For -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg card-hover">
+                    <h3 class="text-xl font-bold text-blue-800 mb-4">
+                        <i class="fas fa-search mr-2"></i>
+                        CE QUE NOUS CHERCHONS
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-center text-blue-700">
+                            <i class="fas fa-youtube mr-3 text-red-500"></i>
+                            <span>Chaîne YouTube active (1K+ abonnés)</span>
+                        </li>
+                        <li class="flex items-center text-blue-700">
+                            <i class="fas fa-calendar-alt mr-3"></i>
+                            <span>Contenu régulier sur Amazon KDP</span>
+                        </li>
+                        <li class="flex items-center text-blue-700">
+                            <i class="fas fa-heart mr-3 text-red-500"></i>
+                            <span>Engagement authentique avec votre audience</span>
+                        </li>
+                        <li class="flex items-center text-blue-700">
+                            <i class="fas fa-comments mr-3"></i>
+                            <span>Envie de tester et donner du feedback constructif</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-center text-gray-900 mb-12">Témoignages Creators Beta</h2>
+            
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1494790108755-2616b612b5bc?w=50&h=50&fit=crop&crop=face" 
+                             alt="Sarah" class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <div class="font-bold text-gray-900">Sarah K.</div>
+                            <div class="text-sm text-gray-600">BookTuber, 45K abonnés</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"Ce Beta m'a fait gagner 3h par semaine sur mes couvertures ! Mes viewers adorent la simplicité."</p>
+                    <div class="flex text-yellow-400 mt-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face" 
+                             alt="David" class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <div class="font-bold text-gray-900">David L.</div>
+                            <div class="text-sm text-gray-600">KDP Master, 12K abonnés</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"Mon code promo a généré 200+ inscriptions ! L'engagement de ma communauté a explosé."</p>
+                    <div class="flex text-yellow-400 mt-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md card-hover">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face" 
+                             alt="Marie" class="w-12 h-12 rounded-full mr-3">
+                        <div>
+                            <div class="font-bold text-gray-900">Marie T.</div>
+                            <div class="text-sm text-gray-600">Self-Publishing Secrets, 8K abonnés</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 italic">"Enfin un outil qui comprend les vrais problèmes KDP ! Mes tutorials sont maintenant 10x plus efficaces."</p>
+                    <div class="flex text-yellow-400 mt-3">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 gradient-bg">
+        <div class="max-w-3xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+            <h2 class="text-3xl font-bold text-white mb-6">Prêt à Rejoindre l'Elite ?</h2>
+            <p class="text-xl text-blue-100 mb-8">Places limitées. Sélection rigoureuse. Privilèges exclusifs.</p>
+            
+            <div class="bg-white/10 backdrop-blur-sm border border-white/20 rounded-lg p-4 mb-6 inline-block">
+                <div class="text-red-300 font-semibold">⏰ Candidatures ferment dans :</div>
+                <div id="countdown" class="text-2xl font-bold text-white"></div>
+            </div>
+            
+            <button onclick="openApplication()" class="bg-white text-purple-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition-all transform hover:scale-105 shadow-lg">
+                <i class="fas fa-rocket mr-2"></i>
+                CANDIDATER MAINTENANT
+            </button>
+        </div>
+    </section>
+
+    <!-- Application Modal -->
+    <div id="applicationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
+                <div class="p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-2xl font-bold text-gray-900">
+                            <i class="fas fa-crown mr-2 text-yellow-500"></i>
+                            Candidature Creator Beta
+                        </h3>
+                        <button onclick="closeApplication()" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    
+                    <form id="creatorForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Prénom *</label>
+                                <input type="text" name="firstName" required 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nom *</label>
+                                <input type="text" name="lastName" required 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                            <input type="email" name="email" required 
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">URL de votre chaîne YouTube *</label>
+                            <input type="url" name="youtubeChannel" required placeholder="https://youtube.com/@votre-chaine"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Nombre d'abonnés *</label>
+                                <select name="subscribers" required 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <option value="">Sélectionnez</option>
+                                    <option value="1k-5k">1K - 5K</option>
+                                    <option value="5k-10k">5K - 10K</option>
+                                    <option value="10k-25k">10K - 25K</option>
+                                    <option value="25k-50k">25K - 50K</option>
+                                    <option value="50k+">50K+</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Fréquence contenu KDP *</label>
+                                <select name="frequency" required 
+                                        class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500">
+                                    <option value="">Sélectionnez</option>
+                                    <option value="daily">Quotidien</option>
+                                    <option value="weekly">Hebdomadaire</option>
+                                    <option value="monthly">Mensuel</option>
+                                    <option value="occasional">Occasionnel</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Votre plus gros pain point avec les couvertures KDP *</label>
+                            <textarea name="painPoint" required rows="3" placeholder="Décrivez vos principales difficultés..."
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Comment comptez-vous présenter l'outil à votre audience ? *</label>
+                            <textarea name="presentationPlan" required rows="3" placeholder="Vidéo tutorial, review, live demo..."
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"></textarea>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <label class="flex items-start">
+                                <input type="checkbox" name="feedbackAgreement" required class="mt-1 mr-3">
+                                <span class="text-sm text-gray-700">J'accepte de donner mon feedback constructif pendant la période beta</span>
+                            </label>
+                            <label class="flex items-start">
+                                <input type="checkbox" name="audienceAgreement" required class="mt-1 mr-3">
+                                <span class="text-sm text-gray-700">J'ai une audience engagée dans l'autoédition Amazon KDP</span>
+                            </label>
+                            <label class="flex items-start">
+                                <input type="checkbox" name="contentAgreement" required class="mt-1 mr-3">
+                                <span class="text-sm text-gray-700">Je peux créer 1 vidéo/post sur l'outil dans les 30 jours suivant l'accès</span>
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-3 px-6 rounded-md font-bold hover:from-purple-700 hover:to-blue-700 transition-all">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            SOUMETTRE MA CANDIDATURE
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-lg max-w-md w-full p-6 text-center">
+                <div class="text-6xl text-green-500 mb-4">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Candidature Envoyée !</h3>
+                <p class="text-gray-600 mb-6">Merci pour votre candidature. Notre équipe va l'examiner et vous recontacter sous 48h.</p>
+                <button onclick="closeSuccess()" class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600">
+                    Parfait !
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const deadline = new Date();
+            deadline.setDate(deadline.getDate() + 7); // 7 days from now
+            
+            const now = new Date().getTime();
+            const distance = deadline.getTime() - now;
+            
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            
+            document.getElementById('countdown').innerHTML = `${days}j ${hours}h ${minutes}m`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Modal Functions
+        function openApplication() {
+            document.getElementById('applicationModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeApplication() {
+            document.getElementById('applicationModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+        
+        function closeSuccess() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Form Submission
+        document.getElementById('creatorForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Here you would normally send the form data to your backend
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            console.log('Creator Application:', data);
+            
+            // Simulate API call
+            setTimeout(() => {
+                closeApplication();
+                document.getElementById('successModal').classList.remove('hidden');
+                
+                // Track the conversion
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'creator_application_submitted', {
+                        'event_category': 'Creator Program',
+                        'event_label': 'Application Form'
+                    });
+                }
+            }, 1000);
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+
+    <!-- Analytics Tracking -->
+    <script>
+        // Add your Google Analytics tracking here
+        // gtag('config', 'GA_TRACKING_ID');
+        
+        // Track page view
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                'page_title': 'Creator Program',
+                'page_location': window.location.href
+            });
+        }
+    </script>
+</body>
+</html>

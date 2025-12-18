@@ -1,0 +1,127 @@
+RAPPORT DE CORRECTION DES URLs
+================================================================================
+
+Fichiers traités: 96
+Fichiers modifiés: 7
+Total URLs remplacées: 628
+
+DÉTAIL DES REMPLACEMENTS
+--------------------------------------------------------------------------------
+
+
+category-art.html (196 remplacements):
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/VAN%20GOGH%20STYLE/FULL%20COVER%20–%20Van%20Gogh%20Style%20(22).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/VAN%20GOGH%20STYLE/VAN%20GOGH%20STYLE/fullcover_art_van_gogh_style_022.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/STYLE%20POP%20ART/FULL%20COVER%20–%20Pop%20Art%20Style%20(23).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20POP%20ART/STYLE%20POP%20ART/fullcover_art_style_pop_art_023.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/BASQUIAT%20INSPIRED/FULL%20COVER%20–%20Basquiat%20Inspired%20(29).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/BASQUIAT%20INSPIRED/BASQUIAT%20INSPIRED/fullcover_art_basquiat_inspired_029.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/STYLE%20POP%20ART/FULL%20COVER%20–%20Pop%20Art%20Style%20(28).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20POP%20ART/STYLE%20POP%20ART/fullcover_art_style_pop_art_028.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/BASQUIAT%20INSPIRED/FULL%20COVER%20–%20Basquiat%20Inspired%20(18).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/BASQUIAT%20INSPIRED/BASQUIAT%20INSPIRED/fullcover_art_basquiat_inspired_018.jpg
+
+  ... et 191 autres
+
+
+category-vintage.html (212 remplacements):
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Newsroom/FULLCOVER_1930s%20Newsroom%20(36).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Newsroom/1930s%20Newsroom/fullcover_vintage_1930s_newsroom_036.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Newsroom/FULLCOVER_1930s%20Newsroom%20(59).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Newsroom/1930s%20Newsroom/fullcover_vintage_1930s_newsroom_059.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Maps%20&%20Geography/FULLCOVER_1930s%20Maps%20&%20Geography%20(32).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Maps%20&%20Geography/1930s%20Maps%20&%20Geography/fullcover_vintage_1930s_maps_geography_032.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Newspaper%20Textures/FULLCOVER_1930s%20Newspaper%20Textures%20(15).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Newspaper%20Textures/1930s%20Newspaper%20Textures/fullcover_vintage_1930s_newspaper_textures_015.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Maps%20&%20Geography/FULLCOVER_1930s%20Maps%20&%20Geography%20(26).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Maps%20&%20Geography/1930s%20Maps%20&%20Geography/fullcover_vintage_1930s_maps_geography_026.jpg
+
+  ... et 207 autres
+
+
+category-voyages.html (194 remplacements):
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Voyages/TOKYO/FULLCOVER_TOKYO%20(32).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/TOKYO/TOKYO/fullcover_voyages_tokyo_032.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Voyages/MARRAKECH/FULLCOVER_MARRAKECH%20(12).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/MARRAKECH/fullcover_voyages_marrakech_012.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Voyages/TOKYO/FULLCOVER_TOKYO%20(17).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/TOKYO/TOKYO/fullcover_voyages_tokyo_017.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Voyages/MARRAKECH/FULLCOVER_MARRAKECH%20(3).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/MARRAKECH/fullcover_voyages_marrakech_003.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Voyages/ROME/FULLCOVER_ROME%20(29).jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/ROME/ROME/fullcover_voyages_rome_029.jpg
+
+  ... et 189 autres
+
+
+marketplace.html (12 remplacements):
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/HISTORICAL/Medieval/Medieval/image_couverture_de_livres_historical_medieval_001.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/MISC/Historical%20Medieval/Historical%20Medieval/image_couverture_de_livres_historical_medieval_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/THRILLER/Crime/image_couverture_de_livres_thriller_crime_001.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/Crime/Crime/image_couverture_de_livres_thriller_crime_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_001.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/Dark%20Romance/Dark%20Romance/image_couverture_de_livres_romance_dark_romance_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/FANTASY/EPIC%20FANTASY/EPIC%20FANTASY/image_couverture_de_livres_fantasy_epic_fantasy_001.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/Epic/Epic/image_couverture_de_livres_fantasy_epic_fantasy_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/SCI-FI/CYBERPUNK/image_couverture_de_livres_sci_fi_cyberpunk_001.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/MISC/Cyberpunk/Cyberpunk/image_couverture_de_livres_sci_fi_cyberpunk_001.png
+
+  ... et 7 autres
+
+
+subcategory-full-cover-art.html (8 remplacements):
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/BASQUIAT%20INSPIRED/FULL%20COVER%20%E2%80%93%20Basquiat%20Inspired%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/BASQUIAT%20INSPIRED/BASQUIAT%20INSPIRED/fullcover_art_basquiat_inspired_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/STYLE%20KLIMT/FULL%20COVER%20%E2%80%93%20Klimt%20Style%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20KLIMT/STYLE%20KLIMT/fullcover_art_style_klimt_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/STYLE%20PICASSO/FULL%20COVER%20%E2%80%93%20Picasso%20Style%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/STYLE%20PICASSO/fullcover_art_style_picasso_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/STYLE%20JAPONAIS%20%E2%80%94%20UKIYO-E/FULL%20COVER%20%E2%80%93%20Japanese%20Ukiyo-e%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20JAPONAIS%20%E2%80%94%20UKIYO-E/STYLE%20JAPONAIS%20%E2%80%94%20UKIYO-E/fullcover_art_style_japonais_ukiyo_e_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Art/STYLE%20POP%20ART/FULL%20COVER%20%E2%80%93%20Pop%20Art%20Style%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20POP%20ART/STYLE%20POP%20ART/fullcover_art_style_pop_art_001.jpg
+
+  ... et 3 autres
+
+
+subcategory-full-cover-magie-x-art-nouveau-style-premium.html (2 remplacements):
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/MAGIE%20x%20ART%20NOUVEAU%20%28STYLE%20PREMIUM%29/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/FULLCOVER_ArtNouveauBlueGold%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20&%20Or/Art%20Nouveau%20Bleu%20Nuit%20&%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/MAGIE%20x%20ART%20NOUVEAU%20%28STYLE%20PREMIUM%29/Art%20Nouveau%20Magique/FULLCOVER_MagicArtNouveau%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Magique/Art%20Nouveau%20Magique/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_magique_001.jpg
+
+
+subcategory-full-cover-vintage.html (4 remplacements):
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Newsroom/FULLCOVER_1930s%20Newsroom%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Newsroom/1930s%20Newsroom/fullcover_vintage_1930s_newsroom_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Newspaper%20Textures/FULLCOVER_1930s%20Newspaper%20Textures%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Newspaper%20Textures/1930s%20Newspaper%20Textures/fullcover_vintage_1930s_newspaper_textures_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Buildings%20%26%20City/FULLCOVER_PARIS%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Buildings%20&%20City/1930s%20Buildings%20&%20City/fullcover_vintage_1930s_buildings_city_001.jpg
+
+  ANCIEN: https://cdn.gabaritkdp.com/fullcovers/Vintage/1930s%20Maps%20%26%20Geography/FULLCOVER_1930s%20Maps%20%26%20Geography%20%281%29.jpg
+  NOUVEAU: https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Maps%20&%20Geography/1930s%20Maps%20&%20Geography/fullcover_vintage_1930s_maps_geography_001.jpg
+

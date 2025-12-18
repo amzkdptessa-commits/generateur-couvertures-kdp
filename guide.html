@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Guide d'utilisation - GabaritKDP" data-en="User Guide - GabaritKDP">User Guide - GabaritKDP</title>
+    <meta name="description"
+        data-fr="Guide complet pour assembler et valider vos couvertures KDP avec GabaritKDP. Tutoriels, conseils et workflow optimal."
+        data-en="Complete guide to assembling and validating your KDP covers with GabaritKDP. Tutorials, tips, and the optimal workflow."
+        content="Complete guide to assembling and validating your KDP covers with GabaritKDP. Tutorials, tips, and the optimal workflow.">
+
+    <link rel="icon" type="image/png" href="logo-gabaritkdp.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-MYG5JJM8EC');
+    </script>
+
+    <script>
+        function detectUserLanguage() {
+            const userChoice = localStorage.getItem('preferredLanguage');
+            if (userChoice) return userChoice;
+            return 'en';
+        }
+        const defaultLang = detectUserLanguage();
+        document.documentElement.lang = defaultLang;
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="text/javascript">
+        (function (c, l, a, r, i, t, y) {
+            c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+            t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i;
+            y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y);
+        })(window, document, "clarity", "script", "t09tdy9nqm");
+    </script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .language-selector {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3px;
+        }
+
+        .lang-btn {
+            padding: 6px 10px;
+            border: none;
+            background: transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+
+        .header-nav {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-nav span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF9900;
+        }
+
+        .nav-links {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 14px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.1);
+        }
+
+        .express-nav-btn {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+
+        .express-nav-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .f-exp-gene {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        .f-exp-gene:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: #FFFFFF;
+        }
+
+        .express-nav-btn::before,
+        .f-exp-gene::before {
+            content: "⚡";
+            margin-right: 4px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mobile-menu-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        .guide-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 2rem;
+            border-left: 4px solid #FF9900;
+        }
+
+        .step-header {
+            background: linear-gradient(135deg, #FF9900 0%, #e68900 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .step-number {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .step-content {
+            padding: 2rem;
+        }
+
+        .tip-box {
+            background: #f0f9ff;
+            border-left: 4px solid #38bdf8;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .success-box {
+            background: #f0fdf4;
+            border-left: 4px solid #10b981;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+        }
+
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0866D3);
+        }
+
+        .social-link.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);
+        }
+
+        .social-link.pinterest {
+            background: linear-gradient(135deg, #BD081C, #E60023);
+        }
+
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
+        }
+
+        .social-link.linkedin {
+            background: linear-gradient(135deg, #0A66C2, #004182);
+        }
+
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 22.5px;
+                right: 60px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px;
+                margin-left: auto;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+            </div>
+            <nav class="nav-links">
+                <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
+                    data-en="Express Generator">Express Generator</a>
+                <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
+                    Generator</a>
+<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+           <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+                <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+                <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <div class="mobile-menu-links">
+            <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+            <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
+                data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+            <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰
+                Pricing</a>
+            <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2);" data-fr="📝 Inscription"
+                data-en="📝 Sign Up">📝 Sign Up</a>
+            <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+        </div>
+    </div>
+
+    <section class="guide-hero py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Guide d'utilisation GabaritKDP"
+                data-en="GabaritKDP User Guide">
+                GabaritKDP <span style="color: #FF9900;">User Guide</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8"
+                data-fr="De la conception à la publication, maîtrisez le workflow parfait."
+                data-en="From design to publishing, master the perfect workflow.">
+                From design to publishing, master the perfect workflow.
+            </p>
+        </div>
+    </section>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <section id="demarrage" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Le Workflow Recommandé"
+                            data-en="The Recommended Workflow">The Recommended Workflow</h2>
+                        <p data-fr="Créez une couverture parfaite en 3 grandes étapes."
+                            data-en="Create a perfect cover in 3 major steps.">Create a perfect cover in 3 major steps.
+                        </p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3 class="text-xl font-semibold mb-4" data-fr="Le processus de A à Z :"
+                        data-en="The A to Z process:">The A to Z process:</h3>
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="font-bold text-orange-500 text-2xl mr-4">①</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-fr="Design Créatif (Canva, Photoshop...)"
+                                    data-en="Creative Design (Canva, Photoshop...)">Creative Design (Canva,
+                                    Photoshop...)</h4>
+                                <p class="text-gray-600 text-sm"
+                                    data-fr="Utilisez votre outil de design préféré pour créer la 1ère et la 4ème de couverture. C'est l'étape artistique !"
+                                    data-en="Use your favorite design tool to create your front and back covers. This is the artistic step!">
+                                    Use your favorite design tool to create your front and back covers. This is the
+                                    artistic step!</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-orange-500 text-2xl mr-4">②</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-fr="Assemblage & Conformité (GabaritKDP)"
+                                    data-en="Assembly & Compliance (GabaritKDP)">Assembly & Compliance (GabaritKDP)</h4>
+                                <p class="text-gray-600 text-sm"
+                                    data-fr="Importez vos images dans notre 'Assembleur Visuel'. Nous calculons la tranche, ajoutons le fond perdu et garantissons les dimensions parfaites."
+                                    data-en="Import your images into our 'Visual Assembler'. We calculate the spine, add the bleed, and guarantee perfect dimensions.">
+                                    Import your images into our 'Visual Assembler'. We calculate the spine, add the
+                                    bleed, and guarantee perfect dimensions.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <span class="font-bold text-orange-500 text-2xl mr-4">③</span>
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-fr="Export & Publication (KDP)"
+                                    data-en="Export & Publishing (KDP)">Export & Publishing (KDP)</h4>
+                                <p class="text-gray-600 text-sm"
+                                    data-fr="Téléchargez le PDF 300 DPI généré par GabaritKDP directement sur Amazon. Zéro erreur, zéro refus."
+                                    data-en="Upload the 300 DPI PDF generated by GabaritKDP directly to Amazon. Zero errors, zero rejections.">
+                                    Upload the 300 DPI PDF generated by GabaritKDP directly to Amazon. Zero errors, zero
+                                    rejections.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="creation" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Utiliser l'Assembleur Visuel"
+                            data-en="Using the Visual Assembler">Using the Visual Assembler</h2>
+                        <p data-fr="Guide étape par étape de l'interface GabaritKDP."
+                            data-en="Step-by-step guide to the GabaritKDP interface.">Step-by-step guide to the
+                            GabaritKDP interface.</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3 class="text-xl font-semibold mb-4" data-fr="🎯 Configuration et assemblage :"
+                        data-en="🎯 Configuration and Assembly:">🎯 Configuration and Assembly:</h3>
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 rounded-lg p-4 border">
+                            <h4 class="font-semibold text-gray-900 mb-2" data-fr="Étape 1 : Paramètres du livre"
+                                data-en="Step 1: Book Settings">📋 Step 1: Book Settings</h4>
+                            <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
+                                <li data-fr="Choisissez le format KDP (ex: 6x9''), le nombre de pages et le type de papier."
+                                    data-en="Choose the KDP format (e.g., 6x9''), page count, and paper type.">Choose
+                                    the KDP format (e.g., 6x9''), page count, and paper type.</li>
+                                <li data-fr="Cochez 'Fond perdu' si vos images doivent aller jusqu'au bord."
+                                    data-en="Check 'Bleed' if your images need to go to the very edge.">Check 'Bleed' if
+                                    your images need to go to the very edge.</li>
+                            </ul>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4 border">
+                            <h4 class="font-semibold text-gray-900 mb-2" data-fr="Étape 2 : Import des images"
+                                data-en="Step 2: Upload Images">🖼️ Step 2: Upload Images</h4>
+                            <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
+                                <li data-fr="<strong>Option A - Images séparées :</strong> Importez face, dos et tranche séparément."
+                                    data-en="<strong>Option A - Separate images:</strong> Upload front, back and spine separately."><strong>Option A - Separate images:</strong> Upload front, back and spine separately.</li>
+                                <li data-fr="<strong>Option B - Full Cover :</strong> Importez une couverture complète depuis Canva."
+                                    data-en="<strong>Option B - Full Cover:</strong> Import a complete cover from Canva."><strong>Option B - Full Cover:</strong> Import a complete cover from Canva.</li>
+                                <li data-fr="<strong>Repositionnement :</strong> Cliquez sur une image pour la déplacer et zoomer (50%-300%)."
+                                    data-en="<strong>Repositioning:</strong> Click on an image to move and zoom it (50%-300%)."><strong>Repositioning:</strong> Click on an image to move and zoom it (50%-300%).</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                            <h4 class="font-semibold text-blue-900 mb-2" data-fr="Étape 2.5 : Texte de couverture (Optionnel)"
+                                data-en="Step 2.5: Cover Text (Optional)">✍️ Step 2.5: Cover Text (Optional)</h4>
+                            <ul class="space-y-2 text-sm text-blue-800 list-disc list-inside">
+                                <li data-fr="<strong>Titre & Auteur :</strong> Ajoutez-les directement avec +20 polices Google Fonts."
+                                    data-en="<strong>Title & Author:</strong> Add them directly with 20+ Google Fonts."><strong>Title & Author:</strong> Add them directly with 20+ Google Fonts.</li>
+                                <li data-fr="<strong>4ème de couverture :</strong> Texte de description pour le dos du livre."
+                                    data-en="<strong>Back cover:</strong> Description text for the book's back."><strong>Back cover:</strong> Description text for the book's back.</li>
+                                <li data-fr="<strong>Zone code-barre :</strong> Activez l'emplacement réservé pour le code-barre Amazon."
+                                    data-en="<strong>Barcode zone:</strong> Enable the reserved space for Amazon barcode."><strong>Barcode zone:</strong> Enable the reserved space for Amazon barcode.</li>
+                                <li data-fr="<strong>Drag & Drop :</strong> Glissez le texte sur l'aperçu pour le positionner."
+                                    data-en="<strong>Drag & Drop:</strong> Drag text on the preview to position it."><strong>Drag & Drop:</strong> Drag text on the preview to position it.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-purple-50 rounded-lg p-4 border border-purple-200">
+                            <h4 class="font-semibold text-purple-900 mb-2" data-fr="Étape 2.6 : Fonds & Textures (Optionnel)"
+                                data-en="Step 2.6: Backgrounds & Textures (Optional)">🎨 Step 2.6: Backgrounds & Textures (Optional)</h4>
+                            <ul class="space-y-2 text-sm text-purple-800 list-disc list-inside">
+                                <li data-fr="<strong>Couleur de fond :</strong> Choisissez une couleur pour le dos ou la couverture complète."
+                                    data-en="<strong>Background color:</strong> Choose a color for the back or full cover."><strong>Background color:</strong> Choose a color for the back or full cover.</li>
+                                <li data-fr="<strong>Textures :</strong> Appliquez des textures procédurales (bruit, grille, dégradé...)."
+                                    data-en="<strong>Textures:</strong> Apply procedural textures (noise, grid, gradient...)."><strong>Textures:</strong> Apply procedural textures (noise, grid, gradient...).</li>
+                                <li data-fr="<strong>Filtres :</strong> Sépia, noir & blanc, vintage et plus encore."
+                                    data-en="<strong>Filters:</strong> Sepia, black & white, vintage and more."><strong>Filters:</strong> Sepia, black & white, vintage and more.</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="tip-box">
+                            <p><strong>💡 Le Workflow Parfait</strong><br>
+                                <span
+                                    data-fr="GabaritKDP est un outil de finalisation. Pour de meilleurs résultats, créez vos designs sur un outil comme <strong>Canva</strong>, puis importez-les ici pour l'assemblage final et la mise en conformité."
+                                    data-en="GabaritKDP is a finalization tool. For best results, create your designs in a tool like <strong>Canva</strong>, then import them here for final assembly and compliance.">GabaritKDP
+                                    is a finalization tool. For best results, create your designs in a tool like
+                                    <strong>Canva</strong>, then import them here for final assembly and
+                                    compliance.</span>
+                            </p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-4 border">
+                            <h4 class="font-semibold text-gray-900 mb-2" data-fr="Étape 3 : Vérification et Export"
+                                data-en="Step 3: Verification and Export">⚙️ Step 3: Verification and Export</h4>
+                            <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
+                                <li data-fr="Vérifiez l'aperçu 4K et assurez-vous que tout texte est dans les marges de sécurité (lignes rouges)."
+                                    data-en="Check the 4K preview and ensure all text is within the safety margins (red lines).">
+                                    Check the 4K preview and ensure all text is within the safety margins (red lines).</li>
+                                <li data-fr="Consultez 'l'Analyse Intelligente' pour d'éventuels avertissements."
+                                    data-en="Check the 'Smart Analysis' for any potential warnings.">Check the 'Smart
+                                    Analysis' for any potential warnings.</li>
+                                <li data-fr="Choisissez la qualité d'export : Standard (300 DPI), 4K (400 DPI) ou 8K (600 DPI)."
+                                    data-en="Choose export quality: Standard (300 DPI), 4K (400 DPI) or 8K (600 DPI).">Choose export quality: Standard (300 DPI), 4K (400 DPI) or 8K (600 DPI).</li>
+                                <li data-fr="Cliquez sur 'Exporter le design' pour obtenir votre PDF prêt pour KDP."
+                                    data-en="Click 'Export Design' to get your KDP-ready PDF.">Click 'Export Design' to
+                                    get your KDP-ready PDF.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="success-box mt-6">
+                        <p data-fr="✅ <strong>Résultat :</strong> Vous obtenez un fichier PDF unique, parfaitement dimensionné, prêt à être uploadé sur Amazon."
+                            data-en="✅ <strong>Result:</strong> You get a single, perfectly dimensioned PDF file, ready to be uploaded to Amazon.">
+                            ✅ <strong>Result:</strong> You get a single, perfectly dimensioned PDF file, ready to be
+                            uploaded to Amazon.</p>
+                    </div>
+                    
+                    <!-- NEW: Feature Summary Box -->
+                    <div class="mt-8 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg p-6 border border-orange-200">
+                        <h4 class="font-bold text-orange-900 mb-4 text-lg" data-fr="🚀 Toutes les fonctionnalités v2.0"
+                            data-en="🚀 All Features v2.0">🚀 All Features v2.0</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="font-semibold text-orange-800 mb-2" data-fr="📷 Images" data-en="📷 Images">📷 Images</p>
+                                <ul class="text-orange-700 space-y-1 list-disc list-inside">
+                                    <li data-fr="Drag & drop repositionnement" data-en="Drag & drop repositioning">Drag & drop repositioning</li>
+                                    <li data-fr="Zoom 50% - 300%" data-en="Zoom 50% - 300%">Zoom 50% - 300%</li>
+                                    <li data-fr="Support Full Cover" data-en="Full Cover support">Full Cover support</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-orange-800 mb-2" data-fr="✍️ Texte" data-en="✍️ Text">✍️ Text</p>
+                                <ul class="text-orange-700 space-y-1 list-disc list-inside">
+                                    <li data-fr="Titre, auteur, 4ème de couv" data-en="Title, author, back cover">Title, author, back cover</li>
+                                    <li data-fr="+20 Google Fonts" data-en="20+ Google Fonts">20+ Google Fonts</li>
+                                    <li data-fr="Zone code-barre Amazon" data-en="Amazon barcode zone">Amazon barcode zone</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-orange-800 mb-2" data-fr="🎨 Design" data-en="🎨 Design">🎨 Design</p>
+                                <ul class="text-orange-700 space-y-1 list-disc list-inside">
+                                    <li data-fr="Textures procédurales" data-en="Procedural textures">Procedural textures</li>
+                                    <li data-fr="Filtres de couleur" data-en="Color filters">Color filters</li>
+                                    <li data-fr="Couleur de fond personnalisée" data-en="Custom background color">Custom background color</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-semibold text-orange-800 mb-2" data-fr="📤 Export" data-en="📤 Export">📤 Export</p>
+                                <ul class="text-orange-700 space-y-1 list-disc list-inside">
+                                    <li data-fr="PDF haute résolution" data-en="High resolution PDF">High resolution PDF</li>
+                                    <li data-fr="Qualité 300-600 DPI" data-en="300-600 DPI quality">300-600 DPI quality</li>
+                                    <li data-fr="100% compatible Amazon KDP" data-en="100% Amazon KDP compatible">100% Amazon KDP compatible</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="social-section">
+                <h4 class="text-white font-semibold mb-4 text-center" data-en="🚀 Follow us for the latest KDP news!"
+                    data-fr="🚀 Suivez-nous pour les dernières actualités KDP !">🚀 Follow us for the latest KDP news!
+                </h4>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"
+                        title="YouTube - KDP Tutorials" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"
+                        title="Facebook - Authors Community" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"
+                        title="Instagram - Cover Inspirations" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"
+                        title="Pinterest - Cover Designs" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-pinterest-p"></i></a>
+                    <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"
+                        title="TikTok - Quick KDP Tips" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-tiktok"></i></a>
+                    <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"
+                        title="LinkedIn - Publishers & Agencies" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p class="text-center text-sm text-gray-400 mt-4"
+                    data-en="KDP Tips • Tutorials • News • Authors Community"
+                    data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs">KDP Tips • Tutorials • News •
+                    Authors Community</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4"><img src="logo-gabaritkdp.png" alt="GabaritKDP"
+                            class="h-8 w-auto"><span class="ml-2 text-white font-bold">GabaritKDP</span></div>
+                    <p class="text-gray-400" data-en="The generator for 100% Amazon-compliant KDP covers."
+                        data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">The generator for 100%
+                        Amazon-compliant KDP covers.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-en="Product" data-fr="Produit">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="generator.html" class="hover:text-white transition" data-en="Express Generator"
+                                data-fr="Générateur Express">Express Generator</a></li>
+                        <li><a href="generator-magic.html" class="hover:text-white transition" data-en="Magic Generator"
+                                data-fr="Générateur Magique">Magic Generator</a></li>
+                        <li><a href="./marketplace.html" target="_blank" rel="noopener"
+                                class="hover:text-white transition" data-en="Marketplace"
+                                data-fr="Marketplace">Marketplace</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition" data-en="Features"
+                                data-fr="Fonctionnalités">Features</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-en="Support" data-fr="Support">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition" data-en="User Guide"
+                                data-fr="Guide d'utilisation">User Guide</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-en="Legal" data-fr="Légal">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition" data-en="Legal Notice"
+                                data-fr="Mentions Légales">Legal Notice</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition" data-en="Terms of Service"
+                                data-fr="Conditions d'utilisation">Terms of Service</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition" data-en="Privacy Policy"
+                                data-fr="Politique de confidentialité">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // SCRIPT UNIFIÉ
+        let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+        function switchLanguage(lang) {
+            if (!['en', 'fr'].includes(lang)) return;
+            currentLanguage = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === lang) btn.classList.add('active');
+            });
+            document.querySelectorAll('[data-en][data-fr]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (text) {
+                    if (el.tagName === 'META') el.setAttribute('content', text);
+                    else el.innerHTML = text;
+                }
+            });
+        }
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+        document.addEventListener('DOMContentLoaded', () => switchLanguage(currentLanguage));
+    </script>
+</body>
+
+</html>

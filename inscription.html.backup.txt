@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Inscription - GabaritKDP" data-en="Sign Up - GabaritKDP">Inscription - GabaritKDP</title>
+    <meta name="description" data-fr="Rejoignez des milliers d'auteurs qui utilisent GabaritKDP pour créer des couvertures KDP parfaites. Inscription gratuite !" data-en="Join thousands of authors using GabaritKDP to create perfect KDP covers. Free registration!" content="Rejoignez des milliers d'auteurs qui utilisent GabaritKDP pour créer des couvertures KDP parfaites. Inscription gratuite !">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MYG5JJM8EC');
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .header-nav {
+            background: #232F3E;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .logo-nav img {
+            height: 35px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .logo-nav span {
+            font-size: 1.3rem;
+            color: #FF9900;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:hover {
+            color: #FF9900;
+        }
+        
+        .nav-links a.active {
+            color: #FF9900;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+        
+        .lang-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: #f3f4f6;
+        }
+        
+        .hero-signup {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .signup-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border: 2px solid #f1f5f9;
+        }
+        
+        .signup-header {
+            background: linear-gradient(135deg, #FF9900 0%, #ff7b00 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .signup-body {
+            padding: 3rem;
+        }
+        
+        .benefits-list {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid #FF9900;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: #374151;
+        }
+        
+        .benefit-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .benefit-item i {
+            color: #10b981;
+            margin-right: 0.75rem;
+            width: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #FF9900 0%, #ff7b00 100%);
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 153, 0, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: #6b7280;
+            padding: 0.75rem 1.5rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+            margin-top: 1rem;
+        }
+        
+        .btn-secondary:hover {
+            border-color: #FF9900;
+            color: #FF9900;
+        }
+        
+        .testimonials {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .testimonial-item {
+            margin-bottom: 1rem;
+            font-style: italic;
+            color: #4b5563;
+        }
+        
+        .testimonial-author {
+            font-weight: 600;
+            color: #FF9900;
+            font-style: normal;
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FF9900;
+            display: block;
+            white-space: nowrap;
+            line-height: 1.2;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 80px;
+                right: 10px;
+                padding: 3px;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .nav-links {
+                gap: 20px;
+            }
+            .signup-body {
+                padding: 2rem;
+            }
+            .stats-row {
+                grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+                gap: 0.8rem;
+            }
+            .stat-number {
+                font-size: 1.8rem;
+            }
+            .stat-label {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇺🇸 EN</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a class='logo-nav' href='/'>
+                <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="nav-links">
+                <a data-en='Home' data-fr='Accueil' href='/'>Accueil</a>
+                <a data-en='Generator' data-fr='Générateur' href='/generator'>Générateur</a>
+                <a data-en='Features' data-fr='Fonctionnalités' href='/fonctionnalites'>Fonctionnalités</a>
+                <a data-en='Pricing' data-fr='Tarifs' href='/#tarifs'>Tarifs</a>
+                <a class='active' data-en='📝 Sign Up' data-fr='📝 Inscription' href='/inscription'>📝 Inscription</a>
+                <a data-en='🔓 Login' data-fr='🔓 Connexion' href='/connexion'>🔓 Connexion</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero-signup py-16">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="signup-container">
+                <div class="signup-header">
+                    <h1 class="text-3xl md:text-4xl font-bold mb-4" data-fr="Rejoignez la communauté GabaritKDP !" data-en="Join the GabaritKDP Community!">
+                        Rejoignez la communauté GabaritKDP !
+                    </h1>
+                    <p class="text-xl opacity-90" data-fr="Créez des couvertures KDP parfaites en quelques clics" data-en="Create perfect KDP covers in just a few clicks">
+                        Créez des couvertures KDP parfaites en quelques clics
+                    </p>
+                </div>
+
+                <div class="signup-body">
+                    <!-- Stats impressionnants -->
+                    <div class="stats-row">
+                        <div class="stat-item">
+                            <span class="stat-number">10 000+</span>
+                            <span class="stat-label" data-fr="Auteurs inscrits" data-en="Registered authors">Auteurs inscrits</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50 000+</span>
+                            <span class="stat-label" data-fr="Couvertures créées" data-en="Covers created">Couvertures créées</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">98%</span>
+                            <span class="stat-label" data-fr="Satisfaction" data-en="Satisfaction">Satisfaction</span>
+                        </div>
+                    </div>
+
+                    <!-- Avantages -->
+                    <div class="benefits-list">
+                        <h3 class="font-semibold mb-3 text-gray-800" data-fr="✨ Ce que vous obtenez GRATUITEMENT :" data-en="✨ What you get FREE:">✨ Ce que vous obtenez GRATUITEMENT :</h3>
+                        
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-fr="10 exports de couvertures par jour (sans watermark)" data-en="10 cover exports per day (no watermark)">10 exports de couvertures par jour (sans watermark)</span>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-fr="Accès à tous les formats KDP (livre, eBook, cahier...)" data-en="Access to all KDP formats (book, eBook, notebook...)">Accès à tous les formats KDP (livre, eBook, cahier...)</span>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-fr="Mise aux dimensions automatique 100% conforme Amazon" data-en="100% Amazon compliant automatic sizing">Mise aux dimensions automatique 100% conforme Amazon</span>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-fr="Support technique par email" data-en="Technical support by email">Support technique par email</span>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-fr="Accès à la communauté privée d'auteurs" data-en="Access to private authors community">Accès à la communauté privée d'auteurs</span>
+                        </div>
+                        
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span data-fr="Guides exclusifs pour réussir sur KDP" data-en="Exclusive guides to succeed on KDP">Guides exclusifs pour réussir sur KDP</span>
+                        </div>
+                    </div>
+
+                    <!-- Témoignages -->
+                    <div class="testimonials">
+                        <h3 class="font-semibold mb-3 text-gray-800" data-fr="💬 Ce que disent nos auteurs :" data-en="💬 What our authors say:">💬 Ce que disent nos auteurs :</h3>
+                        
+                        <div class="testimonial-item">
+                            <span data-fr="\"En 2 minutes, ma couverture était prête ! Plus jamais de problème de dimensions avec Amazon.\"" data-en="\"In 2 minutes, my cover was ready! Never again a dimension problem with Amazon.\"">
+                                "En 2 minutes, ma couverture était prête ! Plus jamais de problème de dimensions avec Amazon."
+                            </span>
+                            <div class="testimonial-author" data-fr="- Marie D., auteure de romans" data-en="- Marie D., novel author">- Marie D., auteure de romans</div>
+                        </div>
+                        
+                        <div class="testimonial-item">
+                            <span data-fr="\"Outil indispensable ! J'ai économisé des heures et des euros en design.\"" data-en="\"Essential tool! I saved hours and euros in design.\"">
+                                "Outil indispensable ! J'ai économisé des heures et des euros en design."
+                            </span>
+                            <div class="testimonial-author" data-fr="- Jean P., auteur indépendant" data-en="- Jean P., independent author">- Jean P., auteur indépendant</div>
+                        </div>
+                    </div>
+
+                    <!-- Bouton principal vers Google Form -->
+                    <a href="https://forms.gle/iVnerHVYZHT4W2KC9" 
+                       target="_blank" 
+                       class="btn-primary">
+                        <i class="fas fa-rocket mr-2"></i>
+                        <span data-fr="🚀 Inscription Gratuite - 30 secondes" data-en="🚀 Free Registration - 30 seconds">🚀 Inscription Gratuite - 30 secondes</span>
+                    </a>
+
+                    <!-- Bouton secondaire pour démo -->
+                    <a class='btn-secondary' href='/generator'>
+                        <i class="fas fa-play mr-2"></i>
+                        <span data-fr="👀 Essayer la démo d'abord" data-en="👀 Try the demo first">👀 Essayer la démo d'abord</span>
+                    </a>
+
+                    <!-- Rassurer -->
+                    <div class="text-center mt-6">
+                        <p class="text-sm text-gray-500">
+                            <i class="fas fa-shield-alt mr-1"></i>
+                            <span data-fr="100% gratuit • Aucune carte bancaire • Désinscription en 1 clic" data-en="100% free • No credit card • Unsubscribe in 1 click">
+                                100% gratuit • Aucune carte bancaire • Désinscription en 1 clic
+                            </span>
+                        </p>
+                        <p class="text-xs text-gray-400 mt-2">
+                            <span data-fr="Déjà membre ?" data-en="Already a member?">Déjà membre ?</span>
+                            <a class='text-orange-500 hover:underline' data-en='Log in' data-fr='Se connecter' href='/connexion'>Se connecter</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section urgence/scarcité -->
+    <section class="py-12 bg-gradient-to-r from-orange-50 to-yellow-50">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4" data-fr="⏰ Offre de lancement limitée" data-en="⏰ Limited launch offer">
+                ⏰ Offre de lancement limitée
+            </h2>
+            <p class="text-lg text-gray-600 mb-6" data-fr="Pendant la phase bêta : 10 exports gratuits par jour (au lieu de 3)" data-en="During beta phase: 10 free exports per day (instead of 3)">
+                Pendant la phase bêta : 10 exports gratuits par jour (au lieu de 3)
+            </p>
+            <div class="inline-flex items-center space-x-4 text-sm text-gray-500">
+                <span class="flex items-center">
+                    <i class="fas fa-users mr-2 text-green-500"></i>
+                    <span data-fr="2,847 inscrits cette semaine" data-en="2,847 registrations this week">2,847 inscrits cette semaine</span>
+                </span>
+                <span class="flex items-center">
+                    <i class="fas fa-clock mr-2 text-orange-500"></i>
+                    <span data-fr="Offre jusqu'au 31 août" data-en="Offer until August 31">Offre jusqu'au 31 août</span>
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières nouveautés KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières nouveautés KDP !</h4>
+                
+                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 1rem; flex-wrap: wrap;">
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #FF0000, #CC0000);" title="YouTube - Tutoriels KDP">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #1877F2, #0866D3);" title="Facebook - Communauté auteurs">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);" title="Instagram - Inspirations couvertures">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #BD081C, #E60023);" title="Pinterest - Designs couvertures">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);" title="TikTok - Tips rapides KDP">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #0A66C2, #004182);" title="LinkedIn - Publishers & Agences">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                
+                <p class="text-center text-sm text-gray-400 mt-4" data-fr="Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">
+                    Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400" data-fr="L'outil de mise aux dimensions KDP 100% conformes Amazon." data-en="The Amazon KDP sizing tool for 100% compliant covers.">L'outil de mise aux dimensions KDP 100% conformes Amazon.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+                    <ul class="space-y-2">
+                        <li><a class='hover:text-white transition' data-en='Generator' data-fr='Générateur' href='/generator'>Générateur</a></li>
+                        <li><a class='hover:text-white transition' data-en='Pricing' data-fr='Tarifs' href='/#tarifs'>Tarifs</a></li>
+                        <li><a class='hover:text-white transition' data-en='Features' data-fr='Fonctionnalités' href='/fonctionnalites'>Fonctionnalités</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Support" data-en="Support">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a class='hover:text-white transition' href='/faq'>FAQ</a></li>
+                        <li><a class='hover:text-white transition' data-en='Contact' data-fr='Contact' href='/contact'>Contact</a></li>
+                        <li><a class='hover:text-white transition' data-en='User Guide' data-fr='Guide d\'utilisation' href='/guide'>Guide d'utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+                    <ul class="space-y-2">
+                        <li><a class='hover:text-white transition' data-en='Legal Notice' data-fr='Mentions légales' href='/mentions-legales'>Mentions légales</a></li>
+                        <li><a class='hover:text-white transition' data-en='Terms of Service' data-fr='CGU' href='/cgu'>CGU</a></li>
+                        <li><a class='hover:text-white transition' data-en='Privacy' data-fr='Confidentialité' href='/confidentialite'>Confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLanguage = 'fr';
+        
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button - méthode robuste
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if ((lang === 'fr' && btn.textContent.includes('FR')) || 
+                    (lang === 'en' && btn.textContent.includes('EN'))) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update all text elements
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                const text = lang === 'fr' ? element.getAttribute('data-fr') : element.getAttribute('data-en');
+                if (element.tagName === 'INPUT' && element.type === 'submit') {
+                    element.value = text;
+                } else if (element.tagName === 'OPTION') {
+                    element.textContent = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+            
+            // Update page title and meta
+            const titleElement = document.querySelector('title');
+            const metaElement = document.querySelector('meta[name="description"]');
+            if (lang === 'fr') {
+                titleElement.textContent = titleElement.getAttribute('data-fr');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-fr'));
+                document.documentElement.lang = 'fr';
+            } else {
+                titleElement.textContent = titleElement.getAttribute('data-en');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-en'));
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set the correct language button as active based on language
+            const langButtons = document.querySelectorAll('.lang-btn');
+            langButtons.forEach(btn => {
+                btn.classList.remove('active');
+                if ((currentLanguage === 'fr' && btn.textContent.includes('FR')) || 
+                    (currentLanguage === 'en' && btn.textContent.includes('EN'))) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Apply language
+            switchLanguage(currentLanguage);
+            
+            // Analytics tracking pour inscription
+            if (typeof gtag !== 'undefined') {
+                gtag('config', 'G-MYG5JJM8EC', {
+                    page_title: 'Inscription Page',
+                    page_location: window.location.href
+                });
+            }
+            
+            console.log('GabaritKDP inscription page loaded with Google Analytics');
+        });
+    </script>
+</body>
+</html>

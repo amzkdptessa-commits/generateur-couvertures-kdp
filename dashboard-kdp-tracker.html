@@ -1,0 +1,1788 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-fr="KDP Tracker - GabaritKDP" data-en="KDP Tracker - GabaritKDP">KDP Tracker - GabaritKDP</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0"></script>
+  
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <style>
+    :root {
+      --brand-primary: #FF9900;
+      --brand-secondary: #FF6600;
+      --brand-dark: #1a1a1a;
+      --brand-darker: #0f0f0f;
+      --brand-light: #2d2d2d;
+      --brand-lighter: #3a3a3a;
+      --text-primary: #ffffff;
+      --text-secondary: #aaaaaa;
+      --border: rgba(255, 153, 0, 0.3);
+      --success: #10b981;
+      --warning: #f59e0b;
+      --error: #ef4444;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-light) 100%);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+
+    /* HEADER */
+    .header-nav {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      padding: 15px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,.3);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--brand-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .logo-text {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--text-primary);
+      text-decoration: none;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 6px;
+      transition: all 0.3s;
+      font-size: 15px;
+    }
+
+    .nav-links a:hover {
+      background: rgba(255, 153, 0, 0.1);
+      color: var(--brand-primary);
+    }
+
+    .nav-links a.active {
+      background: rgba(255, 153, 0, 0.2);
+      color: var(--brand-primary);
+    }
+
+    .language-selector {
+      display: flex;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px;
+      border-radius: 20px;
+    }
+
+    .lang-btn {
+      padding: 6px 12px;
+      border: none;
+      background: transparent;
+      color: white;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    .lang-btn.active {
+      background: var(--brand-primary);
+    }
+
+    /* MAIN CONTENT */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* SYNC STATUS BANNER */
+    .sync-banner {
+      background: linear-gradient(135deg, var(--brand-light), var(--brand-lighter));
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .sync-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .sync-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--brand-primary);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .sync-details h3 {
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    .sync-time {
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .sync-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-sync {
+      background: var(--brand-primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-sync:hover {
+      background: var(--brand-secondary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255, 153, 0, 0.3);
+    }
+
+    .btn-sync:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-primary);
+      border: 2px solid var(--border);
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+    }
+
+    /* STATS CARDS */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, var(--brand-light), var(--brand-lighter));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 25px;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      border-color: var(--brand-primary);
+    }
+
+    .stat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .stat-label {
+      color: var(--text-secondary);
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .stat-icon {
+      font-size: 24px;
+    }
+
+    .stat-value {
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--brand-primary);
+      margin-bottom: 8px;
+    }
+
+    .stat-change {
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .stat-change.positive {
+      color: var(--success);
+    }
+
+    .stat-change.negative {
+      color: var(--error);
+    }
+
+    /* CHARTS SECTION */
+    .charts-section {
+      margin-bottom: 40px;
+    }
+
+    .chart-container {
+      background: linear-gradient(135deg, var(--brand-light), var(--brand-lighter));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .chart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .chart-title {
+      font-size: 20px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chart-filters {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .filter-btn:hover {
+      border-color: var(--brand-primary);
+      color: var(--brand-primary);
+    }
+
+    .filter-btn.active {
+      background: var(--brand-primary);
+      color: white;
+      border-color: var(--brand-primary);
+    }
+
+    .chart-canvas {
+      position: relative;
+      height: 350px;
+    }
+
+    /* BOOKS TABLE */
+    .books-section {
+      background: linear-gradient(135deg, var(--brand-light), var(--brand-lighter));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .section-title {
+      font-size: 22px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .search-box {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .search-input {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: white;
+      padding: 10px 15px;
+      border-radius: 6px;
+      font-size: 14px;
+      min-width: 250px;
+    }
+
+    .search-input::placeholder {
+      color: var(--text-secondary);
+    }
+
+    .books-table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow-x: auto;
+    }
+
+    .books-table thead th {
+      text-align: left;
+      padding: 15px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-secondary);
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .books-table tbody tr {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s;
+    }
+
+    .books-table tbody tr:hover {
+      background: rgba(255, 153, 0, 0.05);
+    }
+
+    .books-table tbody td {
+      padding: 18px 15px;
+      font-size: 14px;
+    }
+
+    .book-title {
+      font-weight: 600;
+      color: var(--text-primary);
+      max-width: 300px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .marketplace-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      background: rgba(255, 153, 0, 0.2);
+      color: var(--brand-primary);
+    }
+
+    .performance-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .performance-indicator.high {
+      color: var(--success);
+    }
+
+    .performance-indicator.medium {
+      color: var(--warning);
+    }
+
+    .performance-indicator.low {
+      color: var(--error);
+    }
+
+    /* EMPTY STATE */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .empty-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .empty-description {
+      color: var(--text-secondary);
+      font-size: 16px;
+      margin-bottom: 30px;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* LOADING */
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      gap: 10px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 153, 0, 0.1);
+      border-top-color: var(--brand-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .sync-banner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .stat-value {
+        font-size: 28px;
+      }
+
+      .chart-canvas {
+        height: 250px;
+      }
+
+      .books-table {
+        font-size: 12px;
+      }
+
+      .books-table thead th,
+      .books-table tbody td {
+        padding: 10px 8px;
+      }
+
+      .search-input {
+        width: 100%;
+        min-width: auto;
+      }
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .mobile-menu-btn {
+        display: block;
+      }
+    }
+
+    /* COACHING SECTION */
+    .coaching-section {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      border: 2px solid var(--brand-primary);
+      border-radius: 16px;
+      padding: 50px 40px;
+      margin: 60px 0 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .coaching-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 153, 0, 0.1) 0%, transparent 70%);
+      animation: pulse-glow 8s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    .coaching-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .coaching-main {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .coaching-icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .coaching-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .coaching-subtitle {
+      font-size: 18px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    /* MOTIVATION STATS */
+    .motivation-stats {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 30px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+
+    .motivation-stat {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 25px 40px;
+      text-align: center;
+      transition: all 0.3s;
+    }
+
+    .motivation-stat.highlight {
+      background: linear-gradient(135deg, rgba(255, 153, 0, 0.2), rgba(255, 102, 0, 0.2));
+      border-color: var(--brand-primary);
+      transform: scale(1.1);
+    }
+
+    .motivation-number {
+      font-size: 42px;
+      font-weight: 800;
+      color: var(--brand-primary);
+      margin-bottom: 8px;
+    }
+
+    .motivation-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+    }
+
+    .motivation-arrow {
+      font-size: 32px;
+      color: var(--brand-primary);
+      font-weight: bold;
+    }
+
+    /* PROGRESS TO GOAL */
+    .progress-to-goal {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 25px;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+
+    .goal-bar {
+      width: 100%;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .goal-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--brand-primary), var(--success));
+      border-radius: 10px;
+      transition: width 1s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .goal-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: shimmer 2s infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    .goal-message {
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* CTA BUTTONS */
+    .coaching-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .btn-cta-primary,
+    .btn-cta-secondary {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 25px 30px;
+      border-radius: 12px;
+      text-decoration: none;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-cta-primary {
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: white;
+      box-shadow: 0 8px 25px rgba(255, 153, 0, 0.4);
+    }
+
+    .btn-cta-primary:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 35px rgba(255, 153, 0, 0.6);
+    }
+
+    .btn-cta-secondary {
+      background: rgba(255, 255, 255, 0.05);
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      color: white;
+    }
+
+    .btn-cta-secondary:hover {
+      border-color: var(--brand-primary);
+      background: rgba(255, 153, 0, 0.1);
+      transform: translateY(-3px);
+    }
+
+    .btn-cta-primary i,
+    .btn-cta-secondary i {
+      font-size: 32px;
+    }
+
+    .btn-cta-content {
+      flex: 1;
+      text-align: left;
+    }
+
+    .btn-cta-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .btn-cta-subtitle {
+      font-size: 13px;
+      opacity: 0.8;
+    }
+
+    /* SUCCESS STORIES */
+    .success-stories {
+      margin-bottom: 40px;
+    }
+
+    .success-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .success-title i {
+      color: var(--warning);
+    }
+
+    .success-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .success-card {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      transition: all 0.3s;
+    }
+
+    .success-card:hover {
+      border-color: var(--brand-primary);
+      transform: translateY(-3px);
+    }
+
+    .success-quote {
+      font-style: italic;
+      color: var(--text-secondary);
+      margin-bottom: 15px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .success-author {
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .success-result {
+      color: var(--success);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    /* NICHES SUGGESTIONS */
+    .niches-suggestions {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 30px;
+    }
+
+    .niches-title {
+      text-align: center;
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .niches-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .niche-card-mini {
+      background: linear-gradient(135deg, var(--brand-light), var(--brand-lighter));
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .niche-card-mini:hover {
+      border-color: var(--brand-primary);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .niche-emoji {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .niche-name-mini {
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .niche-potential {
+      color: var(--brand-primary);
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .niche-badge-hot {
+      background: rgba(239, 68, 68, 0.2);
+      color: #ef4444;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .niche-badge-good {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    .niche-badge-medium {
+      background: rgba(245, 158, 11, 0.2);
+      color: #f59e0b;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-block;
+    }
+
+    /* RESPONSIVE COACHING */
+    @media (max-width: 768px) {
+      .coaching-section {
+        padding: 30px 20px;
+      }
+
+      .coaching-title {
+        font-size: 28px;
+      }
+
+      .coaching-subtitle {
+        font-size: 16px;
+      }
+
+      .motivation-stats {
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .motivation-arrow {
+        transform: rotate(90deg);
+      }
+
+      .coaching-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .success-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .niches-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-section">
+        <div class="logo-icon">📚</div>
+        <span class="logo-text">GabaritKDP</span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
+        <a href="dashboard-kdp-tracker.html" class="active" data-fr="KDP Tracker" data-en="KDP Tracker">KDP Tracker</a>
+        <a href="generator.html" data-fr="Générateur" data-en="Generator">Générateur</a>
+        <a href="marketplace.html" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+      </nav>
+
+      <div class="language-selector">
+        <button class="lang-btn active" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
+      </div>
+
+      <button class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    
+    <!-- Sync Status Banner -->
+    <div class="sync-banner">
+      <div class="sync-info">
+        <div class="sync-icon">🔄</div>
+        <div class="sync-details">
+          <h3 id="syncStatus" data-fr="Extension GabaritKDP Connectée" data-en="GabaritKDP Extension Connected">Extension GabaritKDP Connectée</h3>
+          <div class="sync-time">
+            <span data-fr="Dernière synchronisation:" data-en="Last sync:">Dernière synchronisation:</span>
+            <span id="lastSyncTime">--:--</span>
+          </div>
+        </div>
+      </div>
+      <div class="sync-actions">
+        <button class="btn-sync" id="refreshBtn" onclick="refreshData()">
+          <i class="fas fa-sync-alt"></i>
+          <span data-fr="Actualiser" data-en="Refresh">Actualiser</span>
+        </button>
+        <button class="btn-secondary" onclick="openExtensionGuide()">
+          <i class="fas fa-question-circle"></i>
+          <span data-fr="Aide" data-en="Help">Aide</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label" data-fr="Revenus Total" data-en="Total Revenue">Revenus Total</span>
+          <span class="stat-icon">💰</span>
+        </div>
+        <div class="stat-value" id="totalRevenue">€0.00</div>
+        <div class="stat-change positive" id="revenueChange">
+          <i class="fas fa-arrow-up"></i>
+          <span>+0%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label" data-fr="Ventes Totales" data-en="Total Sales">Ventes Totales</span>
+          <span class="stat-icon">📚</span>
+        </div>
+        <div class="stat-value" id="totalSales">0</div>
+        <div class="stat-change positive" id="salesChange">
+          <i class="fas fa-arrow-up"></i>
+          <span>+0%</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label" data-fr="Livres Actifs" data-en="Active Books">Livres Actifs</span>
+          <span class="stat-icon">📖</span>
+        </div>
+        <div class="stat-value" id="activeBooks">0</div>
+        <div class="stat-change">
+          <span data-fr="Total publié" data-en="Total published">Total publié</span>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label" data-fr="Top Performer" data-en="Top Performer">Top Performer</span>
+          <span class="stat-icon">🔥</span>
+        </div>
+        <div class="stat-value" id="topBook" style="font-size: 18px; line-height: 1.3;">--</div>
+        <div class="stat-change">
+          <span id="topBookRevenue">€0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="charts-section">
+      <!-- Revenue Chart -->
+      <div class="chart-container">
+        <div class="chart-header">
+          <h2 class="chart-title">
+            <i class="fas fa-chart-line"></i>
+            <span data-fr="Évolution des Revenus" data-en="Revenue Trends">Évolution des Revenus</span>
+          </h2>
+          <div class="chart-filters">
+            <button class="filter-btn" onclick="updateChartPeriod('7d')" data-fr="7 jours" data-en="7 days">7 jours</button>
+            <button class="filter-btn active" onclick="updateChartPeriod('30d')" data-fr="30 jours" data-en="30 days">30 jours</button>
+            <button class="filter-btn" onclick="updateChartPeriod('90d')" data-fr="90 jours" data-en="90 days">90 jours</button>
+            <button class="filter-btn" onclick="updateChartPeriod('1y')" data-fr="1 an" data-en="1 year">1 an</button>
+          </div>
+        </div>
+        <div class="chart-canvas">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Marketplace Distribution -->
+      <div class="chart-container">
+        <div class="chart-header">
+          <h2 class="chart-title">
+            <i class="fas fa-globe"></i>
+            <span data-fr="Ventes par Marketplace" data-en="Sales by Marketplace">Ventes par Marketplace</span>
+          </h2>
+        </div>
+        <div class="chart-canvas" style="height: 300px;">
+          <canvas id="marketplaceChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Books Table -->
+    <div class="books-section" id="booksSection">
+      <div class="section-header">
+        <h2 class="section-title">
+          <i class="fas fa-book"></i>
+          <span data-fr="Mes Livres" data-en="My Books">Mes Livres</span>
+        </h2>
+        <div class="search-box">
+          <input type="text" class="search-input" id="searchInput" placeholder="Rechercher un livre..." data-fr-placeholder="Rechercher un livre..." data-en-placeholder="Search a book...">
+        </div>
+      </div>
+
+      <div id="booksTableContainer">
+        <!-- Table will be populated by JavaScript -->
+        <div class="loading">
+          <div class="spinner"></div>
+          <span data-fr="Chargement des données..." data-en="Loading data...">Chargement des données...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coaching Section -->
+    <div class="coaching-section">
+      <div class="coaching-content">
+        <div class="coaching-main">
+          <div class="coaching-icon">🚀</div>
+          <h2 class="coaching-title" id="coachingTitle" data-fr="Prêt à Passer au Niveau Supérieur ?" data-en="Ready to Level Up?">
+            Prêt à Passer au Niveau Supérieur ?
+          </h2>
+          <p class="coaching-subtitle" id="coachingMessage">
+            <span data-fr="Publie un livre de plus et multiplie tes revenus ! Chaque nouveau livre est une nouvelle source de revenus passifs." data-en="Publish one more book and multiply your income! Each new book is a new source of passive income.">
+              Publie un livre de plus et multiplie tes revenus ! Chaque nouveau livre est une nouvelle source de revenus passifs.
+            </span>
+          </p>
+          
+          <!-- Stats Motivantes -->
+          <div class="motivation-stats">
+            <div class="motivation-stat">
+              <div class="motivation-number" id="potentialBooks">+1</div>
+              <div class="motivation-label" data-fr="livre de plus" data-en="more book">livre de plus</div>
+            </div>
+            <div class="motivation-arrow">→</div>
+            <div class="motivation-stat highlight">
+              <div class="motivation-number" id="potentialRevenue">+€90</div>
+              <div class="motivation-label" data-fr="revenus/mois" data-en="revenue/month">revenus/mois</div>
+            </div>
+          </div>
+
+          <!-- Progress Bar vers Objectif -->
+          <div class="progress-to-goal">
+            <div class="goal-header">
+              <span data-fr="Ton objectif : 10 livres actifs" data-en="Your goal: 10 active books">Ton objectif : 10 livres actifs</span>
+              <span id="goalProgress">0/10</span>
+            </div>
+            <div class="goal-bar">
+              <div class="goal-fill" id="goalFill" style="width: 0%"></div>
+            </div>
+            <p class="goal-message" id="goalMessage">
+              <span data-fr="Tu es à 0 livres de ton objectif ! 🎯" data-en="You're 0 books away from your goal! 🎯">
+                Tu es à 0 livres de ton objectif ! 🎯
+              </span>
+            </p>
+          </div>
+
+          <!-- Call to Actions -->
+          <div class="coaching-actions">
+            <a href="marketplace.html" class="btn-cta-primary">
+              <i class="fas fa-shopping-bag"></i>
+              <div class="btn-cta-content">
+                <div class="btn-cta-title" data-fr="Explorer la Marketplace" data-en="Explore Marketplace">Explorer la Marketplace</div>
+                <div class="btn-cta-subtitle" data-fr="55,000+ couvertures prêtes à l'emploi" data-en="55,000+ ready-to-use covers">55,000+ couvertures prêtes à l'emploi</div>
+              </div>
+            </a>
+            <a href="generator.html" class="btn-cta-secondary">
+              <i class="fas fa-magic"></i>
+              <div class="btn-cta-content">
+                <div class="btn-cta-title" data-fr="Créer une Couverture" data-en="Create a Cover">Créer une Couverture</div>
+                <div class="btn-cta-subtitle" data-fr="Générateur 100% conforme Amazon" data-en="100% Amazon-compliant generator">Générateur 100% conforme Amazon</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Success Stories / Social Proof -->
+        <div class="success-stories">
+          <h3 class="success-title">
+            <i class="fas fa-star"></i>
+            <span data-fr="Ils l'ont fait, pourquoi pas toi ?" data-en="They did it, why not you?">Ils l'ont fait, pourquoi pas toi ?</span>
+          </h3>
+          <div class="success-cards">
+            <div class="success-card">
+              <div class="success-quote">"J'ai publié 3 livres en 1 mois grâce aux templates"</div>
+              <div class="success-author">— Marie L.</div>
+              <div class="success-result">€450/mois de revenus passifs</div>
+            </div>
+            <div class="success-card">
+              <div class="success-quote">"Le générateur m'a fait gagner un temps fou"</div>
+              <div class="success-author">— Thomas B.</div>
+              <div class="success-result">12 livres publiés en 3 mois</div>
+            </div>
+            <div class="success-card">
+              <div class="success-quote">"J'ai doublé mes revenus en 2 mois"</div>
+              <div class="success-author">— Sophie M.</div>
+              <div class="success-result">€890/mois maintenant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Niches Suggestions -->
+      <div class="niches-suggestions">
+        <h3 class="niches-title">
+          <i class="fas fa-fire"></i>
+          <span data-fr="Niches Rentables Ce Mois-ci" data-en="Profitable Niches This Month">Niches Rentables Ce Mois-ci</span>
+        </h3>
+        <div class="niches-grid">
+          <div class="niche-card-mini">
+            <div class="niche-emoji">📔</div>
+            <div class="niche-name-mini" data-fr="Planners 2025" data-en="Planners 2025">Planners 2025</div>
+            <div class="niche-potential">€90-180/mois</div>
+            <div class="niche-badge-hot">🔥 Chaud</div>
+          </div>
+          <div class="niche-card-mini">
+            <div class="niche-emoji">🎨</div>
+            <div class="niche-name-mini" data-fr="Coloriages" data-en="Coloring Books">Coloriages</div>
+            <div class="niche-potential">€70-140/mois</div>
+            <div class="niche-badge-good">✅ Bon</div>
+          </div>
+          <div class="niche-card-mini">
+            <div class="niche-emoji">📓</div>
+            <div class="niche-name-mini" data-fr="Journals" data-en="Journals">Journals</div>
+            <div class="niche-potential">€60-120/mois</div>
+            <div class="niche-badge-good">✅ Bon</div>
+          </div>
+          <div class="niche-card-mini">
+            <div class="niche-emoji">🧩</div>
+            <div class="niche-name-mini" data-fr="Activity Books" data-en="Activity Books">Activity Books</div>
+            <div class="niche-potential">€40-80/mois</div>
+            <div class="niche-badge-medium">⚡ Moyen</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Supabase Configuration - REMPLACE PAR TES VRAIES CLÉS
+    const SUPABASE_URL = 'https://bgcspojhiucprzlkwax.supabase.co'; // Remplace par ton URL
+    const SUPABASE_KEY = 'TON_ANON_KEY_ICI'; // Remplace par ta clé
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // Global variables
+    let revenueChart = null;
+    let marketplaceChart = null;
+    let currentPeriod = '30d';
+    let allBooks = [];
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+      initializeCharts();
+      loadData();
+      setupSearchFilter();
+      checkExtensionStatus();
+      updateLastSyncTime();
+      updateCoachingSection();
+    });
+
+    // Load all data
+    async function loadData() {
+      try {
+        await Promise.all([
+          loadSummaryStats(),
+          loadRevenueChart(),
+          loadMarketplaceChart(),
+          loadBooksTable()
+        ]);
+        // Update coaching après chargement des données
+        updateCoachingSection();
+      } catch (error) {
+        console.error('Error loading data:', error);
+        showError('Erreur de chargement des données');
+      }
+    }
+
+    // Load summary statistics
+    async function loadSummaryStats() {
+      try {
+        // Get latest summary
+        const { data: summary, error } = await supabase
+          .from('kdp_summary')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (error) throw error;
+
+        if (summary) {
+          document.getElementById('totalRevenue').textContent = `€${summary.total_revenue?.toFixed(2) || '0.00'}`;
+          document.getElementById('totalSales').textContent = summary.total_sales || '0';
+          document.getElementById('activeBooks').textContent = summary.active_books || '0';
+          
+          // Calculate changes (mock for now)
+          updateChangeIndicator('revenueChange', 12.5, true);
+          updateChangeIndicator('salesChange', 8.3, true);
+        }
+
+        // Get top performing book
+        const { data: topBook, error: bookError } = await supabase
+          .from('kdp_books')
+          .select('*')
+          .order('total_revenue', { ascending: false })
+          .limit(1)
+          .single();
+
+        if (topBook) {
+          document.getElementById('topBook').textContent = topBook.title || '--';
+          document.getElementById('topBookRevenue').textContent = `€${topBook.total_revenue?.toFixed(2) || '0'}`;
+        }
+
+      } catch (error) {
+        console.error('Error loading summary:', error);
+      }
+    }
+
+    // Load revenue chart
+    async function loadRevenueChart() {
+      try {
+        // Calculate date range based on period
+        const endDate = new Date();
+        const startDate = new Date();
+        
+        switch(currentPeriod) {
+          case '7d':
+            startDate.setDate(endDate.getDate() - 7);
+            break;
+          case '30d':
+            startDate.setDate(endDate.getDate() - 30);
+            break;
+          case '90d':
+            startDate.setDate(endDate.getDate() - 90);
+            break;
+          case '1y':
+            startDate.setFullYear(endDate.getFullYear() - 1);
+            break;
+        }
+
+        const { data: sales, error } = await supabase
+          .from('kdp_sales')
+          .select('*')
+          .gte('sale_date', startDate.toISOString())
+          .lte('sale_date', endDate.toISOString())
+          .order('sale_date', { ascending: true });
+
+        if (error) throw error;
+
+        // Aggregate by date
+        const dailyRevenue = {};
+        sales?.forEach(sale => {
+          const date = new Date(sale.sale_date).toLocaleDateString();
+          dailyRevenue[date] = (dailyRevenue[date] || 0) + (sale.royalty || 0);
+        });
+
+        const labels = Object.keys(dailyRevenue);
+        const data = Object.values(dailyRevenue);
+
+        updateRevenueChart(labels, data);
+
+      } catch (error) {
+        console.error('Error loading revenue chart:', error);
+      }
+    }
+
+    // Load marketplace chart
+    async function loadMarketplaceChart() {
+      try {
+        const { data: sales, error } = await supabase
+          .from('kdp_sales')
+          .select('marketplace, royalty');
+
+        if (error) throw error;
+
+        // Aggregate by marketplace
+        const marketplaceData = {};
+        sales?.forEach(sale => {
+          const market = sale.marketplace || 'Unknown';
+          marketplaceData[market] = (marketplaceData[market] || 0) + (sale.royalty || 0);
+        });
+
+        const labels = Object.keys(marketplaceData);
+        const data = Object.values(marketplaceData);
+
+        updateMarketplaceChart(labels, data);
+
+      } catch (error) {
+        console.error('Error loading marketplace chart:', error);
+      }
+    }
+
+    // Load books table
+    async function loadBooksTable() {
+      try {
+        const { data: books, error } = await supabase
+          .from('kdp_books')
+          .select('*')
+          .order('total_revenue', { ascending: false });
+
+        if (error) throw error;
+
+        allBooks = books || [];
+        renderBooksTable(allBooks);
+
+      } catch (error) {
+        console.error('Error loading books:', error);
+        showEmptyState();
+      }
+    }
+
+    // Render books table
+    function renderBooksTable(books) {
+      const container = document.getElementById('booksTableContainer');
+      
+      if (!books || books.length === 0) {
+        showEmptyState();
+        return;
+      }
+
+      const tableHTML = `
+        <table class="books-table">
+          <thead>
+            <tr>
+              <th data-fr="Titre" data-en="Title">Titre</th>
+              <th>ASIN</th>
+              <th data-fr="Marketplace" data-en="Marketplace">Marketplace</th>
+              <th data-fr="Ventes" data-en="Sales">Ventes</th>
+              <th data-fr="Revenus" data-en="Revenue">Revenus</th>
+              <th>BSR</th>
+              <th data-fr="Performance" data-en="Performance">Performance</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${books.map(book => `
+              <tr>
+                <td><div class="book-title">${book.title || '--'}</div></td>
+                <td>${book.asin || '--'}</td>
+                <td><span class="marketplace-badge">${book.marketplace || '--'}</span></td>
+                <td>${book.total_sales || 0}</td>
+                <td>€${book.total_revenue?.toFixed(2) || '0.00'}</td>
+                <td>${book.bsr ? book.bsr.toLocaleString() : '--'}</td>
+                <td>${getPerformanceIndicator(book.total_revenue)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      `;
+
+      container.innerHTML = tableHTML;
+    }
+
+    // Show empty state
+    function showEmptyState() {
+      const container = document.getElementById('booksTableContainer');
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">📚</div>
+          <h3 class="empty-title" data-fr="Aucune donnée disponible" data-en="No data available">Aucune donnée disponible</h3>
+          <p class="empty-description" data-fr="Utilisez l'extension Chrome GabaritKDP pour synchroniser vos données Amazon KDP" data-en="Use the GabaritKDP Chrome extension to sync your Amazon KDP data">
+            Utilisez l'extension Chrome GabaritKDP pour synchroniser vos données Amazon KDP
+          </p>
+          <button class="btn-sync" onclick="openExtensionGuide()">
+            <i class="fas fa-download"></i>
+            <span data-fr="Télécharger l'extension" data-en="Download extension">Télécharger l'extension</span>
+          </button>
+        </div>
+      `;
+    }
+
+    // Initialize charts
+    function initializeCharts() {
+      // Revenue Chart
+      const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+      revenueChart = new Chart(revenueCtx, {
+        type: 'line',
+        data: {
+          labels: [],
+          datasets: [{
+            label: 'Revenus (€)',
+            data: [],
+            borderColor: '#FF9900',
+            backgroundColor: 'rgba(255, 153, 0, 0.1)',
+            tension: 0.4,
+            fill: true
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: { color: '#ffffff' }
+            }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { color: '#aaaaaa' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            },
+            x: {
+              ticks: { color: '#aaaaaa' },
+              grid: { color: 'rgba(255, 255, 255, 0.1)' }
+            }
+          }
+        }
+      });
+
+      // Marketplace Chart
+      const marketplaceCtx = document.getElementById('marketplaceChart').getContext('2d');
+      marketplaceChart = new Chart(marketplaceCtx, {
+        type: 'doughnut',
+        data: {
+          labels: [],
+          datasets: [{
+            data: [],
+            backgroundColor: [
+              '#FF9900',
+              '#FF6600',
+              '#10b981',
+              '#f59e0b',
+              '#ef4444'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'right',
+              labels: { color: '#ffffff' }
+            }
+          }
+        }
+      });
+    }
+
+    // Update revenue chart
+    function updateRevenueChart(labels, data) {
+      if (revenueChart) {
+        revenueChart.data.labels = labels;
+        revenueChart.data.datasets[0].data = data;
+        revenueChart.update();
+      }
+    }
+
+    // Update marketplace chart
+    function updateMarketplaceChart(labels, data) {
+      if (marketplaceChart) {
+        marketplaceChart.data.labels = labels;
+        marketplaceChart.data.datasets[0].data = data;
+        marketplaceChart.update();
+      }
+    }
+
+    // Update chart period
+    function updateChartPeriod(period) {
+      currentPeriod = period;
+      
+      // Update active button
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      event.target.classList.add('active');
+      
+      loadRevenueChart();
+    }
+
+    // Setup search filter
+    function setupSearchFilter() {
+      const searchInput = document.getElementById('searchInput');
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        const filtered = allBooks.filter(book => 
+          book.title?.toLowerCase().includes(searchTerm) ||
+          book.asin?.toLowerCase().includes(searchTerm)
+        );
+        renderBooksTable(filtered);
+      });
+    }
+
+    // Get performance indicator
+    function getPerformanceIndicator(revenue) {
+      if (!revenue) return '<span class="performance-indicator low"><i class="fas fa-arrow-down"></i> Faible</span>';
+      if (revenue > 100) return '<span class="performance-indicator high"><i class="fas fa-arrow-up"></i> Excellent</span>';
+      if (revenue > 50) return '<span class="performance-indicator medium"><i class="fas fa-arrow-right"></i> Moyen</span>';
+      return '<span class="performance-indicator low"><i class="fas fa-arrow-down"></i> Faible</span>';
+    }
+
+    // Update change indicator
+    function updateChangeIndicator(elementId, value, isPositive) {
+      const element = document.getElementById(elementId);
+      element.className = `stat-change ${isPositive ? 'positive' : 'negative'}`;
+      element.innerHTML = `
+        <i class="fas fa-arrow-${isPositive ? 'up' : 'down'}"></i>
+        <span>${isPositive ? '+' : ''}${value}%</span>
+      `;
+    }
+
+    // Refresh data
+    async function refreshData() {
+      const btn = document.getElementById('refreshBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span data-fr="Actualisation..." data-en="Refreshing...">Actualisation...</span>';
+      
+      await loadData();
+      updateLastSyncTime();
+      
+      setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-sync-alt"></i> <span data-fr="Actualiser" data-en="Refresh">Actualiser</span>';
+      }, 1000);
+    }
+
+    // Check extension status
+    function checkExtensionStatus() {
+      // This would check if Chrome extension is installed
+      // For now, just show connected
+      const statusEl = document.getElementById('syncStatus');
+      statusEl.innerHTML = '<span data-fr="Extension GabaritKDP Connectée" data-en="GabaritKDP Extension Connected">Extension GabaritKDP Connectée</span> <i class="fas fa-check-circle" style="color: #10b981;"></i>';
+    }
+
+    // Update last sync time
+    function updateLastSyncTime() {
+      const now = new Date();
+      const timeString = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+      document.getElementById('lastSyncTime').textContent = timeString;
+    }
+
+    // Open extension guide
+    function openExtensionGuide() {
+      alert('Guide d\'installation de l\'extension Chrome GabaritKDP Tracker à venir !');
+    }
+
+    // Show error
+    function showError(message) {
+      console.error(message);
+    }
+
+    // Language switcher
+    function switchLanguage(lang) {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
+        }
+      });
+
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        el.textContent = lang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+      });
+
+      document.querySelectorAll('[data-fr-placeholder][data-en-placeholder]').forEach(el => {
+        el.placeholder = lang === 'fr' ? el.getAttribute('data-fr-placeholder') : el.getAttribute('data-en-placeholder');
+      });
+    }
+
+    // Update coaching section based on performance
+    function updateCoachingSection() {
+      const activeBooks = parseInt(document.getElementById('activeBooks')?.textContent || '0');
+      const totalRevenue = parseFloat(document.getElementById('totalRevenue')?.textContent.replace(/[^0-9.]/g, '') || '0');
+      
+      // Update goal progress
+      const goal = 10;
+      const progress = Math.min((activeBooks / goal) * 100, 100);
+      document.getElementById('goalProgress').textContent = `${activeBooks}/${goal}`;
+      document.getElementById('goalFill').style.width = `${progress}%`;
+      
+      const remaining = Math.max(goal - activeBooks, 0);
+      const goalMessageEl = document.getElementById('goalMessage');
+      if (remaining === 0) {
+        goalMessageEl.innerHTML = '<span>🎉 Objectif atteint ! Tu es un champion ! 🏆</span>';
+      } else {
+        goalMessageEl.innerHTML = `<span>Tu es à ${remaining} livre${remaining > 1 ? 's' : ''} de ton objectif ! 🎯</span>`;
+      }
+
+      // Calculate potential revenue
+      const avgRevenuePerBook = activeBooks > 0 ? totalRevenue / activeBooks : 90;
+      const potentialRevenue = Math.round(avgRevenuePerBook);
+      document.getElementById('potentialRevenue').textContent = `+€${potentialRevenue}`;
+
+      // Personalized coaching messages based on performance
+      const coachingTitle = document.getElementById('coachingTitle');
+      const coachingMessage = document.getElementById('coachingMessage');
+
+      if (activeBooks === 0) {
+        // Débutant - aucun livre
+        coachingTitle.innerHTML = '🚀 Publie Ton Premier Livre et Lance Ton Empire !';
+        coachingMessage.innerHTML = 'Ton aventure commence maintenant ! Chaque auteur à succès a commencé exactement où tu es. Le premier livre est le plus difficile, mais aussi le plus excitant. Prêt à faire le premier pas ?';
+      } else if (activeBooks >= 1 && activeBooks < 3) {
+        // Débutant avancé - 1-2 livres
+        coachingTitle.innerHTML = '🔥 Excellent Début ! Ne T\'Arrête Pas Maintenant !';
+        coachingMessage.innerHTML = `Tu as ${activeBooks} livre${activeBooks > 1 ? 's' : ''} publié${activeBooks > 1 ? 's' : ''} - c'est génial ! Les 3 premiers livres sont les plus importants. Continue sur ta lancée et tu verras tes revenus décoller 📈`;
+      } else if (activeBooks >= 3 && activeBooks < 5) {
+        // Intermédiaire - 3-4 livres
+        coachingTitle.innerHTML = '💪 Tu Construis Quelque Chose de Solide !';
+        coachingMessage.innerHTML = `${activeBooks} livres actifs ! Tu commences à bâtir un véritable catalogue. Chaque nouveau livre amplifie tes revenus. L'objectif des 10 livres est à portée de main !`;
+      } else if (activeBooks >= 5 && activeBooks < 10) {
+        // Avancé - 5-9 livres
+        coachingTitle.innerHTML = '⚡ Tu Deviens un Pro ! Continue Comme Ça !';
+        coachingMessage.innerHTML = `Impressionnant ! ${activeBooks} livres en catalogue. Tu fais partie du top 20% des auteurs KDP. Encore quelques livres et tu atteins l'objectif des 10 livres actifs !`;
+      } else if (activeBooks >= 10 && activeBooks < 20) {
+        // Expert - 10-19 livres
+        coachingTitle.innerHTML = '🏆 Champion ! Tu Maîtrises le Jeu !';
+        coachingMessage.innerHTML = `${activeBooks} livres actifs ! Tu es maintenant dans le top 10% des auteurs. Ton empire prend forme. Vise maintenant les 20 livres pour des revenus vraiment passifs !`;
+      } else {
+        // Master - 20+ livres
+        coachingTitle.innerHTML = '👑 Empire Accompli ! Tu Es Une Légende !';
+        coachingMessage.innerHTML = `${activeBooks} livres ! Tu as construit un véritable empire du livre. Continue à diversifier ton catalogue et à optimiser tes meilleures niches. Le ciel est la limite !`;
+      }
+
+      // Add revenue-based motivation
+      if (totalRevenue > 0 && totalRevenue < 100) {
+        coachingMessage.innerHTML += '<br><br>💡 <strong>Astuce Pro :</strong> Tes premiers €100/mois sont les plus difficiles. Après, ça devient exponentiel !';
+      } else if (totalRevenue >= 100 && totalRevenue < 500) {
+        coachingMessage.innerHTML += '<br><br>💰 <strong>Super !</strong> Tu génères déjà des revenus réguliers. Continue à publier pour atteindre les €500/mois !';
+      } else if (totalRevenue >= 500 && totalRevenue < 1000) {
+        coachingMessage.innerHTML += '<br><br>🔥 <strong>Incroyable !</strong> €500+/mois de revenus passifs ! Tu es sur la bonne voie vers les €1000/mois !';
+      } else if (totalRevenue >= 1000) {
+        coachingMessage.innerHTML += '<br><br>👑 <strong>CHAMPION !</strong> Tu as atteint les €1000/mois ! Tu fais partie de l\'élite des auteurs KDP !';
+      }
+
+      // Update niche cards click handlers
+      document.querySelectorAll('.niche-card-mini').forEach(card => {
+        card.addEventListener('click', () => {
+          window.location.href = 'marketplace.html';
+        });
+      });
+    }
+  </script>
+</body>
+</html>

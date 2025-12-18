@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GabaritKDP - Générateur de couvertures 100% conformes Amazon KDP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-hero {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+        }
+        .pricing-card {
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #FF9900;
+        }
+        .btn-primary {
+            background-color: #FF9900;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-primary:hover {
+            background-color: #e68a00;
+        }
+        .btn-secondary {
+            background-color: #1e293b;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background-color: #334155;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+
+    <header class="bg-gray-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto flex items-center justify-between p-4">
+            <a href="/" class="flex items-center text-xl font-bold">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo" class="h-8 w-auto mr-2">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="generator.html" class="hover:text-orange-400">Générateur Express</a>
+                <a href="generator-magic.html" class="hover:text-orange-400">Studio IA</a>
+                <a href="#tarifs" class="hover:text-orange-400">Tarifs</a>
+                 </nav>
+        </div>
+    </header>
+
+    <section class="gradient-hero text-white">
+        <div class="container mx-auto text-center px-6 py-20">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">Créez des couvertures KDP parfaites, en quelques clics.</h1>
+            <p class="mt-4 text-lg md:text-xl text-gray-300">L'outil N°1 pour générer des gabarits 100% conformes aux spécifications d'Amazon.</p>
+            <div class="mt-8">
+                <a href="generator.html" class="btn-primary font-bold py-4 px-8 rounded-lg text-lg shadow-lg transform hover:scale-105 transition-transform">
+                    Commencer Gratuitement <i class="fas fa-arrow-right ml-2"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="tarifs" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-gray-800">Nos Offres Flexibles</h2>
+                <p class="text-lg text-gray-600 mt-4">Choisissez le plan parfait pour vos besoins de création.</p>
+            </div>
+
+            <div id="express-generator">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">🚀 Générateur Express</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                    <div class="pricing-card bg-white rounded-xl shadow-md p-8 flex flex-col text-center">
+                        <h4 class="text-2xl font-semibold text-gray-800">Essai Gratuit</h4>
+                        <p class="mt-4 text-5xl font-bold text-gray-900">0€</p>
+                        <p class="mt-2 text-gray-500">Pour toujours</p>
+                        <ul class="mt-8 space-y-4 text-left text-gray-600">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> 3 exports / mois</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Accès à tous les formats</li>
+                            <li class="flex items-center text-gray-400"><i class="fas fa-times-circle mr-3"></i> Watermark discret ajouté</li>
+                        </ul>
+                        <a href="generator.html" class="mt-auto pt-4">
+                            <button class="w-full py-3 px-6 rounded-lg font-semibold btn-secondary">Commencer</button>
+                        </a>
+                    </div>
+                    <div class="pricing-card bg-white rounded-xl shadow-md p-8 flex flex-col text-center">
+                        <h4 class="text-2xl font-semibold text-gray-800">Export Premium</h4>
+                        <p class="mt-4 text-5xl font-bold text-gray-900">2,50€</p>
+                        <p class="mt-2 text-gray-500">Paiement unique</p>
+                        <ul class="mt-8 space-y-4 text-left text-gray-600">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> 1 export haute qualité</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Sans watermark</li>
+                        </ul>
+                        <div class="mt-auto pt-4">
+                            <button id="buy-single-export" class="w-full py-3 px-6 rounded-lg font-semibold btn-primary">Acheter</button>
+                        </div>
+                    </div>
+                    <div class="pricing-card bg-white rounded-xl shadow-md p-8 flex flex-col text-center border-2 border-orange-400 relative">
+                        <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-orange-400 text-white px-4 py-1 rounded-full text-sm font-semibold">POPULAIRE</span>
+                        <h4 class="text-2xl font-semibold text-gray-800">Pack 10 Exports</h4>
+                        <p class="mt-4 text-5xl font-bold text-gray-900">17,99€</p>
+                        <p class="mt-2 text-gray-500">Seulement 1.80€ / export</p>
+                        <ul class="mt-8 space-y-4 text-left text-gray-600">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> 10 exports haute qualité</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> Sans watermark</li>
+                        </ul>
+                        <div class="mt-auto pt-4">
+                            <button id="buy-pack-10" class="w-full py-3 px-6 rounded-lg font-semibold btn-primary">Acheter le Pack</button>
+                        </div>
+                    </div>
+                    <div class="pricing-card bg-gray-800 text-white rounded-xl shadow-md p-8 flex flex-col text-center">
+                        <h4 class="text-2xl font-semibold">Abonnement Pro</h4>
+                        <p class="mt-4 text-5xl font-bold">29,99€</p>
+                        <p class="mt-2 text-gray-400">/ mois</p>
+                        <ul class="mt-8 space-y-4 text-left">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-orange-400 mr-3"></i> Exports illimités</li>
+                            <li class="flex items-center"><i class="fas fa-check-circle text-orange-400 mr-3"></i> Sans watermark</li>
+                        </ul>
+                        <div class="mt-auto pt-4">
+                            <button id="subscribe-pro-express" class="w-full py-3 px-6 rounded-lg font-semibold btn-primary">S'abonner</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ia-studio" class="mt-20">
+                <h3 class="text-3xl font-bold text-center text-gray-800 mb-8">🎨 Studio IA Magic</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <div class="pricing-card bg-white rounded-xl shadow-md p-8 flex flex-col text-center">
+                        <h4 class="text-2xl font-semibold text-gray-800">Pack Studio IA</h4>
+                        <p class="mt-4 text-5xl font-bold text-gray-900">9,99€</p>
+                        <p class="mt-2 text-gray-500">Paiement unique</p>
+                        <ul class="mt-8 space-y-4 text-left text-gray-600">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-green-500 mr-3"></i> 20 générations d'images</li>
+                        </ul>
+                        <div class="mt-auto pt-4">
+                            <button id="buy-ia-pack" class="w-full py-3 px-6 rounded-lg font-semibold btn-primary">Acheter 20 crédits</button>
+                        </div>
+                    </div>
+                    <div class="pricing-card bg-gray-800 text-white rounded-xl shadow-md p-8 flex flex-col text-center">
+                        <h4 class="text-2xl font-semibold">Studio IA Pro</h4>
+                        <p class="mt-4 text-5xl font-bold">19,99€</p>
+                        <p class="mt-2 text-gray-400">/ mois</p>
+                        <ul class="mt-8 space-y-4 text-left">
+                            <li class="flex items-center"><i class="fas fa-check-circle text-orange-400 mr-3"></i> 100 générations / mois</li>
+                        </ul>
+                        <div class="mt-auto pt-4">
+                            <button id="subscribe-ia-pro" class="w-full py-3 px-6 rounded-lg font-semibold btn-primary">S'abonner</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-gray-400 py-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2025 GabaritKDP. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Initialisation de Stripe avec votre clé publique
+        const stripe = Stripe('pk_live_51RySwPEWob6ebZ26MnhCNdQ5WXfqnQWAd7PUoviBSpu6Jo5J9EMrheKWY720sR1Tw6O2has0j63SOsl7gwKH1B4q00WLKVacCT');
+
+        const checkout = (priceId, mode) => {
+            stripe.redirectToCheckout({
+                lineItems: [{ price: priceId, quantity: 1 }],
+                mode: mode,
+                successUrl: 'https://gabaritkdp.com/succes', // URL de succès à créer
+                cancelUrl: 'https://gabaritkdp.com/#tarifs', // Retourne à la section tarifs
+            }).then(function (result) {
+                if (result.error) {
+                    alert(result.error.message);
+                }
+            });
+        };
+
+        // Générateur Express
+        document.getElementById('buy-single-export').addEventListener('click', () => {
+            checkout('price_1RzAWbEWob6ebZ26rz1xuBVm', 'payment');
+        });
+        document.getElementById('buy-pack-10').addEventListener('click', () => {
+            checkout('price_1RzAXIEWob6ebZ26L5qWCV3b', 'payment');
+        });
+        document.getElementById('subscribe-pro-express').addEventListener('click', () => {
+            checkout('price_1RzAXtEWob6ebZ26g0uf1XQF', 'subscription');
+        });
+
+        // Studio IA
+        document.getElementById('buy-ia-pack').addEventListener('click', () => {
+            checkout('price_1RzAYoEWob6ebZ26zoXfXwKl', 'payment');
+        });
+        document.getElementById('subscribe-ia-pro').addEventListener('click', () => {
+            checkout('price_1RzAZgEWob6ebZ26iObbM5qb', 'subscription');
+        });
+    </script>
+</body>
+</html>

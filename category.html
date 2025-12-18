@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Category | GabaritKDP</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
+        
+        .header-nav { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 15px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 999; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+        .logo-nav { display: flex; align-items: center; gap: 15px; text-decoration: none; color: white; }
+        .logo-nav img { height: 40px; }
+        .logo-nav span { font-size: 1.3rem; font-weight: 700; color: #FF9900; }
+        .nav-links { display: flex; gap: 25px; }
+        .nav-links a { color: white; text-decoration: none; padding: 8px 16px; border-radius: 8px; transition: all 0.3s; }
+        .nav-links a:hover { background: rgba(255, 255, 255, 0.1); }
+        
+        .breadcrumb { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.9rem; }
+        .breadcrumb a:hover { color: #FF9900; }
+        
+        .hero { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 40px 20px; text-align: center; }
+        .hero h1 { font-size: 2.5rem; font-weight: 800; margin-bottom: 10px; }
+        .hero p { font-size: 1.1rem; color: #cbd5e1; }
+        
+        .gallery { max-width: 1400px; margin: 40px auto; padding: 0 20px; }
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .gallery-item { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); transition: all 0.3s; cursor: pointer; }
+        .gallery-item:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); }
+        .gallery-image { width: 100%; height: 300px; object-fit: cover; display: block; }
+        .gallery-info { padding: 15px; text-align: center; }
+        .gallery-title { font-size: 0.9rem; color: #64748b; }
+        
+        footer { background: #0f172a; color: #94a3b8; padding: 40px 20px; text-align: center; margin-top: 80px; }
+        
+        @media (max-width: 768px) { .hero h1 { font-size: 1.8rem; } .nav-links { display: none; } }
+    </style>
+</head>
+<body>
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="./index.html">🏠 Home</a>
+                <a href="./generator.html">⚡ Generator</a>
+                <a href="./marketplace.html">Marketplace</a>
+                <a href="./pricing.html">💰 Pricing</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="./marketplace.html">← Back to Marketplace</a>
+    </div>
+
+    <section class="hero">
+        <h1 id="categoryTitle">Loading...</h1>
+        <p id="categoryDesc">Browsing templates</p>
+    </section>
+
+    <section class="gallery">
+        <div class="gallery-grid" id="galleryGrid">
+            <!-- Templates loaded by JavaScript -->
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 GabaritKDP • All rights reserved</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const category = urlParams.get('cat');
+
+        const categories = {
+            'romance': {
+                title: '💕 Romance Templates',
+                desc: '435 professional romance book covers',
+                baseUrl: 'https://images.gabaritkdp.com/fullcovers/Romance/Contemporary/BLACK%20LOVE/',
+                count: 20,
+                prefix: 'FULLCOVER_BLACKLOVE',
+                ext: 'jpg'
+            },
+            'thriller': {
+                title: '🔪 Thriller Templates',
+                desc: '77 suspenseful thriller covers',
+                baseUrl: 'https://images.gabaritkdp.com/fullcovers/Thriller/',
+                count: 20,
+                prefix: 'Fullcover_Thriller',
+                ext: 'jpg'
+            },
+            'fantasy': {
+                title: '🧙 Fantasy Templates',
+                desc: '58 magical fantasy covers',
+                baseUrl: 'https://images.gabaritkdp.com/fullcovers/Fantasy/',
+                count: 20,
+                prefix: 'FULL%20COVER%20%E2%80%93%20Magic%20Fantasy',
+                ext: 'png'
+            },
+            'mystery': {
+                title: '🔍 Mystery Templates',
+                desc: '77 intriguing mystery covers',
+                baseUrl: 'https://images.gabaritkdp.com/fullcovers/Mystery/',
+                count: 20,
+                prefix: 'Fullcover_Mystery',
+                ext: 'jpg'
+            },
+            'scifi': {
+                title: '🚀 Sci-Fi Templates',
+                desc: '79 futuristic sci-fi covers',
+                baseUrl: 'https://images.gabaritkdp.com/fullcovers/Sci-fi/',
+                count: 20,
+                prefix: 'Fullcover_sci-fi',
+                ext: 'jpg'
+            },
+            'horror': {
+                title: '👻 Horror Templates',
+                desc: '79 terrifying horror covers',
+                baseUrl: 'https://images.gabaritkdp.com/fullcovers/Horror/',
+                count: 20,
+                prefix: 'Fullcover_Horror',
+                ext: 'jpg'
+            },
+            'planners': {
+                title: '📅 Planner Templates',
+                desc: '1,969 planner interior pages',
+                baseUrl: 'https://images.gabaritkdp.com/backgrounds/PLANNERS/2026-2027%20Monthly%20Planner/PNG/',
+                count: 20,
+                prefix: '',
+                ext: 'png'
+            },
+            'coloring': {
+                title: '🎨 Coloring Book Templates',
+                desc: '188 coloring pages for kids & adults',
+                baseUrl: 'https://images.gabaritkdp.com/backgrounds/COLORIAGES/Animaux/',
+                count: 20,
+                prefix: 'ANIMALS',
+                ext: 'png'
+            }
+        };
+
+        if (category && categories[category]) {
+            const cat = categories[category];
+            document.getElementById('categoryTitle').textContent = cat.title;
+            document.getElementById('categoryDesc').textContent = cat.desc;
+            document.title = cat.title + ' | GabaritKDP';
+
+            const grid = document.getElementById('galleryGrid');
+            
+            for (let i = 1; i <= cat.count; i++) {
+                const item = document.createElement('div');
+                item.className = 'gallery-item';
+                
+                const img = document.createElement('img');
+                img.className = 'gallery-image';
+                
+                if (cat.prefix) {
+                    img.src = `${cat.baseUrl}${cat.prefix}%20(${i}).${cat.ext}`;
+                } else {
+                    img.src = `${cat.baseUrl}${i}.${cat.ext}`;
+                }
+                
+                img.alt = `${cat.title} ${i}`;
+                
+                const info = document.createElement('div');
+                info.className = 'gallery-info';
+                info.innerHTML = `<div class="gallery-title">Template #${i}</div>`;
+                
+                item.appendChild(img);
+                item.appendChild(info);
+                grid.appendChild(item);
+                
+                item.onclick = function() {
+                    const imageUrl = img.src;
+                    window.location.href = `./generator.html?template=${encodeURIComponent(imageUrl)}`;
+                };
+            }
+        } else {
+            document.getElementById('categoryTitle').textContent = '❌ Category Not Found';
+            document.getElementById('categoryDesc').textContent = 'Please return to the marketplace';
+        }
+    </script>
+</body>
+</html>

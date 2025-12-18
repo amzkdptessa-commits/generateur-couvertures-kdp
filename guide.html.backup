@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Guide d'utilisation - GabaritKDP" data-en="User Guide - GabaritKDP">Guide d'utilisation - GabaritKDP</title>
+    <meta name="description" data-fr="Guide complet pour créer des couvertures KDP parfaites avec GabaritKDP. Tutoriels étape par étape, conseils d'experts et bonnes pratiques." data-en="Complete guide to create perfect KDP covers with GabaritKDP. Step-by-step tutorials, expert tips and best practices." content="Guide complet pour créer des couvertures KDP parfaites avec GabaritKDP. Tutoriels étape par étape, conseils d'experts et bonnes pratiques.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MYG5JJM8EC');
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .header-nav {
+            background: #232F3E;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .logo-nav img {
+            height: 35px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .logo-nav span {
+            font-size: 1.3rem;
+            color: #FF9900;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:hover {
+            color: #FF9900;
+        }
+        
+        .nav-links a.active {
+            color: #FF9900;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+        
+        .lang-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: #f3f4f6;
+        }
+        
+        .guide-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .guide-nav {
+            position: sticky;
+            top: 80px;
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 1rem 0;
+            z-index: 100;
+        }
+        
+        .guide-nav-links {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 0 1rem;
+        }
+        
+        .guide-nav-link {
+            white-space: nowrap;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            color: #6b7280;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .guide-nav-link:hover,
+        .guide-nav-link.active {
+            background: #FF9900;
+            color: white;
+        }
+        
+        .step-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            overflow: hidden;
+            margin-bottom: 2rem;
+            border-left: 4px solid #FF9900;
+        }
+        
+        .step-header {
+            background: linear-gradient(135deg, #FF9900 0%, #e68900 100%);
+            color: white;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .step-number {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .step-content {
+            padding: 2rem;
+        }
+        
+        .tip-box {
+            background: #f0f9ff;
+            border: 1px solid #38bdf8;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .tip-box::before {
+            content: "💡";
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: #f0f9ff;
+            padding: 0 5px;
+        }
+        
+        .warning-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .warning-box::before {
+            content: "⚠️";
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: #fef3c7;
+            padding: 0 5px;
+        }
+        
+        .success-box {
+            background: #ecfdf5;
+            border: 1px solid #10b981;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 1rem 0;
+            position: relative;
+        }
+        
+        .success-box::before {
+            content: "✅";
+            position: absolute;
+            top: -8px;
+            left: 15px;
+            background: #ecfdf5;
+            padding: 0 5px;
+        }
+        
+        .code-block {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        
+        .dimension-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .dimension-table th {
+            background: #FF9900;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .dimension-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .dimension-table tr:hover {
+            background: #f9fafb;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .checklist {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .checklist li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            padding: 0.5rem;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+        
+        .checklist li::before {
+            content: "✓";
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 0.5rem;
+            background: #ecfdf5;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+        
+        .toc {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .toc a {
+            color: #4b5563;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 0.25rem 0;
+        }
+        
+        .toc a:hover {
+            color: #FF9900;
+        }
+        
+        .btn-demo {
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+        
+        .btn-demo:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+        }
+        
+        .progress-bar {
+            background: #e5e7eb;
+            height: 4px;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+        
+        .progress-fill {
+            background: #FF9900;
+            height: 100%;
+            transition: width 0.3s ease;
+        }
+        
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .social-link.youtube { background: linear-gradient(135deg, #FF0000, #CC0000); }
+        .social-link.facebook { background: linear-gradient(135deg, #1877F2, #0866D3); }
+        .social-link.instagram { background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2); }
+        .social-link.pinterest { background: linear-gradient(135deg, #BD081C, #E60023); }
+        .social-link.tiktok { background: linear-gradient(135deg, #000000, #FF0050, #00F2EA); }
+        .social-link.linkedin { background: linear-gradient(135deg, #0A66C2, #004182); }
+        
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 80px;
+                right: 10px;
+                padding: 3px;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .nav-links {
+                gap: 20px;
+            }
+            .guide-nav-links {
+                gap: 1rem;
+            }
+            .step-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇺🇸 EN</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo-nav">
+                <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
+                <a href="generator.html" data-fr="Générateur" data-en="Generator">Générateur</a>
+                <a href="fonctionnalites.html" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a>
+                <a href="index.html#tarifs" data-fr="Tarifs" data-en="Pricing">Tarifs</a>
+                <a href="inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Inscription</a>
+                <a href="connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Connexion</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="guide-hero py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Guide d'utilisation GabaritKDP" data-en="GabaritKDP User Guide">
+                Guide d'utilisation <span style="color: #FF9900;">GabaritKDP</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8" data-fr="Maîtrisez l'art de créer des couvertures KDP parfaites en 10 minutes" data-en="Master the art of creating perfect KDP covers in 10 minutes">
+                Maîtrisez l'art de créer des couvertures KDP parfaites en 10 minutes
+            </p>
+            <div class="flex justify-center gap-4 flex-wrap">
+                <a href="#demarrage" class="btn-demo" data-fr="🚀 Commencer maintenant" data-en="🚀 Start now">🚀 Commencer maintenant</a>
+                <a href="#video-tutoriel" class="btn-demo" data-fr="🎥 Voir la vidéo" data-en="🎥 Watch video">🎥 Voir la vidéo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Navigation Guide -->
+    <nav class="guide-nav">
+        <div class="max-w-7xl mx-auto">
+            <div class="guide-nav-links">
+                <a href="#sommaire" class="guide-nav-link" data-fr="📋 Sommaire" data-en="📋 Summary">📋 Sommaire</a>
+                <a href="#demarrage" class="guide-nav-link" data-fr="🚀 Démarrage rapide" data-en="🚀 Quick start">🚀 Démarrage rapide</a>
+                <a href="#dimensions" class="guide-nav-link" data-fr="📏 Dimensions KDP" data-en="📏 KDP Dimensions">📏 Dimensions KDP</a>
+                <a href="#creation" class="guide-nav-link" data-fr="🎨 Création couverture" data-en="🎨 Cover creation">🎨 Création couverture</a>
+                <a href="#personnalisation" class="guide-nav-link" data-fr="✨ Personnalisation" data-en="✨ Customization">✨ Personnalisation</a>
+                <a href="#export" class="guide-nav-link" data-fr="💾 Export & Validation" data-en="💾 Export & Validation">💾 Export & Validation</a>
+                <a href="#conseils" class="guide-nav-link" data-fr="💡 Conseils d'expert" data-en="💡 Expert tips">💡 Conseils d'expert</a>
+                <a href="#faq-guide" class="guide-nav-link" data-fr="❓ FAQ" data-en="❓ FAQ">❓ FAQ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- Table des matières -->
+        <section id="sommaire" class="mb-12">
+            <div class="toc">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4" data-fr="📋 Table des matières" data-en="📋 Table of Contents">📋 Table des matières</h2>
+                <div class="grid md:grid-cols-2 gap-4">
+                    <ul>
+                        <li><a href="#demarrage" data-fr="1. Démarrage rapide (5 min)" data-en="1. Quick start (5 min)">1. Démarrage rapide (5 min)</a></li>
+                        <li><a href="#dimensions" data-fr="2. Guide des dimensions KDP" data-en="2. KDP dimensions guide">2. Guide des dimensions KDP</a></li>
+                        <li><a href="#creation" data-fr="3. Création de votre couverture" data-en="3. Creating your cover">3. Création de votre couverture</a></li>
+                        <li><a href="#personnalisation" data-fr="4. Personnalisation avancée" data-en="4. Advanced customization">4. Personnalisation avancée</a></li>
+                    </ul>
+                    <ul>
+                        <li><a href="#export" data-fr="5. Export et validation Amazon" data-en="5. Export and Amazon validation">5. Export et validation Amazon</a></li>
+                        <li><a href="#conseils" data-fr="6. Conseils d'expert KDP" data-en="6. Expert KDP tips">6. Conseils d'expert KDP</a></li>
+                        <li><a href="#troubleshooting" data-fr="7. Résolution de problèmes" data-en="7. Troubleshooting">7. Résolution de problèmes</a></li>
+                        <li><a href="#faq-guide" data-fr="8. Questions fréquentes" data-en="8. Frequently asked questions">8. Questions fréquentes</a></li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Vidéo tutoriel -->
+        <section id="video-tutoriel" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">🎥</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Tutoriel vidéo complet" data-en="Complete video tutorial">Tutoriel vidéo complet</h2>
+                        <p data-fr="Créez votre première couverture en suivant cette vidéo" data-en="Create your first cover by following this video">Créez votre première couverture en suivant cette vidéo</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="video-container">
+                        <div class="flex items-center justify-center h-full bg-gray-100 rounded-lg">
+                            <div class="text-center">
+                                <i class="fas fa-play-circle text-6xl text-FF9900 mb-4"></i>
+                                <p class="text-gray-600" data-fr="Vidéo tutoriel disponible après inscription" data-en="Video tutorial available after registration">Vidéo tutoriel disponible après inscription</p>
+                                <a href="inscription.html" class="btn-demo mt-4" data-fr="📝 S'inscrire gratuitement" data-en="📝 Sign up for free">📝 S'inscrire gratuitement</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Démarrage rapide -->
+        <section id="demarrage" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Démarrage rapide" data-en="Quick Start">Démarrage rapide</h2>
+                        <p data-fr="Créez votre première couverture en 5 minutes" data-en="Create your first cover in 5 minutes">Créez votre première couverture en 5 minutes</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%"></div>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mb-4" data-fr="Étapes essentielles :" data-en="Essential steps:">Étapes essentielles :</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="📝 Avant de commencer" data-en="📝 Before starting">📝 Avant de commencer</h4>
+                            <ul class="checklist">
+                                <li data-fr="Avoir votre titre et sous-titre définitifs" data-en="Have your final title and subtitle">Avoir votre titre et sous-titre définitifs</li>
+                                <li data-fr="Connaître les dimensions de votre livre" data-en="Know your book dimensions">Connaître les dimensions de votre livre</li>
+                                <li data-fr="Avoir votre nom d'auteur décidé" data-en="Have your author name decided">Avoir votre nom d'auteur décidé</li>
+                                <li data-fr="Image de couverture (optionnel)" data-en="Cover image (optional)">Image de couverture (optionnel)</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="⚡ Processus rapide" data-en="⚡ Quick process">⚡ Processus rapide</h4>
+                            <ul class="checklist">
+                                <li data-fr="Inscription gratuite (30 secondes)" data-en="Free registration (30 seconds)">Inscription gratuite (30 secondes)</li>
+                                <li data-fr="Sélection du format (1 minute)" data-en="Format selection (1 minute)">Sélection du format (1 minute)</li>
+                                <li data-fr="Saisie des textes (2 minutes)" data-en="Text entry (2 minutes)">Saisie des textes (2 minutes)</li>
+                                <li data-fr="Personnalisation (1 minute)" data-en="Customization (1 minute)">Personnalisation (1 minute)</li>
+                                <li data-fr="Export PDF (30 secondes)" data-en="PDF export (30 seconds)">Export PDF (30 secondes)</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box mt-6">
+                        <p data-fr="💡 <strong>Conseil :</strong> Pour votre première couverture, commencez avec un design simple. Vous pourrez toujours créer des versions plus complexes ensuite." data-en="💡 <strong>Tip:</strong> For your first cover, start with a simple design. You can always create more complex versions later."><strong>Conseil :</strong> Pour votre première couverture, commencez avec un design simple. Vous pourrez toujours créer des versions plus complexes ensuite.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Guide des dimensions -->
+        <section id="dimensions" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Guide des dimensions KDP" data-en="KDP Dimensions Guide">Guide des dimensions KDP</h2>
+                        <p data-fr="Tous les formats Amazon KDP officiels" data-en="All official Amazon KDP formats">Tous les formats Amazon KDP officiels</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="warning-box">
+                        <p data-fr="⚠️ <strong>Important :</strong> Utiliser les mauvaises dimensions = refus automatique par Amazon. Notre générateur garantit la conformité 100%." data-en="⚠️ <strong>Important:</strong> Using wrong dimensions = automatic rejection by Amazon. Our generator guarantees 100% compliance."><strong>Important :</strong> Utiliser les mauvaises dimensions = refus automatique par Amazon. Notre générateur garantit la conformité 100%.</p>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mb-4" data-fr="📐 Formats les plus populaires :" data-en="📐 Most popular formats:">📐 Formats les plus populaires :</h3>
+                    
+                    <table class="dimension-table">
+                        <thead>
+                            <tr>
+                                <th data-fr="Format" data-en="Format">Format</th>
+                                <th data-fr="Dimensions (pouces)" data-en="Dimensions (inches)">Dimensions (pouces)</th>
+                                <th data-fr="Usage recommandé" data-en="Recommended use">Usage recommandé</th>
+                                <th data-fr="Popularité" data-en="Popularity">Popularité</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>6" x 9"</strong></td>
+                                <td>6.00 x 9.00</td>
+                                <td data-fr="Romans, essais, biographies" data-en="Novels, essays, biographies">Romans, essais, biographies</td>
+                                <td><span class="text-green-600" data-fr="⭐⭐⭐⭐⭐ Très populaire" data-en="⭐⭐⭐⭐⭐ Very popular">⭐⭐⭐⭐⭐ Très populaire</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>5" x 8"</strong></td>
+                                <td>5.00 x 8.00</td>
+                                <td data-fr="Romans courts, guides" data-en="Short novels, guides">Romans courts, guides</td>
+                                <td><span class="text-green-600" data-fr="⭐⭐⭐⭐ Populaire" data-en="⭐⭐⭐⭐ Popular">⭐⭐⭐⭐ Populaire</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>5.5" x 8.5"</strong></td>
+                                <td>5.50 x 8.50</td>
+                                <td data-fr="Manuels, guides pratiques" data-en="Manuals, practical guides">Manuels, guides pratiques</td>
+                                <td><span class="text-blue-600" data-fr="⭐⭐⭐ Moyen" data-en="⭐⭐⭐ Medium">⭐⭐⭐ Moyen</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>8.5" x 11"</strong></td>
+                                <td>8.50 x 11.00</td>
+                                <td data-fr="Livres de coloriage, carnets" data-en="Coloring books, notebooks">Livres de coloriage, carnets</td>
+                                <td><span class="text-green-600" data-fr="⭐⭐⭐⭐ Populaire" data-en="⭐⭐⭐⭐ Popular">⭐⭐⭐⭐ Populaire</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>7" x 10"</strong></td>
+                                <td>7.00 x 10.00</td>
+                                <td data-fr="Livres illustrés, bandes dessinées" data-en="Illustrated books, comics">Livres illustrés, bandes dessinées</td>
+                                <td><span class="text-blue-600" data-fr="⭐⭐⭐ Moyen" data-en="⭐⭐⭐ Medium">⭐⭐⭐ Moyen</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="tip-box">
+                        <p data-fr="💡 <strong>Astuce :</strong> 95% des auteurs utilisent les formats 6\"x9\" ou 5\"x8\". Commencez par l'un de ces deux pour maximiser vos chances de succès." data-en="💡 <strong>Tip:</strong> 95% of authors use 6\"x9\" or 5\"x8\" formats. Start with one of these to maximize your chances of success."><strong>Astuce :</strong> 95% des auteurs utilisent les formats 6"x9" ou 5"x8". Commencez par l'un de ces deux pour maximiser vos chances de succès.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Création couverture -->
+        <section id="creation" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Création de votre couverture" data-en="Creating Your Cover">Création de votre couverture</h2>
+                        <p data-fr="Guide étape par étape avec l'interface GabaritKDP" data-en="Step-by-step guide with GabaritKDP interface">Guide étape par étape avec l'interface GabaritKDP</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3 class="text-xl font-semibold mb-4" data-fr="🎯 Processus de création :" data-en="🎯 Creation process:">🎯 Processus de création :</h3>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-900 mb-2" data-fr="📋 Étape 1 : Informations de base" data-en="📋 Step 1: Basic information">📋 Étape 1 : Informations de base</h4>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li data-fr="• Connectez-vous à votre compte GabaritKDP" data-en="• Log into your GabaritKDP account">• Connectez-vous à votre compte GabaritKDP</li>
+                                <li data-fr="• Cliquez sur \"Nouveau projet\" dans le tableau de bord" data-en="• Click on \"New project\" in the dashboard">• Cliquez sur "Nouveau projet" dans le tableau de bord</li>
+                                <li data-fr="• Choisissez \"Couverture simple\" pour commencer" data-en="• Choose \"Simple cover\" to start">• Choisissez "Couverture simple" pour commencer</li>
+                                <li data-fr="• Sélectionnez votre format dans la liste déroulante" data-en="• Select your format from the dropdown list">• Sélectionnez votre format dans la liste déroulante</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-900 mb-2" data-fr="✍️ Étape 2 : Saisie des textes" data-en="✍️ Step 2: Text entry">✍️ Étape 2 : Saisie des textes</h4>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li data-fr="• <strong>Titre principal :</strong> 60 caractères maximum recommandé" data-en="• <strong>Main title:</strong> 60 characters maximum recommended">• <strong>Titre principal :</strong> 60 caractères maximum recommandé</li>
+                                <li data-fr="• <strong>Sous-titre :</strong> Optionnel, 40 caractères maximum" data-en="• <strong>Subtitle:</strong> Optional, 40 characters maximum">• <strong>Sous-titre :</strong> Optionnel, 40 caractères maximum</li>
+                                <li data-fr="• <strong>Nom d'auteur :</strong> Tel qu'il apparaîtra sur Amazon" data-en="• <strong>Author name:</strong> As it will appear on Amazon">• <strong>Nom d'auteur :</strong> Tel qu'il apparaîtra sur Amazon</li>
+                                <li data-fr="• Prévisualisez en temps réel vos modifications" data-en="• Preview your changes in real time">• Prévisualisez en temps réel vos modifications</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <h4 class="font-semibold text-gray-900 mb-2" data-fr="🎨 Étape 3 : Choix du design" data-en="🎨 Step 3: Design choice">🎨 Étape 3 : Choix du design</h4>
+                            <ul class="space-y-2 text-sm text-gray-700">
+                                <li data-fr="• Parcourez notre bibliothèque de 500+ templates" data-en="• Browse our library of 500+ templates">• Parcourez notre bibliothèque de 500+ templates</li>
+                                <li data-fr="• Filtrez par genre : Romance, Thriller, Fantasy, etc." data-en="• Filter by genre: Romance, Thriller, Fantasy, etc.">• Filtrez par genre : Romance, Thriller, Fantasy, etc.</li>
+                                <li data-fr="• Cliquez sur un template pour l'appliquer instantanément" data-en="• Click on a template to apply it instantly">• Cliquez sur un template pour l'appliquer instantanément</li>
+                                <li data-fr="• Comparez jusqu'à 3 designs côte à côte" data-en="• Compare up to 3 designs side by side">• Comparez jusqu'à 3 designs côte à côte</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="success-box mt-6">
+                        <p data-fr="✅ <strong>Résultat :</strong> À la fin de cette étape, vous avez une couverture fonctionnelle prête pour Amazon. Les étapes suivantes permettent la personnalisation avancée." data-en="✅ <strong>Result:</strong> At the end of this step, you have a functional cover ready for Amazon. The following steps allow advanced customization."><strong>Résultat :</strong> À la fin de cette étape, vous avez une couverture fonctionnelle prête pour Amazon. Les étapes suivantes permettent la personnalisation avancée.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personnalisation -->
+        <section id="personnalisation" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Personnalisation avancée" data-en="Advanced Customization">Personnalisation avancée</h2>
+                        <p data-fr="Rendez votre couverture unique et professionnelle" data-en="Make your cover unique and professional">Rendez votre couverture unique et professionnelle</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="🎨 Options de personnalisation" data-en="🎨 Customization options">🎨 Options de personnalisation</h4>
+                            <div class="space-y-3">
+                                <div class="bg-blue-50 rounded p-3">
+                                    <h5 class="font-medium text-blue-900" data-fr="Couleurs et thèmes" data-en="Colors and themes">Couleurs et thèmes</h5>
+                                    <p class="text-sm text-blue-700" data-fr="Palette de couleurs adaptée à votre genre" data-en="Color palette adapted to your genre">Palette de couleurs adaptée à votre genre</p>
+                                </div>
+                                <div class="bg-green-50 rounded p-3">
+                                    <h5 class="font-medium text-green-900" data-fr="Typographies" data-en="Typography">Typographies</h5>
+                                    <p class="text-sm text-green-700" data-fr="50+ polices professionnelles incluses" data-en="50+ professional fonts included">50+ polices professionnelles incluses</p>
+                                </div>
+                                <div class="bg-purple-50 rounded p-3">
+                                    <h5 class="font-medium text-purple-900" data-fr="Images de fond" data-en="Background images">Images de fond</h5>
+                                    <p class="text-sm text-purple-700" data-fr="Bibliothèque d'images libres de droits" data-en="Royalty-free image library">Bibliothèque d'images libres de droits</p>
+                                </div>
+                                <div class="bg-orange-50 rounded p-3">
+                                    <h5 class="font-medium text-orange-900" data-fr="Effets spéciaux" data-en="Special effects">Effets spéciaux</h5>
+                                    <p class="text-sm text-orange-700" data-fr="Ombres, dégradés, textures" data-en="Shadows, gradients, textures">Ombres, dégradés, textures</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="🔧 Outils avancés" data-en="🔧 Advanced tools">🔧 Outils avancés</h4>
+                            <div class="space-y-3">
+                                <div class="bg-gray-50 rounded p-3">
+                                    <h5 class="font-medium text-gray-900" data-fr="Positionnement précis" data-en="Precise positioning">Positionnement précis</h5>
+                                    <p class="text-sm text-gray-700" data-fr="Contrôle au pixel près de chaque élément" data-en="Pixel-perfect control of each element">Contrôle au pixel près de chaque élément</p>
+                                </div>
+                                <div class="bg-gray-50 rounded p-3">
+                                    <h5 class="font-medium text-gray-900" data-fr="Import d'images" data-en="Image import">Import d'images</h5>
+                                    <p class="text-sm text-gray-700" data-fr="Ajoutez vos propres images (JPG, PNG)" data-en="Add your own images (JPG, PNG)">Ajoutez vos propres images (JPG, PNG)</p>
+                                </div>
+                                <div class="bg-gray-50 rounded p-3">
+                                    <h5 class="font-medium text-gray-900" data-fr="Versions multiples" data-en="Multiple versions">Versions multiples</h5>
+                                    <p class="text-sm text-gray-700" data-fr="Créez plusieurs variantes facilement" data-en="Create multiple variants easily">Créez plusieurs variantes facilement</p>
+                                </div>
+                                <div class="bg-gray-50 rounded p-3">
+                                    <h5 class="font-medium text-gray-900" data-fr="Historique des modifications" data-en="Modification history">Historique des modifications</h5>
+                                    <p class="text-sm text-gray-700" data-fr="Annulez/refaites vos actions" data-en="Undo/redo your actions">Annulez/refaites vos actions</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-box mt-6">
+                        <p data-fr="💡 <strong>Pro tip :</strong> Testez plusieurs variantes de couleurs avant de finaliser. Les couvertures avec contraste élevé performent mieux sur Amazon." data-en="💡 <strong>Pro tip:</strong> Test multiple color variants before finalizing. High contrast covers perform better on Amazon."><strong>Pro tip :</strong> Testez plusieurs variantes de couleurs avant de finaliser. Les couvertures avec contraste élevé performent mieux sur Amazon.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Export et validation -->
+        <section id="export" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Export et validation Amazon" data-en="Export and Amazon Validation">Export et validation Amazon</h2>
+                        <p data-fr="Génération du PDF final conforme Amazon KDP" data-en="Generate final PDF compliant with Amazon KDP">Génération du PDF final conforme Amazon KDP</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <h3 class="text-xl font-semibold mb-4" data-fr="📥 Processus d'export :" data-en="📥 Export process:">📥 Processus d'export :</h3>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="⚡ Export rapide" data-en="⚡ Quick export">⚡ Export rapide</h4>
+                            <ul class="checklist">
+                                <li data-fr="Vérification automatique des dimensions" data-en="Automatic dimension verification">Vérification automatique des dimensions</li>
+                                <li data-fr="Contrôle de la résolution (300 DPI)" data-en="Resolution check (300 DPI)">Contrôle de la résolution (300 DPI)</li>
+                                <li data-fr="Validation des marges de sécurité" data-en="Safety margin validation">Validation des marges de sécurité</li>
+                                <li data-fr="Génération PDF/X-1a:2001" data-en="PDF/X-1a:2001 generation">Génération PDF/X-1a:2001</li>
+                                <li data-fr="Téléchargement instantané" data-en="Instant download">Téléchargement instantané</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="🔍 Contrôles qualité" data-en="🔍 Quality controls">🔍 Contrôles qualité</h4>
+                            <ul class="checklist">
+                                <li data-fr="Lisibilité du texte garantie" data-en="Text readability guaranteed">Lisibilité du texte garantie</li>
+                                <li data-fr="Conformité colorimétrique CMJN" data-en="CMYK colorimetric compliance">Conformité colorimétrique CMJN</li>
+                                <li data-fr="Absence de débordements" data-en="No overflows">Absence de débordements</li>
+                                <li data-fr="Optimisation de la taille fichier" data-en="File size optimization">Optimisation de la taille fichier</li>
+                                <li data-fr="Test d'impression simulé" data-en="Simulated print test">Test d'impression simulé</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-green-50 to-blue-50 rounded-lg p-4 mt-6">
+                        <h4 class="font-semibold text-gray-900 mb-2" data-fr="📋 Checklist avant upload Amazon :" data-en="📋 Checklist before Amazon upload:">📋 Checklist avant upload Amazon :</h4>
+                        <div class="grid md:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="font-medium mb-2" data-fr="✅ Vérifications techniques :" data-en="✅ Technical checks:">✅ Vérifications techniques :</p>
+                                <ul class="space-y-1 text-gray-700">
+                                    <li data-fr="• Fichier PDF/X-1a:2001" data-en="• PDF/X-1a:2001 file">• Fichier PDF/X-1a:2001</li>
+                                    <li data-fr="• Résolution 300 DPI minimum" data-en="• 300 DPI minimum resolution">• Résolution 300 DPI minimum</li>
+                                    <li data-fr="• Dimensions exactes" data-en="• Exact dimensions">• Dimensions exactes</li>
+                                    <li data-fr="• Polices incorporées" data-en="• Embedded fonts">• Polices incorporées</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-medium mb-2" data-fr="✅ Vérifications contenu :" data-en="✅ Content checks:">✅ Vérifications contenu :</p>
+                                <ul class="space-y-1 text-gray-700">
+                                    <li data-fr="• Orthographe titre/auteur" data-en="• Title/author spelling">• Orthographe titre/auteur</li>
+                                    <li data-fr="• Lisibilité à taille réduite" data-en="• Readability at reduced size">• Lisibilité à taille réduite</li>
+                                    <li data-fr="• Respect des guidelines Amazon" data-en="• Amazon guidelines compliance">• Respect des guidelines Amazon</li>
+                                    <li data-fr="• Absence de contenu protégé" data-en="• No protected content">• Absence de contenu protégé</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="success-box mt-6">
+                        <p data-fr="✅ <strong>Garantie :</strong> Tous les exports GabaritKDP sont acceptés par Amazon du premier coup. En cas de refus exceptionnel, nous corrigeons gratuitement sous 24h." data-en="✅ <strong>Guarantee:</strong> All GabaritKDP exports are accepted by Amazon on the first try. In case of exceptional rejection, we fix it for free within 24h."><strong>Garantie :</strong> Tous les exports GabaritKDP sont acceptés par Amazon du premier coup. En cas de refus exceptionnel, nous corrigeons gratuitement sous 24h.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conseils d'expert -->
+        <section id="conseils" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Conseils d'expert KDP" data-en="Expert KDP Tips">Conseils d'expert KDP</h2>
+                        <p data-fr="Secrets des auteurs qui vendent 1000+ livres/mois" data-en="Secrets from authors selling 1000+ books/month">Secrets des auteurs qui vendent 1000+ livres/mois</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="🎯 Psychologie de la couverture" data-en="🎯 Cover psychology">🎯 Psychologie de la couverture</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="bg-blue-50 p-3 rounded">
+                                    <p class="font-medium text-blue-900" data-fr="Règle des 3 secondes" data-en="3-second rule">Règle des 3 secondes</p>
+                                    <p class="text-blue-700" data-fr="Un acheteur décide en 3 secondes. Votre titre doit être lisible en vignette Amazon." data-en="A buyer decides in 3 seconds. Your title must be readable in Amazon thumbnail.">Un acheteur décide en 3 secondes. Votre titre doit être lisible en vignette Amazon.</p>
+                                </div>
+                                <div class="bg-green-50 p-3 rounded">
+                                    <p class="font-medium text-green-900" data-fr="Contraste émotionnel" data-en="Emotional contrast">Contraste émotionnel</p>
+                                    <p class="text-green-700" data-fr="Les couleurs chaudes (rouge, orange) augmentent l'urgence d'achat de 23%." data-en="Warm colors (red, orange) increase purchase urgency by 23%.">Les couleurs chaudes (rouge, orange) augmentent l'urgence d'achat de 23%.</p>
+                                </div>
+                                <div class="bg-purple-50 p-3 rounded">
+                                    <p class="font-medium text-purple-900" data-fr="Genre-spécifique" data-en="Genre-specific">Genre-spécifique</p>
+                                    <p class="text-purple-700" data-fr="Respectez les codes visuels de votre genre pour ne pas tromper l'acheteur." data-en="Respect the visual codes of your genre to not mislead the buyer.">Respectez les codes visuels de votre genre pour ne pas tromper l'acheteur.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-900 mb-3" data-fr="📈 Optimisation Amazon" data-en="📈 Amazon optimization">📈 Optimisation Amazon</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="bg-yellow-50 p-3 rounded">
+                                    <p class="font-medium text-yellow-900" data-fr="Algorithme A9" data-en="A9 Algorithm">Algorithme A9</p>
+                                    <p class="text-yellow-700" data-fr="Amazon favorise les couvertures avec un taux de clic élevé. Testez 2-3 versions." data-en="Amazon favors covers with high click rates. Test 2-3 versions.">Amazon favorise les couvertures avec un taux de clic élevé. Testez 2-3 versions.</p>
+                                </div>
+                                <div class="bg-red-50 p-3 rounded">
+                                    <p class="font-medium text-red-900" data-fr="Mobile-first" data-en="Mobile-first">Mobile-first</p>
+                                    <p class="text-red-700" data-fr="78% des achats se font sur mobile. Votre titre doit être lisible sur un écran de 5 pouces." data-en="78% of purchases are made on mobile. Your title must be readable on a 5-inch screen.">78% des achats se font sur mobile. Votre titre doit être lisible sur un écran de 5 pouces.</p>
+                                </div>
+                                <div class="bg-indigo-50 p-3 rounded">
+                                    <p class="font-medium text-indigo-900" data-fr="Série cohérente" data-en="Consistent series">Série cohérente</p>
+                                    <p class="text-indigo-700" data-fr="Si vous planifiez une série, gardez une identité visuelle cohérente." data-en="If you plan a series, maintain consistent visual identity.">Si vous planifiez une série, gardez une identité visuelle cohérente.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-4 mt-6">
+                        <h4 class="font-semibold text-gray-900 mb-3" data-fr="🚫 Erreurs à éviter absolument" data-en="🚫 Errors to absolutely avoid">🚫 Erreurs à éviter absolument</h4>
+                        <div class="grid md:grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="font-medium text-red-900 mb-2" data-fr="❌ Technique" data-en="❌ Technical">❌ Technique</p>
+                                <ul class="space-y-1 text-red-700">
+                                    <li data-fr="• Résolution < 300 DPI" data-en="• Resolution < 300 DPI">• Résolution < 300 DPI</li>
+                                    <li data-fr="• Mauvaises dimensions" data-en="• Wrong dimensions">• Mauvaises dimensions</li>
+                                    <li data-fr="• Texte pixellisé" data-en="• Pixelated text">• Texte pixellisé</li>
+                                    <li data-fr="• Couleurs RVB" data-en="• RGB colors">• Couleurs RVB</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-medium text-red-900 mb-2" data-fr="❌ Design" data-en="❌ Design">❌ Design</p>
+                                <ul class="space-y-1 text-red-700">
+                                    <li data-fr="• Titre illisible" data-en="• Unreadable title">• Titre illisible</li>
+                                    <li data-fr="• Trop d'éléments" data-en="• Too many elements">• Trop d'éléments</li>
+                                    <li data-fr="• Couleurs criardes" data-en="• Garish colors">• Couleurs criardes</li>
+                                    <li data-fr="• Police fantaisie" data-en="• Fantasy font">• Police fantaisie</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <p class="font-medium text-red-900 mb-2" data-fr="❌ Marketing" data-en="❌ Marketing">❌ Marketing</p>
+                                <ul class="space-y-1 text-red-700">
+                                    <li data-fr="• Genre mal ciblé" data-en="• Poorly targeted genre">• Genre mal ciblé</li>
+                                    <li data-fr="• Copie des bestsellers" data-en="• Copying bestsellers">• Copie des bestsellers</li>
+                                    <li data-fr="• Titre trop long" data-en="• Title too long">• Titre trop long</li>
+                                    <li data-fr="• Promesses exagérées" data-en="• Exaggerated promises">• Promesses exagérées</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Guide -->
+        <section id="faq-guide" class="mb-12">
+            <div class="step-card">
+                <div class="step-header">
+                    <div class="step-number">❓</div>
+                    <div>
+                        <h2 class="text-2xl font-bold" data-fr="Questions fréquentes" data-en="Frequently Asked Questions">Questions fréquentes</h2>
+                        <p data-fr="Réponses aux questions les plus courantes" data-en="Answers to the most common questions">Réponses aux questions les plus courantes</p>
+                    </div>
+                </div>
+                <div class="step-content">
+                    <div class

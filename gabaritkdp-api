@@ -1,0 +1,155 @@
+# 🚀 Script d'installation et configuration GabaritKDP API
+
+#!/bin/bash
+
+echo "🔧 Configuration initiale du projet GabaritKDP API"
+
+# 1. Structure du projet
+echo "📁 Création de la structure..."
+mkdir -p {src/{routes,middleware,services,models,config,tests},scripts,docs}
+
+# Structure finale :
+# src/
+#   ├── routes/           # Endpoints API
+#   ├── middleware/       # Validation, auth, rate limiting
+#   ├── services/         # Logique métier
+#   ├── models/           # Modèles de données
+#   ├── config/           # Configuration
+#   └── tests/            # Tests automatisés
+# scripts/              # Scripts utilitaires
+# docs/                 # Documentation
+
+# 2. Installation des dépendances essentielles
+echo "📦 Installation des dépendances..."
+
+# Dépendances principales
+npm install express joi jsonwebtoken redis bull axios sharp helmet cors compression morgan dotenv
+
+# Dépendances de développement
+npm install --save-dev jest supertest nodemon eslint prettier
+
+# 3. Configuration des scripts package.json
+echo "⚙️  Configuration des scripts..."
+
+cat > package.json << 'EOF'
+{
+  "name": "gabaritkdp-api",
+  "version": "1.0.0",
+  "description": "API pour la conversion Canva vers KDP",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:integration": "jest --testPathPattern=integration",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
+    "format": "prettier --write src/"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "src/**/*.js",
+      "!src/tests/**",
+      "!src/config/**"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
+  },
+  "author": "Plume Nova Éditions",
+  "license": "MIT"
+}
+EOF
+
+# 4. Configuration de l'environnement
+echo "🔐 Configuration des variables d'environnement..."
+
+cat > .env.example << 'EOF'
+# Configuration serveur
+NODE_ENV=development
+PORT=3000
+
+# Sécurité
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+
+# Canva API
+CANVA_CLIENT_ID=your-canva-client-id
+CANVA_CLIENT_SECRET=your-canva-client-secret
+CANVA_REDIRECT_URI=http://localhost:3000/auth/canva/callback
+
+# Redis (pour rate limiting et jobs)
+REDIS_URL=redis://localhost:6379
+
+# Base de données (optionnel)
+DB_CONNECTION_STRING=your-database-url
+
+# Logs et monitoring
+LOG_LEVEL=info
+ENABLE_METRICS=true
+EOF
+
+cp .env.example .env
+
+# 5. Configuration ESLint et Prettier
+echo "📝 Configuration du code style..."
+
+cat > .eslintrc.js << 'EOF'
+module.exports = {
+  env: {
+    node: true,
+    es2021: true,
+    jest: true
+  },
+  extends: ['eslint:recommended'],
+  parserOptions: {
+    ecmaVersion: 12
+  },
+  rules: {
+    'no-console': 'warn',
+    'no-unused-vars': 'error',
+    'prefer-const': 'error'
+  }
+};
+EOF
+
+cat > .prettierrc << 'EOF'
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 100,
+  "tabWidth": 2
+}
+EOF
+
+# 6. Gitignore
+cat > .gitignore << 'EOF'
+node_modules/
+.env
+.env.local
+.env.production
+npm-debug.log*
+coverage/
+dist/
+build/
+*.log
+.DS_Store
+.vscode/
+.idea/
+EOF
+
+echo "✅ Configuration initiale terminée!"
+echo ""
+echo "📋 Prochaines étapes :"
+echo "1. Copiez les fichiers de code (middleware, services, routes)"
+echo "2. Configurez vos variables .env"
+echo "3. Lancez 'npm run dev' pour démarrer"
+echo "4. Testez avec 'npm test'"

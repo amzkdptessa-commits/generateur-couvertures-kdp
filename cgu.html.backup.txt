@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Conditions Générales d'Utilisation - GabaritKDP" data-en="Terms of Service - GabaritKDP">Conditions Générales d'Utilisation - GabaritKDP</title>
+    <meta name="description" data-fr="Conditions d'utilisation du service GabaritKDP. Droits et obligations des utilisateurs, modalités d'utilisation de l'outil de mise aux dimensions KDP." data-en="Terms of use of the GabaritKDP service. User rights and obligations, terms of use of the KDP sizing tool." content="Conditions d'utilisation du service GabaritKDP. Droits et obligations des utilisateurs, modalités d'utilisation de l'outil de mise aux dimensions KDP.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MYG5JJM8EC');
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .header-nav {
+            background: #232F3E;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .logo-nav img {
+            height: 35px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .logo-nav span {
+            font-size: 1.3rem;
+            color: #FF9900;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:hover {
+            color: #FF9900;
+        }
+        
+        .nav-links a.active {
+            color: #FF9900;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+        
+        .lang-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: #f3f4f6;
+        }
+        
+        .cgu-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .cgu-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .cgu-header {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .cgu-body {
+            padding: 3rem;
+        }
+        
+        .cgu-nav {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .cgu-nav h3 {
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .cgu-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            gap: 0.5rem;
+        }
+        
+        .cgu-nav a {
+            color: #4b5563;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            display: block;
+            padding: 0.25rem 0;
+        }
+        
+        .cgu-nav a:hover {
+            color: #FF9900;
+        }
+        
+        .cgu-section {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .cgu-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+        
+        .cgu-section h2 {
+            color: #1f2937;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .cgu-section h3 {
+            color: #374151;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .cgu-section h4 {
+            color: #4b5563;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+        }
+        
+        .cgu-section p {
+            color: #4b5563;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        
+        .cgu-section ul, .cgu-section ol {
+            color: #4b5563;
+            line-height: 1.7;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cgu-section li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .important-box {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #f59e0b;
+        }
+        
+        .important-box h4 {
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .important-box p {
+            color: #92400e;
+            margin: 0;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #3b82f6;
+        }
+        
+        .info-box h4 {
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p {
+            color: #1e40af;
+            margin: 0;
+        }
+        
+        .warning-box {
+            background: #fee2e2;
+            border: 1px solid #ef4444;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid #ef4444;
+        }
+        
+        .warning-box h4 {
+            color: #dc2626;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .warning-box p {
+            color: #dc2626;
+            margin: 0;
+        }
+        
+        .pricing-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .pricing-table th {
+            background: #FF9900;
+            color: white;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+        
+        .pricing-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .pricing-table tr:hover {
+            background: #f9fafb;
+        }
+        
+        .contact-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            text-align: center;
+        }
+        
+        .contact-section h4 {
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info {
+            color: #4b5563;
+        }
+        
+        .update-notice {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+        
+        .update-notice p {
+            color: #1e40af;
+            margin: 0;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 80px;
+                right: 10px;
+                padding: 3px;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .nav-links {
+                gap: 20px;
+            }
+            .cgu-body {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇺🇸 EN</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo-nav">
+                <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
+                <a href="generator.html" data-fr="Générateur" data-en="Generator">Générateur</a>
+                <a href="fonctionnalites.html" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a>
+                <a href="index.html#tarifs" data-fr="Tarifs" data-en="Pricing">Tarifs</a>
+                <a href="inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Inscription</a>
+                <a href="connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Connexion</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="cgu-hero py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Conditions Générales d'Utilisation" data-en="Terms of Service">
+                Conditions Générales <span style="color: #FF9900;">d'Utilisation</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8" data-fr="Droits et obligations liés à l'utilisation de GabaritKDP" data-en="Rights and obligations related to the use of GabaritKDP">
+                Droits et obligations liés à l'utilisation de GabaritKDP
+            </p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="cgu-content">
+                <div class="cgu-header">
+                    <i class="fas fa-file-contract text-4xl mb-4"></i>
+                    <h2 class="text-2xl font-bold" data-fr="Conditions Générales d'Utilisation du service GabaritKDP" data-en="Terms of Service for the GabaritKDP service">Conditions Générales d'Utilisation du service GabaritKDP</h2>
+                    <p data-fr="En vigueur depuis le 27 juin 2025" data-en="Effective since June 27, 2025">En vigueur depuis le 27 juin 2025</p>
+                </div>
+                
+                <div class="cgu-body">
+                    <div class="update-notice">
+                        <p data-fr="📋 Version 1.0 - Conforme au droit français et au RGPD" data-en="📋 Version 1.0 - Compliant with French law and GDPR">📋 Version 1.0 - Conforme au droit français et au RGPD</p>
+                    </div>
+
+                    <!-- Table des matières -->
+                    <div class="cgu-nav">
+                        <h3 data-fr="📋 Sommaire" data-en="📋 Summary">📋 Sommaire</h3>
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <ul>
+                                <li><a href="#article1" data-fr="1. Objet et champ d'application" data-en="1. Purpose and scope">1. Objet et champ d'application</a></li>
+                                <li><a href="#article2" data-fr="2. Acceptation des CGU" data-en="2. Acceptance of Terms">2. Acceptation des CGU</a></li>
+                                <li><a href="#article3" data-fr="3. Description du service" data-en="3. Service description">3. Description du service</a></li>
+                                <li><a href="#article4" data-fr="4. Conditions d'accès" data-en="4. Access conditions">4. Conditions d'accès</a></li>
+                                <li><a href="#article5" data-fr="5. Inscription et compte utilisateur" data-en="5. Registration and user account">5. Inscription et compte utilisateur</a></li>
+                                <li><a href="#article6" data-fr="6. Tarifs et modalités de paiement" data-en="6. Pricing and payment terms">6. Tarifs et modalités de paiement</a></li>
+                                <li><a href="#article7" data-fr="7. Utilisation du service" data-en="7. Use of service">7. Utilisation du service</a></li>
+                                <li><a href="#article8" data-fr="8. Propriété intellectuelle" data-en="8. Intellectual property">8. Propriété intellectuelle</a></li>
+                            </ul>
+                            <ul>
+                                <li><a href="#article9" data-fr="9. Obligations de l'utilisateur" data-en="9. User obligations">9. Obligations de l'utilisateur</a></li>
+                                <li><a href="#article10" data-fr="10. Responsabilités et garanties" data-en="10. Responsibilities and warranties">10. Responsabilités et garanties</a></li>
+                                <li><a href="#article11" data-fr="11. Protection des données" data-en="11. Data protection">11. Protection des données</a></li>
+                                <li><a href="#article12" data-fr="12. Durée et résiliation" data-en="12. Duration and termination">12. Durée et résiliation</a></li>
+                                <li><a href="#article13" data-fr="13. Droit de rétractation" data-en="13. Right of withdrawal">13. Droit de rétractation</a></li>
+                                <li><a href="#article14" data-fr="14. Litiges et réclamations" data-en="14. Disputes and complaints">14. Litiges et réclamations</a></li>
+                                <li><a href="#article15" data-fr="15. Modification des CGU" data-en="15. CGU modifications">15. Modification des CGU</a></li>
+                                <li><a href="#article16" data-fr="16. Dispositions générales" data-en="16. General provisions">16. Dispositions générales</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Article 1 -->
+                    <div id="article1" class="cgu-section">
+                        <h2 data-fr="📖 Article 1 - Objet et champ d'application" data-en="📖 Article 1 - Purpose and scope">📖 Article 1 - Objet et champ d'application</h2>
+                        <p data-fr="Les présentes Conditions Générales d'Utilisation (CGU) ont pour objet de définir les modalités et conditions d'utilisation du service GabaritKDP, accessible à l'adresse www.gabaritKDP.com." data-en="These Terms of Service (ToS) aim to define the terms and conditions of use of the GabaritKDP service, accessible at www.gabaritKDP.com.">Les présentes Conditions Générales d'Utilisation (CGU) ont pour objet de définir les modalités et conditions d'utilisation du service GabaritKDP, accessible à l'adresse www.gabaritKDP.com.</p>
+                        
+                        <p data-fr="Le service GabaritKDP est un outil de mise aux dimensions en ligne pour couvertures de livres Amazon Kindle Direct Publishing (KDP), proposé par [Nom de l'entreprise à compléter]." data-en="The GabaritKDP service is an online sizing tool for Amazon Kindle Direct Publishing (KDP) book covers, offered by [Company name to be completed].">Le service GabaritKDP est un outil de mise aux dimensions en ligne pour couvertures de livres Amazon Kindle Direct Publishing (KDP), proposé par [Nom de l'entreprise à compléter].</p>
+                        
+                        <div class="important-box">
+                            <h4 data-fr="⚠️ Important" data-en="⚠️ Important">⚠️ Important</h4>
+                            <p data-fr="L'utilisation du service implique l'acceptation pleine et entière des présentes CGU. Si vous n'acceptez pas ces conditions, vous ne devez pas utiliser le service." data-en="Use of the service implies full acceptance of these Terms of Service. If you do not accept these conditions, you must not use the service.">L'utilisation du service implique l'acceptation pleine et entière des présentes CGU. Si vous n'acceptez pas ces conditions, vous ne devez pas utiliser le service.</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 2 -->
+                    <div id="article2" class="cgu-section">
+                        <h2 data-fr="✅ Article 2 - Acceptation des CGU" data-en="✅ Article 2 - Acceptance of Terms">✅ Article 2 - Acceptation des CGU</h2>
+                        <p data-fr="L'acceptation des présentes CGU est matérialisée par :" data-en="Acceptance of these Terms of Service is materialized by:">L'acceptation des présentes CGU est matérialisée par :</p>
+                        <ul>
+                            <li data-fr="La case à cocher lors de l'inscription au service" data-en="The checkbox during service registration">La case à cocher lors de l'inscription au service</li>
+                            <li data-fr="L'utilisation effective du service après inscription" data-en="Actual use of the service after registration">L'utilisation effective du service après inscription</li>
+                            <li data-fr="Le paiement d'une prestation (export de couverture ou abonnement)" data-en="Payment for a service (cover export or subscription)">Le paiement d'une prestation (export de couverture ou abonnement)</li>
+                        </ul>
+                        
+                        <p data-fr="L'utilisateur doit lire attentivement ces conditions avant de les accepter. Il est recommandé de sauvegarder ou d'imprimer une copie de ces CGU." data-en="The user must carefully read these conditions before accepting them. It is recommended to save or print a copy of these Terms of Service.">L'utilisateur doit lire attentivement ces conditions avant de les accepter. Il est recommandé de sauvegarder ou d'imprimer une copie de ces CGU.</p>
+                    </div>
+
+                    <!-- Article 3 -->
+                    <div id="article3" class="cgu-section">
+                        <h2 data-fr="🎨 Article 3 - Description du service" data-en="🎨 Article 3 - Service description">🎨 Article 3 - Description du service</h2>
+                        <h3 data-fr="Fonctionnalités principales" data-en="Main features">Fonctionnalités principales</h3>
+                        <p data-fr="GabaritKDP propose les services suivants :" data-en="GabaritKDP offers the following services:">GabaritKDP propose les services suivants :</p>
+                        <ul>
+                            <li data-fr="Outil de mise aux dimensions KDP aux formats officiels Amazon" data-en="KDP sizing tool for official Amazon formats">Outil de mise aux dimensions KDP aux formats officiels Amazon</li>
+                            <li data-fr="Bibliothèque de templates prêts à personnaliser" data-en="Library of templates ready to customize">Bibliothèque de templates prêts à personnaliser</li>
+                            <li data-fr="Outils de personnalisation (textes, couleurs, images)" data-en="Customization tools (texts, colors, images)">Outils de personnalisation (textes, couleurs, images)</li>
+                            <li data-fr="Export en format PDF haute résolution (300 DPI)" data-en="Export in high resolution PDF format (300 DPI)">Export en format PDF haute résolution (300 DPI)</li>
+                            <li data-fr="Sauvegarde des projets utilisateur" data-en="User project backup">Sauvegarde des projets utilisateur</li>
+                            <li data-fr="Support technique et assistance" data-en="Technical support and assistance">Support technique et assistance</li>
+                        </ul>
+                        
+                        <h3 data-fr="Modalités d'utilisation" data-en="Terms of use">Modalités d'utilisation</h3>
+                        <p data-fr="Le service est accessible 24h/24 et 7j/7, sous réserve des opérations de maintenance programmées ou d'urgence." data-en="The service is accessible 24/7, subject to scheduled or emergency maintenance operations.">Le service est accessible 24h/24 et 7j/7, sous réserve des opérations de maintenance programmées ou d'urgence.</p>
+                        
+                        <div class="info-box">
+                            <h4 data-fr="ℹ️ Information" data-en="ℹ️ Information">ℹ️ Information</h4>
+                            <p data-fr="GabaritKDP ne stocke pas les informations de paiement. Tous les paiements sont traités de manière sécurisée par notre partenaire Stripe." data-en="GabaritKDP does not store payment information. All payments are processed securely by our partner Stripe.">GabaritKDP ne stocke pas les informations de paiement. Tous les paiements sont traités de manière sécurisée par notre partenaire Stripe.</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 4 -->
+                    <div id="article4" class="cgu-section">
+                        <h2 data-fr="🔑 Article 4 - Conditions d'accès" data-en="🔑 Article 4 - Access conditions">🔑 Article 4 - Conditions d'accès</h2>
+                        <h3 data-fr="Conditions techniques" data-en="Technical conditions">Conditions techniques</h3>
+                        <p data-fr="Pour accéder au service, l'utilisateur doit disposer :" data-en="To access the service, the user must have:">Pour accéder au service, l'utilisateur doit disposer :</p>
+                        <ul>
+                            <li data-fr="D'un ordinateur, tablette ou smartphone avec connexion Internet" data-en="A computer, tablet or smartphone with Internet connection">D'un ordinateur, tablette ou smartphone avec connexion Internet</li>
+                            <li data-fr="D'un navigateur web récent (Chrome, Firefox, Safari, Edge)" data-en="A recent web browser (Chrome, Firefox, Safari, Edge)">D'un navigateur web récent (Chrome, Firefox, Safari, Edge)</li>
+                            <li data-fr="D'une adresse email valide pour l'inscription" data-en="A valid email address for registration">D'une adresse email valide pour l'inscription</li>
+                        </ul>
+                        
+                        <h3 data-fr="Conditions légales" data-en="Legal conditions">Conditions légales</h3>
+                        <ul>
+                            <li data-fr="Être âgé de 18 ans minimum ou disposer de l'autorisation parentale" data-en="Be at least 18 years old or have parental authorization">Être âgé de 18 ans minimum ou disposer de l'autorisation parentale</li>
+                            <li data-fr="Accepter les présentes CGU et la politique de confidentialité" data-en="Accept these Terms of Service and privacy policy">Accepter les présentes CGU et la politique de confidentialité</li>
+                            <li data-fr="Fournir des informations exactes lors de l'inscription" data-en="Provide accurate information during registration">Fournir des informations exactes lors de l'inscription</li>
+                        </ul>
+                    </div>
+
+                    <!-- Article 5 -->
+                    <div id="article5" class="cgu-section">
+                        <h2 data-fr="👤 Article 5 - Inscription et compte utilisateur" data-en="👤 Article 5 - Registration and user account">👤 Article 5 - Inscription et compte utilisateur</h2>
+                        <h3 data-fr="Processus d'inscription" data-en="Registration process">Processus d'inscription</h3>
+                        <p data-fr="L'inscription nécessite de fournir les informations suivantes :" data-en="Registration requires providing the following information:">L'inscription nécessite de fournir les informations suivantes :</p>
+                        <ul>
+                            <li data-fr="Adresse email (qui servira d'identifiant)" data-en="Email address (which will serve as identifier)">Adresse email (qui servira d'identifiant)</li>
+                            <li data-fr="Prénom et nom" data-en="First name and last name">Prénom et nom</li>
+                            <li data-fr="Mot de passe sécurisé" data-en="Secure password">Mot de passe sécurisé</li>
+                            <li data-fr="Acceptation des CGU et de la politique de confidentialité" data-en="Acceptance of Terms of Service and privacy policy">Acceptation des CGU et de la politique de confidentialité</li>
+                        </ul>
+                        
+                        <h3 data-fr="Gestion du compte" data-en="Account management">Gestion du compte</h3>
+                        <p data-fr="L'utilisateur s'engage à :" data-en="The user undertakes to:">L'utilisateur s'engage à :</p>
+                        <ul>
+                            <li data-fr="Maintenir la confidentialité de ses identifiants de connexion" data-en="Maintain the confidentiality of their login credentials">Maintenir la confidentialité de ses identifiants de connexion</li>
+                            <li data-fr="Informer immédiatement GabaritKDP de toute utilisation non autorisée" data-en="Immediately inform GabaritKDP of any unauthorized use">Informer immédiatement GabaritKDP de toute utilisation non autorisée</li>
+                            <li data-fr="Mettre à jour ses informations personnelles si nécessaire" data-en="Update their personal information if necessary">Mettre à jour ses informations personnelles si nécessaire</li>
+                            <li data-fr="Ne créer qu'un seul compte par personne" data-en="Create only one account per person">Ne créer qu'un seul compte par personne</li>
+                        </ul>
+                        
+                        <div class="warning-box">
+                            <h4 data-fr="⚠️ Avertissement" data-en="⚠️ Warning">⚠️ Avertissement</h4>
+                            <p data-fr="L'utilisateur est responsable de toutes les activités effectuées depuis son compte. La création de comptes multiples ou l'utilisation de fausses informations peut entraîner la suspension du service." data-en="The user is responsible for all activities performed from their account. Creating multiple accounts or using false information may result in service suspension.">L'utilisateur est responsable de toutes les activités effectuées depuis son compte. La création de comptes multiples ou l'utilisation de fausses informations peut entraîner la suspension du service.</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 6 CORRIGÉ -->
+                    <div id="article6" class="cgu-section">
+                        <h2 data-fr="💰 Article 6 - Tarifs et modalités de paiement" data-en="💰 Article 6 - Pricing and payment terms">💰 Article 6 - Tarifs et modalités de paiement</h2>
+                        <h3 data-fr="Structure tarifaire" data-en="Pricing structure">Structure tarifaire</h3>
+                        <p data-fr="GabaritKDP propose un modèle hybride :" data-en="GabaritKDP offers a hybrid model:">GabaritKDP propose un modèle hybride :</p>
+                        
+                        <table class="pricing-table">
+                            <thead>
+                                <tr>
+                                    <th data-fr="Offre" data-en="Offer">Offre</th>
+                                    <th data-fr="Prix" data-en="Price">Prix</th>
+                                    <th data-fr="Description" data-en="Description">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong data-fr="Export unique" data-en="Single export">Export unique</strong></td>
+                                    <td>$6.99</td>
+                                    <td data-fr="Export PDF d'une couverture" data-en="PDF export of one cover">Export PDF d'une couverture</td>
+                                </tr>
+                                <tr>
+                                    <td><strong data-fr="Pack Économique" data-en="Credit Pack">Pack Économique</strong></td>
+                                    <td>$49.99</td>
+                                    <td data-fr="12 exports utilisables à vie" data-en="12 exports usable for life">12 exports utilisables à vie</td>
+                                </tr>
+                                <tr>
+                                    <td><strong data-fr="Plan Pro" data-en="Pro Plan">Plan Pro</strong></td>
+                                    <td>$35/mois</td>
+                                    <td data-fr="Exports illimités + fonctionnalités avancées" data-en="Unlimited exports + advanced features">Exports illimités + fonctionnalités avancées</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <h3 data-fr="Modalités de paiement" data-en="Payment terms">Modalités de paiement</h3>
+                        <ul>
+                            <li data-fr="Paiement par carte bancaire via Stripe (sécurisé)" data-en="Payment by credit card via Stripe (secure)">Paiement par carte bancaire via Stripe (sécurisé)</li>
+                            <li data-fr="Facturation immédiate pour les exports uniques" data-en="Immediate billing for single exports">Facturation immédiate pour les exports uniques</li>
+                            <li data-fr="Facturation mensuelle pour l'abonnement Pro" data-en="Monthly billing for Pro subscription">Facturation mensuelle pour l'abonnement Pro</li>
+                            <li data-fr="Facture envoyée automatiquement par email" data-en="Invoice automatically sent by email">Facture envoyée automatiquement par email</li>
+                        </ul>
+                        
+                        <h3 data-fr="TVA et fiscalité" data-en="VAT and taxation">TVA et fiscalité</h3>
+                        <p data-fr="Les prix affichés sont en USD. La TVA française peut s'appliquer pour les clients européens selon la réglementation applicable." data-en="Displayed prices are in USD. French VAT may apply for European customers according to applicable regulations.">Les prix affichés sont en USD. La TVA française peut s'appliquer pour les clients européens selon la réglementation applicable.</p>
+                    </div>
+
+                    <!-- Article 7 -->
+                    <div id="article7" class="cgu-section">
+                        <h2 data-fr="🎯 Article 7 - Utilisation du service" data-en="🎯 Article 7 - Use of service">🎯 Article 7 - Utilisation du service</h2>
+                        <h3 data-fr="Utilisations autorisées" data-en="Authorized uses">Utilisations autorisées</h3>
+                        <ul>
+                            <li data-fr="Redimensionnement de couvertures pour vos publications personnelles Amazon KDP" data-en="Resizing covers for your personal Amazon KDP publications">Redimensionnement de couvertures pour vos publications personnelles Amazon KDP</li>
+                            <li data-fr="Utilisation commerciale des couvertures redimensionnées" data-en="Commercial use of resized covers">Utilisation commerciale des couvertures redimensionnées</li>
+                            <li data-fr="Modification et personnalisation des templates proposés" data-en="Modification and customization of offered templates">Modification et personnalisation des templates proposés</li>
+                            <li data-fr="Création de plusieurs versions d'une même couverture" data-en="Creating multiple versions of the same cover">Création de plusieurs versions d'une même couverture</li>
+                        </ul>
+                        
+                        <h3 data-fr="Utilisations interdites" data-en="Prohibited uses">Utilisations interdites</h3>
+                        <ul>
+                            <li data-fr="Revente ou redistribution des templates GabaritKDP" data-en="Resale or redistribution of GabaritKDP templates">Revente ou redistribution des templates GabaritKDP</li>
+                            <li data-fr="Création de contenu illégal, diffamatoire ou offensant" data-en="Creation of illegal, defamatory or offensive content">Création de contenu illégal, diffamatoire ou offensant</li>
+                            <li data-fr="Utilisation d'images protégées par des droits d'auteur sans autorisation" data-en="Use of copyright-protected images without authorization">Utilisation d'images protégées par des droits d'auteur sans autorisation</li>
+                            <li data-fr="Tentative de contournement des limites techniques ou tarifaires" data-en="Attempt to bypass technical or pricing limits">Tentative de contournement des limites techniques ou tarifaires</li>
+                            <li data-fr="Partage des identifiants de compte avec des tiers" data-en="Sharing account credentials with third parties">Partage des identifiants de compte avec des tiers</li>
+                        </ul>
+                        
+                        <div class="important-box">
+                            <h4 data-fr="📚 Spécifique Amazon KDP" data-en="📚 Amazon KDP Specific">📚 Spécifique Amazon KDP</h4>
+                            <p data-fr="L'utilisateur s'engage à respecter les guidelines d'Amazon KDP concernant le contenu des couvertures. GabaritKDP ne peut être tenu responsable du refus d'une couverture par Amazon pour non-conformité au contenu." data-en="The user undertakes to comply with Amazon KDP guidelines regarding cover content. GabaritKDP cannot be held responsible for Amazon's rejection of a cover for content non-compliance.">L'utilisateur s'engage à respecter les guidelines d'Amazon KDP concernant le contenu des couvertures. GabaritKDP ne peut être tenu responsable du refus d'une couverture par Amazon pour non-conformité au contenu.</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 8 -->
+                    <div id="article8" class="cgu-section">
+                        <h2 data-fr="©️ Article 8 - Propriété intellectuelle" data-en="©️ Article 8 - Intellectual property">©️ Article 8 - Propriété intellectuelle</h2>
+                        <h3 data-fr="Propriété de GabaritKDP" data-en="GabaritKDP property">Propriété de GabaritKDP</h3>
+                        <p data-fr="Sont la propriété exclusive de GabaritKDP :" data-en="Are the exclusive property of GabaritKDP:">Sont la propriété exclusive de GabaritKDP :</p>
+                        <ul>
+                            <li data-fr="Le logiciel et la plateforme de mise aux dimensions" data-en="The software and sizing platform">Le logiciel et la plateforme de mise aux dimensions</li>
+                            <li data-fr="Les templates et designs proposés" data-en="The templates and designs offered">Les templates et designs proposés</li>
+                            <li data-fr="La base de données d'éléments graphiques" data-en="The graphic elements database">La base de données d'éléments graphiques</li>
+                            <li data-fr="Les marques, logos et éléments d'identité visuelle" data-en="Trademarks, logos and visual identity elements">Les marques, logos et éléments d'identité visuelle</li>
+                        </ul>
+                        
+                        <h3 data-fr="Propriété de l'utilisateur" data-en="User property">Propriété de l'utilisateur</h3>
+                        <p data-fr="L'utilisateur est propriétaire des couvertures qu'il redimensionne et peut les utiliser librement pour ses publications. Cependant, il ne peut pas :" data-en="The user owns the covers they resize and can use them freely for their publications. However, they cannot:">L'utilisateur est propriétaire des couvertures qu'il redimensionne et peut les utiliser librement pour ses publications. Cependant, il ne peut pas :</p>
+                        <ul>
+                            <li data-fr="Revendiquer la propriété des templates utilisés" data-en="Claim ownership of the templates used">Revendiquer la propriété des templates utilisés</li>
+                            <li data-fr="Proposer les templates à la revente" data-en="Offer templates for resale">Proposer les templates à la revente</li>
+                            <li data-fr="Créer un service concurrent en utilisant nos ressources" data-en="Create a competing service using our resources">Créer un service concurrent en utilisant nos ressources</li>
+                        </ul>
+                        
+                        <h3 data-fr="Licence d'utilisation" data-en="Usage license">Licence d'utilisation</h3>
+                        <p data-fr="GabaritKDP accorde à l'utilisateur une licence non-exclusive, non-transférable et révocable d'utilisation des templates pour la mise aux dimensions de ses couvertures personnelles." data-en="GabaritKDP grants the user a non-exclusive, non-transferable and revocable license to use templates for sizing their personal covers.">GabaritKDP accorde à l'utilisateur une licence non-exclusive, non-transférable et révocable d'utilisation des templates pour la mise aux dimensions de ses couvertures personnelles.</p>
+                    </div>
+
+                    <!-- Article 9 -->
+                    <div id="article9" class="cgu-section">
+                        <h2 data-fr="📋 Article 9 - Obligations de l'utilisateur" data-en="📋 Article 9 - User obligations">📋 Article 9 - Obligations de l'utilisateur</h2>
+                        <h3 data-fr="Obligations générales" data-en="General obligations">Obligations générales</h3>
+                        <ul>
+                            <li data-fr="Utiliser le service conformément aux présentes CGU" data-en="Use the service in accordance with these Terms of Service">Utiliser le service conformément aux présentes CGU</li>
+                            <li data-fr="Respecter la législation en vigueur" data-en="Comply with current legislation">Respecter la législation en vigueur</li>
+                            <li data-fr="Ne pas porter atteinte aux droits de tiers" data-en="Not infringe on third party rights">Ne pas porter atteinte aux droits de tiers</li>
+                            <li data-fr="Maintenir la sécurité de son compte" data-en="Maintain account security">Maintenir la sécurité de son compte</li>
+                        </ul>
+                        
+                        <h3 data-fr="Obligations spécifiques au contenu" data-en="Content-specific obligations">Obligations spécifiques au contenu</h3>
+                        <ul>
+                            <li data-fr="S'assurer de disposer des droits sur les textes et images utilisés" data-en="Ensure they have rights to the texts and images used">S'assurer de disposer des droits sur les textes et images utilisés</li>
+                            <li data-fr="Ne pas créer de contenu contraire aux bonnes mœurs" data-en="Not create content contrary to good morals">Ne pas créer de contenu contraire aux bonnes mœurs</li>
+                            <li data-fr="Respecter les guidelines Amazon KDP" data-en="Comply with Amazon KDP guidelines">Respecter les guidelines Amazon KDP</li>
+                            <li data-fr="Ne pas usurper l'identité d'autrui" data-en="Not impersonate others">Ne pas usurper l'identité d'autrui</li>
+                        </ul>
+                        
+                        <div class="warning-box">
+                            <h4 data-fr="⚠️ Sanctions" data-en="⚠️ Sanctions">⚠️ Sanctions</h4>
+                            <p data-fr="Le non-respect de ces obligations peut entraîner la suspension temporaire ou définitive du compte utilisateur, sans préavis ni remboursement." data-en="Failure to comply with these obligations may result in temporary or permanent suspension of the user account, without notice or refund.">Le non-respect de ces obligations peut entraîner la suspension temporaire ou définitive du compte utilisateur, sans préavis ni remboursement.</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 10 -->
+                    <div id="article10" class="cgu-section">
+                        <h2 data-fr="⚖️ Article 10 - Responsabilités et garanties" data-en="⚖️ Article 10 - Responsibilities and warranties">⚖️ Article 10 - Responsabilités et garanties</h2>
+                        <h3 data-fr="Responsabilité de GabaritKDP" data-en="GabaritKDP responsibility">Responsabilité de GabaritKDP</h3>
+                        <p data-fr="GabaritKDP s'engage à :" data-en="GabaritKDP undertakes to:">GabaritKDP s'engage à :</p>
+                        <ul>
+                            <li data-fr="Fournir un service conforme aux spécifications annoncées" data-en="Provide a service in accordance with announced specifications">Fournir un service conforme aux spécifications annoncées</li>
+                            <li data-fr="Assurer la sécurité des données utilisateur" data-en="Ensure user data security">Assurer la sécurité des données utilisateur</li>
+                            <li data-fr="Maintenir une disponibilité de service optimale" data-en="Maintain optimal service availability">Maintenir une disponibilité de service optimale</li>
+                            <li data-fr="Garantir la conformité technique des exports PDF" data-en="Guarantee technical compliance of PDF exports">Garantir la conformité technique des exports PDF</li>
+                        </ul>
+                        
+                        <h3 data-fr="Limitations de responsabilité" data-en="Liability limitations">Limitations de responsabilité</h3>
+                        <p data-fr="GabaritKDP ne peut être tenu responsable :" data-en="GabaritKDP cannot be held responsible:">GabaritKDP ne peut être tenu responsable :</p>
+                        <ul>
+                            <li data-fr="Du contenu créé par l'utilisateur" data-en="Of content created by the user">Du contenu créé par l'utilisateur</li>
+                            <li data-fr="Du refus d'une couverture par Amazon pour des raisons de contenu" data-en="Of Amazon's rejection of a cover for content reasons">Du refus d'une couverture par Amazon pour des raisons de contenu</li>
+                            <li data-fr="Des performances commerciales des livres utilisant nos couvertures" data-en="Of commercial performance of books using our covers">Des performances commerciales des livres utilisant nos couvertures</li>
+                            <li data-fr="Des dommages indirects ou de la perte de profits" data-en="Of indirect damages or loss of profits">Des dommages indirects ou de la perte de profits</li>
+                        </ul>
+                        
+                        <h3 data-fr="Garanties" data-en="Warranties">Garanties</h3>
+                        <div class="info-box">
+                            <h4 data-fr="✅ Garantie technique" data-en="✅ Technical warranty">✅ Garantie technique</h4>
+                            <p data-fr="Nous garantissons que tous les exports PDF respectent les spécifications techniques d'Amazon KDP. En cas de refus technique, nous corrigeons gratuitement sous 24h." data-en="We guarantee that all PDF exports meet Amazon KDP technical specifications. In case of technical rejection, we fix it for free within 24h.">Nous garantissons que tous les exports PDF respectent les spécifications techniques d'Amazon KDP. En cas de refus technique, nous corrigeons gratuitement sous 24h.</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 11 -->
+                    <div id="article11" class="cgu-section">
+                        <h2 data-fr="🔒 Article 11 - Protection des données" data-en="🔒 Article 11 - Data protection">🔒 Article 11 - Protection des données</h2>
+                        <p data-fr="Le traitement des données personnelles est régi par notre politique de confidentialité, accessible à l'adresse :" data-en="Personal data processing is governed by our privacy policy, accessible at:">Le traitement des données personnelles est régi par notre politique de confidentialité, accessible à l'adresse :</p>
+                        <p><a href="confidentialite.html" class="text-blue-600 underline">www.gabaritKDP.com/confidentialite</a></p>
+                        
+                        <h3 data-fr="Principaux engagements" data-en="Main commitments">Principaux engagements</h3>
+                        <ul>
+                            <li data-fr="Conformité au RGPD" data-en="GDPR compliance">Conformité au RGPD</li>
+                            <li data-fr="Minimisation des données collectées" data-en="Minimization of collected data">Minimisation des données collectées</li>
+                            <li data-fr="Sécurisation des données" data-en="Data security">Sécurisation des données</li>
+                            <li data-fr="Respect des droits des utilisateurs" data-en="Respect for user rights">Respect des droits des utilisateurs</li>
+                        </ul>
+                        
+                        <div class="info-box">
+                            <h4 data-fr="📧 Contact DPO" data-en="📧 DPO Contact">📧 Contact DPO</h4>
+                            <p data-fr="Pour toute question relative à vos données personnelles : privacy@gabaritKDP.com" data-en="For any questions regarding your personal data: privacy@gabaritKDP.com">Pour toute question relative à vos données personnelles : privacy@gabaritKDP.com</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 12 -->
+                    <div id="article12" class="cgu-section">
+                        <h2 data-fr="⏰ Article 12 - Durée et résiliation" data-en="⏰ Article 12 - Duration and termination">⏰ Article 12 - Durée et résiliation</h2>
+                        <h3 data-fr="Durée du contrat" data-en="Contract duration">Durée du contrat</h3>
+                        <ul>
+                            <li data-fr="Comptes gratuits : durée indéterminée" data-en="Free accounts: indefinite duration">Comptes gratuits : durée indéterminée</li>
+                            <li data-fr="Abonnements Pro : engagement mensuel renouvelable" data-en="Pro subscriptions: renewable monthly commitment">Abonnements Pro : engagement mensuel renouvelable</li>
+                            <li data-fr="Packs crédits : validité à vie" data-en="Credit packs: lifetime validity">Packs crédits : validité à vie</li>
+                        </ul>
+                        
+                        <h3 data-fr="Résiliation par l'utilisateur" data-en="Termination by user">Résiliation par l'utilisateur</h3>
+                        <p data-fr="L'utilisateur peut :" data-en="The user can:">L'utilisateur peut :</p>
+                        <ul>
+                            <li data-fr="Supprimer son compte à tout moment depuis son tableau de bord" data-en="Delete their account at any time from their dashboard">Supprimer son compte à tout moment depuis son tableau de bord</li>
+                            <li data-fr="Annuler son abonnement avant le prochain renouvellement" data-en="Cancel their subscription before the next renewal">Annuler son abonnement avant le prochain renouvellement</li>
+                            <li data-fr="Demander la suppression de ses données" data-en="Request deletion of their data">Demander la suppression de ses données</li>
+                        </ul>
+                        
+                        <h3 data-fr="Résiliation par GabaritKDP" data-en="Termination by GabaritKDP">Résiliation par GabaritKDP</h3>
+                        <p data-fr="GabaritKDP peut résilier un compte en cas de :" data-en="GabaritKDP may terminate an account in case of:">GabaritKDP peut résilier un compte en cas de :</p>
+                        <ul>
+                            <li data-fr="Non-respect des CGU" data-en="Non-compliance with Terms of Service">Non-respect des CGU</li>
+                            <li data-fr="Utilisation frauduleuse du service" data-en="Fraudulent use of the service">Utilisation frauduleuse du service</li>
+                            <li data-fr="Défaut de paiement" data-en="Payment default">Défaut de paiement</li>
+                        </ul>
+                    </div>
+
+                    <!-- Article 13 -->
+                    <div id="article13" class="cgu-section">
+                        <h2 data-fr="↩️ Article 13 - Droit de rétractation" data-en="↩️ Article 13 - Right of withdrawal">↩️ Article 13 - Droit de rétractation</h2>
+                        <p data-fr="Conformément au Code de la consommation, l'utilisateur dispose d'un délai de 14 jours pour exercer son droit de rétractation, sauf exceptions légales." data-en="In accordance with the Consumer Code, the user has 14 days to exercise their right of withdrawal, except for legal exceptions.">Conformément au Code de la consommation, l'utilisateur dispose d'un délai de 14 jours pour exercer son droit de rétractation, sauf exceptions légales.</p>
+                        
+                        <h3 data-fr="Modalités d'exercice" data-en="Exercise terms">Modalités d'exercice</h3>
+                        <ul>
+                            <li data-fr="Demande par email à : refund@gabaritKDP.com" data-en="Request by email to: refund@gabaritKDP.com">Demande par email à : refund@gabaritKDP.com</li>
+                            <li data-fr="Préciser les éléments d'identification de la commande" data-en="Specify order identification elements">Préciser les éléments d'identification de la commande</li>
+                            <li data-fr="Remboursement sous 14 jours" data-en="Refund within 14 days">Remboursement sous 14 jours</li>
+                        </ul>
+                        
+                        <div class="important-box">
+                            <h4 data-fr="⚠️ Exception" data-en="⚠️ Exception">⚠️ Exception</h4>
+                            <p data-fr="Le droit de rétractation ne s'applique pas aux contenus numériques fournis immédiatement avec l'accord exprès du consommateur (exports PDF déjà téléchargés)." data-en="The right of withdrawal does not apply to digital content provided immediately with the express agreement of the consumer (PDF exports already downloaded).">Le droit de rétractation ne s'applique pas aux contenus numériques fournis immédiatement avec l'accord exprès du consommateur (exports PDF déjà téléchargés).</p>
+                        </div>
+                    </div>
+
+                    <!-- Article 14 -->
+                    <div id="article14" class="cgu-section">
+                        <h2 data-fr="⚖️ Article 14 - Litiges et réclamations" data-en="⚖️ Article 14 - Disputes and complaints">⚖️ Article 14 - Litiges et réclamations</h2>
+                        <h3 data-fr="Règlement amiable" data-en="Amicable settlement">Règlement amiable</h3>
+                        <p data-fr="En cas de litige, nous privilégions la recherche d'une solution amiable. Contactez notre service client :" data-en="In case of dispute, we favor seeking an amicable solution. Contact our customer service:">En cas de litige, nous privilégions la recherche d'une solution amiable. Contactez notre service client :</p>
+                        
+                        <div class="contact-section">
+                            <h4 data-fr="📧 Service réclamations" data-en="📧 Complaints service">📧 Service réclamations</h4>
+                            <div class="contact-info">
+                                <p><strong>Email :</strong> reclamations@gabaritKDP.com</p>
+                                <p><strong data-fr="Délai de réponse :" data-en="Response time:">Délai de réponse :</strong> <span data-fr="48h maximum" data-en="48h maximum">48h maximum</span></p>
+                            </div>
+                        </div>
+                        
+                        <h3 data-fr="Médiation de la consommation" data-en="Consumer mediation">Médiation de la consommation</h3>
+                        <p data-fr="En cas d'échec du règlement amiable, vous pouvez recourir gratuitement à la médiation de la consommation :" data-en="In case of failed amicable settlement, you can resort to free consumer mediation:">En cas d'échec du règlement amiable, vous pouvez recourir gratuitement à la médiation de la consommation :</p>
+                        <ul>
+                            <li data-fr="Médiateur de la consommation compétent : [À définir]" data-en="Competent consumer mediator: [To be defined]">Médiateur de la consommation compétent : [À définir]</li>
+                            <li data-fr="Plateforme européenne : https://ec.europa.eu/consumers/odr/" data-en="European platform: https://ec.europa.eu/consumers/odr/">Plateforme européenne : https://ec.europa.eu/consumers/odr/</li>
+                        </ul>
+                        
+                        <h3 data-fr="Juridiction compétente" data-en="Competent jurisdiction">Juridiction compétente</h3>
+                        <p data-fr="En cas de litige persistant, les tribunaux français seront seuls compétents. Le droit français s'applique." data-en="In case of persistent dispute, French courts will have sole jurisdiction. French law applies.">En cas de litige persistant, les tribunaux français seront seuls compétents. Le droit français s'applique.</p>
+                    </div>
+
+                    <!-- Article 15 -->
+                    <div id="article15" class="cgu-section">
+                        <h2 data-fr="🔄 Article 15 - Modification des CGU" data-en="🔄 Article 15 - CGU modifications">🔄 Article 15 - Modification des CGU</h2>
+                        <p data-fr="GabaritKDP se réserve le droit de modifier les présentes CGU à tout moment. Les modifications prennent effet dès leur publication sur le site." data-en="GabaritKDP reserves the right to modify these Terms of Service at any time. Changes take effect upon publication on the site.">GabaritKDP se réserve le droit de modifier les présentes CGU à tout moment. Les modifications prennent effet dès leur publication sur le site.</p>
+                        
+                        <h3 data-fr="Notification des modifications" data-en="Notification of changes">Notification des modifications</h3>
+                        <ul>
+                            <li data-fr="Information par email pour les modifications majeures" data-en="Email notification for major changes">Information par email pour les modifications majeures</li>
+                            <li data-fr="Bannière d'information sur le site" data-en="Information banner on the site">Bannière d'information sur le site</li>
+                            <li data-fr="Acceptation requise pour continuer à utiliser le service" data-en="Acceptance required to continue using the service">Acceptation requise pour continuer à utiliser le service</li>
+                        </ul>
+                        
+                        <p data-fr="Si vous n'acceptez pas les nouvelles conditions, vous pouvez résilier votre compte selon les modalités prévues à l'article 12." data-en="If you do not accept the new conditions, you can terminate your account according to the terms provided in article 12.">Si vous n'acceptez pas les nouvelles conditions, vous pouvez résilier votre compte selon les modalités prévues à l'article 12.</p>
+                    </div>
+
+                    <!-- Article 16 -->
+                    <div id="article16" class="cgu-section">
+                        <h2 data-fr="📜 Article 16 - Dispositions générales" data-en="📜 Article 16 - General provisions">📜 Article 16 - Dispositions générales</h2>
+                        <h3 data-fr="Intégralité du contrat" data-en="Entire contract">Intégralité du contrat</h3>
+                        <p data-fr="Les présentes CGU, complétées par la politique de confidentialité, constituent l'intégralité des accords entre GabaritKDP et l'utilisateur." data-en="These Terms of Service, supplemented by the privacy policy, constitute the entire agreement between GabaritKDP and the user.">Les présentes CGU, complétées par la politique de confidentialité, constituent l'intégralité des accords entre GabaritKDP et l'utilisateur.</p>
+                        
+                        <h3 data-fr="Nullité partielle" data-en="Partial nullity">Nullité partielle</h3>
+                        <p data-fr="Si une clause des présentes CGU était déclarée nulle ou inapplicable, les autres clauses demeurent en vigueur." data-en="If a clause of these Terms of Service were declared null or inapplicable, the other clauses remain in force.">Si une clause des présentes CGU était déclarée nulle ou inapplicable, les autres clauses demeurent en vigueur.</p>
+                        
+                        <h3 data-fr="Langue" data-en="Language">Langue</h3>
+                        <p data-fr="Les présentes CGU sont rédigées en français. En cas de traduction, seule la version française fait foi." data-en="These Terms of Service are written in French. In case of translation, only the French version is authoritative.">Les présentes CGU sont rédigées en français. En cas de traduction, seule la version française fait foi.</p>
+                        
+                        <div class="update-notice">
+                            <p data-fr="📅 CGU mises à jour le 2 juillet 2025 - Version 1.1" data-en="📅 Terms of Service updated on July 2, 2025 - Version 1.1">📅 CGU mises à jour le 2 juillet 2025 - Version 1.1</p>
+                        </div>
+                    </div>
+
+                    <!-- Contact final -->
+                    <div class="contact-section">
+                        <h4 data-fr="📧 Questions sur les CGU ?" data-en="📧 Questions about Terms of Service?">📧 Questions sur les CGU ?</h4>
+                        <div class="contact-info">
+                            <p data-fr="Pour toute question relative aux présentes conditions :" data-en="For any questions regarding these terms:">Pour toute question relative aux présentes conditions :</p>
+                            <p><strong>Email :</strong> legal@gabaritKDP.com</p>
+                            <p><strong data-fr="Support général :" data-en="General support:">Support général :</strong> contact@gabaritKDP.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières nouveautés KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières nouveautés KDP !</h4>
+                
+                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 1rem; flex-wrap: wrap;">
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #FF0000, #CC0000);" title="YouTube - Tutoriels KDP">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #1877F2, #0866D3);" title="Facebook - Communauté auteurs">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);" title="Instagram - Inspirations couvertures">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #BD081C, #E60023);" title="Pinterest - Designs couvertures">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);" title="TikTok - Tips rapides KDP">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #0A66C2, #004182);" title="LinkedIn - Publishers & Agences">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                
+                <p class="text-center text-sm text-gray-400 mt-4" data-fr="Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">
+                    Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400" data-fr="L'outil de mise aux dimensions KDP 100% conformes Amazon." data-en="The Amazon KDP sizing tool for 100% compliant covers.">L'outil de mise aux dimensions KDP 100% conformes Amazon.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+                    <ul class="space-y-2">
+                        <li><a href="generator.html" class="hover:text-white transition" data-fr="Générateur" data-en="Generator">Générateur</a></li>
+                        <li><a href="index.html#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Support" data-en="Support">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition" data-fr="Contact" data-en="Contact">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide d'utilisation" data-en="User Guide">Guide d'utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Mentions légales</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition text-orange-400" data-fr="CGU" data-en="Terms of Service">CGU</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Confidentialité" data-en="Privacy">Confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLanguage = 'fr';
+        
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all text elements
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                const text = lang === 'fr' ? element.getAttribute('data-fr') : element.getAttribute('data-en');
+                if (element.tagName === 'INPUT' && element.type === 'submit') {
+                    element.value = text;
+                } else if (element.tagName === 'OPTION') {
+                    element.textContent = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+            
+            // Update placeholders
+            document.querySelectorAll(`[data-${lang}-placeholder]`).forEach(element => {
+                element.placeholder = element.getAttribute(`data-${lang}-placeholder`);
+            });
+            
+            // Update page title and meta description
+            const titleElement = document.querySelector('title');
+            const metaElement = document.querySelector('meta[name="description"]');
+            if (lang === 'fr') {
+                titleElement.textContent = titleElement.getAttribute('data-fr');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-fr'));
+                document.documentElement.lang = 'fr';
+            } else {
+                titleElement.textContent = titleElement.getAttribute('data-en');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-en'));
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        // Smooth scrolling pour les ancres
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({ 
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            switchLanguage(currentLanguage);
+        });
+    </script>
+</body>
+</html>

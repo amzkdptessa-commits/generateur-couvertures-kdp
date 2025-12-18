@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GabaritKDP | Le Parcours du Livre</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #FF9900;
+            --primary-dark: #e68a00;
+            --dark: #0f172a;
+            --darker: #020617;
+        }
+        
+        * { font-family: 'DM Sans', sans-serif; }
+        h1, h2, h3, .font-display { font-family: 'Space Grotesk', sans-serif; }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+        }
+        
+        /* Navigation */
+        .nav-main {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .nav-link {
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            color: #94a3b8;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-link:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.1);
+        }
+        
+        .nav-link.active {
+            background: var(--primary);
+            color: #000;
+        }
+        
+        /* Level Badge */
+        .level-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        /* Journey Steps */
+        .journey-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            padding: 2rem 0;
+            position: relative;
+        }
+        
+        .journey-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 2;
+        }
+        
+        .journey-step:hover {
+            transform: translateY(-8px);
+        }
+        
+        .step-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        .step-circle.completed {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .step-circle.active {
+            background: linear-gradient(135deg, #FF9900, #f59e0b);
+            animation: pulse-glow 2s ease-in-out infinite;
+        }
+        
+        .step-circle.locked {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            opacity: 0.6;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 153, 0, 0.4); }
+            50% { box-shadow: 0 0 40px rgba(255, 153, 0, 0.8); }
+        }
+        
+        .step-label {
+            margin-top: 1rem;
+            font-weight: 600;
+            color: #fff;
+            font-size: 0.95rem;
+            text-align: center;
+        }
+        
+        .step-status {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+        
+        .step-connector {
+            width: 80px;
+            height: 4px;
+            background: #374151;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-connector.completed {
+            background: linear-gradient(90deg, #10b981, #059669);
+        }
+        
+        .step-connector.active {
+            background: linear-gradient(90deg, #10b981, #FF9900);
+        }
+        
+        /* Check mark for completed steps */
+        .step-check {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            width: 28px;
+            height: 28px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #10b981;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        /* Project Cards */
+        .project-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(255, 153, 0, 0.15);
+        }
+        
+        .project-card.new-project {
+            border: 2px dashed rgba(255,255,255,0.2);
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+        }
+        
+        .project-card.new-project:hover {
+            border-color: var(--primary);
+            background: rgba(255, 153, 0, 0.05);
+        }
+        
+        .project-progress {
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+        
+        .project-progress-bar {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Step Modal/Panel */
+        .step-panel {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        /* Option Cards */
+        .option-card {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option-card:hover {
+            border-color: var(--primary);
+            background: rgba(255, 153, 0, 0.1);
+            transform: scale(1.02);
+        }
+        
+        .option-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Niche Cards */
+        .niche-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .niche-card:hover {
+            border-color: var(--primary);
+            background: rgba(255, 153, 0, 0.1);
+        }
+        
+        /* Star Rating */
+        .stars {
+            color: #fbbf24;
+            letter-spacing: 2px;
+        }
+        
+        /* Trend Badge */
+        .trend-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .trend-badge.hot {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+        
+        .trend-badge.rising {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+        
+        /* Quick Stats */
+        .quick-stat {
+            background: rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        
+        .quick-stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), #fbbf24);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .animate-in {
+            animation: fadeInUp 0.5s ease forwards;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .journey-container {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+            
+            .step-connector {
+                display: none;
+            }
+            
+            .step-circle {
+                width: 70px;
+                height: 70px;
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-main sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-8">
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-orange-500 to-amber-500 rounded-xl flex items-center justify-center">
+                        <span class="text-xl">📚</span>
+                    </div>
+                    <span class="text-xl font-bold text-white font-display">GabaritKDP</span>
+                </a>
+                
+                <div class="hidden md:flex items-center gap-2">
+                    <a href="#" class="nav-link active">Dashboard</a>
+                    <a href="#" class="nav-link">Marketplace</a>
+                    <a href="#" class="nav-link">Mon Compte</a>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div class="level-badge">
+                    <span>🌱</span>
+                    <span>Niveau Rookie</span>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold">
+                    T
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- Header -->
+        <div class="text-center mb-8 animate-in">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-2 font-display">
+                🎯 Mon Parcours KDP
+            </h1>
+            <p class="text-gray-400">De l'idée au livre publié, en 5 étapes simples</p>
+        </div>
+
+        <!-- Journey Steps -->
+        <div class="journey-container animate-in" style="animation-delay: 0.1s">
+            <!-- Step 1: Idée -->
+            <div class="journey-step" onclick="showStep(1)">
+                <div class="step-circle completed">
+                    💡
+                    <div class="step-check">✓</div>
+                </div>
+                <span class="step-label">IDÉE</span>
+                <span class="step-status">Complété ✓</span>
+            </div>
+            
+            <div class="step-connector completed"></div>
+            
+            <!-- Step 2: Analyse -->
+            <div class="journey-step" onclick="showStep(2)">
+                <div class="step-circle completed">
+                    🔍
+                    <div class="step-check">✓</div>
+                </div>
+                <span class="step-label">ANALYSE</span>
+                <span class="step-status">Complété ✓</span>
+            </div>
+            
+            <div class="step-connector active"></div>
+            
+            <!-- Step 3: Design -->
+            <div class="journey-step" onclick="showStep(3)">
+                <div class="step-circle active">
+                    🎨
+                </div>
+                <span class="step-label">DESIGN</span>
+                <span class="step-status">En cours...</span>
+            </div>
+            
+            <div class="step-connector"></div>
+            
+            <!-- Step 4: Contenu -->
+            <div class="journey-step" onclick="showStep(4)">
+                <div class="step-circle locked">
+                    📄
+                </div>
+                <span class="step-label">CONTENU</span>
+                <span class="step-status">À faire</span>
+            </div>
+            
+            <div class="step-connector"></div>
+            
+            <!-- Step 5: Publish -->
+            <div class="journey-step" onclick="showStep(5)">
+                <div class="step-circle locked">
+                    🚀
+                </div>
+                <span class="step-label">PUBLISH</span>
+                <span class="step-status">À faire</span>
+            </div>
+        </div>
+
+        <!-- Current Step Panel -->
+        <div class="step-panel animate-in" style="animation-delay: 0.2s" id="stepPanel">
+            <!-- Default: Step 3 Design -->
+            <div id="step3Content">
+                <div class="flex items-center justify-between mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-white font-display flex items-center gap-3">
+                            🎨 Crée ta Couverture
+                        </h2>
+                        <p class="text-gray-400 mt-1">Projet: <span class="text-orange-400">Anxiety Journal</span></p>
+                    </div>
+                    <span class="text-sm text-gray-500">Étape 3/5</span>
+                </div>
+                
+                <p class="text-gray-300 mb-8">Comment tu veux créer ta couverture ?</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="option-card">
+                        <div class="option-icon">📚</div>
+                        <h3 class="text-white font-semibold mb-2">Templates</h3>
+                        <p class="text-gray-400 text-sm">Choisis parmi 8,500+ designs pro</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <div class="option-icon">✨</div>
+                        <h3 class="text-white font-semibold mb-2">Depuis Canva</h3>
+                        <p class="text-gray-400 text-sm">Importe ton design Canva</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <div class="option-icon">🤖</div>
+                        <h3 class="text-white font-semibold mb-2">AI Génère</h3>
+                        <p class="text-gray-400 text-sm">Décris, l'IA crée pour toi</p>
+                    </div>
+                    
+                    <div class="option-card">
+                        <div class="option-icon">📤</div>
+                        <h3 class="text-white font-semibold mb-2">Upload</h3>
+                        <p class="text-gray-400 text-sm">Ta propre image</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8 animate-in" style="animation-delay: 0.3s">
+            <div class="quick-stat">
+                <div class="quick-stat-value">3</div>
+                <div class="text-gray-400 text-sm">Projets</div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-value">1</div>
+                <div class="text-gray-400 text-sm">Publié</div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-value">12</div>
+                <div class="text-gray-400 text-sm">Templates sauvés</div>
+            </div>
+            <div class="quick-stat">
+                <div class="quick-stat-value">🌱</div>
+                <div class="text-gray-400 text-sm">Niveau Rookie</div>
+            </div>
+        </div>
+
+        <!-- Projects Section -->
+        <div class="mt-12 animate-in" style="animation-delay: 0.4s">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white font-display">📁 Mes Projets</h2>
+                <a href="#" class="text-orange-400 hover:text-orange-300 text-sm font-medium">Voir tout →</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+                <!-- Project 1: In Progress -->
+                <div class="project-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl flex items-center justify-center text-2xl">
+                            📔
+                        </div>
+                        <span class="trend-badge hot">
+                            <i class="fas fa-fire"></i> En cours
+                        </span>
+                    </div>
+                    <h3 class="text-white font-semibold mb-1">Anxiety Journal</h3>
+                    <p class="text-gray-400 text-sm mb-2">Self-Help • 120 pages</p>
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <span>Étape 3/5</span>
+                        <span>•</span>
+                        <span>Design</span>
+                    </div>
+                    <div class="project-progress">
+                        <div class="project-progress-bar bg-gradient-to-r from-orange-500 to-amber-500" style="width: 60%"></div>
+                    </div>
+                </div>
+                
+                <!-- Project 2: Completed -->
+                <div class="project-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl flex items-center justify-center text-2xl">
+                            📅
+                        </div>
+                        <span class="trend-badge rising">
+                            <i class="fas fa-check"></i> Publié
+                        </span>
+                    </div>
+                    <h3 class="text-white font-semibold mb-1">2026 Planner</h3>
+                    <p class="text-gray-400 text-sm mb-2">Planner • 365 pages</p>
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <span>Complété</span>
+                        <span>•</span>
+                        <span>$12.99</span>
+                    </div>
+                    <div class="project-progress">
+                        <div class="project-progress-bar bg-gradient-to-r from-green-500 to-emerald-500" style="width: 100%"></div>
+                    </div>
+                </div>
+                
+                <!-- Project 3: Early Stage -->
+                <div class="project-card">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center text-2xl">
+                            🎨
+                        </div>
+                        <span class="text-xs text-gray-500">Brouillon</span>
+                    </div>
+                    <h3 class="text-white font-semibold mb-1">Dragon Coloring</h3>
+                    <p class="text-gray-400 text-sm mb-2">Coloriage • 50 pages</p>
+                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                        <span>Étape 1/5</span>
+                        <span>•</span>
+                        <span>Idée</span>
+                    </div>
+                    <div class="project-progress">
+                        <div class="project-progress-bar bg-gradient-to-r from-blue-500 to-cyan-500" style="width: 20%"></div>
+                    </div>
+                </div>
+                
+                <!-- New Project Card -->
+                <div class="project-card new-project">
+                    <div class="text-5xl mb-4 opacity-50">➕</div>
+                    <h3 class="text-white font-semibold mb-1">Nouveau Projet</h3>
+                    <p class="text-gray-400 text-sm">Commence ton prochain livre</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending Niches Section -->
+        <div class="mt-12 animate-in" style="animation-delay: 0.5s">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-bold text-white font-display">🔥 Niches Tendances</h2>
+                <a href="#" class="text-orange-400 hover:text-orange-300 text-sm font-medium">Explorer tout →</a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="niche-card flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📔</span>
+                        <div>
+                            <h4 class="text-white font-medium">Anxiety Journal</h4>
+                            <p class="text-gray-400 text-sm">Self-Help</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="stars">★★★★★</div>
+                        <p class="text-xs text-green-400">Opportunité en or !</p>
+                    </div>
+                </div>
+                
+                <div class="niche-card flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">📅</span>
+                        <div>
+                            <h4 class="text-white font-medium">2026 Planner</h4>
+                            <p class="text-gray-400 text-sm">Planner</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="stars">★★★★☆</div>
+                        <p class="text-xs text-orange-400">Très demandé</p>
+                    </div>
+                </div>
+                
+                <div class="niche-card flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🐉</span>
+                        <div>
+                            <h4 class="text-white font-medium">Dragon Coloring</h4>
+                            <p class="text-gray-400 text-sm">Coloriage</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="stars">★★★☆☆</div>
+                        <p class="text-xs text-gray-400">Concurrence moyenne</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 mt-16 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
+            <p>© 2025 GabaritKDP. Le chemin le plus simple vers Amazon KDP. 🚀</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple interaction for demo
+        function showStep(stepNumber) {
+            const panel = document.getElementById('stepPanel');
+            
+            const stepContents = {
+                1: `
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white font-display flex items-center gap-3">
+                                💡 Trouve ta Niche
+                            </h2>
+                            <p class="text-gray-400 mt-1">Quel type de livre tu veux créer ?</p>
+                        </div>
+                        <span class="text-sm text-gray-500">Étape 1/5</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        <div class="option-card">
+                            <div class="option-icon">📚</div>
+                            <h3 class="text-white font-semibold">Romans</h3>
+                        </div>
+                        <div class="option-card">
+                            <div class="option-icon">📅</div>
+                            <h3 class="text-white font-semibold">Planners</h3>
+                        </div>
+                        <div class="option-card">
+                            <div class="option-icon">🎨</div>
+                            <h3 class="text-white font-semibold">Coloriage</h3>
+                        </div>
+                        <div class="option-card">
+                            <div class="option-icon">🧩</div>
+                            <h3 class="text-white font-semibold">Puzzles</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white/5 rounded-xl p-4">
+                        <p class="text-gray-400 mb-3">Ou décris ton idée :</p>
+                        <input type="text" placeholder="Ex: Un journal de gratitude pour les mamans..." class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:border-orange-500 focus:outline-none">
+                    </div>
+                `,
+                2: `
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white font-display flex items-center gap-3">
+                                🔍 Analyse de Marché
+                            </h2>
+                            <p class="text-gray-400 mt-1">Niche: <span class="text-orange-400">Anxiety Journal</span></p>
+                        </div>
+                        <span class="text-sm text-gray-500">Étape 2/5</span>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-2xl p-6 mb-6">
+                        <div class="text-center mb-4">
+                            <span class="text-4xl">🟢</span>
+                            <h3 class="text-2xl font-bold text-white mt-2">FONCE !</h3>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Demande</p>
+                                <div class="h-3 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-green-500 rounded-full" style="width: 85%"></div>
+                                </div>
+                                <p class="text-green-400 text-sm mt-1">85% - Forte 🔥</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Concurrence</p>
+                                <div class="h-3 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-emerald-500 rounded-full" style="width: 30%"></div>
+                                </div>
+                                <p class="text-emerald-400 text-sm mt-1">30% - Faible ✅</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-400 text-sm mb-1">Potentiel</p>
+                                <div class="h-3 bg-white/10 rounded-full overflow-hidden">
+                                    <div class="h-full bg-amber-500 rounded-full" style="width: 92%"></div>
+                                </div>
+                                <p class="text-amber-400 text-sm mt-1">92% - Excellent</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4">
+                        <button class="flex-1 bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl transition">← Changer de niche</button>
+                        <button class="flex-1 bg-gradient-to-r from-orange-500 to-amber-500 text-black font-semibold py-3 rounded-xl hover:opacity-90 transition">Créer ma couverture →</button>
+                    </div>
+                `,
+                3: `
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white font-display flex items-center gap-3">
+                                🎨 Crée ta Couverture
+                            </h2>
+                            <p class="text-gray-400 mt-1">Projet: <span class="text-orange-400">Anxiety Journal</span></p>
+                        </div>
+                        <span class="text-sm text-gray-500">Étape 3/5</span>
+                    </div>
+                    
+                    <p class="text-gray-300 mb-8">Comment tu veux créer ta couverture ?</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="option-card">
+                            <div class="option-icon">📚</div>
+                            <h3 class="text-white font-semibold mb-2">Templates</h3>
+                            <p class="text-gray-400 text-sm">Choisis parmi 8,500+ designs pro</p>
+                        </div>
+                        
+                        <div class="option-card">
+                            <div class="option-icon">✨</div>
+                            <h3 class="text-white font-semibold mb-2">Depuis Canva</h3>
+                            <p class="text-gray-400 text-sm">Importe ton design Canva</p>
+                        </div>
+                        
+                        <div class="option-card">
+                            <div class="option-icon">🤖</div>
+                            <h3 class="text-white font-semibold mb-2">AI Génère</h3>
+                            <p class="text-gray-400 text-sm">Décris, l'IA crée pour toi</p>
+                        </div>
+                        
+                        <div class="option-card">
+                            <div class="option-icon">📤</div>
+                            <h3 class="text-white font-semibold mb-2">Upload</h3>
+                            <p class="text-gray-400 text-sm">Ta propre image</p>
+                        </div>
+                    </div>
+                `,
+                4: `
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white font-display flex items-center gap-3">
+                                📄 Crée ton Intérieur
+                            </h2>
+                            <p class="text-gray-400 mt-1">Projet: <span class="text-orange-400">Anxiety Journal</span></p>
+                        </div>
+                        <span class="text-sm text-gray-500">Étape 4/5</span>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <div>
+                            <p class="text-gray-300 mb-4">1. Type de pages</p>
+                            <div class="grid grid-cols-3 gap-3 mb-6">
+                                <div class="option-card py-3">
+                                    <span class="text-2xl">📝</span>
+                                    <p class="text-white text-sm mt-1">Lignées</p>
+                                </div>
+                                <div class="option-card py-3 border-orange-500 bg-orange-500/10">
+                                    <span class="text-2xl">⬜</span>
+                                    <p class="text-white text-sm mt-1">Blanches</p>
+                                </div>
+                                <div class="option-card py-3">
+                                    <span class="text-2xl">📊</span>
+                                    <p class="text-white text-sm mt-1">Quadrillées</p>
+                                </div>
+                            </div>
+                            
+                            <p class="text-gray-300 mb-4">2. Nombre de pages</p>
+                            <input type="range" min="20" max="400" value="120" class="w-full mb-2">
+                            <p class="text-orange-400 text-center">120 pages</p>
+                        </div>
+                        
+                        <div class="bg-white/5 rounded-2xl p-6 flex items-center justify-center">
+                            <div class="text-center">
+                                <span class="text-6xl">📖</span>
+                                <p class="text-gray-400 mt-4">Prévisualisation</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="w-full mt-6 bg-gradient-to-r from-orange-500 to-amber-500 text-black font-semibold py-4 rounded-xl hover:opacity-90 transition">
+                        Générer le PDF →
+                    </button>
+                `,
+                5: `
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-2xl font-bold text-white font-display flex items-center gap-3">
+                                🚀 Prêt à Publier !
+                            </h2>
+                            <p class="text-gray-400 mt-1">Projet: <span class="text-orange-400">Anxiety Journal</span></p>
+                        </div>
+                        <span class="text-sm text-gray-500">Étape 5/5</span>
+                    </div>
+                    
+                    <div class="bg-white/5 rounded-2xl p-6 mb-6">
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-3">
+                                <span class="text-green-500 text-xl">✅</span>
+                                <span class="text-white">Couverture</span>
+                                <span class="text-gray-400 text-sm ml-auto">Format KDP OK</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-green-500 text-xl">✅</span>
+                                <span class="text-white">Intérieur</span>
+                                <span class="text-gray-400 text-sm ml-auto">120 pages, PDF prêt</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-green-500 text-xl">✅</span>
+                                <span class="text-white">Dimensions</span>
+                                <span class="text-gray-400 text-sm ml-auto">6×9 pouces</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-green-500 text-xl">✅</span>
+                                <span class="text-white">Résolution</span>
+                                <span class="text-gray-400 text-sm ml-auto">300 DPI</span>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="text-green-500 text-xl">✅</span>
+                                <span class="text-white">Spine</span>
+                                <span class="text-gray-400 text-sm ml-auto">0.45" calculé auto</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <button class="bg-white/10 hover:bg-white/20 text-white py-4 rounded-xl transition flex items-center justify-center gap-2">
+                            <span class="text-xl">📥</span>
+                            Télécharger les fichiers
+                        </button>
+                        <button class="bg-gradient-to-r from-orange-500 to-amber-500 text-black font-semibold py-4 rounded-xl hover:opacity-90 transition flex items-center justify-center gap-2">
+                            <span class="text-xl">🔗</span>
+                            Ouvrir Amazon KDP
+                        </button>
+                    </div>
+                    
+                    <div class="text-center mt-8">
+                        <span class="text-4xl">🎉</span>
+                        <p class="text-white text-xl font-semibold mt-2">Félicitations !</p>
+                        <p class="text-gray-400">Tu as créé ton livre !</p>
+                    </div>
+                `
+            };
+            
+            panel.innerHTML = stepContents[stepNumber] || stepContents[3];
+            panel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>

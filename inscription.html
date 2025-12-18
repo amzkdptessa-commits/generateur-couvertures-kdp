@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Inscription - GabaritKDP" data-en="Sign Up - GabaritKDP">Sign Up - GabaritKDP</title>
+    <meta name="description"
+        data-fr="Rejoignez des milliers d'auteurs qui utilisent GabaritKDP pour créer des couvertures KDP parfaites. Inscription gratuite !"
+        data-en="Join thousands of authors using GabaritKDP to create perfect KDP covers. Free registration!"
+        content="Join thousands of authors using GabaritKDP to create perfect KDP covers. Free registration!">
+
+    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-MYG5JJM8EC');
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "t09tdy9nqm");
+</script>
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3px;
+        }
+
+        .lang-btn {
+            padding: 6px 10px;
+            border: none;
+            background: transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+
+        .header-nav {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-nav span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF9900;
+        }
+
+        .nav-links {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 14px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.1);
+        }
+
+        .express-nav-btn {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+
+        .express-nav-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .f-exp-gene {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        .f-exp-gene:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: #FFFFFF;
+        }
+
+        .express-nav-btn::before,
+        .f-exp-gene::before {
+            content: "⚡";
+            margin-right: 4px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mobile-menu-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+        /* Main Content */
+        .main-content {
+            min-height: calc(100vh - 80px);
+            background: #f9fafb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .signup-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 450px;
+            width: 100%;
+            position: relative;
+        }
+
+        .signup-header {
+            background: linear-gradient(135deg, #FF9900, #FFB84D);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .signup-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .signup-form {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f9fafb;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #FF9900;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 153, 0, 0.1);
+        }
+
+        .form-help {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 5px;
+        }
+
+        .password-strength {
+            height: 4px;
+            border-radius: 2px;
+            margin-top: 8px;
+            background: #e5e7eb;
+            overflow: hidden;
+        }
+
+        .password-strength.weak {
+            background: linear-gradient(90deg, #ef4444 30%, #e5e7eb 30%);
+        }
+
+        .password-strength.medium {
+            background: linear-gradient(90deg, #f59e0b 60%, #e5e7eb 60%);
+        }
+
+        .password-strength.strong {
+            background: linear-gradient(90deg, #10b981 100%, #e5e7eb 100%);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FF9900, #FFB84D);
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 153, 0, 0.3);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .divider {
+            text-align: center;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e5e7eb;
+            z-index: 0;
+        }
+
+        .divider span {
+            background: white;
+            padding: 0 15px;
+            color: #6b7280;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .login-link a {
+            color: #FF9900;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .error-message,
+        .success-message {
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            border: 1px solid #a7f3d0;
+            color: #065f46;
+        }
+
+        .loading-spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #FF9900;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .password-requirements {
+            font-size: 0.8rem;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+
+        .requirement {
+            display: flex;
+            align-items: center;
+            margin-bottom: 4px;
+        }
+
+        .requirement.valid {
+            color: #10b981;
+        }
+
+        .requirement.invalid {
+            color: #ef4444;
+        }
+
+        .requirement i {
+            margin-right: 6px;
+            font-size: 0.7rem;
+        }
+
+        /* Footer styles */
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0866D3);
+        }
+
+        .social-link.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);
+        }
+
+        .social-link.pinterest {
+            background: linear-gradient(135deg, #BD081C, #E60023);
+        }
+
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
+        }
+
+        .social-link.linkedin {
+            background: linear-gradient(135deg, #0A66C2, #004182);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 22.5px;
+                right: 60px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px;
+                margin-left: auto;
+            }
+
+            .main-content {
+                padding: 20px 10px;
+            }
+        }
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }        
+    </style>
+</head>
+
+<body class="bg-gray-50">
+
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+            </div>
+            <nav class="nav-links">
+                <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
+                    data-en="Express Generator">Express Generator</a>
+                <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
+                    Generator</a>
+<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+                <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+                <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+                <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <div class="mobile-menu-links">
+            <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+            <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
+                data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+            <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰
+                Pricing</a>
+            <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2);" data-fr="📝 Inscription"
+                data-en="📝 Sign Up">📝 Sign Up</a>
+            <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="signup-container">
+            <div class="signup-header">
+                <h1 data-fr="Rejoignez GabaritKDP" data-en="Join GabaritKDP">Join GabaritKDP</h1>
+                <p data-fr="Créez des couvertures KDP parfaites en quelques minutes"
+                    data-en="Create perfect KDP covers in minutes">Create perfect KDP covers in minutes</p>
+            </div>
+
+            <div class="signup-form">
+                <div id="messageContainer"></div>
+
+                <div class="social-login" style="display: flex; flex-direction: column; gap: 12px;">
+                    <button onclick="handleGoogleSignup()" class="social-btn" id="googleBtn">
+                        <i class="fab fa-google"></i>
+                        <span data-fr="S'inscrire avec Google" data-en="Sign up with Google">Sign up with Google</span>
+                    </button>
+                    <button onclick="handleFacebookSignup()" class="social-btn" id="facebookBtn">
+                        <i class="fab fa-facebook-f"></i>
+                        <span data-fr="S'inscrire avec Facebook" data-en="Sign up with Facebook">Sign up with
+                            Facebook</span>
+                    </button>
+                </div>
+
+                <div class="divider">
+                    <span data-fr="ou créez un compte avec email" data-en="or create account with email">or create
+                        account with email</span>
+                </div>
+
+                <form id="signupForm" novalidate>
+                    <div class="form-group">
+                        <label class="form-label" for="fullName" data-fr="Prénom et Nom *" data-en="Full Name *">Full
+                            Name *</label>
+                        <input type="text" id="fullName" name="fullName" class="form-input" required
+                            placeholder="John Doe">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="email" data-fr="Email *" data-en="Email *">Email *</label>
+                        <input type="email" id="email" name="email" class="form-input" required
+                            placeholder="your@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="password" data-fr="Mot de passe *" data-en="Password *">Password
+                            *</label>
+                        <input type="password" name="password" id="password" class="form-input" required
+                            placeholder="Your password">
+                        <div id="passwordStrength" class="password-strength"></div>
+                        <div id="passwordRequirements" class="password-requirements"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="confirmPassword" data-fr="Confirmez le mot de passe *"
+                            data-en="Confirm password *">Confirm password *</label>
+                        <input type="password" name="confirmPassword" id="confirmPassword" class="form-input" required
+                            placeholder="Confirm your password">
+                        <div id="passwordMatch" class="form-help"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label
+                            style="display: flex; align-items: flex-start; gap: 8px; font-size: 14px; color: #6b7280; text-align: left;">
+                            <input type="checkbox" name="terms" required style="margin-top: 4px; flex-shrink: 0;">
+                            <div>
+                                <span data-fr="J'ai lu et j'accepte les " data-en="I have read and accept the ">I have
+                                    read and accept the </span>
+                                <a href="./cgu.html" class="text-orange-600 hover:underline"
+                                    data-fr="Conditions Générales d'Utilisation" data-en="Terms of Service">Terms of
+                                    Service</a>.
+                                <span
+                                    data-fr="Je consens au traitement de mes données personnelles tel que décrit dans la "
+                                    data-en="I consent to the processing of my personal data as described in the ">I
+                                    consent to the processing of my personal data as described in the </span>
+                                <a href="./confidentialite.html" class="text-orange-600 hover:underline"
+                                    data-fr="Politique de Confidentialité" data-en="Privacy Policy">Privacy Policy</a>.*
+                            </div>
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <label
+                            style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #6b7280; text-align: left;">
+                            <input type="checkbox" name="newsletter" style="margin: 0; flex-shrink: 0;">
+                            <span
+                                data-fr="Je souhaite recevoir les actualités et conseils GabaritKDP par email (désinscription possible à tout moment)."
+                                data-en="I want to receive GabaritKDP news and tips by email (you can unsubscribe at any time).">I
+                                want to receive GabaritKDP news and tips by email (you can unsubscribe at any
+                                time).</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group text-xs text-gray-500 text-center"
+                        data-fr="Vos données sont collectées pour la création et la gestion de votre compte. Elles ne seront jamais partagées avec des tiers sans votre consentement."
+                        data-en="Your data is collected for the creation and management of your account. It will never be shared with third parties without your consent.">
+                        Your data is collected for the creation and management of your account. It will never be shared
+                        with third parties without your consent.
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="signupButton" data-fr="Créer mon compte gratuit"
+                        data-en="Create my free account">Create my free account</button>
+                </form>
+
+                <div class="login-link">
+                    <p data-fr="Vous avez déjà un compte ?" data-en="Already have an account?">Already have an account?
+                        <a href="./connexion.html" data-fr="Se connecter" data-en="Sign in">Sign in</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="social-section">
+                <h4 class="text-white font-semibold mb-4 text-center"
+                    data-fr="🚀 Suivez-nous pour les dernières actualités KDP !"
+                    data-en="🚀 Follow us for the latest KDP news!">🚀 Follow us for the latest KDP news!</h4>
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"
+                        title="YouTube - KDP Tutorials" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"
+                        title="Facebook - Authors Community" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"
+                        title="Instagram - Cover Inspirations" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-instagram"></i></a>
+                    <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"
+                        title="Pinterest - Cover Designs" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-pinterest-p"></i></a>
+                    <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"
+                        title="TikTok - Quick KDP Tips" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-tiktok"></i></a>
+                    <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"
+                        title="LinkedIn - Publishers & Agencies" target="_blank" rel="noopener noreferrer"><i
+                            class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p class="text-center text-sm text-gray-400 mt-4"
+                    data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs"
+                    data-en="KDP Tips • Tutorials • News • Authors Community">KDP Tips • Tutorials • News • Authors
+                    Community</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4"><img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP"
+                            class="h-8 w-auto"><span class="ml-2 text-white font-bold">GabaritKDP</span></div>
+                    <p class="text-gray-400" data-en="The generator for 100% Amazon-compliant KDP covers."
+                        data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">The generator for 100%
+                        Amazon-compliant KDP covers.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-en="Product" data-fr="Produit">Product</h4>
+                    <ul class="space-y-2">
+                        <li style="margin-bottom: 10px;"><a href="generator.html"
+                                class="hover:text-white transition f-exp-gene" data-en="Express Generator"
+                                data-fr="Générateur Express">Express Generator</a></li>
+                        <li><a href="generator-magic.html" class="hover:text-white transition" data-en="Magic Generator"
+                                data-fr="Générateur Magique">Magic Generator</a></li>
+                        <li><a href="./marketplace.html" target="_blank" rel="noopener" class="hover:text-white transition" data-en="Marketplace"
+                                data-fr="Marché">Marketplace</a></li>
+                        <li><a href="./index.html#tarifs" class="hover:text-white transition" data-en="Pricing"
+                                data-fr="Tarifs">Pricing</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition" data-en="Features"
+                                data-fr="Fonctionnalités">Features</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-en="Support" data-fr="Support">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="api-pro.html" class="hover:text-white transition" data-en="API"
+                                data-fr="API">API</a></li>
+                        <li><a href="faq.html" class="hover:text-white transition" data-en="FAQ" data-fr="FAQ">FAQ</a>
+                        </li>
+                        <li><a href="contact.html" class="hover:text-white transition" data-en="Contact"
+                                data-fr="Contact">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition" data-en="User Guide"
+                                data-fr="Guide d'utilisation">User Guide</a></li>
+                        <li><a href="updates.html" class="hover:text-white transition" data-en="Updates / What’s New"
+                                data-fr="Mises à jour / Nouveautés">Updates / What’s New</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-en="Legal" data-fr="Légal">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition" data-en="Legal Notice"
+                                data-fr="Mentions Légales">Legal Notice</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition" data-en="Terms of Service"
+                                data-fr="Conditions d'utilisation">Terms of Service</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition" data-en="Privacy Policy"
+                                data-fr="Politique de confidentialité">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3dkYWljcGxhamxqcGZremh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MzMxMjQsImV4cCI6MjA3NzUwOTEyNH0.0IDHysD84_0ghjb-a4K0UkNrJbzdQBKUjm5mQbSfro8';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let currentLang = localStorage.getItem('selectedLanguage') || 'en';
+
+        // --- MOBILE MENU ---
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // --- LANGUAGE SYSTEM ---
+        function updatePageLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('selectedLanguage', lang);
+
+            document.documentElement.lang = lang;
+
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                const text = element.getAttribute('data-' + lang);
+                if (text) {
+                    if (element.tagName === 'INPUT') {
+                        if (element.type === 'submit' || element.type === 'button') element.value = text;
+                        else if (element.hasAttribute('placeholder')) element.placeholder = text;
+                    } else if (element.tagName === 'META' && element.name === 'description') {
+                        element.setAttribute('content', text);
+                    } else if (element.tagName === 'TITLE') {
+                        element.textContent = text;
+                    }
+                    else {
+                        element.innerHTML = text;
+                    }
+                }
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) btn.classList.add('active');
+            });
+
+            updatePasswordRequirements(); // Refresh password hints language
+        }
+
+        function switchLanguage(lang) {
+            updatePageLanguage(lang);
+        }
+
+        // --- PASSWORD MANAGEMENT ---
+        function checkPasswordStrength(password) {
+            let score = 0;
+            if (password.length >= 8) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+            return score;
+        }
+
+        function updatePasswordRequirements() {
+            const passwordInput = document.getElementById('password');
+            if (!passwordInput) return;
+            const password = passwordInput.value;
+            const requirementsDiv = document.getElementById('passwordRequirements');
+            const strengthDiv = document.getElementById('passwordStrength');
+
+            const requirements = [
+                { test: password.length >= 8, textFr: 'Au moins 8 caractères', textEn: 'At least 8 characters' },
+                { test: /[a-z]/.test(password), textFr: 'Une lettre minuscule', textEn: 'One lowercase letter' },
+                { test: /[A-Z]/.test(password), textFr: 'Une lettre majuscule', textEn: 'One uppercase letter' },
+                { test: /[0-9]/.test(password), textFr: 'Un chiffre', textEn: 'One number' },
+                { test: /[^A-Za-z0-9]/.test(password), textFr: 'Un caractère spécial', textEn: 'One special character' }
+            ];
+
+            requirementsDiv.innerHTML = requirements.map(req => `
+                <div class="requirement ${req.test ? 'valid' : 'invalid'}">
+                    <i class="fas ${req.test ? 'fa-check' : 'fa-times'}"></i>
+                    ${currentLang === 'fr' ? req.textFr : req.textEn}
+                </div>
+            `).join('');
+
+            const strength = checkPasswordStrength(password);
+            strengthDiv.className = 'password-strength';
+            if (strength <= 2) strengthDiv.classList.add('weak');
+            else if (strength <= 4) strengthDiv.classList.add('medium');
+            else strengthDiv.classList.add('strong');
+        }
+
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const matchDiv = document.getElementById('passwordMatch');
+            if (!confirmPassword) { matchDiv.textContent = ''; return true; }
+            if (password === confirmPassword) {
+                matchDiv.textContent = currentLang === 'fr' ? '✓ Les mots de passe correspondent' : '✓ Passwords match';
+                matchDiv.style.color = '#10b981'; return true;
+            } else {
+                matchDiv.textContent = currentLang === 'fr' ? '✗ Les mots de passe ne correspondent pas' : '✗ Passwords do not match';
+                matchDiv.style.color = '#ef4444'; return false;
+            }
+        }
+
+        // --- SIGNUP & MESSAGES ---
+        function showMessage(message, type) {
+            const messageContainer = document.getElementById('messageContainer');
+            messageContainer.innerHTML = `<div class="${type === 'error' ? 'error-message' : 'success-message'}">${message}</div>`;
+            setTimeout(() => { messageContainer.innerHTML = ''; }, 5000);
+        }
+
+        async function handleEmailSignup(formData) {
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email: formData.email,
+                    password: formData.password,
+                    options: {
+                        data: {
+                            full_name: formData.fullName,
+                            newsletter_subscription: formData.newsletter === 'on'
+                        }
+                    }
+                });
+                if (error) throw error;
+                
+                // 🆕 Créer automatiquement le profil dans user_profiles
+                if (data.user) {
+                    const { error: profileError } = await supabase
+                        .from('user_profiles')
+                        .insert({
+                            id: data.user.id,
+                            email: formData.email,
+                            is_pro: false,
+                            exports_available: 3,
+                            total_exports_used: 0
+                        });
+                    
+                    if (profileError) {
+                        console.error('Erreur création profil:', profileError);
+                    } else {
+                        console.log('✅ Profil user_profiles créé!');
+                    }
+                }
+                
+                showMessage(currentLang === 'fr' ? 'Compte créé ! Vérifiez votre email pour confirmer.' : 'Account created! Please check your email to confirm.', 'success');
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'sign_up', { method: 'email' });
+                }
+                setTimeout(() => { window.location.href = './connexion.html'; }, 2000);
+                return true;
+            } catch (error) {
+                let errorMessage = currentLang === 'fr' ? 'Erreur lors de l\'inscription' : 'Error during registration';
+                if (error.message.includes('already registered')) errorMessage = currentLang === 'fr' ? 'Cet email est déjà utilisé' : 'This email is already in use';
+                else if (error.message.includes('weak')) errorMessage = currentLang === 'fr' ? 'Le mot de passe est trop faible' : 'Password is too weak';
+                showMessage(errorMessage, 'error');
+                return false;
+            }
+        }
+
+        async function handleSocialSignup(provider) {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: provider,
+                options: { redirectTo: `${window.location.origin}/generator.html` }
+            });
+            if (error) {
+                showMessage(currentLang === 'fr' ? `Erreur de connexion avec ${provider}` : `Error signing in with ${provider}`, 'error');
+            }
+        }
+        const handleGoogleSignup = () => handleSocialSignup('google');
+        const handleFacebookSignup = () => handleSocialSignup('facebook');
+
+        // --- EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', function () {
+            updatePageLanguage(currentLang);
+
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const signupForm = document.getElementById('signupForm');
+
+            passwordInput.addEventListener('input', () => { updatePasswordRequirements(); checkPasswordMatch(); });
+            confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+            signupForm.addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData.entries());
+
+                if (!checkPasswordMatch() || checkPasswordStrength(data.password) < 3) {
+                    showMessage(currentLang === 'fr' ? 'Veuillez vérifier vos informations et le mot de passe.' : 'Please check your information and password.', 'error');
+                    return;
+                }
+                if (!data.terms) {
+                    showMessage(currentLang === 'fr' ? 'Vous devez accepter les conditions pour continuer.' : 'You must accept the terms to continue.', 'error');
+                    return;
+                }
+
+                const submitButton = document.getElementById('signupButton');
+                const originalText = submitButton.textContent;
+                submitButton.disabled = true;
+                submitButton.innerHTML = `<div class="loading-spinner"></div> ${currentLang === 'fr' ? 'Création...' : 'Creating...'}`;
+
+                const success = await handleEmailSignup(data);
+                if (!success) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = originalText;
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

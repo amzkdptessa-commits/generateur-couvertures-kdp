@@ -1,0 +1,104 @@
+RAPPORT DE CORRECTION FINALE
+================================================================================
+
+URLs Excel sources: 1841
+Fichiers modifiés: 23
+URLs backgrounds corrigées: 387
+
+EXEMPLES DE CORRECTIONS:
+--------------------------------------------------------------------------------
+
+category-business.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/BUSINESS/Finance/Finance%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Finance/Finance/image_couverture_de_livres_business_finance_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/BUSINESS/Marketing/Marketing%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_001.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_002.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_003.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_004.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_005.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_006.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_007.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_008.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_009.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_010.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_011.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_012.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_013.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_014.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_015.png
+https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Marketing/Marketing/image_couverture_de_livres_business_marketing_016.png
+
+
+category-cartoon.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/CARTOON/Animaux%20cartoon/animal-cartoon-%20%288%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/CARTOON/Animaux%20cartoon/Animaux%20cartoon/image_couverture_de_livres_cartoon_animaux_cartoon_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/CARTOON/Chateaux/Fantasy%20Castles%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/CARTOON/Chateaux/Chateaux/image_couverture_de_livres_cartoon_chateaux_001.png
+
+
+category-coloriages.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/COLORIAGES/Portraits/PORTRAIT%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/COLORIAGES/Portraits/Portraits/image_couverture_de_livres_coloriages_portraits_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/COLORIAGES/Animaux/ANIMALS%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/COLORIAGES/Animaux/Animaux/image_couverture_de_livres_coloriages_animaux_001.png
+
+
+category-fantasy.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/FANTASY/URBAN%20FANTASY/URBAN%20FANTASY%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/HIGH%20FANTASY/URBAN%20FANTASY/URBAN%20FANTASY/image_couverture_de_livres_fantasy_urban_fantasy_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/FANTASY/DARK%20FANTASY/DARK%20FANTASY%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/DARK%20FANTASY/DARK%20FANTASY/image_couverture_de_livres_fantasy_dark_fantasy_001.png
+
+
+category-historical.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/HISTORICAL/Victorian/Victorian%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/HISTORICAL/Victorian/Victorian/image_couverture_de_livres_historical_victorian_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/HISTORICAL/Colonial%20Era/COLONIAL%20ERA%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/HISTORICAL/Colonial%20Era/Colonial%20Era/image_couverture_de_livres_historical_colonial_era_001.png
+
+
+category-mystery.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/MYSTERY/Detectives/Detectives%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Detectives/Detectives/image_couverture_de_livres_mystery_detectives_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery%20%281%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_001.png
+
+
+category-planners.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/PLANNERS/Gratitude%20Journal/PNG/1.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/ANIMAUX/Feerique/Feerique/image_couverture_de_livres_animaux_feerique_011.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/PLANNERS/Refrigerant%20Tracking%20Log%20Book/PNG/1.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/ANIMAUX/Feerique/Feerique/image_couverture_de_livres_animaux_feerique_011.png
+
+
+marketplace.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/BACKGROUND/RELIGIONS/CHRISTIANISME/Bible%20journaling/image_religions_christianisme_bible_journaling_001.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/BACKGROUND/RELIGIONS/CHRISTIANISME/Bible%20journaling/image_religions_christianisme_bible_journaling_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_001.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_001.png
+
+
+subcategory-business-entrepreneurship.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/BUSINESS/Entrepreneurship/Entrepreneurship%20%2814%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Entrepreneurship/Entrepreneurship/image_couverture_de_livres_business_entrepreneurship_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/BUSINESS/Entrepreneurship/Entrepreneurship%20%288%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Entrepreneurship/Entrepreneurship/image_couverture_de_livres_business_entrepreneurship_001.png
+
+
+subcategory-business-finance.html:
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/BUSINESS/Finance/Finance%20%287%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Finance/Finance/image_couverture_de_livres_business_finance_001.png
+
+  ANCIEN: https://cdn.gabaritkdp.com/backgrounds/BUSINESS/Finance/Finance%20%282%29.png
+  NOUVEAU: https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Finance/Finance/image_couverture_de_livres_business_finance_001.png
+

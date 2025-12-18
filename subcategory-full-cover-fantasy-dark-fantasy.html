@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FANTASY → DARK FANTASY - GabaritKDP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;transition:all .3s}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .hero{background:linear-gradient(135deg,#334155 0%,#1e293b 100%);padding:2rem 1rem;color:#fff}
+    .breadcrumb{padding:1rem;background:#f8fafc}
+    .breadcrumb a{color:#64748b;text-decoration:none}
+    .breadcrumb a:hover{color:#FF9900}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.5rem;padding:2rem 1rem}
+    .template-card{position:relative;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 15px rgba(0,0,0,.1);transition:all .3s;aspect-ratio:2/3}
+    .template-card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,.2)}
+    .template-image{width:100%;height:100%;object-fit:cover}
+    .watermark{position:absolute;inset:0;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><text x="50%%" y="50%%" text-anchor="middle" fill="rgba(255,255,255,0.15)" font-size="24" font-weight="bold" transform="rotate(-45 100 100)">GabaritKDP</text></svg>') repeat;pointer-events:none}
+    .template-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.95) 0%,transparent 60%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem}
+    .template-card:hover .template-overlay{opacity:1}
+    .template-name{color:#fff;font-weight:600;font-size:.9rem;margin-bottom:.25rem}
+    .template-size{color:#FF9900;font-size:.8rem;margin-bottom:.5rem}
+    .use-template-btn{display:inline-block;padding:.5rem 1rem;background:#FF9900;color:#fff;border-radius:8px;text-decoration:none;font-weight:600;transition:all .3s;text-align:center}
+    .use-template-btn:hover{background:#e68900}
+    .container{max-width:1400px;margin:0 auto}
+    .empty-state{grid-column:1/-1;text-align:center;padding:4rem 1rem}
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="generator.html"><i class="fas fa-magic"></i> Generator</a>
+        <a href="marketplace.html" class="active"><i class="fas fa-store"></i> Marketplace</a>
+        <a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <div class="container">
+      <a href="marketplace.html">Marketplace</a> / <a href="category-full-cover.html">Full Cover</a> / <span style="color:#FF9900;font-weight:600">FANTASY / DARK FANTASY</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <h1 class="text-3xl font-bold mb-2">🐉 FANTASY → DARK FANTASY</h1>
+      <p class="text-lg opacity-90"><span id="total-count">Loading...</span> professional full covers</p>
+    </div>
+  </section>
+
+  <section class="container">
+    <div class="gallery-grid" id="gallery-grid">
+      <div class="col-span-full text-center py-8">
+        <i class="fas fa-spinner fa-spin text-4xl text-gray-400"></i>
+        <p class="text-gray-500 mt-2">Loading templates...</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  (async function() {
+    const resp = await fetch('gallery.json');
+    const data = await resp.json();
+
+    // Charger UNIQUEMENT les fullcovers
+    const all = data.fullcovers || [];
+
+    const normalize = str =>
+      str.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+    // Tags requis pour cette page
+    const SEARCH_PATH = "FULL%20COVER/FANTASY/DARK FANTASY/";
+    
+    // Filtrer par chemin URL (normaliser les espaces)
+    const pick = all.filter(item => {
+      const url = (item.url || '').toLowerCase().replace(/%20/g, ' ');
+      const searchPath = SEARCH_PATH.toLowerCase().replace(/%20/g, ' ');
+      return url.includes(searchPath);
+    });
+
+    console.log(`✅ ${pick.length} full covers trouvés pour [FANTASY → DARK FANTASY]`);
+
+    const container = document.getElementById('gallery-grid');
+    
+    if (!pick.length) {
+      container.innerHTML = `
+        <div class="col-span-full empty-state">
+          <div class="text-6xl mb-4">🖼️</div>
+          <h3 class="text-2xl font-bold text-gray-700 mb-2">Aucun template trouvé</h3>
+          <p class="text-gray-500">Cette catégorie ne contient pas encore de full covers.</p>
+          <a href="category-full-cover.html" class="inline-block mt-4 px-6 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition">
+            Retour aux Full Covers
+          </a>
+        </div>`;
+      return;
+    }
+
+    const card = (it) => `
+      <div class="template-card">
+        <img class="template-image" src="${it.url}" alt="${it.filename || 'Template'}" loading="lazy">
+        <div class="watermark"></div>
+        <div class="template-overlay">
+          <div class="template-name">${it.filename || 'Template'}</div>
+          <div class="template-size">${it.size ? (it.size/1024/1024).toFixed(2) : '?'} MB</div>
+          <a class="use-template-btn" href="generator.html?img=${encodeURIComponent(it.url)}">
+            <i class="fas fa-magic"></i> Use this template
+          </a>
+        </div>
+      </div>`;
+
+    container.innerHTML = pick.map(card).join('');
+    document.getElementById('total-count').textContent = pick.length;
+  })();
+  </script>
+</body>
+</html>

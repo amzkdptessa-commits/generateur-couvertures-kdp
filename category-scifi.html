@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sci-Fi Templates - GabaritKDP Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; }
+        
+        /* Header */
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none; }
+        .logo span { color: #0891b2; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: white; }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a { color: #94a3b8; text-decoration: none; }
+        .breadcrumb a:hover { color: white; }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #0891b222 0%, transparent 50%),
+                        url('https://cdn.gabaritkdp.com/fullcovers/Sci-fi/SCI-FI%20(1).jpg') center/cover;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, #0f172a 100%);
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero h1 .icon { font-size: 2.5rem; margin-right: 0.5rem; }
+        .hero p { color: #94a3b8; font-size: 1.125rem; max-width: 600px; margin: 0 auto 1.5rem; }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #0891b2; }
+        .stat-label { font-size: 0.875rem; color: #94a3b8; }
+        
+        /* Filters */
+        .filters {
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            padding: 0.625rem 1.25rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.875rem;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .filter-btn.active { background: #0891b2; color: white; border-color: #0891b2; }
+        
+        /* Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Card */
+        .product-card {
+            background: #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: #0891b2;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .product-card.hidden { display: none; }
+        .card-image {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+            background: #0f172a;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .product-card:hover .card-image img { transform: scale(1.05); }
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-free { background: #22c55e; color: white; }
+        .badge-pro { background: #0891b2; color: white; }
+        .card-content { padding: 1rem; }
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-price { color: #0891b2; font-weight: 700; }
+        .card-price.free { color: #22c55e; }
+        
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer p { color: #64748b; }
+        .footer a { color: #0891b2; text-decoration: none; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .products-grid { padding: 1rem; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="marketplace.html" class="logo">Gabarit<span>KDP</span></a>
+        <nav class="nav-links">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="generator.html">Générateur</a>
+            <a href="pricing.html">Pricing</a>
+        </nav>
+    </header>
+    
+    <div class="breadcrumb">
+        <a href="index.html">Accueil</a> / <a href="marketplace.html">Marketplace</a> / <strong>Sci-Fi</strong>
+    </div>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1><span class="icon">🚀</span> Sci-Fi</h1>
+            <p>Découvrez notre collection de templates sci-fi professionnels, prêts à personnaliser pour Amazon KDP.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value" id="totalCount">79</div>
+                    <div class="stat-label">Templates</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="freeCount">15</div>
+                    <div class="stat-label">Gratuits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="other">Other</button>
+        <button class="filter-btn" data-filter="free">🆓 Gratuits</button>
+    </div>
+    
+    <div class="products-grid" id="productsGrid"></div>
+    
+    <footer class="footer">
+        <p>© 2025 GabaritKDP - <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+    
+    <script>
+    const products = [
+      { id: 1, title: "Fullcover sci-fi 1", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(1).jpg", price: 4.99 },
+  { id: 2, title: "Fullcover sci-fi 10", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(10).jpg", price: 4.99 },
+  { id: 3, title: "Fullcover sci-fi 11", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(11).jpg", price: 4.99 },
+  { id: 4, title: "Fullcover sci-fi 12", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(12).jpg", price: 4.99 },
+  { id: 5, title: "Fullcover sci-fi 13", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(13).jpg", price: 0 },
+  { id: 6, title: "Fullcover sci-fi 14", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(14).jpg", price: 4.99 },
+  { id: 7, title: "Fullcover sci-fi 15", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(15).jpg", price: 4.99 },
+  { id: 8, title: "Fullcover sci-fi 16", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(16).jpg", price: 4.99 },
+  { id: 9, title: "Fullcover sci-fi 17", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(17).jpg", price: 4.99 },
+  { id: 10, title: "Fullcover sci-fi 18", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(18).jpg", price: 0 },
+  { id: 11, title: "Fullcover sci-fi 19", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(19).jpg", price: 4.99 },
+  { id: 12, title: "Fullcover sci-fi 2", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(2).jpg", price: 4.99 },
+  { id: 13, title: "Fullcover sci-fi 20", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(20).jpg", price: 4.99 },
+  { id: 14, title: "Fullcover sci-fi 21", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(21).jpg", price: 4.99 },
+  { id: 15, title: "Fullcover sci-fi 22", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(22).jpg", price: 0 },
+  { id: 16, title: "Fullcover sci-fi 23", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(23).jpg", price: 4.99 },
+  { id: 17, title: "Fullcover sci-fi 24", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(24).jpg", price: 4.99 },
+  { id: 18, title: "Fullcover sci-fi 25", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(25).jpg", price: 4.99 },
+  { id: 19, title: "Fullcover sci-fi 26", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(26).jpg", price: 4.99 },
+  { id: 20, title: "Fullcover sci-fi 27", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(27).jpg", price: 0 },
+  { id: 21, title: "Fullcover sci-fi 28", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(28).jpg", price: 4.99 },
+  { id: 22, title: "Fullcover sci-fi 29", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(29).jpg", price: 4.99 },
+  { id: 23, title: "Fullcover sci-fi 3", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(3).jpg", price: 4.99 },
+  { id: 24, title: "Fullcover sci-fi 30", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(30).jpg", price: 4.99 },
+  { id: 25, title: "Fullcover sci-fi 31", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(31).jpg", price: 0 },
+  { id: 26, title: "Fullcover sci-fi 32", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(32).jpg", price: 4.99 },
+  { id: 27, title: "Fullcover sci-fi 33", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(33).jpg", price: 4.99 },
+  { id: 28, title: "Fullcover sci-fi 34", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(34).jpg", price: 4.99 },
+  { id: 29, title: "Fullcover sci-fi 35", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(35).jpg", price: 4.99 },
+  { id: 30, title: "Fullcover sci-fi 36", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(36).jpg", price: 0 },
+  { id: 31, title: "Fullcover sci-fi 37", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(37).jpg", price: 4.99 },
+  { id: 32, title: "Fullcover sci-fi 38", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(38).jpg", price: 4.99 },
+  { id: 33, title: "Fullcover sci-fi 39", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(39).jpg", price: 4.99 },
+  { id: 34, title: "Fullcover sci-fi 4", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(4).jpg", price: 4.99 },
+  { id: 35, title: "Fullcover sci-fi 40", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(40).jpg", price: 0 },
+  { id: 36, title: "Fullcover sci-fi 41", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(41).jpg", price: 4.99 },
+  { id: 37, title: "Fullcover sci-fi 42", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(42).jpg", price: 4.99 },
+  { id: 38, title: "Fullcover sci-fi 43", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(43).jpg", price: 4.99 },
+  { id: 39, title: "Fullcover sci-fi 44", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(44).jpg", price: 4.99 },
+  { id: 40, title: "Fullcover sci-fi 45", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(45).jpg", price: 0 },
+  { id: 41, title: "Fullcover sci-fi 46", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(46).jpg", price: 4.99 },
+  { id: 42, title: "Fullcover sci-fi 47", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(47).jpg", price: 4.99 },
+  { id: 43, title: "Fullcover sci-fi 48", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(48).jpg", price: 4.99 },
+  { id: 44, title: "Fullcover sci-fi 49", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(49).jpg", price: 4.99 },
+  { id: 45, title: "Fullcover sci-fi 5", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(5).jpg", price: 0 },
+  { id: 46, title: "Fullcover sci-fi 50", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(50).jpg", price: 4.99 },
+  { id: 47, title: "Fullcover sci-fi 51", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(51).jpg", price: 4.99 },
+  { id: 48, title: "Fullcover sci-fi 52", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(52).jpg", price: 4.99 },
+  { id: 49, title: "Fullcover sci-fi 53", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(53).jpg", price: 4.99 },
+  { id: 50, title: "Fullcover sci-fi 54", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(54).jpg", price: 0 },
+  { id: 51, title: "Fullcover sci-fi 55", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(55).jpg", price: 4.99 },
+  { id: 52, title: "Fullcover sci-fi 56", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(56).jpg", price: 4.99 },
+  { id: 53, title: "Fullcover sci-fi 57", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(57).jpg", price: 4.99 },
+  { id: 54, title: "Fullcover sci-fi 58", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(58).jpg", price: 4.99 },
+  { id: 55, title: "Fullcover sci-fi 59", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(59).jpg", price: 0 },
+  { id: 56, title: "Fullcover sci-fi 6", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(6).jpg", price: 4.99 },
+  { id: 57, title: "Fullcover sci-fi 60", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(60).jpg", price: 4.99 },
+  { id: 58, title: "Fullcover sci-fi 61", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(61).jpg", price: 4.99 },
+  { id: 59, title: "Fullcover sci-fi 62", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(62).jpg", price: 4.99 },
+  { id: 60, title: "Fullcover sci-fi 63", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(63).jpg", price: 0 },
+  { id: 61, title: "Fullcover sci-fi 64", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(64).jpg", price: 4.99 },
+  { id: 62, title: "Fullcover sci-fi 65", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(65).jpg", price: 4.99 },
+  { id: 63, title: "Fullcover sci-fi 66", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(66).jpg", price: 4.99 },
+  { id: 64, title: "Fullcover sci-fi 67", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(67).jpg", price: 4.99 },
+  { id: 65, title: "Fullcover sci-fi 68", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(68).jpg", price: 0 },
+  { id: 66, title: "Fullcover sci-fi 69", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(69).jpg", price: 4.99 },
+  { id: 67, title: "Fullcover sci-fi 7", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(7).jpg", price: 4.99 },
+  { id: 68, title: "Fullcover sci-fi 70", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(70).jpg", price: 4.99 },
+  { id: 69, title: "Fullcover sci-fi 71", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(71).jpg", price: 4.99 },
+  { id: 70, title: "Fullcover sci-fi 72", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(72).jpg", price: 0 },
+  { id: 71, title: "Fullcover sci-fi 73", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(73).jpg", price: 4.99 },
+  { id: 72, title: "Fullcover sci-fi 74", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(74).jpg", price: 4.99 },
+  { id: 73, title: "Fullcover sci-fi 75", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(75).jpg", price: 4.99 },
+  { id: 74, title: "Fullcover sci-fi 76", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(76).jpg", price: 4.99 },
+  { id: 75, title: "Fullcover sci-fi 77", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(77).jpg", price: 0 },
+  { id: 76, title: "Fullcover sci-fi 78", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(78).jpg", price: 4.99 },
+  { id: 77, title: "Fullcover sci-fi 79", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(79).jpg", price: 4.99 },
+  { id: 78, title: "Fullcover sci-fi 8", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(8).jpg", price: 4.99 },
+  { id: 79, title: "Fullcover sci-fi 9", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Sci-fi/Fullcover_sci-fi%20(9).jpg", price: 4.99 },
+    ];
+    
+    const grid = document.getElementById('productsGrid');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Render products
+    function renderProducts(filter = 'all') {
+        grid.innerHTML = '';
+        
+        let filtered = products;
+        if (filter === 'free') {
+            filtered = products.filter(p => p.price === 0);
+        } else if (filter !== 'all') {
+            filtered = products.filter(p => p.cat === filter);
+        }
+        
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="card-image">
+                    <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400?text=Loading...'">
+                    <span class="badge ${p.price === 0 ? 'badge-free' : 'badge-pro'}">${p.price === 0 ? 'FREE' : 'PRO'}</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">${p.title}</div>
+                    <div class="card-price ${p.price === 0 ? 'free' : ''}">${p.price === 0 ? 'Gratuit' : p.price.toFixed(2) + ' €'}</div>
+                </div>
+            `;
+            card.onclick = () => {
+                window.location.href = 'generator.html?template=' + encodeURIComponent(p.img);
+            };
+            grid.appendChild(card);
+        });
+        
+        // Update counter
+        document.getElementById('totalCount').textContent = filtered.length;
+        document.getElementById('freeCount').textContent = filtered.filter(p => p.price === 0).length;
+    }
+    
+    // Filter click handlers
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts(btn.dataset.filter);
+        });
+    });
+    
+    // Initial render
+    renderProducts();
+    </script>
+</body>
+</html>

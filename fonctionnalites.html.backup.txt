@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Fonctionnalités - GabaritKDP" data-en="Features - GabaritKDP">Fonctionnalités - GabaritKDP</title>
+    <meta name="description" data-fr="Découvrez toutes les fonctionnalités de GabaritKDP : générateur de couvertures KDP, templates professionnels, export PDF haute résolution." data-en="Discover all GabaritKDP features: KDP cover generator, professional templates, high resolution PDF export." content="Découvrez toutes les fonctionnalités de GabaritKDP : générateur de couvertures KDP, templates professionnels, export PDF haute résolution.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MYG5JJM8EC');
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+
+        /* Language Selector */
+        .language-selector {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3px;
+        }
+
+        .lang-btn {
+            padding: 6px 10px;
+            border: none;
+            background: transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+
+        /* Navigation Header */
+        .header-nav {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 0px;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-nav span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF9900;
+        }
+
+        
+        .nav-links {
+            width: 100%;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 14px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.1);
+        }
+
+        .nav-links a.active {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.15);
+        }
+
+        /* Style spécial pour Générateur Express */
+        .express-nav-btn {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+            position: relative !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .express-nav-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: white !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .f-exp-gene {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        .f-exp-gene:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: #FFFFFF;
+        }
+
+        .express-nav-btn::before,
+        .f-exp-gene::before {
+            content: "⚡";
+            margin-right: 4px;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mobile-menu-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+        
+        .features-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+            border-color: #FF9900;
+        }
+        
+        .feature-header {
+            background: linear-gradient(135deg, #FF9900 0%, #e68900 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .feature-header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .feature-body {
+            padding: 2rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+            color: #4b5563;
+        }
+        
+        .feature-list li:before {
+            content: '✓';
+            color: #10b981;
+            font-weight: bold;
+            margin-right: 0.75rem;
+            font-size: 1.1rem;
+        }
+        
+        .cta-button {
+            background: #FF9900;
+            color: white;
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .cta-button:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 153, 0, 0.3);
+        }
+        
+        .comparison-table {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 3rem 0;
+        }
+        
+        .comparison-header {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 0;
+        }
+        
+        .comparison-row {
+            display: contents;
+        }
+        
+        .comparison-cell {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            border-right: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+        }
+        
+        .comparison-cell:last-child {
+            border-right: none;
+        }
+        
+        .comparison-header-cell {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #1f2937;
+        }
+        
+        .check-mark {
+            color: #10b981;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .cross-mark {
+            color: #ef4444;
+            font-size: 1.2rem;
+            text-align: center;
+            width: 100%;
+        }
+        
+        .demo-section {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 3rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .demo-item {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        
+        .demo-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FF9900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #FF9900;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #FF9900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: #6b7280;
+            font-weight: 500;
+        }
+        
+        .integration-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .integration-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .integration-card:hover {
+            border-color: #FF9900;
+            transform: translateY(-3px);
+        }
+        
+        .integration-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #FF9900;
+        }
+
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 22.5px;
+                right: 60px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Mobile menu toggle button */
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 4px;
+                margin-left: auto;
+            }
+
+            .mobile-menu-toggle:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-nav span {
+                display: none;
+            }
+
+            .language-selector {
+                right: 60px;
+                padding: 0px 2px 2px 2px;
+                top: 23px;
+            }
+
+            .lang-btn {
+                padding: 4px 8px;
+                font-size: 0.7rem;
+            }
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+        
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+                font-size: 0.9rem;
+            }
+            .comparison-cell {
+                padding: 0.75rem;
+            }
+            .demo-section {
+                padding: 2rem;
+            }
+        }
+                /* Social Links */
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+        
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0866D3);
+        }
+        
+        .social-link.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);
+        }
+        
+        .social-link.pinterest {
+            background: linear-gradient(135deg, #BD081C, #E60023);
+        }
+        
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
+        }
+        
+        .social-link.linkedin {
+            background: linear-gradient(135deg, #0A66C2, #004182);
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                gap: 10px;
+            }
+            
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            } 
+        }           
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+
+            <!-- Menu Hamburger - Mobile -->
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+            </div>
+
+            <!-- Navigation Desktop -->
+            <nav class="nav-links">
+                <a href="./index.html">
+                    🏠 Home
+                </a>
+
+                <a href="./generator.html" class="express-nav-btn">
+                    Express Generator
+                </a>
+
+                <a href="./generator-magic.html">
+                    Magic Generator
+                </a>
+
+                <a href="./Marketplace.html">
+                    Marketplace
+                </a>
+
+                <a href="#tarifs">
+                    💰 Pricing
+                </a>
+
+                <a href="./inscription.html">
+                    📝 Sign Up
+                </a>
+
+                <a href="./connexion.html">
+                    🔓 Login
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Menu Mobile -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="mobile-menu-links">
+            <a href="./index.html">
+                🏠 Home
+            </a>
+
+            <a href="./generator.html"
+                style="background: linear-gradient(135deg, #10b981, #059669); border-color: #10b981;">
+                ⚡ Express Generator
+            </a>
+
+            <a href="./generator-magic.html">
+                Magic Generator
+            </a>
+
+            <a href="./Marketplace.html">
+                Marketplace
+            </a>
+
+            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2); border-color: #fbbf24;">
+                💰 Pricing
+            </a>
+
+            <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2); border-color: #22c55e;">
+                📝 Sign Up
+            </a>
+
+            <a href="./connexion.html">
+                🔓 Login
+            </a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="features-hero py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Fonctionnalités Avancées" data-en="Advanced Features">
+                Fonctionnalités <span style="color: #FF9900;">Avancées</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8" data-fr="Tout ce dont vous avez besoin pour créer des couvertures KDP parfaites" data-en="Everything you need to create perfect KDP covers">
+                Tout ce dont vous avez besoin pour créer des couvertures KDP parfaites
+            </p>
+        </div>
+    </section>
+
+    <!-- Statistics -->
+    <section class="py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label" data-fr="Templates disponibles" data-en="Available templates">Templates disponibles</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label" data-fr="Conformité Amazon KDP" data-en="Amazon KDP compliance">Conformité Amazon KDP</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">< 30s</div>
+                    <div class="stat-label" data-fr="Temps de génération" data-en="Generation time">Temps de génération</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">300 DPI</div>
+                    <div class="stat-label" data-fr="Résolution d'export" data-en="Export resolution">Résolution d'export</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Features -->
+    <section class="py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-3 gap-8">
+                
+                <!-- Générateur Intelligent -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">🎨</div>
+                        <h3 class="text-xl font-bold" data-fr="Générateur Intelligent" data-en="Smart Generator">Générateur Intelligent</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4" data-fr="IA avancée pour des designs parfaits" data-en="Advanced AI for perfect designs">IA avancée pour des designs parfaits</p>
+                        <ul class="feature-list">
+                            <li data-fr="Suggestions automatiques de couleurs" data-en="Automatic color suggestions">Suggestions automatiques de couleurs</li>
+                            <li data-fr="Optimisation des polices" data-en="Font optimization">Optimisation des polices</li>
+                            <li data-fr="Analyse de tendances KDP" data-en="KDP trends analysis">Analyse de tendances KDP</li>
+                            <li data-fr="Recommandations personnalisées" data-en="Personalized recommendations">Recommandations personnalisées</li>
+                        </ul>
+                        <a href="generator.html" class="cta-button" data-fr="Essayer maintenant" data-en="Try now">Essayer maintenant</a>
+                    </div>
+                </div>
+
+                <!-- Templates Professionnels -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">📚</div>
+                        <h3 class="text-xl font-bold" data-fr="Templates Pros" data-en="Pro Templates">Templates Pros</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4" data-fr="Bibliothèque premium mise à jour chaque semaine" data-en="Premium library updated weekly">Bibliothèque premium mise à jour chaque semaine</p>
+                        <ul class="feature-list">
+                            <li data-fr="500+ designs exclusifs" data-en="500+ exclusive designs">500+ designs exclusifs</li>
+                            <li data-fr="Tous les genres littéraires" data-en="All literary genres">Tous les genres littéraires</li>
+                            <li data-fr="Formats Kindle et Paperback" data-en="Kindle and Paperback formats">Formats Kindle et Paperback</li>
+                            <li data-fr="Nouveautés hebdomadaires" data-en="Weekly updates">Nouveautés hebdomadaires</li>
+                        </ul>
+                        <a href="generator.html" class="cta-button" data-fr="Voir les templates" data-en="View templates">Voir les templates</a>
+                    </div>
+                </div>
+
+                <!-- Export Ultra HD -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">⚡</div>
+                        <h3 class="text-xl font-bold" data-fr="Export Ultra HD" data-en="Ultra HD Export">Export Ultra HD</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4" data-fr="Qualité professionnelle garantie" data-en="Professional quality guaranteed">Qualité professionnelle garantie</p>
+                        <ul class="feature-list">
+                            <li data-fr="300 DPI haute résolution" data-en="300 DPI high resolution">300 DPI haute résolution</li>
+                            <li data-fr="Couleurs CMYK parfaites" data-en="Perfect CMYK colors">Couleurs CMYK parfaites</li>
+                            <li data-fr="Compression optimisée" data-en="Optimized compression">Compression optimisée</li>
+                            <li data-fr="Validation automatique KDP" data-en="Automatic KDP validation">Validation automatique KDP</li>
+                        </ul>
+                        <a href="inscription.html" class="cta-button" data-fr="Commencer" data-en="Get started">Commencer</a>
+                    </div>
+                </div>
+
+                <!-- Éditeur Avancé -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">🛠️</div>
+                        <h3 class="text-xl font-bold" data-fr="Éditeur Avancé" data-en="Advanced Editor">Éditeur Avancé</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4" data-fr="Contrôle total sur votre design" data-en="Total control over your design">Contrôle total sur votre design</p>
+                        <ul class="feature-list">
+                            <li data-fr="Calques et transparence" data-en="Layers and transparency">Calques et transparence</li>
+                            <li data-fr="Effets et filtres" data-en="Effects and filters">Effets et filtres</li>
+                            <li data-fr="Typographie avancée" data-en="Advanced typography">Typographie avancée</li>
+                            <li data-fr="Import d'images personnalisées" data-en="Custom image import">Import d'images personnalisées</li>
+                        </ul>
+                        <a href="generator.html" class="cta-button" data-fr="Découvrir l'éditeur" data-en="Discover editor">Découvrir l'éditeur</a>
+                    </div>
+                </div>
+
+                <!-- Conformité Amazon -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">✅</div>
+                        <h3 class="text-xl font-bold" data-fr="Conformité Amazon" data-en="Amazon Compliance">Conformité Amazon</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4" data-fr="100% conforme aux exigences KDP" data-en="100% compliant with KDP requirements">100% conforme aux exigences KDP</p>
+                        <ul class="feature-list">
+                            <li data-fr="Formats officiels Amazon" data-en="Official Amazon formats">Formats officiels Amazon</li>
+                            <li data-fr="Zones de sécurité respectées" data-en="Safety zones respected">Zones de sécurité respectées</li>
+                            <li data-fr="Calcul automatique de tranche" data-en="Automatic spine calculation">Calcul automatique de tranche</li>
+                            <li data-fr="Validation avant export" data-en="Pre-export validation">Validation avant export</li>
+                        </ul>
+                        <a href="faq.html" class="cta-button" data-fr="En savoir plus" data-en="Learn more">En savoir plus</a>
+                    </div>
+                </div>
+
+                <!-- Collaboration -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">👥</div>
+                        <h3 class="text-xl font-bold" data-fr="Collaboration" data-en="Collaboration">Collaboration</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4" data-fr="Travaillez en équipe efficacement" data-en="Work efficiently as a team">Travaillez en équipe efficacement</p>
+                        <ul class="feature-list">
+                            <li data-fr="Partage de projets" data-en="Project sharing">Partage de projets</li>
+                            <li data-fr="Commentaires en temps réel" data-en="Real-time comments">Commentaires en temps réel</li>
+                            <li data-fr="Historique des versions" data-en="Version history">Historique des versions</li>
+                            <li data-fr="Gestion des droits" data-en="Rights management">Gestion des droits</li>
+                        </ul>
+                        <a href="contact.html" class="cta-button" data-fr="Demander une démo" data-en="Request demo">Demander une démo</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Table -->
+    <section class="py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="comparison-table">
+                <div class="comparison-header">
+                    <h2 class="text-2xl font-bold" data-fr="GabaritKDP vs Concurrence" data-en="GabaritKDP vs Competition">GabaritKDP vs Concurrence</h2>
+                    <p data-fr="Pourquoi nous sommes le meilleur choix pour vos couvertures KDP" data-en="Why we are the best choice for your KDP covers">Pourquoi nous sommes le meilleur choix pour vos couvertures KDP</p>
+                </div>
+                
+                <div class="comparison-grid">
+                    <div class="comparison-row">
+                        <div class="comparison-cell comparison-header-cell" data-fr="Fonctionnalité" data-en="Feature">Fonctionnalité</div>
+                        <div class="comparison-cell comparison-header-cell">GabaritKDP</div>
+                        <div class="comparison-cell comparison-header-cell">Canva</div>
+                        <div class="comparison-cell comparison-header-cell" data-fr="Autres" data-en="Others">Autres</div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-fr="Formats KDP officiels" data-en="Official KDP formats">Formats KDP officiels</div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-fr="Calcul automatique de tranche" data-en="Automatic spine calculation">Calcul automatique de tranche</div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-fr="Templates spécialisés KDP" data-en="KDP specialized templates">Templates spécialisés KDP</div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-fr="Export 300 DPI garanti" data-en="Guaranteed 300 DPI export">Export 300 DPI garanti</div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-fr="Support KDP expert" data-en="Expert KDP support">Support KDP expert</div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                    </div>
+                    
+                    <div class="comparison-row">
+                        <div class="comparison-cell" data-fr="Prix accessible" data-en="Affordable price">Prix accessible</div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                        <div class="comparison-cell"><span class="cross-mark">✗</span></div>
+                        <div class="comparison-cell"><span class="check-mark">✓</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section class="py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="demo-section">
+                <h2 class="text-3xl font-bold mb-4" data-fr="Créez votre première couverture en 3 étapes" data-en="Create your first cover in 3 steps">Créez votre première couverture en 3 étapes</h2>
+                <p class="text-xl mb-8 opacity-90" data-fr="Simple, rapide et professionnel" data-en="Simple, fast and professional">Simple, rapide et professionnel</p>
+                
+                <div class="demo-grid">
+                    <div class="demo-item">
+                        <div class="demo-number">1</div>
+                        <h4 class="font-semibold mb-2" data-fr="Choisissez votre format" data-en="Choose your format">Choisissez votre format</h4>
+                        <p data-fr="Sélectionnez le format KDP correspondant à votre livre" data-en="Select the KDP format corresponding to your book">Sélectionnez le format KDP correspondant à votre livre</p>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <div class="demo-number">2</div>
+                        <h4 class="font-semibold mb-2" data-fr="Personnalisez" data-en="Customize">Personnalisez</h4>
+                        <p data-fr="Modifiez textes, couleurs et images selon vos besoins" data-en="Modify texts, colors and images according to your needs">Modifiez textes, couleurs et images selon vos besoins</p>
+                    </div>
+                    
+                    <div class="demo-item">
+                        <div class="demo-number">3</div>
+                        <h4 class="font-semibold mb-2" data-fr="Exportez" data-en="Export">Exportez</h4>
+                        <p data-fr="Téléchargez votre PDF haute résolution prêt pour Amazon" data-en="Download your high resolution PDF ready for Amazon">Téléchargez votre PDF haute résolution prêt pour Amazon</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8">
+                    <a href="generator.html" class="cta-button" style="display: inline-block; width: auto; padding: 1rem 3rem;" data-fr="🚀 Commencer maintenant" data-en="🚀 Start now">🚀 Commencer maintenant</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Integrations -->
+    <section class="py-16 bg-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-4" data-fr="Intégrations & Compatibilité" data-en="Integrations & Compatibility">Intégrations & Compatibilité</h2>
+                <p class="text-xl text-gray-600" data-fr="Connectez GabaritKDP à vos outils préférés" data-en="Connect GabaritKDP to your favorite tools">Connectez GabaritKDP à vos outils préférés</p>
+            </div>
+            
+            <div class="integration-grid">
+                <div class="integration-card">
+                    <div class="integration-icon">📱</div>
+                    <h4 class="font-semibold" data-fr="Canva Import" data-en="Canva Import">Canva Import</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-fr="Importez vos designs Canva" data-en="Import your Canva designs">Importez vos designs Canva</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-icon">🌐</div>
+                    <h4 class="font-semibold" data-fr="Amazon KDP" data-en="Amazon KDP">Amazon KDP</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-fr="Connexion directe à votre compte" data-en="Direct connection to your account">Connexion directe à votre compte</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-icon">📁</div>
+                    <h4 class="font-semibold" data-fr="Google Drive" data-en="Google Drive">Google Drive</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-fr="Sauvegarde automatique" data-en="Automatic backup">Sauvegarde automatique</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-icon">💳</div>
+                    <h4 class="font-semibold" data-fr="Stripe" data-en="Stripe">Stripe</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-fr="Paiements sécurisés" data-en="Secure payments">Paiements sécurisés</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-icon">📧</div>
+                    <h4 class="font-semibold" data-fr="Email Marketing" data-en="Email Marketing">Email Marketing</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-fr="Mailchimp, ConvertKit" data-en="Mailchimp, ConvertKit">Mailchimp, ConvertKit</p>
+                </div>
+                
+                <div class="integration-card">
+                    <div class="integration-icon">📊</div>
+                    <h4 class="font-semibold" data-fr="Analytics" data-en="Analytics">Analytics</h4>
+                    <p class="text-sm text-gray-600 mt-2" data-fr="Suivi des performances" data-en="Performance tracking">Suivi des performances</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div class="social-section">
+                <h4 class="text-white font-semibold mb-4 text-center">
+                    🚀 Follow us for the latest KDP news!
+                </h4>
+
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"
+                        title="YouTube - Tutoriels KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"
+                        title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"
+                        title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"
+                        title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"
+                        title="TikTok - Tips rapides KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"
+                        title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+
+                <p class="text-center text-sm text-gray-400 mt-4">
+                    KDP Tips • Tutorials • News • Authors Community
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400">The generator for 100% Amazon-compliant KDP covers.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene">Express Generator</a></li>
+                        <li><a href="generator-magic.html" class="hover:text-white transition">Magic Generator</a></li>
+                        <li><a href="Marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+                        <li><a href="#tarifs" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition">Features</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition">User Guide</a></li>
+                        <li><a href="updates.html" class="hover:text-white transition">Updates / What’s New</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition">Legal Notice</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>  
+
+
+    <script>
+        let currentLanguage = 'fr';
+        
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all text elements
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                const text = lang === 'fr' ? element.getAttribute('data-fr') : element.getAttribute('data-en');
+                if (element.tagName === 'INPUT' && element.type === 'submit') {
+                    element.value = text;
+                } else if (element.tagName === 'OPTION') {
+                    element.textContent = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+            
+            // Update placeholders
+            document.querySelectorAll(`[data-${lang}-placeholder]`).forEach(element => {
+                element.placeholder = element.getAttribute(`data-${lang}-placeholder`);
+            });
+            
+            // Update page title and meta description
+            const titleElement = document.querySelector('title');
+            const metaElement = document.querySelector('meta[name="description"]');
+            if (lang === 'fr') {
+                titleElement.textContent = titleElement.getAttribute('data-fr');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-fr'));
+                document.documentElement.lang = 'fr';
+            } else {
+                titleElement.textContent = titleElement.getAttribute('data-en');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-en'));
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            switchLanguage(currentLanguage);
+        });
+    </script>
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                body.style.overflow = '';
+            } else {
+                mobileMenu.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+        }
+    </script>    
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "gabaritkdp-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "echo \"No tests yet\"",
+    "start": "node server.js",
+
+    "build:css": "tailwindcss -i ./src/input.css -o ./dist/output.css",
+    "watch:css": "tailwindcss -i ./src/input.css -o ./dist/output.css --watch",
+
+    "build:css:node": "node ./node_modules/tailwindcss/lib/cli.js -i ./src/input.css -o ./dist/output.css",
+    "watch:css:node": "node ./node_modules/tailwindcss/lib/cli.js -i ./src/input.css -o ./dist/output.css --watch"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.23",
+    "postcss": "^8.5.6",
+    "tailwindcss": "3.4.17"
+  }
+}

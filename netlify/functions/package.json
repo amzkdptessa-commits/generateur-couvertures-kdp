@@ -1,0 +1,11 @@
+{
+  "name": "gabaritkdp-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions pour GabaritKDP - Export PDF KDP Strict",
+  "dependencies": {
+    "pdf-lib": "^1.17.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

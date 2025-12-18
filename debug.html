@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug GabaritKDP</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .card { background: white; border: 1px solid #ddd; padding: 20px; margin: 10px 0; border-radius: 8px; }
+        .button { background: #3B82F6; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        .button:hover { background: #2563EB; }
+        .status { position: fixed; top: 10px; right: 10px; padding: 10px; border-radius: 5px; color: white; }
+        .success { background: #10B981; }
+        .error { background: #EF4444; }
+        .warning { background: #F59E0B; }
+        input, select { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 4px; }
+        .result { background: #f0f9ff; border: 1px solid #0ea5e9; padding: 15px; border-radius: 8px; margin: 10px 0; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div id="status" class="status error">🔄 Test API...</div>
+    
+    <div class="container">
+        <h1>🧪 Debug GabaritKDP API</h1>
+        
+        <div class="card">
+            <h2>Configuration</h2>
+            
+            <label>Format KDP :</label>
+            <select id="format">
+                <option value="6x9">6" × 9" (15,24 × 22,86 cm) ⭐</option>
+                <option value="5x8">5" × 8" (12,7 × 20,32 cm)</option>
+                <option value="8.5x11">8.5" × 11" (21,59 × 27,94 cm)</option>
+            </select>
+            
+            <label>Nombre de pages :</label>
+            <input type="number" id="pages" value="120" min="24" max="1000">
+            
+            <label>Type de reliure :</label>
+            <select id="binding">
+                <option value="paperback">Livre broché (Paperback)</option>
+                <option value="hardcover">Livre relié (Hardcover)</option>
+            </select>
+            
+            <br><br>
+            <button class="button" onclick="testAPI()">🔍 Test API</button>
+            <button class="button" onclick="calculer()">🚀 Calculer</button>
+        </div>
+        
+        <div class="card">
+            <h2>Résultats</h2>
+            <div id="loading" class="hidden">⏳ Calcul en cours...</div>
+            <div id="resultats"></div>
+        </div>
+        
+        <div class="card">
+            <h2>Logs</h2>
+            <div id="logs" style="background: #000; color: #0f0; padding: 10px; font-family: monospace; height: 200px; overflow-y: auto;"></div>
+        </div>
+    </div>
+
+    <script>
+        console.log('🚀 Script chargé');
+        
+        // Fonction de log
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logElement = document.getElementById('logs');
+            const logMessage = `[${timestamp}] ${message}`;
+            logElement.innerHTML += logMessage + '<br>';
+            logElement.scrollTop = logElement.scrollHeight;
+            console.log(logMessage);
+        }
+        
+        // Test API
+        async function testAPI() {
+            log('🔍 Test de connexion API...');
+            
+            try {
+                const response = await fetch('http://localhost:3000/health');
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ API connectée - Status: ${data.status}, Version: ${data.version}`);
+                    
+                    document.getElementById('status').className = 'status success';
+                    document.getElementById('status').textContent = '✅ API Connectée';
+                    
+                    return true;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                log(`❌ Erreur API: ${error.message}`);
+                
+                document.getElementById('status').className = 'status error';
+                document.getElementById('status').textContent = '❌ API Erreur';
+                
+                return false;
+            }
+        }
+        
+        // Calcul
+        async function calculer() {
+            const format = document.getElementById('format').value;
+            const pages = parseInt(document.getElementById('pages').value);
+            const binding = document.getElementById('binding').value;
+            
+            log(`🧮 Calcul: ${format}, ${pages} pages, ${binding}`);
+            
+            document.getElementById('loading').classList.remove('hidden');
+            document.getElementById('resultats').innerHTML = '';
+            
+            try {
+                const response = await fetch('http://localhost:3000/designs/calculate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        format: format,
+                        pages: pages,
+                        paper: 'blanc',
+                        binding: binding
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    log(`✅ Calcul API réussi`);
+                    log(`Données: ${JSON.stringify(data, null, 2)}`);
+                    
+                    document.getElementById('resultats').innerHTML = `
+                        <div class="result">
+                            <h3>📐 Dimensions calculées (via API)</h3>
+                            <p><strong>Largeur totale:</strong> ${data.width || data.total_width}</p>
+                            <p><strong>Hauteur totale:</strong> ${data.height || data.total_height}</p>
+                            <p><strong>Dos (tranche):</strong> ${data.spine}</p>
+                            <p><strong>Fond perdu:</strong> ${data.bleed}</p>
+                            <p><strong>Zone sécurité:</strong> ${data.safe_zone}</p>
+                            <p><strong>Calculé le:</strong> ${data.calculated_at}</p>
+                        </div>
+                    `;
+                    
+                } else {
+                    throw new Error(`API Error: ${response.status}`);
+                }
+                
+            } catch (error) {
+                log(`❌ Erreur: ${error.message}`);
+                
+                // Calcul local de secours
+                const result = calculLocal(format, pages, binding);
+                log(`🔧 Fallback local: ${JSON.stringify(result, null, 2)}`);
+                
+                document.getElementById('resultats').innerHTML = `
+                    <div class="result">
+                        <h3>📐 Dimensions calculées (mode local)</h3>
+                        <p><strong>Largeur totale:</strong> ${result.width}</p>
+                        <p><strong>Hauteur totale:</strong> ${result.height}</p>
+                        <p><strong>Dos (tranche):</strong> ${result.spine}</p>
+                        <p><strong>Fond perdu:</strong> ${result.bleed}</p>
+                        <p><strong>Source:</strong> Calcul local</p>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('loading').classList.add('hidden');
+        }
+        
+        // Calcul local
+        function calculLocal(format, pages, binding) {
+            const formats = {
+                '5x8': { width: 127, height: 203.2 },
+                '6x9': { width: 152.4, height: 228.6 },
+                '8.5x11': { width: 215.9, height: 279.4 }
+            };
+            
+            const formatData = formats[format];
+            const spineWidth = pages * 0.0025 * 25.4; // mm
+            const bleed = binding === 'hardcover' ? 6.35 : 3.175; // mm
+            
+            const totalWidth = binding === 'paperback' 
+                ? (formatData.width * 2) + spineWidth + (bleed * 2)
+                : formatData.width + (bleed * 2);
+            const totalHeight = formatData.height + (bleed * 2);
+            
+            return {
+                width: `${(totalWidth / 25.4).toFixed(2)} in`,
+                height: `${(totalHeight / 25.4).toFixed(2)} in`,
+                spine: `${(spineWidth / 25.4).toFixed(3)} in`,
+                bleed: `${(bleed / 25.4).toFixed(3)} in`,
+                safe_zone: '0.25 in'
+            };
+        }
+        
+        // Initialisation
+        window.onload = function() {
+            log('🚀 Page chargée, initialisation...');
+            
+            // Test auto de l'API
+            setTimeout(async () => {
+                const apiOk = await testAPI();
+                if (apiOk) {
+                    log('✅ API prête, test de calcul automatique...');
+                    setTimeout(calculer, 1000);
+                }
+            }, 500);
+        };
+        
+        log('📜 Script initialisé');
+    </script>
+</body>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-fr="Marketplace - GabaritKDP" data-en="Marketplace - GabaritKDP">Marketplace - GabaritKDP</title>
+  <meta name="description" data-fr="Découvrez 6600+ templates KDP professionnels pour vos couvertures et intérieurs de livres Amazon." data-en="Discover 6600+ professional KDP templates for your Amazon book covers and interiors.">
+
+  <script>
+    function detectUserLanguage() {
+      const userChoice = localStorage.getItem('preferredLanguage');
+      if (userChoice) return userChoice;
+      return 'en';
+    }
+    const defaultLang = detectUserLanguage();
+    document.documentElement.lang = defaultLang;
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+    .language-selector{background:#fff;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1);padding:3px}
+    .lang-btn{padding:6px 10px;border:none;background:transparent;border-radius:16px;cursor:pointer;transition:.3s;font-weight:500;font-size:.8rem}
+    .lang-btn.active{background:#FF9900;color:#fff}
+
+    .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;box-shadow:0 4px 20px rgba(0,0,0,.1);position:sticky;top:0;z-index:999}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:0}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff;flex-shrink:0}
+    .logo-nav img{height:40px;width:auto}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+
+    .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:25px;flex-wrap:wrap}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;position:relative;display:flex;align-items:center;gap:6px;font-size:.95rem}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+
+    .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important}
+    .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important}
+    .express-nav-btn::before{content:"⚡";margin-right:4px}
+
+    .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%)}
+
+    .category-card{
+      position:relative;
+      border-radius:16px;
+      overflow:hidden;
+      aspect-ratio:4/3;
+      cursor:pointer;
+      transition:all .3s ease;
+      box-shadow:0 4px 15px rgba(0,0,0,.1);
+      background:#f1f5f9;
+    }
+    .category-card:hover{
+      transform:translateY(-8px);
+      box-shadow:0 20px 40px rgba(0,0,0,.15);
+    }
+    .category-card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:transform .5s ease;
+    }
+    .category-card:hover img{
+      transform:scale(1.1);
+    }
+    .category-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%);
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:1.5rem;
+    }
+    .category-icon{font-size:2rem;margin-bottom:.5rem}
+    .category-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+    .category-count{color:#FF9900;font-weight:600;font-size:.875rem}
+    .category-badge{
+      position:absolute;
+      top:1rem;
+      right:1rem;
+      padding:.25rem .75rem;
+      border-radius:9999px;
+      font-size:.75rem;
+      font-weight:600;
+      color:#fff;
+    }
+    .badge-new{background:#10b981}
+    .badge-popular{background:#f59e0b}
+    .badge-best{background:#8b5cf6}
+    .badge-premium{background:linear-gradient(135deg,#dc2626,#b91c1c);box-shadow:0 4px 15px rgba(220,38,38,.4)}
+
+    /* FULL COVER Premium Card */
+    .fullcover-premium{
+      grid-column: span 2;
+      aspect-ratio: 2/1;
+      border: 3px solid #dc2626;
+      box-shadow: 0 8px 30px rgba(220,38,38,.3);
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+    .fullcover-premium:hover{
+      border-color: #ef4444;
+      box-shadow: 0 15px 50px rgba(220,38,38,.4);
+    }
+    .fullcover-premium .category-overlay{
+      background: linear-gradient(to top, rgba(0,0,0,.9) 0%, rgba(139,0,0,.3) 50%, transparent 100%);
+    }
+    .fullcover-premium .category-name{
+      font-size: 1.75rem;
+      color: #fff;
+    }
+    .fullcover-premium .category-count{
+      font-size: 1rem;
+    }
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 8px 30px rgba(220,38,38,.3); }
+      50% { box-shadow: 0 8px 40px rgba(220,38,38,.5); }
+    }
+
+    @media (max-width: 768px) {
+      .fullcover-premium {
+        grid-column: span 1;
+        aspect-ratio: 4/3;
+      }
+    }
+
+    .social-section{background:rgba(255,255,255,.05);border-radius:12px;padding:1.5rem;margin-bottom:2rem}
+    .social-links{display:flex;justify-content:center;gap:15px;margin-top:1rem;flex-wrap:wrap}
+    .social-link{display:flex;align-items:center;justify-content:center;width:45px;height:45px;border-radius:50%;color:#fff;text-decoration:none;font-size:1.2rem;transition:.3s}
+    .social-link:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+    .social-link.youtube{background:linear-gradient(135deg,#FF0000,#CC0000)}
+    .social-link.facebook{background:linear-gradient(135deg,#1877F2,#0866D3)}
+    .social-link.instagram{background:linear-gradient(135deg,#E4405F,#C13584,#8A2BE2)}
+    .social-link.pinterest{background:linear-gradient(135deg,#BD081C,#E60023)}
+    .social-link.tiktok{background:linear-gradient(135deg,#000,#FF0050,#00F2EA)}
+    .social-link.linkedin{background:linear-gradient(135deg,#0A66C2,#004182)}
+
+    .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);z-index:999;padding:80px 20px 20px;overflow-y:auto}
+    .mobile-menu.active{display:block;animation:slideIn .3s ease}
+    @keyframes slideIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    .mobile-menu-links{display:flex;flex-direction:column;gap:15px;max-width:400px;margin:0 auto}
+    .mobile-menu-links a{color:#fff;text-decoration:none;font-weight:600;padding:15px 20px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);transition:.3s;display:flex;align-items:center;gap:12px;font-size:1.1rem}
+    .mobile-menu-close{position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
+
+    @media (max-width:768px){
+      .nav-links{display:none}
+      .mobile-menu-toggle{display:block;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:8px}
+    }
+    @media (min-width:769px){.mobile-menu-toggle{display:none}}
+  </style>
+</head>
+
+<body class="bg-white">
+
+  <!-- Navigation Header -->
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP">
+        <span>GabaritKDP</span>
+      </a>
+
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <div class="language-selector">
+        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+      </div>
+
+      <nav class="nav-links">
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur" data-en="Generator">Generator</a>
+        <a href="./marketplace.html" class="active" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+        <a href="./pricing.html" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+    <div class="mobile-menu-links">
+      <a href="./index.html">🏠 Home</a>
+      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669)">⚡ Generator</a>
+      <a href="./marketplace.html" style="background:rgba(255,153,0,.2);border-color:#FF9900">🛒 Marketplace</a>
+      <a href="./pricing.html">💰 Pricing</a>
+      <a href="./inscription.html">📝 Sign Up</a>
+      <a href="./connexion.html">🔓 Login</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+        <span data-fr="KDP Templates" data-en="KDP Templates">KDP Templates</span>
+        <span style="color:#FF9900;"> Marketplace</span>
+      </h1>
+      <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8" data-fr="La première plateforme tout-en-un : Couvertures, Intérieurs, E-books PLR/MRR et ressources digitales pour créateurs et auteurs" data-en="The first all-in-one platform: Covers, Interiors, PLR/MRR E-books and digital resources for creators and authors">
+        The first all-in-one platform: Covers, Interiors, PLR/MRR E-books and digital resources for creators and authors
+      </p>
+      
+      <!-- Stats -->
+      <div class="flex flex-wrap justify-center gap-8 mb-8">
+        <div class="text-center">
+          <div class="text-4xl font-bold" style="color:#FF9900;">6,638+</div>
+          <div class="text-gray-600" data-fr="Templates" data-en="Templates">Templates</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold" style="color:#FF9900;">1,327+</div>
+          <div class="text-gray-600" data-fr="Gratuits" data-en="Free">Free</div>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl font-bold" style="color:#FF9900;">15</div>
+          <div class="text-gray-600" data-fr="Catégories" data-en="Categories">Categories</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ⭐ FULL COVER Premium Banner -->
+  <section class="py-8 bg-gradient-to-r from-red-900 via-red-800 to-red-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="category-card fullcover-premium" onclick="location.href='category-full-cover.html'" style="aspect-ratio:3/1;grid-column:span 1;">
+        <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/fullcovers/Romance/Contemporary/ROMANCE%20SMALL%20TOWN/FULLCOVER_romancesmalltown%20(10).jpg" alt="Full Cover Collection" loading="lazy">
+        <div class="category-overlay" style="background:linear-gradient(to right, rgba(0,0,0,.95) 0%, rgba(139,0,0,.6) 50%, rgba(0,0,0,.3) 100%);">
+          <div class="flex items-center justify-between w-full">
+            <div>
+              <span class="text-red-400 text-sm font-bold uppercase tracking-wider">🔥 Premium Collection</span>
+              <span class="category-name text-3xl md:text-4xl block mt-2">FULL COVER</span>
+              <span class="category-count text-lg mt-2 block">2,627 templates • 525 free • Ready to Print</span>
+            </div>
+            <div class="hidden md:block text-right">
+              <div class="text-5xl font-bold text-red-500">2,627</div>
+              <div class="text-white text-sm">Professional Covers</div>
+            </div>
+          </div>
+        </div>
+        <span class="category-badge badge-premium" style="font-size:1rem;padding:.5rem 1.25rem;">🔥 BEST SELLER</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book Covers Section -->
+  <section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-gray-900 mb-2" data-fr="📚 Couvertures de Livres" data-en="📚 Book Covers">📚 Book Covers</h2>
+        <p class="text-gray-600" data-fr="Arrière-plans et éléments pour créer vos propres couvertures" data-en="Backgrounds and elements to create your own covers">Backgrounds and elements to create your own covers</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <!-- Romance -->
+        <div class="category-card" onclick="location.href='category-romance.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/ROMANCE/Contemporary/NATURE%20%20FOR%C3%8AT%20%20MONTAGNE/cf-flow-35QikFtY4KfLER0Q1xUVttjdsJD.png" alt="Romance" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">💕</span>
+            <span class="category-name">Romance</span>
+            <span class="category-count">910 templates • 182 free</span>
+          </div>
+          <span class="category-badge badge-popular">POPULAR</span>
+        </div>
+
+        <!-- Thriller -->
+        <div class="category-card" onclick="location.href='category-thriller.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/THRILLER/Crime/CRIME%20(1).png" alt="Thriller" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🔪</span>
+            <span class="category-name">Thriller</span>
+            <span class="category-count">76 templates • 15 free</span>
+          </div>
+          <span class="category-badge badge-new">NEW</span>
+        </div>
+
+        <!-- Fantasy -->
+        <div class="category-card" onclick="location.href='category-fantasy.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/FANTASY/EPIC%20FANTASY/EPIC%20FANTASY%20(1).png" alt="Fantasy" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🐉</span>
+            <span class="category-name">Fantasy</span>
+            <span class="category-count">145 templates • 29 free</span>
+          </div>
+        </div>
+
+        <!-- Mystery -->
+        <div class="category-card" onclick="location.href='category-mystery.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery%20(10).png" alt="Mystery" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🔍</span>
+            <span class="category-name">Mystery</span>
+            <span class="category-count">89 templates • 17 free</span>
+          </div>
+        </div>
+
+        <!-- Sci-Fi -->
+        <div class="category-card" onclick="location.href='category-sci-fi.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/SCI-FI/CYBERPUNK/CYBERPUNK%20(10).png" alt="Sci-Fi" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🚀</span>
+            <span class="category-name">Science-Fiction</span>
+            <span class="category-count">185 templates • 37 free</span>
+          </div>
+          <span class="category-badge badge-new">NEW</span>
+        </div>
+
+        <!-- Historical -->
+        <div class="category-card" onclick="location.href='category-historical.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/HISTORICAL/Medieval/Medieval%20(12).png" alt="Historical" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🏰</span>
+            <span class="category-name">Historical</span>
+            <span class="category-count">95 templates • 19 free</span>
+          </div>
+        </div>
+
+        <!-- Bohème -->
+        <div class="category-card" onclick="location.href='category-boheme.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/BOHEME/BOHEME%20(4).png" alt="Bohème" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🌸</span>
+            <span class="category-name">Bohème</span>
+            <span class="category-count">150 templates • 30 free</span>
+          </div>
+          <span class="category-badge badge-new">NEW</span>
+        </div>
+
+        <!-- Hippie -->
+        <div class="category-card" onclick="location.href='category-hippie.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/HIPPIE/HIPPIE%20(18).png" alt="Hippie" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">☮️</span>
+            <span class="category-name">Hippie</span>
+            <span class="category-count">64 templates • 12 free</span>
+          </div>
+        </div>
+
+        <!-- Business -->
+        <div class="category-card" onclick="location.href='category-business.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/BUSINESS/Finance/Finance%20(1).png" alt="Business" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">💼</span>
+            <span class="category-name">Business</span>
+            <span class="category-count">55 templates • 11 free</span>
+          </div>
+        </div>
+
+        <!-- Cartoon -->
+        <div class="category-card" onclick="location.href='category-cartoon.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/CARTOON/Dinosaures/Cartoon%20Dinosaurs%20(1).png" alt="Cartoon" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🎨</span>
+            <span class="category-name">Cartoon</span>
+            <span class="category-count">30 templates • 6 free</span>
+          </div>
+        </div>
+
+        <!-- Animaux -->
+        <div class="category-card" onclick="location.href='category-animaux.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/ANIMAUX/Loups/Wolves%20(1).png" alt="Animaux" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">🦁</span>
+            <span class="category-name">Animaux</span>
+            <span class="category-count">23 templates • 4 free</span>
+          </div>
+        </div>
+
+        <!-- Religions -->
+        <div class="category-card" onclick="location.href='category-religions.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/RELIGIONS/CHRISTIANISME/Bible%20journaling/Bible%20journaling%20(1).png" alt="Religions" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">✝️</span>
+            <span class="category-name">Religions</span>
+            <span class="category-count">32 templates • 6 free</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Book Interiors Section -->
+  <section class="py-12 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl font-bold text-gray-900 mb-2" data-fr="📖 Intérieurs de Livres" data-en="📖 Book Interiors">📖 Book Interiors</h2>
+        <p class="text-gray-600" data-fr="Planners, livres de coloriage et templates d'intérieurs" data-en="Planners, coloring books and interior templates">Planners, coloring books and interior templates</p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        
+        <!-- Planners -->
+        <div class="category-card" onclick="location.href='category-planners.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Astronomy%20Observation%20Log%20Book/PNG/6.png" alt="Planners" loading="lazy" style="object-fit:contain;background:#f8fafc;">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Planners</span>
+            <span class="category-count">1,969 templates • 393 free</span>
+          </div>
+          <span class="category-badge badge-best">BEST SELLER</span>
+        </div>
+
+        <!-- Coloriages -->
+        <div class="category-card" onclick="location.href='category-coloriages.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/COLORIAGES/Fleurs/FLOWER.png" alt="Coloring Books" loading="lazy" style="object-fit:contain;background:#f8fafc;">
+          <div class="category-overlay">
+            <span class="category-icon">🖍️</span>
+            <span class="category-name" data-fr="Coloriages" data-en="Coloring Books">Coloring Books</span>
+            <span class="category-count">188 templates • 37 free</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-16 bg-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold text-gray-900 mb-4" data-fr="Prêt à créer votre livre ?" data-en="Ready to create your book?">Ready to create your book?</h2>
+      <p class="text-xl text-gray-600 mb-8" data-fr="Choisissez un template et personnalisez-le avec notre générateur Canva intégré" data-en="Choose a template and customize it with our integrated Canva generator">Choose a template and customize it with our integrated Canva generator</p>
+      <a href="generator.html" class="inline-block px-8 py-4 text-white text-lg font-semibold rounded-lg transition" style="background-color:#FF9900;" onmouseover="this.style.backgroundColor='#e68900'" onmouseout="this.style.backgroundColor='#FF9900'" data-fr="🚀 Créer ma couverture" data-en="🚀 Create my cover">
+        🚀 Create my cover
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section">
+        <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières actualités KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Follow us for the latest KDP news!</h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" target="_blank"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
+          </div>
+          <p class="text-gray-400" data-fr="Le générateur de couvertures KDP 100% conformes Amazon." data-en="The 100% Amazon-compliant KDP cover generator.">The 100% Amazon-compliant KDP cover generator.</p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Product</h4>
+          <ul class="space-y-2">
+            <li><a href="generator.html" class="hover:text-white transition" data-fr="Générateur" data-en="Generator">Generator</a></li>
+            <li><a href="marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+            <li><a href="pricing.html" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Pricing</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+            <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide" data-en="Guide">Guide</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Legal Notice</a></li>
+            <li><a href="cgu.html" class="hover:text-white transition" data-fr="CGU" data-en="Terms">Terms</a></li>
+            <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Confidentialité" data-en="Privacy">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+    
+    function switchLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem('preferredLanguage', lang);
+      document.documentElement.lang = lang;
+      
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) {
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = text;
+          } else {
+            el.innerHTML = text;
+          }
+        }
+      });
+    }
+    
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    }
+    
+    // Initialize language on load
+    document.addEventListener('DOMContentLoaded', () => {
+      switchLanguage(currentLanguage);
+    });
+  </script>
+
+</body>
+</html>

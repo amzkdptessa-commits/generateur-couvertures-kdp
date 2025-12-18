@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Cover Templates - GabaritKDP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;transition:all .3s}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    
+    .hero-section{background:linear-gradient(135deg,#dc2626,#b91c1c);padding:3rem 1rem;color:white;text-align:center}
+    .categories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;padding:2rem 1rem;max-width:1400px;margin:0 auto}
+    
+    .category-card{
+      position:relative;
+      border-radius:15px;
+      overflow:hidden;
+      height:160px;
+      transition:all .3s ease;
+      cursor:pointer;
+      text-decoration:none;
+      color:white;
+    }
+    .category-card:hover{
+      transform:translateY(-5px);
+      box-shadow:0 15px 35px rgba(0,0,0,.2);
+    }
+    .category-content{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      padding:1.5rem;
+      background:linear-gradient(135deg,rgba(0,0,0,0.1),rgba(0,0,0,0.3));
+    }
+    .category-emoji{
+      font-size:2.5rem;
+      margin-bottom:1rem;
+      filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+    }
+    .category-title{
+      font-size:1.4rem;
+      font-weight:700;
+      margin-bottom:.5rem;
+      text-shadow:0 2px 4px rgba(0,0,0,0.5);
+    }
+    .category-count{
+      font-size:0.9rem;
+      opacity:0.9;
+      font-weight:500;
+    }
+    
+    .container{max-width:1400px;margin:0 auto}
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"><i class="fas fa-home"></i> Accueil</a>
+        <a href="generator.html"><i class="fas fa-magic"></i> Générateur</a>
+        <a href="marketplace.html"><i class="fas fa-store"></i> Marketplace</a>
+        <a href="pricing.html"><i class="fas fa-tag"></i> Tarifs</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="text-4xl font-bold mb-4">🔥 FULL COVER Templates</h1>
+      <p class="text-xl opacity-90">2,792 professional full cover templates ready to print</p>
+      <div class="mt-6">
+        <span class="bg-white text-red-600 px-4 py-2 rounded-full font-bold">URLs CORRIGÉES ✅</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="categories-grid">
+
+    <a href="fullcover-art.html" class="category-card" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+      <div class="category-content">
+        <div class="category-emoji">🎨</div>
+        <div class="category-title">Art</div>
+        <div class="category-count">198 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-boheme.html" class="category-card" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)">
+      <div class="category-content">
+        <div class="category-emoji">🌸</div>
+        <div class="category-title">Boheme</div>
+        <div class="category-count">154 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-fantasy.html" class="category-card" style="background:linear-gradient(135deg,#7c3aed,#5b21b6)">
+      <div class="category-content">
+        <div class="category-emoji">🐉</div>
+        <div class="category-title">FANTASY</div>
+        <div class="category-count">484 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-fleurs.html" class="category-card" style="background:linear-gradient(135deg,#ec4899,#be185d)">
+      <div class="category-content">
+        <div class="category-emoji">🌺</div>
+        <div class="category-title">Fleurs</div>
+        <div class="category-count">14 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-historical.html" class="category-card" style="background:linear-gradient(135deg,#92400e,#78350f)">
+      <div class="category-content">
+        <div class="category-emoji">🏰</div>
+        <div class="category-title">Historical</div>
+        <div class="category-count">78 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-horror.html" class="category-card" style="background:linear-gradient(135deg,#1f2937,#111827)">
+      <div class="category-content">
+        <div class="category-emoji">👻</div>
+        <div class="category-title">Horror</div>
+        <div class="category-count">79 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-magie--art-nouveau-style-premium.html" class="category-card" style="background:linear-gradient(135deg,#ec4899,#be185d)">
+      <div class="category-content">
+        <div class="category-emoji">✨</div>
+        <div class="category-title">MAGIE x ART NOUVEAU (STYLE PREMIUM)</div>
+        <div class="category-count">144 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-mystery.html" class="category-card" style="background:linear-gradient(135deg,#6b7280,#374151)">
+      <div class="category-content">
+        <div class="category-emoji">🔍</div>
+        <div class="category-title">Mystery</div>
+        <div class="category-count">77 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-paysages.html" class="category-card" style="background:linear-gradient(135deg,#10b981,#059669)">
+      <div class="category-content">
+        <div class="category-emoji">🏞️</div>
+        <div class="category-title">Paysages</div>
+        <div class="category-count">23 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-religions.html" class="category-card" style="background:linear-gradient(135deg,#8b5cf6,#6d28d9)">
+      <div class="category-content">
+        <div class="category-emoji">✝️</div>
+        <div class="category-title">RELIGIONS</div>
+        <div class="category-count">368 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-romance.html" class="category-card" style="background:linear-gradient(135deg,#e91e63,#ad1457)">
+      <div class="category-content">
+        <div class="category-emoji">💕</div>
+        <div class="category-title">Romance</div>
+        <div class="category-count">435 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-sci-fi.html" class="category-card" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">
+      <div class="category-content">
+        <div class="category-emoji">🚀</div>
+        <div class="category-title">Sci-fi</div>
+        <div class="category-count">79 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-tetures.html" class="category-card" style="background:linear-gradient(135deg,#6b7280,#4b5563)">
+      <div class="category-content">
+        <div class="category-emoji">🎭</div>
+        <div class="category-title">Textures</div>
+        <div class="category-count">95 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-thriller.html" class="category-card" style="background:linear-gradient(135deg,#ef4444,#dc2626)">
+      <div class="category-content">
+        <div class="category-emoji">🔪</div>
+        <div class="category-title">Thriller</div>
+        <div class="category-count">77 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-vintage.html" class="category-card" style="background:linear-gradient(135deg,#a16207,#92400e)">
+      <div class="category-content">
+        <div class="category-emoji">📜</div>
+        <div class="category-title">Vintage</div>
+        <div class="category-count">289 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-visages.html" class="category-card" style="background:linear-gradient(135deg,#f59e0b,#d97706)">
+      <div class="category-content">
+        <div class="category-emoji">👥</div>
+        <div class="category-title">Visages</div>
+        <div class="category-count">4 templates • Auto-updated</div>
+      </div>
+    </a>
+
+    <a href="fullcover-voyages.html" class="category-card" style="background:linear-gradient(135deg,#059669,#047857)">
+      <div class="category-content">
+        <div class="category-emoji">✈️</div>
+        <div class="category-title">Voyages</div>
+        <div class="category-count">194 templates • Auto-updated</div>
+      </div>
+    </a>
+
+  </section>
+
+  <section class="bg-white py-16">
+    <div class="container text-center">
+      <h2 class="text-3xl font-bold mb-8 text-gray-800">🎯 Full Covers Organisés</h2>
+      <div class="max-w-4xl mx-auto grid md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="text-4xl mb-4">✅</div>
+          <h3 class="text-xl font-semibold mb-2">URLs Corrigées</h3>
+          <p class="text-gray-600">2,766 URLs cassées réparées automatiquement</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-4">📊</div>
+          <h3 class="text-xl font-semibold mb-2">Bien Organisé</h3>
+          <p class="text-gray-600">Navigation claire par catégories et sous-catégories</p>
+        </div>
+        <div class="text-center">
+          <div class="text-4xl mb-4">⚡</div>
+          <h3 class="text-xl font-semibold mb-2">Vignettes Optimisées</h3>
+          <p class="text-gray-600">Chargement rapide avec placeholders intelligents</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

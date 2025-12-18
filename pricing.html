@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-fr="Tarifs - GabaritKDP | Générateur KDP 100% Conforme"
+          data-en="Pricing - GabaritKDP | 100% Compliant KDP Generator">
+    Pricing - GabaritKDP | 100% Compliant KDP Generator
+  </title>
+  <meta name="description"
+        data-fr="Plans tarifaires flexibles pour créer des couvertures KDP conformes. Essai gratuit, paiement à l'export ou illimité."
+        data-en="Flexible pricing plans to create compliant KDP covers. Free trial, pay-per-export or unlimited."
+        content="Flexible pricing plans to create compliant KDP covers. Free trial, pay-per-export or unlimited.">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-MYG5JJM8EC');
+  </script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Supabase SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Supabase Integration -->
+  <script defer src="supabase-integration-real.js"></script>
+
+  <!-- Language Switcher Script -->
+  <script>
+    function switchLanguage(lang) {
+      localStorage.setItem('preferredLanguage', lang);
+      document.documentElement.lang = lang;
+      
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+      
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        const newHtml = el.getAttribute(lang === 'fr' ? 'data-fr' : 'data-en');
+        if (newHtml !== null) {
+          el.innerHTML = newHtml;
+        }
+      });
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+      const saved = localStorage.getItem('preferredLanguage') || 'en';
+      switchLanguage(saved);
+    });
+  </script>
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+
+    .language-selector {
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,.1);
+      padding: 3px;
+      display: flex;
+      gap: 2px;
+    }
+    
+    .lang-btn {
+      padding: 6px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 500;
+      font-size: .9rem;
+    }
+    
+    .lang-btn.active {
+      background: #FF9900;
+      color: #fff;
+    }
+
+    .header-nav {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      padding: 15px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,.1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
+
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo-nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .logo-nav img { height: 40px; width: auto; }
+    .logo-nav span { font-size: 1.3rem; font-weight: 700; color: #FF9900; }
+
+    .nav-links {
+      display: flex;
+      gap: 25px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: .3s;
+      padding: 10px 14px;
+      border-radius: 8px;
+    }
+
+    .nav-links a:hover { color: #FF9900; background: rgba(255,153,0,.1); }
+    .nav-links a.active { color: #FF9900; background: rgba(255,153,0,.15); }
+
+    .express-nav-btn {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      color: #fff !important;
+    }
+
+    .express-nav-btn:hover {
+      background: linear-gradient(135deg, #0d9488, #047857) !important;
+      transform: translateY(-2px);
+    }
+
+    .pricing-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.1);
+      transition: all .3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,.15);
+    }
+
+    .pricing-card.featured {
+      border: 4px solid #FF9900;
+      transform: scale(1.05);
+    }
+
+    .pricing-card.featured::before {
+      content: '🏆 MOST POPULAR';
+      position: absolute;
+      top: 20px;
+      right: -35px;
+      background: linear-gradient(135deg, #FF9900, #e68900);
+      color: white;
+      padding: 8px 50px;
+      font-size: 12px;
+      font-weight: 700;
+      transform: rotate(45deg);
+      box-shadow: 0 4px 15px rgba(255,153,0,.4);
+    }
+
+    .pricing-card.beta {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 4px solid #10b981;
+    }
+
+    .pricing-card.beta::before {
+      content: '🎁 LIMITED TIME';
+      position: absolute;
+      top: 20px;
+      right: -35px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      padding: 8px 50px;
+      font-size: 12px;
+      font-weight: 700;
+      transform: rotate(45deg);
+      box-shadow: 0 4px 15px rgba(16,185,129,.4);
+    }
+
+    .price {
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #1f2937;
+      margin: 24px 0 8px;
+      text-align: center;
+    }
+
+    .price-period {
+      color: #6b7280;
+      font-size: 1rem;
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+
+    .feature-list li {
+      padding: 12px 0;
+      color: #374151;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #e5e7eb;
+    }
+
+    .feature-list li::before {
+      content: '✓';
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .cta-button {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all .3s;
+      text-align: center;
+      text-decoration: none;
+      border: none;
+    }
+
+    .cta-primary {
+      background: linear-gradient(135deg, #FF9900, #e68900);
+      color: white;
+    }
+
+    .cta-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255,153,0,.4);
+    }
+
+    .cta-secondary {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+
+    .cta-secondary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(16,185,129,.4);
+    }
+
+    .cta-outline {
+      background: white;
+      border: 2px solid #d1d5db;
+      color: #374151;
+    }
+
+    .cta-outline:hover {
+      border-color: #FF9900;
+      color: #FF9900;
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .pricing-card.featured { transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <!-- Navigation Header -->
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="./index.html" class="logo-nav">
+        <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+      </div>
+
+      <!-- Navigation Desktop -->
+      <nav class="nav-links">
+        <a href="./index.html">🏠 Home</a>
+        <a href="./generator.html" class="express-nav-btn">Express Generator</a>
+        <a href="./generator-magic.html">Magic Generator</a>
+        <a href="./marketplace.html"  rel="noopener">Marketplace</a>
+        <a href="./pricing.html" class="active">💰 Pricing</a>
+        <a href="./inscription.html">📝 Sign Up</a>
+        <a href="./connexion.html">🔓 Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="py-20" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6" 
+          data-fr="Plans Tarifaires Flexibles"
+          data-en="Flexible Pricing Plans">
+        Flexible Pricing Plans
+      </h1>
+      <p class="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto"
+         data-fr="Choisissez le plan qui correspond à vos besoins. Passez à un plan supérieur ou inférieur à tout moment."
+         data-en="Choose the plan that fits your needs. Upgrade or downgrade anytime.">
+        Choose the plan that fits your needs. Upgrade or downgrade anytime.
+      </p>
+    </div>
+  </section>
+
+  <!-- Pricing Cards -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        
+        <!-- 🎁 BETA TESTER PLAN -->
+        <div class="pricing-card beta">
+          <div style="text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🎁</div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2"
+                data-fr="Beta Tester VIP"
+                data-en="VIP Beta Tester">VIP Beta Tester</h3>
+            <p class="text-sm text-gray-600"
+               data-fr="Premiers 100 fondateurs"
+               data-en="First 100 founders">First 100 founders</p>
+          </div>
+
+          <div class="price" style="color: #047857;">FREE</div>
+          <p class="price-period" 
+             data-fr="Jusqu'au 25 décembre 2025"
+             data-en="Until December 25, 2025">Until December 25, 2025</p>
+
+          <ul class="feature-list">
+            <li data-fr="Exports ILLIMITÉS jusqu'à Noël" data-en="UNLIMITED exports until Christmas">UNLIMITED exports until Christmas</li>
+            <li data-fr="Code -50% À VIE après" data-en="-50% FOR LIFE code after">-50% FOR LIFE code after</li>
+            <li data-fr="Badge fondateur numéroté exclusif" data-en="Exclusive numbered founder badge">Exclusive numbered founder badge</li>
+            <li data-fr="Support prioritaire" data-en="Priority support">Priority support</li>
+            <li data-fr="Accès anticipé aux nouvelles fonctionnalités" data-en="Early access to new features">Early access to new features</li>
+          </ul>
+
+          <button onclick="window.GabaritKDP.showBetaSignupModal()" class="cta-button cta-secondary"
+                  data-fr="🚀 Rejoindre le programme"
+                  data-en="🚀 Join the program">🚀 Join the program</button>
+          
+          <p style="text-align: center; margin-top: 16px; font-size: 13px; color: #047857; font-weight: 600;">
+            <span id="slotsRemaining">...</span>/10 
+            <span data-fr="places restantes" data-en="spots left">spots left</span>
+          </p>
+        </div>
+
+        <!-- ✅ FREE PLAN - FIXED avec toutes les informations -->
+        <div class="pricing-card">
+          <div style="text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🎯</div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2"
+                data-fr="Essai Gratuit"
+                data-en="Free Trial">Free Trial</h3>
+            <p class="text-sm text-gray-600"
+               data-fr="Pour tester l'outil"
+               data-en="To test the tool">To test the tool</p>
+          </div>
+
+          <div class="price">$0</div>
+          <p class="price-period" 
+             data-fr="Pour toujours"
+             data-en="Forever">Forever</p>
+
+          <ul class="feature-list">
+            <li data-fr="3 exports par mois" data-en="3 exports per month">3 exports per month</li>
+            <li data-fr="5 formats populaires" data-en="5 popular formats">5 popular formats</li>
+            <li data-fr="Export 300 DPI (prêt à imprimer)" data-en="300 DPI print-ready">300 DPI print-ready</li>
+            <li data-fr="Intégration Canva" data-en="Canva integration">Canva integration</li>
+            <li data-fr="Support par email" data-en="Email support">Email support</li>
+          </ul>
+
+          <a href="./generator.html" class="cta-button cta-outline"
+             data-fr="Commencer gratuitement"
+             data-en="Start for free">Start for free</a>
+        </div>
+
+        <!-- ✅ PAY PER EXPORT PLAN - FIXED avec toutes les informations -->
+        <div class="pricing-card">
+          <div style="text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 16px;">⚡</div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2"
+                data-fr="À l'export"
+                data-en="Pay per Export">Pay per Export</h3>
+            <p class="text-sm text-gray-600"
+               data-fr="Paiement à la demande"
+               data-en="Pay as you go">Pay as you go</p>
+          </div>
+
+          <div class="price">$2.50</div>
+          <p class="price-period" 
+             data-fr="par export"
+             data-en="per export">per export</p>
+
+          <ul class="feature-list">
+            <li data-fr="Tous les 17 formats" data-en="All 17 formats">All 17 formats</li>
+            <li data-fr="Export 300 DPI (prêt à imprimer)" data-en="300 DPI print-ready">300 DPI print-ready</li>
+            <li data-fr="Licence commerciale" data-en="Commercial license">Commercial license</li>
+            <li data-fr="Support prioritaire" data-en="Priority support">Priority support</li>
+            <li data-fr="Aucune date d'expiration" data-en="No expiration date">No expiration date</li>
+          </ul>
+
+          <button onclick="buyOneExport()" class="cta-button cta-outline"
+                  data-fr="Acheter 1 export"
+                  data-en="Buy 1 export">Buy 1 export</button>
+        </div>
+
+        <!-- ✅ PRO UNLIMITED PLAN - FIXED avec toutes les informations -->
+        <div class="pricing-card featured">
+          <div style="text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 16px;">🚀</div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-2"
+                data-fr="Pro Illimité"
+                data-en="Pro Unlimited">Pro Unlimited</h3>
+            <p class="text-sm text-gray-600"
+               data-fr="Pour les auteurs sérieux"
+               data-en="For serious authors">For serious authors</p>
+          </div>
+
+          <div class="price" style="color: #FF9900;">$19.99</div>
+          <p class="price-period" 
+             data-fr="par mois"
+             data-en="per month">per month</p>
+
+          <ul class="feature-list">
+            <li data-fr="Exports ILLIMITÉS" data-en="Unlimited exports">Unlimited exports</li>
+            <li data-fr="API de base" data-en="Basic API">Basic API</li>
+            <li data-fr="Traitement par lot" data-en="Batch processing">Batch processing</li>
+            <li data-fr="Modèles premium" data-en="Premium templates">Premium templates</li>
+            <li data-fr="Support prioritaire 24/7" data-en="24/7 priority support">24/7 priority support</li>
+            <li data-fr="Annulation à tout moment" data-en="Cancel anytime">Cancel anytime</li>
+          </ul>
+
+          <button onclick="subscribePro()" class="cta-button cta-primary"
+                  data-fr="Commencer Pro"
+                  data-en="Start Pro">Start Pro</button>
+        </div>
+
+      </div>
+
+      <!-- Money Back Guarantee -->
+      <div class="mt-16 text-center">
+        <div style="display: inline-block; background: linear-gradient(135deg, #f0fdf4, #dcfce7); padding: 24px 48px; border-radius: 20px; border: 3px solid #10b981;">
+          <div style="font-size: 32px; margin-bottom: 12px;">💯</div>
+          <h3 class="text-2xl font-bold text-gray-900 mb-4"
+              data-fr="Garantie Satisfait ou Remboursé 30 jours"
+              data-en="30-Day Money-Back Guarantee">30-Day Money-Back Guarantee</h3>
+          <p class="text-gray-600 max-w-2xl"
+             data-fr="Essayez GabaritKDP sans risque. Si vous n'êtes pas satisfait, nous vous remboursons intégralement dans les 30 jours."
+             data-en="Try GabaritKDP risk-free. If you're not satisfied, we'll refund you in full within 30 days.">
+            Try GabaritKDP risk-free. If you're not satisfied, we'll refund you in full within 30 days.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="py-20 bg-gray-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-4xl font-bold text-center text-gray-900 mb-12"
+          data-fr="Questions Fréquemment Posées"
+          data-en="Frequently Asked Questions">Frequently Asked Questions</h2>
+      
+      <div class="space-y-6">
+        <details class="bg-white p-6 rounded-lg shadow-md">
+          <summary class="font-bold text-lg cursor-pointer"
+                   data-fr="Puis-je changer de plan à tout moment ?"
+                   data-en="Can I change my plan anytime?">Can I change my plan anytime?</summary>
+          <p class="mt-4 text-gray-600"
+             data-fr="Oui, vous pouvez passer d'un plan à l'autre à tout moment. Les changements prennent effet immédiatement."
+             data-en="Yes, you can switch between plans anytime. Changes take effect immediately.">
+            Yes, you can switch between plans anytime. Changes take effect immediately.
+          </p>
+        </details>
+
+        <details class="bg-white p-6 rounded-lg shadow-md">
+          <summary class="font-bold text-lg cursor-pointer"
+                   data-fr="Qu'est-ce que la garantie 30 jours ?"
+                   data-en="What is the 30-day guarantee?">What is the 30-day guarantee?</summary>
+          <p class="mt-4 text-gray-600"
+             data-fr="Si vous n'êtes pas satisfait de votre plan payant, contactez-nous dans les 30 jours pour un remboursement complet, sans questions."
+             data-en="If you're not satisfied with your paid plan, contact us within 30 days for a full refund, no questions asked.">
+            If you're not satisfied with your paid plan, contact us within 30 days for a full refund, no questions asked.
+          </p>
+        </details>
+
+        <details class="bg-white p-6 rounded-lg shadow-md">
+          <summary class="font-bold text-lg cursor-pointer"
+                   data-fr="Les fichiers exportés sont-ils conformes à Amazon KDP ?"
+                   data-en="Are exported files compliant with Amazon KDP?">Are exported files compliant with Amazon KDP?</summary>
+          <p class="mt-4 text-gray-600"
+             data-fr="Absolument ! Tous nos gabarits suivent les spécifications officielles d'Amazon KDP avec une précision de 100%. Zéro refus garanti."
+             data-en="Absolutely! All our templates follow official Amazon KDP specifications with 100% accuracy. Zero rejections guaranteed.">
+            Absolutely! All our templates follow official Amazon KDP specifications with 100% accuracy. Zero rejections guaranteed.
+          </p>
+        </details>
+
+        <details class="bg-white p-6 rounded-lg shadow-md">
+          <summary class="font-bold text-lg cursor-pointer"
+                   data-fr="Comment fonctionne l'intégration Canva ?"
+                   data-en="How does Canva integration work?">How does Canva integration work?</summary>
+          <p class="mt-4 text-gray-600"
+             data-fr="Connectez votre compte Canva pour importer directement vos designs dans le générateur. Nous adaptons automatiquement les dimensions pour KDP."
+             data-en="Connect your Canva account to import your designs directly into the generator. We automatically adjust dimensions for KDP.">
+            Connect your Canva account to import your designs directly into the generator. We automatically adjust dimensions for KDP.
+          </p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <h3 class="font-bold text-xl mb-4">GabaritKDP</h3>
+          <p class="text-gray-400 text-sm">
+            <span data-fr="Le générateur KDP le plus précis du marché."
+                  data-en="The most accurate KDP generator on the market.">
+              The most accurate KDP generator on the market.
+            </span>
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Product</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><a href="./generator.html" class="hover:text-white">Express Generator</a></li>
+            <li><a href="./generator-magic.html" class="hover:text-white">Magic Generator</a></li>
+            <li><a href="./marketplace.html" class="hover:text-white">Marketplace</a></li>
+            <li><a href="./pricing.html" class="hover:text-white">Pricing</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Company</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><a href="./cgu.html" class="hover:text-white">Terms of Service</a></li>
+            <li><a href="./confidentialite.html" class="hover:text-white">Privacy Policy</a></li>
+            <li><a href="./mentions-legales.html" class="hover:text-white">Legal Notice</a></li>
+            <li><a href="./contact.html" class="hover:text-white">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Support</h4>
+          <ul class="space-y-2 text-gray-400 text-sm">
+            <li><a href="./faq.html" class="hover:text-white">FAQ</a></li>
+            <li><a href="./guide.html" class="hover:text-white">User Guide</a></li>
+            <li><a href="./documentation-api.html" class="hover:text-white">API Docs</a></li>
+            <li><a href="mailto:support@gabaritkdp.com" class="hover:text-white">Email Support</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400 text-sm">
+        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    function buyOneExport() {
+      alert('Cette fonctionnalité sera bientôt disponible !');
+    }
+
+    function subscribePro() {
+      alert('Cette fonctionnalité sera bientôt disponible !');
+    }
+  </script>
+</body>
+</html>

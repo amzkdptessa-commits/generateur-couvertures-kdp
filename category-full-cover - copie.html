@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Cover Templates - GabaritKDP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;font-size:.95rem;transition:all .3s}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .hero{background:linear-gradient(135deg,#dc2626 0%,#b91c1c 50%,#991b1b 100%);padding:3rem 1rem;text-align:center;color:#fff}
+    .breadcrumb{padding:1rem;background:#f8fafc}
+    .breadcrumb a{color:#64748b;text-decoration:none}
+    .breadcrumb a:hover{color:#FF9900}
+    .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem;padding:3rem 1rem}
+    .category-card{position:relative;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 15px rgba(0,0,0,.1);transition:all .3s;cursor:pointer;aspect-ratio:4/3}
+    .category-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.2);border-color:#FF9900}
+    .category-img{width:100%;height:100%;object-fit:cover}
+    .category-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem}
+    .category-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+    .category-count{color:#FF9900;font-weight:600;font-size:.875rem}
+    .container{max-width:1400px;margin:0 auto}
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="generator.html"><i class="fas fa-magic"></i> Generator</a>
+        <a href="marketplace.html" class="active"><i class="fas fa-store"></i> Marketplace</a>
+        <a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <div class="container">
+      <a href="marketplace.html">Marketplace</a> / <span style="color:#FF9900;font-weight:600">Full Cover</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <h1 class="text-4xl font-bold mb-2">🔥 FULL COVER Templates</h1>
+      <p class="text-xl opacity-90">2,792 professional full cover templates ready to print</p>
+    </div>
+  </section>
+
+  <section class="container category-grid">
+    
+    <!-- Romance -->
+    <div class="category-card" onclick="loadCategory('romance')">
+      <div id="img-romance" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">💖 Romance</span>
+        <span class="category-count">435 templates</span>
+      </div>
+    </div>
+
+    <!-- Fantasy -->
+    <div class="category-card" onclick="loadCategory('fantasy')">
+      <div id="img-fantasy" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">🐉 Fantasy</span>
+        <span class="category-count">484 templates</span>
+      </div>
+    </div>
+
+    <!-- Religions -->
+    <div class="category-card" onclick="loadCategory('religions')">
+      <div id="img-religions" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">✝️ Religions</span>
+        <span class="category-count">368 templates</span>
+      </div>
+    </div>
+
+    <!-- Sci-Fi -->
+    <div class="category-card" onclick="loadCategory('sci fi')">
+      <div id="img-scifi" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">🚀 Sci-Fi</span>
+        <span class="category-count">79 templates</span>
+      </div>
+    </div>
+
+    <!-- Thriller -->
+    <div class="category-card" onclick="loadCategory('thriller')">
+      <div id="img-thriller" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">🔪 Thriller</span>
+        <span class="category-count">77 templates</span>
+      </div>
+    </div>
+
+    <!-- Historical -->
+    <div class="category-card" onclick="loadCategory('historical')">
+      <div id="img-historical" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">🏰 Historical</span>
+        <span class="category-count">78 templates</span>
+      </div>
+    </div>
+
+    <!-- Horror -->
+    <div class="category-card" onclick="loadCategory('horror')">
+      <div id="img-horror" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">👻 Horror</span>
+        <span class="category-count">79 templates</span>
+      </div>
+    </div>
+
+    <!-- Mystery -->
+    <div class="category-card" onclick="loadCategory('mystery')">
+      <div id="img-mystery" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">🔍 Mystery</span>
+        <span class="category-count">77 templates</span>
+      </div>
+    </div>
+
+    <!-- Vintage -->
+    <div class="category-card" onclick="loadCategory('vintage')">
+      <div id="img-vintage" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">📜 Vintage</span>
+        <span class="category-count">289 templates</span>
+      </div>
+    </div>
+
+    <!-- Art -->
+    <div class="category-card" onclick="loadCategory('art')">
+      <div id="img-art" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">🎨 Art</span>
+        <span class="category-count">198 templates</span>
+      </div>
+    </div>
+
+    <!-- Voyages -->
+    <div class="category-card" onclick="loadCategory('voyages')">
+      <div id="img-voyages" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">✈️ Voyages</span>
+        <span class="category-count">194 templates</span>
+      </div>
+    </div>
+
+    <!-- Bohème -->
+    <div class="category-card" onclick="loadCategory('boheme')">
+      <div id="img-boheme" class="category-img" style="background:#f3f4f6"></div>
+      <div class="category-overlay">
+        <span class="category-name">🌸 Bohème</span>
+        <span class="category-count">154 templates</span>
+      </div>
+    </div>
+
+  </section>
+
+  <script>
+  (async function() {
+    const resp = await fetch('gallery.json');
+    const data = await resp.json();
+    const fullcovers = data.fullcovers || [];
+
+    // Trouver une vignette pour chaque catégorie
+    const findThumb = (tag) => {
+      const item = fullcovers.find(it => (it.tags || []).map(t => t.toLowerCase()).includes(tag.toLowerCase()));
+      return item ? item.url : '';
+    };
+
+    // Charger les vignettes
+    const categories = {
+      'romance': 'img-romance',
+      'fantasy': 'img-fantasy',
+      'religions': 'img-religions',
+      'sci fi': 'img-scifi',
+      'thriller': 'img-thriller',
+      'historical': 'img-historical',
+      'horror': 'img-horror',
+      'mystery': 'img-mystery',
+      'vintage': 'img-vintage',
+      'art': 'img-art',
+      'voyages': 'img-voyages',
+      'boheme': 'img-boheme'
+    };
+
+    for (const [tag, elemId] of Object.entries(categories)) {
+      const url = findThumb(tag);
+      if (url) {
+        const elem = document.getElementById(elemId);
+        elem.style.backgroundImage = `url('${url}')`;
+        elem.style.backgroundSize = 'cover';
+        elem.style.backgroundPosition = 'center';
+      }
+    }
+  })();
+
+  function loadCategory(tag) {
+    // Créer une page subcategory dynamique qui filtre par ce tag
+    const filename = `subcategory-full-cover-${tag.replace(/\s+/g, '-').toLowerCase()}.html`;
+    window.location.href = filename;
+  }
+  </script>
+</body>
+</html>

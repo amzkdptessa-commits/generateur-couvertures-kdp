@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Générateur KDP — Upload images</title>
+    <!-- React + ReactDOM + Babel pour exécuter le JSX dans le navigateur -->
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        background: #f3f4f6;
+        color: #111827;
+      }
+
+      .page {
+        min-height: 100vh;
+        padding: 24px 16px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 960px;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: 1.75rem;
+        font-weight: 600;
+      }
+
+      .subtitle {
+        margin-top: 4px;
+        color: #6b7280;
+        font-size: 0.9rem;
+      }
+
+      .upload-grid {
+        margin-top: 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+      }
+
+      .card {
+        background: #ffffff;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.75rem;
+        padding: 16px;
+      }
+
+      .card-title {
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+
+      .meta {
+        margin-top: 8px;
+        font-size: 0.75rem;
+        color: #6b7280;
+      }
+
+      .toolbar {
+        margin-top: 24px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+      }
+
+      .btn {
+        border-radius: 999px;
+        padding: 6px 14px;
+        font-size: 0.85rem;
+        border: 1px solid #d1d5db;
+        background: #ffffff;
+        cursor: pointer;
+        transition: background 0.15s, border-color 0.15s, color 0.15s;
+      }
+
+      .btn:hover {
+        background: #f3f4f6;
+      }
+
+      .btn-primary {
+        background: #2563eb;
+        border-color: #2563eb;
+        color: #ffffff;
+      }
+
+      .btn-primary:hover {
+        background: #1d4ed8;
+        border-color: #1d4ed8;
+      }
+
+      .btn-outline {
+        background: #ffffff;
+        border-color: #d1d5db;
+        color: #111827;
+      }
+
+      .btn-outline-active {
+        border-color: #2563eb;
+        color: #2563eb;
+      }
+
+      .slider {
+        width: 220px;
+      }
+
+      .canvas-card {
+        margin-top: 24px;
+        background: #ffffff;
+        border-radius: 0.75rem;
+        border: 1px solid #e5e7eb;
+        padding: 12px;
+      }
+
+      canvas {
+        width: 100%;
+        border-radius: 0.5rem;
+        background: #f9fafb;
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      const { useState, useRef, useEffect, useCallback, useMemo } = React;
+
+      const paperThickness = {
+        paperback: {
+          white: 0.0025,
+          cream: 0.002347,
+          color_standard: 0.002252,
+          color_premium: 0.002347,
+        },
+        hardcover: { white: 0.0025, cream: 0.002347, color: 0.002347 },
+      };
+
+      const kdpFormats = {
+        "6x9": { width: 152.4, height: 228.6 }, // mm
+      };
+
+      function drawImageTransformed(ctx, img, box, transform) {
+        const iw = img.naturalWidth;
+        const ih = img.naturalHeight;
+        if (!iw || !ih) return;
+
+        const scale = Math.max(box.width / iw, box.height / ih) * transform.zoom;
+        const dw = iw * scale;
+        const dh = ih * scale;
+
+        const spareW = Math.max(1, box.width - dw);
+        const spareH = Math.max(1, box.height - dh);
+
+        const cx = 0.5 + transform.offsetX / spareW;
+        const cy = 0.5 + transform.offsetY / spareH;
+
+        const dx = box.x + (box.width - dw) * cx;
+        const dy = box.y + (box.height - dh) * cy;
+
+        ctx.drawImage(img, dx, dy, dw, dh);
+      }
+
+      function App() {
+        const [front, setFront] = useState(null);
+        const [back, setBack] = useState(null);
+        const [full, setFull] = useState(null);
+        const [active, setActive] = useState("full");
+        const [transforms, setTransforms] = useState({
+          front: { zoom: 1, offsetX: 0, offsetY: 0 },
+          back: { zoom: 1, offsetX: 0, offsetY: 0 },
+          full: { zoom: 1, offsetX: 0, offsetY: 0 },
+        });
+
+        const canvasRef = useRef(null);
+        const draggingRef = useRef(null);
+
+        const format = "6x9";
+        const bindingType = "paperback";
+        const paperType = "white";
+        const pageCount = 100;
+        const hasBleed = false;
+
+        const dimensions = useMemo(() => {
+          const formatData = kdpFormats[format];
+          const spine =
+            pageCount * paperThickness[bindingType][paperType] * 25.4; // mm
+          const bleed = hasBleed ? 3.175 : 0;
+          const totalWidth = formatData.width * 2 + spine + bleed * 2;
+          const totalHeight = formatData.height + bleed * 2;
+          return {
+            format: formatData,
+            spine,
+            bleed,
+            total: { width: totalWidth, height: totalHeight },
+          };
+        }, []);
+
+        const handleFile = (file, target) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const src = String(e.target?.result || "");
+            const img = new Image();
+            img.onload = () => {
+              const data = {
+                img,
+                url: src,
+                naturalWidth: img.naturalWidth,
+                naturalHeight: img.naturalHeight,
+              };
+              if (target === "front") setFront(data);
+              if (target === "back") setBack(data);
+              if (target === "full") setFull(data);
+            };
+            img.src = src;
+          };
+          reader.readAsDataURL(file);
+        };
+
+        const resetTransform = (layer) => {
+          setTransforms((s) => ({
+            ...s,
+            [layer]: { zoom: 1, offsetX: 0, offsetY: 0 },
+          }));
+        };
+
+        const onPointerDown = (e) => {
+          draggingRef.current = {
+            dragging: true,
+            x: e.clientX,
+            y: e.clientY,
+          };
+          e.target.setPointerCapture(e.pointerId);
+        };
+
+        const onPointerMove = (e) => {
+          if (!draggingRef.current?.dragging) return;
+          const dx = e.clientX - draggingRef.current.x;
+          const dy = e.clientY - draggingRef.current.y;
+          draggingRef.current.x = e.clientX;
+          draggingRef.current.y = e.clientY;
+
+          setTransforms((s) => ({
+            ...s,
+            [active]: {
+              ...s[active],
+              offsetX: s[active].offsetX + dx,
+              offsetY: s[active].offsetY + dy,
+            },
+          }));
+        };
+
+        const onPointerUp = (e) => {
+          draggingRef.current = null;
+          e.target.releasePointerCapture(e.pointerId);
+        };
+
+        const draw = useCallback(() => {
+          const c = canvasRef.current;
+          if (!c) return;
+          const ctx = c.getContext("2d");
+          if (!ctx) return;
+
+          const displayWidth = 900;
+          const ratio = dimensions.total.height / dimensions.total.width;
+          const displayHeight = Math.round(displayWidth * ratio);
+          c.width = displayWidth;
+          c.height = displayHeight;
+
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+
+          ctx.fillStyle = "#ffffff";
+          ctx.fillRect(0, 0, displayWidth, displayHeight);
+
+          const startX = 20;
+          const startY = 20;
+          const bookW = displayWidth - 40;
+          const bookH = displayHeight - 40;
+          const scale = bookW / dimensions.total.width;
+
+          const frontW = dimensions.format.width * scale;
+          const backW = dimensions.format.width * scale;
+          const spineW = dimensions.spine * scale;
+
+          const backBox = { x: startX, y: startY, width: backW, height: bookH };
+          const spineBox = {
+            x: startX + backW,
+            y: startY,
+            width: spineW,
+            height: bookH,
+          };
+          const frontBox = {
+            x: startX + backW + spineW,
+            y: startY,
+            width: frontW,
+            height: bookH,
+          };
+          const fullBox = {
+            x: startX,
+            y: startY,
+            width: backW + spineW + frontW,
+            height: bookH,
+          };
+
+          if (full) {
+            drawImageTransformed(ctx, full.img, fullBox, transforms.full);
+          } else {
+            if (back) drawImageTransformed(ctx, back.img, backBox, transforms.back);
+            if (front)
+              drawImageTransformed(ctx, front.img, frontBox, transforms.front);
+
+            ctx.fillStyle = "#f3f4f6";
+            if (!back)
+              ctx.fillRect(backBox.x, backBox.y, backBox.width, backBox.height);
+            if (!front)
+              ctx.fillRect(frontBox.x, frontBox.y, frontBox.width, frontBox.height);
+          }
+
+          ctx.strokeStyle = "#e5e7eb";
+          ctx.lineWidth = 2;
+          ctx.strokeRect(startX, startY, bookW, bookH);
+
+          if (spineW > 0.5) {
+            ctx.strokeStyle = "#9ca3af";
+            ctx.beginPath();
+            ctx.moveTo(spineBox.x, spineBox.y);
+            ctx.lineTo(spineBox.x, spineBox.y + spineBox.height);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(spineBox.x + spineBox.width, spineBox.y);
+            ctx.lineTo(spineBox.x + spineBox.width, spineBox.y + spineBox.height);
+            ctx.stroke();
+          }
+        }, [front, back, full, transforms, dimensions]);
+
+        useEffect(() => {
+          draw();
+        }, [draw]);
+
+        useEffect(() => {
+          if (full) setActive("full");
+        }, [full]);
+
+        const handleRange = (v) => {
+          setTransforms((s) => ({
+            ...s,
+            [active]: { ...s[active], zoom: v },
+          }));
+        };
+
+        const onInputFile = (e, target) => {
+          const f = e.target.files?.[0];
+          if (f) handleFile(f, target);
+        };
+
+        return (
+          <div className="page">
+            <div className="container">
+              <h1>Générateur KDP — Upload images</h1>
+              <p className="subtitle">
+                Face / Dos / Full Cover avec zoom et drag
+              </p>
+
+              <div className="upload-grid">
+                <div className="card">
+                  <div className="card-title">Upload Face</div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => onInputFile(e, "front")}
+                  />
+                  {front && (
+                    <div className="meta">
+                      {front.naturalWidth}×{front.naturalHeight}px
+                    </div>
+                  )}
+                </div>
+
+                <div className="card">
+                  <div className="card-title">Upload Dos</div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => onInputFile(e, "back")}
+                  />
+                  {back && (
+                    <div className="meta">
+                      {back.naturalWidth}×{back.naturalHeight}px
+                    </div>
+                  )}
+                </div>
+
+                <div className="card">
+                  <div className="card-title">Upload Full Cover</div>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => onInputFile(e, "full")}
+                  />
+                  {full && (
+                    <div className="meta">
+                      {full.naturalWidth}×{full.naturalHeight}px
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="toolbar">
+                <span>Calque actif :</span>
+                <button
+                  className={
+                    "btn btn-outline" +
+                    (active === "front" ? " btn-outline-active" : "")
+                  }
+                  onClick={() => setActive("front")}
+                >
+                  Face
+                </button>
+                <button
+                  className={
+                    "btn btn-outline" +
+                    (active === "back" ? " btn-outline-active" : "")
+                  }
+                  onClick={() => setActive("back")}
+                >
+                  Dos
+                </button>
+                <button
+                  className={
+                    "btn btn-outline" +
+                    (active === "full" ? " btn-outline-active" : "")
+                  }
+                  onClick={() => setActive("full")}
+                >
+                  Full
+                </button>
+
+                <span style={{ marginLeft: "16px" }}>Zoom</span>
+                <input
+                  className="slider"
+                  type="range"
+                  min={0.2}
+                  max={3}
+                  step={0.01}
+                  value={transforms[active].zoom}
+                  onChange={(e) => handleRange(parseFloat(e.target.value))}
+                />
+                <button
+                  className="btn"
+                  style={{ marginLeft: "8px" }}
+                  onClick={() => resetTransform(active)}
+                >
+                  Reset
+                </button>
+              </div>
+
+              <div className="canvas-card">
+                <canvas
+                  ref={canvasRef}
+                  onPointerDown={onPointerDown}
+                  onPointerMove={onPointerMove}
+                  onPointerUp={onPointerUp}
+                  onPointerCancel={onPointerUp}
+                />
+              </div>
+            </div>
+          </div>
+        );
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-fr="GabaritKDP - Générateur de Couvertures KDP 100% Conformes Amazon"
+          data-en="GabaritKDP - 100% Amazon-Compliant KDP Cover Generator">
+    GabaritKDP - 100% Amazon-Compliant KDP Cover Generator
+  </title>
+  <meta name="description"
+        data-fr="Le seul générateur francophone qui garantit des dimensions parfaites selon les spécifications officielles Amazon KDP. Zéro refus garanti."
+        data-en="The only generator that guarantees perfect dimensions according to official Amazon KDP specifications. Zero rejections guaranteed."
+        content="The only generator that guarantees perfect dimensions according to official Amazon KDP specifications. Zero rejections guaranteed.">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-MYG5JJM8EC');
+  </script>
+
+  <!-- Language Detection Script -->
+  <script>
+    function detectUserLanguage() {
+      const userChoice = localStorage.getItem('preferredLanguage');
+      if (userChoice) return userChoice;
+      return 'en'; // Default to English
+    }
+    const defaultLang = detectUserLanguage();
+    document.documentElement.lang = defaultLang;
+  </script>
+
+  <!-- Tailwind CSS CDN - Note: L'avertissement en console est normal en développement.
+       Pour la production, installez Tailwind via npm: https://tailwindcss.com/docs/installation -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Supabase SDK (IMPORTANT: doit être chargé AVANT ton script) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  
+  <!-- Supabase integration (version réelle avec connexion base de données) -->
+  <!-- <script defer src="supabase-integration-real.js"></script> -->
+
+</head>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+    .language-selector{background:#fff;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1);padding:3px}
+    .lang-btn{padding:6px 10px;border:none;background:transparent;border-radius:16px;cursor:pointer;transition:.3s;font-weight:500;font-size:.8rem}
+    .lang-btn.active{background:#FF9900;color:#fff}
+
+    .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;box-shadow:0 4px 20px rgba(0,0,0,.1);position:sticky;top:0;z-index:999}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:0}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff;flex-shrink:0}
+    .logo-nav img{height:40px;width:auto}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+
+    .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:25px;flex-wrap:wrap}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;position:relative;display:flex;align-items:center;gap:6px;font-size:.95rem}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+
+    .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important;border-radius:8px!important;padding:10px 14px!important;position:relative!important;transition:.3s!important}
+    .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important;color:#fff!important;transform:translateY(-2px)!important;box-shadow:0 4px 15px rgba(16,185,129,.4)!important}
+
+    .f-exp-gene{background:linear-gradient(135deg,#10b981,#059669)!important;padding:8px 10px;border-radius:5px}
+    .f-exp-gene:hover{background:linear-gradient(135deg,#0d9488,#047857)!important;color:#fff}
+    .express-nav-btn::before,.f-exp-gene::before{content:"⚡";margin-right:4px}
+
+    .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);z-index:999;padding:80px 20px 20px;overflow-y:auto}
+    .mobile-menu.active{display:block;animation:slideIn .3s ease}
+    @keyframes slideIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+    .mobile-menu-links{display:flex;flex-direction:column;gap:15px;max-width:400px;margin:0 auto}
+    .mobile-menu-links a{color:#fff;text-decoration:none;font-weight:600;padding:15px 20px;border-radius:12px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);transition:.3s;display:flex;align-items:center;gap:12px;font-size:1.1rem}
+    .mobile-menu-links a:hover{background:rgba(255,255,255,.2);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+    .mobile-menu-close{position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;padding:8px;border-radius:50%;transition:.3s}
+    .mobile-menu-close:hover{background:rgba(255,255,255,.1);transform:rotate(90deg)}
+
+    .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%)}
+    .hero-with-mascotte{display:grid;grid-template-columns:1fr auto;gap:3rem;align-items:center;max-width:1200px;margin:0 auto}
+    .hero-content{text-align:left}
+    .mascotte-container{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center}
+    .mascotte-main{width:280px;height:auto;filter:drop-shadow(0 20px 40px rgba(0,0,0,.15));animation:float 3s ease-in-out infinite;cursor:pointer}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    .mascotte-bubble{position:absolute;top:-60px;left:50%;transform:translateX(-50%);background:#fff;padding:12px 20px;border-radius:20px;box-shadow:0 8px 25px rgba(0,0,0,.15);font-size:.9rem;font-weight:600;color:#1e293b;white-space:nowrap;animation:bounce-bubble 2s ease-in-out infinite}
+    .mascotte-bubble::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:8px solid transparent;border-top-color:#fff}
+    @keyframes bounce-bubble{0%,100%{opacity:1;transform:translateX(-50%) translateY(0)}50%{opacity:.8;transform:translateX(-50%) translateY(-5px)}}
+
+    .feature-card{transition:.3s}
+    .feature-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.1)}
+    .video-container{transition:.3s}
+    .video-container:hover{transform:translateY(-4px);box-shadow:0 25px 50px rgba(255,153,0,.15)}
+    .play-button{border:4px solid rgba(255,255,255,.8);backdrop-filter:blur(10px)}
+    .testimonial-card{transition:.3s}
+    .testimonial-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.1)}
+    .pricing-card{transition:.3s}
+    .pricing-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.1)}
+    .innovation-card{transition:.3s}
+    .innovation-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(0,0,0,.1)}
+    .social-section{background:rgba(255,255,255,.05);border-radius:12px;padding:1.5rem;margin-bottom:2rem}
+    .social-links{display:flex;justify-content:center;gap:15px;margin-top:1rem;flex-wrap:wrap}
+    .social-link{display:flex;align-items:center;justify-content:center;width:45px;height:45px;border-radius:50%;color:#fff;text-decoration:none;font-size:1.2rem;transition:.3s;position:relative;overflow:hidden}
+    .social-link:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+    .social-link.youtube{background:linear-gradient(135deg,#FF0000,#CC0000)}
+    .social-link.facebook{background:linear-gradient(135deg,#1877F2,#0866D3)}
+    .social-link.instagram{background:linear-gradient(135deg,#E4405F,#C13584,#8A2BE2)}
+    .social-link.pinterest{background:linear-gradient(135deg,#BD081C,#E60023)}
+    .social-link.tiktok{background:linear-gradient(135deg,#000,#FF0050,#00F2EA)}
+    .social-link.linkedin{background:linear-gradient(135deg,#0A66C2,#004182)}
+
+    @media (max-width:768px){
+      .language-selector{top:22.5px;right:60px}
+      .nav-links{display:none}
+      .hero-with-mascotte{grid-template-columns:1fr;gap:2rem;text-align:center}
+      .hero-content{text-align:center}
+      .mascotte-main{width:200px}
+      .mascotte-bubble{font-size:.8rem;padding:8px 15px;top:-50px}
+      .social-links{gap:10px}
+      .social-link{width:40px;height:40px;font-size:1rem}
+      .mobile-menu-toggle{display:block;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:8px;border-radius:4px;margin-left:auto}
+      .mobile-menu-toggle:hover{background:rgba(255,255,255,.1)}
+    }
+    @media (min-width:769px){.mobile-menu-toggle{display:none}}
+    @media (max-width:480px){
+      .logo-nav span{display:none}
+      .language-selector{right:60px;padding:0 2px 2px 2px;top:27px}
+      .lang-btn{padding:4px 8px;font-size:.7rem}
+    }
+  </style>
+</head>
+
+<body class="bg-white">
+
+  <!-- Navigation Header -->
+
+  <!-- 🎊 BANNIÈRE BETA TEST VIP -->
+  <div style="background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 16px; text-align: center; position: relative; overflow: hidden; border-bottom: 4px solid #047857;">
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, #fbbf24, #f59e0b, #fbbf24); background-size: 200% 100%; animation: shimmer 2s linear infinite;"></div>
+    
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+      <div style="font-size: 13px; font-weight: 600; margin-bottom: 6px; opacity: 0.95;">
+        🎉 <span data-fr="100 PREMIERS BETA TESTEURS RECHERCHÉS" data-en="FIRST 100 BETA TESTERS WANTED">FIRST 100 BETA TESTERS WANTED</span>
+      </div>
+      <div style="font-size: 17px; font-weight: 700; margin-bottom: 4px;">
+        <span data-fr="Exports ILLIMITÉS jusqu'à Noël • Code -50% À VIE • Badge fondateur numéroté" data-en="UNLIMITED exports until Christmas • -50% FOR LIFE code • Numbered founder badge">UNLIMITED exports until Christmas • -50% FOR LIFE code • Numbered founder badge</span>
+      </div>
+      <div style="font-size: 12px; opacity: 0.9;">
+        <span data-fr="Testez le générateur + Partagez votre avis (2 min) = Accès VIP débloqué" data-en="Test the generator + Share your feedback (2 min) = VIP access unlocked">Test the generator + Share your feedback (2 min) = VIP access unlocked</span>
+      </div>
+    </div>
+    
+    <style>
+      @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+    </style>
+  </div>
+
+  <header class="header-nav notranslate">
+    <div class="nav-container">
+      <a href="./index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+
+      <!-- Menu Hamburger - Mobile -->
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+      </div>
+
+      <!-- Navigation Desktop -->
+      <nav class="nav-links">
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+        <a href="./marketplace.html" >Marketplace</a>
+        <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Tarifs</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+    <div class="mobile-menu-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;" data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Générateur Express</a>
+      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+      <a href="./marketplace.html/" >Marketplace</a>
+      <a href="#tarifs" style="background:rgba(251,191,36,.2);border-color:#fbbf24;" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Tarifs</a>
+      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+    </div>
+  </div>
+
+
+  <!-- Hero Section avec Badge Beta -->
+  <section id="accueil" class="hero-gradient py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="hero-with-mascotte">
+        <div class="hero-content">
+          
+          <!-- 🎁 Badge Beta Test -->
+          <div style="display: inline-flex; align-items: center; gap: 12px; background: linear-gradient(135deg, #fef3c7, #fde68a); border: 3px solid #f59e0b; padding: 12px 24px; border-radius: 100px; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
+            <span style="font-size: 24px;">🎁</span>
+            <div style="text-align: left;">
+              <div style="font-size: 14px; font-weight: 700; color: #92400e;">
+                <span data-fr="BETA TEST GRATUIT" data-en="FREE BETA TEST">FREE BETA TEST</span>
+              </div>
+              <div style="font-size: 11px; color: #78350f; font-weight: 600;">
+                <span data-fr="3 exports • Feedback • Débloqué jusqu'à Noël" data-en="3 exports • Feedback • Unlocked until Christmas">3 exports • Feedback • Unlocked until Christmas</span>
+              </div>
+            </div>
+          </div>
+
+          <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <span style="color:#FF9900;" data-fr="100% Conformes Amazon" data-en="100% Amazon-Compliant">100% Amazon-Compliant</span>
+            <span data-fr=" Templates KDP" data-en=" KDP Templates"> KDP Templates</span>
+          </h1>
+          <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl" data-fr="Le seul générateur qui garantit des dimensions parfaites selon les spécifications officielles Amazon KDP. Zéro refus garanti." data-en="The only generator that guarantees perfect dimensions according to official Amazon KDP specifications. Zero rejections guaranteed.">
+            The only generator that guarantees perfect dimensions according to official Amazon KDP specifications. Zero rejections guaranteed.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4">
+            <a href="generator.html" class="px-8 py-4 text-white text-lg font-semibold rounded-lg transition"
+               style="background-color:#FF9900;" onmouseover="this.style.backgroundColor='#e68900'" onmouseout="this.style.backgroundColor='#FF9900'" data-fr="CRÉER MA COUVERTURE KDP" data-en="CREATE MY KDP COVER">
+              CREATE MY KDP COVER
+            </a>
+            <a href="#tarifs" class="px-8 py-4 bg-white border-2 text-gray-700 text-lg font-semibold rounded-lg hover:bg-gray-50 transition"
+               style="border-color:#FF9900;" data-fr="Voir les Tarifs" data-en="View Pricing">
+              View Pricing
+            </a>
+          </div>
+        </div>
+
+        <div class="mascotte-container">
+          <div class="mascotte-bubble" data-fr="Salut ! Je vais créer ta couverture parfaite ! 📏" data-en="Hi! I'll create your perfect cover! 📏">Hi! I'll create your perfect cover! 📏</div>
+          <img src="mascotte-gabaritkdp.png" alt="GabaritKDP Mascotte" class="mascotte-main" onclick="mascotteClick()">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Fonctionnalités Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-fr="Pourquoi GabaritKDP ?" data-en="Why GabaritKDP?">Why GabaritKDP?</h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-fr="L'outil le plus précis et simple pour créer des couvertures conformes Amazon KDP" data-en="The most accurate and simple tool to create Amazon KDP-compliant covers">The most accurate and simple tool to create Amazon KDP-compliant covers</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+          <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-2xl">📏</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Calculs précis au millimètre" data-en="Precise millimeter calculations">Precise millimeter calculations</h3>
+          <p class="text-gray-600" data-fr="Calculs précis au millimètre selon les vraies spécifications Amazon KDP. Fini les approximations qui causent des rejets." data-en="Precise millimeter calculations according to real Amazon KDP specifications. No more approximations that cause rejections.">Precise millimeter calculations according to real Amazon KDP specifications. No more approximations that cause rejections.</p>
+        </div>
+
+        <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+          <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color:rgba(255,153,0,.1);">
+            <span class="text-2xl">✅</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Modèles 100% conformes" data-en="100% compliant templates">100% compliant templates</h3>
+          <p class="text-gray-600" data-fr="Modèles 100% conformes aux exigences Amazon. Validation automatique de toutes les contraintes techniques." data-en="100% compliant templates with Amazon requirements. Automatic validation of all technical constraints.">100% compliant templates with Amazon requirements. Automatic validation of all technical constraints.</p>
+        </div>
+
+        <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+          <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+            <span class="text-2xl">⚡</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Couverture prête en 3 clics" data-en="Cover ready in 3 clicks">Cover ready in 3 clicks</h3>
+          <p class="text-gray-600" data-fr="Couverture haute résolution prête en 3 clics. Téléchargement instantané, compatible impression professionnelle." data-en="High-resolution cover ready in 3 clicks. Instant download, compatible with professional printing.">High-resolution cover ready in 3 clicks. Instant download, compatible with professional printing.</p>
+        </div>
+
+        <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+          <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color:rgba(255,153,0,.1);">
+            <span class="text-2xl">🎨</span>
+          </div>
+          <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Intégration Canva" data-en="Canva Integration">Canva Integration</h3>
+          <p class="text-gray-600" data-fr="Importez vos designs Canva directement et appliquez les spécifications KDP automatiquement." data-en="Import your Canva designs directly and apply KDP specifications automatically.">Import your Canva designs directly and apply KDP specifications automatically.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 🎁 SECTION PROGRAMME BETA TEST VIP -->
+  <section class="py-20" style="background: linear-gradient(135deg, #f0fdf4, #dcfce7);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center mb-16">
+        <div style="display: inline-block; background: white; padding: 10px 24px; border-radius: 100px; border: 3px solid #10b981; margin-bottom: 24px; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.2);">
+          <span style="font-size: 22px;">🎁</span>
+          <span style="font-weight: 700; color: #047857; margin-left: 10px; font-size: 15px;" data-fr="PROGRAMME BETA TESTER VIP" data-en="VIP BETA TESTER PROGRAM">VIP BETA TESTER PROGRAM</span>
+        </div>
+        
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Testez gratuitement, recevez des récompenses" data-en="Test for free, receive rewards">
+          Test for free, receive rewards
+        </h2>
+        
+        <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto" data-fr="Votre avis compte ! En échange d'un feedback de 2 minutes..." data-en="Your opinion matters! In exchange for 2 minutes of feedback...">
+          Your opinion matters! In exchange for 2 minutes of feedback...
+        </p>
+      </div>
+
+      <!-- Grille des récompenses -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        
+        <!-- Carte 1 : Exports illimités -->
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg transform transition hover:-translate-y-2" style="border-top: 4px solid #10b981;">
+          <div style="font-size: 56px; margin-bottom: 20px;">✅</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3" data-fr="Exports illimités" data-en="Unlimited exports">Exports illimités</h3>
+          <p class="text-gray-600 text-sm" data-fr="Jusqu'au 25 décembre 2025" data-en="Until December 25, 2025">Until December 25, 2025</p>
+          <div class="mt-4 bg-green-50 rounded-lg p-3">
+            <p class="text-green-800 font-semibold text-xs" data-fr="Valeur : Illimitée" data-en="Value: Unlimited">Value: Unlimited</p>
+          </div>
+        </div>
+
+        <!-- Carte 2 : Code promo -->
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg transform transition hover:-translate-y-2" style="border-top: 4px solid #f59e0b;">
+          <div style="font-size: 56px; margin-bottom: 20px;">💎</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3" data-fr="Code BETA50" data-en="Code BETA50">Code BETA50</h3>
+          <p class="text-gray-600 text-sm" data-fr="-50% de réduction À VIE" data-en="-50% discount FOR LIFE">-50% discount FOR LIFE</p>
+          <div class="mt-4 bg-orange-50 rounded-lg p-3">
+            <p class="text-orange-800 font-semibold text-xs" data-fr="Économie : €120/an" data-en="Savings: €120/year">Savings: €120/year</p>
+          </div>
+        </div>
+
+        <!-- Carte 3 : Tirage au sort -->
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg transform transition hover:-translate-y-2" style="border-top: 4px solid #8b5cf6;">
+          <div style="font-size: 56px; margin-bottom: 20px;">🎰</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3" data-fr="Tirage au sort" data-en="Giveaway">Giveaway</h3>
+          <p class="text-gray-600 text-sm" data-fr="Abonnement PRO gratuit à vie" data-en="FREE PRO subscription for life">FREE PRO subscription for life</p>
+          <div class="mt-4 bg-purple-50 rounded-lg p-3">
+            <p class="text-purple-800 font-semibold text-xs" data-fr="Valeur : €240/an" data-en="Value: €240/year">Value: €240/year</p>
+          </div>
+        </div>
+
+        <!-- Carte 4 : Badge exclusif -->
+        <div class="bg-white rounded-2xl p-8 text-center shadow-lg transform transition hover:-translate-y-2" style="border-top: 4px solid #3b82f6;">
+          <div style="font-size: 56px; margin-bottom: 20px;">🏆</div>
+          <h3 class="text-xl font-bold text-gray-900 mb-3" data-fr="Badge exclusif" data-en="Exclusive badge">Exclusive badge</h3>
+          <p class="text-gray-600 text-sm" data-fr="Founding Beta Tester" data-en="Founding Beta Tester">Founding Beta Tester</p>
+          <div class="mt-4 bg-blue-50 rounded-lg p-3">
+            <p class="text-blue-800 font-semibold text-xs" data-fr="Reconnaissance VIP" data-en="VIP recognition">VIP recognition</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Comment ça marche -->
+      <div class="bg-white rounded-2xl p-8 max-w-4xl mx-auto shadow-lg" style="border: 3px solid #10b981;">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-gray-900 mb-2" data-fr="⚡ Comment ça marche ?" data-en="⚡ How does it work?">⚡ How does it work?</h3>
+        </div>
+        
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+          <div class="text-center">
+            <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-green-700">1</div>
+            <h4 class="font-bold text-gray-900 mb-2" data-fr="Testez l'outil" data-en="Test the tool">Test the tool</h4>
+            <p class="text-sm text-gray-600" data-fr="3 exports gratuits pour découvrir" data-en="3 free exports to discover">3 free exports to discover</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="bg-orange-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-orange-700">2</div>
+            <h4 class="font-bold text-gray-900 mb-2" data-fr="Partagez votre avis" data-en="Share your feedback">Share your feedback</h4>
+            <p class="text-sm text-gray-600" data-fr="Formulaire rapide (2 minutes)" data-en="Quick form (2 minutes)">Quick form (2 minutes)</p>
+          </div>
+          
+          <div class="text-center">
+            <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-blue-700">3</div>
+            <h4 class="font-bold text-gray-900 mb-2" data-fr="Déblocage immédiat" data-en="Instant unlock">Instant unlock</h4>
+            <p class="text-sm text-gray-600" data-fr="Toutes les récompenses activées" data-en="All rewards activated">All rewards activated</p>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <a href="generator.html" class="inline-block px-10 py-4 text-white text-lg font-bold rounded-xl transition shadow-lg"
+             style="background: linear-gradient(135deg, #10b981, #059669);"
+             onmouseover="this.style.background='linear-gradient(135deg, #059669, #047857)'"
+             onmouseout="this.style.background='linear-gradient(135deg, #10b981, #059669)'" data-fr="🚀 COMMENCER MAINTENANT" data-en="🚀 START NOW">
+            🚀 START NOW
+          </a>
+          
+          <p class="text-sm text-gray-500 mt-4" data-fr="⏰ Offre valable jusqu'au 25 décembre 2025 • Plus que 73 places" data-en="⏰ Offer valid until December 25, 2025 • Only 73 spots left">
+            ⏰ Offer valid until December 25, 2025 • Only 73 spots left
+          </p>
+        </div>
+      </div>
+
+      <!-- Témoignage beta tester -->
+      <div class="mt-16 max-w-3xl mx-auto">
+        <div class="bg-white rounded-2xl p-8 shadow-lg border-l-4 border-green-500">
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0">
+              <div class="w-14 h-14 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-white font-bold text-lg">SL</div>
+            </div>
+            <div>
+              <div class="flex items-center gap-2 mb-2">
+                <h4 class="font-bold text-gray-900">Sophie Laurent</h4>
+                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full font-semibold" data-fr="✓ Beta Tester" data-en="✓ Beta Tester">✓ Beta Tester</span>
+              </div>
+              <div class="text-yellow-400 text-sm mb-3">★★★★★</div>
+              <blockquote class="text-gray-700 italic leading-relaxed" data-fr="J'ai adoré participer au beta test ! Les 2 minutes de feedback en valaient vraiment la peine. Exports illimités jusqu'à Noël + code -50% à vie, c'est généreux. Mon avis va aider d'autres auteurs, ça me rend fière !" data-en="I loved participating in the beta test! The 2 minutes of feedback were really worth it. Unlimited exports until Christmas + 50% OFF code for life, that's generous. My opinion will help other authors, that makes me proud!">
+                "I loved participating in the beta test! The 2 minutes of feedback were really worth it. Unlimited exports until Christmas + 50% OFF code for life, that's generous. My opinion will help other authors, that makes me proud!"
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- Video Demo Section -->
+  <section class="py-20 bg-gradient-to-br from-orange-50 to-blue-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center bg-orange-100 text-orange-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+          🎬 <span class="ml-2" data-fr="Découvrez GabaritKDP en 2 minutes" data-en="Discover GabaritKDP in 2 minutes">Discover GabaritKDP in 2 minutes</span>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6">
+          <span data-fr="Découvrez comment créer une<br><span style='color:#FF9900;'>couverture KDP parfaite en 3 clics</span>" data-en="See how to create a<br><span style='color:#FF9900;'>perfect KDP cover in 3 clicks</span>">See how to create a<br><span style="color:#FF9900;">perfect KDP cover in 3 clicks</span></span>
+        </h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-12" data-fr="Démo en direct : De l'idée à la couverture prête pour Amazon en moins de 3 minutes" data-en="Live demo: From idea to Amazon-ready cover in under 3 minutes">Live demo: From idea to Amazon-ready cover in under 3 minutes</p>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <div class="video-container bg-gray-900 aspect-video relative rounded-2xl overflow-hidden shadow-2xl">
+          <div class="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+            <div class="text-center text-white">
+              <div class="text-6xl mb-4">🎬</div>
+              <div class="text-xl font-semibold mb-2">Demo GabaritKDP</div>
+              <div class="text-sm opacity-75">Cliquez pour voir la démo</div>
+            </div>
+          </div>
+
+          <div class="play-button absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-20 h-20 bg-orange-500 rounded-full flex items-center justify-center cursor-pointer hover:bg-orange-600 transition-all duration-300 hover:scale-110"
+               onclick="playVideo()">
+            <div class="w-0 h-0 border-l-8 border-orange-50 border-t-6 border-b-6 border-t-transparent border-b-transparent ml-1"></div>
+          </div>
+
+          <div class="absolute top-4 left-4">
+            <span class="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-medium">✅ 100% Amazon Compliant</span>
+          </div>
+          <div class="absolute top-4 right-4">
+            <span class="bg-white/90 text-gray-800 px-3 py-1 rounded-full text-sm font-medium">⏱️ 2:47</span>
+          </div>
+          <div class="absolute bottom-4 right-4">
+            <span class="bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">300 DPI • Print Ready</span>
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-8">
+          <div class="text-center p-4 bg-white rounded-lg shadow">
+            <div class="text-2xl font-bold text-green-600" data-fr="3 clics" data-en="3 clicks">3 clicks</div>
+            <div class="text-sm text-gray-600" data-fr="Pour générer votre couverture" data-en="To generate your cover">Pour générer votre couverture</div>
+          </div>
+          <div class="text-center p-4 bg-white rounded-lg shadow">
+            <div class="text-2xl font-bold text-blue-600">300 DPI</div>
+            <div class="text-sm text-gray-600" data-fr="Qualité impression professionnelle" data-en="Professional print quality">Qualité impression professionnelle</div>
+          </div>
+          <div class="text-center p-4 bg-white rounded-lg shadow">
+            <div class="text-2xl font-bold text-orange-600" data-fr="0 rejet" data-en="0 rejection">0 rejet</div>
+            <div class="text-sm text-gray-600" data-fr="Conformité garantie" data-en="Guaranteed compliance">Conformité garantie</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="py-20 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <div class="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium mb-6">
+          ⭐ <span class="ml-2" data-fr="Rejoignez nos premiers beta testeurs" data-en="Join our first beta testers">Rejoignez nos premiers beta testeurs</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6"><span data-fr="Témoignages" data-en="Authentic">Authentic</span> <span style="color:#FF9900;" data-fr="authentiques" data-en="testimonials">testimonials</span></h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-fr="Découvrez comment GabaritKDP a transformé l'expérience de publication de nos utilisateurs" data-en="Discover how GabaritKDP has transformed our users' publishing experience">Découvrez comment GabaritKDP a transformé l'expérience de publication de nos utilisateurs</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8 mb-12">
+        <div class="testimonial-card bg-white rounded-xl p-8 shadow-lg border-t-4 border-orange-400">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-gradient-to-br from-pink-400 to-rose-500 rounded-full flex items-center justify-center text-white font-bold text-sm">ML</div>
+            <div>
+              <h4 class="font-semibold text-gray-900">Marie Dubois</h4>
+              <p class="text-sm text-gray-600" data-fr="Auteure Romance • 12 livres publiés" data-en="Romance Author • 12 published books">Auteure Romance • 12 livres publiés</p>
+              <div class="text-yellow-400 text-sm mt-1">★★★★★</div>
+            </div>
+          </div>
+          <blockquote class="text-gray-700 italic mb-6 leading-relaxed" data-fr="Avant GabaritKDP, j'ai eu 3 rejets Amazon pour des problèmes de dimensions. Depuis que j'utilise leur générateur, plus aucun problème ! Mes 8 derniers livres ont été acceptés du premier coup." data-en="Before GabaritKDP, I had 3 Amazon rejections for dimension issues. Since I've been using their generator, no more problems! My last 8 books were accepted on the first try.">"Avant GabaritKDP, j'ai eu 3 rejets Amazon pour des problèmes de dimensions. Depuis que j'utilise leur générateur, plus aucun problème ! Mes 8 derniers livres ont été acceptés du premier coup."</blockquote>
+          <div class="flex items-center justify-between">
+            <span class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium" data-fr="✓ Client vérifié" data-en="✓ Verified Client">✓ Client vérifié</span>
+            <div class="text-xs text-gray-500">📚 6x9" Romance</div>
+          </div>
+        </div>
+
+        <div class="testimonial-card bg-white rounded-xl p-8 shadow-lg border-t-4 border-blue-400">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-sm">TR</div>
+            <div>
+              <h4 class="font-semibold text-gray-900">Thomas Rousseau</h4>
+              <p class="text-sm text-gray-600" data-fr="Coach Business • Formateur" data-en="Business Coach • Trainer">Coach Business • Formateur</p>
+              <div class="text-yellow-400 text-sm mt-1">★★★★★</div>
+            </div>
+          </div>
+          <blockquote class="text-gray-700 italic mb-6 leading-relaxed" data-fr="L'intégration Canva de GabaritKDP est révolutionnaire ! Je crée mon design sur Canva, je l'importe, et boom : les spécifications KDP sont appliquées automatiquement. Du génie pur !" data-en="GabaritKDP's Canva integration is revolutionary! I create my design on Canva, I import it, and boom: KDP specifications are applied automatically. Pure genius!">"L'intégration Canva de GabaritKDP est révolutionnaire ! Je crée mon design sur Canva, je l'importe, et boom : les spécifications KDP sont appliquées automatiquement. Du génie pur !"</blockquote>
+          <div class="flex items-center justify-between">
+            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">🚀 Plan Pro</span>
+            <div class="text-xs text-gray-500">📊 8.5x11" Business</div>
+          </div>
+        </div>
+
+        <div class="testimonial-card bg-white rounded-xl p-8 shadow-lg border-t-4 border-purple-400">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">SM</div>
+            <div>
+              <h4 class="font-semibold text-gray-900">Sophie Martin</h4>
+              <p class="text-sm text-gray-600" data-fr="Illustratrice • Livres pour enfants" data-en="Illustrator • Children's Books">Illustratrice • Livres pour enfants</p>
+              <div class="text-yellow-400 text-sm mt-1">★★★★★</div>
+            </div>
+          </div>
+          <blockquote class="text-gray-700 italic mb-6 leading-relaxed" data-fr="Calculs précis au millimètre, c'est exactement ce dont j'avais besoin ! Pour les livres carrés pour enfants, impossible de se tromper avec GabaritKDP." data-en="Precise millimeter calculations, that's exactly what I needed! For square children's books, it's impossible to go wrong with GabaritKDP.">"Calculs précis au millimètre, that's exactly what I needed! Pour les livres carrés pour enfants, impossible de se tromper avec GabaritKDP."</blockquote>
+          <div class="flex items-center justify-between">
+            <span class="bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium" data-fr="✓ 6 mois d'utilisation" data-en="✓ 6 months usage">✓ 6 mois d'utilisation</span>
+            <div class="text-xs text-gray-500" data-fr="🎨 Format carré" data-en="🎨 Square format">🎨 Format carré</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-gray-50 rounded-2xl p-8 mb-12">
+        <div class="grid md:grid-cols-4 gap-6 text-center">
+          <div><div class="text-3xl font-bold text-green-600 mb-2 stats-counter">98.7%</div><div class="text-sm text-gray-600" data-fr="Taux d'acceptation Amazon" data-en="Amazon acceptance rate">Amazon acceptance rate</div></div>
+          <div>
+            <div class="text-3xl font-bold text-blue-600 mb-2">
+              <span class="unique-visitors-counter">0</span><span>+</span>
+              <span class="unique-visitors-badge" style="
+                display:none;
+                margin-left: .5rem;
+                background: #dbeafe;
+                padding: .2rem .6rem;
+                border-radius: .6rem;
+                font-size: .6em;
+                color: #1e40af;
+                font-weight: 600;
+              "></span>
+            </div>
+            <!-- Mini graphique sparkline 30 jours -->
+            <div class="unique-visitors-sparkline" style="
+              height: 32px;
+              margin: 8px auto 12px;
+              max-width: 200px;
+              opacity: 0;
+              transition: opacity 0.5s ease-in-out;
+            "></div>
+            <div class="text-sm text-gray-600" data-fr="Visiteurs uniques" data-en="Unique visitors">Unique visitors</div>
+          </div>
+          <div><div class="text-3xl font-bold text-purple-600 mb-2 stats-counter">3min</div><div class="text-sm text-gray-600" data-fr="Temps moyen" data-en="Average time">Average time</div></div>
+          <div><div class="text-3xl font-bold text-orange-600 mb-2 stats-counter">0</div><div class="text-sm text-gray-600" data-fr="Rejets signalés" data-en="Reported rejections">Reported rejections</div></div>
+        </div>
+      </div>
+
+      <div class="text-center">
+        <div class="inline-flex items-center bg-green-100 text-green-800 px-6 py-3 rounded-full text-sm font-medium mb-8 animate-pulse">
+          🎁 <span class="ml-2" data-fr="Rejoignez les auteurs qui publient sans stress" data-en="Join authors who publish stress-free">Rejoignez les auteurs qui publient sans stress</span>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="generator.html" class="px-8 py-4 bg-orange-500 text-white text-lg font-semibold rounded-lg hover:bg-orange-600 transition-all duration-300 transform hover:scale-105" data-fr="🚀 Essayer gratuitement" data-en="🚀 Try for free">🚀 Essayer gratuitement</a>
+          <button class="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 text-lg font-semibold rounded-lg hover:border-orange-500 hover:text-orange-600 transition-all duration-300" data-fr="📖 Lire plus d'avis" data-en="📖 Read more reviews">📖 Lire plus d'avis</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Innovation Section -->
+  <section class="py-16" style="background:linear-gradient(135deg,#faf5ff 0%,#eff6ff 100%);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <div class="inline-flex items-center bg-purple-100 text-purple-800 px-4 py-2 rounded-full text-sm font-medium mb-4">
+          🎯 <span class="ml-2" data-fr="Précision garantie" data-en="Guaranteed precision">Précision garantie</span>
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4"><span style="color:#8b5cf6;" data-fr="Calculs automatiques" data-en="Automatic calculations">Automatic calculations</span> & MCP Architecture</h2>
+        <p class="text-xl text-gray-600 max-w-4xl mx-auto" data-fr="Fini les formules Excel ou les calculs manuels. Notre moteur fait tout pour vous avec une précision au millimètre." data-en="No more Excel formulas or manual calculations. Our engine does everything for you with millimeter precision.">No more Excel formulas or manual calculations. Our engine does everything for you with millimeter precision.</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-8">
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-purple-200 relative overflow-hidden innovation-card">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-purple-100 rounded-bl-full"></div>
+          <div class="absolute top-2 right-2 text-purple-600"><i class="fas fa-crown text-xl"></i></div>
+          <div class="mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-blue-500 rounded-lg flex items-center justify-center mb-4">
+              <span class="text-white text-xl">🥇</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Zéro calcul manuel" data-en="Zero manual calculation">Zero manual calculation</h3>
+            <p class="text-gray-600" data-fr="Entrez simplement vos informations (format, pages, reliure) et laissez le système calculer automatiquement toutes les dimensions KDP." data-en="Simply enter your information (format, pages, binding) and let the system automatically calculate all KDP dimensions.">Simply enter your information (format, pages, binding) and let the system automatically calculate all KDP dimensions.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-blue-200 relative overflow-hidden innovation-card">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-blue-100 rounded-bl-full"></div>
+          <div class="absolute top-2 right-2 text-blue-600"><i class="fas fa-microchip text-xl"></i></div>
+          <div class="mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center mb-4">
+              <span class="text-white text-xl">🎯</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Précision au millimètre" data-en="Millimeter Precision">Millimeter Precision</h3>
+            <p class="text-gray-600" data-fr="Nos calculs utilisent les formules officielles Amazon KDP. Chaque dimension (tranche, marges, fond perdu) est calculée au millimètre." data-en="Our calculations use official Amazon KDP formulas. Each dimension (spine, margins, bleed) is calculated to the millimeter.">Our calculations use official Amazon KDP formulas. Each dimension (spine, margins, bleed) is calculated to the millimeter.</p>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-xl p-6 shadow-lg border-2 border-green-200 relative overflow-hidden innovation-card">
+          <div class="absolute top-0 right-0 w-20 h-20 bg-green-100 rounded-bl-full"></div>
+          <div class="absolute top-2 right-2 text-green-600"><i class="fas fa-network-wired text-xl"></i></div>
+          <div class="mb-4">
+            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-500 rounded-lg flex items-center justify-center mb-4">
+              <span class="text-white text-xl">🔗</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Conformité KDP garantie" data-en="Guaranteed KDP Compliance">Guaranteed KDP Compliance</h3>
+            <p class="text-gray-600" data-fr="Votre modèle respecte automatiquement toutes les exigences Amazon : zones de sécurité, fonds perdus, marges et épaisseur de tranche." data-en="Your template automatically respects all Amazon requirements: safety zones, bleeds, margins and spine thickness.">Your template automatically respects all Amazon requirements: safety zones, bleeds, margins and spine thickness.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================ -->
+
+  <!-- ============================================ -->
+  <!-- GIVEAWAY SECTION - CORRIGÉE -->
+  <!-- ============================================ -->
+
+  <section class="py-16 bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-2xl shadow-2xl overflow-hidden border-4 border-orange-400">
+        
+        <!-- Badge -->
+        <div 
+          style="background: linear-gradient(135deg, #f59e0b, #d97706); color: white; padding: 12px; text-align: center; font-weight: 700; font-size: 14px;"
+          data-en="🔥 BETA TESTERS ONLY 🔥"
+          data-fr="🔥 EXCLUSIF BETA TESTEURS 🔥">
+          🔥 BETA TESTERS ONLY 🔥
+        </div>
+        
+        <div class="p-8 md:p-12">
+          <div class="text-center">
+            <!-- Icon -->
+            <div style="font-size: 80px; margin-bottom: 24px; animation: float 3s ease-in-out infinite;">
+              🎰
+            </div>
+            
+            <!-- Title -->
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              <span 
+                style="color:#f59e0b;"
+                data-en="Try your luck"
+                data-fr="Tentez votre chance">
+                Try your luck
+              </span>
+            </h2>
+            
+            <!-- Description -->
+            <p class="text-lg text-gray-600 mb-8" id="giveaway-description" 
+               data-fr="Les <span class='font-bold text-orange-600'>10 premiers</span> beta testeurs à révéler gagnent l'abonnement PRO GRATUIT à vie !"
+               data-en="The <span class='font-bold text-orange-600'>first 10</span> beta testers to reveal win a FREE lifetime PRO plan!">
+              The <span class="font-bold text-orange-600">first 10</span> beta testers to reveal win a FREE lifetime PRO plan!
+            </p>
+            
+            <!-- Reward Card -->
+            <div class="bg-gradient-to-br from-yellow-100 to-orange-100 rounded-xl p-6 mb-8 border-2 border-orange-300">
+              <div class="flex items-center justify-center gap-4 mb-4">
+                <span style="font-size: 48px;">🏆</span>
+                <div class="text-left">
+                  <div 
+                    class="text-2xl font-bold text-orange-900"
+                    data-en="PRO plan"
+                    data-fr="Abonnement PRO">
+                    PRO plan
+                  </div>
+                  <div 
+                    class="text-lg text-orange-700"
+                    data-en="FREE for life"
+                    data-fr="GRATUIT à vie">
+                    FREE for life
+                  </div>
+                </div>
+              </div>
+              <div 
+                class="text-sm text-orange-600 font-semibold"
+                data-en="Value: €240/year"
+                data-fr="Valeur : 240 €/an">
+                Value: €240/year
+              </div>
+            </div>
+            
+            <!-- Live Stats -->
+            <div id="giveawayStats" class="bg-gray-50 rounded-lg p-4 mb-8">
+              <div 
+                class="text-sm text-gray-500 mb-2"
+                data-en="Spots remaining"
+                data-fr="Places restantes">
+                Spots remaining
+              </div>
+              <div class="text-3xl font-bold text-orange-600">
+                <span id="slotsRemaining">10</span> / 10
+              </div>
+            </div>
+            
+            <!-- CTA Button -->
+            <button 
+              onclick="if(window.GabaritKDP){window.GabaritKDP.showGiveawayRevealModal();}"
+              class="w-full md:w-auto px-12 py-4 bg-gradient-to-r from-orange-500 to-red-500 text-white text-xl font-bold rounded-xl hover:from-orange-600 hover:to-red-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              data-en="🎰 REVEAL MY RESULT"
+              data-fr="🎰 RÉVÉLER MON RÉSULTAT">
+              🎰 REVEAL MY RESULT
+            </button>
+            
+            <!-- Note -->
+            <div 
+              class="mt-6 text-sm text-gray-500"
+              data-en="⏰ One attempt per beta tester"
+              data-fr="⏰ Une seule tentative par beta testeur">
+              ⏰ One attempt per beta tester
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Animation CSS -->
+  <style>
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+  </style>
+
+
+  <!-- Tarifs Section -->
+  <section id="tarifs" class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4"><span data-fr="Choisissez votre" data-en="Choose Your">Choose Your</span> <span style="color:#FF9900;" data-fr="Formule" data-en="Plan">Plan</span></h2>
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-fr="Payez uniquement ce que vous utilisez - parfait pour les auteurs qui publient occasionnellement" data-en="Pay only for what you use - perfect for authors who publish occasionally">Pay only for what you use - perfect for authors who publish occasionally</p>
+      </div>
+
+      <div class="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200">
+          <div class="text-center mb-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Plan Gratuit" data-en="Free Plan">Free Plan</h3>
+            <p class="text-sm text-gray-600 mb-4" data-fr="Pour découvrir" data-en="To discover">To discover</p>
+            <div class="mb-6"><span class="text-3xl font-bold text-gray-900">$0</span><span class="text-gray-600" data-fr="/mois" data-en="/month">/month</span></div>
+          </div>
+          <div class="space-y-2 mb-8">
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="<strong>3 exports</strong> par mois" data-en="<strong>3 exports</strong> per month"><strong>3 exports</strong> per month</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="5 formats populaires" data-en="5 popular formats">5 popular formats</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="300 DPI prêt à imprimer" data-en="300 DPI print-ready">300 DPI print-ready</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="Intégration Canva" data-en="Canva integration">Canva integration</span></div>
+          </div>
+          <button onclick="startFree()" class="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-200 transition" data-fr="Commencer gratuitement" data-en="Start free">Start free</button>
+        </div>
+
+        <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-blue-200 relative">
+          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium" data-fr="Le plus populaire" data-en="Most popular">Most popular</span>
+          </div>
+          <div class="text-center mb-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Paiement par export" data-en="Pay per export">Pay per export</h3>
+            <p class="text-sm text-gray-600 mb-4" data-fr="Parfait pour une utilisation occasionnelle" data-en="Perfect for occasional use">Perfect for occasional use</p>
+            <div class="mb-6"><span class="text-3xl font-bold text-blue-600">$2.50</span><span class="text-gray-600" data-fr="/export" data-en="/export">/export</span></div>
+          </div>
+          <div class="space-y-2 mb-8">
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="Les 17 formats" data-en="All 17 formats">All 17 formats</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="300 DPI prêt à imprimer" data-en="300 DPI print-ready">300 DPI print-ready</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="Licence commerciale" data-en="Commercial license">Commercial license</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="Support prioritaire" data-en="Priority support">Priority support</span></div>
+          </div>
+          <button onclick="buyOneExport()" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition" data-fr="Acheter un export" data-en="Buy one export">Buy one export</button>
+        </div>
+
+        <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-purple-200">
+          <div class="text-center mb-6">
+            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Pro Illimité" data-en="Pro Unlimited">Pro Unlimited</h3>
+            <p class="text-sm text-gray-600 mb-4" data-fr="Éditeurs & Agences" data-en="Publishers & Agencies">Publishers & Agencies</p>
+            <div class="mb-6"><span class="text-3xl font-bold text-purple-600">$19.99</span><span class="text-gray-600" data-fr="/mois" data-en="/month">/month</span></div>
+          </div>
+          <div class="space-y-2 mb-8">
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="Exports illimités" data-en="Unlimited exports">Unlimited exports</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="API basique" data-en="Basic API">Basic API</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="Traitement par lots" data-en="Batch processing">Batch processing</span></div>
+            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span class="text-sm text-gray-700" data-fr="Modèles premium" data-en="Premium templates">Premium templates</span></div>
+          </div>
+          <button onclick="subscribePro()" class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition" data-fr="Commencer Pro" data-en="Start Pro">Start Pro</button>
+        </div>
+      </div>
+
+      <div class="text-center mt-16">
+        <h3 class="text-2xl font-bold text-gray-900 mb-8" data-fr="Questions fréquentes" data-en="Frequently Asked Questions">Frequently Asked Questions</h3>
+        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div class="bg-white rounded-lg p-6 shadow">
+            <h4 class="font-semibold text-gray-900 mb-2" data-fr="L'intégration Canva est-elle incluse ?" data-en="Is Canva integration included?">Is Canva integration included?</h4>
+            <p class="text-gray-600 text-sm" data-fr="Oui, l'import Canva est inclus dans tous les plans payants." data-en="Yes, Canva import is included in all paid plans.">Yes, Canva import is included in all paid plans.</p>
+          </div>
+          <div class="bg-white rounded-lg p-6 shadow">
+            <h4 class="font-semibold text-gray-900 mb-2" data-fr="Les dimensions sont-elles vraiment conformes ?" data-en="Are the dimensions really compliant?">Are the dimensions really compliant?</h4>
+            <p class="text-gray-600 text-sm" data-fr="Absolument ! Nos modèles sont calculés selon les spécifications officielles Amazon KDP." data-en="Absolutely! Our templates are calculated according to official Amazon KDP specifications.">Absolutely! Our templates are calculated according to official Amazon KDP specifications.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section">
+        <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières actualités KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières actualités KDP !</h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" title="YouTube - Tutoriels KDP" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" title="TikTok - Tips rapides KDP" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="text-center text-sm text-gray-400 mt-4" data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
+          </div>
+          <p class="text-gray-400" data-fr="Le générateur de couvertures KDP 100% conformes Amazon." data-en="The 100% Amazon-compliant KDP cover generator.">The 100% Amazon-compliant KDP cover generator.</p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+          <ul class="space-y-2">
+            <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a></li>
+            <li><a href="generator-magic.html" class="hover:text-white transition" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a></li>
+            <li><a href="./marketplace.html"  class="hover:text-white transition">Marketplace</a></li>
+            <li><a href="#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+            <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+            <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+            <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide utilisateur" data-en="User Guide">Guide utilisateur</a></li>
+            <li><a href="updates.html" class="hover:text-white transition" data-fr="Mises à jour / Nouveautés" data-en="Updates / What's New">Mises à jour / Nouveautés</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+          <ul class="space-y-2">
+            <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Légal Notice</a></li>
+            <li><a href="cgu.html" class="hover:text-white transition" data-fr="Conditions d'utilisation" data-en="Terms of Use">Conditions d'utilisation</a></li>
+            <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Politique de confidentialité" data-en="Privacy Policy">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p data-fr="&copy; 2025 GabaritKDP. Tous droits réservés." data-en="&copy; 2025 GabaritKDP. All rights reserved.">&copy; 2025 GabaritKDP. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let currentLanguage = 'en';
+
+    document.addEventListener('DOMContentLoaded', function () {
+      // Start with English by default, but respect user's saved preference
+      const savedLang = localStorage.getItem('preferredLanguage');
+      currentLanguage = savedLang || 'en';
+      
+      // If no saved preference, explicitly set to English
+      if (!savedLang) {
+        localStorage.setItem('preferredLanguage', 'en');
+      }
+      
+      applyLanguage(currentLanguage);
+      updateLanguageButtons();
+      animateStats();
+    });
+
+    function switchLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem('preferredLanguage', lang);
+      document.documentElement.lang = lang;
+      applyLanguage(lang);
+      updateLanguageButtons();
+    }
+
+    function applyLanguage(lang) {
+      const elements = document.querySelectorAll('[data-' + lang + ']');
+      elements.forEach(element => {
+        const text = element.getAttribute('data-' + lang);
+        if (text) {
+          if (element.tagName === 'META') {
+            element.setAttribute('content', text);
+          } else if (element.tagName === 'TITLE') {
+            element.textContent = text;
+          } else {
+            element.innerHTML = text;
+          }
+        }
+      });
+      document.documentElement.lang = lang;
+    }
+
+    function updateLanguageButtons() {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === currentLanguage) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const body = document.body;
+      if (mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        body.style.overflow = '';
+      } else {
+        mobileMenu.classList.add('active');
+        body.style.overflow = 'hidden';
+      }
+    }
+
+    const mascottePhrases = {
+      fr: ["Salut ! Je vais créer ta couverture parfaite ! 📏","Prêt pour une couverture 100% conforme ? 🎯","Fini les refus Amazon avec moi ! ✅"],
+      en: ["Hi! I'll create your perfect cover! 📏","Ready for a 100% compliant cover? 🎯","No more Amazon rejections with me! ✅"]
+    };
+
+    function mascotteClick() {
+      const bubble = document.querySelector('.mascotte-bubble');
+      const phrases = mascottePhrases[currentLanguage];
+      const randomPhrase = phrases[Math.floor(Math.random() * phrases.length)];
+      bubble.textContent = randomPhrase;
+    }
+
+    function playVideo() {
+      const videoContainer = document.querySelector('.video-container');
+      videoContainer.innerHTML = `
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/5abrn2PvTZs?autoplay=1&rel=0&modestbranding=1"
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen class="rounded-2xl"></iframe>`;
+    }
+
+    function animateStats() {
+      const statsElements = document.querySelectorAll('.stats-counter');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const target = entry.target;
+            const finalValue = target.textContent;
+            if (finalValue.includes('%')) {
+              animateNumber(target, 0, parseFloat(finalValue), '%');
+            } else if (finalValue.includes('min')) {
+              target.style.transform = 'scale(1.1)';
+              setTimeout(() => target.style.transform = 'scale(1)', 300);
+            } else if (finalValue.includes('+')) {
+              // Handle numbers with commas and plus sign like "1,940+"
+              const numValue = parseInt(finalValue.replace(/,/g, ''));
+              animateNumber(target, 0, numValue, '+');
+            } else if (!isNaN(parseInt(finalValue))) {
+              animateNumber(target, 0, parseInt(finalValue), '');
+            }
+            observer.unobserve(target);
+          }
+        });
+      });
+      statsElements.forEach(el => observer.observe(el));
+    }
+
+    function animateNumber(element, start, end, suffix) {
+      const duration = 2000;
+      const increment = (end - start) / (duration / 16);
+      let current = start;
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= end) { current = end; clearInterval(timer); }
+        // Format with comma for thousands
+        const formattedNumber = Math.floor(current).toLocaleString('en-US');
+        element.textContent = formattedNumber + suffix;
+      }, 16);
+    }
+
+    // ===================================
+    // 🔵 STRIPE INTEGRATION - CONFIGURÉ
+    // ===================================
+    const STRIPE_LINKS = {
+      free: "generator.html",  // Chemin relatif pour fonctionner en local ET en prod
+      payPerExport: "https://buy.stripe.com/6oUaEX7ORdXRa022RjgUM05",
+      proUnlimited: "https://buy.stripe.com/9B6fZhc570718VY3VngUM06"
+    };
+
+    function startFree() {
+      window.location.href = STRIPE_LINKS.free;
+    }
+
+    function buyOneExport() {
+      window.open(STRIPE_LINKS.payPerExport, "_blank", "noopener,noreferrer");
+    }
+
+    function subscribePro() {
+      window.open(STRIPE_LINKS.proUnlimited, "_blank", "noopener,noreferrer");
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior:'smooth', block:'start' });
+        });
+      });
+    });
+
+    // Temporary Giveaway function until Supabase integration is ready
+    if (!window.GabaritKDP) {
+      window.GabaritKDP = {};
+    }
+    
+    window.GabaritKDP.showGiveawayRevealModal = function() {
+      const lang = localStorage.getItem('preferredLanguage') || 'en';
+      const messages = {
+        fr: {
+          title: '🎰 Tirage au sort',
+          message: 'Cette fonctionnalité sera bientôt disponible !\n\nPour participer au programme Beta Tester VIP, veuillez utiliser le générateur et nous envoyer vos retours.',
+          button: 'Compris'
+        },
+        en: {
+          title: '🎰 Giveaway',
+          message: 'This feature will be available soon!\n\nTo participate in the VIP Beta Tester program, please use the generator and send us your feedback.',
+          button: 'Got it'
+        }
+      };
+      
+      const msg = messages[lang];
+      alert(`${msg.title}\n\n${msg.message}`);
+    };
+  </script>
+
+  <!-- 📊 Compteur de Visiteurs Uniques Dynamique + Sparkline -->
+  <script>
+  (async function() {
+    const ENDPOINT = "https://gabaritkdp-stats.amzkdptessa.workers.dev/?from=2024-01-01";
+    const el = document.querySelector(".unique-visitors-counter");
+    const badge = document.querySelector(".unique-visitors-badge");
+    const sparklineContainer = document.querySelector(".unique-visitors-sparkline");
+
+    if (!el) return;
+
+    const format = n => new Intl.NumberFormat().format(n);
+
+    function animate(from, to, duration = 800) {
+      const start = performance.now();
+      function step(t) {
+        const p = Math.min(1, (t - start) / duration);
+        const val = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
+        el.textContent = format(val);
+        if (p < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+
+    // Fonction pour créer la sparkline SVG
+    function createSparkline(data) {
+      if (!sparklineContainer || !data || data.length < 2) return;
+      
+      const width = 200;
+      const height = 32;
+      const padding = 2;
+      
+      // Obtenir min/max pour normaliser
+      const values = data.map(d => d.uniques);
+      const max = Math.max(...values);
+      const min = Math.min(...values);
+      const range = max - min || 1;
+      
+      // Créer les points pour le path
+      const points = data.map((d, i) => {
+        const x = (i / (data.length - 1)) * (width - padding * 2) + padding;
+        const y = height - padding - ((d.uniques - min) / range) * (height - padding * 2);
+        return `${x},${y}`;
+      });
+      
+      // Créer le path pour la courbe
+      const path = `M ${points.join(' L ')}`;
+      
+      // Créer le path pour le gradient (zone sous la courbe)
+      const areaPath = `M ${padding},${height} L ${points.join(' L ')} L ${width - padding},${height} Z`;
+      
+      // Créer le SVG
+      const svg = `
+        <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" style="display: block;">
+          <defs>
+            <linearGradient id="sparkline-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.3" />
+              <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:0.05" />
+            </linearGradient>
+          </defs>
+          <!-- Zone sous la courbe avec gradient -->
+          <path d="${areaPath}" fill="url(#sparkline-gradient)" />
+          <!-- Ligne de la courbe -->
+          <path d="${path}" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <!-- Point final (aujourd'hui) -->
+          <circle cx="${points[points.length - 1].split(',')[0]}" cy="${points[points.length - 1].split(',')[1]}" r="2.5" fill="#3b82f6" />
+        </svg>
+      `;
+      
+      sparklineContainer.innerHTML = svg;
+      sparklineContainer.style.opacity = '1';
+    }
+
+    // Fonction pour obtenir les 30 derniers jours
+    async function getSparklineData() {
+      try {
+        // Calculer la date d'il y a 30 jours
+        const today = new Date();
+        const thirtyDaysAgo = new Date(today);
+        thirtyDaysAgo.setDate(today.getDate() - 30);
+        
+        const from = thirtyDaysAgo.toISOString().split('T')[0];
+        const to = today.toISOString().split('T')[0];
+        
+        const url = `https://gabaritkdp-stats.amzkdptessa.workers.dev/?from=${from}&to=${to}`;
+        const res = await fetch(url, { cache: "no-store" });
+        const data = await res.json();
+        
+        if (data?.daily && Array.isArray(data.daily)) {
+          createSparkline(data.daily);
+        }
+      } catch (err) {
+        console.warn("Sparkline data fetch failed", err);
+      }
+    }
+
+    async function refresh() {
+      try {
+        const res = await fetch(ENDPOINT, { cache: "no-store" });
+        const data = await res.json();
+        const total = data?.uniques_overall ?? 0;
+        const today = data?.today?.uniques ?? 0;
+        const current = parseInt(el.textContent.replace(/[^\d]/g, "") || "0", 10);
+        animate(current, total);
+
+        if (badge) {
+          badge.textContent = today ? `+${format(today)} today` : "";
+          badge.style.display = today ? "inline-block" : "none";
+        }
+      } catch (err) {
+        console.warn("Stats error", err);
+      }
+    }
+
+    // Initialisation
+    refresh();
+    getSparklineData();
+    
+    // Mise à jour périodique
+    setInterval(refresh, 60000); // actualise chaque minute
+    setInterval(getSparklineData, 300000); // actualise sparkline toutes les 5 minutes
+  })();
+  </script>
+</body>
+</html>

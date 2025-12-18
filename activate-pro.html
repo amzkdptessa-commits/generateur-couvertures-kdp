@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Pro - GabaritKDP</title>
+    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-purple-50 to-pink-50 min-h-screen flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
+        <div class="text-6xl mb-4">🚀</div>
+        <h1 class="text-3xl font-bold text-gray-800 mb-4">
+            Welcome to Pro Unlimited!
+        </h1>
+        <p class="text-gray-600 mb-8">
+            Thank you for upgrading! Click the button below to activate unlimited Magic Generations.
+        </p>
+        
+        <button 
+            onclick="activatePro()" 
+            id="activateBtn"
+            class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-4 px-8 rounded-xl font-bold text-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105">
+            ✨ Activate Pro Unlimited
+        </button>
+        
+        <div id="status" class="mt-6 text-sm"></div>
+    </div>
+
+    <script>
+        function activatePro() {
+            const btn = document.getElementById('activateBtn');
+            const status = document.getElementById('status');
+            
+            // Activer le plan Pro
+            localStorage.setItem('magicPlan', 'pro');
+            localStorage.setItem('magicUsed', '0'); // Reset le compteur
+            
+            // Feedback visuel
+            btn.disabled = true;
+            btn.innerHTML = '✅ Pro Activated!';
+            btn.className = 'w-full bg-green-500 text-white py-4 px-8 rounded-xl font-bold text-lg';
+            
+            status.innerHTML = `
+                <div class="text-green-600 font-semibold">
+                    ✅ Success! Redirecting to Magic Generator...
+                </div>
+            `;
+            
+            // Redirection après 2 secondes
+            setTimeout(() => {
+                window.location.href = '/generator-magic.html';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

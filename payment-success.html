@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activating Your Access... - GabaritKDP</title>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MYG5JJM8EC');
+  </script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: white;
+      border-radius: 24px;
+      padding: 48px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      animation: slideUp 0.4s ease-out;
+    }
+    
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+      font-size: 56px;
+      animation: scaleIn 0.5s ease-out;
+    }
+    
+    @keyframes scaleIn {
+      0% {
+        transform: scale(0) rotate(-180deg);
+      }
+      70% {
+        transform: scale(1.1) rotate(10deg);
+      }
+      100% {
+        transform: scale(1) rotate(0deg);
+      }
+    }
+    
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #111827;
+      margin-bottom: 12px;
+    }
+    
+    .amount {
+      font-size: 24px;
+      color: #10b981;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+    
+    .status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px 24px;
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid #3b82f6;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    .status-text {
+      color: #1e40af;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    
+    .redirect-info {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 16px;
+    }
+    
+    .manual-link {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 24px;
+      background: #f3f4f6;
+      border-radius: 8px;
+      color: #374151;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: background 0.2s;
+    }
+    
+    .manual-link:hover {
+      background: #e5e7eb;
+    }
+    
+    #countdown {
+      font-weight: 700;
+      color: #10b981;
+    }
+    
+    @media (max-width: 640px) {
+      .container {
+        padding: 32px 24px;
+      }
+      
+      h1 {
+        font-size: 24px;
+      }
+      
+      .amount {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-icon">✓</div>
+    
+    <h1>Payment Confirmed!</h1>
+    <div class="amount" id="amount">$0.00</div>
+    
+    <div class="status">
+      <div class="spinner"></div>
+      <div class="status-text" id="status">Activating your access...</div>
+    </div>
+    
+    <div class="redirect-info">
+      Redirecting to Magic Generator in <span id="countdown">3</span>s...
+    </div>
+    
+    <a href="/generator-magic.html" class="manual-link" id="manual-link" style="display: none;">
+      Click here if not redirected automatically
+    </a>
+  </div>
+  
+  <script>
+    // Detect product type from URL or localStorage
+    const urlParams = new URLSearchParams(window.location.search);
+    const sessionId = urlParams.get('session_id');
+    
+    // Try to detect product type
+    let productType = 'pay-per-export'; // default
+    
+    // Check URL for hints
+    if (window.location.href.includes('pro') || 
+        window.location.href.includes('unlimited') ||
+        window.location.href.includes('subscription')) {
+      productType = 'pro-unlimited';
+    }
+    
+    // Check localStorage for last intent
+    const lastIntent = localStorage.getItem('lastPurchaseIntent');
+    if (lastIntent) {
+      productType = lastIntent;
+    }
+    
+    // Product configurations
+    const products = {
+      'pay-per-export': {
+        amount: '$2.50',
+        activationCode: "localStorage.setItem('magicUsed', '4'); location.reload();",
+        message: 'Activating 1 export credit...'
+      },
+      'pro-unlimited': {
+        amount: '$19.99/month',
+        activationCode: "localStorage.setItem('magicPlan', 'pro'); localStorage.setItem('magicUsed', '0'); location.reload();",
+        message: 'Activating Pro Unlimited...'
+      }
+    };
+    
+    const product = products[productType];
+    
+    // Update display
+    document.getElementById('amount').textContent = product.amount;
+    document.getElementById('status').textContent = product.message;
+    
+    // Track conversion in Google Analytics
+    gtag('event', 'purchase', {
+      transaction_id: sessionId || 'manual_' + Date.now(),
+      value: parseFloat(product.amount.replace('$', '').replace('/month', '')),
+      currency: 'USD',
+      items: [{
+        item_name: productType === 'pay-per-export' ? 'Pay-per-Export' : 'Pro Unlimited',
+        price: parseFloat(product.amount.replace('$', '').replace('/month', ''))
+      }]
+    });
+    
+    // Automatic activation and redirect
+    let seconds = 3;
+    const countdownEl = document.getElementById('countdown');
+    const statusEl = document.getElementById('status');
+    
+    // Countdown
+    const countdownInterval = setInterval(() => {
+      seconds--;
+      countdownEl.textContent = seconds;
+      
+      if (seconds <= 0) {
+        clearInterval(countdownInterval);
+      }
+    }, 1000);
+    
+    // Activate after 1 second
+    setTimeout(() => {
+      statusEl.textContent = '✓ Access activated!';
+      
+      // Execute activation code
+      try {
+        eval(product.activationCode);
+      } catch (e) {
+        console.error('Activation error:', e);
+      }
+    }, 1000);
+    
+    // Redirect after 3 seconds
+    setTimeout(() => {
+      window.location.href = '/generator-magic.html';
+    }, 3000);
+    
+    // Show manual link after 5 seconds (in case redirect fails)
+    setTimeout(() => {
+      document.getElementById('manual-link').style.display = 'inline-block';
+    }, 5000);
+    
+    // Clear purchase intent
+    localStorage.removeItem('lastPurchaseIntent');
+  </script>
+</body>
+</html>

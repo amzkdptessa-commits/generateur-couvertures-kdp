@@ -1,0 +1,207 @@
+🚀 CONFIGURATION NETLIFY - BUNNY CDN DYNAMIQUE
+═══════════════════════════════════════════════
+
+## 📋 FICHIERS À UPLOADER
+
+Voici la structure complète à mettre sur ton site :
+
+```
+ton-site/
+├── netlify/
+│   └── functions/
+│       ├── list-bunny-images.js    ← Netlify Function pour lister les images
+│       └── list-categories.js       ← Netlify Function pour lister les catégories
+├── bunny-loader.js                  ← Script qui charge les images dynamiquement
+├── marketplace.html                 ← Ta page marketplace (version connectée)
+└── ... (tes autres fichiers)
+```
+
+═══════════════════════════════════════════════
+
+## ⚙️ ÉTAPE 1 : CONFIGURER LES VARIABLES D'ENVIRONNEMENT
+
+Dans Netlify :
+
+1. Va sur **Site settings** → **Environment variables**
+2. Clique sur **Add a variable**
+3. Ajoute ces 4 variables :
+
+**Variable 1 :**
+- Key: `BUNNY_STORAGE_ZONE`
+- Value: `gabaritkdp-images`
+
+**Variable 2 :**
+- Key: `BUNNY_API_KEY`
+- Value: [Ton Storage Zone Password]
+  
+  📍 Pour trouver ton password :
+  - Va sur Bunny.net
+  - Clique sur ton Storage Zone
+  - Onglet "FTP & API Access"
+  - Copy le "Password"
+
+**Variable 3 :**
+- Key: `BUNNY_CDN_URL`
+- Value: `https://gabaritkdp.b-cdn.net`
+
+**Variable 4 :**
+- Key: `BUNNY_STORAGE_HOST`
+- Value: `storage.bunnycdn.com`
+
+4. Clique sur **Save**
+
+═══════════════════════════════════════════════
+
+## 📤 ÉTAPE 2 : UPLOADER LES FICHIERS
+
+### Option A : Via Git (recommandé)
+
+```bash
+# 1. Copie les fichiers dans ton repo local
+cp netlify/functions/list-bunny-images.js ton-repo/netlify/functions/
+cp netlify/functions/list-categories.js ton-repo/netlify/functions/
+cp bunny-loader.js ton-repo/
+cp marketplace.html ton-repo/
+
+# 2. Commit et push
+cd ton-repo
+git add .
+git commit -m "Add Bunny CDN dynamic loader"
+git push
+```
+
+### Option B : Via Netlify UI
+
+1. Va sur **Deploys** → **Deploy manually**
+2. Drag & drop ton dossier complet
+3. Netlify déploie automatiquement
+
+═══════════════════════════════════════════════
+
+## ✅ ÉTAPE 3 : VÉRIFIER QUE ÇA MARCHE
+
+### Test 1 : Vérifier les Functions
+
+Ouvre dans ton navigateur :
+```
+https://ton-site.netlify.app/.netlify/functions/list-categories?folder=FULL%20COVER
+```
+
+Tu dois voir un JSON avec la liste des catégories.
+
+### Test 2 : Vérifier les images
+
+Ouvre :
+```
+https://ton-site.netlify.app/.netlify/functions/list-bunny-images?folder=FULL%20COVER/Art
+```
+
+Tu dois voir un JSON avec toutes les images.
+
+### Test 3 : Tester le marketplace
+
+1. Ouvre `https://ton-site.netlify.app/marketplace.html`
+2. Clique sur une catégorie (ex: "Art Style")
+3. Une galerie doit s'ouvrir avec toutes les images !
+
+═══════════════════════════════════════════════
+
+## 🐛 DÉPANNAGE
+
+### Erreur "Function not found"
+
+**Problème :** Les Netlify Functions ne sont pas déployées
+
+**Solution :**
+1. Vérifie que le dossier est bien `netlify/functions/` (pas `netlify/function/`)
+2. Vérifie que les fichiers sont bien des `.js`
+3. Redéploie le site
+
+### Erreur "HTTP 401 Unauthorized"
+
+**Problème :** La clé API Bunny est incorrecte
+
+**Solution :**
+1. Va sur Bunny.net
+2. Storage Zone → FTP & API Access
+3. Copie exactement le Password
+4. Mets-le dans `BUNNY_API_KEY` sur Netlify
+5. Redéploie (important après changement de variables)
+
+### Erreur "Cannot find module"
+
+**Problème :** Les imports Node.js ne fonctionnent pas
+
+**Solution :**
+Vérifie que tes fichiers `.js` utilisent bien :
+```javascript
+import https from 'https';
+```
+Et PAS :
+```javascript
+const https = require('https');
+```
+
+### Les images ne s'affichent pas
+
+**Problème :** CORS ou URLs incorrectes
+
+**Solution :**
+1. Ouvre la console du navigateur (F12)
+2. Regarde les erreurs
+3. Vérifie que les URLs Bunny sont correctes
+4. Vérifie que `BUNNY_CDN_URL` est bien configuré
+
+═══════════════════════════════════════════════
+
+## 🎯 COMMENT ÇA MARCHE
+
+### Architecture
+
+```
+UTILISATEUR clique sur une catégorie
+    ↓
+JavaScript appelle loadCategoryImages('FULL COVER/Art')
+    ↓
+bunny-loader.js fait un fetch vers /.netlify/functions/list-bunny-images
+    ↓
+Netlify Function appelle l'API Bunny CDN
+    ↓
+Bunny retourne la liste des images
+    ↓
+Function transforme en JSON propre
+    ↓
+bunny-loader.js affiche les images dans une galerie
+```
+
+### Avantages
+
+✅ **Dynamique** : Ajoute des images sur Bunny → elles apparaissent automatiquement
+✅ **Performant** : Bunny CDN global, ultra rapide
+✅ **Sécurisé** : Clé API cachée côté serveur (Netlify Functions)
+✅ **Scalable** : Fonctionne avec 10 ou 10,000 images
+✅ **Maintenance facile** : Pas besoin de modifier le code HTML
+
+═══════════════════════════════════════════════
+
+## 📞 BESOIN D'AIDE ?
+
+Si quelque chose ne marche pas :
+
+1. **Check les logs Netlify :**
+   - Site → Functions
+   - Clique sur une function
+   - Regarde les logs en temps réel
+
+2. **Check la console navigateur :**
+   - F12 → Console
+   - Regarde les erreurs JavaScript
+
+3. **Teste les URLs directement :**
+   - Ouvre les URLs des functions dans le navigateur
+   - Vérifie qu'elles retournent du JSON valide
+
+═══════════════════════════════════════════════
+
+🎉 Une fois configuré, ton marketplace sera 100% dynamique !
+Ajoute des images sur Bunny, elles apparaissent automatiquement ! 🚀

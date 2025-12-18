@@ -1,0 +1,574 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <title>Vendre un design | GabaritKDP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Supabase SDK + config -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script src="./config.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "t09tdy9nqm");
+</script>
+   <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3px;
+        }
+
+        .lang-btn {
+            padding: 6px 10px;
+            border: none;
+            background: transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+
+        /* Navigation Header */
+        .header-nav {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 0px;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-nav span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF9900;
+        }
+
+        .nav-links {
+          width: 100%;
+          justify-content: center;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 14px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.1);
+        }
+
+        .nav-links a.active {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.15);
+        }
+
+        /* Style spécial pour Générateur Express */
+        .express-nav-btn {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+            position: relative !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .express-nav-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: white !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .f-exp-gene {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        .f-exp-gene:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: #FFFFFF;
+        }
+
+        .express-nav-btn::before,
+        .f-exp-gene::before {
+            content: "⚡";
+            margin-right: 4px;
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mobile-menu-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 22.5px;
+                right: 60px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Mobile menu toggle button */
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 4px;
+                margin-left: auto;
+            }
+
+            .mobile-menu-toggle:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Social Links */
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0866D3);
+        }
+
+        .social-link.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);
+        }
+
+        .social-link.pinterest {
+            background: linear-gradient(135deg, #BD081C, #E60023);
+        }
+
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
+        }
+
+        .social-link.linkedin {
+            background: linear-gradient(135deg, #0A66C2, #004182);
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                gap: 10px;
+            }
+
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>  
+</head>
+<body class="bg-gray-50">
+
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+            </div>
+            <nav class="nav-links">
+                <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
+                    data-en="Express Generator">Express Generator</a>
+                <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
+                    Generator</a>
+                <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace>Marketplace</a>
+                <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+                <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+                <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <div class="mobile-menu-links">
+            <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+            <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
+                data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+            <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+            <a href="./marketplace.html" target="_blank" rel="noopener" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰
+                Pricing</a>
+            <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2);" data-fr="📝 Inscription"
+                data-en="📝 Sign Up">📝 Sign Up</a>
+            <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+        </div>
+    </div>
+
+  <main class="max-w-3xl mx-auto p-4">
+    <h1 class="text-2xl font-extrabold mb-4">Publier un design KDP</h1>
+
+    <form id="form" class="space-y-4 bg-white p-4 rounded-xl shadow">
+      <input id="title" class="border rounded px-3 py-2 w-full" placeholder="Titre du design" required />
+      <textarea id="description" class="border rounded px-3 py-2 w-full" placeholder="Description (facultatif)"></textarea>
+
+      <div class="grid grid-cols-2 gap-3">
+        <select id="licence" class="border rounded px-3 py-2" required>
+          <option value="non-exclusive">Non-exclusive</option>
+          <option value="exclusive">Exclusive</option>
+        </select>
+        <input id="price" type="number" min="1" step="0.01" class="border rounded px-3 py-2" placeholder="Prix (€)" required />
+      </div>
+
+      <input id="kdp_format" class="border rounded px-3 py-2 w-full" placeholder="Format KDP (ex: 6x9, 8.5x11)" />
+
+      <div>
+        <label class="block mb-1 font-semibold">Image de preview (cover.jpg)</label>
+        <input id="preview" type="file" accept="image/*" required />
+      </div>
+
+      <button class="px-4 py-2 bg-slate-800 text-white rounded">Publier</button>
+      <p id="msg" class="text-sm text-gray-600"></p>
+    </form>
+  </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div class="social-section">
+                <h4 class="text-white font-semibold mb-4 text-center">
+                    🚀 Follow us for the latest KDP news!
+                </h4>
+
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"
+                        title="YouTube - Tutoriels KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"
+                        title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"
+                        title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"
+                        title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"
+                        title="TikTok - Tips rapides KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"
+                        title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+
+                <p class="text-center text-sm text-gray-400 mt-4">
+                    KDP Tips • Tutorials • News • Authors Community
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400">The generator for 100% Amazon-compliant KDP covers.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene">Express Generator</a></li>
+                        <li><a href="generator-magic.html" class="hover:text-white transition">Magic Generator</a></li>
+                        <li><a href="./marketplace.html" target="_blank" rel="noopener" class="hover:text-white transition">Marketplace</a></li>
+                        <li><a href="#tarifs" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition">Features</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition">User Guide</a></li>
+                        <li><a href="updates.html" class="hover:text-white transition">Updates / What’s New</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition">Legal Notice</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+  <script>
+    const supabase = getSupabase();
+
+    // (option) forcer la connexion
+    // (async () => {
+    //   const { data:{ session } } = await supabase.auth.getSession();
+    //   if (!session) location.href = './connexion.html';
+    // })();
+
+    document.getElementById('form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = document.getElementById('msg');
+      msg.textContent = 'Création en cours…';
+
+      // 1) Crée le listing (draft)
+      const { data: listing, error } = await supabase
+        .from('listings')
+        .insert({
+          title: document.getElementById('title').value.trim(),
+          description: document.getElementById('description').value.trim(),
+          licence_type: document.getElementById('licence').value,
+          price: Number(document.getElementById('price').value),
+          kdp_format: document.getElementById('kdp_format').value.trim(),
+          status: 'draft'
+        })
+        .select().single();
+
+      if (error) { msg.textContent = 'Erreur création listing'; return; }
+
+      // 2) Upload preview → previews/<listing_id>/cover.jpg
+      const file = document.getElementById('preview').files[0];
+      const path = `previews/${listing.id}/cover.jpg`;
+      const up = await supabase.storage.from('previews').upload(path, file, { contentType: file.type, upsert: true });
+      if (up.error) { msg.textContent = 'Erreur upload preview'; return; }
+
+      // 3) Publier
+      const { error: up2 } = await supabase.from('listings').update({ status: 'published' }).eq('id', listing.id);
+      if (up2) { msg.textContent = 'Erreur publication'; return; }
+
+      msg.textContent = '✅ Design publié !';
+      setTimeout(() => location.href = `./listing.html?id=${listing.id}`, 800);
+    });
+  </script>
+      <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                body.style.overflow = '';
+            } else {
+                mobileMenu.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+        }
+    </script>
+</body>
+</html>

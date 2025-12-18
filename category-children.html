@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Children's Books Templates - GabaritKDP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+        .header { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 1.5rem 2rem; }
+        .header-content { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none; }
+        .logo span { color: #FF6B35; }
+        .nav-links { display: flex; gap: 2rem; align-items: center; }
+        .nav-links a { color: white; text-decoration: none; font-weight: 500; }
+        .language-toggle { display: flex; gap: 0.5rem; background: rgba(255,255,255,0.1); padding: 0.5rem; border-radius: 8px; }
+        .language-toggle button { background: transparent; border: none; color: white; padding: 0.3rem 0.8rem; border-radius: 6px; cursor: pointer; }
+        .language-toggle button.active { background: #FF6B35; }
+        .breadcrumb { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; display: flex; gap: 0.5rem; color: #64748b; }
+        .breadcrumb a { color: #64748b; text-decoration: none; }
+        .breadcrumb span { color: #1e293b; font-weight: 600; }
+        .hero { max-width: 1400px; margin: 0 auto 3rem; padding: 0 2rem; }
+        .hero-content { background: url('./images/Vignette_Livre_d_enfant.png') center center / cover no-repeat; border-radius: 20px; padding: 4rem; position: relative; box-shadow: 0 10px 40px rgba(0,0,0,0.15); }
+        .hero-content::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(236,72,153,0.95) 0%, rgba(244,114,182,0.85) 100%); }
+        .hero-text { position: relative; z-index: 1; color: white; }
+        .hero-text h1 { font-size: 3rem; margin-bottom: 1rem; font-weight: 800; }
+        .hero-text p { font-size: 1.2rem; opacity: 0.95; max-width: 600px; }
+        .hero-stats { display: flex; gap: 3rem; margin-top: 2rem; }
+        .stat-number { font-size: 2.5rem; font-weight: 700; color: #FF6B35; }
+        .stat-label { font-size: 0.9rem; opacity: 0.9; }
+        .filters { max-width: 1400px; margin: 0 auto 2rem; padding: 0 2rem; }
+        .filters-container { background: white; padding: 2rem; border-radius: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+        .filters-row { display: flex; gap: 2rem; flex-wrap: wrap; }
+        .filter-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .filter-buttons { display: flex; gap: 0.5rem; }
+        .filter-btn { padding: 0.6rem 1.2rem; border: 2px solid #e2e8f0; background: white; border-radius: 10px; cursor: pointer; }
+        .filter-btn.active { background: #FF6B35; color: white; border-color: #FF6B35; }
+        .products { max-width: 1400px; margin: 0 auto 4rem; padding: 0 2rem; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 2rem; }
+        .product-card { background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); cursor: pointer; transition: 0.3s; }
+        .product-card:hover { transform: translateY(-8px); }
+        .product-image { height: 400px; background: #f1f5f9; position: relative; }
+        .product-image img { width: 100%; height: 100%; object-fit: cover; }
+        .product-badge { position: absolute; top: 1rem; right: 1rem; background: #FF6B35; color: white; padding: 0.4rem 1rem; border-radius: 20px; font-weight: 600; }
+        .product-badge.free { background: #10b981; }
+        .product-info { padding: 1.5rem; }
+        .product-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .footer { background: #1e293b; color: white; padding: 3rem 2rem; margin-top: 4rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="./index.html" class="logo">Gabarit<span>KDP</span></a>
+            <nav class="nav-links">
+                <a href="./generator.html">Generator</a>
+                <a href="./marketplace.html">Marketplace</a>
+                <div class="language-toggle">
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="breadcrumb">
+        <a href="./index.html">Home</a> <i class="fas fa-chevron-right"></i>
+        <a href="./marketplace.html">Marketplace</a> <i class="fas fa-chevron-right"></i>
+        <span>Children's Books</span>
+    </div>
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Children's Books Templates</h1>
+                <p>Colorful and playful designs for young readers</p>
+                <div class="hero-stats">
+                    <div><div class="stat-number">789</div><div class="stat-label">Templates</div></div>
+                    <div><div class="stat-number">42</div><div class="stat-label">Free</div></div>
+                    <div><div class="stat-number">124</div><div class="stat-label">Bundles</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="filters">
+        <div class="filters-container">
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label>Product Type</label>
+                    <div class="filter-buttons">
+                        <button class="filter-btn active">All</button>
+                        <button class="filter-btn">Covers</button>
+                        <button class="filter-btn">Interiors</button>
+                        <button class="filter-btn">Bundles</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="products">
+        <div class="products-grid">
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=600&h=900&fit=crop" alt="Children">
+                    <div class="product-badge">€2.99</div>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">Happy Adventures</h3>
+                    <p>8.5×8.5" • KDP Ready</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <footer class="footer"><p>© 2025 GabaritKDP</p></footer>
+</body>
+</html>

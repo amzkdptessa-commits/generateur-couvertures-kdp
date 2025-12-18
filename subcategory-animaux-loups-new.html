@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ANIMAUX → Loups | GabaritKDP Marketplace</title>
+  <meta name="description" content="11 templates professionnels de loups pour vos couvertures KDP">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}
+    
+    /* Header Navigation */
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:10px}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;font-size:.95rem;transition:all .3s}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+    .express-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important}
+    
+    /* Hero Section */
+    .hero-gradient{background:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 50%,#bae6fd 100%);padding:3rem 0}
+    .breadcrumb{display:flex;align-items:center;gap:8px;font-size:.9rem;color:#64748b;margin-bottom:1.5rem;flex-wrap:wrap}
+    .breadcrumb a{color:#FF9900;text-decoration:none;transition:.3s}
+    .breadcrumb a:hover{text-decoration:underline}
+    
+    /* Gallery Grid */
+    .gallery-container{max-width:1400px;margin:0 auto;padding:3rem 1rem}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
+    
+    /* Template Card */
+    .template-card{position:relative;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 15px rgba(0,0,0,.08);border:2px solid transparent;transition:all .3s;cursor:pointer}
+    .template-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.15);border-color:#FF9900}
+    
+    .template-image{width:100%;aspect-ratio:2/3;object-fit:cover;transition:.4s}
+    .template-card:hover .template-image{transform:scale(1.05)}
+    
+    /* Watermark */
+    .watermark{position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,0.03) 0px,rgba(255,255,255,0.03) 40px,rgba(0,0,0,0.02) 40px,rgba(0,0,0,0.02) 80px);pointer-events:none;z-index:1}
+    .watermark::after{content:'GabaritKDP';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:2rem;font-weight:800;color:rgba(255,255,255,0.12);text-shadow:2px 2px 4px rgba(0,0,0,0.15);white-space:nowrap}
+    
+    /* Overlay on Hover */
+    .template-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.92),rgba(0,0,0,.4) 60%,transparent);opacity:0;transition:.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1.25rem;z-index:2}
+    .template-card:hover .template-overlay{opacity:1}
+    
+    .template-name{font-size:.875rem;font-weight:600;color:#fff;margin-bottom:.5rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .template-size{font-size:.75rem;color:#94a3b8;margin-bottom:.75rem}
+    
+    /* Use Template Button */
+    .use-template-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px;background:linear-gradient(135deg,#FF9900,#e68a00);color:#fff;font-weight:600;font-size:.875rem;border-radius:8px;border:none;cursor:pointer;transition:.3s}
+    .use-template-btn:hover{background:linear-gradient(135deg,#e68a00,#cc7a00);transform:scale(1.02);box-shadow:0 4px 15px rgba(255,153,0,.5)}
+    
+    /* Badges */
+    .free-badge{position:absolute;top:.75rem;left:.75rem;background:#10b981;color:#fff;padding:.35rem .65rem;border-radius:6px;font-size:.7rem;font-weight:700;z-index:3;box-shadow:0 2px 8px rgba(16,185,129,.3)}
+    .premium-badge{position:absolute;top:.75rem;right:.75rem;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;padding:.35rem .65rem;border-radius:6px;font-size:.65rem;font-weight:600;z-index:3;box-shadow:0 2px 8px rgba(139,92,246,.3)}
+    
+    /* Loading State */
+    .loading-container{text-align:center;padding:4rem 2rem;color:#6b7280}
+    .loading-spinner{display:inline-block;width:50px;height:50px;border:5px solid #e5e7eb;border-top-color:#FF9900;border-radius:50%;animation:spin 1s linear infinite;margin-bottom:1rem}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    
+    /* Empty State */
+    .empty-state{text-align:center;padding:4rem 2rem;background:#f9fafb;border-radius:16px;margin:2rem 0}
+    .empty-state-icon{font-size:4rem;margin-bottom:1rem;opacity:.5}
+    
+    /* Stats Cards */
+    .stats-container{display:flex;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:1.5rem}
+    .stat-card{background:rgba(255,255,255,.7);backdrop-filter:blur(10px);border-radius:12px;padding:1.25rem 2rem;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.05)}
+    .stat-number{font-size:2rem;font-weight:800;color:#FF9900;margin-bottom:.25rem}
+    .stat-label{font-size:.875rem;color:#64748b;font-weight:500}
+    
+    /* Search Bar */
+    .search-container{max-width:500px;margin:0 auto 2rem}
+    .search-input{width:100%;padding:12px 16px;border:2px solid #e2e8f0;border-radius:10px;font-size:1rem;transition:.3s}
+    .search-input:focus{outline:none;border-color:#FF9900;box-shadow:0 0 0 3px rgba(255,153,0,.1)}
+    
+    /* Responsive */
+    @media(max-width:768px){
+      .nav-links{display:none}
+      .stats-container{gap:1rem}
+      .stat-card{padding:1rem 1.5rem}
+      .gallery-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem}
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  
+  <!-- Header -->
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">🏠 Home</a>
+        <a href="generator.html" class="express-btn">⚡ Generator</a>
+        <a href="marketplace.html" class="active">Marketplace</a>
+        <a href="pricing.html">💰 Pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-gradient">
+    <div class="gallery-container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb">
+        <a href="marketplace.html">Marketplace</a>
+        <span>›</span>
+        <a href="category-animaux.html">ANIMAUX</a>
+        <span>›</span>
+        <span>Loups</span>
+      </nav>
+      
+      <!-- Title & Icon -->
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <span class="text-5xl mr-3">🐺</span> ANIMAUX → Loups
+        </h1>
+        <p class="text-lg text-gray-600 mb-4">Templates professionnels pour vos couvertures KDP</p>
+        
+        <!-- Stats -->
+        <div class="stats-container">
+          <div class="stat-card">
+            <div class="stat-number" id="total-count">-</div>
+            <div class="stat-label">Templates</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="free-count">-</div>
+            <div class="stat-label">Free</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section class="gallery-container">
+    
+    <!-- Search (Optional) -->
+    <div class="search-container">
+      <input 
+        type="text" 
+        id="search-input" 
+        class="search-input" 
+        placeholder="🔍 Rechercher un template..." 
+        disabled
+      >
+    </div>
+    
+    <!-- Gallery Grid -->
+    <div id="gallery-grid" class="gallery-grid">
+      <!-- Loading State -->
+      <div class="col-span-full loading-container">
+        <div class="loading-spinner"></div>
+        <p class="text-lg font-semibold">Chargement des templates...</p>
+        <p class="text-sm text-gray-500 mt-2">Connexion au CDN...</p>
+      </div>
+    </div>
+    
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-400 py-8 text-center mt-12">
+    <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+  </footer>
+
+  <!-- Gallery Loader Script -->
+  <script src="./gallery-loader.js"></script>
+  
+  <!-- Page-Specific Script -->
+  <script>
+    // ═══════════════════════════════════════════════════════════
+    // CONFIGURATION DE LA PAGE
+    // ═══════════════════════════════════════════════════════════
+    
+    const PAGE_CONFIG = {
+      category: 'Loups',           // Catégorie à filtrer dans le JSON
+      type: 'backgrounds',         // Type: backgrounds ou fullcovers
+      filterType: 'path',          // Méthode de filtrage
+      icon: '🐺',                  // Icône de la catégorie
+      generatorUrl: 'generator.html'  // URL du générateur
+    };
+    
+    // ═══════════════════════════════════════════════════════════
+    // RENDU D'UNE CARTE TEMPLATE
+    // ═══════════════════════════════════════════════════════════
+    
+    function createTemplateCard(item, index) {
+      const url = item.url || item;
+      const filename = item.filename || url.split('/').pop();
+      const isFree = Math.random() < 0.2; // 20% free (adapter selon tes données)
+      
+      const card = document.createElement('div');
+      card.className = 'template-card';
+      card.dataset.url = url;
+      card.dataset.index = index;
+      
+      card.innerHTML = `
+        ${isFree ? '<span class="free-badge">FREE</span>' : '<span class="premium-badge">PRO</span>'}
+        
+        <div class="watermark"></div>
+        
+        <img 
+          src="${url}" 
+          alt="Loups Template ${index + 1}"
+          class="template-image"
+          loading="lazy"
+          onerror="this.src='https://via.placeholder.com/400x600?text=Error+Loading'; this.style.opacity='0.5';"
+        >
+        
+        <div class="template-overlay">
+          <div class="template-name" title="${filename}">${filename}</div>
+          <div class="template-size">6x9" • High Quality</div>
+          <button class="use-template-btn" onclick="useTemplate('${url}')">
+            <i class="fas fa-magic"></i>
+            Use Template
+          </button>
+        </div>
+      `;
+      
+      // Click to open in new tab
+      card.addEventListener('click', (e) => {
+        if (!e.target.closest('.use-template-btn')) {
+          window.open(url, '_blank');
+        }
+      });
+      
+      return card;
+    }
+    
+    // ═══════════════════════════════════════════════════════════
+    // FONCTION: USE TEMPLATE
+    // ═══════════════════════════════════════════════════════════
+    
+    function useTemplate(imageUrl) {
+      console.log('🎨 Using template:', imageUrl);
+      
+      // Stocker l'URL en localStorage pour le générateur
+      localStorage.setItem('selectedTemplateUrl', imageUrl);
+      
+      // Rediriger vers le générateur
+      window.location.href = PAGE_CONFIG.generatorUrl + '?template=' + encodeURIComponent(imageUrl);
+    }
+    
+    // ═══════════════════════════════════════════════════════════
+    // MISE À JOUR DES STATS
+    // ═══════════════════════════════════════════════════════════
+    
+    function updateStats(items) {
+      const totalCount = items.length;
+      const freeCount = Math.floor(totalCount * 0.2); // Approximation
+      
+      document.getElementById('total-count').textContent = totalCount;
+      document.getElementById('free-count').textContent = freeCount;
+    }
+    
+    // ═══════════════════════════════════════════════════════════
+    // AFFICHAGE DES RÉSULTATS
+    // ═══════════════════════════════════════════════════════════
+    
+    function renderGallery(items) {
+      const container = document.getElementById('gallery-grid');
+      
+      if (!items || items.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full empty-state">
+            <div class="empty-state-icon">🖼️</div>
+            <h3 class="text-2xl font-bold text-gray-700 mb-2">Aucun template trouvé</h3>
+            <p class="text-gray-500">Cette catégorie ne contient pas encore d'images.</p>
+            <a href="marketplace.html" class="inline-block mt-4 px-6 py-3 bg-gray-900 text-white rounded-lg font-semibold hover:bg-gray-800 transition">
+              Retour au Marketplace
+            </a>
+          </div>
+        `;
+        return;
+      }
+      
+      // Vider le container
+      container.innerHTML = '';
+      
+      // Ajouter chaque carte
+      items.forEach((item, index) => {
+        const card = createTemplateCard(item, index);
+        container.appendChild(card);
+      });
+      
+      // Mettre à jour les stats
+      updateStats(items);
+      
+      // Activer la recherche
+      document.getElementById('search-input').disabled = false;
+      
+      console.log(`✅ ${items.length} templates rendus avec succès`);
+    }
+    
+    // ═══════════════════════════════════════════════════════════
+    // GESTION D'ERREUR
+    // ═══════════════════════════════════════════════════════════
+    
+    function showError(message) {
+      const container = document.getElementById('gallery-grid');
+      container.innerHTML = `
+        <div class="col-span-full empty-state" style="background: #fee2e2; border: 2px solid #dc2626;">
+          <div class="empty-state-icon" style="color: #dc2626;">⚠️</div>
+          <h3 class="text-2xl font-bold mb-2" style="color: #dc2626;">Erreur de chargement</h3>
+          <p class="text-gray-700 mb-4">${message}</p>
+          <button onclick="location.reload()" class="px-6 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition">
+            Recharger la page
+          </button>
+        </div>
+      `;
+    }
+    
+    // ═══════════════════════════════════════════════════════════
+    // CHARGEMENT AU DÉMARRAGE
+    // ═══════════════════════════════════════════════════════════
+    
+    document.addEventListener('DOMContentLoaded', async () => {
+      console.log('🚀 Page chargée - Début du chargement de la galerie');
+      console.log('📁 Catégorie:', PAGE_CONFIG.category);
+      
+      try {
+        // Charger les données
+        console.log('📦 Chargement du gallery.json...');
+        await GalleryLoader.load();
+        
+        // Filtrer par catégorie
+        console.log('🔍 Filtrage par catégorie...');
+        const items = GalleryLoader.filter(
+          PAGE_CONFIG.category, 
+          PAGE_CONFIG.type, 
+          PAGE_CONFIG.filterType
+        );
+        
+        console.log(`✅ ${items.length} items trouvés`);
+        
+        // Rendre la galerie
+        renderGallery(items);
+        
+      } catch (error) {
+        console.error('❌ Erreur fatale:', error);
+        showError(error.message || 'Impossible de charger les templates');
+      }
+    });
+    
+    // ═══════════════════════════════════════════════════════════
+    // RECHERCHE (OPTIONNEL)
+    // ═══════════════════════════════════════════════════════════
+    
+    let allItems = [];
+    
+    document.getElementById('search-input').addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      
+      if (!query) {
+        // Réafficher tout
+        renderGallery(allItems);
+        return;
+      }
+      
+      // Filtrer
+      const filtered = allItems.filter(item => {
+        const url = item.url || item;
+        const filename = item.filename || url.split('/').pop();
+        return filename.toLowerCase().includes(query);
+      });
+      
+      renderGallery(filtered);
+    });
+    
+  </script>
+</body>
+</html>

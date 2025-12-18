@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="FAQ - GabaritKDP" data-en="FAQ - GabaritKDP">FAQ - GabaritKDP</title>
+    <meta name="description"
+        data-fr="Questions fréquentes sur GabaritKDP, le générateur de couvertures KDP conformes Amazon"
+        data-en="Frequently asked questions about GabaritKDP, the Amazon-compliant KDP cover generator"
+        content="Questions fréquentes sur GabaritKDP, le générateur de couvertures KDP conformes Amazon">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-MYG5JJM8EC');
+    </script>
+
+    <!-- ✅ RETOUR AU CDN TAILWIND FONCTIONNEL -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome pour les icônes réseaux sociaux -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "t09tdy9nqm");
+</script>
+    <style>
+        /* =====================================
+           CSS CUSTOM GABARITKDP - NOUVEAU HEADER
+           ===================================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* Language Selector */
+        .language-selector {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3px;
+        }
+
+        .lang-btn {
+            padding: 6px 10px;
+            border: none;
+            background: transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+
+        /* Navigation Header */
+        .header-nav {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+            gap: 0px;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-nav span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF9900;
+        }
+
+        .nav-links {
+            width: 100%;
+            justify-content: center;
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 14px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.1);
+        }
+
+        .nav-links a.active {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.15);
+        }
+
+        /* Style spécial pour Générateur Express */
+        .express-nav-btn {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+            position: relative !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .express-nav-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: white !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .f-exp-gene {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        .f-exp-gene:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: #FFFFFF;
+        }
+
+        .express-nav-btn::before,
+        .f-exp-gene::before {
+            content: "⚡";
+            margin-right: 4px;
+        }
+
+        /* Tooltips explicatifs */
+        .tooltip {
+            position: absolute;
+            bottom: -65px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            max-width: 200px;
+            white-space: normal;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .tooltip::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #1f2937;
+        }
+
+        .nav-item:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            bottom: -55px;
+        }
+
+        /* Badge "Nouveau" pour le studio IA */
+        .new-badge {
+            position: absolute;
+            top: -8px;
+            right: -15px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 6px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        /* Styles spécifiques FAQ */
+        .faq-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .faq-container {
+            max-width: 4xl;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1f2937;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF9900;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #4b5563;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-title {
+            color: #FF9900;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #FF9900;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box p {
+            color: #92400e;
+            margin: 0;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 768px) {
+            .tooltip {
+                display: none;
+            }
+
+            .new-badge {
+                display: none;
+            }
+
+            .faq-question {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .faq-answer {
+                padding: 0 1rem 1rem;
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mobile-menu-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 22.5px;
+                right: 60px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Mobile menu toggle button */
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 4px;
+                margin-left: auto;
+            }
+
+            .mobile-menu-toggle:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        /* Social Links */
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0866D3);
+        }
+
+        .social-link.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);
+        }
+
+        .social-link.pinterest {
+            background: linear-gradient(135deg, #BD081C, #E60023);
+        }
+
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
+        }
+
+        .social-link.linkedin {
+            background: linear-gradient(135deg, #0A66C2, #004182);
+        }
+
+        @media (max-width: 768px) {
+            .social-links {
+                gap: 10px;
+            }
+
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+            </div>
+            <nav class="nav-links">
+                <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
+                    data-en="Express Generator">Express Generator</a>
+                <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
+                    Generator</a>
+                <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace>Marketplace</a>
+                <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+                <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+                <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+        <div class="mobile-menu-links">
+            <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+            <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
+                data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+            <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+            <a href="./marketplace.html" target="_blank" rel="noopener" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰
+                Pricing</a>
+            <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2);" data-fr="📝 Inscription"
+                data-en="📝 Sign Up">📝 Sign Up</a>
+            <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="faq-hero py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Questions Fréquentes"
+                data-en="Frequently Asked Questions">
+                Questions <span style="color: #FF9900;">Fréquentes</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-8"
+                data-fr="Trouvez rapidement les réponses à vos questions sur GabaritKDP"
+                data-en="Quickly find answers to your questions about GabaritKDP">
+                Trouvez rapidement les réponses à vos questions sur GabaritKDP
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <!-- Boîte d'information importante -->
+            <div class="highlight-box">
+                <h4 data-fr="💡 Besoin d'aide rapide ?" data-en="💡 Need quick help?">💡 Besoin d'aide rapide ?</h4>
+                <p data-fr="Si vous ne trouvez pas votre réponse ici, contactez-nous directement à support@gabaritkdp.com pour une aide personnalisée !"
+                    data-en="If you can't find your answer here, contact us directly at support@gabaritkdp.com for personalized help!">
+                    Si vous ne trouvez pas votre réponse ici, contactez-nous directement à support@gabaritkdp.com pour
+                    une aide personnalisée !</p>
+            </div>
+
+            <!-- Catégorie : Général -->
+            <h2 class="category-title" data-fr="📋 Questions Générales" data-en="📋 General Questions">📋 Questions
+                Générales</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Qu'est-ce que GabaritKDP exactement ?"
+                        data-en="What exactly is GabaritKDP?">Qu'est-ce que GabaritKDP exactement ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="GabaritKDP est le seul générateur francophone de couvertures KDP qui garantit des dimensions 100% conformes aux spécifications officielles Amazon KDP. Contrairement aux autres outils, nous calculons les dimensions au millimètre près selon les vraies spécifications d'Amazon, ce qui élimine totalement les refus de couvertures."
+                        data-en="GabaritKDP is the only French-speaking KDP cover generator that guarantees 100% compliant dimensions to official Amazon KDP specifications. Unlike other tools, we calculate dimensions to the millimeter according to Amazon's real specifications, completely eliminating cover rejections.">
+                        GabaritKDP est le seul générateur francophone de couvertures KDP qui garantit des dimensions
+                        100% conformes aux spécifications officielles Amazon KDP. Contrairement aux autres outils, nous
+                        calculons les dimensions au millimètre près selon les vraies spécifications d'Amazon, ce qui
+                        élimine totalement les refus de couvertures.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Quelle est la différence entre le Générateur Express et le Studio IA ?"
+                        data-en="What's the difference between Express Generator and AI Studio?">Quelle est la
+                        différence entre le Générateur Express et le Studio IA ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="<strong>Générateur Express :</strong> Parfait si vous avez déjà votre design. Vous uploadez votre image et obtenez instantanément les dimensions exactes pour votre format KDP.<br><br><strong>Studio IA :</strong> Solution complète qui génère votre couverture à partir de zéro. Vous décrivez votre livre et l'IA crée une couverture professionnelle avec les bonnes dimensions."
+                        data-en="<strong>Express Generator:</strong> Perfect if you already have your design. You upload your image and instantly get the exact dimensions for your KDP format.<br><br><strong>AI Studio:</strong> Complete solution that generates your cover from scratch. You describe your book and the AI creates a professional cover with the right dimensions.">
+                        <strong>Générateur Express :</strong> Parfait si vous avez déjà votre design. Vous uploadez
+                        votre image et obtenez instantanément les dimensions exactes pour votre format
+                        KDP.<br><br><strong>Studio IA :</strong> Solution complète qui génère votre couverture à partir
+                        de zéro. Vous décrivez votre livre et l'IA crée une couverture professionnelle avec les bonnes
+                        dimensions.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Catégorie : Technique -->
+            <h2 class="category-title" data-fr="⚙️ Questions Techniques" data-en="⚙️ Technical Questions">⚙️ Questions
+                Techniques</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Les dimensions sont-elles vraiment conformes Amazon KDP ?"
+                        data-en="Are the dimensions really Amazon KDP compliant?">Les dimensions sont-elles vraiment
+                        conformes Amazon KDP ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Absolument ! Nos calculs sont basés sur les spécifications officielles Amazon KDP, pas sur des approximations. Nous prenons en compte l'épaisseur exacte du livre selon le nombre de pages, les marges de coupe, les zones de sécurité, et tous les paramètres techniques requis. Résultat : zéro refus garanti."
+                        data-en="Absolutely! Our calculations are based on official Amazon KDP specifications, not approximations. We take into account the exact thickness of the book according to the number of pages, cutting margins, safety zones, and all required technical parameters. Result: zero rejections guaranteed.">
+                        Absolument ! Nos calculs sont basés sur les spécifications officielles Amazon KDP, pas sur des
+                        approximations. Nous prenons en compte l'épaisseur exacte du livre selon le nombre de pages, les
+                        marges de coupe, les zones de sécurité, et tous les paramètres techniques requis. Résultat :
+                        zéro refus garanti.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Quels formats de livres sont supportés ?"
+                        data-en="What book formats are supported?">Quels formats de livres sont supportés ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Nous supportons tous les 17 formats officiels Amazon KDP :<br>• 5x8 pouces (12,7x20,32 cm)<br>• 6x9 pouces (15,24x22,86 cm)<br>• 8,5x11 pouces (21,59x27,94 cm)<br>• A4 (21x29,7 cm)<br>• A5 (14,8x21 cm)<br>• Format carré 8,5x8,5<br>• Et 11 autres formats populaires<br><br>Chaque format est calculé avec précision selon les spécifications d'Amazon."
+                        data-en="We support all 17 official Amazon KDP formats:<br>• 5x8 inches (12.7x20.32 cm)<br>• 6x9 inches (15.24x22.86 cm)<br>• 8.5x11 inches (21.59x27.94 cm)<br>• A4 (21x29.7 cm)<br>• A5 (14.8x21 cm)<br>• Square format 8.5x8.5<br>• And 11 other popular formats<br><br>Each format is calculated precisely according to Amazon specifications.">
+                        Nous supportons tous les 17 formats officiels Amazon KDP :<br>• 5x8 pouces (12,7x20,32 cm)<br>•
+                        6x9 pouces (15,24x22,86 cm)<br>• 8,5x11 pouces (21,59x27,94 cm)<br>• A4 (21x29,7 cm)<br>• A5
+                        (14,8x21 cm)<br>• Format carré 8,5x8,5<br>• Et 11 autres formats populaires<br><br>Chaque format
+                        est calculé avec précision selon les spécifications d'Amazon.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Catégorie : Tarifs -->
+            <h2 class="category-title" data-fr="💰 Questions Tarifs" data-en="💰 Pricing Questions">💰 Questions Tarifs
+            </h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Pourquoi un modèle pay-per-export au lieu d'un abonnement ?"
+                        data-en="Why a pay-per-export model instead of subscription?">Pourquoi un modèle pay-per-export
+                        au lieu d'un abonnement ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Les auteurs publient en moyenne 4-6 livres par an. Avec un abonnement traditionnel, vous payeriez 12 mois pour 6 utilisations. Notre modèle est plus juste : vous payez seulement quand vous exportez une couverture finie. Pour les auteurs occasionnels, c'est 80% d'économies. Pour les actifs, nos packs offrent des tarifs dégressifs."
+                        data-en="Authors publish on average 4-6 books per year. With a traditional subscription, you'd pay 12 months for 6 uses. Our model is fairer: you only pay when you export a finished cover. For occasional authors, it's 80% savings. For active authors, our packs offer discounted rates.">
+                        Les auteurs publient en moyenne 4-6 livres par an. Avec un abonnement traditionnel, vous
+                        payeriez 12 mois pour 6 utilisations. Notre modèle est plus juste : vous payez seulement quand
+                        vous exportez une couverture finie. Pour les auteurs occasionnels, c'est 80% d'économies. Pour
+                        les actifs, nos packs offrent des tarifs dégressifs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Les crédits expirent-ils ?" data-en="Do credits expire?">Les crédits expirent-ils
+                        ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Non, jamais ! Vos crédits sont valables à vie. Achetez un pack de 12 exports aujourd'hui, utilisez-les sur 2 ans si vous voulez. C'est votre rythme, pas le nôtre."
+                        data-en="No, never! Your credits are valid for life. Buy a pack of 12 exports today, use them over 2 years if you want. It's your pace, not ours.">
+                        Non, jamais ! Vos crédits sont valables à vie. Achetez un pack de 12 exports aujourd'hui,
+                        utilisez-les sur 2 ans si vous voulez. C'est votre rythme, pas le nôtre.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Catégorie : Support -->
+            <h2 class="category-title" data-fr="🆘 Support & Contact" data-en="🆘 Support & Contact">🆘 Support &
+                Contact</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Comment vous contacter si j'ai un problème ?"
+                        data-en="How to contact you if I have a problem?">Comment vous contacter si j'ai un problème
+                        ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Plusieurs moyens de nous contacter selon vos besoins :<br><br><strong>📧 Email (Recommandé) :</strong><br>• support@gabaritkdp.com<br>• Réponse sous 24h en semaine<br>• Joignez vos fichiers/screenshots<br>• Support technique approfondi<br><br><strong>💬 Chat en direct :</strong><br>• Disponible dans votre compte<br>• Lundi-Vendredi 9h-18h (CET)<br>• Réponse immédiate pour questions simples<br><br><strong>📱 Réseaux sociaux :</strong><br>• Facebook : @GabaritKDP<br>• Instagram : @gabarit_kdp<br>• Réponse sous 4h pendant les heures ouvrées<br><br><strong>🎥 Ressources d'aide :</strong><br>• Tutoriels vidéo YouTube<br>• Guide d'utilisation complet<br>• FAQ mise à jour régulièrement<br>• Webinaires mensuels gratuits<br><br><strong>🆘 Urgences :</strong><br>Pour les problèmes critiques, écrivez \"
+                        URGENT\" en objet d'email."
+                        data-en="Multiple ways to contact us according to your needs:<br><br><strong>📧 Email (Recommended):</strong><br>• support@gabaritkdp.com<br>• Response within 24h on weekdays<br>• Attach your files/screenshots<br>• In-depth technical support<br><br><strong>💬 Live chat:</strong><br>• Available in your account<br>• Monday-Friday 9am-6pm (CET)<br>• Immediate response for simple questions<br><br><strong>📱 Social media:</strong><br>• Facebook: @GabaritKDP<br>• Instagram: @gabarit_kdp<br>• Response within 4h during business hours<br><br><strong>🎥 Help resources:</strong><br>• YouTube video tutorials<br>• Complete user guide<br>• Regularly updated FAQ<br>• Free monthly webinars<br><br><strong>🆘 Emergencies:</strong><br>For critical issues, write \"
+                        URGENT\" in email subject.">
+                        Plusieurs moyens de nous contacter selon vos besoins :<br><br><strong>📧 Email (Recommandé)
+                            :</strong><br>• support@gabaritkdp.com<br>• Réponse sous 24h en semaine<br>• Joignez vos
+                        fichiers/screenshots<br>• Support technique approfondi<br><br><strong>💬 Chat en direct
+                            :</strong><br>• Disponible dans votre compte<br>• Lundi-Vendredi 9h-18h (CET)<br>• Réponse
+                        immédiate pour questions simples<br><br><strong>📱 Réseaux sociaux :</strong><br>• Facebook :
+                        @GabaritKDP<br>• Instagram : @gabarit_kdp<br>• Réponse sous 4h pendant les heures
+                        ouvrées<br><br><strong>🎥 Ressources d'aide :</strong><br>• Tutoriels vidéo YouTube<br>• Guide
+                        d'utilisation complet<br>• FAQ mise à jour régulièrement<br>• Webinaires mensuels
+                        gratuits<br><br><strong>🆘 Urgences :</strong><br>Pour les problèmes critiques, écrivez "URGENT"
+                        en objet d'email.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Proposez-vous des formations ou tutoriels ?"
+                        data-en="Do you offer training or tutorials?">Proposez-vous des formations ou tutoriels ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Oui ! Nous proposons plusieurs ressources d'apprentissage :<br><br><strong>🎥 Chaîne YouTube :</strong><br>• Tutoriels step-by-step<br>• Astuces design avancées<br>• Cas d'usage réels d'auteurs<br>• Nouveautés et mises à jour<br><br><strong>📚 Documentation complète :</strong><br>• Guide d'utilisation détaillé<br>• Bonnes pratiques design KDP<br>• Templates et exemples<br>• Troubleshooting<br><br><strong>🔴 Webinaires live mensuels :</strong><br>• Sessions interactives<br>• Q&A avec l'équipe<br>• Cas pratiques<br>• Gratuits pour tous<br><br><strong>💬 Communauté d'auteurs :</strong><br>• Groupe Facebook privé<br>• Partage d'expériences<br>• Entraide entre auteurs<br>• Conseils experts"
+                        data-en="Yes! We offer several learning resources:<br><br><strong>🎥 YouTube Channel:</strong><br>• Step-by-step tutorials<br>• Advanced design tips<br>• Real author use cases<br>• News and updates<br><br><strong>📚 Complete documentation:</strong><br>• Detailed user guide<br>• KDP design best practices<br>• Templates and examples<br>• Troubleshooting<br><br><strong>🔴 Monthly live webinars:</strong><br>• Interactive sessions<br>• Q&A with the team<br>• Practical cases<br>• Free for everyone<br><br><strong>💬 Authors community:</strong><br>• Private Facebook group<br>• Experience sharing<br>• Mutual help between authors<br>• Expert advice">
+                        Oui ! Nous proposons plusieurs ressources d'apprentissage :<br><br><strong>🎥 Chaîne YouTube
+                            :</strong><br>• Tutoriels step-by-step<br>• Astuces design avancées<br>• Cas d'usage réels
+                        d'auteurs<br>• Nouveautés et mises à jour<br><br><strong>📚 Documentation complète
+                            :</strong><br>• Guide d'utilisation détaillé<br>• Bonnes pratiques design KDP<br>• Templates
+                        et exemples<br>• Troubleshooting<br><br><strong>🔴 Webinaires live mensuels :</strong><br>•
+                        Sessions interactives<br>• Q&A avec l'équipe<br>• Cas pratiques<br>• Gratuits pour
+                        tous<br><br><strong>💬 Communauté d'auteurs :</strong><br>• Groupe Facebook privé<br>• Partage
+                        d'expériences<br>• Entraide entre auteurs<br>• Conseils experts
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4" data-fr="Pas trouvé votre réponse ?"
+                data-en="Didn't find your answer?">Pas trouvé votre réponse ?</h2>
+            <p class="text-xl text-gray-600 mb-8" data-fr="Notre équipe support est là pour vous aider"
+                data-en="Our support team is here to help you">Notre équipe support est là pour vous aider</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="contact.html" class="px-8 py-4 text-white text-lg font-semibold rounded-lg transition"
+                    style="background-color: #FF9900;" onmouseover="this.style.backgroundColor='#e68900'"
+                    onmouseout="this.style.backgroundColor='#FF9900'" data-fr="Nous contacter" data-en="Contact us">
+                    Nous contacter
+                </a>
+                <a href="generator.html"
+                    class="px-8 py-4 bg-white border-2 text-gray-700 text-lg font-semibold rounded-lg hover:bg-gray-50 transition"
+                    style="border-color: #FF9900;" data-fr="Essayer le générateur" data-en="Try the generator">
+                    Essayer le générateur
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div class="social-section">
+                <h4 class="text-white font-semibold mb-4 text-center">
+                    🚀 Follow us for the latest KDP news!
+                </h4>
+
+                <div class="social-links">
+                    <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"
+                        title="YouTube - Tutoriels KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"
+                        title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"
+                        title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"
+                        title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"
+                        title="TikTok - Tips rapides KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"
+                        title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+
+                <p class="text-center text-sm text-gray-400 mt-4">
+                    KDP Tips • Tutorials • News • Authors Community
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400">The generator for 100% Amazon-compliant KDP covers.</p>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
+                    <ul class="space-y-2">
+                        <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene">Express Generator</a></li>
+                        <li><a href="generator-magic.html" class="hover:text-white transition">Magic Generator</a></li>
+                        <li><a href="./marketplace.html" target="_blank" rel="noopener" class="hover:text-white transition">Marketplace</a></li>
+                        <li><a href="#tarifs" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition">Features</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition">User Guide</a></li>
+                        <li><a href="updates.html" class="hover:text-white transition">Updates / What’s New</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition">Legal Notice</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>   
+
+
+    <script>
+        // Fonction de changement de langue
+        function switchLanguage(lang) {
+            const elements = document.querySelectorAll('[data-fr], [data-en]');
+
+            elements.forEach(element => {
+                if (lang === 'fr' && element.dataset.fr) {
+                    element.innerHTML = element.dataset.fr;
+                } else if (lang === 'en' && element.dataset.en) {
+                    element.innerHTML = element.dataset.en;
+                }
+            });
+
+            // Mise à jour des boutons de langue
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+
+            // Sauvegarder la préférence
+            localStorage.setItem('language', lang);
+
+            // Update page title and meta description
+            const titleElement = document.querySelector('title');
+            const metaElement = document.querySelector('meta[name="description"]');
+            if (lang === 'fr') {
+                titleElement.textContent = titleElement.getAttribute('data-fr');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-fr'));
+                document.documentElement.lang = 'fr';
+            } else {
+                titleElement.textContent = titleElement.getAttribute('data-en');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-en'));
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        // Charger la langue sauvegardée
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedLang = localStorage.getItem('language') || 'en';
+            switchLanguage(savedLang);
+        });
+
+        // Fonction toggle FAQ
+        function toggleFAQ(button) {
+            const answer = button.nextElementSibling;
+            const isActive = answer.classList.contains('active');
+
+            // Fermer toutes les autres FAQ
+            document.querySelectorAll('.faq-answer.active').forEach(el => {
+                el.classList.remove('active');
+            });
+            document.querySelectorAll('.faq-question.active').forEach(el => {
+                el.classList.remove('active');
+            });
+
+            // Ouvrir/fermer la FAQ cliquée
+            if (!isActive) {
+                answer.classList.add('active');
+                button.classList.add('active');
+            }
+        }
+
+        // Analytics
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('GabaritKDP FAQ page avec nouveau header loaded');
+        });
+    </script>
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
+
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                body.style.overflow = '';
+            } else {
+                mobileMenu.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fleurs Templates - GabaritKDP Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; }
+        
+        /* Header */
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none; }
+        .logo span { color: #ec4899; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: white; }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a { color: #94a3b8; text-decoration: none; }
+        .breadcrumb a:hover { color: white; }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #ec489922 0%, transparent 50%),
+                        url('https://cdn.gabaritkdp.com/fullcovers/Fleurs/Fleurs%20(1).jpg') center/cover;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, #0f172a 100%);
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero h1 .icon { font-size: 2.5rem; margin-right: 0.5rem; }
+        .hero p { color: #94a3b8; font-size: 1.125rem; max-width: 600px; margin: 0 auto 1.5rem; }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #ec4899; }
+        .stat-label { font-size: 0.875rem; color: #94a3b8; }
+        
+        /* Filters */
+        .filters {
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            padding: 0.625rem 1.25rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.875rem;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .filter-btn.active { background: #ec4899; color: white; border-color: #ec4899; }
+        
+        /* Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Card */
+        .product-card {
+            background: #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: #ec4899;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .product-card.hidden { display: none; }
+        .card-image {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+            background: #0f172a;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .product-card:hover .card-image img { transform: scale(1.05); }
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-free { background: #22c55e; color: white; }
+        .badge-pro { background: #ec4899; color: white; }
+        .card-content { padding: 1rem; }
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-price { color: #ec4899; font-weight: 700; }
+        .card-price.free { color: #22c55e; }
+        
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer p { color: #64748b; }
+        .footer a { color: #ec4899; text-decoration: none; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .products-grid { padding: 1rem; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="marketplace.html" class="logo">Gabarit<span>KDP</span></a>
+        <nav class="nav-links">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="generator.html">Générateur</a>
+            <a href="pricing.html">Pricing</a>
+        </nav>
+    </header>
+    
+    <div class="breadcrumb">
+        <a href="index.html">Accueil</a> / <a href="marketplace.html">Marketplace</a> / <strong>Fleurs</strong>
+    </div>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1><span class="icon">🌸</span> Fleurs</h1>
+            <p>Découvrez notre collection de templates fleurs professionnels, prêts à personnaliser pour Amazon KDP.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value" id="totalCount">14</div>
+                    <div class="stat-label">Templates</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="freeCount">2</div>
+                    <div class="stat-label">Gratuits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="other">Other</button>
+        <button class="filter-btn" data-filter="free">🆓 Gratuits</button>
+    </div>
+    
+    <div class="products-grid" id="productsGrid"></div>
+    
+    <footer class="footer">
+        <p>© 2025 GabaritKDP - <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+    
+    <script>
+    const products = [
+      { id: 1, title: "FULL COVER – Flowers 1", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(1).png", price: 4.99 },
+  { id: 2, title: "FULL COVER – Flowers 10", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(10).png", price: 4.99 },
+  { id: 3, title: "FULL COVER – Flowers 11", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(11).png", price: 4.99 },
+  { id: 4, title: "FULL COVER – Flowers 12", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(12).png", price: 4.99 },
+  { id: 5, title: "FULL COVER – Flowers 13", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(13).png", price: 0 },
+  { id: 6, title: "FULL COVER – Flowers 14", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(14).png", price: 4.99 },
+  { id: 7, title: "FULL COVER – Flowers 2", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(2).png", price: 4.99 },
+  { id: 8, title: "FULL COVER – Flowers 3", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(3).png", price: 4.99 },
+  { id: 9, title: "FULL COVER – Flowers 4", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(4).png", price: 4.99 },
+  { id: 10, title: "FULL COVER – Flowers 5", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(5).png", price: 0 },
+  { id: 11, title: "FULL COVER – Flowers 6", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(6).png", price: 4.99 },
+  { id: 12, title: "FULL COVER – Flowers 7", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(7).png", price: 4.99 },
+  { id: 13, title: "FULL COVER – Flowers 8", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(8).png", price: 4.99 },
+  { id: 14, title: "FULL COVER – Flowers 9", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Fleurs/FULL%20COVER%20–%20Flowers%20(9).png", price: 4.99 },
+    ];
+    
+    const grid = document.getElementById('productsGrid');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Render products
+    function renderProducts(filter = 'all') {
+        grid.innerHTML = '';
+        
+        let filtered = products;
+        if (filter === 'free') {
+            filtered = products.filter(p => p.price === 0);
+        } else if (filter !== 'all') {
+            filtered = products.filter(p => p.cat === filter);
+        }
+        
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="card-image">
+                    <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400?text=Loading...'">
+                    <span class="badge ${p.price === 0 ? 'badge-free' : 'badge-pro'}">${p.price === 0 ? 'FREE' : 'PRO'}</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">${p.title}</div>
+                    <div class="card-price ${p.price === 0 ? 'free' : ''}">${p.price === 0 ? 'Gratuit' : p.price.toFixed(2) + ' €'}</div>
+                </div>
+            `;
+            card.onclick = () => {
+                window.location.href = 'generator.html?template=' + encodeURIComponent(p.img);
+            };
+            grid.appendChild(card);
+        });
+        
+        // Update counter
+        document.getElementById('totalCount').textContent = filtered.length;
+        document.getElementById('freeCount').textContent = filtered.filter(p => p.price === 0).length;
+    }
+    
+    // Filter click handlers
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts(btn.dataset.filter);
+        });
+    });
+    
+    // Initial render
+    renderProducts();
+    </script>
+</body>
+</html>

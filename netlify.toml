@@ -1,0 +1,30 @@
+# Configuration Netlify pour GabaritKDP
+
+[build]
+  # Dossier des functions serverless
+  functions = "netlify/functions"
+  
+  # Pas de build command nécessaire (site statique)
+  command = ""
+  
+  # Dossier à publier (racine du projet)
+  publish = "."
+
+[functions]
+  # Utiliser esbuild pour bundler les functions (plus rapide)
+  node_bundler = "esbuild"
+
+# Redirects et headers
+[[headers]]
+  # Pour toutes les pages
+  for = "/*"
+  [headers.values]
+    # CORS pour les API calls
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
+    
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+   

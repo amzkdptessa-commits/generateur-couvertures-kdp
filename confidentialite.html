@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-fr="Politique de Confidentialité - GabaritKDP"
+          data-en="Privacy Policy - GabaritKDP">
+    Privacy Policy - GabaritKDP
+  </title>
+
+  <meta name="description"
+        data-fr="Politique de confidentialité RGPD de GabaritKDP (Sécurité pour Tous, SASU RCS Paris 888 261 948) : données collectées, finalités, conservation, droits des utilisateurs et contact CNIL."
+        data-en="GabaritKDP GDPR Privacy Policy (Sécurité pour Tous, SASU RCS Paris 888 261 948): data collected, purposes, retention, user rights, CNIL contact."
+        content="GabaritKDP GDPR Privacy Policy (Sécurité pour Tous, SASU RCS Paris 888 261 948): data collected, purposes, retention, user rights, CNIL contact."/>
+
+  <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png"/>
+
+  <!-- Optional analytics (you already had this pattern); no cookie banner here -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MYG5JJM8EC');
+  </script>
+
+  <script>
+    (function(c,l,a,r,i,t,y){
+      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "t09tdy9nqm");
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,sans-serif;background:#f8fafc}
+
+    .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;position:sticky;top:0;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap}
+    .logo-nav{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
+    .logo-nav img{height:40px}
+    .logo-nav span{color:#ff9900;font-weight:800;letter-spacing:.2px}
+
+    .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap}
+    .nav-links a{color:#fff;padding:10px 14px;border-radius:8px;transition:.2s}
+    .nav-links a:hover{color:#ff9900;background:rgba(255,153,0,.12)}
+    .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important;border-radius:8px}
+    .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important;transform:translateY(-1px)}
+    .express-nav-btn::before,.f-exp-gene::before{content:"⚡";margin-right:6px}
+
+    .mobile-menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.45rem;cursor:pointer;padding:8px}
+    .mobile-menu{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);backdrop-filter:blur(8px);z-index:60;padding:80px 20px 24px}
+    .mobile-menu.active{display:block;animation:fadeIn .2s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .mobile-menu-links{display:flex;flex-direction:column;gap:14px;max-width:420px;margin:0 auto}
+    .mobile-menu-links a{color:#fff;font-weight:600;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)}
+    .mobile-menu-close{position:absolute;top:18px;right:18px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
+
+    .language-selector{background:#fff;padding:3px;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+    .lang-btn{padding:6px 10px;border:none;background:transparent;border-radius:16px;cursor:pointer;font-weight:600;font-size:.85rem}
+    .lang-btn.active{background:#ff9900;color:#fff}
+
+    .policy-card{background:#fff;border-radius:16px;box-shadow:0 12px 30px rgba(0,0,0,.07);overflow:hidden}
+    .policy-header{background:linear-gradient(135deg,#1f2937 0%,#374151 100%);color:#fff;text-align:center;padding:2rem}
+    .policy-header-icon{font-size:2rem;margin-bottom:.5rem}
+    .policy-body{padding:2rem 1.5rem 2.5rem;line-height:1.6;color:#4b5563}
+
+    .section-title{border-bottom:2px solid #fb923c;padding-bottom:6px}
+    .info-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:12px;padding:1rem 1.25rem;margin:1rem 0}
+    .warn-box{background:linear-gradient(135deg,#fef3c7 0%,#fde68a 100%);border-left:4px solid #f59e0b;border-radius:12px;padding:1rem 1.25rem;margin:1.5rem 0;color:#78350f}
+
+    .social-section{background:rgba(255,255,255,.05);border-radius:12px;padding:1.25rem;margin-bottom:2rem}
+    .social-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .social-link{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;color:#fff}
+    .social-link.youtube{background:linear-gradient(135deg,#ff0000,#c40000)}
+    .social-link.facebook{background:linear-gradient(135deg,#1877f2,#0a5bd3)}
+    .social-link.instagram{background:linear-gradient(135deg,#e4405f,#c13584,#8a2be2)}
+    .social-link.pinterest{background:linear-gradient(135deg,#bd081c,#e60023)}
+    .social-link.tiktok{background:linear-gradient(135deg,#000,#ff0050,#00f2ea)}
+    .social-link.linkedin{background:linear-gradient(135deg,#0a66c2,#004182)}
+
+    @media (max-width:768px){
+      .nav-links{display:none}
+      .mobile-menu-toggle{display:block}
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="header-nav">
+  <div class="nav-container">
+    <a href="./index.html" class="logo-nav">
+      <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo"/>
+      <span>GabaritKDP</span>
+    </a>
+
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+
+    <div class="language-selector">
+      <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+      <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+    </div>
+
+    <nav class="nav-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./generator.html" class="express-nav-btn"
+         data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
+      <a href="./generator-magic.html"
+         data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+      <a href="./Marketplace.html"
+         data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+      <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+      <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+    </nav>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+  <div class="mobile-menu-links">
+    <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+    <a href="./generator.html"
+       style="background:linear-gradient(135deg,#10b981,#059669)"
+       data-fr="⚡ Générateur Express"
+       data-en="⚡ Express Generator">⚡ Express Generator</a>
+    <a href="./generator-magic.html"
+       data-fr="Générateur Magique"
+       data-en="Magic Generator">Magic Generator</a>
+    <a href="./Marketplace.html"
+       data-fr="Marketplace"
+       data-en="Marketplace">Marketplace</a>
+    <a href="#tarifs"
+       style="background:rgba(251,191,36,.2)"
+       data-fr="💰 Tarifs"
+       data-en="💰 Pricing">💰 Pricing</a>
+    <a href="./inscription.html"
+       style="background:rgba(34,197,94,.2)"
+       data-fr="📝 Inscription"
+       data-en="📝 Sign Up">📝 Sign Up</a>
+    <a href="./connexion.html"
+       data-fr="🔓 Connexion"
+       data-en="🔓 Login">🔓 Login</a>
+  </div>
+</div>
+
+<section class="py-16 bg-gradient-to-b from-gray-50 to-gray-100">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4"
+        data-fr='Politique de <span style="color:#FF9900;">Confidentialité</span>'
+        data-en='Privacy <span style="color:#FF9900;">Policy</span>'>
+      Privacy <span style="color:#FF9900;">Policy</span>
+    </h1>
+    <p class="text-xl text-gray-600 max-w-2xl mx-auto"
+       data-fr="Comment nous collectons, stockons et utilisons vos données, conformément au RGPD."
+       data-en="How we collect, store, and use your data, in compliance with GDPR.">
+       How we collect, store, and use your data, in compliance with GDPR.
+    </p>
+  </div>
+</section>
+
+<section class="py-10 pb-20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <article class="policy-card">
+
+      <header class="policy-header">
+        <div class="policy-header-icon">
+          <i class="fas fa-user-shield"></i>
+        </div>
+        <h2 class="text-2xl font-bold"
+            data-fr="Protection des Données"
+            data-en="Data Protection">
+          Data Protection
+        </h2>
+        <p class="text-sm opacity-90"
+           data-fr="Cette politique explique comment nous traitons vos données personnelles lorsque vous utilisez GabaritKDP."
+           data-en="This policy explains how we process your personal data when you use GabaritKDP.">
+           This policy explains how we process your personal data when you use GabaritKDP.
+        </p>
+      </header>
+
+      <div class="policy-body">
+
+        <!-- 1. Responsable -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="1. Responsable du traitement"
+              data-en="1. Data Controller">
+            1. Data Controller
+          </h3>
+
+          <div class="info-box text-gray-700 text-sm space-y-2">
+            <div>
+              <strong data-fr="Responsable :" data-en="Controller:">Controller:</strong>
+              <span>Sécurité pour Tous — SASU (RCS Paris 888 261 948)</span>
+            </div>
+            <div>
+              <strong data-fr="Marque exploitée :" data-en="Brand operated as:">Brand operated as:</strong>
+              <span>GabaritKDP</span>
+            </div>
+            <div>
+              <strong data-fr="Adresse :" data-en="Address:">Address:</strong>
+              <span> 25 rue Marie Georges Picquart, 75017 Paris, France</span>
+            </div>
+            <div>
+              <strong data-fr="Contact données personnelles :" data-en="Personal data contact:">Personal data contact:</strong>
+              <span>contact@gabaritkdp.com</span>
+            </div>
+          </div>
+
+          <p class="mt-4 text-gray-700"
+             data-fr="Dans ce document, « nous » désigne Sécurité pour Tous opérant sous la marque GabaritKDP."
+             data-en="In this document, “we” means Sécurité pour Tous operating under the GabaritKDP brand.">
+             In this document, “we” means Sécurité pour Tous operating under the GabaritKDP brand.
+          </p>
+        </section>
+
+        <!-- 2. Données collectées -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="2. Données que nous collectons"
+              data-en="2. Data We Collect">
+            2. Data We Collect
+          </h3>
+
+          <p class="text-gray-700 mb-3"
+             data-fr="Nous collectons uniquement les informations nécessaires au fonctionnement du service. Selon votre usage, cela peut inclure :"
+             data-en="We only collect information needed to deliver the service. Depending on how you use it, this may include:">
+             We only collect information needed to deliver the service. Depending on how you use it, this may include:
+          </p>
+
+          <ul class="list-disc ml-6 text-gray-700 space-y-2">
+            <li data-fr="Adresse e-mail et identifiants de connexion (authentification, création de compte)."
+                data-en="Email address and login credentials (for authentication / account creation).">
+                Email address and login credentials (for authentication / account creation).
+            </li>
+            <li data-fr="Préférences techniques d’export (dimensions du livre, nombre de pages, format intérieur)."
+                data-en="Technical export preferences (book size, page count, interior type).">
+                Technical export preferences (book size, page count, interior type).
+            </li>
+            <li data-fr="Historique d’achats / transactions Stripe (offre achetée, montant, date)."
+                data-en="Stripe purchase/transaction metadata (plan purchased, amount, date).">
+                Stripe purchase/transaction metadata (plan purchased, amount, date).
+            </li>
+            <li data-fr="Journaux techniques (logs d’erreurs, mesures de performance, adresses IP lors d’un usage anormal du service)."
+                data-en="Technical logs (error logs, performance metrics, IP address in case of abnormal usage).">
+                Technical logs (error logs, performance metrics, IP address in case of abnormal usage).
+            </li>
+          </ul>
+
+          <p class="text-gray-700 mt-4"
+             data-fr="Nous ne stockons jamais nous-mêmes les numéros de carte bancaire. Les paiements sont traités par Stripe en tant que prestataire de paiement sécurisé."
+             data-en="We never store full credit card numbers ourselves. Payments are processed by Stripe as a secure payment processor.">
+             We never store full credit card numbers ourselves. Payments are processed by Stripe as a secure payment processor.
+          </p>
+        </section>
+
+        <!-- 3. Finalités -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="3. Pourquoi nous utilisons vos données"
+              data-en="3. Why We Use Your Data">
+            3. Why We Use Your Data
+          </h3>
+
+          <p class="text-gray-700 mb-3"
+             data-fr="Nous utilisons vos données pour :"
+             data-en="We use your data to:">
+             We use your data to:
+          </p>
+
+          <ul class="list-disc ml-6 text-gray-700 space-y-2">
+            <li data-fr="Créer et gérer votre compte utilisateur."
+                data-en="Create and manage your user account.">
+                Create and manage your user account.
+            </li>
+            <li data-fr="Générer vos gabarits de couverture et exports techniques."
+                data-en="Generate your cover templates and technical exports.">
+                Generate your cover templates and technical exports.
+            </li>
+            <li data-fr="Vous fournir l’accès aux offres payantes, abonnements ou crédits d’export."
+                data-en="Provide access to paid plans, subscriptions, or export credits.">
+                Provide access to paid plans, subscriptions, or export credits.
+            </li>
+            <li data-fr="Assurer la facturation, la lutte contre la fraude et la tenue de comptabilité."
+                data-en="Handle billing, anti-fraud checks, and accounting obligations.">
+                Handle billing, anti-fraud checks, and accounting obligations.
+            </li>
+            <li data-fr="Améliorer la stabilité technique du service et la qualité des exports."
+                data-en="Improve technical stability and export quality.">
+                Improve technical stability and export quality.
+            </li>
+            <li data-fr="Vous contacter en cas de problème critique (par exemple, bug bloquant, incident de sécurité)."
+                data-en="Contact you in case of critical issues (e.g. blocking bug, security incident).">
+                Contact you in case of critical issues (e.g. blocking bug, security incident).
+            </li>
+          </ul>
+
+          <div class="warn-box">
+            <p class="font-semibold"
+               data-fr="Important"
+               data-en="Important">
+               Important
+            </p>
+            <p class="text-sm"
+               data-fr="Nous n’utilisons pas vos données pour de la publicité ciblée sur les réseaux sociaux. Nous ne revendons pas vos données personnelles."
+               data-en="We do not use your personal data for social media ad targeting. We do not sell your personal data.">
+               We do not use your personal data for social media ad targeting. We do not sell your personal data.
+            </p>
+          </div>
+        </section>
+
+        <!-- 4. Base légale -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="4. Base légale du traitement"
+              data-en="4. Legal Basis for Processing">
+            4. Legal Basis for Processing
+          </h3>
+
+          <p class="text-gray-700 mb-3"
+             data-fr="Nous traitons vos données uniquement si nous avons une base légale valable au sens du RGPD :"
+             data-en="We only process your data if we have a valid legal basis under GDPR:">
+             We only process your data if we have a valid legal basis under GDPR:
+          </p>
+
+          <ul class="list-disc ml-6 text-gray-700 space-y-2">
+            <li data-fr="<strong>Exécution du contrat</strong> : fournir le service que vous avez demandé (création de compte, génération de gabarit, accès payant)."
+                data-en="<strong>Contract performance</strong>: providing the service you requested (account creation, template generation, paid plan access).">
+              <strong>Contract performance</strong>: providing the service you requested (account creation, template generation, paid plan access).
+            </li>
+            <li data-fr="<strong>Obligation légale</strong> : obligations comptables et fiscales."
+                data-en="<strong>Legal obligation</strong>: accounting and tax compliance.">
+              <strong>Legal obligation</strong>: accounting and tax compliance.
+            </li>
+            <li data-fr="<strong>Intérêt légitime</strong> : sécurité du service, prévention de fraude, amélioration technique."
+                data-en="<strong>Legitimate interest</strong>: service security, fraud prevention, technical improvement.">
+              <strong>Legitimate interest</strong>: service security, fraud prevention, technical improvement.
+            </li>
+            <li data-fr="<strong>Consentement</strong> : lorsque requis (ex. envoi de certaines communications)."
+                data-en="<strong>Consent</strong>: when required (e.g. for certain types of communication).">
+              <strong>Consent</strong>: when required (e.g. for certain types of communication).
+            </li>
+          </ul>
+        </section>
+
+        <!-- 5. Sous-traitants -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="5. Nos prestataires (sous-traitants)"
+              data-en="5. Our Service Providers (Processors)">
+            5. Our Service Providers (Processors)
+          </h3>
+
+          <p class="text-gray-700 mb-4"
+             data-fr="Nous faisons appel à des prestataires tiers strictement nécessaires pour fournir le service :"
+             data-en="We rely on strictly necessary service providers to deliver GabaritKDP:">
+             We rely on strictly necessary service providers to deliver GabaritKDP:
+          </p>
+
+          <ul class="list-disc ml-6 text-gray-700 space-y-4">
+            <li>
+              <strong>Stripe</strong> —
+              <span data-fr="Traitement des paiements. Nous ne stockons jamais votre numéro de carte."
+                    data-en="Payment processing. We never store your full card number.">
+                Payment processing. We never store your full card number.
+              </span>
+            </li>
+
+            <li>
+              <strong>Supabase</strong> —
+              <span data-fr="Hébergement des données techniques et comptes utilisateurs (base de données, authentification, stockage sécurisé)."
+                    data-en="Hosting of technical data and user accounts (database, authentication, secure storage).">
+                Hosting of technical data and user accounts (database, authentication, secure storage).
+              </span>
+            </li>
+
+            <li>
+              <strong>Infrastructure & analytics techniques</strong> —
+              <span data-fr="Outils de diagnostic de performance et de stabilité (par ex. mesure d’erreurs, tests de compatibilité)."
+                    data-en="Performance and stability diagnostics (e.g. error measurement, compatibility testing).">
+                Performance and stability diagnostics (e.g. error measurement, compatibility testing).
+              </span>
+            </li>
+          </ul>
+
+          <p class="text-sm text-gray-600 mt-4"
+             data-fr="Ces prestataires agissent en tant que « sous-traitants » au sens du RGPD, et traitent vos données uniquement selon nos instructions."
+             data-en="These providers act as “processors” under GDPR, and process your data only under our instructions.">
+             These providers act as “processors” under GDPR, and process your data only under our instructions.
+          </p>
+        </section>
+
+        <!-- 6. Conservation -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="6. Durée de conservation"
+              data-en="6. Data Retention">
+            6. Data Retention
+          </h3>
+
+          <p class="text-gray-700 mb-3"
+             data-fr="Nous conservons vos données uniquement le temps nécessaire :"
+             data-en="We keep your data only as long as needed:">
+             We keep your data only as long as needed:
+          </p>
+
+          <ul class="list-disc ml-6 text-gray-700 space-y-2">
+            <li data-fr="Données de compte (e-mail, paramètres) : tant que le compte est actif."
+                data-en="Account data (email, settings): as long as your account is active.">
+                Account data (email, settings): as long as your account is active.
+            </li>
+            <li data-fr="Données de facturation : durée légale minimale requise pour la comptabilité / fiscalité."
+                data-en="Billing data: the minimum period required under tax/accounting law.">
+                Billing data: the minimum period required under tax/accounting law.
+            </li>
+            <li data-fr="Logs de sécurité : durée raisonnable pour détecter abus, fraudes et attaques."
+                data-en="Security logs: a reasonable period to detect abuse, fraud, and attacks.">
+                Security logs: a reasonable period to detect abuse, fraud, and attacks.
+            </li>
+          </ul>
+
+          <p class="text-gray-700 mt-4"
+             data-fr="Vous pouvez demander la suppression de votre compte et de vos données associées (dans les limites légales et comptables) en écrivant à : contact@gabaritkdp.com."
+             data-en="You can request deletion of your account and associated data (within legal and accounting limits) by emailing: contact@gabaritkdp.com.">
+             You can request deletion of your account and associated data (within legal and accounting limits) by emailing: contact@gabaritkdp.com.
+          </p>
+        </section>
+
+        <!-- 7. Vos droits -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="7. Vos droits"
+              data-en="7. Your Rights">
+            7. Your Rights
+          </h3>
+
+          <p class="text-gray-700 mb-4"
+             data-fr="En vertu du RGPD, vous disposez des droits suivants :"
+             data-en="Under GDPR, you have the following rights:">
+             Under GDPR, you have the following rights:
+          </p>
+
+          <ul class="list-disc ml-6 text-gray-700 space-y-2">
+            <li data-fr="Droit d’accès : obtenir une copie de vos données personnelles."
+                data-en="Right of access: get a copy of your personal data.">
+                Right of access: get a copy of your personal data.
+            </li>
+            <li data-fr="Droit de rectification : corriger des données inexactes."
+                data-en="Right to rectification: fix inaccurate data.">
+                Right to rectification: fix inaccurate data.
+            </li>
+            <li data-fr="Droit à l’effacement : demander la suppression de vos données, sous conditions légales."
+                data-en="Right to erasure: request deletion of your data, subject to legal obligations.">
+                Right to erasure: request deletion of your data, subject to legal obligations.
+            </li>
+            <li data-fr="Droit à la limitation et à l’opposition : limiter ou refuser certains traitements."
+                data-en="Right to restriction/objection: limit or object to certain processing.">
+                Right to restriction/objection: limit or object to certain processing.
+            </li>
+            <li data-fr="Droit à la portabilité : recevoir vos données dans un format structuré et lisible par machine."
+                data-en="Right to portability: receive your data in a structured, machine-readable format.">
+                Right to portability: receive your data in a structured, machine-readable format.
+            </li>
+          </ul>
+
+          <p class="text-gray-700 mt-4"
+             data-fr='Pour exercer vos droits : <strong>contact@gabaritkdp.com</strong>.'
+             data-en='To exercise your rights: <strong>contact@gabaritkdp.com</strong>.'>
+             To exercise your rights: <strong>contact@gabaritkdp.com</strong>.
+          </p>
+
+          <p class="text-gray-700 mt-4"
+             data-fr="Vous avez aussi le droit d'introduire une réclamation auprès de la CNIL (autorité française de protection des données)."
+             data-en="You also have the right to lodge a complaint with the CNIL (the French Data Protection Authority).">
+             You also have the right to lodge a complaint with the CNIL (the French Data Protection Authority).
+          </p>
+        </section>
+
+        <!-- 8. Sécurité -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="8. Sécurité des données"
+              data-en="8. Data Security">
+            8. Data Security
+          </h3>
+
+          <p class="text-gray-700 mb-4"
+             data-fr="Nous mettons en place des mesures raisonnables de sécurité techniques et organisationnelles pour protéger vos informations contre l'accès non autorisé, l'altération, la divulgation ou la destruction."
+             data-en="We implement reasonable technical and organizational measures to protect your information from unauthorized access, alteration, disclosure, or destruction.">
+             We implement reasonable technical and organizational measures to protect your information from unauthorized access, alteration, disclosure, or destruction.
+          </p>
+
+          <ul class="list-disc ml-6 text-gray-700 space-y-2 text-sm">
+            <li data-fr="Gestion des comptes et authentification via des services sécurisés (par ex. Supabase Auth)."
+                data-en="Account management and authentication via secure services (e.g. Supabase Auth).">
+                Account management and authentication via secure services (e.g. Supabase Auth).
+            </li>
+            <li data-fr="Journalisation technique afin de détecter les comportements anormaux / abusifs."
+                data-en="Technical logging to detect abnormal / abusive behavior.">
+                Technical logging to detect abnormal / abusive behavior.
+            </li>
+            <li data-fr="Stockage segmenté des données sensibles (paiements gérés par Stripe)."
+                data-en="Segmented handling of sensitive data (Stripe manages payments).">
+                Segmented handling of sensitive data (Stripe manages payments).
+            </li>
+          </ul>
+
+          <p class="text-gray-700 mt-4 text-sm"
+             data-fr="Aucune méthode de transmission ou de stockage n'est absolument sûre à 100 %, mais nous faisons des efforts raisonnables et proportionnés pour protéger vos données."
+             data-en="No method of transmission or storage is 100% secure, but we apply reasonable and proportionate safeguards.">
+             No method of transmission or storage is 100% secure, but we apply reasonable and proportionate safeguards.
+          </p>
+        </section>
+
+        <!-- 9. Transferts internationaux -->
+        <section class="mb-10">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="9. Transferts internationaux de données"
+              data-en="9. International Data Transfers">
+            9. International Data Transfers
+          </h3>
+
+          <p class="text-gray-700 mb-4"
+             data-fr="Certains de nos prestataires techniques (tels que fournisseurs d'hébergement, d'analytique ou de traitement de paiement) peuvent être situés en dehors de l'Espace Économique Européen. Lorsque c'est le cas, nous nous assurons que des garanties appropriées sont en place (clauses contractuelles types, mesures additionnelles de sécurité)."
+             data-en="Some of our technical service providers (e.g. hosting, analytics, payment processing) may be located outside the European Economic Area. Where this happens, we ensure appropriate safeguards are in place (Standard Contractual Clauses, additional security measures).">
+             Some of our technical service providers (e.g. hosting, analytics, payment processing) may be located outside the European Economic Area. Where this happens, we ensure appropriate safeguards are in place (Standard Contractual Clauses, additional security measures).
+          </p>
+        </section>
+
+        <!-- 10. Modifications -->
+        <section class="mb-4">
+          <h3 class="text-2xl font-bold text-gray-900 mb-4 section-title"
+              data-fr="10. Modifications de cette politique"
+              data-en="10. Changes to this Policy">
+            10. Changes to this Policy
+          </h3>
+
+          <p class="text-gray-700 mb-3"
+             data-fr="Nous pouvons mettre à jour cette politique pour refléter l'évolution du service, les exigences légales ou les pratiques de sécurité. En cas de changement majeur, nous pourrons vous en informer via votre adresse e-mail ou via une notification sur le site."
+             data-en="We may update this policy to reflect service evolution, legal requirements, or security practices. If we make a significant change, we may inform you via email or a notice on the site.">
+             We may update this policy to reflect service evolution, legal requirements, or security practices. If we make a significant change, we may inform you via email or a notice on the site.
+          </p>
+
+          <p class="text-gray-700 text-sm"
+             data-fr="Le fait de continuer à utiliser le service après la mise à jour vaut acceptation de la nouvelle version de cette politique."
+             data-en="By continuing to use the service after the update, you agree to the new version of this policy.">
+             By continuing to use the service after the update, you agree to the new version of this policy.
+          </p>
+        </section>
+
+      </div>
+    </article>
+  </div>
+</section>
+
+<footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="social-section">
+      <h4 class="text-white font-semibold mb-3 text-center"
+          data-en="🚀 Follow us for the latest KDP news!"
+          data-fr="🚀 Suivez-nous pour les dernières actualités KDP !">
+        🚀 Follow us for the latest KDP news!
+      </h4>
+
+      <div class="social-links">
+        <a href="https://www.youtube.com/@Gabaritkdp"
+           class="social-link youtube" target="_blank" rel="noopener">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61578785408904"
+           class="social-link facebook" target="_blank" rel="noopener">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="https://www.instagram.com/gabaritkdp/"
+           class="social-link instagram" target="_blank" rel="noopener">
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a href="https://fr.pinterest.com/Gabaritkdp/"
+           class="social-link pinterest" target="_blank" rel="noopener">
+          <i class="fab fa-pinterest-p"></i>
+        </a>
+        <a href="https://www.tiktok.com/@gabaritkdp"
+           class="social-link tiktok" target="_blank" rel="noopener">
+          <i class="fab fa-tiktok"></i>
+        </a>
+        <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/"
+           class="social-link linkedin" target="_blank" rel="noopener">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+
+      <p class="text-center text-sm text-gray-400 mt-3"
+         data-en="KDP Tips • Tutorials • Authors Community"
+         data-fr="Conseils KDP • Tutoriels • Communauté d'auteurs">
+        KDP Tips • Tutorials • Authors Community
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center mb-4">
+          <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+          <span class="ml-2 text-white font-bold">GabaritKDP</span>
+        </div>
+        <p class="text-gray-400"
+           data-en="The generator for 100% Amazon-compliant KDP covers."
+           data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">
+          The generator for 100% Amazon-compliant KDP covers.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4"
+            data-en="Product"
+            data-fr="Produit">Product</h4>
+        <ul class="space-y-2">
+          <li style="margin-bottom:10px;">
+            <a href="generator.html" class="hover:text-white transition f-exp-gene"
+               data-en="Express Generator"
+               data-fr="Générateur Express">Express Generator</a>
+          </li>
+          <li>
+            <a href="generator-magic.html" class="hover:text-white transition"
+               data-en="Magic Generator"
+               data-fr="Générateur Magique">Magic Generator</a>
+          </li>
+          <li>
+            <a href="./Marketplace.html" class="hover:text-white transition"
+               data-en="Marketplace"
+               data-fr="Marketplace">Marketplace</a>
+          </li>
+          <li>
+            <a href="./index.html#tarifs" class="hover:text-white transition"
+               data-en="Pricing"
+               data-fr="Tarifs">Pricing</a>
+          </li>
+          <li>
+            <a href="fonctionnalites.html" class="hover:text-white transition"
+               data-en="Features"
+               data-fr="Fonctionnalités">Features</a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4"
+            data-en="Support" data-fr="Support">Support</h4>
+        <ul class="space-y-2">
+          <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+          <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+          <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+          <li><a href="guide.html" class="hover:text-white transition"
+                 data-en="User Guide"
+                 data-fr="Guide d'utilisation">User Guide</a></li>
+          <li><a href="updates.html" class="hover:text-white transition"
+                 data-en="Updates / What’s New"
+                 data-fr="Mises à jour / Nouveautés">Updates / What’s New</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4"
+            data-en="Legal"
+            data-fr="Légal">Legal</h4>
+        <ul class="space-y-2">
+          <li>
+            <a href="mentions-legales.html" class="hover:text-white transition"
+               data-en="Legal Notice"
+               data-fr="Mentions Légales">Legal Notice</a>
+          </li>
+          <li>
+            <a href="cgu.html" class="hover:text-white transition"
+               data-en="Terms of Service"
+               data-fr="Conditions d'utilisation">Terms of Service</a>
+          </li>
+          <li>
+            <a href="confidentialite.html" class="hover:text-white transition"
+               data-en="Privacy Policy"
+               data-fr="Politique de confidentialité">Privacy Policy</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-8 pt-6 text-center text-sm text-gray-400">
+      <p data-en="© 2025 GabaritKDP. All rights reserved."
+         data-fr="© 2025 GabaritKDP. Tous droits réservés.">
+        © 2025 GabaritKDP. All rights reserved.
+      </p>
+      <p id="lastUpdate" class="mt-1"></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function switchLanguage(lang) {
+    if (!['en','fr'].includes(lang)) return;
+    localStorage.setItem('preferredLanguage', lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('.lang-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.lang === lang);
+    });
+
+    document.querySelectorAll('[data-en][data-fr]').forEach(el => {
+      const v = el.getAttribute('data-'+lang);
+      if(!v) return;
+      if (el.tagName === 'META') {
+        el.setAttribute('content', v);
+      } else if (el.tagName === 'TITLE') {
+        el.textContent = v;
+      } else {
+        el.innerHTML = v;
+      }
+    });
+
+    renderLastUpdate(lang);
+  }
+
+  function toggleMobileMenu(){
+    document.getElementById('mobileMenu').classList.toggle('active');
+  }
+
+  function renderLastUpdate(lang){
+    const el = document.getElementById('lastUpdate');
+    const now = new Date();
+    const fmt = new Intl.DateTimeFormat(lang==='fr'?'fr-FR':'en-US',{year:'numeric',month:'long',day:'numeric'});
+    const label = lang==='fr' ? 'Dernière mise à jour : ' : 'Last update: ';
+    el.textContent = label + fmt.format(now);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const savedLang = localStorage.getItem('preferredLanguage') || 'en'; // default English
+    switchLanguage(savedLang);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title data-fr="Conditions Générales d'Utilisation | GabaritKDP"
+          data-en="Terms of Service | GabaritKDP">Terms of Service | GabaritKDP</title>
+
+  <meta name="description"
+        data-fr="Conditions générales d'utilisation du service GabaritKDP (SASU Sécurité pour Tous) – Générateur de couvertures KDP conformes Amazon. Droit français."
+        data-en="Terms of Service for GabaritKDP (SASU Sécurité pour Tous) – Amazon-compliant KDP cover generator. Governed by French law."
+        content="Terms of Service for GabaritKDP (SASU Sécurité pour Tous) – Amazon-compliant KDP cover generator. Governed by French law.">
+
+  <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png"/>
+
+  <!-- (Optionnel) Analytics que tu utilisais déjà – sans bandeau cookie -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date()); gtag('config', 'G-MYG5JJM8EC');
+  </script>
+  <script>
+    (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "t09tdy9nqm");
+  </script>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Inter,sans-serif;background:#f8fafc}
+
+    .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;position:sticky;top:0;z-index:50}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap}
+    .logo-nav{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none}
+    .logo-nav img{height:40px}
+    .logo-nav span{color:#ff9900;font-weight:800;letter-spacing:.2px}
+
+    .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap}
+    .nav-links a{color:#fff;padding:10px 14px;border-radius:8px;transition:.2s}
+    .nav-links a:hover{color:#ff9900;background:rgba(255,153,0,.12)}
+    .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important;border-radius:8px}
+    .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important;transform:translateY(-1px)}
+    .express-nav-btn::before,.f-exp-gene::before{content:"⚡";margin-right:6px}
+
+    .mobile-menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.45rem;cursor:pointer;padding:8px}
+    .mobile-menu{display:none;position:fixed;inset:0;background:rgba(0,0,0,.95);backdrop-filter:blur(8px);z-index:60;padding:80px 20px 24px}
+    .mobile-menu.active{display:block;animation:fadeIn .2s ease}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+    .mobile-menu-links{display:flex;flex-direction:column;gap:14px;max-width:420px;margin:0 auto}
+    .mobile-menu-links a{color:#fff;font-weight:600;padding:14px 16px;border-radius:12px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15)}
+    .mobile-menu-close{position:absolute;top:18px;right:18px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
+
+    .language-selector{background:#fff;padding:3px;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1)}
+    .lang-btn{padding:6px 10px;border:none;background:transparent;border-radius:16px;cursor:pointer;font-weight:600;font-size:.85rem}
+    .lang-btn.active{background:#ff9900;color:#fff}
+
+    .section-title{border-bottom:2px solid #fb923c;padding-bottom:6px}
+
+    .social-section{background:rgba(255,255,255,.05);border-radius:12px;padding:1.25rem;margin-bottom:2rem}
+    .social-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+    .social-link{display:flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:999px;color:#fff}
+    .social-link.youtube{background:linear-gradient(135deg,#ff0000,#c40000)}
+    .social-link.facebook{background:linear-gradient(135deg,#1877f2,#0a5bd3)}
+    .social-link.instagram{background:linear-gradient(135deg,#e4405f,#c13584,#8a2be2)}
+    .social-link.pinterest{background:linear-gradient(135deg,#bd081c,#e60023)}
+    .social-link.tiktok{background:linear-gradient(135deg,#000,#ff0050,#00f2ea)}
+    .social-link.linkedin{background:linear-gradient(135deg,#0a66c2,#004182)}
+
+    @media (max-width:768px){
+      .nav-links{display:none}
+      .mobile-menu-toggle{display:block}
+    }
+  </style>
+</head>
+<body>
+
+<header class="header-nav">
+  <div class="nav-container">
+    <a href="./index.html" class="logo-nav">
+      <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo"/>
+      <span>GabaritKDP</span>
+    </a>
+
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+
+    <div class="language-selector">
+      <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+      <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+    </div>
+
+    <nav class="nav-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
+      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+      <a href="./marketplace.html" target="_blank" rel="noopener" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+      <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+      <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+    </nav>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+  <div class="mobile-menu-links">
+    <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+    <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669)"
+       data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+    <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+    <a href="./marketplace.html" target="_blank" rel="noopener"
+       data-fr="Marché" data-en="Marketplace">Marketplace</a>
+    <a href="#tarifs" style="background:rgba(251,191,36,.2)" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+    <a href="./inscription.html" style="background:rgba(34,197,94,.2)" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+    <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+  </div>
+</div>
+
+<main class="min-h-screen py-20">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-extrabold text-gray-900"
+          data-fr="Conditions Générales d'Utilisation"
+          data-en="Terms of Service">Terms of Service</h1>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-lg p-8 md:p-12">
+
+      <!-- 1 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="1. Informations légales"
+            data-en="1. Legal Information">1. Legal Information</h2>
+
+        <p class="text-gray-700 mb-4"
+           data-fr="Le service GabaritKDP est exploité par :"
+           data-en="The GabaritKDP service is operated by:">
+           The GabaritKDP service is operated by:
+        </p>
+
+        <div class="bg-gray-50 p-6 rounded-lg space-y-2 text-gray-800">
+          <p><strong data-fr="Nom commercial" data-en="Brand name">Brand name</strong>:
+            <span>GabaritKDP</span></p>
+          <p><strong data-fr="Société exploitante" data-en="Operating company">Operating company</strong>:
+            <span>Sécurité pour Tous</span></p>
+          <p><strong data-fr="Forme juridique" data-en="Legal form">Legal form</strong>:
+            <span data-fr="SASU (Société par actions simplifiée unipersonnelle)"
+                  data-en="SASU (French single-shareholder simplified joint-stock company)">
+                  SASU (French single-shareholder simplified joint-stock company)
+            </span></p>
+          <p><strong data-fr="Immatriculation" data-en="Registration">Registration</strong>:
+            <span>RCS Paris 888 261 948</span></p>
+          <p><strong data-fr="Capital social" data-en="Share capital">Share capital</strong>:
+            <span data-fr="1,00 €" data-en="€1.00">€1.00</span></p>
+          <p><strong data-fr="Adresse du siège" data-en="Registered address">Registered address</strong>:
+            <span> 25 rue Marie Georges Picquart, 75017 Paris, France</span></p>
+          <p><strong data-fr="Directeur de la publication" data-en="Publication Director">Publication Director</strong>:
+            <span data-fr="La Présidente de la société Sécurité pour Tous, agissant en qualité de représentante légale"
+                  data-en="The President of Sécurité pour Tous, acting as the company's legal representative">
+                  The President of Sécurité pour Tous, acting as the company's legal representative
+            </span></p>
+          <p><strong>Email</strong>: contact@gabaritkdp.com • support@gabaritkdp.com</p>
+          <p><strong data-fr="Site web" data-en="Website">Website</strong>: https://gabaritkdp.com</p>
+        </div>
+
+        <div class="bg-yellow-50 border-l-4 border-yellow-400 text-yellow-900 text-sm p-4 rounded-lg mt-4">
+          <p data-fr="GabaritKDP est une marque exploitée par la société « Sécurité pour Tous ». Toute référence à « GabaritKDP » dans les présentes CGU désigne la société Sécurité pour Tous agissant sous cette marque."
+             data-en="GabaritKDP is a brand operated by “Sécurité pour Tous”. Any reference to “GabaritKDP” in these Terms refers to Sécurité pour Tous acting under this brand.">
+             GabaritKDP is a brand operated by “Sécurité pour Tous”. Any reference to “GabaritKDP” in these Terms refers to Sécurité pour Tous acting under this brand.
+          </p>
+        </div>
+      </section>
+
+      <!-- 2 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="2. Objet du service"
+            data-en="2. Service Description">2. Service Description</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="GabaritKDP est un service en ligne permettant de générer des gabarits de couvertures conformes aux spécifications techniques d’Amazon KDP (dimensions, tranche, marges, fond perdu, zones sûres d’impression)."
+           data-en="GabaritKDP is an online service that generates cover templates matching Amazon KDP technical specifications (trim size, spine width, margins, bleed, safe print zones).">
+           GabaritKDP is an online service that generates cover templates matching Amazon KDP technical specifications (trim size, spine width, margins, bleed, safe print zones).
+        </p>
+        <p class="text-gray-700 mb-3"
+           data-fr="Le service peut intégrer des outils tiers de design (ex. : Canva™) ; GabaritKDP n’est ni affilié, ni approuvé, ni sponsorisé par Amazon ou Canva."
+           data-en="The service may integrate third-party design tools (e.g., Canva™); GabaritKDP is not affiliated with, endorsed by, or sponsored by Amazon or Canva.">
+           The service may integrate third-party design tools (e.g., Canva™); GabaritKDP is not affiliated with, endorsed by, or sponsored by Amazon or Canva.
+        </p>
+        <ul class="list-disc ml-6 text-gray-700 space-y-2">
+          <li><strong data-fr="Gratuit" data-en="Free">Free</strong>:
+            <span data-fr="exports limités, formats populaires, aperçu filigrané"
+                  data-en="limited exports, popular formats, watermarked preview">
+                  limited exports, popular formats, watermarked preview
+            </span></li>
+          <li><strong data-fr="Paiement à l’usage" data-en="Pay-per-use">Pay-per-use</strong>:
+            <span data-fr="achat unitaire d’exports haute qualité (PDF sans filigrane)"
+                  data-en="one-off purchase of high-quality exports (PDF without watermark)">
+                  one-off purchase of high-quality exports (PDF without watermark)
+            </span></li>
+          <li><strong>Pro / Unlimited</strong>:
+            <span data-fr="exports illimités, priorité sur nouvelles fonctionnalités, templates premium"
+                  data-en="unlimited exports, early access to new features, premium templates">
+                  unlimited exports, early access to new features, premium templates
+            </span></li>
+        </ul>
+      </section>
+
+      <!-- 3 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="3. Acceptation des conditions"
+            data-en="3. Acceptance of Terms">3. Acceptance of Terms</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="L’utilisation du service implique l’acceptation pleine et entière des présentes CGU."
+           data-en="Using the service implies full acceptance of these Terms.">
+           Using the service implies full acceptance of these Terms.
+        </p>
+        <p class="text-gray-700"
+           data-fr="Les CGU sont régies par le droit français. En cas de litige, et à défaut de résolution amiable, les tribunaux français sont compétents. Pour les consommateurs de l’UE, la législation protectrice du pays de résidence peut s’appliquer."
+           data-en="These Terms are governed by French law. In case of dispute and failing amicable resolution, French courts have jurisdiction. For EU consumers, protective laws of their country of residence may apply.">
+           These Terms are governed by French law. In case of dispute and failing amicable resolution, French courts have jurisdiction. For EU consumers, protective laws of their country of residence may apply.
+        </p>
+      </section>
+
+      <!-- 4 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="4. Compte utilisateur"
+            data-en="4. User Account">4. User Account</h2>
+        <ul class="list-disc ml-6 text-gray-700 space-y-2">
+          <li data-fr="Fournir des informations exactes et à jour."
+              data-en="Provide accurate and up-to-date information.">Provide accurate and up-to-date information.</li>
+          <li data-fr="Maintenir la confidentialité des identifiants."
+              data-en="Keep credentials confidential.">Keep credentials confidential.</li>
+          <li data-fr="Notifier immédiatement tout usage non autorisé."
+              data-en="Immediately notify any unauthorized use.">Immediately notify any unauthorized use.</li>
+        </ul>
+        <p class="text-gray-700 mt-3"
+           data-fr="Nous pouvons suspendre/limiter l’accès en cas d’abus (fraude, scraping automatisé, ingénierie inverse, contournement des limites techniques)."
+           data-en="We may suspend/limit access in case of abuse (fraud, automated scraping, reverse engineering, bypassing technical limits).">
+           We may suspend/limit access in case of abuse (fraud, automated scraping, reverse engineering, bypassing technical limits).
+        </p>
+      </section>
+
+      <!-- 5 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="5. Tarifs et paiement"
+            data-en="5. Pricing & Payment">5. Pricing & Payment</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="Les prix sont indiqués en € TTC le cas échéant. Les paiements sont traités par Stripe. Nous ne stockons pas vos données de carte."
+           data-en="Prices are shown in € incl. VAT where applicable. Payments are processed by Stripe. We do not store your card data.">
+           Prices are shown in € incl. VAT where applicable. Payments are processed by Stripe. We do not store your card data.
+        </p>
+        <ul class="list-disc ml-6 text-gray-700 space-y-2">
+          <li data-fr="Abonnements : facturation récurrente jusqu’à résiliation par l’utilisateur."
+              data-en="Subscriptions: recurring billing until cancellation by the user.">
+              Subscriptions: recurring billing until cancellation by the user.</li>
+          <li data-fr="Paiement à l’usage : débit à la commande (export/credit)."
+              data-en="Pay-per-use: charged at order time (export/credit).">
+              Pay-per-use: charged at order time (export/credit).</li>
+          <li data-fr="Taxes : TVA et autres taxes peuvent s’appliquer selon votre pays."
+              data-en="Taxes: VAT and other taxes may apply depending on your country.">
+              Taxes: VAT and other taxes may apply depending on your country.</li>
+          <li data-fr="Factures : disponibles dans votre espace client."
+              data-en="Invoices: available in your account area.">
+              Invoices: available in your account area.</li>
+        </ul>
+      </section>
+
+      <!-- 6 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="6. Droit de rétractation et remboursement"
+            data-en="6. Withdrawal Right & Refunds">6. Withdrawal Right & Refunds</h2>
+        <p class="text-gray-700"
+           data-fr="Contenu/service numérique exécuté immédiatement : en validant l’achat, vous demandez l’accès immédiat et renoncez à votre droit de rétractation (Code de la consommation, L221-28). Ainsi, après activation (ex. : génération ou export sans filigrane), les paiements ne sont pas remboursables, sauf obligation légale contraire."
+           data-en="Digital content/service delivered immediately: by confirming the purchase you request immediate performance and waive your withdrawal right (French Consumer Code L221-28). Therefore, once activated (e.g., generation or non-watermarked export), payments are non-refundable, unless required by law.">
+           Digital content/service delivered immediately: by confirming the purchase you request immediate performance and waive your withdrawal right (French Consumer Code L221-28). Therefore, once activated (e.g., generation or non-watermarked export), payments are non-refundable, unless required by law.
+        </p>
+      </section>
+
+      <!-- 7 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="7. Propriété intellectuelle"
+            data-en="7. Intellectual Property">7. Intellectual Property</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="Le logiciel, le code, les interfaces, les templates et la documentation de GabaritKDP sont protégés. Licence d’utilisation personnelle/non exclusive/non transférable. Toute reproduction, distribution, revente ou ingénierie inverse est interdite sans autorisation écrite."
+           data-en="GabaritKDP software, code, interfaces, templates, and documentation are protected. You get a personal, non-exclusive, non-transferable license. Reproduction, distribution, resale, or reverse engineering is prohibited without written permission.">
+           GabaritKDP software, code, interfaces, templates, and documentation are protected. You get a personal, non-exclusive, non-transferable license. Reproduction, distribution, resale, or reverse engineering is prohibited without written permission.
+        </p>
+        <p class="text-gray-700"
+           data-fr="Vos contenus (images, textes) restent vos propriétés. Les fichiers générés pour vos livres vous appartiennent, sous réserve des droits des tiers intégrés par vous et du respect des règles d’Amazon KDP."
+           data-en="Your own content (images, texts) remains yours. The files generated for your books are yours, subject to any third-party rights you include and compliance with Amazon KDP rules.">
+           Your own content (images, texts) remains yours. The files generated for your books are yours, subject to any third-party rights you include and compliance with Amazon KDP rules.
+        </p>
+      </section>
+
+      <!-- 8 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="8. Responsabilité et garanties"
+            data-en="8. Liability & Warranties">8. Liability & Warranties</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="Le service est fourni « en l’état ». Nous mettons en œuvre des efforts raisonnables, sans garantie de disponibilité ou d’absence d’erreur. Nous ne garantissons pas l’acceptation de vos fichiers par Amazon KDP."
+           data-en="The service is provided “as is”. We use reasonable efforts, without guarantee of uninterrupted availability or error-free operation. We do not guarantee Amazon KDP acceptance of your files.">
+           The service is provided “as is”. We use reasonable efforts, without guarantee of uninterrupted availability or error-free operation. We do not guarantee Amazon KDP acceptance of your files.
+        </p>
+        <p class="text-gray-700"
+           data-fr="Dans la mesure permise par la loi, notre responsabilité totale est limitée au montant payé sur les 12 derniers mois. Nous n’assumons aucune responsabilité pour les dommages indirects, pertes de données, pertes de profits. Rien n’exclut la responsabilité en cas de fraude ou de préjudice corporel."
+           data-en="To the extent permitted by law, our aggregate liability is limited to the amount paid over the previous 12 months. We are not liable for indirect damages, data loss, loss of profits. Nothing excludes liability for fraud or personal injury.">
+           To the extent permitted by law, our aggregate liability is limited to the amount paid over the previous 12 months. We are not liable for indirect damages, data loss, loss of profits. Nothing excludes liability for fraud or personal injury.
+        </p>
+      </section>
+
+      <!-- 9 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="9. Maintenance et évolution du service"
+            data-en="9. Maintenance & Service Changes">9. Maintenance & Service Changes</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="Nous pouvons faire évoluer, corriger ou interrompre certaines fonctionnalités (notamment en raison de dépendances tierces). Des interruptions planifiées ou d’urgence peuvent survenir."
+           data-en="We may evolve, fix, or discontinue features (including due to third-party dependencies). Planned or emergency interruptions may occur.">
+           We may evolve, fix, or discontinue features (including due to third-party dependencies). Planned or emergency interruptions may occur.
+        </p>
+        <p class="text-gray-700"
+           data-fr="Hébergement et base de données opérés par Supabase. Voir la Politique de confidentialité pour les lieux de traitement et durées de conservation."
+           data-en="Hosting and database operated by Supabase. See the Privacy Policy for processing locations and retention periods.">
+           Hosting and database operated by Supabase. See the Privacy Policy for processing locations and retention periods.
+        </p>
+      </section>
+
+      <!-- 10 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="10. Résiliation"
+            data-en="10. Termination">10. Termination</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="Vous pouvez résilier à tout moment depuis votre compte (suppression ou arrêt de l’abonnement). Les sommes déjà payées restent dues et ne sont pas remboursables après activation du service numérique."
+           data-en="You may terminate anytime from your account (delete or stop a subscription). Amounts already paid remain due and are non-refundable after digital service activation.">
+           You may terminate anytime from your account (delete or stop a subscription). Amounts already paid remain due and are non-refundable after digital service activation.
+        </p>
+        <p class="text-gray-700"
+           data-fr="Nous pouvons suspendre ou résilier en cas de violation substantielle des présentes CGU. Les clauses relatives à la propriété intellectuelle, responsabilité, droit applicable survivent à la résiliation."
+           data-en="We may suspend or terminate in case of material breach of these Terms. IP, liability, and governing law clauses survive termination.">
+           We may suspend or terminate in case of material breach of these Terms. IP, liability, and governing law clauses survive termination.
+        </p>
+      </section>
+
+      <!-- 11 -->
+      <section class="mb-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="11. Données personnelles"
+            data-en="11. Personal Data">11. Personal Data</h2>
+        <p class="text-gray-700 mb-3"
+           data-fr="Nous traitons vos données conformément au RGPD. Consultez la Politique de confidentialité pour vos droits (accès, rectification, effacement, portabilité, limitation), nos bases légales, et nos prestataires (dont Stripe et Supabase agissant comme sous-traitants)."
+           data-en="We process your data in compliance with GDPR. See the Privacy Policy for your rights (access, rectification, erasure, portability, restriction), our legal bases, and our processors (including Stripe and Supabase).">
+           We process your data in compliance with GDPR. See the Privacy Policy for your rights (access, rectification, erasure, portability, restriction), our legal bases, and our processors (including Stripe and Supabase).
+        </p>
+        <p class="text-gray-700"
+           data-fr="Contact dédié données personnelles : contact@gabaritkdp.com"
+           data-en="Personal data contact: contact@gabaritkdp.com">
+           Personal data contact: contact@gabaritkdp.com
+        </p>
+      </section>
+
+      <!-- 12 -->
+      <section class="mb-4">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 section-title"
+            data-fr="12. Contact"
+            data-en="12. Contact">12. Contact</h2>
+        <div class="bg-gray-50 p-6 rounded-lg text-gray-800 space-y-1">
+          <p><strong data-fr="Support technique" data-en="Technical support">Technical support</strong>:
+            support@gabaritkdp.com</p>
+          <p><strong data-fr="Questions générales" data-en="General questions">General questions</strong>:
+            contact@gabaritkdp.com</p>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</main>
+
+<footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="social-section">
+      <h4 class="text-white font-semibold mb-3 text-center"
+          data-en="🚀 Follow us for the latest KDP news!"
+          data-fr="🚀 Suivez-nous pour les dernières actualités KDP !">🚀 Follow us for the latest KDP news!</h4>
+      <div class="social-links">
+        <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
+        <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+        <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
+        <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" target="_blank" rel="noopener"><i class="fab fa-pinterest-p"></i></a>
+        <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+        <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+      <p class="text-center text-sm text-gray-400 mt-3"
+         data-en="KDP Tips • Tutorials • Authors Community"
+         data-fr="Conseils KDP • Tutoriels • Communauté d'auteurs">KDP Tips • Tutorials • Authors Community</p>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center mb-4">
+          <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+          <span class="ml-2 text-white font-bold">GabaritKDP</span>
+        </div>
+        <p class="text-gray-400"
+           data-en="The generator for 100% Amazon-compliant KDP covers."
+           data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">
+           The generator for 100% Amazon-compliant KDP covers.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4" data-en="Product" data-fr="Produit">Product</h4>
+        <ul class="space-y-2">
+          <li style="margin-bottom:10px;">
+            <a href="generator.html" class="hover:text-white transition f-exp-gene"
+               data-en="Express Generator" data-fr="Générateur Express">Express Generator</a>
+          </li>
+          <li><a href="generator-magic.html" class="hover:text-white transition"
+                 data-en="Magic Generator" data-fr="Générateur Magique">Magic Generator</a></li>
+          <li><a href="./marketplace.html" target="_blank" rel="noopener"
+                 class="hover:text-white transition" data-en="Marketplace" data-fr="Marché">Marketplace</a></li>
+          <li><a href="./index.html#tarifs" class="hover:text-white transition"
+                 data-en="Pricing" data-fr="Tarifs">Pricing</a></li>
+          <li><a href="fonctionnalites.html" class="hover:text-white transition"
+                 data-en="Features" data-fr="Fonctionnalités">Features</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4" data-en="Support" data-fr="Support">Support</h4>
+        <ul class="space-y-2">
+          <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+          <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+          <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+          <li><a href="guide.html" class="hover:text-white transition"
+                 data-en="User Guide" data-fr="Guide d'utilisation">User Guide</a></li>
+          <li><a href="updates.html" class="hover:text-white transition"
+                 data-en="Updates / What’s New" data-fr="Mises à jour / Nouveautés">Updates / What’s New</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4" data-en="Legal" data-fr="Légal">Legal</h4>
+        <ul class="space-y-2">
+          <li><a href="mentions-legales.html" class="hover:text-white transition"
+                 data-en="Legal Notice" data-fr="Mentions Légales">Legal Notice</a></li>
+          <li><a href="cgu.html" class="hover:text-white transition"
+                 data-en="Terms of Service" data-fr="Conditions d'utilisation">Terms of Service</a></li>
+          <li><a href="confidentialite.html" class="hover:text-white transition"
+                 data-en="Privacy Policy" data-fr="Politique de confidentialité">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-8 pt-6 text-center text-sm text-gray-400">
+      <p data-en="© 2025 GabaritKDP. All rights reserved."
+         data-fr="© 2025 GabaritKDP. Tous droits réservés.">© 2025 GabaritKDP. All rights reserved.</p>
+      <p id="lastUpdate" class="mt-1"></p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Language switching (EN default) + persist preference
+  function switchLanguage(lang) {
+    if (!['en','fr'].includes(lang)) return;
+    localStorage.setItem('preferredLanguage', lang);
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang===lang));
+    document.querySelectorAll('[data-en][data-fr]').forEach(el => {
+      const v = el.getAttribute('data-'+lang);
+      if (!v) return;
+      if (el.tagName === 'META') el.setAttribute('content', v);
+      else if (el.tagName === 'TITLE') el.textContent = v;
+      else el.innerHTML = v;
+    });
+
+    // Update footer date locale
+    renderLastUpdate(lang);
+  }
+
+  function toggleMobileMenu(){ document.getElementById('mobileMenu').classList.toggle('active'); }
+
+  // Footer "Last updated" auto date (shown only in footer)
+  function renderLastUpdate(lang){
+    const el = document.getElementById('lastUpdate');
+    const now = new Date();
+    const fmt = new Intl.DateTimeFormat(lang==='fr'?'fr-FR':'en-US', { year:'numeric', month:'long', day:'numeric' });
+    const label = lang==='fr' ? 'Dernière mise à jour : ' : 'Last update: ';
+    el.textContent = label + fmt.format(now);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('preferredLanguage') || 'en'; // 🇺🇸 default
+    switchLanguage(saved);
+  });
+</script>
+
+</body>
+</html>

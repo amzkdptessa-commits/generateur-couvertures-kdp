@@ -1,0 +1,1923 @@
+{
+  "ANIMAUX": {
+    "name": "ANIMAUX",
+    "slug": "animaux",
+    "total": 23,
+    "free": 4,
+    "icon": "🐾",
+    "subcategories": {
+      "Féerique": {
+        "name": "Féerique",
+        "slug": "feerique",
+        "total": 12,
+        "free": 2,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 12
+      },
+      "Loups": {
+        "name": "Loups",
+        "slug": "loups",
+        "total": 11,
+        "free": 2,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 11
+      }
+    }
+  },
+  "BOHEME": {
+    "name": "BOHEME",
+    "slug": "boheme",
+    "total": 150,
+    "free": 30,
+    "icon": "🌸",
+    "subcategories": {
+      "All": {
+        "name": "BOHEME",
+        "slug": "all",
+        "total": 150,
+        "free": 30,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 150
+      }
+    }
+  },
+  "BUSINESS": {
+    "name": "BUSINESS",
+    "slug": "business",
+    "total": 55,
+    "free": 10,
+    "icon": "💼",
+    "subcategories": {
+      "Entrepreneurship": {
+        "name": "Entrepreneurship",
+        "slug": "entrepreneurship",
+        "total": 20,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 20
+      },
+      "Finance": {
+        "name": "Finance",
+        "slug": "finance",
+        "total": 19,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 19
+      },
+      "Marketing": {
+        "name": "Marketing",
+        "slug": "marketing",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      }
+    }
+  },
+  "CARTOON": {
+    "name": "CARTOON",
+    "slug": "cartoon",
+    "total": 30,
+    "free": 5,
+    "icon": "🎬",
+    "subcategories": {
+      "Animaux cartoon": {
+        "name": "Animaux cartoon",
+        "slug": "animaux-cartoon",
+        "total": 14,
+        "free": 2,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 14
+      },
+      "Chateaux": {
+        "name": "Chateaux",
+        "slug": "chateaux",
+        "total": 4,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 4
+      },
+      "Dinosaures": {
+        "name": "Dinosaures",
+        "slug": "dinosaures",
+        "total": 8,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 8
+      },
+      "NOEL": {
+        "name": "NOEL",
+        "slug": "noel",
+        "total": 4,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 4
+      }
+    }
+  },
+  "COLORIAGES": {
+    "name": "COLORIAGES",
+    "slug": "coloriages",
+    "total": 188,
+    "free": 38,
+    "icon": "🖍️",
+    "subcategories": {
+      "Animaux": {
+        "name": "Animaux",
+        "slug": "animaux",
+        "total": 14,
+        "free": 2,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 14
+      },
+      "Coloriage de Noel": {
+        "name": "Coloriage de Noel",
+        "slug": "coloriage-de-noel",
+        "total": 170,
+        "free": 34,
+        "mode": "A",
+        "subsubcategories": {
+          "Cover": {
+            "name": "Cover",
+            "slug": "cover",
+            "total": 10,
+            "free": 2
+          },
+          "Jpg": {
+            "name": "Jpg",
+            "slug": "jpg",
+            "total": 80,
+            "free": 16
+          },
+          "Png": {
+            "name": "Png",
+            "slug": "png",
+            "total": 80,
+            "free": 16
+          }
+        },
+        "filesCount": 0
+      },
+      "Fleurs": {
+        "name": "Fleurs",
+        "slug": "fleurs",
+        "total": 1,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 1
+      },
+      "Portraits": {
+        "name": "Portraits",
+        "slug": "portraits",
+        "total": 3,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 3
+      }
+    }
+  },
+  "FANTASY": {
+    "name": "FANTASY",
+    "slug": "fantasy",
+    "total": 145,
+    "free": 27,
+    "icon": "🐉",
+    "subcategories": {
+      "DARK FANTASY": {
+        "name": "DARK FANTASY",
+        "slug": "dark-fantasy",
+        "total": 23,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 23
+      },
+      "EPIC FANTASY": {
+        "name": "EPIC FANTASY",
+        "slug": "epic-fantasy",
+        "total": 27,
+        "free": 5,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 27
+      },
+      "HIGH FANTASY": {
+        "name": "HIGH FANTASY",
+        "slug": "high-fantasy",
+        "total": 58,
+        "free": 11,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 58
+      },
+      "URBAN FANTASY": {
+        "name": "URBAN FANTASY",
+        "slug": "urban-fantasy",
+        "total": 37,
+        "free": 7,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 37
+      }
+    }
+  },
+  "FULL COVER": {
+    "name": "FULL COVER",
+    "slug": "full-cover",
+    "total": 2627,
+    "free": 507,
+    "icon": "📚",
+    "subcategories": {
+      "Art": {
+        "name": "Art",
+        "slug": "art",
+        "total": 198,
+        "free": 37,
+        "mode": "A",
+        "subsubcategories": {
+          "BASQUIAT INSPIRED": {
+            "name": "BASQUIAT INSPIRED",
+            "slug": "basquiat-inspired",
+            "total": 40,
+            "free": 8
+          },
+          "Frida Kahlo Inspired Art": {
+            "name": "Frida Kahlo Inspired Art",
+            "slug": "frida-kahlo-inspired-art",
+            "total": 40,
+            "free": 8
+          },
+          "STYLE JAPONAIS — UKIYO-E": {
+            "name": "STYLE JAPONAIS — UKIYO-E",
+            "slug": "style-japonais-ukiyo-e",
+            "total": 14,
+            "free": 2
+          },
+          "STYLE KLIMT": {
+            "name": "STYLE KLIMT",
+            "slug": "style-klimt",
+            "total": 12,
+            "free": 2
+          },
+          "STYLE PICASSO": {
+            "name": "STYLE PICASSO",
+            "slug": "style-picasso",
+            "total": 12,
+            "free": 2
+          },
+          "STYLE POP ART": {
+            "name": "STYLE POP ART",
+            "slug": "style-pop-art",
+            "total": 28,
+            "free": 5
+          },
+          "STYLE RENAISSANCE": {
+            "name": "STYLE RENAISSANCE",
+            "slug": "style-renaissance",
+            "total": 12,
+            "free": 2
+          },
+          "VAN GOGH STYLE": {
+            "name": "VAN GOGH STYLE",
+            "slug": "van-gogh-style",
+            "total": 40,
+            "free": 8
+          }
+        },
+        "filesCount": 0
+      },
+      "Boheme": {
+        "name": "Boheme",
+        "slug": "boheme",
+        "total": 127,
+        "free": 25,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 127
+      },
+      "Fantasy": {
+        "name": "Fantasy",
+        "slug": "fantasy",
+        "total": 58,
+        "free": 11,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 58
+      },
+      "Fleurs": {
+        "name": "Fleurs",
+        "slug": "fleurs",
+        "total": 14,
+        "free": 2,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 14
+      },
+      "Historical": {
+        "name": "Historical",
+        "slug": "historical",
+        "total": 78,
+        "free": 15,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 78
+      },
+      "Horror": {
+        "name": "Horror",
+        "slug": "horror",
+        "total": 79,
+        "free": 15,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 79
+      },
+      "MAGIE x ART NOUVEAU (STYLE PREMIUM)": {
+        "name": "MAGIE x ART NOUVEAU (STYLE PREMIUM)",
+        "slug": "magie-x-art-nouveau-style-premium",
+        "total": 144,
+        "free": 28,
+        "mode": "A",
+        "subsubcategories": {
+          "Art Nouveau Bleu Nuit & Or": {
+            "name": "Art Nouveau Bleu Nuit & Or",
+            "slug": "art-nouveau-bleu-nuit-or",
+            "total": 40,
+            "free": 8
+          },
+          "Art Nouveau Magique": {
+            "name": "Art Nouveau Magique",
+            "slug": "art-nouveau-magique",
+            "total": 104,
+            "free": 20
+          }
+        },
+        "filesCount": 0
+      },
+      "Mystery": {
+        "name": "Mystery",
+        "slug": "mystery",
+        "total": 77,
+        "free": 15,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 77
+      },
+      "Paysages": {
+        "name": "Paysages",
+        "slug": "paysages",
+        "total": 69,
+        "free": 13,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 69
+      },
+      "Religions": {
+        "name": "Religions",
+        "slug": "religions",
+        "total": 370,
+        "free": 70,
+        "mode": "A",
+        "subsubcategories": {
+          "ANIMISME": {
+            "name": "ANIMISME",
+            "slug": "animisme",
+            "total": 36,
+            "free": 7
+          },
+          "CHRISTIANISME": {
+            "name": "CHRISTIANISME",
+            "slug": "christianisme",
+            "total": 82,
+            "free": 16
+          },
+          "ISLAM": {
+            "name": "ISLAM",
+            "slug": "islam",
+            "total": 40,
+            "free": 8
+          },
+          "JUDAÏSME": {
+            "name": "JUDAÏSME",
+            "slug": "judaisme",
+            "total": 49,
+            "free": 9
+          },
+          "MAGIE AFRICAINE  ORISHAS": {
+            "name": "MAGIE AFRICAINE  ORISHAS",
+            "slug": "magie-africaine-orishas",
+            "total": 39,
+            "free": 7
+          },
+          "MAGIE CREOLE": {
+            "name": "MAGIE CREOLE",
+            "slug": "magie-creole",
+            "total": 39,
+            "free": 7
+          },
+          "SPIRITUALITÉ AFRICAINE": {
+            "name": "SPIRITUALITÉ AFRICAINE",
+            "slug": "spiritualite-africaine",
+            "total": 41,
+            "free": 8
+          },
+          "VAUDOU": {
+            "name": "VAUDOU",
+            "slug": "vaudou",
+            "total": 44,
+            "free": 8
+          }
+        },
+        "filesCount": 0
+      },
+      "Romance": {
+        "name": "Romance",
+        "slug": "romance",
+        "total": 435,
+        "free": 87,
+        "mode": "A",
+        "subsubcategories": {
+          "Contemporary": {
+            "name": "Contemporary",
+            "slug": "contemporary",
+            "total": 435,
+            "free": 87
+          }
+        },
+        "filesCount": 0
+      },
+      "Sci-fi": {
+        "name": "Sci-fi",
+        "slug": "sci-fi",
+        "total": 79,
+        "free": 15,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 79
+      },
+      "Textures": {
+        "name": "Textures",
+        "slug": "textures",
+        "total": 95,
+        "free": 19,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 95
+      },
+      "Thriller": {
+        "name": "Thriller",
+        "slug": "thriller",
+        "total": 77,
+        "free": 15,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 77
+      },
+      "Vintage": {
+        "name": "Vintage",
+        "slug": "vintage",
+        "total": 289,
+        "free": 57,
+        "mode": "A",
+        "subsubcategories": {
+          "1930s Buildings & City": {
+            "name": "1930s Buildings & City",
+            "slug": "1930s-buildings-city",
+            "total": 60,
+            "free": 12
+          },
+          "1930s Mafia  Prohibition (soft)": {
+            "name": "1930s Mafia  Prohibition (soft)",
+            "slug": "1930s-mafia-prohibition-soft",
+            "total": 77,
+            "free": 15
+          },
+          "1930s Maps & Geography": {
+            "name": "1930s Maps & Geography",
+            "slug": "1930s-maps-geography",
+            "total": 40,
+            "free": 8
+          },
+          "1930s Newspaper Textures": {
+            "name": "1930s Newspaper Textures",
+            "slug": "1930s-newspaper-textures",
+            "total": 40,
+            "free": 8
+          },
+          "1930s Newsroom": {
+            "name": "1930s Newsroom",
+            "slug": "1930s-newsroom",
+            "total": 72,
+            "free": 14
+          }
+        },
+        "filesCount": 0
+      },
+      "Visages": {
+        "name": "Visages",
+        "slug": "visages",
+        "total": 4,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 4
+      },
+      "Voyages": {
+        "name": "Voyages",
+        "slug": "voyages",
+        "total": 434,
+        "free": 82,
+        "mode": "A",
+        "subsubcategories": {
+          "AIRPORTS & TRAVEL AESTHETIC": {
+            "name": "AIRPORTS & TRAVEL AESTHETIC",
+            "slug": "airports-travel-aesthetic",
+            "total": 36,
+            "free": 7
+          },
+          "BAHAMAS": {
+            "name": "BAHAMAS",
+            "slug": "bahamas",
+            "total": 12,
+            "free": 2
+          },
+          "BARCELONE": {
+            "name": "BARCELONE",
+            "slug": "barcelone",
+            "total": 40,
+            "free": 8
+          },
+          "DUBAI": {
+            "name": "DUBAI",
+            "slug": "dubai",
+            "total": 39,
+            "free": 7
+          },
+          "GUADELOUPE": {
+            "name": "GUADELOUPE",
+            "slug": "guadeloupe",
+            "total": 12,
+            "free": 2
+          },
+          "LISBONNE": {
+            "name": "LISBONNE",
+            "slug": "lisbonne",
+            "total": 40,
+            "free": 8
+          },
+          "LONDRES": {
+            "name": "LONDRES",
+            "slug": "londres",
+            "total": 39,
+            "free": 7
+          },
+          "MARRAKECH": {
+            "name": "MARRAKECH",
+            "slug": "marrakech",
+            "total": 40,
+            "free": 8
+          },
+          "MARTINIQUE": {
+            "name": "MARTINIQUE",
+            "slug": "martinique",
+            "total": 12,
+            "free": 2
+          },
+          "NEW-YORK": {
+            "name": "NEW-YORK",
+            "slug": "new-york",
+            "total": 44,
+            "free": 8
+          },
+          "PARIS": {
+            "name": "PARIS",
+            "slug": "paris",
+            "total": 28,
+            "free": 5
+          },
+          "ROME": {
+            "name": "ROME",
+            "slug": "rome",
+            "total": 40,
+            "free": 8
+          },
+          "RÉPUBLIQUE DOMINICAINE": {
+            "name": "RÉPUBLIQUE DOMINICAINE",
+            "slug": "republique-dominicaine",
+            "total": 12,
+            "free": 2
+          },
+          "TOKYO": {
+            "name": "TOKYO",
+            "slug": "tokyo",
+            "total": 40,
+            "free": 8
+          }
+        },
+        "filesCount": 0
+      }
+    }
+  },
+  "HIPPIE": {
+    "name": "HIPPIE",
+    "slug": "hippie",
+    "total": 64,
+    "free": 12,
+    "icon": "☮️",
+    "subcategories": {
+      "All": {
+        "name": "HIPPIE",
+        "slug": "all",
+        "total": 64,
+        "free": 12,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 64
+      }
+    }
+  },
+  "HISTORICAL": {
+    "name": "HISTORICAL",
+    "slug": "historical",
+    "total": 95,
+    "free": 18,
+    "icon": "🏰",
+    "subcategories": {
+      "Colonial Era": {
+        "name": "Colonial Era",
+        "slug": "colonial-era",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "Medieval": {
+        "name": "Medieval",
+        "slug": "medieval",
+        "total": 20,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 20
+      },
+      "Regency": {
+        "name": "Regency",
+        "slug": "regency",
+        "total": 24,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 24
+      },
+      "Victorian": {
+        "name": "Victorian",
+        "slug": "victorian",
+        "total": 35,
+        "free": 7,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 35
+      }
+    }
+  },
+  "MYSTERY": {
+    "name": "MYSTERY",
+    "slug": "mystery",
+    "total": 89,
+    "free": 17,
+    "icon": "🔍",
+    "subcategories": {
+      "Cozy Mystery": {
+        "name": "Cozy Mystery",
+        "slug": "cozy-mystery",
+        "total": 33,
+        "free": 6,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 33
+      },
+      "Detectives": {
+        "name": "Detectives",
+        "slug": "detectives",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "Murder Mystery": {
+        "name": "Murder Mystery",
+        "slug": "murder-mystery",
+        "total": 20,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 20
+      },
+      "Whodunit": {
+        "name": "Whodunit",
+        "slug": "whodunit",
+        "total": 20,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 20
+      }
+    }
+  },
+  "PLANNERS": {
+    "name": "PLANNERS",
+    "slug": "planners",
+    "total": 1969,
+    "free": 390,
+    "icon": "📅",
+    "subcategories": {
+      "100 Day Body Measurement Tracker": {
+        "name": "100 Day Body Measurement Tracker",
+        "slug": "100-day-body-measurement-tracker",
+        "total": 5,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 5
+      },
+      "2026 Planner 365 Days": {
+        "name": "2026 Planner 365 Days",
+        "slug": "2026-planner-365-days",
+        "total": 49,
+        "free": 9,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 49
+      },
+      "2026-2027  Monthly Planner": {
+        "name": "2026-2027  Monthly Planner",
+        "slug": "2026-2027-monthly-planner",
+        "total": 80,
+        "free": 16,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 80
+      },
+      "2026-2030  Monthly Planner": {
+        "name": "2026-2030  Monthly Planner",
+        "slug": "2026-2030-monthly-planner",
+        "total": 152,
+        "free": 30,
+        "mode": "A",
+        "subsubcategories": {
+          "PNG": {
+            "name": "PNG",
+            "slug": "png",
+            "total": 152,
+            "free": 30
+          }
+        },
+        "filesCount": 0
+      },
+      "ADHD Behavior Journal": {
+        "name": "ADHD Behavior Journal",
+        "slug": "adhd-behavior-journal",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "Address Book": {
+        "name": "Address Book",
+        "slug": "address-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Anxiety Journal": {
+        "name": "Anxiety Journal",
+        "slug": "anxiety-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Archery Training Book": {
+        "name": "Archery Training Book",
+        "slug": "archery-training-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Assignment planner": {
+        "name": "Assignment planner",
+        "slug": "assignment-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Astronomy Observation Log Book": {
+        "name": "Astronomy Observation Log Book",
+        "slug": "astronomy-observation-log-book",
+        "total": 18,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 18
+      },
+      "Baby Shower Guest Book": {
+        "name": "Baby Shower Guest Book",
+        "slug": "baby-shower-guest-book",
+        "total": 3,
+        "free": 1,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 3
+      },
+      "Barrel Racing Log Book": {
+        "name": "Barrel Racing Log Book",
+        "slug": "barrel-racing-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Beekeeping log book": {
+        "name": "Beekeeping log book",
+        "slug": "beekeeping-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Blank Recipe Book": {
+        "name": "Blank Recipe Book",
+        "slug": "blank-recipe-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Blood Sugar Log Book": {
+        "name": "Blood Sugar Log Book",
+        "slug": "blood-sugar-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Boating Log Book": {
+        "name": "Boating Log Book",
+        "slug": "boating-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Bowling Score Book": {
+        "name": "Bowling Score Book",
+        "slug": "bowling-score-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Bucket List Journal": {
+        "name": "Bucket List Journal",
+        "slug": "bucket-list-journal",
+        "total": 127,
+        "free": 25,
+        "mode": "A",
+        "subsubcategories": {
+          "PNG": {
+            "name": "PNG",
+            "slug": "png",
+            "total": 127,
+            "free": 25
+          }
+        },
+        "filesCount": 0
+      },
+      "Budget Tracker": {
+        "name": "Budget Tracker",
+        "slug": "budget-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Camping Journal & RV Travel Logbook": {
+        "name": "Camping Journal & RV Travel Logbook",
+        "slug": "camping-journal-rv-travel-logbook",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "Checking Account Ledger": {
+        "name": "Checking Account Ledger",
+        "slug": "checking-account-ledger",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Child Custody Journal": {
+        "name": "Child Custody Journal",
+        "slug": "child-custody-journal",
+        "total": 21,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 21
+      },
+      "Christmas Shopping Planner": {
+        "name": "Christmas Shopping Planner",
+        "slug": "christmas-shopping-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Church Membership Record Book": {
+        "name": "Church Membership Record Book",
+        "slug": "church-membership-record-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Coin Inventory Logbook": {
+        "name": "Coin Inventory Logbook",
+        "slug": "coin-inventory-logbook",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Competitor Tracker": {
+        "name": "Competitor Tracker",
+        "slug": "competitor-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Customizable Log Book": {
+        "name": "Customizable Log Book",
+        "slug": "customizable-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Daily Affirmation Journal": {
+        "name": "Daily Affirmation Journal",
+        "slug": "daily-affirmation-journal",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "Daily Gratitude Journal": {
+        "name": "Daily Gratitude Journal",
+        "slug": "daily-gratitude-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Daily Meal Planner": {
+        "name": "Daily Meal Planner",
+        "slug": "daily-meal-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Daily Planner": {
+        "name": "Daily Planner",
+        "slug": "daily-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Daily To Do List": {
+        "name": "Daily To Do List",
+        "slug": "daily-to-do-list",
+        "total": 14,
+        "free": 2,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 14
+      },
+      "Daily Weight Loss Planner": {
+        "name": "Daily Weight Loss Planner",
+        "slug": "daily-weight-loss-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Dart Score Sheet": {
+        "name": "Dart Score Sheet",
+        "slug": "dart-score-sheet",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Doctor Appointment Planner": {
+        "name": "Doctor Appointment Planner",
+        "slug": "doctor-appointment-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Dream Journal": {
+        "name": "Dream Journal",
+        "slug": "dream-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Euchre Score Sheets": {
+        "name": "Euchre Score Sheets",
+        "slug": "euchre-score-sheets",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Family Planner": {
+        "name": "Family Planner",
+        "slug": "family-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Financial Goal Planner": {
+        "name": "Financial Goal Planner",
+        "slug": "financial-goal-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Fishing Logbook Journal": {
+        "name": "Fishing Logbook Journal",
+        "slug": "fishing-logbook-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Fitness Planner": {
+        "name": "Fitness Planner",
+        "slug": "fitness-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Goal Action Planner": {
+        "name": "Goal Action Planner",
+        "slug": "goal-action-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Golf Journal": {
+        "name": "Golf Journal",
+        "slug": "golf-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Gratitude Journal": {
+        "name": "Gratitude Journal",
+        "slug": "gratitude-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Gratitude Journal 2": {
+        "name": "Gratitude Journal 2",
+        "slug": "gratitude-journal-2",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Health Record Book": {
+        "name": "Health Record Book",
+        "slug": "health-record-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Hiking logbook Journal": {
+        "name": "Hiking logbook Journal",
+        "slug": "hiking-logbook-journal",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "Horseback Riding Journal": {
+        "name": "Horseback Riding Journal",
+        "slug": "horseback-riding-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Income Tracker": {
+        "name": "Income Tracker",
+        "slug": "income-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Kismet Score Sheets": {
+        "name": "Kismet Score Sheets",
+        "slug": "kismet-score-sheets",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Medication Logbook": {
+        "name": "Medication Logbook",
+        "slug": "medication-logbook",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Meeting Note Planner": {
+        "name": "Meeting Note Planner",
+        "slug": "meeting-note-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Mile Bornes Score Sheet": {
+        "name": "Mile Bornes Score Sheet",
+        "slug": "mile-bornes-score-sheet",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Mileage Log Book": {
+        "name": "Mileage Log Book",
+        "slug": "mileage-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Money Saving Challenges Book": {
+        "name": "Money Saving Challenges Book",
+        "slug": "money-saving-challenges-book",
+        "total": 20,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 20
+      },
+      "Monthly Bill Payment Tracker": {
+        "name": "Monthly Bill Payment Tracker",
+        "slug": "monthly-bill-payment-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Monthly Budget Planner": {
+        "name": "Monthly Budget Planner",
+        "slug": "monthly-budget-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Mood Tracker": {
+        "name": "Mood Tracker",
+        "slug": "mood-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Movie Logbook": {
+        "name": "Movie Logbook",
+        "slug": "movie-logbook",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Notary Journal": {
+        "name": "Notary Journal",
+        "slug": "notary-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Nurse Stories Journal": {
+        "name": "Nurse Stories Journal",
+        "slug": "nurse-stories-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Office Weekly Planner": {
+        "name": "Office Weekly Planner",
+        "slug": "office-weekly-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Order From Logbook": {
+        "name": "Order From Logbook",
+        "slug": "order-from-logbook",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Outfit Planner": {
+        "name": "Outfit Planner",
+        "slug": "outfit-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Ovulation Test Strips Log Book": {
+        "name": "Ovulation Test Strips Log Book",
+        "slug": "ovulation-test-strips-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Password Tracker": {
+        "name": "Password Tracker",
+        "slug": "password-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Petty Cash Log Book": {
+        "name": "Petty Cash Log Book",
+        "slug": "petty-cash-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Phase 10 Score Sheet": {
+        "name": "Phase 10 Score Sheet",
+        "slug": "phase-10-score-sheet",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Phone Call Message book": {
+        "name": "Phone Call Message book",
+        "slug": "phone-call-message-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Play Nine Score Sheets": {
+        "name": "Play Nine Score Sheets",
+        "slug": "play-nine-score-sheets",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Prayer Journal": {
+        "name": "Prayer Journal",
+        "slug": "prayer-journal",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Product Inventory Logbook": {
+        "name": "Product Inventory Logbook",
+        "slug": "product-inventory-logbook",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Progressive 500 Score Sheets": {
+        "name": "Progressive 500 Score Sheets",
+        "slug": "progressive-500-score-sheets",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "Project Planner": {
+        "name": "Project Planner",
+        "slug": "project-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Project To do List": {
+        "name": "Project To do List",
+        "slug": "project-to-do-list",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Refrigerant Tracking Log Book": {
+        "name": "Refrigerant Tracking Log Book",
+        "slug": "refrigerant-tracking-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Restaurant Log Book": {
+        "name": "Restaurant Log Book",
+        "slug": "restaurant-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Restaurant reservation book": {
+        "name": "Restaurant reservation book",
+        "slug": "restaurant-reservation-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Retirement Guest Book": {
+        "name": "Retirement Guest Book",
+        "slug": "retirement-guest-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Samba Score Sheets": {
+        "name": "Samba Score Sheets",
+        "slug": "samba-score-sheets",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Self Care Planner": {
+        "name": "Self Care Planner",
+        "slug": "self-care-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Self Love Workbook": {
+        "name": "Self Love Workbook",
+        "slug": "self-love-workbook",
+        "total": 110,
+        "free": 22,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 110
+      },
+      "Shopping List": {
+        "name": "Shopping List",
+        "slug": "shopping-list",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Sleep Tracker": {
+        "name": "Sleep Tracker",
+        "slug": "sleep-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Social Media Planner": {
+        "name": "Social Media Planner",
+        "slug": "social-media-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Spades Score Sheet": {
+        "name": "Spades Score Sheet",
+        "slug": "spades-score-sheet",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Subscription Tracker": {
+        "name": "Subscription Tracker",
+        "slug": "subscription-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Substitute Teacher Report Notebook": {
+        "name": "Substitute Teacher Report Notebook",
+        "slug": "substitute-teacher-report-notebook",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Textbook Rental Tracker": {
+        "name": "Textbook Rental Tracker",
+        "slug": "textbook-rental-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Toddler Report Book": {
+        "name": "Toddler Report Book",
+        "slug": "toddler-report-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Trading Log Book": {
+        "name": "Trading Log Book",
+        "slug": "trading-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Uno Score Sheet": {
+        "name": "Uno Score Sheet",
+        "slug": "uno-score-sheet",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Valentines Day Notebook": {
+        "name": "Valentines Day Notebook",
+        "slug": "valentines-day-notebook",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Visitor's Log Book": {
+        "name": "Visitor's Log Book",
+        "slug": "visitors-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Voice Mail Log Book": {
+        "name": "Voice Mail Log Book",
+        "slug": "voice-mail-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Wedding Checklist": {
+        "name": "Wedding Checklist",
+        "slug": "wedding-checklist",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Weekly Checking": {
+        "name": "Weekly Checking",
+        "slug": "weekly-checking",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Weekly Food Tracker": {
+        "name": "Weekly Food Tracker",
+        "slug": "weekly-food-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Weekly Goals Tracker": {
+        "name": "Weekly Goals Tracker",
+        "slug": "weekly-goals-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Weekly Planner": {
+        "name": "Weekly Planner",
+        "slug": "weekly-planner",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Work Time Tracker": {
+        "name": "Work Time Tracker",
+        "slug": "work-time-tracker",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      },
+      "Workout Log Book": {
+        "name": "Workout Log Book",
+        "slug": "workout-log-book",
+        "total": 15,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 15
+      }
+    }
+  },
+  "RELIGIONS": {
+    "name": "RELIGIONS",
+    "slug": "religions",
+    "total": 32,
+    "free": 6,
+    "icon": "✝️",
+    "subcategories": {
+      "CHRISTIANISME": {
+        "name": "CHRISTIANISME",
+        "slug": "christianisme",
+        "total": 32,
+        "free": 6,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 32
+      }
+    }
+  },
+  "ROMANCE": {
+    "name": "ROMANCE",
+    "slug": "romance",
+    "total": 910,
+    "free": 175,
+    "icon": "💕",
+    "subcategories": {
+      "Contemporary": {
+        "name": "Contemporary",
+        "slug": "contemporary",
+        "total": 803,
+        "free": 155,
+        "mode": "A",
+        "subsubcategories": {
+          "HIGHLAND  HISTORIQUE  OLD WORLD": {
+            "name": "HIGHLAND  HISTORIQUE  OLD WORLD",
+            "slug": "highland-historique-old-world",
+            "total": 54,
+            "free": 10
+          },
+          "MAGIQUE  FANTASY": {
+            "name": "MAGIQUE  FANTASY",
+            "slug": "magique-fantasy",
+            "total": 62,
+            "free": 12
+          },
+          "Mariage": {
+            "name": "Mariage",
+            "slug": "mariage",
+            "total": 147,
+            "free": 29
+          },
+          "NATURE  FORÊT  MONTAGNE": {
+            "name": "NATURE  FORÊT  MONTAGNE",
+            "slug": "nature-foret-montagne",
+            "total": 42,
+            "free": 8
+          },
+          "NUIT  LUMIÈRES  CINÉMATIQUE": {
+            "name": "NUIT  LUMIÈRES  CINÉMATIQUE",
+            "slug": "nuit-lumieres-cinematique",
+            "total": 28,
+            "free": 5
+          },
+          "PLAGE  OCÉAN": {
+            "name": "PLAGE  OCÉAN",
+            "slug": "plage-ocean",
+            "total": 48,
+            "free": 9
+          },
+          "PLUIE  DRAMATIQUE  INTENSE": {
+            "name": "PLUIE  DRAMATIQUE  INTENSE",
+            "slug": "pluie-dramatique-intense",
+            "total": 41,
+            "free": 8
+          },
+          "ROMANCE AU TRAVAIL  BILLIONAIRE": {
+            "name": "ROMANCE AU TRAVAIL  BILLIONAIRE",
+            "slug": "romance-au-travail-billionaire",
+            "total": 57,
+            "free": 11
+          },
+          "ROMANCE INTENSE  DARK  PASSION": {
+            "name": "ROMANCE INTENSE  DARK  PASSION",
+            "slug": "romance-intense-dark-passion",
+            "total": 40,
+            "free": 8
+          },
+          "ROMANCE URBAINE  PARIS  VILLES": {
+            "name": "ROMANCE URBAINE  PARIS  VILLES",
+            "slug": "romance-urbaine-paris-villes",
+            "total": 62,
+            "free": 12
+          },
+          "Romance Black Love": {
+            "name": "Romance Black Love",
+            "slug": "romance-black-love",
+            "total": 167,
+            "free": 33
+          },
+          "Sunset": {
+            "name": "Sunset",
+            "slug": "sunset",
+            "total": 8,
+            "free": 1
+          },
+          "VOYAGE  DESTINS CROISÉS": {
+            "name": "VOYAGE  DESTINS CROISÉS",
+            "slug": "voyage-destins-croises",
+            "total": 47,
+            "free": 9
+          }
+        },
+        "filesCount": 0
+      },
+      "Dark romance": {
+        "name": "Dark romance",
+        "slug": "dark-romance",
+        "total": 45,
+        "free": 9,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 45
+      },
+      "Paranormal romance": {
+        "name": "Paranormal romance",
+        "slug": "paranormal-romance",
+        "total": 48,
+        "free": 9,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 48
+      },
+      "Romantic suspense": {
+        "name": "Romantic suspense",
+        "slug": "romantic-suspense",
+        "total": 14,
+        "free": 2,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 14
+      }
+    }
+  },
+  "SCI-FI": {
+    "name": "SCI-FI",
+    "slug": "sci-fi",
+    "total": 185,
+    "free": 34,
+    "icon": "🚀",
+    "subcategories": {
+      "BLACK FUTURISM": {
+        "name": "BLACK FUTURISM",
+        "slug": "black-futurism",
+        "total": 79,
+        "free": 15,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 79
+      },
+      "CYBERPUNK": {
+        "name": "CYBERPUNK",
+        "slug": "cyberpunk",
+        "total": 28,
+        "free": 5,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 28
+      },
+      "DYSTOPIA": {
+        "name": "DYSTOPIA",
+        "slug": "dystopia",
+        "total": 19,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 19
+      },
+      "SCI-FI — SPACE OPERA": {
+        "name": "SCI-FI — SPACE OPERA",
+        "slug": "sci-fi-space-opera",
+        "total": 35,
+        "free": 7,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 35
+      },
+      "TECH ROMANCE  AI": {
+        "name": "TECH ROMANCE  AI",
+        "slug": "tech-romance-ai",
+        "total": 24,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 24
+      }
+    }
+  },
+  "THRILLER": {
+    "name": "THRILLER",
+    "slug": "thriller",
+    "total": 76,
+    "free": 14,
+    "icon": "🔪",
+    "subcategories": {
+      "Crime": {
+        "name": "Crime",
+        "slug": "crime",
+        "total": 24,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 24
+      },
+      "THRILLER – NOIR": {
+        "name": "THRILLER – NOIR",
+        "slug": "thriller-noir",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "THRILLER – PSYCHOLOGIQUE": {
+        "name": "THRILLER – PSYCHOLOGIQUE",
+        "slug": "thriller-psychologique",
+        "total": 16,
+        "free": 3,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 16
+      },
+      "THRILLER – SUSPENSE": {
+        "name": "THRILLER – SUSPENSE",
+        "slug": "thriller-suspense",
+        "total": 20,
+        "free": 4,
+        "mode": "B",
+        "subsubcategories": {},
+        "filesCount": 20
+      }
+    }
+  }
+}

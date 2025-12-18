@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLANNERS - GabaritKDP</title>
+  <meta name="description" content="1969+ PLANNERS templates">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:10px}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;font-size:.95rem}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+    .express-btn{background:linear-gradient(135deg,#10b981,#059669)!important}
+    .hero-gradient{background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 50%,#bfdbfe 100%)}
+    .breadcrumb{display:flex;align-items:center;gap:8px;font-size:.9rem;color:#64748b;margin-bottom:1rem;flex-wrap:wrap}
+    .breadcrumb a{color:#FF9900;text-decoration:none}
+    .breadcrumb a:hover{text-decoration:underline}
+    .category-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:.3s;box-shadow:0 4px 15px rgba(0,0,0,.1);background:#f1f5f9}
+    .category-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
+    .category-card img{width:100%;height:100%;object-fit:cover;transition:.5s}
+    .category-card:hover img{transform:scale(1.1)}
+    .category-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.3) 50%,transparent);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem}
+    .category-icon{font-size:2rem;margin-bottom:.5rem}
+    .category-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+    .category-count{color:#FF9900;font-weight:600;font-size:.875rem}
+    .category-badge{position:absolute;top:1rem;right:1rem;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:600;color:#fff}
+    .badge-new{background:#10b981}.badge-popular{background:#f59e0b}.badge-best{background:#8b5cf6}
+    
+    /* Template Gallery Styles */
+    .template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+    .template-card{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:.3s;box-shadow:0 4px 15px rgba(0,0,0,.08);background:#f8fafc;border:1px solid #e2e8f0}
+    .template-card:hover{transform:translateY(-6px);box-shadow:0 15px 35px rgba(0,0,0,.12);border-color:#FF9900}
+    .template-card img{width:100%;height:100%;object-fit:cover;transition:.4s}
+    .template-card:hover img{transform:scale(1.05)}
+    
+    /* Watermark Overlay */
+    .watermark{position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,0.06) 0px,rgba(255,255,255,0.06) 40px,rgba(0,0,0,0.04) 40px,rgba(0,0,0,0.04) 80px);pointer-events:none;z-index:1}
+    .watermark::after{content:'GabaritKDP';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:2.5rem;font-weight:800;color:rgba(255,255,255,0.15);text-shadow:2px 2px 4px rgba(0,0,0,0.2);pointer-events:none;white-space:nowrap}
+    
+    /* Template Overlay with buttons */
+    .template-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.3) 60%,transparent);opacity:0;transition:.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;z-index:2}
+    .template-card:hover .template-overlay{opacity:1}
+    .template-name{font-size:.875rem;font-weight:600;color:#fff;margin-bottom:.25rem}
+    .template-size{font-size:.75rem;color:#94a3b8;margin-bottom:.75rem}
+    
+    /* Use Template Button */
+    .use-template-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px 16px;background:linear-gradient(135deg,#FF9900,#e68a00);color:#fff;font-weight:600;font-size:.875rem;border-radius:8px;text-decoration:none;transition:.3s;border:none;cursor:pointer}
+    .use-template-btn:hover{background:linear-gradient(135deg,#e68a00,#cc7a00);transform:scale(1.02);box-shadow:0 4px 15px rgba(255,153,0,.4)}
+    .use-template-btn i{font-size:.75rem}
+    
+    /* Free Badge */
+    .free-badge{position:absolute;top:.75rem;left:.75rem;background:#10b981;color:#fff;padding:.25rem .5rem;border-radius:6px;font-size:.7rem;font-weight:700;z-index:3}
+    .premium-badge{position:absolute;top:.75rem;right:.75rem;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;padding:.25rem .5rem;border-radius:6px;font-size:.65rem;font-weight:600;z-index:3}
+    
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column}
+    .lightbox.active{display:flex}
+    .lightbox img{max-width:90vw;max-height:70vh;object-fit:contain;border-radius:8px}
+    .lightbox-watermark{position:absolute;font-size:4rem;font-weight:800;color:rgba(255,255,255,0.1);transform:rotate(-30deg);pointer-events:none}
+    .lightbox-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:none;color:#fff;width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:1.5rem;transition:.3s}
+    .lightbox-close:hover{background:rgba(255,255,255,.2)}
+    .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:1.2rem;transition:.3s}
+    .lightbox-nav:hover{background:rgba(255,255,255,.2)}
+    .lightbox-prev{left:20px}
+    .lightbox-next{right:20px}
+    .lightbox-info{position:absolute;bottom:20px;text-align:center;color:#fff}
+    .lightbox-title{font-size:1.25rem;font-weight:600;margin-bottom:.5rem}
+    .lightbox-counter{font-size:.875rem;color:#94a3b8;margin-bottom:1rem}
+    .lightbox-use-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#FF9900,#e68a00);color:#fff;font-weight:600;border-radius:8px;text-decoration:none;transition:.3s}
+    .lightbox-use-btn:hover{background:linear-gradient(135deg,#e68a00,#cc7a00);transform:scale(1.05)}
+    
+    /* Search & Filter */
+    .search-bar{display:flex;gap:12px;margin-bottom:2rem;flex-wrap:wrap;align-items:center;justify-content:center}
+    .search-input{flex:1;min-width:200px;max-width:400px;padding:12px 16px;border:2px solid #e2e8f0;border-radius:10px;font-size:1rem;transition:.3s}
+    .search-input:focus{outline:none;border-color:#FF9900;box-shadow:0 0 0 3px rgba(255,153,0,.1)}
+    .filter-btn{padding:10px 20px;border:2px solid #e2e8f0;background:#fff;border-radius:10px;cursor:pointer;font-weight:500;transition:.3s}
+    .filter-btn:hover{border-color:#FF9900;color:#FF9900}
+    .filter-btn.active{background:#FF9900;color:#fff;border-color:#FF9900}
+    .pagination{display:flex;justify-content:center;gap:8px;margin-top:2rem}
+    .page-btn{padding:10px 16px;border:2px solid #e2e8f0;background:#fff;border-radius:8px;cursor:pointer;font-weight:500;transition:.3s}
+    .page-btn:hover:not(:disabled){border-color:#FF9900;color:#FF9900}
+    .page-btn.active{background:#FF9900;color:#fff;border-color:#FF9900}
+    .page-btn:disabled{opacity:.5;cursor:not-allowed}
+    @media(max-width:768px){.nav-links{display:none}}
+  </style>
+</head>
+<body class="bg-white">
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">🏠 Home</a>
+        <a href="generator.html" class="express-btn">⚡ Generator</a>
+        <a href="marketplace.html" class="active">Marketplace</a>
+        <a href="pricing.html">💰 Pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-gradient py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <nav class="breadcrumb"><a href="marketplace.html">Marketplace</a> <span>›</span> <span>PLANNERS</span></nav>
+      <div class="text-center">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+          <span class="text-5xl mr-3">📅</span> PLANNERS <span style="color:#FF9900">Templates</span>
+        </h1>
+        <div class="flex justify-center gap-8 mt-6">
+          <div class="bg-white/60 rounded-xl px-6 py-3 text-center">
+            <div class="text-3xl font-bold" style="color:#FF9900">1969</div>
+            <div class="text-sm text-gray-600">Templates</div>
+          </div>
+          <div class="bg-white/60 rounded-xl px-6 py-3 text-center">
+            <div class="text-3xl font-bold" style="color:#FF9900">102</div>
+            <div class="text-sm text-gray-600">Subcategories</div>
+          </div>
+          <div class="bg-white/60 rounded-xl px-6 py-3 text-center">
+            <div class="text-3xl font-bold" style="color:#FF9900">390</div>
+            <div class="text-sm text-gray-600">Free</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-12 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-10">Choose Your Style</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="category-card" onclick="location.href='subcategory-planners-100-day-body-measurement-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/100%20Day%20Body%20Measurement%20Tracker/PNG/1.png" alt="100 Day Body Measurement Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">100 Day Body Measurement Tracker</span>
+            <span class="category-count">5 templates • 1 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-2026-planner-365-days.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/2026%20Planner%20365%20Days/PNG/1.png" alt="2026 Planner 365 Days" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">2026 Planner 365 Days</span>
+            <span class="category-count">49 templates • 9 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-2026-2027-monthly-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/2026-2027%20%20Monthly%20Planner/PNG/1.png" alt="2026-2027  Monthly Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">2026-2027  Monthly Planner</span>
+            <span class="category-count">80 templates • 16 free</span>
+          </div>
+          <span class="category-badge badge-new">NEW</span>
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-2026-2030-monthly-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/2026-2030%20%20Monthly%20Planner/PNG/2026/1.png" alt="2026-2030  Monthly Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">2026-2030  Monthly Planner</span>
+            <span class="category-count">152 templates • 30 free</span>
+          </div>
+          <span class="category-badge badge-popular">POPULAR</span>
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-adhd-behavior-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/ADHD%20Behavior%20Journal/PNG/1.png" alt="ADHD Behavior Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">ADHD Behavior Journal</span>
+            <span class="category-count">16 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-address-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Address%20Book/PNG/1.png" alt="Address Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Address Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-anxiety-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Anxiety%20Journal/PNG/1.png" alt="Anxiety Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Anxiety Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-archery-training-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Archery%20Training%20Book/PNG/1.png" alt="Archery Training Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Archery Training Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-assignment-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Assignment%20planner/PNG/1.png" alt="Assignment planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Assignment planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-astronomy-observation-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Astronomy%20Observation%20Log%20Book/PNG/1.png" alt="Astronomy Observation Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Astronomy Observation Log Book</span>
+            <span class="category-count">18 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-baby-shower-guest-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Baby%20Shower%20Guest%20Book/PNG/1.png" alt="Baby Shower Guest Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Baby Shower Guest Book</span>
+            <span class="category-count">3 templates • 1 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-barrel-racing-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Barrel%20Racing%20Log%20Book/PNG/1.png" alt="Barrel Racing Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Barrel Racing Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-beekeeping-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Beekeeping%20log%20book/PNG/1.png" alt="Beekeeping log book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Beekeeping log book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-blank-recipe-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Blank%20Recipe%20Book/PNG/1.png" alt="Blank Recipe Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Blank Recipe Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-blood-sugar-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Blood%20Sugar%20Log%20Book/PNG/1.png" alt="Blood Sugar Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Blood Sugar Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-boating-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Boating%20Log%20Book/PNG/1.png" alt="Boating Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Boating Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-bowling-score-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Bowling%20Score%20Book/PNG/1.png" alt="Bowling Score Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Bowling Score Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-bucket-list-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Bucket%20List%20Journal/PNG/1.png" alt="Bucket List Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Bucket List Journal</span>
+            <span class="category-count">127 templates • 25 free</span>
+          </div>
+          <span class="category-badge badge-popular">POPULAR</span>
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-budget-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Budget%20Tracker/PNG/1.png" alt="Budget Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Budget Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-camping-journal-rv-travel-logbook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Camping%20Journal%20%26%20RV%20Travel%20Logbook/PNG/1.png" alt="Camping Journal & RV Travel Logbook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Camping Journal & RV Travel Logbook</span>
+            <span class="category-count">16 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-checking-account-ledger.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Checking%20Account%20Ledger/PNG/1.png" alt="Checking Account Ledger" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Checking Account Ledger</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-child-custody-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Child%20Custody%20Journal/PNG/1.png" alt="Child Custody Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Child Custody Journal</span>
+            <span class="category-count">21 templates • 4 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-christmas-shopping-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Christmas%20Shopping%20Planner/PNG/1.png" alt="Christmas Shopping Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Christmas Shopping Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-church-membership-record-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Church%20Membership%20Record%20Book/PNG/1.png" alt="Church Membership Record Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Church Membership Record Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-coin-inventory-logbook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Coin%20Inventory%20Logbook/PNG/1.png" alt="Coin Inventory Logbook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Coin Inventory Logbook</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-competitor-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Competitor%20Tracker/PNG/1.png" alt="Competitor Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Competitor Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-customizable-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Customizable%20Log%20Book/PNG/1.png" alt="Customizable Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Customizable Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-daily-affirmation-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Affirmation%20Journal/PNG/1.png" alt="Daily Affirmation Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Daily Affirmation Journal</span>
+            <span class="category-count">16 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-daily-gratitude-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Gratitude%20Journal/PNG/1.png" alt="Daily Gratitude Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Daily Gratitude Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-daily-meal-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Meal%20Planner/PNG/1.png" alt="Daily Meal Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Daily Meal Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-daily-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/1.png" alt="Daily Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Daily Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-daily-to-do-list.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20To%20Do%20List/PNG/1.png" alt="Daily To Do List" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Daily To Do List</span>
+            <span class="category-count">14 templates • 2 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-daily-weight-loss-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Weight%20Loss%20Planner/PNG/1.png" alt="Daily Weight Loss Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Daily Weight Loss Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-dart-score-sheet.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Dart%20Score%20Sheet/PNG/1.png" alt="Dart Score Sheet" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Dart Score Sheet</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-doctor-appointment-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Doctor%20Appointment%20Planner/PNG/1.png" alt="Doctor Appointment Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Doctor Appointment Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-dream-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Dream%20Journal/PNG/1.png" alt="Dream Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Dream Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-euchre-score-sheets.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Euchre%20Score%20Sheets/PNG/1.png" alt="Euchre Score Sheets" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Euchre Score Sheets</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-family-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Family%20Planner/PNG/1.png" alt="Family Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Family Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-financial-goal-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Financial%20Goal%20Planner/PNG/1.png" alt="Financial Goal Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Financial Goal Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-fishing-logbook-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Fishing%20Logbook%20Journal/PNG/1.png" alt="Fishing Logbook Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Fishing Logbook Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-fitness-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Fitness%20Planner/PNG/1.png" alt="Fitness Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Fitness Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-goal-action-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Goal%20Action%20Planner/PNG/1.png" alt="Goal Action Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Goal Action Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-golf-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Golf%20Journal/PNG/1.png" alt="Golf Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Golf Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-gratitude-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Gratitude%20Journal/PNG/1.png" alt="Gratitude Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Gratitude Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-gratitude-journal-2.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Gratitude%20Journal%202/PNG/1.png" alt="Gratitude Journal 2" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Gratitude Journal 2</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-health-record-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Health%20Record%20Book/PNG/1.png" alt="Health Record Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Health Record Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-hiking-logbook-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Hiking%20logbook%20Journal/PNG/1.png" alt="Hiking logbook Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Hiking logbook Journal</span>
+            <span class="category-count">16 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-horseback-riding-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Horseback%20Riding%20Journal/PNG/1.png" alt="Horseback Riding Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Horseback Riding Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-income-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Income%20Tracker/PNG/1.png" alt="Income Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Income Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-kismet-score-sheets.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Kismet%20Score%20Sheets/PNG/1.png" alt="Kismet Score Sheets" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Kismet Score Sheets</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-medication-logbook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Medication%20Logbook/PNG/1.png" alt="Medication Logbook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Medication Logbook</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-meeting-note-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Meeting%20Note%20Planner/PNG/1.png" alt="Meeting Note Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Meeting Note Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-mile-bornes-score-sheet.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Mile%20Bornes%20Score%20Sheet/PNG/1.png" alt="Mile Bornes Score Sheet" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Mile Bornes Score Sheet</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-mileage-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Mileage%20Log%20Book/PNG/1.png" alt="Mileage Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Mileage Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-money-saving-challenges-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Money%20Saving%20Challenges%20Book/PNG/1.png" alt="Money Saving Challenges Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Money Saving Challenges Book</span>
+            <span class="category-count">20 templates • 4 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-monthly-bill-payment-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Monthly%20Bill%20Payment%20Tracker/PNG/1.png" alt="Monthly Bill Payment Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Monthly Bill Payment Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-monthly-budget-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Monthly%20Budget%20Planner/PNG/1.png" alt="Monthly Budget Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Monthly Budget Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-mood-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Mood%20Tracker/PNG/1.png" alt="Mood Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Mood Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-movie-logbook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Movie%20Logbook/PNG/1.png" alt="Movie Logbook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Movie Logbook</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-notary-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Notary%20Journal/PNG/1.png" alt="Notary Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Notary Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-nurse-stories-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Nurse%20Stories%20Journal/PNG/1.png" alt="Nurse Stories Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Nurse Stories Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-office-weekly-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Office%20Weekly%20Planner/PNG/1.png" alt="Office Weekly Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Office Weekly Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-order-from-logbook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Order%20From%20Logbook/PNG/1.png" alt="Order From Logbook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Order From Logbook</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-outfit-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Outfit%20Planner/PNG/1.png" alt="Outfit Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Outfit Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-ovulation-test-strips-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Ovulation%20Test%20Strips%20Log%20Book/PNG/1.png" alt="Ovulation Test Strips Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Ovulation Test Strips Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-password-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Password%20Tracker/PNG/1.png" alt="Password Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Password Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-petty-cash-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Petty%20Cash%20Log%20Book/PNG/1.png" alt="Petty Cash Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Petty Cash Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-phase-10-score-sheet.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Phase%2010%20Score%20Sheet/PNG/1.png" alt="Phase 10 Score Sheet" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Phase 10 Score Sheet</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-phone-call-message-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Phone%20Call%20Message%20book/PNG/1.png" alt="Phone Call Message book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Phone Call Message book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-play-nine-score-sheets.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Play%20Nine%20Score%20Sheets/PNG/1.png" alt="Play Nine Score Sheets" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Play Nine Score Sheets</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-prayer-journal.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Prayer%20Journal/PNG/1.png" alt="Prayer Journal" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Prayer Journal</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-product-inventory-logbook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Product%20Inventory%20Logbook/PNG/1.png" alt="Product Inventory Logbook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Product Inventory Logbook</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-progressive-500-score-sheets.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Progressive%20500%20Score%20Sheets/PNG/1.png" alt="Progressive 500 Score Sheets" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Progressive 500 Score Sheets</span>
+            <span class="category-count">16 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-project-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Project%20Planner/PNG/1.png" alt="Project Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Project Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-project-to-do-list.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Project%20To%20do%20List/PNG/1.png" alt="Project To do List" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Project To do List</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-refrigerant-tracking-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Refrigerant%20Tracking%20Log%20Book/PNG/1.png" alt="Refrigerant Tracking Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Refrigerant Tracking Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-restaurant-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Restaurant%20Log%20Book/PNG/1.png" alt="Restaurant Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Restaurant Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-restaurant-reservation-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Restaurant%20reservation%20book/PNG/1.png" alt="Restaurant reservation book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Restaurant reservation book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-retirement-guest-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Retirement%20Guest%20Book/PNG/1.png" alt="Retirement Guest Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Retirement Guest Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-samba-score-sheets.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Samba%20Score%20Sheets/PNG/1.png" alt="Samba Score Sheets" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Samba Score Sheets</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-self-care-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Self%20Care%20Planner/PNG/1.png" alt="Self Care Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Self Care Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-self-love-workbook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Self%20Love%20Workbook/PNG/1.png" alt="Self Love Workbook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Self Love Workbook</span>
+            <span class="category-count">110 templates • 22 free</span>
+          </div>
+          <span class="category-badge badge-popular">POPULAR</span>
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-shopping-list.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Shopping%20List/PNG/1.png" alt="Shopping List" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Shopping List</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-sleep-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Sleep%20Tracker/PNG/1.png" alt="Sleep Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Sleep Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-social-media-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Social%20Media%20Planner/PNG/1.png" alt="Social Media Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Social Media Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-spades-score-sheet.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Spades%20Score%20Sheet/PNG/1.png" alt="Spades Score Sheet" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Spades Score Sheet</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-subscription-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Subscription%20Tracker/PNG/1.png" alt="Subscription Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Subscription Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-substitute-teacher-report-notebook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Substitute%20Teacher%20Report%20Notebook/PNG/1.png" alt="Substitute Teacher Report Notebook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Substitute Teacher Report Notebook</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-textbook-rental-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Textbook%20Rental%20Tracker/PNG/1.png" alt="Textbook Rental Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Textbook Rental Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-toddler-report-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Toddler%20Report%20Book/PNG/1.png" alt="Toddler Report Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Toddler Report Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-trading-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Trading%20Log%20Book/PNG/1.png" alt="Trading Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Trading Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-uno-score-sheet.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Uno%20Score%20Sheet/PNG/1.png" alt="Uno Score Sheet" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Uno Score Sheet</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-valentines-day-notebook.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Valentines%20Day%20Notebook/PNG/1.png" alt="Valentines Day Notebook" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Valentines Day Notebook</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-visitors-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Visitor%27s%20Log%20Book/PNG/1.png" alt="Visitor's Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Visitor's Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-voice-mail-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Voice%20Mail%20Log%20Book/PNG/1.png" alt="Voice Mail Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Voice Mail Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-wedding-checklist.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Wedding%20Checklist/PNG/1.png" alt="Wedding Checklist" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Wedding Checklist</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-weekly-checking.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Weekly%20Checking/PNG/1.png" alt="Weekly Checking" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Weekly Checking</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-weekly-food-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Weekly%20Food%20Tracker/PNG/1.png" alt="Weekly Food Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Weekly Food Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-weekly-goals-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Weekly%20Goals%20Tracker/PNG/1.png" alt="Weekly Goals Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Weekly Goals Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-weekly-planner.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Weekly%20Planner/PNG/1.png" alt="Weekly Planner" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Weekly Planner</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-work-time-tracker.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Work%20Time%20Tracker/PNG/1.png" alt="Work Time Tracker" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Work Time Tracker</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div>
+        <div class="category-card" onclick="location.href='subcategory-planners-workout-log-book.html'">
+          <img src="https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Workout%20Log%20Book/PNG/1.png" alt="Workout Log Book" loading="lazy">
+          <div class="category-overlay">
+            <span class="category-icon">📅</span>
+            <span class="category-name">Workout Log Book</span>
+            <span class="category-count">15 templates • 3 free</span>
+          </div>
+          
+        </div></div>
+    </div>
+  </section>
+  <section class="py-12 bg-gray-50 text-center">
+    <a href="marketplace.html" class="inline-block px-6 py-3 text-white font-semibold rounded-lg" style="background:#FF9900">← Back to Marketplace</a>
+    <a href="generator.html" class="inline-block px-6 py-3 ml-4 text-white font-semibold rounded-lg" style="background:linear-gradient(135deg,#10b981,#059669)">⚡ Create My Cover</a>
+  </section>
+
+  <footer class="bg-gray-900 text-gray-400 py-8 text-center">
+    <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+  </footer>
+</body>
+</html>

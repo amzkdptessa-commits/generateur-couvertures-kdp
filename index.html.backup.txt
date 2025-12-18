@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="GabaritKDP - Générateur de Couvertures KDP 100% Conformes Amazon" data-en="GabaritKDP - 100% Amazon-Compliant KDP Cover Generator">GabaritKDP - Générateur de Couvertures KDP 100% Conformes Amazon</title>
+    <meta name="description" data-fr="Le seul générateur francophone qui garantit des dimensions parfaites selon les spécifications officielles Amazon KDP. Zéro refus garanti." data-en="The only generator that guarantees perfect dimensions according to official Amazon KDP specifications. Zero rejections guaranteed." content="Le seul générateur francophone qui garantit des dimensions parfaites selon les spécifications officielles Amazon KDP. Zéro refus garanti.">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MYG5JJM8EC');
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome pour les icônes réseaux sociaux -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .header-nav {
+            background: #232F3E;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .logo-nav img {
+            height: 35px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .logo-nav span {
+            font-size: 1.3rem;
+            color: #FF9900;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:hover {
+            color: #FF9900;
+        }
+        
+        .nav-links a.active {
+            color: #FF9900;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .feature-card {
+            transition: all 0.3s ease;
+        }
+        .feature-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .pricing-card {
+            transition: all 0.3s ease;
+        }
+        .pricing-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        .checkmark {
+            color: #10B981;
+        }
+        .language-selector {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+
+        /* Styles pour les réseaux sociaux */
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+        
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0866D3);
+        }
+        
+        .social-link.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);
+        }
+        
+        .social-link.pinterest {
+            background: linear-gradient(135deg, #BD081C, #E60023);
+        }
+        
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
+        }
+        
+        .social-link.linkedin {
+            background: linear-gradient(135deg, #0A66C2, #004182);
+        }
+
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+
+        
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 80px;
+                right: 10px;
+                padding: 3px;
+            }
+            .lang-btn {
+                padding: 6px 10px;
+                font-size: 0.9rem;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .nav-links {
+                gap: 20px;
+            }
+            .social-links {
+                gap: 10px;
+            }
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+        .lang-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+        .lang-btn:hover:not(.active) {
+            background: #f3f4f6;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇺🇸 EN</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo-nav">
+                <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="#accueil" class="active" data-fr="Accueil" data-en="Home">Accueil</a>
+                <a href="generator.html" data-fr="Générateur" data-en="Generator">Générateur</a>
+                <a href="#tarifs" data-fr="Tarifs" data-en="Pricing">Tarifs</a>
+                <a href="inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Inscription</a>
+                <a href="connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Connexion</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="hero-gradient py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6" data-fr="Gabarits KDP 100% Conformes Amazon" data-en="100% Amazon-Compliant KDP Templates">
+                    Gabarits KDP <span style="color: #FF9900;">100% Conformes</span> Amazon
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-600 mb-8 max-w-4xl mx-auto" data-fr="Le seul générateur francophone qui garantit des dimensions parfaites selon les spécifications officielles Amazon KDP. Zéro refus garanti." data-en="The only generator that guarantees perfect dimensions according to official Amazon KDP specifications. Zero rejections guaranteed.">
+                    Le seul générateur francophone qui garantit des dimensions parfaites selon les spécifications officielles Amazon KDP. Zéro refus garanti.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="generator.html" class="px-8 py-4 text-white text-lg font-semibold rounded-lg transition" style="background-color: #FF9900;" onmouseover="this.style.backgroundColor='#e68900'" onmouseout="this.style.backgroundColor='#FF9900'" data-fr="JE CRÉE MA COUVERTURE KDP" data-en="CREATE MY KDP COVER">
+                        JE CRÉE MA COUVERTURE KDP
+                    </a>
+                    <a href="#tarifs" class="px-8 py-4 bg-white border-2 text-gray-700 text-lg font-semibold rounded-lg hover:bg-gray-50 transition" style="border-color: #FF9900;" data-fr="Voir les tarifs" data-en="View Pricing">
+                        Voir les tarifs
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section des fonctionnalités -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-fr="Pourquoi GabaritKDP ?" data-en="Why GabaritKDP?">
+                    Pourquoi GabaritKDP ?
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-fr="L'outil le plus précis et le plus simple pour créer des couvertures Amazon KDP conformes" data-en="The most precise and simple tool to create compliant Amazon KDP covers">
+                    L'outil le plus précis et le plus simple pour créer des couvertures Amazon KDP conformes
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-4 gap-8">
+                <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+                    <div class="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl">📐</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Calculs au millimètre près" data-en="Millimeter-precise calculations">Calculs au millimètre près</h3>
+                    <p class="text-gray-600" data-fr="Calculs au millimètre près selon les vraies spécifications Amazon KDP. Fini les approximations qui causent des refus." data-en="Millimeter-precise calculations according to real Amazon KDP specifications. No more approximations that cause rejections.">
+                        Calculs au millimètre près selon les vraies spécifications Amazon KDP. Fini les approximations qui causent des refus.
+                    </p>
+                </div>
+
+                <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color: rgba(255, 153, 0, 0.1);">
+                        <span class="text-2xl">✅</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Gabarits 100% conformes" data-en="100% compliant templates">Gabarits 100% conformes</h3>
+                    <p class="text-gray-600" data-fr="Gabarits 100% conformes aux exigences Amazon. Validation automatique de toutes les contraintes techniques." data-en="100% compliant templates to Amazon requirements. Automatic validation of all technical constraints.">
+                        Gabarits 100% conformes aux exigences Amazon. Validation automatique de toutes les contraintes techniques.
+                    </p>
+                </div>
+
+                <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl">⚡</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Couverture prête en 3 clics" data-en="Cover ready in 3 clicks">Couverture prête en 3 clics</h3>
+                    <p class="text-gray-600" data-fr="Couverture prête en haute résolution en 3 clics. Téléchargement immédiat, compatible impression professionnelle." data-en="High-resolution cover ready in 3 clicks. Instant download, professional print compatible.">
+                        Couverture prête en haute résolution en 3 clics. Téléchargement immédiat, compatible impression professionnelle.
+                    </p>
+                </div>
+
+                <div class="feature-card bg-gray-50 rounded-xl p-8 text-center">
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style="background-color: rgba(255, 153, 0, 0.1);">
+                        <span class="text-2xl">🎨</span>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4" data-fr="Intégration Canva" data-en="Canva Integration">Intégration Canva</h3>
+                    <p class="text-gray-600" data-fr="Importez vos designs Canva directement et appliquez les spécifications KDP automatiquement." data-en="Import your Canva designs directly and apply KDP specifications automatically.">
+                        Importez vos designs Canva directement et appliquez les spécifications KDP automatiquement.
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-12">
+                <p class="text-lg text-gray-600 mb-8" data-fr="Rejoignez les milliers d'auteurs qui utilisent GabaritKDP pour des couvertures acceptées du premier coup par Amazon KDP." data-en="Join thousands of authors who use GabaritKDP for covers accepted first time by Amazon KDP.">
+                    Rejoignez les milliers d'auteurs qui utilisent GabaritKDP pour des couvertures acceptées du premier coup par Amazon KDP.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Tarifs MODIFIÉE - Modèle Hybride Pay-per-Export -->
+    <section id="tarifs" class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Titre -->
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4" data-fr="Choisissez votre plan" data-en="Choose Your Plan">
+                    Choisissez votre <span style="color: #FF9900;">plan</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto" data-fr="Payez seulement ce que vous utilisez - parfait pour les auteurs qui publient occasionnellement" data-en="Pay only for what you use - perfect for authors who publish occasionally">
+                    Payez seulement ce que vous utilisez - parfait pour les auteurs qui publient occasionnellement
+                </p>
+            </div>
+
+            <!-- Grille de pricing hybride -->
+            <div class="grid lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+                
+                <!-- Plan Gratuit -->
+                <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Plan Gratuit" data-en="Free Plan">Plan Gratuit</h3>
+                        <p class="text-sm text-gray-600 mb-4" data-fr="Pour découvrir" data-en="To discover">Pour découvrir</p>
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-gray-900">$0</span>
+                            <span class="text-gray-600" data-fr="/mois" data-en="/month">/mois</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-8">
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="3 exports par mois" data-en="3 exports per month"><strong>3 exports</strong> par mois</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="5 formats populaires" data-en="5 popular formats">5 formats populaires</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Résolution 150 DPI" data-en="150 DPI resolution">Résolution 150 DPI</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Intégration Canva" data-en="Canva integration">Intégration Canva</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-orange-500 text-sm mr-2">⚠</span>
+                            <span class="text-sm text-gray-500" data-fr="Watermark léger" data-en="Light watermark">Watermark léger</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="startFree()" class="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-200 transition" data-fr="Commencer gratuitement" data-en="Start Free">
+                        Commencer gratuitement
+                    </button>
+                </div>
+
+                <!-- Pay-per-Export -->
+                <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-blue-200 relative">
+                    <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                        <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium" data-fr="Plus populaire" data-en="Most Popular">Plus populaire</span>
+                    </div>
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="À l'usage" data-en="Pay-per-Export">À l'usage</h3>
+                        <p class="text-sm text-gray-600 mb-4" data-fr="Parfait pour usage occasionnel" data-en="Perfect for occasional use">Parfait pour usage occasionnel</p>
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-blue-600">$6.99</span>
+                            <span class="text-gray-600" data-fr="/export" data-en="/export">/export</span>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-8">
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Tous les 17 formats" data-en="All 17 formats">Tous les 17 formats</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="300 DPI print-ready" data-en="300 DPI print-ready">300 DPI print-ready</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Aucun watermark" data-en="No watermark">Aucun watermark</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Support prioritaire" data-en="Priority support">Support prioritaire</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Payez seulement ce que vous utilisez" data-en="Pay only what you use">Payez seulement ce que vous utilisez</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="buyOneExport()" class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition" data-fr="Acheter un export" data-en="Buy One Export">
+                        Acheter un export
+                    </button>
+                </div>
+
+                <!-- Pack Crédits -->
+                <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-green-200">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Pack Économique" data-en="Credit Pack">Pack Économique</h3>
+                        <p class="text-sm text-gray-600 mb-4" data-fr="Auteurs actifs - Économisez 40%" data-en="Active authors - Save 40%">Auteurs actifs - Économisez 40%</p>
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-green-600">$49.99</span>
+                            <span class="text-gray-600" data-fr="/12 exports" data-en="/12 exports">/12 exports</span>
+                            <div class="text-sm text-green-600 font-medium">$4.17 par export</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-8">
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Tous les 17 formats" data-en="All 17 formats">Tous les 17 formats</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="300 DPI print-ready" data-en="300 DPI print-ready">300 DPI print-ready</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Aucun watermark" data-en="No watermark">Aucun watermark</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Crédits jamais expirés" data-en="Credits never expire">Crédits jamais expirés</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm font-bold text-green-600" data-fr="ÉCONOMIE 40%" data-en="SAVE 40%">ÉCONOMIE 40%</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="buyCreditPack()" class="w-full bg-green-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-green-700 transition" data-fr="Acheter le pack" data-en="Buy Pack">
+                        Acheter le pack
+                    </button>
+                </div>
+
+                <!-- Plan Pro -->
+                <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-purple-200">
+                    <div class="text-center mb-6">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Pro Illimité" data-en="Pro Unlimited">Pro Illimité</h3>
+                        <p class="text-sm text-gray-600 mb-4" data-fr="Publishers & Agences" data-en="Publishers & Agencies">Publishers & Agences</p>
+                        <div class="mb-6">
+                            <span class="text-3xl font-bold text-purple-600">$35</span>
+                            <span class="text-gray-600" data-fr="/mois" data-en="/month">/mois</span>
+                            <div class="text-sm text-purple-600 font-medium">Exports illimités</div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-2 mb-8">
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Exports illimités" data-en="Unlimited exports">Exports illimités</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="API basique" data-en="Basic API">API basique</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Batch processing" data-en="Batch processing">Batch processing</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Templates premium" data-en="Premium templates">Templates premium</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="text-green-500 text-sm mr-2">✓</span>
+                            <span class="text-sm text-gray-700" data-fr="Analytics avancées" data-en="Advanced analytics">Analytics avancées</span>
+                        </div>
+                    </div>
+                    
+                    <button onclick="subscribePro()" class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition" data-fr="Commencer Pro" data-en="Start Pro">
+                        Commencer Pro
+                    </button>
+                </div>
+            </div>
+
+            <!-- Comparaison des économies -->
+            <div class="text-center mt-12 p-6 bg-blue-50 rounded-xl max-w-4xl mx-auto">
+                <h3 class="text-xl font-bold text-gray-900 mb-4" data-fr="Calculez vos économies" data-en="Calculate Your Savings">Calculez vos économies</h3>
+                <div class="grid md:grid-cols-3 gap-4 text-sm">
+                    <div class="bg-white p-4 rounded-lg">
+                        <div class="font-semibold text-gray-700" data-fr="Auteur occasionnel" data-en="Occasional Author">Auteur occasionnel</div>
+                        <div class="text-gray-600" data-fr="4 livres par an" data-en="4 books per year">4 livres par an</div>
+                        <div class="text-blue-600 font-bold">4 × $6.99 = $27.96/an</div>
+                        <div class="text-xs text-green-600" data-fr="vs $420/an en abonnement" data-en="vs $420/year subscription">vs $420/an en abonnement</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg">
+                        <div class="font-semibold text-gray-700" data-fr="Auteur régulier" data-en="Regular Author">Auteur régulier</div>
+                        <div class="text-gray-600" data-fr="12 livres par an" data-en="12 books per year">12 livres par an</div>
+                        <div class="text-green-600 font-bold">Pack 12 = $49.99/an</div>
+                        <div class="text-xs text-green-600" data-fr="Économie 88% vs abonnement" data-en="Save 88% vs subscription">Économie 88% vs abonnement</div>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg">
+                        <div class="font-semibold text-gray-700" data-fr="Publisher actif" data-en="Active Publisher">Publisher actif</div>
+                        <div class="text-gray-600" data-fr="25+ livres par an" data-en="25+ books per year">25+ livres par an</div>
+                        <div class="text-purple-600 font-bold">Pro = $35/mois</div>
+                        <div class="text-xs text-green-600" data-fr="Exports illimités" data-en="Unlimited exports">Exports illimités</div>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mt-4" data-fr="Notre modèle s'adapte à votre rythme de publication - payez seulement ce que vous utilisez !" data-en="Our model adapts to your publishing rhythm - pay only for what you use!">
+                    Notre modèle s'adapte à votre rythme de publication - payez seulement ce que vous utilisez !
+                </p>
+            </div>
+
+            <!-- FAQ Pricing -->
+            <div class="mt-12 max-w-3xl mx-auto">
+                <h3 class="text-xl font-bold text-gray-900 mb-6 text-center" data-fr="Questions fréquentes" data-en="Frequently Asked Questions">Questions fréquentes</h3>
+                <div class="space-y-4">
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold text-gray-800 mb-2" data-fr="Pourquoi pas d'abonnement traditionnel ?" data-en="Why not traditional subscription?">Pourquoi pas d'abonnement traditionnel ?</h4>
+                        <p class="text-sm text-gray-600" data-fr="Les auteurs publient en moyenne 4-6 livres par an. Un abonnement mensuel vous ferait payer 12 mois pour 6 utilisations. Notre modèle est plus juste !" data-en="Authors publish on average 4-6 books per year. A monthly subscription would make you pay 12 months for 6 uses. Our model is fairer!">
+                            Les auteurs publient en moyenne 4-6 livres par an. Un abonnement mensuel vous ferait payer 12 mois pour 6 utilisations. Notre modèle est plus juste !
+                        </p>
+                    </div>
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h4 class="font-semibold text-gray-800 mb-2" data-fr="Les crédits expirent-ils ?" data-en="Do credits expire?">Les crédits expirent-ils ?</h4>
+                        <p class="text-sm text-gray-600" data-fr="Non, jamais ! Vos crédits sont valables à vie. Achetez quand vous voulez, utilisez quand vous en avez besoin." data-en="No, never! Your credits are valid for life. Buy when you want, use when you need.">
+                            Non, jamais ! Vos crédits sont valables à vie. Achetez quand vous voulez, utilisez quand vous en avez besoin.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ compacte -->
+    <section class="py-12 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h3 class="text-2xl font-bold text-center text-gray-900 mb-8" data-fr="Questions fréquentes" data-en="Frequently Asked Questions">Questions fréquentes</h3>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h4 class="font-semibold text-gray-900 mb-2" data-fr="L'intégration Canva est-elle incluse ?" data-en="Is Canva integration included?">L'intégration Canva est-elle incluse ?</h4>
+                    <p class="text-gray-600 text-sm" data-fr="Oui, l'import depuis Canva est inclus dans le plan Premium. Connectez votre compte et importez vos designs en 1 clic." data-en="Yes, Canva import is included in the Premium plan. Connect your account and import your designs in 1 click.">Oui, l'import depuis Canva est inclus dans le plan Premium. Connectez votre compte et importez vos designs en 1 clic.</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h4 class="font-semibold text-gray-900 mb-2" data-fr="Les dimensions sont-elles vraiment conformes ?" data-en="Are dimensions really compliant?">Les dimensions sont-elles vraiment conformes ?</h4>
+                    <p class="text-gray-600 text-sm" data-fr="Absolument ! Nos gabarits sont calculés selon les spécifications officielles Amazon KDP. Zéro refus garanti." data-en="Absolutely! Our templates are calculated according to official Amazon KDP specifications. Zero rejections guaranteed.">Absolument ! Nos gabarits sont calculés selon les spécifications officielles Amazon KDP. Zéro refus garanti.</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h4 class="font-semibold text-gray-900 mb-2" data-fr="Puis-je changer de plan ?" data-en="Can I change plans?">Puis-je changer de plan ?</h4>
+                    <p class="text-gray-600 text-sm" data-fr="Oui, vous pouvez upgrader ou annuler votre plan à tout moment depuis votre compte." data-en="Yes, you can upgrade or cancel your plan anytime from your account.">Oui, vous pouvez upgrader ou annuler votre plan à tout moment depuis votre compte.</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-6">
+                    <h4 class="font-semibold text-gray-900 mb-2" data-fr="Y a-t-il un engagement ?" data-en="Is there a commitment?">Y a-t-il un engagement ?</h4>
+                    <p class="text-gray-600 text-sm" data-fr="Aucun engagement. Vous pouvez annuler votre abonnement à tout moment sans frais." data-en="No commitment. You can cancel your subscription anytime without fees.">Aucun engagement. Vous pouvez annuler votre abonnement à tout moment sans frais.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer avec liens CORRIGÉS -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div class="social-section">
+                <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières nouveautés KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières nouveautés KDP !</h4>
+                
+                <div class="social-links">
+                    <!-- YouTube - PRIORITÉ #1 -->
+                    <a href="#" class="social-link youtube" title="YouTube - Tutoriels KDP">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    
+                    <!-- Facebook -->
+                    <a href="#" class="social-link facebook" title="Facebook - Communauté auteurs">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    
+                    <!-- Instagram -->
+                    <a href="#" class="social-link instagram" title="Instagram - Inspirations couvertures">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    
+                    <!-- Pinterest - Visual marketing -->
+                    <a href="#" class="social-link pinterest" title="Pinterest - Designs couvertures">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    
+                    <!-- TikTok - Nouveaux auteurs -->
+                    <a href="#" class="social-link tiktok" title="TikTok - Tips rapides KDP">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    
+                    <!-- LinkedIn - B2B Publishers -->
+                    <a href="#" class="social-link linkedin" title="LinkedIn - Publishers & Agences">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                
+                <p class="text-center text-sm text-gray-400 mt-4" data-fr="Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">
+                    Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400" data-fr="Le générateur francophone de couvertures KDP 100% conformes Amazon." data-en="The generator for 100% Amazon-compliant KDP covers.">Le générateur francophone de couvertures KDP 100% conformes Amazon.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+                    <ul class="space-y-2">
+                        <li><a href="generator.html" class="hover:text-white transition" data-fr="Générateur" data-en="Generator">Générateur</a></li>
+                        <li><a href="#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Support" data-en="Support">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition" data-fr="Contact" data-en="Contact">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide d'utilisation" data-en="User Guide">Guide d'utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Mentions légales</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition" data-fr="CGU" data-en="Terms of Service">CGU</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Confidentialité" data-en="Privacy">Confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLanguage = 'fr';
+        
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all text elements
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                if (lang === 'fr') {
+                    element.textContent = element.getAttribute('data-fr');
+                } else {
+                    element.textContent = element.getAttribute('data-en');
+                }
+            });
+            
+            // Update page title and meta description
+            const titleElement = document.querySelector('title');
+            const metaElement = document.querySelector('meta[name="description"]');
+            if (lang === 'fr') {
+                titleElement.textContent = titleElement.getAttribute('data-fr');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-fr'));
+                document.documentElement.lang = 'fr';
+            } else {
+                titleElement.textContent = titleElement.getAttribute('data-en');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-en'));
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        // Fonctions pour les boutons
+        function startFree() {
+            // Redirection vers le générateur
+            window.location.href = 'generator.html';
+        }
+
+        function buyOneExport() {
+            // Mode demo pour l'instant
+            if (currentLanguage === 'fr') {
+                alert('🚀 Fonctionnalité en cours de finalisation !\n\nLe paiement à l\'usage sera bientôt disponible.\nEn attendant, testez le générateur gratuitement !');
+            } else {
+                alert('🚀 Feature being finalized!\n\nPay-per-export will be available soon.\nIn the meantime, test the generator for free!');
+            }
+        }
+
+        function buyCreditPack() {
+            // Mode demo pour l'instant
+            if (currentLanguage === 'fr') {
+                alert('🚀 Fonctionnalité en cours de finalisation !\n\nLes packs crédits seront bientôt disponibles.\nEn attendant, testez le générateur gratuitement !');
+            } else {
+                alert('🚀 Feature being finalized!\n\nCredit packs will be available soon.\nIn the meantime, test the generator for free!');
+            }
+        }
+
+        function subscribePro() {
+            // Mode demo pour l'instant
+            if (currentLanguage === 'fr') {
+                alert('🚀 Fonctionnalité en cours de finalisation !\n\nL\'abonnement Pro sera bientôt disponible.\nEn attendant, testez le générateur gratuitement !');
+            } else {
+                alert('🚀 Feature being finalized!\n\nPro subscription will be available soon.\nIn the meantime, test the generator for free!');
+            }
+        }
+
+        function subscribePremium() {
+            // Mode demo pour l'instant - fonction conservée pour compatibilité
+            subscribePro();
+        }
+
+        // Smooth scroll pour les liens ancres
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Auto-detect language based on browser (optional)
+        function detectLanguage() {
+            const browserLang = navigator.language.toLowerCase();
+            if (browserLang.startsWith('en')) {
+                switchLanguage('en');
+                document.querySelectorAll('.lang-btn')[1].classList.add('active');
+                document.querySelectorAll('.lang-btn')[0].classList.remove('active');
+            }
+        }
+        
+        // Uncomment to enable auto-detection
+        // detectLanguage();
+
+        // Analytics
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('GabaritKDP homepage avec réseaux sociaux loaded');
+        });
+    </script>
+</body>
+</html>

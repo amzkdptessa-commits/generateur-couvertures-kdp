@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art - GabaritKDP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;transition:all .3s}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .hero{background:linear-gradient(135deg,#334155 0%,#1e293b 100%);padding:3rem 1rem;text-align:center;color:#fff}
+    .breadcrumb{padding:1rem;background:#f8fafc}
+    .breadcrumb a{color:#64748b;text-decoration:none}
+    .breadcrumb a:hover{color:#FF9900}
+    .subcategory-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem;padding:3rem 1rem}
+    .subcategory-card{background:#fff;border-radius:12px;padding:2rem;text-align:center;box-shadow:0 4px 15px rgba(0,0,0,.1);transition:all .3s;cursor:pointer}
+    .subcategory-card:hover{transform:translateY(-5px);box-shadow:0 15px 35px rgba(0,0,0,.2)}
+    .subcategory-icon{font-size:3rem;margin-bottom:1rem}
+    .subcategory-name{font-size:1.25rem;font-weight:700;color:#1f2937;margin-bottom:.5rem}
+    .container{max-width:1400px;margin:0 auto}
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="generator.html"><i class="fas fa-magic"></i> Generator</a>
+        <a href="marketplace.html" class="active"><i class="fas fa-store"></i> Marketplace</a>
+        <a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <div class="container">
+      <a href="marketplace.html">Marketplace</a> / <span style="color:#FF9900;font-weight:600">Art</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <h1 class="text-4xl font-bold mb-2">🎨 Art</h1>
+      <p class="text-xl opacity-90">Choose your style</p>
+    </div>
+  </section>
+
+  <section class="container subcategory-grid">
+        <div class="subcategory-card" onclick="location.href='subcategory-art-basquiat-inspired.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">BASQUIAT INSPIRED</div>
+    </div>
+    <div class="subcategory-card" onclick="location.href='subcategory-art-frida-kahlo-inspired-art.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">Frida Kahlo Inspired Art</div>
+    </div>
+    <div class="subcategory-card" onclick="location.href='subcategory-art-style-japonais-ukiyo-e.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">STYLE JAPONAIS — UKIYO-E</div>
+    </div>
+    <div class="subcategory-card" onclick="location.href='subcategory-art-style-klimt.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">STYLE KLIMT</div>
+    </div>
+    <div class="subcategory-card" onclick="location.href='subcategory-art-style-picasso.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">STYLE PICASSO</div>
+    </div>
+    <div class="subcategory-card" onclick="location.href='subcategory-art-style-pop-art.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">STYLE POP ART</div>
+    </div>
+    <div class="subcategory-card" onclick="location.href='subcategory-art-style-renaissance.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">STYLE RENAISSANCE</div>
+    </div>
+    <div class="subcategory-card" onclick="location.href='subcategory-art-van-gogh-style.html'">
+      <div class="subcategory-icon">🎨</div>
+      <div class="subcategory-name">VAN GOGH STYLE</div>
+    </div>
+  </section>
+</body>
+</html>

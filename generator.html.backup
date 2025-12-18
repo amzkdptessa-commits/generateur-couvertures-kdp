@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Générateur KDP - Créez vos Gabarits Conformes | GabaritKDP" data-en="KDP Generator - Create Your Compliant Templates | GabaritKDP">Générateur KDP - Créez vos Gabarits Conformes | GabaritKDP</title>
+    <meta name="description" data-fr="Outil professionnel pour créer des couvertures KDP aux dimensions exactes Amazon. Interface française, calculs précis." data-en="Professional tool to create KDP covers with exact Amazon dimensions. French interface, precise calculations." content="Outil professionnel pour créer des couvertures KDP aux dimensions exactes Amazon. Interface française, calculs précis.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MYG5JJM8EC');
+    </script>
+    
+    <!-- CDN Scripts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
+    <!-- Font Awesome pour les icônes réseaux sociaux -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .header-nav {
+            background: #232F3E;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .logo-nav img {
+            height: 35px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .logo-nav span {
+            font-size: 1.3rem;
+            color: #FF9900;
+        }
+        
+        .back-home {
+            background: #FF9900;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .back-home:hover {
+            background: #e8890a;
+            transform: translateY(-1px);
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+        
+        .lang-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: #f3f4f6;
+        }
+        
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+        }
+        
+        .generator-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr 300px;
+            gap: 20px;
+            max-width: 1800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: calc(100vh - 120px);
+        }
+        
+        .preview-zone {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+            height: fit-content;
+        }
+        
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .preview-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .preview-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .zoom-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        
+        .zoom-btn:hover {
+            background: #4b5563;
+            transform: scale(1.05);
+        }
+        
+        .quality-badge {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+        }
+        
+        .canvas-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 12px;
+            padding: 40px 20px;
+            overflow: visible;
+            position: relative;
+            min-height: 400px;
+        }
+        
+        .canvas-4k {
+            border: 3px solid #d1d5db;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            background: white;
+            transition: all 0.3s ease;
+        }
+        
+        .canvas-4k:hover {
+            box-shadow: 0 15px 60px rgba(0,0,0,0.25);
+            transform: scale(1.02);
+        }
+        
+        .position-labels {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+            background: rgba(255,255,255,0.95);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #374151;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .dimensions-overlay {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            height: fit-content;
+            max-height: none;
+            overflow-y: visible;
+        }
+        
+        .sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        
+        .sidebar-section:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quality-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        /* VALIDATION INTELLIGENTE */
+        .validation-smart {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .validation-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .validation-score {
+            padding: 16px 20px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .score-excellent {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .score-tres-bon {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .score-acceptable {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .score-problematique {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .validation-alerts {
+            padding: 16px 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .alert-excellent {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #065f46;
+        }
+
+        .alert-good {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #1e3a8a;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #92400e;
+        }
+
+        .alert-critical {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #991b1b;
+        }
+
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: #3730a3;
+        }
+
+        .alert-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .validation-tips {
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .tips-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip-item {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .no-analysis {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+        }
+
+        /* Styles réseaux sociaux */
+        .social-section {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        .social-link.youtube { background: #FF0000; }
+        .social-link.facebook { background: #1877F2; }
+        .social-link.instagram { background: linear-gradient(45deg, #F56040, #E1306C, #C13584); }
+        .social-link.pinterest { background: #BD081C; }
+        .social-link.tiktok { background: #000000; }
+        .social-link.linkedin { background: #0077B5; }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 1400px) {
+            .generator-layout {
+                grid-template-columns: 300px 1fr 280px;
+                gap: 15px;
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .generator-layout {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .preview-zone {
+                min-height: 500px;
+                order: 2;
+            }
+            
+            .sidebar {
+                max-height: none;
+                order: 1;
+            }
+            
+            .sidebar:last-child {
+                order: 3;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 70px;
+                right: 10px;
+                padding: 3px;
+            }
+            .lang-btn {
+                padding: 6px 10px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">🇺🇸 EN</button>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo-nav">
+                <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <nav>
+                <a href="index.html" class="back-home">
+                    <span>←</span>
+                    <span data-fr="Retour Accueil" data-en="Back Home">Retour Accueil</span>
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Zone Générateur -->
+    <div id="root"></div>
+
+    <!-- Script pour le système de langue -->
+    <script>
+        // Variable globale pour la langue
+        let currentLang = localStorage.getItem('selectedLanguage') || 'fr';
+        
+        // Fonction pour mettre à jour la langue de la page
+        function updatePageLanguage(lang) {
+            const titleElement = document.querySelector('title');
+            const metaElement = document.querySelector('meta[name="description"]');
+            if (lang === 'fr') {
+                titleElement.textContent = titleElement.getAttribute('data-fr');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-fr'));
+                document.documentElement.lang = 'fr';
+            } else {
+                titleElement.textContent = titleElement.getAttribute('data-en');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-en'));
+                document.documentElement.lang = 'en';
+            }
+            
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                if (lang === 'fr') {
+                    element.textContent = element.getAttribute('data-fr');
+                } else {
+                    element.textContent = element.getAttribute('data-en');
+                }
+            });
+        }
+        
+        // Fonction globale pour changer de langue
+        function switchLanguage(lang) {
+            localStorage.setItem('selectedLanguage', lang);
+            currentLang = lang;
+            window.currentLang = lang;
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const targetBtn = document.querySelector(`[data-lang="${lang}"]`);
+            if (targetBtn) targetBtn.classList.add('active');
+            
+            if (window.reactSetLanguage) {
+                window.reactSetLanguage(lang);
+            }
+            
+            updatePageLanguage(lang);
+        }
+        
+        window.switchLanguage = switchLanguage;
+        window.currentLang = currentLang;
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            window.currentLang = currentLang;
+            
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                const lang = button.getAttribute('data-lang');
+                if (lang === currentLang) {
+                    button.classList.add('active');
+                } else {
+                    button.classList.remove('active');
+                }
+            });
+            
+            updatePageLanguage(currentLang);
+        });
+    </script>
+
+    <!-- Script React -->
+    <script type="text/babel">
+        const { useState, useRef, useEffect, useCallback } = React;
+        
+        // Textes multilingues pour React
+        const texts = {
+            fr: {
+                title: "Générateur de Couvertures KDP",
+                subtitle: "Aperçu 4K Ultra HD - De Canva à KDP en 3 clics",
+                bookSettings: "Paramètres du livre",
+                bindingType: "Type de reliure",
+                paperback: "Livre broché (Paperback)",
+                hardcover: "Livre relié (Hardcover)",
+                kdpFormat: "Format KDP",
+                selectFormat: "Sélectionner un format",
+                popularSizes: "Tailles les plus courantes",
+                otherSizes: "Autres tailles standard",
+                hardcoverFormats: "Formats livre relié",
+                pageCount: "Nombre de pages",
+                bleed: "Fond perdu (images jusqu'au bord)",
+                paperType: "Type d'encre et de papier",
+                coverFinish: "Finition de la couverture",
+                spineText: "Texte du dos (tranche)",
+                spineTextHelp: "Titre ou auteur (optionnel)",
+                spineTextAuto: "Géré automatiquement par Amazon",
+                spineTextThin: "Tranche trop fine - non recommandé",
+                calculatedDimensions: "Dimensions calculées",
+                totalWidth: "Largeur totale",
+                totalHeight: "Hauteur totale",
+                spineThickness: "Épaisseur dos",
+                thinSpine: "(tranche fine)",
+                images: "Images",
+                frontImage: "Image Face (1ère de couverture)",
+                backImage: "Image Verso (4ème de couverture)",
+                spineImage: "Image Dos (tranche) - Optionnel",
+                spineColor: "Couleur de fond du dos",
+                spineTextColor: "Couleur du texte du dos",
+                spineTextSize: "Taille du texte du dos",
+                spineTextFont: "Police du texte du dos",
+                removeImage: "Supprimer l'image",
+                canvaImport: "Import depuis Canva",
+                premium: "PREMIUM",
+                preview4k: "Aperçu 4K Ultra HD",
+                createCover: "TÉLÉCHARGER MA COUVERTURE",
+                generating: "Génération 4K en cours...",
+                resetForm: "Nouveau projet",
+                qualityUltraHD: "4K Ultra HD",
+                zoomIn: "Zoom +",
+                zoomOut: "Zoom -",
+                // BETA MESSAGES
+                betaVersion: "VERSION BETA",
+                betaWarning: "Version de test - API Canva en développement",
+                betaThanks: "Merci d'être beta testeur",
+                canvaBetaTitle: "API Canva en développement",
+                canvaBetaMessage: "L'intégration Canva est actuellement en cours de développement. Pour l'instant, vous pouvez tester le générateur en uploadant vos images manuellement.",
+                canvaBetaEta: "Disponibilité prévue: Q2 2025",
+                betaFeedback: "Vos retours nous aident à améliorer l'outil !",
+                // VALIDATION INTELLIGENTE
+                analysisTitle: "Analyse Intelligente KDP",
+                scoreExcellent: "EXCELLENT",
+                scoreTresBon: "TRÈS BON", 
+                scoreAcceptable: "ACCEPTABLE",
+                scoreProblematique: "À AMÉLIORER",
+                scoreSubtitleExcellent: "Prêt pour Amazon KDP",
+                scoreSubtitleTresBon: "Quelques optimisations possibles",
+                scoreSubtitleAcceptable: "Sera accepté mais peut être amélioré",
+                scoreSubtitleProblematique: "Corrections recommandées",
+                noImagesYet: "Ajoutez vos images pour voir l'analyse complète",
+                kdpTips: "Conseils KDP",
+                tipFormat: "Le format 6×9\" est le plus populaire sur Amazon",
+                tipBleed: "Activez le fond perdu pour éviter les liserés blancs",
+                tipSpine: "Les tranches fines (<2.5mm) rendent le texte difficile à lire",
+                tipBarcode: "Amazon place automatiquement le code-barres (zone 51×23mm)",
+                // CLAUSES DE NON-RESPONSABILITÉ
+                disclaimer: "Clause de non-responsabilité",
+                disclaimerShort: "GabaritKDP garantit uniquement la conformité technique des dimensions selon les spécifications Amazon KDP.",
+                disclaimerFull: "GabaritKDP n'est responsable que de la conformité technique des dimensions selon les spécifications officielles Amazon KDP. Nous ne sommes pas responsables du contenu créatif, de l'esthétique, de l'orthographe, de la grammaire, de la qualité des images fournies, du respect des droits d'auteur, ou de tout autre aspect créatif de votre couverture. L'utilisateur reste entièrement responsable du contenu de sa publication.",
+                disclaimerExport: "En téléchargeant, vous confirmez être responsable du contenu créatif de votre couverture.",
+                technicalOnly: "Validation technique uniquement",
+                contentResponsibility: "Contenu sous votre responsabilité"
+            },
+            en: {
+                title: "KDP Cover Generator",
+                subtitle: "4K Ultra HD Preview - From Canva to KDP in 3 clicks",
+                bookSettings: "Book Settings",
+                bindingType: "Binding Type",
+                paperback: "Paperback",
+                hardcover: "Hardcover",
+                kdpFormat: "KDP Format",
+                selectFormat: "Select a format",
+                popularSizes: "Most Popular Sizes",
+                otherSizes: "Other Standard Sizes",
+                hardcoverFormats: "Hardcover Formats",
+                pageCount: "Page Count",
+                bleed: "Bleed (images to edge)",
+                paperType: "Ink and Paper Type",
+                coverFinish: "Cover Finish",
+                spineText: "Spine Text",
+                spineTextHelp: "Title or author (optional)",
+                spineTextAuto: "Automatically managed by Amazon",
+                spineTextThin: "Spine too thin - not recommended",
+                calculatedDimensions: "Calculated Dimensions",
+                totalWidth: "Total Width",
+                totalHeight: "Total Height",
+                spineThickness: "Spine Thickness",
+                thinSpine: "(thin spine)",
+                images: "Images",
+                frontImage: "Front Image (Front Cover)",
+                backImage: "Back Image (Back Cover)",
+                spineImage: "Spine Image - Optional",
+                spineColor: "Spine Background Color",
+                spineTextColor: "Spine Text Color",
+                spineTextSize: "Spine Text Size",
+                spineTextFont: "Spine Text Font",
+                removeImage: "Remove Image",
+                canvaImport: "Import from Canva",
+                premium: "PREMIUM",
+                preview4k: "4K Ultra HD Preview",
+                createCover: "DOWNLOAD MY COVER",
+                generating: "4K Generation in progress...",
+                resetForm: "New project",
+                qualityUltraHD: "4K Ultra HD",
+                zoomIn: "Zoom +",
+                zoomOut: "Zoom -",
+                // BETA MESSAGES
+                betaVersion: "BETA VERSION",
+                betaWarning: "Test version - Canva API in development",
+                betaThanks: "Thank you for being a beta tester",
+                canvaBetaTitle: "Canva API in development",
+                canvaBetaMessage: "Canva integration is currently under development. For now, you can test the generator by uploading your images manually.",
+                canvaBetaEta: "Expected availability: Q2 2025",
+                betaFeedback: "Your feedback helps us improve the tool!",
+                // VALIDATION INTELLIGENTE
+                analysisTitle: "Smart KDP Analysis",
+                scoreExcellent: "EXCELLENT",
+                scoreTresBon: "VERY GOOD", 
+                scoreAcceptable: "ACCEPTABLE",
+                scoreProblematique: "NEEDS WORK",
+                scoreSubtitleExcellent: "Ready for Amazon KDP",
+                scoreSubtitleTresBon: "Some optimizations possible",
+                scoreSubtitleAcceptable: "Will be accepted but can be improved",
+                scoreSubtitleProblematique: "Corrections recommended",
+                noImagesYet: "Add your images to see complete analysis",
+                kdpTips: "KDP Tips",
+                tipFormat: "6×9\" format is most popular on Amazon",
+                tipBleed: "Enable bleed to avoid white borders",
+                tipSpine: "Thin spines (<2.5mm) make text hard to read",
+                tipBarcode: "Amazon automatically places barcode (51×23mm zone)",
+                // DISCLAIMER CLAUSES
+                disclaimer: "Disclaimer",
+                disclaimerShort: "GabaritKDP only guarantees technical compliance of dimensions according to Amazon KDP specifications.",
+                disclaimerFull: "GabaritKDP is only responsible for technical compliance of dimensions according to official Amazon KDP specifications. We are not responsible for creative content, aesthetics, spelling, grammar, quality of provided images, copyright compliance, or any other creative aspect of your cover. The user remains entirely responsible for the content of their publication.",
+                disclaimerExport: "By downloading, you confirm being responsible for the creative content of your cover.",
+                technicalOnly: "Technical validation only",
+                contentResponsibility: "Content under your responsibility"
+            }
+        };
+
+        const KDPCoverGenerator = () => {
+            // États de base
+            const [language, setLanguage] = useState(() => {
+                return window.currentLang || localStorage.getItem('selectedLanguage') || 'fr';
+            });
+            const [format, setFormat] = useState('');
+            const [paperType, setPaperType] = useState('white');
+            const [bindingType, setBindingType] = useState('paperback');
+            const [coverFinish, setCoverFinish] = useState('matte');
+            const [hasBleed, setHasBleed] = useState(false);
+            const [pageCount, setPageCount] = useState(100);
+            const [isExporting, setIsExporting] = useState(false);
+            const [spineText, setSpineText] = useState('');
+            const [frontImage, setFrontImage] = useState(null);
+            const [backImage, setBackImage] = useState(null);
+            const [spineImage, setSpineImage] = useState(null);
+            const [spineColor, setSpineColor] = useState('#ffffff');
+            const [spineTextColor, setSpineTextColor] = useState('#000000');
+            const [spineTextSize, setSpineTextSize] = useState(12);
+            const [spineTextFont, setSpineTextFont] = useState('Arial');
+            const [dimensions, setDimensions] = useState(null);
+            const [warnings, setWarnings] = useState([]);
+            const [overallScore, setOverallScore] = useState(0);
+            const [zoomLevel, setZoomLevel] = useState(1.5);
+            const [canvasQuality, setCanvasQuality] = useState('4K');
+            
+            const canvasRef = useRef(null);
+
+            // Helper function to get text
+            const t = (key) => texts[language][key] || texts.fr[key];
+
+            // Système anti-abus "doux mais protégé"
+            const getDeviceFingerprint = () => {
+                try {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    ctx.textBaseline = 'top';
+                    ctx.font = '14px Arial';
+                    ctx.fillText('GabaritKDP-Device', 2, 2);
+                    const fingerprint = canvas.toDataURL().slice(-20) + 
+                                     screen.width + 'x' + screen.height + 
+                                     navigator.language;
+                    return btoa(fingerprint).slice(0, 16);
+                } catch (e) {
+                    return 'fallback-' + Math.random().toString(36).substr(2, 9);
+                }
+            };
+
+            const checkExportLimits = () => {
+                const deviceID = localStorage.getItem('deviceID') || getDeviceFingerprint();
+                if (!localStorage.getItem('deviceID')) {
+                    localStorage.setItem('deviceID', deviceID);
+                }
+
+                const today = new Date().toDateString();
+                const exportHistory = JSON.parse(localStorage.getItem('exportHistory') || '{}');
+                const todayExports = exportHistory[today] || 0;
+                
+                // Système à 3 niveaux
+                const user = null; // TODO: Remplacer par votre système d'auth
+                
+                if (user?.emailVerified) {
+                    // Niveau 3: Email vérifié = 10 exports/jour
+                    return { canExport: todayExports < 10, remaining: 10 - todayExports, level: 'verified' };
+                } else if (user?.email) {
+                    // Niveau 2: Email non vérifié = 5 exports/jour  
+                    return { canExport: todayExports < 5, remaining: 5 - todayExports, level: 'registered' };
+                } else {
+                    // Niveau 1: Anonyme = 3 exports/jour avec watermark discret ✅ CORRIGÉ
+                    return { canExport: todayExports < 3, remaining: 3 - todayExports, level: 'anonymous' };
+                }
+            };
+
+            const recordExport = () => {
+                const today = new Date().toDateString();
+                const exportHistory = JSON.parse(localStorage.getItem('exportHistory') || '{}');
+                exportHistory[today] = (exportHistory[today] || 0) + 1;
+                localStorage.setItem('exportHistory', JSON.stringify(exportHistory));
+            };
+
+            // Formats KDP officiels
+            const kdpFormats = {
+                '5x8': { width: 127, height: 203.2, name: '12,7 × 20,32 cm (5" × 8")', binding: ['paperback'], popular: true },
+                '5.25x8': { width: 133.4, height: 203.2, name: '13,34 × 20,32 cm (5,25" × 8")', binding: ['paperback'], popular: true },
+                '5.5x8.5': { width: 139.7, height: 215.9, name: '13,97 × 21,59 cm (5,5" × 8,5")', binding: ['paperback'], popular: true },
+                '6x9': { width: 152.4, height: 228.6, name: '15,24 × 22,86 cm (6" × 9") ⭐', binding: ['paperback'], popular: true },
+                '5.06x7.81': { width: 128.5, height: 198.4, name: '12,85 × 19,84 cm (5,06" × 7,81")', binding: ['paperback'] },
+                '6.14x9.21': { width: 156, height: 233.9, name: '15,6 × 23,39 cm (6,14" × 9,21")', binding: ['paperback'] },
+                '6.69x9.61': { width: 169.9, height: 244, name: '16,99 × 24,4 cm (6,69" × 9,61")', binding: ['paperback'] },
+                '7x10': { width: 177.8, height: 254, name: '17,78 × 25,4 cm (7" × 10")', binding: ['paperback'] },
+                '8x10': { width: 203.2, height: 254, name: '20,32 × 25,4 cm (8" × 10")', binding: ['paperback'] },
+                '8.5x11': { width: 215.9, height: 279.4, name: '21,59 × 27,94 cm (8,5" × 11")', binding: ['paperback'] },
+                '6x9-hc': { width: 152.4, height: 228.6, name: '15,24 × 22,86 cm (6" × 9") - Relié ⭐', binding: ['hardcover'], popular: true },
+                '7x10-hc': { width: 177.8, height: 254, name: '17,78 × 25,4 cm (7" × 10") - Relié', binding: ['hardcover'] },
+                '8.25x11-hc': { width: 209.5, height: 279.4, name: '20,95 × 27,94 cm (8,25" × 11") - Relié', binding: ['hardcover'] }
+            };
+
+            // Types de papier avec épaisseur
+            const paperThickness = {
+                paperback: {
+                    white: 0.0025,
+                    cream: 0.0025,
+                    color_standard: 0.004,
+                    color_premium: 0.004
+                },
+                hardcover: {
+                    white: 0.0025,
+                    cream: 0.0025,
+                    color: 0.0025
+                }
+            };
+
+            // Options papier
+            const paperOptions = {
+                paperback: [
+                    { 
+                        value: 'white', 
+                        labelFr: 'Intérieur noir et blanc avec papier blanc ⭐', 
+                        labelEn: 'Black & white interior with white paper ⭐'
+                    },
+                    { 
+                        value: 'cream', 
+                        labelFr: 'Intérieur noir et blanc avec papier crème', 
+                        labelEn: 'Black & white interior with cream paper'
+                    },
+                    { 
+                        value: 'color_standard', 
+                        labelFr: 'Intérieur couleur standard avec papier blanc', 
+                        labelEn: 'Standard color interior with white paper'
+                    },
+                    { 
+                        value: 'color_premium', 
+                        labelFr: 'Intérieur couleur premium avec papier blanc', 
+                        labelEn: 'Premium color interior with white paper'
+                    }
+                ],
+                hardcover: [
+                    { 
+                        value: 'white', 
+                        labelFr: 'Intérieur noir et blanc avec papier blanc ⭐', 
+                        labelEn: 'Black & white interior with white paper ⭐'
+                    },
+                    { 
+                        value: 'cream', 
+                        labelFr: 'Intérieur noir et blanc avec papier crème', 
+                        labelEn: 'Black & white interior with cream paper'
+                    },
+                    { 
+                        value: 'color', 
+                        labelFr: 'Intérieur couleur premium avec papier blanc', 
+                        labelEn: 'Premium color interior with white paper'
+                    }
+                ]
+            };
+
+            // Options finition
+            const coverFinishOptions = [
+                { value: 'matte', label: 'Mat ⭐' },
+                { value: 'glossy', label: 'Brillant' }
+            ];
+
+            // Contrôles de zoom
+            const handleZoomIn = () => {
+                setZoomLevel(prev => Math.min(prev + 0.2, 3.0));
+            };
+
+            const handleZoomOut = () => {
+                setZoomLevel(prev => Math.max(prev - 0.2, 0.3));
+            };
+
+            // Calcul des dimensions
+            const calculateDimensions = () => {
+                try {
+                    if (!format || !pageCount || !bindingType) return null;
+
+                    const formatData = kdpFormats[format];
+                    if (!formatData || !formatData.binding.includes(bindingType)) return null;
+
+                    const spineWidth = pageCount * paperThickness[bindingType][paperType] * 25.4;
+                    let bleed = 0;
+                    if (hasBleed) {
+                        bleed = bindingType === 'hardcover' ? 6.35 : 3.175;
+                    }
+
+                    if (bindingType === 'hardcover') {
+                        return {
+                            format: formatData,
+                            spine: 0,
+                            total: { width: formatData.width + (bleed * 2), height: formatData.height + (bleed * 2) },
+                            bleed,
+                            safeZone: hasBleed ? 12.7 : 6.35,
+                            barcodeZone: { width: 51, height: 23 },
+                            bindingType: 'hardcover',
+                            hasBleed
+                        };
+                    }
+
+                    const totalWidth = (formatData.width * 2) + spineWidth + (bleed * 2);
+                    const totalHeight = formatData.height + (bleed * 2);
+
+                    return {
+                        format: formatData,
+                        spine: spineWidth,
+                        total: { width: totalWidth, height: totalHeight },
+                        bleed,
+                        safeZone: hasBleed ? 6.35 : 3.175,
+                        barcodeZone: { width: 51, height: 23 },
+                        bindingType: 'paperback',
+                        hasBleed
+                    };
+                } catch (error) {
+                    console.error('Erreur dans calculateDimensions:', error);
+                    return null;
+                }
+            };
+
+            // Validation KDP intelligente
+            const validateKDPCompliance = useCallback(() => {
+                if (!dimensions) return { alerts: [], score: 0 };
+                
+                const alerts = [];
+                let totalScore = 0;
+                let scoreComponents = 0;
+
+                const formatData = dimensions.format;
+                
+                // Validation nombre de pages
+                if (pageCount < 24) {
+                    alerts.push({
+                        type: 'critical',
+                        category: 'pages',
+                        message: language === 'fr' 
+                            ? `REJET AMAZON: Minimum 24 pages requis (actuel: ${pageCount})`
+                            : `AMAZON REJECTION: Minimum 24 pages required (current: ${pageCount})`
+                    });
+                    totalScore += 0;
+                } else if (bindingType === 'hardcover' && pageCount < 75) {
+                    alerts.push({
+                        type: 'critical',
+                        category: 'pages',
+                        message: language === 'fr' 
+                            ? `REJET AMAZON: Livre relié minimum 75 pages (actuel: ${pageCount})`
+                            : `AMAZON REJECTION: Hardcover minimum 75 pages (current: ${pageCount})`
+                    });
+                    totalScore += 0;
+                } else {
+                    totalScore += 25;
+                    alerts.push({
+                        type: 'excellent',
+                        category: 'pages',
+                        message: language === 'fr' 
+                            ? `Pages conformes: ${pageCount} pages (Amazon acceptera)`
+                            : `Compliant pages: ${pageCount} pages (Amazon will accept)`
+                    });
+                }
+                scoreComponents++;
+
+                // Validation images
+                [
+                    { image: frontImage, name: language === 'fr' ? 'Face' : 'Front', position: 'front' },
+                    { image: backImage, name: language === 'fr' ? 'Verso' : 'Back', position: 'back' }
+                ].forEach(({ image, name, position }) => {
+                    if (image) {
+                        const actualDPI = Math.round((image.naturalWidth / formatData.width) * 25.4);
+                        
+                        if (actualDPI >= 300) {
+                            totalScore += 25;
+                            alerts.push({
+                                type: 'excellent',
+                                category: 'resolution',
+                                position,
+                                message: language === 'fr' 
+                                    ? `${name}: Résolution parfaite (${actualDPI} DPI) - Qualité impression optimale`
+                                    : `${name}: Perfect resolution (${actualDPI} DPI) - Optimal print quality`
+                            });
+                        } else if (actualDPI >= 200) {
+                            totalScore += 22;
+                            alerts.push({
+                                type: 'good',
+                                category: 'resolution',
+                                position,
+                                message: language === 'fr' 
+                                    ? `${name}: Résolution très bonne (${actualDPI} DPI) - Amazon acceptera sans problème`
+                                    : `${name}: Very good resolution (${actualDPI} DPI) - Amazon will accept without issue`
+                            });
+                        } else if (actualDPI >= 150) {
+                            totalScore += 18;
+                            alerts.push({
+                                type: 'warning',
+                                category: 'resolution',
+                                position,
+                                message: language === 'fr' 
+                                    ? `${name}: Résolution acceptable (${actualDPI} DPI) - Amazon acceptera mais qualité print variable`
+                                    : `${name}: Acceptable resolution (${actualDPI} DPI) - Amazon will accept but variable print quality`
+                            });
+                        } else {
+                            totalScore += 10;
+                            alerts.push({
+                                type: 'critical',
+                                category: 'resolution',
+                                position,
+                                message: language === 'fr' 
+                                    ? `${name}: Résolution faible (${actualDPI} DPI) - Risque de rejet Amazon ou qualité médiocre`
+                                    : `${name}: Low resolution (${actualDPI} DPI) - Risk of Amazon rejection or poor quality`
+                            });
+                        }
+                        
+                        scoreComponents++;
+                    }
+                });
+
+                // Validation tranche
+                if (dimensions.bindingType === 'paperback') {
+                    const spineWidthMM = dimensions.spine;
+                    
+                    if (spineText && spineWidthMM < 1.8) {
+                        alerts.push({
+                            type: 'warning',
+                            category: 'spine',
+                            message: language === 'fr' 
+                                ? `Tranche très fine (${spineWidthMM.toFixed(1)}mm): Texte difficile à lire mais Amazon acceptera`
+                                : `Very thin spine (${spineWidthMM.toFixed(1)}mm): Text hard to read but Amazon will accept`
+                        });
+                        totalScore += 15;
+                    } else if (spineText && spineWidthMM < 2.8) {
+                        alerts.push({
+                            type: 'good',
+                            category: 'spine',
+                            message: language === 'fr' 
+                                ? `Tranche fine (${spineWidthMM.toFixed(1)}mm): Texte lisible, Amazon acceptera sans problème`
+                                : `Thin spine (${spineWidthMM.toFixed(1)}mm): Readable text, Amazon will accept without issue`
+                        });
+                        totalScore += 22;
+                    } else if (spineWidthMM >= 2.8) {
+                        alerts.push({
+                            type: 'excellent',
+                            category: 'spine',
+                            message: language === 'fr' 
+                                ? `Tranche parfaite (${spineWidthMM.toFixed(1)}mm): Idéale pour texte et image, visibilité optimale`
+                                : `Perfect spine (${spineWidthMM.toFixed(1)}mm): Ideal for text and image, optimal visibility`
+                        });
+                        totalScore += 25;
+                    } else {
+                        totalScore += 20;
+                    }
+                    scoreComponents++;
+                }
+
+                // Informations utiles
+                if (backImage) {
+                    alerts.push({
+                        type: 'info',
+                        category: 'barcode',
+                        message: language === 'fr' 
+                            ? `Amazon placera automatiquement le code-barres en bas-droite (zone 51×23mm) - évitez d'y mettre du texte important`
+                            : `Amazon will automatically place barcode bottom-right (51×23mm zone) - avoid important text there`
+                    });
+                }
+
+                if (!hasBleed && (frontImage || backImage)) {
+                    alerts.push({
+                        type: 'info',
+                        category: 'bleed',
+                        message: language === 'fr' 
+                            ? `Conseil: Activez le fond perdu pour éviter les liserés blancs si vos images vont jusqu'au bord`
+                            : `Tip: Enable bleed to avoid white borders if your images extend to the edge`
+                    });
+                }
+
+                if (format === '6x9' || format === '6x9-hc') {
+                    alerts.push({
+                        type: 'info',
+                        category: 'format',
+                        message: language === 'fr' 
+                            ? `Format 6×9": Le plus populaire sur Amazon - excellent choix pour la visibilité`
+                            : `6×9" format: Most popular on Amazon - excellent choice for visibility`
+                    });
+                }
+
+                const finalScore = scoreComponents > 0 ? Math.round(totalScore / scoreComponents) : 0;
+
+                return { alerts, score: finalScore };
+            }, [dimensions, frontImage, backImage, spineImage, spineText, bindingType, hasBleed, pageCount, language, format]);
+
+            // Mettre à jour les alertes et score
+            useEffect(() => {
+                const validation = validateKDPCompliance();
+                setWarnings(validation.alerts);
+                setOverallScore(validation.score);
+            }, [validateKDPCompliance]);
+
+            // Fonction pour obtenir la classe CSS du score
+            const getScoreClass = (score) => {
+                if (score >= 23) return 'score-excellent';
+                if (score >= 19) return 'score-tres-bon';
+                if (score >= 15) return 'score-acceptable';
+                return 'score-problematique';
+            };
+
+            // Fonction pour obtenir le label du score
+            const getScoreLabel = (score) => {
+                if (score >= 23) return { label: t('scoreExcellent'), subtitle: t('scoreSubtitleExcellent') };
+                if (score >= 19) return { label: t('scoreTresBon'), subtitle: t('scoreSubtitleTresBon') };
+                if (score >= 15) return { label: t('scoreAcceptable'), subtitle: t('scoreSubtitleAcceptable') };
+                return { label: t('scoreProblematique'), subtitle: t('scoreSubtitleProblematique') };
+            };
+
+            // Upload d'image
+            const handleImageUpload = (file, type) => {
+                if (!file) return;
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        const imageData = {
+                            file,
+                            url: e.target.result,
+                            naturalWidth: img.naturalWidth,
+                            naturalHeight: img.naturalHeight,
+                            quality: img.naturalWidth > 3000 ? 'Ultra HD 4K' : img.naturalWidth > 2000 ? 'Haute' : img.naturalWidth > 1000 ? 'Moyenne' : 'Standard',
+                            source: 'upload'
+                        };
+
+                        switch(type) {
+                            case 'front': setFrontImage(imageData); break;
+                            case 'back': setBackImage(imageData); break;
+                            case 'spine': setSpineImage(imageData); break;
+                        }
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            };
+
+            // Supprimer image
+            const removeImage = (type) => {
+                switch(type) {
+                    case 'front': setFrontImage(null); break;
+                    case 'back': setBackImage(null); break;
+                    case 'spine': setSpineImage(null); break;
+                }
+            };
+
+            // Rendu aperçu simple
+            const drawPreview = useCallback(() => {
+                if (!dimensions || !canvasRef.current) return;
+
+                try {
+                    const canvas = canvasRef.current;
+                    const ctx = canvas.getContext('2d');
+                    
+                    const displayWidth = 600;
+                    const displayHeight = 400;
+                    
+                    canvas.width = displayWidth;
+                    canvas.height = displayHeight;
+                    canvas.style.width = displayWidth + 'px';
+                    canvas.style.height = displayHeight + 'px';
+                    
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    
+                    // Fond blanc
+                    ctx.fillStyle = '#ffffff';
+                    ctx.fillRect(0, 0, displayWidth, displayHeight);
+                    
+                    // Bordure
+                    ctx.strokeStyle = '#333333';
+                    ctx.lineWidth = 2;
+                    ctx.strokeRect(10, 10, displayWidth - 20, displayHeight - 20);
+
+                    if (dimensions.bindingType === 'paperback') {
+                        const bookWidth = displayWidth - 40;
+                        const bookHeight = displayHeight - 40;
+                        const startX = 20;
+                        const startY = 20;
+                        
+                        const totalWidth = dimensions.total.width;
+                        const frontW = dimensions.format.width;
+                        const spineW = dimensions.spine;
+                        const backW = dimensions.format.width;
+                        
+                        const frontWidth = (frontW / totalWidth) * bookWidth;
+                        const spineWidth = (spineW / totalWidth) * bookWidth;
+                        const backWidth = (backW / totalWidth) * bookWidth;
+
+                        // Couleur de fond de la tranche
+                        if (spineWidth > 5 && spineColor && spineColor !== '#ffffff') {
+                            ctx.fillStyle = spineColor;
+                            ctx.fillRect(startX + backWidth, startY, spineWidth, bookHeight);
+                        }
+
+                        // Lignes de séparation
+                        ctx.strokeStyle = '#888888';
+                        ctx.lineWidth = 1;
+                        ctx.setLineDash([5, 5]);
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(startX + backWidth, startY);
+                        ctx.lineTo(startX + backWidth, startY + bookHeight);
+                        ctx.stroke();
+                        
+                        ctx.beginPath();
+                        ctx.moveTo(startX + backWidth + spineWidth, startY);
+                        ctx.lineTo(startX + backWidth + spineWidth, startY + bookHeight);
+                        ctx.stroke();
+                        
+                        ctx.setLineDash([]);
+
+                        // VERSO
+                        if (backImage && backImage.url) {
+                            const img = new Image();
+                            img.crossOrigin = "anonymous";
+                            img.onload = () => {
+                                ctx.drawImage(img, startX, startY, backWidth, bookHeight);
+                            };
+                            img.src = backImage.url;
+                        } else {
+                            ctx.fillStyle = '#f3f4f6';
+                            ctx.fillRect(startX, startY, backWidth, bookHeight);
+                            ctx.fillStyle = '#6b7280';
+                            ctx.font = '14px Arial';
+                            ctx.textAlign = 'center';
+                            ctx.fillText('VERSO', startX + backWidth/2, startY + bookHeight/2);
+                        }
+
+                        // DOS
+                        if (spineWidth > 10) {
+                            if (spineImage && spineImage.url) {
+                                const img = new Image();
+                                img.crossOrigin = "anonymous";
+                                img.onload = () => {
+                                    ctx.drawImage(img, startX + backWidth, startY, spineWidth, bookHeight);
+                                };
+                                img.src = spineImage.url;
+                            } else {
+                                if (!spineColor || spineColor === '#ffffff') {
+                                    ctx.fillStyle = '#f3f4f6';
+                                    ctx.fillRect(startX + backWidth, startY, spineWidth, bookHeight);
+                                }
+                                ctx.fillStyle = '#6b7280';
+                                ctx.font = '12px Arial';
+                                ctx.textAlign = 'center';
+                                ctx.save();
+                                ctx.translate(startX + backWidth + spineWidth/2, startY + bookHeight/2);
+                                ctx.rotate(-Math.PI / 2);
+                                ctx.fillText('DOS', 0, 0);
+                                ctx.restore();
+                            }
+
+                            // Texte du dos
+                            if (spineText && spineWidth > 15) {
+                                ctx.fillStyle = spineTextColor || '#333333';
+                                ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`;
+                                ctx.textAlign = 'center';
+                                ctx.save();
+                                ctx.translate(startX + backWidth + spineWidth/2, startY + bookHeight/2 + 30);
+                                ctx.rotate(-Math.PI / 2);
+                                ctx.fillText(spineText, 0, 0);
+                                ctx.restore();
+                            }
+                        }
+
+                        // FACE
+                        if (frontImage && frontImage.url) {
+                            const img = new Image();
+                            img.crossOrigin = "anonymous";
+                            img.onload = () => {
+                                ctx.drawImage(img, startX + backWidth + spineWidth, startY, frontWidth, bookHeight);
+                            };
+                            img.src = frontImage.url;
+                        } else {
+                            ctx.fillStyle = '#f3f4f6';
+                            ctx.fillRect(startX + backWidth + spineWidth, startY, frontWidth, bookHeight);
+                            ctx.fillStyle = '#6b7280';
+                            ctx.font = '14px Arial';
+                            ctx.textAlign = 'center';
+                            ctx.fillText('FACE', startX + backWidth + spineWidth + frontWidth/2, startY + bookHeight/2);
+                        }
+                    }
+
+                    // Info dimensions
+                    ctx.fillStyle = '#374151';
+                    ctx.font = 'bold 14px Arial';
+                    ctx.textAlign = 'left';
+                    ctx.fillText(
+                        `${Math.round(dimensions.total.width)}×${Math.round(dimensions.total.height)}mm`, 
+                        15, 
+                        displayHeight - 15
+                    );
+
+                } catch (error) {
+                    console.error('❌ Erreur dans drawPreview:', error);
+                }
+            }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont]);
+
+            // Export 4K
+            const exportImage = () => {
+                setIsExporting(true);
+
+                setTimeout(() => {
+                    try {
+                        const exportCanvas = document.createElement('canvas');
+                        const exportCtx = exportCanvas.getContext('2d');
+                        
+                        const dpi300Scale = 11.811; // Qualité 300 DPI maintenue
+                        const exportWidth = Math.round(dimensions.total.width * dpi300Scale);
+                        const exportHeight = Math.round(dimensions.total.height * dpi300Scale);
+                        
+                        exportCanvas.width = exportWidth;
+                        exportCanvas.height = exportHeight;
+                        
+                        exportCtx.imageSmoothingEnabled = true;
+                        exportCtx.imageSmoothingQuality = 'high';
+                        
+                        exportCtx.fillStyle = '#ffffff';
+                        exportCtx.fillRect(0, 0, exportWidth, exportHeight);
+
+                        if (dimensions.bindingType === 'paperback') {
+                            const frontWidth = dimensions.format.width * dpi300Scale;
+                            const spineWidth = dimensions.spine * dpi300Scale;
+                            const bleedMargin = dimensions.bleed * dpi300Scale;
+
+                            if (dimensions.spine >= 1.0 && spineColor && spineColor !== '#ffffff') {
+                                exportCtx.fillStyle = spineColor;
+                                exportCtx.fillRect(bleedMargin + frontWidth, 0, spineWidth, exportHeight);
+                            }
+
+                            let imagesProcessed = 0;
+                            const totalImages = [frontImage, backImage, spineImage].filter(Boolean).length;
+                            
+                            const finalizeExport = () => {
+                                // Texte du dos si applicable
+                                if (spineText && spineWidth > 40 && dimensions.spine > 1.5) {
+                                    exportCtx.save();
+                                    exportCtx.translate(bleedMargin + frontWidth + spineWidth / 2, exportHeight / 2);
+                                    exportCtx.rotate(-Math.PI / 2);
+                                    exportCtx.fillStyle = spineTextColor || '#333333';
+                                    const fontSize = Math.max(24, spineTextSize * dpi300Scale / 2.5);
+                                    exportCtx.font = `${fontSize}px ${spineTextFont}`;
+                                    exportCtx.textAlign = 'center';
+                                    exportCtx.textBaseline = 'middle';
+                                    exportCtx.fillText(spineText, 0, 0);
+                                    exportCtx.restore();
+                                }
+
+                                // WATERMARK seulement pour utilisateurs anonymes
+                                const currentLimits = checkExportLimits();
+                                if (currentLimits.level === 'anonymous') {
+                                    // Watermark discret pour utilisateurs non-inscrits
+                                    exportCtx.save();
+                                    exportCtx.globalAlpha = 0.5; // Visible mais pas gênant
+                                    exportCtx.fillStyle = '#333333';
+                                    exportCtx.font = `${Math.round(exportWidth * 0.012)}px Arial`;
+                                    exportCtx.textAlign = 'right';
+                                    exportCtx.textBaseline = 'bottom';
+                                    
+                                    // Watermark en bas à droite
+                                    const watermarkText = 'gabaritkdp.com';
+                                    const margin = exportWidth * 0.03;
+                                    exportCtx.fillText(watermarkText, exportWidth - margin, exportHeight - margin);
+                                    
+                                    exportCtx.restore();
+                                }
+
+                                const link = document.createElement('a');
+                                const userLevel = checkExportLimits().level;
+                                const filename = `couverture-kdp-${userLevel}-${format}-${pageCount}pages-300dpi.png`;
+                                link.download = filename;
+                                link.href = exportCanvas.toDataURL('image/png', 1.0);
+                                link.click();
+
+                                const fileSize = (exportCanvas.toDataURL().length / 1024 / 1024 * 0.75).toFixed(1);
+                                
+                                let successMessage;
+                                if (userLevel === 'verified') {
+                                    successMessage = language === 'fr' 
+                                        ? `✅ Couverture Premium exportée !\n\n📐 ${exportWidth}×${exportHeight}px (300 DPI)\n📁 ${fileSize} MB\n🏆 Compte vérifié - Qualité maximale sans watermark`
+                                        : `✅ Premium Cover exported!\n\n📐 ${exportWidth}×${exportHeight}px (300 DPI)\n📁 ${fileSize} MB\n🏆 Verified account - Maximum quality without watermark`;
+                                } else if (userLevel === 'registered') {
+                                    successMessage = language === 'fr' 
+                                        ? `✅ Couverture exportée sans watermark !\n\n📐 ${exportWidth}×${exportHeight}px (300 DPI)\n📁 ${fileSize} MB\n📧 Vérifiez votre email pour encore + d'exports`
+                                        : `✅ Cover exported without watermark!\n\n📐 ${exportWidth}×${exportHeight}px (300 DPI)\n📁 ${fileSize} MB\n📧 Verify your email for even more exports`;
+                                } else {
+                                    successMessage = language === 'fr' 
+                                        ? `✅ Couverture exportée !\n\n📐 ${exportWidth}×${exportHeight}px (300 DPI)\n📁 ${fileSize} MB\n🎁 Watermark discret ajouté\n\n🚀 Créez un compte gratuit pour exports sans watermark !`
+                                        : `✅ Cover exported!\n\n📐 ${exportWidth}×${exportHeight}px (300 DPI)\n📁 ${fileSize} MB\n🎁 Discrete watermark added\n\n🚀 Create free account for exports without watermark!`;
+                                }
+                                
+                                alert(successMessage);
+                                setIsExporting(false);
+                            };
+
+                            const processImage4K = (imageData, x, y, width, height) => {
+                                if (!imageData?.url) {
+                                    imagesProcessed++;
+                                    if (imagesProcessed >= totalImages || totalImages === 0) finalizeExport();
+                                    return;
+                                }
+                                
+                                const img = new Image();
+                                img.crossOrigin = "anonymous";
+                                img.onload = () => {
+                                    try {
+                                        const tempCanvas = document.createElement('canvas');
+                                        const tempCtx = tempCanvas.getContext('2d');
+                                        
+                                        tempCanvas.width = imageData.naturalWidth;
+                                        tempCanvas.height = imageData.naturalHeight;
+                                        
+                                        tempCtx.imageSmoothingEnabled = true;
+                                        tempCtx.imageSmoothingQuality = 'high';
+                                        tempCtx.drawImage(img, 0, 0);
+                                        
+                                        exportCtx.save();
+                                        exportCtx.imageSmoothingEnabled = true;
+                                        exportCtx.imageSmoothingQuality = 'high';
+                                        exportCtx.drawImage(tempCanvas, x, y, width, height);
+                                        exportCtx.restore();
+                                        
+                                        imagesProcessed++;
+                                        if (imagesProcessed >= totalImages) finalizeExport();
+                                    } catch (e) {
+                                        imagesProcessed++;
+                                        if (imagesProcessed >= totalImages) finalizeExport();
+                                    }
+                                };
+                                img.src = imageData.url;
+                            };
+
+                            processImage4K(backImage, bleedMargin, bleedMargin, frontWidth, dimensions.format.height * dpi300Scale);
+                            processImage4K(frontImage, bleedMargin + frontWidth + spineWidth, bleedMargin, frontWidth, dimensions.format.height * dpi300Scale);
+                            
+                            if (dimensions.spine >= 2.0 && spineImage) {
+                                processImage4K(spineImage, bleedMargin + frontWidth, bleedMargin, spineWidth, dimensions.format.height * dpi300Scale);
+                            }
+
+                            if (totalImages === 0) {
+                                finalizeExport();
+                            }
+                        }
+                        
+                    } catch (error) {
+                        console.error('❌ Erreur export 4K:', error);
+                        const errorMessage = language === 'fr' ? '❌ Erreur lors de l\'export 4K: ' + error.message : '❌ 4K Export error: ' + error.message;
+                        alert(errorMessage);
+                        setIsExporting(false);
+                    }
+                }, 200);
+            };
+
+            const handleExportClick = () => {
+                if (!dimensions) {
+                    const message = language === 'fr' ? 'Veuillez d\'abord sélectionner un format' : 'Please select a format first';
+                    alert(message);
+                    return;
+                }
+                
+                const limits = checkExportLimits();
+                
+                if (!limits.canExport) {
+                    // Limite atteinte - Proposer inscription
+                    const message = language === 'fr' 
+                        ? `🎯 Limite quotidienne atteinte (${limits.level === 'anonymous' ? '3' : '5'} exports)\n\n💡 Solutions :\n✅ Créez un compte gratuit → 10 exports/jour\n✅ Revenez demain\n✅ Passez au Premium → exports illimités\n\nVoulez-vous créer un compte gratuit ?`
+                        : `🎯 Daily limit reached (${limits.level === 'anonymous' ? '3' : '5'} exports)\n\n💡 Solutions:\n✅ Create free account → 10 exports/day\n✅ Come back tomorrow\n✅ Upgrade to Premium → unlimited\n\nCreate a free account?`;
+                    
+                    if (confirm(message)) {
+                        // TODO: Rediriger vers page d'inscription
+                        window.location.href = 'inscription.html';
+                    }
+                    return;
+                }
+                
+                // Afficher info remaining avant export
+                if (limits.level === 'anonymous' && limits.remaining <= 1) {
+                    const infoMessage = language === 'fr'
+                        ? `ℹ️ Il vous reste ${limits.remaining} export(s) gratuit(s) aujourd'hui.\n\n💡 Créez un compte gratuit pour 10 exports/jour sans watermark !`
+                        : `ℹ️ You have ${limits.remaining} free export(s) left today.\n\n💡 Create a free account for 10 exports/day without watermark!`;
+                    
+                    if (!confirm(infoMessage + '\n\nContinuer l\'export ?')) {
+                        return;
+                    }
+                }
+                
+                exportImage();
+                recordExport();
+            };
+
+            const resetForm = () => {
+                if (confirm(language === 'fr' ? 'Êtes-vous sûr de vouloir effacer votre projet actuel ?' : 'Are you sure you want to clear your current project?')) {
+                    setFormat('');
+                    setPaperType('white');
+                    setBindingType('paperback');
+                    setCoverFinish('matte');
+                    setHasBleed(false);
+                    setPageCount(100);
+                    setSpineText('');
+                    setFrontImage(null);
+                    setBackImage(null);
+                    setSpineImage(null);
+                    setSpineColor('#ffffff');
+                    setSpineTextColor('#000000');
+                    setSpineTextSize(12);
+                    setSpineTextFont('Arial');
+                    setZoomLevel(1.5);
+                }
+            };
+
+            // Exposer la fonction de changement de langue
+            useEffect(() => {
+                window.reactSetLanguage = (lang) => {
+                    setLanguage(lang);
+                    window.currentLang = lang;
+                };
+            }, []);
+
+            // Redessiner aperçu
+            useEffect(() => {
+                if (dimensions && canvasRef.current) {
+                    const timer = setTimeout(() => {
+                        drawPreview();
+                    }, 200);
+                    return () => clearTimeout(timer);
+                }
+            }, [dimensions, drawPreview]);
+
+            useEffect(() => {
+                if (dimensions && canvasRef.current) {
+                    const timer = setTimeout(() => {
+                        drawPreview();
+                    }, 100);
+                    return () => clearTimeout(timer);
+                }
+            }, [frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, drawPreview]);
+
+            useEffect(() => {
+                const newDimensions = calculateDimensions();
+                setDimensions(newDimensions);
+                if (format && kdpFormats[format] && !kdpFormats[format].binding.includes(bindingType)) {
+                    setFormat('');
+                }
+                if (!paperOptions[bindingType].find(p => p.value === paperType)) {
+                    setPaperType('white');
+                }
+            }, [format, pageCount, paperType, bindingType, hasBleed]);
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Bandeau système doux mais protégé */}
+                    <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white text-center py-2">
+                        <div className="flex items-center justify-center gap-2 text-sm font-medium">
+                            <span>🎁</span>
+                            <span>Créez vos couvertures KDP gratuitement</span>
+                            <span>•</span>
+                            <span>3 exports/jour sans compte • 10/jour avec compte gratuit</span>
+                            <span>•</span>
+                            <span>🚀 Premium pour exports illimités</span>
+                        </div>
+                    </div>
+
+                    {/* Header avec statut */}
+                    <div className="bg-white border-b border-gray-200 mb-6">
+                        <div className="max-w-7xl mx-auto px-6 py-6">
+                            <div className="flex items-center justify-between">
+                                <div>
+                                    <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
+                                        <span className="text-4xl">📚</span>
+                                        {t('title')}
+                                    </h1>
+                                    <p className="text-gray-600 mt-2 flex items-center gap-2">
+                                        <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-semibold">
+                                            🎁 {checkExportLimits().remaining} exports restants
+                                        </span>
+                                        {t('subtitle')}
+                                    </p>
+                                </div>
+                                
+                                <div className="text-center">
+                                    <div className={`text-white rounded-full px-4 py-2 text-sm font-semibold ${
+                                        checkExportLimits().level === 'verified' 
+                                            ? 'bg-gradient-to-r from-green-500 to-emerald-500'
+                                            : checkExportLimits().level === 'registered'
+                                            ? 'bg-gradient-to-r from-blue-500 to-cyan-500'
+                                            : 'bg-gradient-to-r from-orange-500 to-yellow-500'
+                                    }`}>
+                                        <div className="font-bold">
+                                            {checkExportLimits().level === 'verified' ? '✅ COMPTE VÉRIFIÉ' :
+                                             checkExportLimits().level === 'registered' ? '📧 COMPTE CRÉÉ' :
+                                             '🎁 DÉCOUVERTE'}
+                                        </div>
+                                        <div className="text-xs opacity-90">
+                                            {checkExportLimits().remaining} exports restants aujourd'hui
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Layout principal */}
+                    <div className="generator-layout">
+                        {/* Sidebar gauche - Paramètres */}
+                        <div className="sidebar">
+                            <div className="sidebar-section">
+                                <h2 className="sidebar-title">
+                                    {t('bookSettings')}
+                                </h2>
+                                
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('bindingType')}</label>
+                                        <select 
+                                            value={bindingType} 
+                                            onChange={(e) => setBindingType(e.target.value)}
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="paperback">{t('paperback')}</option>
+                                            <option value="hardcover">{t('hardcover')}</option>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('kdpFormat')}</label>
+                                        <select 
+                                            value={format} 
+                                            onChange={(e) => setFormat(e.target.value)}
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="">{t('selectFormat')}</option>
+                                            
+                                            {bindingType === 'paperback' && (
+                                                <optgroup label={`📈 ${t('popularSizes')}`}>
+                                                    {Object.entries(kdpFormats)
+                                                        .filter(([key, data]) => data.binding.includes(bindingType) && data.popular)
+                                                        .map(([key, data]) => (
+                                                            <option key={key} value={key}>{data.name}</option>
+                                                        ))}
+                                                </optgroup>
+                                            )}
+                                            
+                                            <optgroup label={`📚 ${bindingType === 'paperback' ? t('otherSizes') : t('hardcoverFormats')}`}>
+                                                {Object.entries(kdpFormats)
+                                                    .filter(([key, data]) => data.binding.includes(bindingType) && !data.popular)
+                                                    .map(([key, data]) => (
+                                                        <option key={key} value={key}>{data.name}</option>
+                                                    ))}
+                                            </optgroup>
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('pageCount')}</label>
+                                        <input 
+                                            type="number" 
+                                            value={pageCount}
+                                            onChange={(e) => setPageCount(parseInt(e.target.value) || 0)}
+                                            min={bindingType === 'hardcover' ? 75 : 24}
+                                            max={bindingType === 'hardcover' ? 550 : 828}
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label className="flex items-center space-x-2">
+                                            <input
+                                                type="checkbox"
+                                                checked={hasBleed}
+                                                onChange={(e) => setHasBleed(e.target.checked)}
+                                                className="rounded"
+                                            />
+                                            <span className="text-sm">{t('bleed')}</span>
+                                        </label>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('paperType')}</label>
+                                        <select 
+                                            value={paperType} 
+                                            onChange={(e) => setPaperType(e.target.value)}
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            {paperOptions[bindingType].map(option => (
+                                                <option key={option.value} value={option.value}>
+                                                    {language === 'fr' ? option.labelFr : option.labelEn}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('coverFinish')}</label>
+                                        <select 
+                                            value={coverFinish} 
+                                            onChange={(e) => setCoverFinish(e.target.value)}
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            {coverFinishOptions.map(option => (
+                                                <option key={option.value} value={option.value}>
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('spineText')}</label>
+                                        <input 
+                                            type="text" 
+                                            value={spineText}
+                                            onChange={(e) => setSpineText(e.target.value)}
+                                            placeholder={bindingType === 'hardcover' ? t('spineTextAuto') : dimensions && dimensions.spine < 1.5 ? t('spineTextThin') : t('spineTextHelp')}
+                                            disabled={bindingType === 'hardcover' || (dimensions && dimensions.spine < 1.5)}
+                                            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
+                                        />
+
+                                        {spineText && bindingType === 'paperback' && dimensions && dimensions.spine > 1.5 && (
+                                            <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
+                                                <h4 className="font-medium text-gray-700">Options du texte de la tranche</h4>
+                                                
+                                                <div className="grid grid-cols-1 gap-3">
+                                                    <div>
+                                                        <label className="block text-sm font-medium text-gray-700 mb-1">{t('spineTextFont')}</label>
+                                                        <select 
+                                                            value={spineTextFont} 
+                                                            onChange={(e) => setSpineTextFont(e.target.value)}
+                                                            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 text-sm"
+                                                        >
+                                                            <option value="Arial">Arial</option>
+                                                            <option value="Georgia">Georgia</option>
+                                                            <option value="Times New Roman">Times New Roman</option>
+                                                            <option value="Helvetica">Helvetica</option>
+                                                            <option value="Verdana">Verdana</option>
+                                                            <option value="Impact">Impact</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="block text-sm font-medium text-gray-700 mb-1">{t('spineTextSize')}</label>
+                                                        <input 
+                                                            type="range"
+                                                            min="8"
+                                                            max="24"
+                                                            value={spineTextSize}
+                                                            onChange={(e) => setSpineTextSize(parseInt(e.target.value))}
+                                                            className="w-full"
+                                                        />
+                                                        <div className="text-xs text-gray-500 text-center">{spineTextSize}px</div>
+                                                    </div>
+
+                                                    <div>
+                                                        <label className="block text-sm font-medium text-gray-700 mb-1">{t('spineTextColor')}</label>
+                                                        <div className="flex items-center space-x-3">
+                                                            <input
+                                                                type="color"
+                                                                value={spineTextColor}
+                                                                onChange={(e) => setSpineTextColor(e.target.value)}
+                                                                className="w-12 h-8 border border-gray-300 rounded cursor-pointer"
+                                                            />
+                                                            <span className="text-sm text-gray-600">{spineTextColor}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {dimensions && (
+                                        <div className="bg-blue-50 p-4 rounded-lg">
+                                            <h3 className="font-medium text-blue-900 mb-2">📐 {t('calculatedDimensions')}</h3>
+                                            <div className="text-sm text-blue-800 space-y-1">
+                                                <div><strong>{t('totalWidth')}: {Math.round(dimensions.total.width * 10) / 10} mm</strong></div>
+                                                <div><strong>{t('totalHeight')}: {Math.round(dimensions.total.height * 10) / 10} mm</strong></div>
+                                                {dimensions.bindingType === 'paperback' && (
+                                                    <div>
+                                                        {t('spineThickness')}: {Math.round(dimensions.spine * 10) / 10} mm
+                                                        {dimensions.spine < 1.5 && (
+                                                            <span className="text-orange-600 ml-2">{t('thinSpine')}</span>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Section Upload Images */}
+                            <div className="sidebar-section">
+                                <h2 className="sidebar-title">
+                                    📁 {t('images')}
+                                </h2>
+                                
+                                <div className="space-y-4">
+                                    {/* Image Face */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('frontImage')}</label>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => handleImageUpload(e.target.files[0], 'front')}
+                                            className="w-full p-2 border border-gray-300 rounded-lg text-sm"
+                                        />
+                                        {frontImage && (
+                                            <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                                                <img src={frontImage.url} alt="Face" className="w-full h-16 object-cover rounded mb-2" />
+                                                <div className="text-xs text-gray-600 mb-2">
+                                                    {frontImage.naturalWidth}×{frontImage.naturalHeight}px
+                                                    <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                                                        {frontImage.quality}
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    onClick={() => removeImage('front')}
+                                                    className="w-full bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                                                >
+                                                    ❌ {t('removeImage')}
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Image Verso */}
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">{t('backImage')}</label>
+                                        <input
+                                            type="file"
+                                            accept="image/*"
+                                            onChange={(e) => handleImageUpload(e.target.files[0], 'back')}
+                                            className="w-full p-2 border border-gray-300 rounded-lg text-sm"
+                                        />
+                                        {backImage && (
+                                            <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                                                <img src={backImage.url} alt="Verso" className="w-full h-16 object-cover rounded mb-2" />
+                                                <div className="text-xs text-gray-600 mb-2">
+                                                    {backImage.naturalWidth}×{backImage.naturalHeight}px
+                                                    <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                                                        {backImage.quality}
+                                                    </span>
+                                                </div>
+                                                <button
+                                                    onClick={() => removeImage('back')}
+                                                    className="w-full bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                                                >
+                                                    ❌ {t('removeImage')}
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Image Dos */}
+                                    {bindingType === 'paperback' && dimensions && dimensions.spine > 1.5 && (
+                                        <div>
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">{t('spineImage')}</label>
+                                            <input
+                                                type="file"
+                                                accept="image/*"
+                                                onChange={(e) => handleImageUpload(e.target.files[0], 'spine')}
+                                                className="w-full p-2 border border-gray-300 rounded-lg text-sm"
+                                            />
+                                            {spineImage && (
+                                                <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                                                    <img src={spineImage.url} alt="Dos" className="w-full h-16 object-cover rounded mb-2" />
+                                                    <div className="text-xs text-gray-600 mb-2">
+                                                        {spineImage.naturalWidth}×{spineImage.naturalHeight}px
+                                                        <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 rounded text-xs">
+                                                            {spineImage.quality}
+                                                        </span>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => removeImage('spine')}
+                                                        className="w-full bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+                                                    >
+                                                        ❌ {t('removeImage')}
+                                                    </button>
+                                                </div>
+                                            )}
+
+                                            <div className="mt-4">
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">{t('spineColor')}</label>
+                                                <div className="flex items-center space-x-2">
+                                                    <input
+                                                        type="color"
+                                                        value={spineColor}
+                                                        onChange={(e) => setSpineColor(e.target.value)}
+                                                        className="w-10 h-8 border border-gray-300 rounded cursor-pointer"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        value={spineColor}
+                                                        onChange={(e) => setSpineColor(e.target.value)}
+                                                        className="flex-1 px-2 py-1 text-xs border border-gray-300 rounded"
+                                                    />
+                                                </div>
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    {language === 'fr' ? 'Couleur de fond si pas d\'image de tranche' : 'Background color if no spine image'}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Section tranche fine */}
+                                    {bindingType === 'paperback' && dimensions && dimensions.spine > 0 && dimensions.spine <= 1.5 && (
+                                        <div className="bg-orange-50 border border-orange-200 rounded-lg p-3">
+                                            <h4 className="font-medium text-orange-900 mb-2 text-sm">
+                                                {language === 'fr' ? '📏 Tranche fine détectée' : '📏 Thin spine detected'}
+                                            </h4>
+                                            <p className="text-orange-800 text-xs mb-3">
+                                                {language === 'fr' 
+                                                    ? `Épaisseur: ${Math.round(dimensions.spine * 10) / 10}mm - Tranche trop fine pour du texte ou une image. Seule la couleur de fond est recommandée.`
+                                                    : `Thickness: ${Math.round(dimensions.spine * 10) / 10}mm - Spine too thin for text or image. Only background color is recommended.`
+                                                }
+                                            </p>
+                                            
+                                            <div>
+                                                <label className="block text-sm font-medium text-gray-700 mb-2">{t('spineColor')}</label>
+                                                <div className="flex items-center space-x-2">
+                                                    <input
+                                                        type="color"
+                                                        value={spineColor}
+                                                        onChange={(e) => setSpineColor(e.target.value)}
+                                                        className="w-10 h-8 border border-gray-300 rounded cursor-pointer"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        value={spineColor}
+                                                        onChange={(e) => setSpineColor(e.target.value)}
+                                                        className="flex-1 px-2 py-1 text-xs border border-gray-300 rounded"
+                                                    />
+                                                </div>
+                                                <p className="text-xs text-gray-500 mt-1">
+                                                    {language === 'fr' ? 'Couleur de la tranche fine' : 'Thin spine color'}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Zone d'aperçu centrale */}
+                        <div className="preview-zone">
+                            <div className="preview-header">
+                                <div className="preview-title">
+                                    {t('preview4k')}
+                                </div>
+                                
+                                <div className="preview-controls">
+                                    <button
+                                        onClick={handleZoomOut}
+                                        className="zoom-btn"
+                                        title={t('zoomOut')}
+                                    >
+                                        🔍-
+                                    </button>
+                                    
+                                    <span className="text-sm font-medium text-gray-600 mx-2">
+                                        {Math.round(zoomLevel * 100)}%
+                                    </span>
+                                    
+                                    <button
+                                        onClick={handleZoomIn}
+                                        className="zoom-btn"
+                                        title={t('zoomIn')}
+                                    >
+                                        🔍+
+                                    </button>
+                                    
+                                    <select
+                                        value={canvasQuality}
+                                        onChange={(e) => setCanvasQuality(e.target.value)}
+                                        className="ml-3 px-3 py-1 border border-gray-300 rounded text-sm"
+                                    >
+                                        <option value="Standard">Standard</option>
+                                        <option value="4K">4K Ultra HD</option>
+                                        <option value="8K">8K (Expérimental)</option>
+                                    </select>
+                                    
+                                    <button
+                                        onClick={resetForm}
+                                        className="ml-2 px-3 py-1 bg-gray-500 text-white rounded text-sm hover:bg-gray-600"
+                                        title={t('resetForm')}
+                                    >
+                                        🔄
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div className="canvas-container">
+                                {dimensions && dimensions.bindingType === 'paperback' && (
+                                    <div className="position-labels">
+                                        <span>← VERSO</span>
+                                        <span>DOS</span>
+                                        <span>FACE →</span>
+                                    </div>
+                                )}
+                                
+                                <div className="quality-indicator">
+                                    {canvasQuality}
+                                </div>
+                                
+                                {dimensions ? (
+                                    <>
+                                        <canvas 
+                                            ref={canvasRef}
+                                            className="canvas-4k"
+                                        />
+                                        
+                                        <div className="dimensions-overlay">
+                                            {Math.round(dimensions.total.width)}×{Math.round(dimensions.total.height)}mm | {canvasQuality}
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="text-center py-20 text-gray-500">
+                                        <div className="text-6xl mb-4">📐</div>
+                                        <h3 className="text-xl font-semibold mb-2">
+                                            {language === 'fr' ? 'Aperçu 4K Ultra HD' : '4K Ultra HD Preview'}
+                                        </h3>
+                                        <p className="text-gray-400 mb-4">
+                                            {language === 'fr' ? 'Sélectionnez un format pour voir l\'aperçu' : 'Select a format to see preview'}
+                                        </p>
+                                        
+                                        <div className="bg-white border-2 border-dashed border-gray-300 rounded-lg p-8 mx-auto max-w-md">
+                                            <div className="grid grid-cols-3 gap-2 mb-4">
+                                                <div className="bg-gray-200 h-20 rounded flex items-center justify-center text-xs">VERSO</div>
+                                                <div className="bg-gray-300 h-20 rounded flex items-center justify-center text-xs">DOS</div>
+                                                <div className="bg-gray-200 h-20 rounded flex items-center justify-center text-xs">FACE</div>
+                                            </div>
+                                            <p className="text-xs text-gray-500">
+                                                {language === 'fr' ? 'Modèle de couverture KDP' : 'KDP Cover Template'}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Bouton export avec système de limites */}
+                            <div className="mt-6 flex flex-col items-center">
+                                {/* Indicateur de statut utilisateur */}
+                                <div className="mb-4 max-w-lg">
+                                    {(() => {
+                                        const limits = checkExportLimits();
+                                        
+                                        if (limits.level === 'verified') {
+                                            return (
+                                                <div className="bg-gradient-to-r from-green-100 to-emerald-100 border border-green-300 rounded-lg px-4 py-3">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <h4 className="font-bold text-green-800 text-sm">✅ Compte Vérifié</h4>
+                                                            <p className="text-green-700 text-xs mt-1">
+                                                                {limits.remaining} exports restants aujourd'hui • Sans watermark
+                                                            </p>
+                                                        </div>
+                                                        <div className="text-green-600 text-xl">🏆</div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else if (limits.level === 'registered') {
+                                            return (
+                                                <div className="bg-gradient-to-r from-blue-100 to-cyan-100 border border-blue-300 rounded-lg px-4 py-3">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <h4 className="font-bold text-blue-800 text-sm">📧 Email à vérifier</h4>
+                                                            <p className="text-blue-700 text-xs mt-1">
+                                                                {limits.remaining} exports restants • Vérifiez votre email pour + d'exports
+                                                            </p>
+                                                        </div>
+                                                        <button className="bg-blue-600 text-white px-3 py-1 rounded text-xs hover:bg-blue-700">
+                                                            Vérifier
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        } else {
+                                            return (
+                                                <div className="bg-gradient-to-r from-orange-100 to-yellow-100 border border-orange-300 rounded-lg px-4 py-3">
+                                                    <div className="flex items-center justify-between">
+                                                        <div>
+                                                            <h4 className="font-bold text-orange-800 text-sm">🎁 Découverte Gratuite</h4>
+                                                            <p className="text-orange-700 text-xs mt-1">
+                                                                {limits.remaining} export(s) restant(s) aujourd'hui • Petit watermark discret
+                                                            </p>
+                                                        </div>
+                                                        <button 
+                                                            onClick={() => window.location.href = 'inscription.html'}
+                                                            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-3 py-1 rounded text-xs font-semibold hover:from-purple-700 hover:to-blue-700 transition-all"
+                                                        >
+                                                            🚀 Gratuit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            );
+                                        }
+                                    })()}
+                                </div>
+
+                                <button
+                                    onClick={handleExportClick}
+                                    disabled={!dimensions || isExporting || !checkExportLimits().canExport}
+                                    className={`flex items-center space-x-3 px-8 py-4 rounded-xl font-bold text-lg transition-all transform ${
+                                        isExporting 
+                                            ? 'bg-purple-500 text-white cursor-wait scale-95' 
+                                            : !dimensions
+                                            ? 'bg-gray-400 text-white cursor-not-allowed'
+                                            : !checkExportLimits().canExport
+                                            ? 'bg-gray-400 text-white cursor-not-allowed'
+                                            : checkExportLimits().level === 'anonymous'
+                                            ? 'bg-gradient-to-r from-orange-500 to-yellow-500 text-white hover:from-orange-600 hover:to-yellow-600 hover:scale-105 shadow-lg hover:shadow-xl'
+                                            : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 hover:scale-105 shadow-lg hover:shadow-xl'
+                                    }`}
+                                >
+                                    <span className="text-2xl">💾</span>
+                                    <span>
+                                        {isExporting 
+                                            ? t('generating') 
+                                            : !checkExportLimits().canExport
+                                            ? (language === 'fr' ? 'Limite atteinte' : 'Limit reached')
+                                            : checkExportLimits().level === 'anonymous'
+                                            ? 'TÉLÉCHARGER (GRATUIT)'
+                                            : 'TÉLÉCHARGER MA COUVERTURE'
+                                        }
+                                    </span>
+                                    {!isExporting && checkExportLimits().canExport && (
+                                        <span className="text-sm opacity-90">
+                                            | {checkExportLimits().level === 'anonymous' ? 'Avec watermark' : 'Sans watermark'}
+                                        </span>
+                                    )}
+                                </button>
+                                
+                                {/* Info discrète */}
+                                <div className="mt-3 text-center max-w-md">
+                                    <p className="text-xs text-gray-500">
+                                        {checkExportLimits().level === 'anonymous' ? (
+                                            <>
+                                                🎯 <strong>Compte gratuit</strong> = 10 exports/jour sans watermark • 
+                                                <a href="inscription.html" className="text-blue-600 hover:underline ml-1">
+                                                    Créer un compte →
+                                                </a>
+                                            </>
+                                        ) : (
+                                            <>
+                                                ⚡ <strong>Premium</strong> = exports illimités + API Canva • 
+                                                <a href="#premium" className="text-purple-600 hover:underline ml-1">
+                                                    Découvrir →
+                                                </a>
+                                            </>
+                                        )}
+                                    </p>
+                                </div>
+                                
+                                {/* Clauses de non-responsabilité */}
+                                <div className="mt-4 max-w-lg text-center space-y-2">
+                                    <p className="text-xs text-gray-500 bg-gray-50 border border-gray-200 rounded-lg px-3 py-2">
+                                        <span className="font-medium">{t('disclaimerExport')}</span>
+                                        <br />
+                                        <span className="text-orange-600">{t('technicalOnly')}</span> • <span className="text-blue-600">{t('contentResponsibility')}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Sidebar droite - Canva et Validation */}
+                        <div className="sidebar">
+                            {/* Section Canva en développement */}
+                            <div className="sidebar-section">
+                                <div className="flex items-center justify-between mb-4">
+                                    <h2 className="sidebar-title">
+                                        🎨 {t('canvaImport')}
+                                    </h2>
+                                    <div className="flex items-center gap-2">
+                                        <span className="bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded-full font-semibold">
+                                            {t('premium')}
+                                        </span>
+                                        <span className="bg-blue-100 text-blue-600 text-xs px-2 py-1 rounded-full font-semibold">
+                                            BETA
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4">
+                                    <div className="text-center">
+                                        <div className="text-4xl mb-3">🚧</div>
+                                        <h3 className="font-bold text-blue-900 mb-2">{t('canvaBetaTitle')}</h3>
+                                        <p className="text-sm text-blue-800 mb-3 leading-relaxed">
+                                            {t('canvaBetaMessage')}
+                                        </p>
+                                        
+                                        <div className="bg-white bg-opacity-50 rounded-lg p-3 mb-3">
+                                            <p className="text-xs text-blue-700 font-medium">
+                                                {t('canvaBetaEta')}
+                                            </p>
+                                        </div>
+                                        
+                                        <div className="border-t border-blue-200 pt-3">
+                                            <p className="text-xs text-blue-600">
+                                                💡 {t('betaFeedback')}
+                                            </p>
+                                            <p className="text-xs text-gray-600 mt-1">
+                                                📧 contact@gabarit-kdp.com
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Section Validation KDP */}
+                            <div className="sidebar-section">
+                                <div className="validation-smart">
+                                    <div className="validation-header">
+                                        <span className="text-xl">🎯</span>
+                                        <h2 className="font-bold text-lg">{t('analysisTitle')}</h2>
+                                    </div>
+                                    
+                                    <div className="validation-score">
+                                        {(frontImage || backImage || dimensions) ? (
+                                            <div>
+                                                <div className={getScoreClass(overallScore)}>
+                                                    <div className="font-bold text-lg">{getScoreLabel(overallScore).label}</div>
+                                                    <div className="text-sm opacity-90">{getScoreLabel(overallScore).subtitle}</div>
+                                                    <div className="text-xs mt-2 opacity-75">Score: {overallScore}/25</div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="no-analysis">
+                                                <div className="text-4xl mb-3">📊</div>
+                                                <h3 className="font-semibold text-gray-700 mb-2">{t('analysisTitle')}</h3>
+                                                <p className="text-sm text-gray-500">{t('noImagesYet')}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                    
+                                    {warnings.length > 0 && (
+                                        <div className="validation-alerts">
+                                            {warnings.map((warning, index) => (
+                                                <div key={index} className={`alert-item alert-${warning.type}`}>
+                                                    <div className="alert-icon">
+                                                        {warning.type === 'excellent' && '🏆'}
+                                                        {warning.type === 'good' && '✅'}
+                                                        {warning.type === 'warning' && '⚠️'}
+                                                        {warning.type === 'critical' && '❌'}
+                                                        {warning.type === 'info' && 'ℹ️'}
+                                                    </div>
+                                                    <div className="flex-1">
+                                                        {warning.message}
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                    
+                                    <div className="validation-tips">
+                                        <div className="tips-title">
+                                            <span>💡</span>
+                                            {t('kdpTips')}
+                                        </div>
+                                        
+                                        <div className="space-y-2">
+                                            <div className="tip-item">
+                                                <span>📐</span>
+                                                <span>{t('tipFormat')}</span>
+                                            </div>
+                                            
+                                            <div className="tip-item">
+                                                <span>🖼️</span>
+                                                <span>{t('tipBleed')}</span>
+                                            </div>
+                                            
+                                            <div className="tip-item">
+                                                <span>📏</span>
+                                                <span>{t('tipSpine')}</span>
+                                            </div>
+                                            
+                                            <div className="tip-item">
+                                                <span>📊</span>
+                                                <span>{t('tipBarcode')}</span>
+                                            </div>
+                                            
+                                            <div className="tip-item">
+                                                <span>🧪</span>
+                                                <span>{language === 'fr' ? 'Version beta - Merci pour vos retours !' : 'Beta version - Thank you for your feedback!'}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="mt-4 pt-3 border-t border-gray-300">
+                                            <div className="tips-title">
+                                                <span>⚠️</span>
+                                                <span>{t('disclaimer')}</span>
+                                            </div>
+                                            <p className="text-xs text-gray-600 leading-relaxed">
+                                                {t('disclaimerShort')}
+                                            </p>
+                                            <details className="mt-2">
+                                                <summary className="text-xs text-blue-600 cursor-pointer hover:text-blue-800">
+                                                    {language === 'fr' ? 'Voir les détails' : 'See details'}
+                                                </summary>
+                                                <p className="text-xs text-gray-500 mt-2 leading-relaxed">
+                                                    {t('disclaimerFull')}
+                                                </p>
+                                            </details>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Rendu principal
+        ReactDOM.render(<KDPCoverGenerator />, document.getElementById('root'));
+    </script>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div class="social-section">
+                <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières nouveautés KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières nouveautés KDP !</h4>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link youtube" title="YouTube - Tutoriels KDP">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" class="social-link facebook" title="Facebook - Communauté auteurs">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-link instagram" title="Instagram - Inspirations couvertures">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="social-link pinterest" title="Pinterest - Designs couvertures">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="#" class="social-link tiktok" title="TikTok - Tips rapides KDP">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" class="social-link linkedin" title="LinkedIn - Publishers & Agences">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                
+                <p class="text-center text-sm text-gray-400 mt-4" data-fr="Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">
+                    Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400" data-fr="Le générateur francophone de couvertures KDP 100% conformes Amazon." data-en="The generator for 100% Amazon-compliant KDP covers.">Le générateur francophone de couvertures KDP 100% conformes Amazon.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+                    <ul class="space-y-2">
+                        <li><a href="generator.html" class="hover:text-white transition" data-fr="Générateur" data-en="Generator">Générateur</a></li>
+                        <li><a href="index.html#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Support" data-en="Support">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition" data-fr="Contact" data-en="Contact">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide d'utilisation" data-en="User Guide">Guide d'utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Mentions légales</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition" data-fr="CGU" data-en="Terms of Service">CGU</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Confidentialité" data-en="Privacy">Confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

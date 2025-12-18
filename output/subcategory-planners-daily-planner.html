@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLANNERS → Daily Planner</title>
+  <meta name="description" content="15 templates">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:10px}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;font-size:.95rem}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+    .express-btn{background:linear-gradient(135deg,#10b981,#059669)!important}
+    .hero-gradient{background:linear-gradient(135deg,#eff6ff 0%,#dbeafe 50%,#bfdbfe 100%)}
+    .breadcrumb{display:flex;align-items:center;gap:8px;font-size:.9rem;color:#64748b;margin-bottom:1rem;flex-wrap:wrap}
+    .breadcrumb a{color:#FF9900;text-decoration:none}
+    .breadcrumb a:hover{text-decoration:underline}
+    .category-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:.3s;box-shadow:0 4px 15px rgba(0,0,0,.1);background:#f1f5f9}
+    .category-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
+    .category-card img{width:100%;height:100%;object-fit:cover;transition:.5s}
+    .category-card:hover img{transform:scale(1.1)}
+    .category-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.3) 50%,transparent);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem}
+    .category-icon{font-size:2rem;margin-bottom:.5rem}
+    .category-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+    .category-count{color:#FF9900;font-weight:600;font-size:.875rem}
+    .category-badge{position:absolute;top:1rem;right:1rem;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:600;color:#fff}
+    .badge-new{background:#10b981}.badge-popular{background:#f59e0b}.badge-best{background:#8b5cf6}
+    
+    /* Template Gallery Styles */
+    .template-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem}
+    .template-card{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:.3s;box-shadow:0 4px 15px rgba(0,0,0,.08);background:#f8fafc;border:1px solid #e2e8f0}
+    .template-card:hover{transform:translateY(-6px);box-shadow:0 15px 35px rgba(0,0,0,.12);border-color:#FF9900}
+    .template-card img{width:100%;height:100%;object-fit:cover;transition:.4s}
+    .template-card:hover img{transform:scale(1.05)}
+    
+    /* Watermark Overlay */
+    .watermark{position:absolute;inset:0;background:repeating-linear-gradient(45deg,rgba(255,255,255,0.06) 0px,rgba(255,255,255,0.06) 40px,rgba(0,0,0,0.04) 40px,rgba(0,0,0,0.04) 80px);pointer-events:none;z-index:1}
+    .watermark::after{content:'GabaritKDP';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) rotate(-30deg);font-size:2.5rem;font-weight:800;color:rgba(255,255,255,0.15);text-shadow:2px 2px 4px rgba(0,0,0,0.2);pointer-events:none;white-space:nowrap}
+    
+    /* Template Overlay with buttons */
+    .template-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.3) 60%,transparent);opacity:0;transition:.3s;display:flex;flex-direction:column;justify-content:flex-end;padding:1rem;z-index:2}
+    .template-card:hover .template-overlay{opacity:1}
+    .template-name{font-size:.875rem;font-weight:600;color:#fff;margin-bottom:.25rem}
+    .template-size{font-size:.75rem;color:#94a3b8;margin-bottom:.75rem}
+    
+    /* Use Template Button */
+    .use-template-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:10px 16px;background:linear-gradient(135deg,#FF9900,#e68a00);color:#fff;font-weight:600;font-size:.875rem;border-radius:8px;text-decoration:none;transition:.3s;border:none;cursor:pointer}
+    .use-template-btn:hover{background:linear-gradient(135deg,#e68a00,#cc7a00);transform:scale(1.02);box-shadow:0 4px 15px rgba(255,153,0,.4)}
+    .use-template-btn i{font-size:.75rem}
+    
+    /* Free Badge */
+    .free-badge{position:absolute;top:.75rem;left:.75rem;background:#10b981;color:#fff;padding:.25rem .5rem;border-radius:6px;font-size:.7rem;font-weight:700;z-index:3}
+    .premium-badge{position:absolute;top:.75rem;right:.75rem;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;padding:.25rem .5rem;border-radius:6px;font-size:.65rem;font-weight:600;z-index:3}
+    
+    /* Lightbox */
+    .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:9999;display:none;align-items:center;justify-content:center;flex-direction:column}
+    .lightbox.active{display:flex}
+    .lightbox img{max-width:90vw;max-height:70vh;object-fit:contain;border-radius:8px}
+    .lightbox-watermark{position:absolute;font-size:4rem;font-weight:800;color:rgba(255,255,255,0.1);transform:rotate(-30deg);pointer-events:none}
+    .lightbox-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.1);border:none;color:#fff;width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:1.5rem;transition:.3s}
+    .lightbox-close:hover{background:rgba(255,255,255,.2)}
+    .lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.1);border:none;color:#fff;width:50px;height:50px;border-radius:50%;cursor:pointer;font-size:1.2rem;transition:.3s}
+    .lightbox-nav:hover{background:rgba(255,255,255,.2)}
+    .lightbox-prev{left:20px}
+    .lightbox-next{right:20px}
+    .lightbox-info{position:absolute;bottom:20px;text-align:center;color:#fff}
+    .lightbox-title{font-size:1.25rem;font-weight:600;margin-bottom:.5rem}
+    .lightbox-counter{font-size:.875rem;color:#94a3b8;margin-bottom:1rem}
+    .lightbox-use-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;background:linear-gradient(135deg,#FF9900,#e68a00);color:#fff;font-weight:600;border-radius:8px;text-decoration:none;transition:.3s}
+    .lightbox-use-btn:hover{background:linear-gradient(135deg,#e68a00,#cc7a00);transform:scale(1.05)}
+    
+    /* Search & Filter */
+    .search-bar{display:flex;gap:12px;margin-bottom:2rem;flex-wrap:wrap;align-items:center;justify-content:center}
+    .search-input{flex:1;min-width:200px;max-width:400px;padding:12px 16px;border:2px solid #e2e8f0;border-radius:10px;font-size:1rem;transition:.3s}
+    .search-input:focus{outline:none;border-color:#FF9900;box-shadow:0 0 0 3px rgba(255,153,0,.1)}
+    .filter-btn{padding:10px 20px;border:2px solid #e2e8f0;background:#fff;border-radius:10px;cursor:pointer;font-weight:500;transition:.3s}
+    .filter-btn:hover{border-color:#FF9900;color:#FF9900}
+    .filter-btn.active{background:#FF9900;color:#fff;border-color:#FF9900}
+    .pagination{display:flex;justify-content:center;gap:8px;margin-top:2rem}
+    .page-btn{padding:10px 16px;border:2px solid #e2e8f0;background:#fff;border-radius:8px;cursor:pointer;font-weight:500;transition:.3s}
+    .page-btn:hover:not(:disabled){border-color:#FF9900;color:#FF9900}
+    .page-btn.active{background:#FF9900;color:#fff;border-color:#FF9900}
+    .page-btn:disabled{opacity:.5;cursor:not-allowed}
+    @media(max-width:768px){.nav-links{display:none}}
+  </style>
+</head>
+<body class="bg-white">
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html">🏠 Home</a>
+        <a href="generator.html" class="express-btn">⚡ Generator</a>
+        <a href="marketplace.html" class="active">Marketplace</a>
+        <a href="pricing.html">💰 Pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero-gradient py-10">
+    <div class="max-w-7xl mx-auto px-4">
+      <nav class="breadcrumb">
+        <a href="marketplace.html">Marketplace</a> <span>›</span>
+        <a href="category-planners.html">PLANNERS</a> <span>›</span>
+        <span>Daily Planner</span></nav>
+      <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">
+            <span class="text-4xl mr-2">📅</span> PLANNERS → <span style='color:#FF9900'>Daily Planner</span>
+          </h1>
+          <p class="text-gray-600">15 professional templates</p>
+        </div>
+        <div class="flex gap-3">
+          <div class="bg-white/80 rounded-xl px-5 py-2 border text-center">
+            <div class="text-2xl font-bold" style="color:#FF9900">15</div>
+            <div class="text-xs text-gray-600">Templates</div>
+          </div>
+          <div class="bg-white/80 rounded-xl px-5 py-2 border border-green-200 text-center">
+            <div class="text-2xl font-bold text-green-600">3</div>
+            <div class="text-xs text-gray-600">Free</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="py-10 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="search-bar">
+        <input type="text" class="search-input" id="searchInput" placeholder="Search templates..." oninput="filterTemplates()">
+        <button class="filter-btn active" onclick="filterByType('all',this)">All</button>
+        <button class="filter-btn" onclick="filterByType('free',this)">Free</button>
+        <button class="filter-btn" onclick="filterByType('premium',this)">Premium</button>
+      </div>
+      <div class="template-grid" id="grid"></div>
+      <div class="pagination" id="pagination"></div>
+    </div>
+  </section>
+  <div class="lightbox" id="lightbox" onclick="closeLB(event)">
+    <button class="lightbox-close" onclick="closeLB()"><i class="fas fa-times"></i></button>
+    <button class="lightbox-nav lightbox-prev" onclick="event.stopPropagation();navLB(-1)"><i class="fas fa-chevron-left"></i></button>
+    <div style="position:relative">
+      <img id="lbImg" onclick="event.stopPropagation()">
+      <div class="lightbox-watermark">GabaritKDP</div>
+    </div>
+    <button class="lightbox-nav lightbox-next" onclick="event.stopPropagation();navLB(1)"><i class="fas fa-chevron-right"></i></button>
+    <div class="lightbox-info">
+      <div id="lbTitle" class="lightbox-title"></div>
+      <div id="lbCounter" class="lightbox-counter"></div>
+      <a id="lbUseBtn" class="lightbox-use-btn" href="#"><i class="fas fa-magic"></i> Use this template</a>
+    </div>
+  </div>
+  <section class="py-8 bg-gray-50 text-center">
+    <a href="category-planners.html" class="inline-flex items-center gap-2 px-5 py-2.5 bg-white border-2 border-gray-200 rounded-lg font-semibold"><i class="fas fa-arrow-left"></i> Back to PLANNERS</a>
+    <a href="marketplace.html" class="inline-flex items-center gap-2 px-5 py-2.5 ml-2 bg-white border-2 border-gray-200 rounded-lg font-semibold"><i class="fas fa-th-large"></i> All Categories</a>
+    <a href="generator.html" class="inline-flex items-center gap-2 px-5 py-2.5 ml-2 text-white font-semibold rounded-lg" style="background:linear-gradient(135deg,#10b981,#059669)"><i class="fas fa-magic"></i> Create</a>
+  </section>
+  <script>
+    const templates=[{"name": "1", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/1.png", "size": 70656, "isFree": true}, {"name": "10", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/10.png", "size": 296960, "isFree": true}, {"name": "11", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/11.png", "size": 292864, "isFree": true}, {"name": "12", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/12.png", "size": 291840, "isFree": false}, {"name": "13", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/13.png", "size": 288768, "isFree": false}, {"name": "14", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/14.png", "size": 289792, "isFree": false}, {"name": "15", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/15.png", "size": 360448, "isFree": false}, {"name": "2", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/2.png", "size": 390144, "isFree": false}, {"name": "3", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/3.png", "size": 290816, "isFree": false}, {"name": "4", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/4.png", "size": 289792, "isFree": false}, {"name": "5", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/5.png", "size": 291840, "isFree": false}, {"name": "6", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/6.png", "size": 288768, "isFree": false}, {"name": "7", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/7.png", "size": 291840, "isFree": false}, {"name": "8", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/8.png", "size": 288768, "isFree": false}, {"name": "9", "url": "https://pub-7e9ed5303066447d83c33d68f896441b.r2.dev/backgrounds/PLANNERS/Daily%20Planner/PNG/9.png", "size": 287744, "isFree": false}];
+    const PER_PAGE=24;
+    let page=1,filtered=[...templates],filter='all',lbIdx=0;
+    function formatSize(b){return (b/1024/1024).toFixed(2)+' MB'}
+    function getGeneratorUrl(imageUrl){return 'generator.html?img='+encodeURIComponent(imageUrl)}
+    function render(){
+      const start=(page-1)*PER_PAGE,end=start+PER_PAGE;
+      const items=filtered.slice(start,end);
+      document.getElementById('grid').innerHTML=items.map((t,i)=>`
+        <div class="template-card">
+          ${t.isFree?'<span class="free-badge">FREE</span>':'<span class="premium-badge">PRO</span>'}
+          <img src="${t.url}" alt="${t.name}" loading="lazy" onclick="openLB(${start+i})">
+          <div class="watermark"></div>
+          <div class="template-overlay">
+            <span class="template-name">${t.name}</span>
+            <span class="template-size">${formatSize(t.size)}</span>
+            <a href="${getGeneratorUrl(t.url)}" class="use-template-btn" onclick="event.stopPropagation()">
+              <i class="fas fa-magic"></i> Use this template
+            </a>
+          </div>
+        </div>
+      `).join('');
+      renderPagination();
+    }
+    function renderPagination(){
+      const total=Math.ceil(filtered.length/PER_PAGE);
+      if(total<=1){document.getElementById('pagination').innerHTML='';return}
+      let h=`<button class="page-btn" onclick="goTo(${page-1})" ${page===1?'disabled':''}><i class="fas fa-chevron-left"></i></button>`;
+      for(let i=Math.max(1,page-2);i<=Math.min(total,page+2);i++)h+=`<button class="page-btn ${i===page?'active':''}" onclick="goTo(${i})">${i}</button>`;
+      h+=`<button class="page-btn" onclick="goTo(${page+1})" ${page===total?'disabled':''}><i class="fas fa-chevron-right"></i></button>`;
+      document.getElementById('pagination').innerHTML=h;
+    }
+    function goTo(p){const t=Math.ceil(filtered.length/PER_PAGE);if(p<1||p>t)return;page=p;render();window.scrollTo({top:document.getElementById('grid').offsetTop-100,behavior:'smooth'})}
+    function filterTemplates(){
+      const q=document.getElementById('searchInput').value.toLowerCase();
+      filtered=templates.filter(t=>{
+        const mq=t.name.toLowerCase().includes(q);
+        const mf=filter==='all'||(filter==='free'&&t.isFree)||(filter==='premium'&&!t.isFree);
+        return mq&&mf;
+      });
+      page=1;render();
+    }
+    function filterByType(type,btn){document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');filter=type;filterTemplates()}
+    function openLB(i){
+      lbIdx=i;
+      const t=filtered[i];
+      document.getElementById('lbImg').src=t.url;
+      document.getElementById('lbTitle').textContent=t.name;
+      document.getElementById('lbCounter').textContent=`${i+1} / ${filtered.length} ${t.isFree?'• FREE':'• PRO'}`;
+      document.getElementById('lbUseBtn').href=getGeneratorUrl(t.url);
+      document.getElementById('lightbox').classList.add('active');
+      document.body.style.overflow='hidden';
+    }
+    function closeLB(e){if(e&&e.target!==e.currentTarget)return;document.getElementById('lightbox').classList.remove('active');document.body.style.overflow=''}
+    function navLB(d){
+      lbIdx=(lbIdx+d+filtered.length)%filtered.length;
+      const t=filtered[lbIdx];
+      document.getElementById('lbImg').src=t.url;
+      document.getElementById('lbTitle').textContent=t.name;
+      document.getElementById('lbCounter').textContent=`${lbIdx+1} / ${filtered.length} ${t.isFree?'• FREE':'• PRO'}`;
+      document.getElementById('lbUseBtn').href=getGeneratorUrl(t.url);
+    }
+    document.addEventListener('keydown',e=>{if(!document.getElementById('lightbox').classList.contains('active'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowLeft')navLB(-1);if(e.key==='ArrowRight')navLB(1)});
+    render();
+  </script>
+
+  <footer class="bg-gray-900 text-gray-400 py-8 text-center">
+    <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+  </footer>
+</body>
+</html>

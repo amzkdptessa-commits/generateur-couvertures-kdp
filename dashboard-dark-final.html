@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - GabaritKDP</title>
+    <style>
+        :root {
+            /* Brand Colors GabaritKDP */
+            --brand-primary: #FF9900;
+            --brand-secondary: #FF6600;
+            --brand-dark: #1a1a1a;
+            --brand-darker: #0f0f0f;
+            --brand-light: #2d2d2d;
+            --brand-lighter: #3a3a3a;
+            
+            /* Semantic Colors */
+            --success: #4caf50;
+            --warning: #ff9800;
+            --error: #f44336;
+            --info: #2196f3;
+            
+            /* Neutrals */
+            --text-primary: #ffffff;
+            --text-secondary: #aaaaaa;
+            --text-muted: #888888;
+            --border: rgba(255, 153, 0, 0.3);
+            --border-light: rgba(255, 255, 255, 0.1);
+            
+            /* Spacing */
+            --spacing-xs: 0.5rem;
+            --spacing-sm: 1rem;
+            --spacing-md: 1.5rem;
+            --spacing-lg: 2rem;
+            --spacing-xl: 3rem;
+            
+            /* Border Radius */
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 9999px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: linear-gradient(135deg, var(--brand-dark) 0%, var(--brand-light) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* ============================================
+           HEADER HARMONISÉ (du site principal)
+           ============================================ */
+        
+        .main-header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--brand-primary);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--brand-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 153, 0, 0.1);
+            color: var(--brand-primary);
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 153, 0, 0.2);
+            color: var(--brand-primary);
+        }
+
+        .language-selector {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            display: flex;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 6px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            background: transparent;
+            color: #fff;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--brand-primary);
+            color: #fff;
+        }
+
+        .lang-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+            padding: 8px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile Menu */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: 30px;
+                transition: left 0.3s ease;
+                z-index: 999;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .language-selector {
+                top: 22.5px;
+                right: 60px;
+            }
+
+            .logo-text {
+                font-size: 20px;
+            }
+        }
+
+        /* ============================================
+           DASHBOARD CONTENT (fond noir qu'elle adore)
+           ============================================ */
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--spacing-lg);
+        }
+
+        /* Header avec niveau */
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-lg);
+            margin-top: var(--spacing-md);
+        }
+
+        .welcome {
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .level-badge {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+        }
+
+        /* Tracking Section */
+        .tracking-section {
+            background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand-darker) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            margin-bottom: var(--spacing-lg);
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .tracking-icon {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+            filter: drop-shadow(0 0 20px rgba(255, 153, 0, 0.3));
+        }
+
+        .tracking-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tracking-description {
+            color: var(--text-secondary);
+            margin-bottom: var(--spacing-lg);
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tracking-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .tracking-note {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: var(--spacing-md);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: var(--radius-full);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 153, 0, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 153, 0, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--brand-primary);
+            color: var(--brand-primary);
+        }
+
+        .btn-outline:hover {
+            background: rgba(255, 153, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn:disabled:hover {
+            transform: none;
+        }
+
+        /* Section Divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
+            margin: var(--spacing-xl) 0;
+        }
+
+        /* Section Header */
+        .section-header {
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .section-subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Profile Cards */
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: var(--spacing-lg);
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand-darker) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-lg);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--brand-primary);
+            box-shadow: 0 10px 30px rgba(255, 153, 0, 0.2);
+        }
+
+        .profile-emoji {
+            font-size: 4rem;
+            margin-bottom: var(--spacing-md);
+            display: block;
+        }
+
+        .profile-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .profile-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .profile-cta {
+            color: var(--brand-primary);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .tagline {
+            text-align: center;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: var(--spacing-lg);
+            font-size: 1.1rem;
+        }
+
+        /* Niches Section */
+        .niches-placeholder {
+            background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand-darker) 100%);
+            border-radius: var(--radius-lg);
+            padding: var(--spacing-xl);
+            border: 2px dashed var(--border);
+            text-align: center;
+        }
+
+        .niches-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-md);
+            opacity: 0.5;
+        }
+
+        .niches-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .niches-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: var(--spacing-md);
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .niches-method {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .niches-link {
+            color: var(--brand-primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .niches-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Resources Grid */
+        .resources-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .resource-card {
+            background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand-darker) 100%);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .resource-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--brand-primary);
+            box-shadow: 0 5px 20px rgba(255, 153, 0, 0.15);
+        }
+
+        .resource-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-sm);
+            display: block;
+        }
+
+        .resource-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .resource-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: var(--spacing-md);
+        }
+
+        .project-card {
+            background: linear-gradient(135deg, var(--brand-light) 0%, var(--brand-darker) 100%);
+            border-radius: var(--radius-md);
+            padding: var(--spacing-md);
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--brand-primary);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .project-emoji {
+            font-size: 2rem;
+        }
+
+        .project-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-full);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .project-status.in-progress {
+            background: rgba(255, 153, 0, 0.2);
+            color: var(--brand-primary);
+        }
+
+        .project-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .project-progress {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: var(--radius-full);
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, var(--brand-primary) 0%, var(--brand-secondary) 100%);
+            height: 100%;
+            border-radius: var(--radius-full);
+            transition: width 0.3s;
+        }
+
+        .project-card.new {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            cursor: pointer;
+            border: 2px dashed var(--border);
+            background: transparent;
+        }
+
+        .project-card.new:hover {
+            border-color: var(--brand-primary);
+            background: rgba(255, 153, 0, 0.05);
+        }
+
+        .new-project-icon {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-sm);
+            opacity: 0.5;
+        }
+
+        .new-project-text {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* ============================================
+           FOOTER HARMONISÉ (du site principal)
+           ============================================ */
+
+        footer {
+            background: #111827;
+            color: #fff;
+            padding: 60px 20px 30px;
+            margin-top: var(--spacing-xl);
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-social {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .footer-social h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--brand-primary);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #fff;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .social-btn.youtube { background: linear-gradient(135deg, #FF0000, #CC0000); }
+        .social-btn.facebook { background: linear-gradient(135deg, #1877F2, #0866D3); }
+        .social-btn.instagram { background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2); }
+        .social-btn.pinterest { background: linear-gradient(135deg, #BD081C, #E60023); }
+        .social-btn.tiktok { background: linear-gradient(135deg, #000, #FF0050, #00F2EA); }
+        .social-btn.linkedin { background: linear-gradient(135deg, #0A66C2, #004182); }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-column h4 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--brand-primary);
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-column a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-column a:hover {
+            color: var(--brand-primary);
+        }
+
+        .footer-logo-section {
+            text-align: center;
+        }
+
+        .footer-logo-section .logo-text {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .footer-logo-section p {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--spacing-md);
+            }
+
+            .welcome {
+                font-size: 1.5rem;
+            }
+
+            .tracking-title {
+                font-size: 1.4rem;
+            }
+
+            .profile-grid,
+            .resources-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ============================================
+         HEADER HARMONISÉ
+         ============================================ -->
+    <header class="main-header">
+        <div class="header-container">
+            <a href="index.html" class="logo-section">
+                <div class="logo-icon">📚</div>
+                <span class="logo-text">GabaritKDP</span>
+            </a>
+            
+            <nav class="nav-links" id="navLinks">
+                <a href="index.html">Home</a>
+                <a href="dashboard.html" class="active">Dashboard</a>
+                <a href="generator.html">Générateur Express</a>
+                <a href="marketplace.html">Marketplace</a>
+                <a href="connexion.html">Connexion</a>
+            </nav>
+            
+            <div class="language-selector">
+                <button class="lang-btn active" onclick="switchLanguage('fr')" data-lang="fr">🇫🇷</button>
+                <button class="lang-btn" onclick="switchLanguage('en')" data-lang="en">🇺🇸</button>
+            </div>
+            
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </header>
+
+    <!-- ============================================
+         DASHBOARD CONTENT (fond noir)
+         ============================================ -->
+    <div class="container">
+        <!-- Header avec niveau -->
+        <div class="dashboard-header">
+            <h1 class="welcome" data-fr="Bonjour Tessa ! 👋" data-en="Hello Tessa! 👋">Bonjour Tessa ! 👋</h1>
+            <div class="level-badge">
+                <span data-fr="Niveau:" data-en="Level:">Niveau:</span>
+                <span>🌱</span>
+                <span data-fr="Rookie" data-en="Rookie">Rookie</span>
+            </div>
+        </div>
+
+        <!-- Tracking Section -->
+        <section class="tracking-section">
+            <div class="tracking-icon">📊</div>
+            <h2 class="tracking-title" data-fr="Suivi de tes ventes KDP" data-en="Track Your KDP Sales">
+                Suivi de tes ventes KDP
+            </h2>
+            <p class="tracking-description" data-fr="Connecte ton compte Amazon KDP pour suivre tes revenus, ventes et performances en temps réel. En attendant l'intégration automatique, tu peux importer tes rapports manuellement." data-en="Connect your Amazon KDP account to track your revenue, sales and performance in real-time. While waiting for automatic integration, you can import your reports manually.">
+                Connecte ton compte Amazon KDP pour suivre tes revenus, ventes et performances en temps réel. En attendant l'intégration automatique, tu peux importer tes rapports manuellement.
+            </p>
+            
+            <div class="tracking-actions">
+                <button class="btn btn-outline" disabled data-fr="🔗 Connecter KDP (bientôt)" data-en="🔗 Connect KDP (coming soon)">
+                    🔗 Connecter KDP (bientôt)
+                </button>
+                <a href="#import-csv" class="btn btn-primary" data-fr="📤 Importer un rapport CSV" data-en="📤 Import CSV Report">
+                    📤 Importer un rapport CSV
+                </a>
+            </div>
+            
+            <p class="tracking-note" data-fr="💡 Les graphiques et statistiques se débloquent après import" data-en="💡 Charts and statistics unlock after import">
+                💡 Les graphiques et statistiques se débloquent après import
+            </p>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Profile Section -->
+        <section>
+            <div class="section-header">
+                <h2 class="section-title" data-fr="Que veux-tu faire aujourd'hui ?" data-en="What do you want to do today?">
+                    Que veux-tu faire aujourd'hui ?
+                </h2>
+            </div>
+
+            <div class="profile-grid">
+                <div class="profile-card" onclick="window.location.href='generator.html'">
+                    <span class="profile-emoji">🎨</span>
+                    <h3 class="profile-title" data-fr="J'AI MON LIVRE" data-en="I HAVE MY BOOK">J'AI MON LIVRE</h3>
+                    <p class="profile-description" data-fr="J'ai déjà mon idée, mon design ou mon manuscrit. Aidez-moi à le publier correctement sur Amazon KDP." data-en="I already have my idea, design or manuscript. Help me publish it correctly on Amazon KDP.">
+                        J'ai déjà mon idée, mon design ou mon manuscrit. Aidez-moi à le publier correctement sur Amazon KDP.
+                    </p>
+                    <div class="profile-cta" data-fr="Publier mon œuvre →" data-en="Publish my work →">
+                        Publier mon œuvre →
+                    </div>
+                </div>
+
+                <div class="profile-card" onclick="window.location.href='#niches'">
+                    <span class="profile-emoji">💰</span>
+                    <h3 class="profile-title" data-fr="JE VEUX GAGNER DE L'ARGENT" data-en="I WANT TO MAKE MONEY">JE VEUX GAGNER DE L'ARGENT</h3>
+                    <p class="profile-description" data-fr="Montre-moi les niches rentables et aide-moi à créer des best-sellers qui rapportent." data-en="Show me profitable niches and help me create best-sellers that sell.">
+                        Montre-moi les niches rentables et aide-moi à créer des best-sellers qui rapportent.
+                    </p>
+                    <div class="profile-cta" data-fr="Trouver ma niche →" data-en="Find my niche →">
+                        Trouver ma niche →
+                    </div>
+                </div>
+            </div>
+
+            <p class="tagline" data-fr='"Tu te concentres sur ta créativité, nous on s'occupe du reste." ✨' data-en='"You focus on your creativity, we take care of the rest." ✨'>
+                "Tu te concentres sur ta créativité, nous on s'occupe du reste." ✨
+            </p>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Niches Section -->
+        <section id="niches">
+            <div class="section-header">
+                <h2 class="section-title" data-fr="🔥 Niches Tendances 2025" data-en="🔥 Trending Niches 2025">
+                    🔥 Niches Tendances 2025
+                </h2>
+            </div>
+
+            <div class="niches-placeholder">
+                <div class="niches-icon">📊</div>
+                <h3 class="niches-title" data-fr="Analyse de niches en cours" data-en="Niche analysis in progress">
+                    Analyse de niches en cours
+                </h3>
+                <p class="niches-description" data-fr="Nous analysons actuellement les meilleures niches KDP 2025 pour toi. Les résultats seront disponibles très bientôt avec des estimations de revenus, niveau de concurrence, et stratégies détaillées." data-en="We are currently analyzing the best KDP niches for 2025. Results will be available very soon with revenue estimates, competition levels, and detailed strategies.">
+                    Nous analysons actuellement les meilleures niches KDP 2025 pour toi. Les résultats seront disponibles très bientôt avec des estimations de revenus, niveau de concurrence, et stratégies détaillées.
+                </p>
+                <p class="niches-method" data-fr="📈 Méthodologie transparente : BSR moyen, volume de recherche, Google Trends, analyse Top 10" data-en="📈 Transparent methodology: Average BSR, search volume, Google Trends, Top 10 analysis">
+                    📈 Méthodologie transparente : BSR moyen, volume de recherche, Google Trends, analyse Top 10
+                </p>
+                <a href="#" class="niches-link" data-fr="Explorer tout →" data-en="Explore all →">
+                    Explorer tout →
+                </a>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Resources Section -->
+        <section>
+            <div class="section-header">
+                <h2 class="section-title" data-fr="💡 Ressources Gratuites" data-en="💡 Free Resources">
+                    💡 Ressources Gratuites
+                </h2>
+            </div>
+
+            <div class="resources-grid">
+                <a href="#guide-niches" class="resource-card">
+                    <span class="resource-icon">📚</span>
+                    <h3 class="resource-title" data-fr="Guide : Trouver sa niche KDP" data-en="Guide: Find Your KDP Niche">
+                        Guide : Trouver sa niche KDP
+                    </h3>
+                    <p class="resource-description" data-fr="Méthode complète pour identifier les niches rentables sur Amazon" data-en="Complete method to identify profitable niches on Amazon">
+                        Méthode complète pour identifier les niches rentables sur Amazon
+                    </p>
+                </a>
+
+                <a href="#checklist" class="resource-card">
+                    <span class="resource-icon">✅</span>
+                    <h3 class="resource-title" data-fr="Checklist : Publier sans rejet" data-en="Checklist: Publish Without Rejection">
+                        Checklist : Publier sans rejet
+                    </h3>
+                    <p class="resource-description" data-fr="Tous les critères Amazon pour éviter les rejets de manuscrit" data-en="All Amazon criteria to avoid manuscript rejections">
+                        Tous les critères Amazon pour éviter les rejets de manuscrit
+                    </p>
+                </a>
+
+                <a href="#template" class="resource-card">
+                    <span class="resource-icon">📊</span>
+                    <h3 class="resource-title" data-fr="Template de suivi des ventes" data-en="Sales Tracking Template">
+                        Template de suivi des ventes
+                    </h3>
+                    <p class="resource-description" data-fr="Google Sheet gratuit pour tracker tes revenus KDP" data-en="Free Google Sheet to track your KDP revenue">
+                        Google Sheet gratuit pour tracker tes revenus KDP
+                    </p>
+                </a>
+
+                <a href="#video" class="resource-card">
+                    <span class="resource-icon">🎥</span>
+                    <h3 class="resource-title" data-fr="Vidéo : Canva vers KDP en 5min" data-en="Video: Canva to KDP in 5min">
+                        Vidéo : Canva vers KDP en 5min
+                    </h3>
+                    <p class="resource-description" data-fr="Tutoriel complet pour convertir ton design Canva" data-en="Complete tutorial to convert your Canva design">
+                        Tutoriel complet pour convertir ton design Canva
+                    </p>
+                </a>
+            </div>
+        </section>
+
+        <div class="section-divider"></div>
+
+        <!-- Projects Section -->
+        <section>
+            <div class="section-header">
+                <h2 class="section-title" style="text-align: left; margin: 0;" data-fr="📁 Mes Projets" data-en="📁 My Projects">
+                    📁 Mes Projets
+                </h2>
+            </div>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-header">
+                        <span class="project-emoji">📔</span>
+                        <span class="project-status in-progress" data-fr="En cours 🔥" data-en="In progress 🔥">En cours 🔥</span>
+                    </div>
+                    <h3 class="project-title">Mon Premier Livre</h3>
+                    <p class="project-progress" data-fr="Brouillon" data-en="Draft">Brouillon</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 20%;"></div>
+                    </div>
+                </div>
+
+                <div class="project-card new" onclick="window.location.href='generator.html'">
+                    <div class="new-project-icon">➕</div>
+                    <div class="new-project-text" data-fr="Nouveau Projet" data-en="New Project">Nouveau Projet</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- ============================================
+         FOOTER HARMONISÉ
+         ============================================ -->
+    <footer>
+        <div class="footer-container">
+            <!-- Social Section -->
+            <div class="footer-social">
+                <h3 data-fr="Rejoins la communauté GabaritKDP" data-en="Join the GabaritKDP community">Rejoins la communauté GabaritKDP</h3>
+                <div class="social-links">
+                    <a href="#" class="social-btn youtube" aria-label="YouTube">▶</a>
+                    <a href="#" class="social-btn facebook" aria-label="Facebook">f</a>
+                    <a href="#" class="social-btn instagram" aria-label="Instagram">📷</a>
+                    <a href="#" class="social-btn pinterest" aria-label="Pinterest">P</a>
+                    <a href="#" class="social-btn tiktok" aria-label="TikTok">♪</a>
+                    <a href="#" class="social-btn linkedin" aria-label="LinkedIn">in</a>
+                </div>
+            </div>
+
+            <!-- Footer Content -->
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h4 data-fr="Produit" data-en="Product">Produit</h4>
+                    <ul>
+                        <li><a href="fonctionnalites.html" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+                        <li><a href="pricing.html" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+                        <li><a href="marketplace.html" data-fr="Marketplace" data-en="Marketplace">Marketplace</a></li>
+                        <li><a href="documentation-api.html" data-fr="API" data-en="API">API</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 data-fr="Support" data-en="Support">Support</h4>
+                    <ul>
+                        <li><a href="guide.html" data-fr="Guide" data-en="Guide">Guide</a></li>
+                        <li><a href="faq.html" data-fr="FAQ" data-en="FAQ">FAQ</a></li>
+                        <li><a href="contact.html" data-fr="Contact" data-en="Contact">Contact</a></li>
+                        <li><a href="updates.html" data-fr="Mises à jour" data-en="Updates">Mises à jour</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4 data-fr="Légal" data-en="Legal">Légal</h4>
+                    <ul>
+                        <li><a href="mentions-legales.html" data-fr="Mentions légales" data-en="Legal Notice">Mentions légales</a></li>
+                        <li><a href="confidentialite.html" data-fr="Confidentialité" data-en="Privacy">Confidentialité</a></li>
+                        <li><a href="cgu.html" data-fr="CGU" data-en="Terms">CGU</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column footer-logo-section">
+                    <span class="logo-text">GabaritKDP</span>
+                    <p data-fr="La plateforme tout-en-un pour créer et publier sur Amazon KDP avec succès." data-en="The all-in-one platform to create and publish successfully on Amazon KDP.">
+                        La plateforme tout-en-un pour créer et publier sur Amazon KDP avec succès.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>© 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // ============================================
+        // SYSTÈME BILINGUE
+        // ============================================
+        
+        let currentLang = localStorage.getItem('preferredLanguage') || 'fr';
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('preferredLanguage', lang);
+            
+            // Update all elements with data-fr and data-en
+            document.querySelectorAll('[data-fr]').forEach(el => {
+                if (lang === 'fr') {
+                    el.textContent = el.getAttribute('data-fr');
+                } else {
+                    el.textContent = el.getAttribute('data-en');
+                }
+            });
+            
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            // Update HTML lang attribute
+            document.documentElement.lang = lang;
+        }
+
+        // ============================================
+        // MOBILE MENU
+        // ============================================
+        
+        function toggleMobileMenu() {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.toggle('active');
+        }
+
+        // ============================================
+        // INITIALIZATION
+        // ============================================
+        
+        // Initialize language on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            switchLanguage(currentLang);
+        });
+    </script>
+</body>
+</html>

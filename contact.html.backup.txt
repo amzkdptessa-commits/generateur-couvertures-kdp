@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Contact - GabaritKDP" data-en="Contact - GabaritKDP">Contact - GabaritKDP</title>
+    <meta name="description" data-fr="Contactez l'équipe GabaritKDP pour vos questions, suggestions ou problèmes techniques. Support client disponible 7j/7." data-en="Contact the GabaritKDP team for your questions, suggestions or technical issues. Customer support available 7/7." content="Contactez l'équipe GabaritKDP pour vos questions, suggestions ou problèmes techniques. Support client disponible 7j/7.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-MYG5JJM8EC');
+    </script>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .header-nav {
+            background: #232F3E;
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .logo-nav img {
+            height: 35px;
+            width: auto;
+            margin-right: 10px;
+        }
+        
+        .logo-nav span {
+            font-size: 1.3rem;
+            color: #FF9900;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 0;
+        }
+        
+        .nav-links a:hover {
+            color: #FF9900;
+        }
+        
+        .nav-links a.active {
+            color: #FF9900;
+        }
+        
+        .language-selector {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 5px;
+        }
+        
+        .lang-btn {
+            padding: 8px 12px;
+            border: none;
+            background: transparent;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background: #f3f4f6;
+        }
+        
+        .contact-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        
+        .contact-content {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .contact-header {
+            background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .contact-body {
+            padding: 3rem;
+        }
+        
+        .contact-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .contact-option {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .contact-option .icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-option h3 {
+            color: #1f2937;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .contact-option p {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-option .btn {
+            background: #FF9900;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-option .btn:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+        }
+        
+        .form-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #FF9900;
+            box-shadow: 0 0 0 3px rgba(255, 153, 0, 0.1);
+        }
+        
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+        }
+        
+        .btn-submit {
+            background: #FF9900;
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn-submit:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 153, 0, 0.3);
+        }
+        
+        .btn-submit:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .info-box h4 {
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .info-box p {
+            color: #1e40af;
+            margin: 0;
+        }
+        
+        .response-times {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        
+        .response-time {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .response-time .time {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FF9900;
+            margin-bottom: 0.5rem;
+        }
+        
+        .response-time .type {
+            color: #374151;
+            font-weight: 500;
+        }
+        
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 80px;
+                right: 10px;
+                padding: 3px;
+            }
+            .nav-container {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .nav-links {
+                gap: 20px;
+            }
+            .contact-body {
+                padding: 2rem;
+            }
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            .contact-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Language Selector -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+        <button class="lang-btn" onclick="switchLanguage('en')">🇺🇸 EN</button>
+    </div>
+
+    <!-- Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo-nav">
+                <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="nav-links">
+                <a href="index.html" data-fr="Accueil" data-en="Home">Accueil</a>
+                <a href="generator.html" data-fr="Générateur" data-en="Generator">Générateur</a>
+                <a href="fonctionnalites.html" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a>
+                <a href="index.html#tarifs" data-fr="Tarifs" data-en="Pricing">Tarifs</a>
+                <a href="inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Inscription</a>
+                <a href="connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Connexion</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="contact-hero py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Contactez-nous" data-en="Contact Us">
+                <span style="color: #FF9900;">Contactez</span>-nous
+            </h1>
+            <p class="text-xl text-gray-600 mb-8" data-fr="Notre équipe est là pour vous aider avec vos projets KDP" data-en="Our team is here to help you with your KDP projects">
+                Notre équipe est là pour vous aider avec vos projets KDP
+            </p>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section class="py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="contact-content">
+                <div class="contact-header">
+                    <i class="fas fa-envelope text-4xl mb-4"></i>
+                    <h2 class="text-2xl font-bold" data-fr="Plusieurs moyens de nous contacter" data-en="Multiple ways to contact us">Plusieurs moyens de nous contacter</h2>
+                    <p data-fr="Choisissez le canal qui vous convient le mieux" data-en="Choose the channel that suits you best">Choisissez le canal qui vous convient le mieux</p>
+                </div>
+                
+                <div class="contact-body">
+                    <!-- Options de contact -->
+                    <div class="contact-options">
+                        <div class="contact-option">
+                            <div class="icon">📧</div>
+                            <h3 data-fr="Email Support" data-en="Email Support">Email Support</h3>
+                            <p data-fr="Pour toutes vos questions générales, problèmes techniques ou suggestions d'amélioration." data-en="For all your general questions, technical issues or improvement suggestions.">Pour toutes vos questions générales, problèmes techniques ou suggestions d'amélioration.</p>
+                            <a href="mailto:contact@gabaritKDP.com" class="btn" data-fr="Envoyer un email" data-en="Send email">Envoyer un email</a>
+                        </div>
+                        
+                        <div class="contact-option">
+                            <div class="icon">🚨</div>
+                            <h3 data-fr="Problème Urgent" data-en="Urgent Problem">Problème Urgent</h3>
+                            <p data-fr="Pour les problèmes critiques qui bloquent votre travail. Réponse prioritaire garantie." data-en="For critical issues that block your work. Priority response guaranteed.">Pour les problèmes critiques qui bloquent votre travail. Réponse prioritaire garantie.</p>
+                            <a href="mailto:urgent@gabaritKDP.com" class="btn" data-fr="Signaler un problème" data-en="Report issue">Signaler un problème</a>
+                        </div>
+                        
+                        <div class="contact-option">
+                            <div class="icon">💡</div>
+                            <h3 data-fr="Suggestions" data-en="Suggestions">Suggestions</h3>
+                            <p data-fr="Vous avez une idée pour améliorer GabaritKDP ? Nous sommes à l'écoute !" data-en="Do you have an idea to improve GabaritKDP? We're listening!">Vous avez une idée pour améliorer GabaritKDP ? Nous sommes à l'écoute !</p>
+                            <a href="mailto:suggestions@gabaritKDP.com" class="btn" data-fr="Proposer une idée" data-en="Suggest an idea">Proposer une idée</a>
+                        </div>
+                        
+                        <div class="contact-option">
+                            <div class="icon">💼</div>
+                            <h3 data-fr="Partenariats" data-en="Partnerships">Partenariats</h3>
+                            <p data-fr="Vous êtes un designer, une agence ou vous souhaitez collaborer avec nous ?" data-en="Are you a designer, an agency or do you want to collaborate with us?">Vous êtes un designer, une agence ou vous souhaitez collaborer avec nous ?</p>
+                            <a href="mailto:partenariats@gabaritKDP.com" class="btn" data-fr="Discuter ensemble" data-en="Let's discuss">Discuter ensemble</a>
+                        </div>
+                        
+                        <div class="contact-option">
+                            <div class="icon">🛡️</div>
+                            <h3 data-fr="Données & RGPD" data-en="Data & GDPR">Données & RGPD</h3>
+                            <p data-fr="Questions sur vos données personnelles, exercice de vos droits RGPD." data-en="Questions about your personal data, exercising your GDPR rights.">Questions sur vos données personnelles, exercice de vos droits RGPD.</p>
+                            <a href="mailto:privacy@gabaritKDP.com" class="btn" data-fr="Contact DPO" data-en="Contact DPO">Contact DPO</a>
+                        </div>
+                        
+                        <div class="contact-option">
+                            <div class="icon">💰</div>
+                            <h3 data-fr="Facturation" data-en="Billing">Facturation</h3>
+                            <p data-fr="Questions sur votre abonnement, facturation, remboursements." data-en="Questions about your subscription, billing, refunds.">Questions sur votre abonnement, facturation, remboursements.</p>
+                            <a href="mailto:facturation@gabaritKDP.com" class="btn" data-fr="Support facturation" data-en="Billing support">Support facturation</a>
+                        </div>
+                    </div>
+
+                    <!-- Temps de réponse -->
+                    <div class="info-box">
+                        <h4 data-fr="⏰ Nos temps de réponse" data-en="⏰ Our response times">⏰ Nos temps de réponse</h4>
+                        <p data-fr="Nous nous engageons à vous répondre dans les meilleurs délais selon la nature de votre demande." data-en="We are committed to responding to you as quickly as possible depending on the nature of your request.">Nous nous engageons à vous répondre dans les meilleurs délais selon la nature de votre demande.</p>
+                    </div>
+                    
+                    <div class="response-times">
+                        <div class="response-time">
+                            <div class="time">< 2h</div>
+                            <div class="type" data-fr="Problèmes urgents" data-en="Urgent issues">Problèmes urgents</div>
+                        </div>
+                        <div class="response-time">
+                            <div class="time">< 24h</div>
+                            <div class="type" data-fr="Questions techniques" data-en="Technical questions">Questions techniques</div>
+                        </div>
+                        <div class="response-time">
+                            <div class="time">< 48h</div>
+                            <div class="type" data-fr="Demandes générales" data-en="General requests">Demandes générales</div>
+                        </div>
+                        <div class="response-time">
+                            <div class="time">< 7j</div>
+                            <div class="type" data-fr="Partenariats" data-en="Partnerships">Partenariats</div>
+                        </div>
+                    </div>
+
+                    <!-- Formulaire de contact -->
+                    <div class="form-container">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center" data-fr="📝 Formulaire de contact rapide" data-en="📝 Quick contact form">📝 Formulaire de contact rapide</h3>
+                        
+                        <form id="contactForm" onsubmit="handleContactForm(event)">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" data-fr="Prénom *" data-en="First Name *">Prénom *</label>
+                                    <input type="text" name="firstName" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" data-fr="Nom *" data-en="Last Name *">Nom *</label>
+                                    <input type="text" name="lastName" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" data-fr="Email *" data-en="Email *">Email *</label>
+                                    <input type="email" name="email" class="form-input" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label" data-fr="Sujet *" data-en="Subject *">Sujet *</label>
+                                    <select name="subject" class="form-input form-select" required>
+                                        <option value="" data-fr="Choisissez un sujet..." data-en="Choose a subject...">Choisissez un sujet...</option>
+                                        <option value="technical" data-fr="Problème technique" data-en="Technical issue">Problème technique</option>
+                                        <option value="billing" data-fr="Question facturation" data-en="Billing question">Question facturation</option>
+                                        <option value="feature" data-fr="Demande de fonctionnalité" data-en="Feature request">Demande de fonctionnalité</option>
+                                        <option value="partnership" data-fr="Partenariat" data-en="Partnership">Partenariat</option>
+                                        <option value="other" data-fr="Autre" data-en="Other">Autre</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group full-width">
+                                    <label class="form-label" data-fr="Message *" data-en="Message *">Message *</label>
+                                    <textarea name="message" class="form-input form-textarea" required placeholder="Décrivez votre demande en détail..."></textarea>
+                                </div>
+                                
+                                <div class="form-group full-width">
+                                    <button type="submit" class="btn-submit" id="submitBtn">
+                                        <span data-fr="📤 Envoyer le message" data-en="📤 Send message">📤 Envoyer le message</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Informations supplémentaires -->
+                    <div class="grid md:grid-cols-2 gap-6 mt-8">
+                        <div class="bg-white rounded-lg p-6 border border-gray-200">
+                            <h4 class="font-bold text-gray-900 mb-4" data-fr="🕒 Heures d'ouverture" data-en="🕒 Opening hours">🕒 Heures d'ouverture</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li data-fr="Lundi - Vendredi : 9h00 - 18h00 (CET)" data-en="Monday - Friday: 9:00 AM - 6:00 PM (CET)">Lundi - Vendredi : 9h00 - 18h00 (CET)</li>
+                                <li data-fr="Samedi : 10h00 - 16h00 (CET)" data-en="Saturday: 10:00 AM - 4:00 PM (CET)">Samedi : 10h00 - 16h00 (CET)</li>
+                                <li data-fr="Dimanche : Fermé" data-en="Sunday: Closed">Dimanche : Fermé</li>
+                                <li class="text-sm text-orange-600" data-fr="Support urgent 24h/7j disponible" data-en="24/7 urgent support available">Support urgent 24h/7j disponible</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="bg-white rounded-lg p-6 border border-gray-200">
+                            <h4 class="font-bold text-gray-900 mb-4" data-fr="🌍 Informations légales" data-en="🌍 Legal information">🌍 Informations légales</h4>
+                            <ul class="space-y-2 text-gray-600">
+                                <li><strong>GABARIT KDP OÜ</strong></li>
+                                <li data-fr="Société estonienne" data-en="Estonian company">Société estonienne</li>
+                                <li data-fr="Reg: 16428397" data-en="Reg: 16428397">Reg: 16428397</li>
+                                <li data-fr="Tallinn, Estonie" data-en="Tallinn, Estonia">Tallinn, Estonie</li>
+                                <li class="text-sm text-blue-600" data-fr="Conforme RGPD" data-en="GDPR compliant">Conforme RGPD</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
+            <div style="background: rgba(255, 255, 255, 0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières nouveautés KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières nouveautés KDP !</h4>
+                
+                <div style="display: flex; justify-content: center; gap: 15px; margin-top: 1rem; flex-wrap: wrap;">
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #FF0000, #CC0000);" title="YouTube - Tutoriels KDP">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #1877F2, #0866D3);" title="Facebook - Communauté auteurs">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);" title="Instagram - Inspirations couvertures">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #BD081C, #E60023);" title="Pinterest - Designs couvertures">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);" title="TikTok - Tips rapides KDP">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="#" style="display: flex; align-items: center; justify-content: center; width: 45px; height: 45px; border-radius: 50%; color: white; text-decoration: none; font-size: 1.2rem; transition: all 0.3s ease; background: linear-gradient(135deg, #0A66C2, #004182);" title="LinkedIn - Publishers & Agences">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                </div>
+                
+                <p class="text-center text-sm text-gray-400 mt-4" data-fr="Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">
+                    Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400" data-fr="L'outil de mise aux dimensions KDP 100% conformes Amazon." data-en="The Amazon KDP sizing tool for 100% compliant covers.">L'outil de mise aux dimensions KDP 100% conformes Amazon.</p>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+                    <ul class="space-y-2">
+                        <li><a href="generator.html" class="hover:text-white transition" data-fr="Générateur" data-en="Generator">Générateur</a></li>
+                        <li><a href="index.html#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Support" data-en="Support">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition text-orange-400" data-fr="Contact" data-en="Contact">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide d'utilisation" data-en="User Guide">Guide d'utilisation</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Mentions légales</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition" data-fr="CGU" data-en="Terms of Service">CGU</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Confidentialité" data-en="Privacy">Confidentialité</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p>&copy; 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">Tous droits réservés.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentLanguage = 'fr';
+        
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all text elements
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                const text = lang === 'fr' ? element.getAttribute('data-fr') : element.getAttribute('data-en');
+                if (element.tagName === 'INPUT' && element.type === 'submit') {
+                    element.value = text;
+                } else if (element.tagName === 'OPTION') {
+                    element.textContent = text;
+                } else {
+                    element.textContent = text;
+                }
+            });
+            
+            // Update placeholders
+            document.querySelectorAll(`[data-${lang}-placeholder]`).forEach(element => {
+                element.placeholder = element.getAttribute(`data-${lang}-placeholder`);
+            });
+            
+            // Update page title and meta description
+            const titleElement = document.querySelector('title');
+            const metaElement = document.querySelector('meta[name="description"]');
+            if (lang === 'fr') {
+                titleElement.textContent = titleElement.getAttribute('data-fr');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-fr'));
+                document.documentElement.lang = 'fr';
+            } else {
+                titleElement.textContent = titleElement.getAttribute('data-en');
+                metaElement.setAttribute('content', metaElement.getAttribute('data-en'));
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        function handleContactForm(event) {
+            event.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            
+            // Disable button and show loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = currentLanguage === 'fr' ? '⏳ Envoi en cours...' : '⏳ Sending...';
+            
+            // Simulate form submission
+            setTimeout(() => {
+                const message = currentLanguage === 'fr' 
+                    ? '✅ Message envoyé avec succès !\n\nNous vous répondrons dans les plus brefs délais.\nVérifiez vos emails dans les prochaines heures.'
+                    : '✅ Message sent successfully!\n\nWe will reply as soon as possible.\nCheck your emails in the next few hours.';
+                
+                alert(message);
+                
+                // Reset form
+                event.target.reset();
+                
+                // Restore button
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
+            }, 2000);
+        }
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            switchLanguage(currentLanguage);
+        });
+    </script>
+</body>
+</html>

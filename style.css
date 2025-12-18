@@ -1,0 +1,62 @@
+/* =====================================
+   CSS FINAL ET UNIFIÉ - GABARITKDP v3.0
+   ===================================== */
+
+/* --- Base et Fonts --- */
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #f9fafb; color: #1f2937; margin: 0; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* --- Éléments Communs (Header, Footer, Langue) --- */
+.language-selector { position: fixed; top: 15px; right: 15px; z-index: 1001; background: white; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); padding: 3px; }
+.lang-btn { padding: 6px 10px; border: none; background: transparent; border-radius: 16px; cursor: pointer; transition: all 0.3s ease; font-weight: 500; font-size: 0.8rem; }
+.lang-btn.active { background: #FF9900; color: white; }
+.header-nav { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 15px 0; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); position: sticky; top: 0; z-index: 999; }
+.nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+.logo-nav { display: flex; align-items: center; gap: 15px; text-decoration: none; }
+.logo-nav img { height: 40px; }
+.logo-nav span { font-size: 1.3rem; font-weight: 700; color: #FF9900; }
+.nav-links { display: flex; align-items: center; gap: 25px; }
+.nav-links a { color: white; text-decoration: none; font-weight: 500; transition: all 0.3s ease; padding: 10px 14px; border-radius: 8px; display: flex; align-items: center; gap: 6px; font-size: 0.95rem; }
+.nav-links a:hover { color: #FF9900; background: rgba(255, 153, 0, 0.1); }
+.nav-links a.active { color: #FF9900; background: rgba(255, 153, 0, 0.15); }
+.express-nav-btn { background: linear-gradient(135deg, #10b981, #059669) !important; color: white !important; }
+.magic-nav-btn { background: linear-gradient(135deg, #8b5cf6, #ec4899) !important; color: white !important; }
+.footer { background: #1a1a2e; color: #e5e7eb; padding: 3rem 0 1rem; margin-top: 4rem; }
+
+/* --- Styles du Générateur Magique (NOUVEAU) --- */
+body.magic-page { background: #0f0f23; color: white; }
+.magic-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%); z-index: -2; }
+.main-workflow { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; backdrop-filter: blur(20px); box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+.step { display: none; }
+.step.active { display: block; animation: magicAppear 0.8s ease-out; }
+.book-type { background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(255, 255, 255, 0.1); border-radius: 20px; padding: 30px; cursor: pointer; transition: all 0.4s ease; text-align: center; }
+.book-type.selected { border-color: #8b5cf6; background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(236, 72, 153, 0.2)); transform: translateY(-10px) scale(1.02); }
+.next-button { background: linear-gradient(135deg, #8b5cf6, #ec4899); color: white; border: none; padding: 18px 40px; border-radius: 15px; font-size: 1.2rem; font-weight: 700; cursor: pointer; margin-top: 40px; }
+.next-button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* -- Nouveaux styles pour la mascotte -- */
+.mascotte-advice { display: none; margin-top: 40px; background: rgba(139, 92, 246, 0.1); border: 1px solid rgba(139, 92, 246, 0.3); border-radius: 16px; padding: 25px; display: flex; gap: 20px; align-items: flex-start; animation: fadeIn 0.5s ease-out; }
+.mascotte-advice.show { display: flex; }
+.mascotte-avatar { width: 80px; height: 80px; flex-shrink: 0; }
+.mascotte-bubble { flex-grow: 1; }
+.mascotte-bubble h4 { font-size: 1.2rem; color: #c4b5fd; margin-bottom: 10px; }
+.mascotte-bubble ul { list-style: none; padding: 0; }
+.mascotte-bubble li { background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 8px; margin-bottom: 8px; font-size: 0.9rem; }
+
+/* -- Nouveaux styles pour l'analyse -- */
+.analysis-section { text-align: center; }
+.upload-box { border: 2px dashed rgba(255,255,255,0.3); border-radius: 16px; padding: 40px; cursor: pointer; transition: all 0.3s ease; }
+.upload-box:hover { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.1); }
+.analysis-progress { display: none; }
+.progress-bar-container { width: 100%; background: rgba(255,255,255,0.1); border-radius: 8px; overflow: hidden; height: 10px; }
+.progress-bar-fill { width: 0%; height: 100%; background: linear-gradient(90deg, #8b5cf6, #ec4899); transition: width 0.5s ease; }
+.analysis-result { display: none; margin-top: 30px; text-align: left; }
+.result-card { background: rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; margin-bottom: 15px; }
+
+@keyframes magicAppear { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* --- Styles des autres pages (Connexion, CGU, etc.) --- */
+.main-content { min-height: calc(100vh - 80px); display: flex; align-items: center; justify-content: center; padding: 40px 20px; }
+.login-container { background: white; border-radius: 20px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15); max-width: 450px; width: 100%; overflow: hidden; }
+.cgu-content, .privacy-content { background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }

@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Books & Digital Resources - GabaritKDP</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: #FF6B35;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #FF6B35;
+        }
+
+        .language-toggle {
+            display: flex;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem;
+            border-radius: 8px;
+        }
+
+        .language-toggle button {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .language-toggle button.active {
+            background: #FF6B35;
+        }
+
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .breadcrumb a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #FF6B35;
+        }
+
+        .breadcrumb span {
+            color: #1e293b;
+            font-weight: 600;
+        }
+
+        .hero {
+            max-width: 1400px;
+            margin: 0 auto 3rem;
+            padding: 0 2rem;
+        }
+
+        .hero-content {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            border-radius: 20px;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .hero-text {
+            position: relative;
+            z-index: 1;
+            color: white;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero-text p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255,107,53,0.9);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .subcategories {
+            max-width: 1400px;
+            margin: 0 auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #1e293b;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-bottom: 3rem;
+        }
+
+        .subcategories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .subcategory-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .subcategory-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+        }
+
+        .subcategory-image {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subcategory-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .subcategory-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.7) 100%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .subcategory-icon {
+            font-size: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .subcategory-count {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .subcategory-info {
+            padding: 1.5rem;
+        }
+
+        .subcategory-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.8rem;
+        }
+
+        .subcategory-description {
+            font-size: 0.95rem;
+            color: #64748b;
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .subcategory-btn {
+            background: #1e293b;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            width: fit-content;
+        }
+
+        .subcategory-btn:hover {
+            background: #FF6B35;
+            transform: translateX(5px);
+        }
+
+        .banner {
+            max-width: 1400px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .banner-content {
+            background: linear-gradient(135deg, #FF6B35 0%, #ff8c5e 100%);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            color: white;
+        }
+
+        .banner-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .banner-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+
+        .banner-stat {
+            text-align: center;
+        }
+
+        .banner-stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .banner-stat-label {
+            font-size: 0.95rem;
+            opacity: 0.95;
+        }
+
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #FF6B35;
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+
+            .subcategories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .banner-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <a href="./index.html" class="logo">Gabarit<span>KDP</span></a>
+            <nav class="nav-links">
+                <a href="./generator.html" data-fr="Générateur" data-en="Generator">Generator</a>
+                <a href="./marketplace.html" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+                <div class="language-toggle">
+                    <button class="lang-btn" data-lang="fr">FR</button>
+                    <button class="lang-btn active" data-lang="en">EN</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="breadcrumb">
+        <a href="./index.html" data-fr="Accueil" data-en="Home">Home</a>
+        <i class="fas fa-chevron-right"></i>
+        <a href="./marketplace.html" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+        <i class="fas fa-chevron-right"></i>
+        <span data-fr="E-Books & Ressources Digitales" data-en="E-Books & Digital Resources">E-Books & Digital Resources</span>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge" data-fr="🔥 NOUVEAU" data-en="🔥 NEW">🔥 NEW</div>
+                <h1 data-fr="E-Books & Ressources Digitales" data-en="E-Books & Digital Resources">E-Books & Digital Resources</h1>
+                <p data-fr="La première plateforme française tout-en-un : Ebooks PLR/MRR prêts à personnaliser, guides business, workbooks, et kits complets pour créateurs et infopreneurs" data-en="The first all-in-one French platform: PLR/MRR ebooks ready to customize, business guides, workbooks, and complete kits for creators and infopreneurs">The first all-in-one French platform: PLR/MRR ebooks ready to customize, business guides, workbooks, and complete kits for creators and infopreneurs</p>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-number">15,000+</div>
+                        <div class="stat-label" data-fr="Templates" data-en="Templates">Templates</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">9</div>
+                        <div class="stat-label" data-fr="Catégories" data-en="Categories">Categories</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">PLR/MRR</div>
+                        <div class="stat-label" data-fr="Droits inclus" data-en="Rights Included">Rights Included</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="subcategories">
+        <h2 class="section-title" data-fr="Parcourir les Catégories" data-en="Browse Categories">Browse Categories</h2>
+        <p class="section-subtitle" data-fr="Choisissez votre niche et trouvez le template parfait" data-en="Choose your niche and find the perfect template">Choose your niche and find the perfect template</p>
+
+        <div class="subcategories-grid">
+
+            <!-- Business Guides -->
+            <div class="subcategory-card" onclick="window.location.href='./category-business-guides.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop&q=80" alt="Business Guides">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">💼</div>
+                        <div class="subcategory-count" data-fr="3,500+ templates" data-en="3,500+ templates">3,500+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Guides Business (PLR)" data-en="Business Guides (PLR)">Business Guides (PLR)</h3>
+                    <p class="subcategory-description" data-fr="E-books business, stratégies marketing, guides entrepreneurs, business plans prêts à utiliser" data-en="Business ebooks, marketing strategies, entrepreneur guides, ready-to-use business plans">Business ebooks, marketing strategies, entrepreneur guides, ready-to-use business plans</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Boss Babe -->
+            <div class="subcategory-card" onclick="window.location.href='./category-boss-babe.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&h=400&fit=crop&q=80" alt="Boss Babe">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">👑</div>
+                        <div class="subcategory-count" data-fr="2,800+ templates" data-en="2,800+ templates">2,800+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Boss Babe / Femmes Entrepreneurs" data-en="Boss Babe / Women Entrepreneurs">Boss Babe / Women Entrepreneurs</h3>
+                    <p class="subcategory-description" data-fr="Ebooks empowerment, leadership féminin, girl boss guides, success stories" data-en="Empowerment ebooks, female leadership, girl boss guides, success stories">Empowerment ebooks, female leadership, girl boss guides, success stories</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Self-Help -->
+            <div class="subcategory-card" onclick="window.location.href='./category-self-help.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=600&h=400&fit=crop&q=80" alt="Self-Help">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">🧠</div>
+                        <div class="subcategory-count" data-fr="4,200+ templates" data-en="4,200+ templates">4,200+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Self-Help & Mindset" data-en="Self-Help & Mindset">Self-Help & Mindset</h3>
+                    <p class="subcategory-description" data-fr="Développement personnel, confiance en soi, productivité, loi de l'attraction, habitudes positives" data-en="Personal development, self-confidence, productivity, law of attraction, positive habits">Personal development, self-confidence, productivity, law of attraction, positive habits</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fitness -->
+            <div class="subcategory-card" onclick="window.location.href='./category-fitness.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&h=400&fit=crop&q=80" alt="Fitness">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">💪</div>
+                        <div class="subcategory-count" data-fr="1,900+ templates" data-en="1,900+ templates">1,900+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Fitness & Perte de Poids" data-en="Fitness & Weight Loss">Fitness & Weight Loss</h3>
+                    <p class="subcategory-description" data-fr="Programmes fitness, nutrition, guides minceur, workouts, meal plans, transformation" data-en="Fitness programs, nutrition, weight loss guides, workouts, meal plans, transformation">Fitness programs, nutrition, weight loss guides, workouts, meal plans, transformation</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Parenting -->
+            <div class="subcategory-card" onclick="window.location.href='./category-parenting.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=600&h=400&fit=crop&q=80" alt="Parenting">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">👶</div>
+                        <div class="subcategory-count" data-fr="1,600+ templates" data-en="1,600+ templates">1,600+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Parentalité & Enfants" data-en="Parenting & Kids">Parenting & Kids</h3>
+                    <p class="subcategory-description" data-fr="Guides parentalité, éducation positive, activités enfants, grossesse, bébé" data-en="Parenting guides, positive education, kids activities, pregnancy, baby">Parenting guides, positive education, kids activities, pregnancy, baby</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Fiction -->
+            <div class="subcategory-card" onclick="window.location.href='./category-fiction.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=600&h=400&fit=crop&q=80" alt="Fiction">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">✍️</div>
+                        <div class="subcategory-count" data-fr="2,100+ templates" data-en="2,100+ templates">2,100+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Fiction & Écriture Créative" data-en="Fiction & Creative Writing">Fiction & Creative Writing</h3>
+                    <p class="subcategory-description" data-fr="Templates fiction, prompts d'écriture, nouvelles, histoires courtes, guides auteurs" data-en="Fiction templates, writing prompts, short stories, author guides">Fiction templates, writing prompts, short stories, author guides</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mini Ebooks -->
+            <div class="subcategory-card" onclick="window.location.href='./category-mini-ebooks.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=600&h=400&fit=crop&q=80" alt="Mini Ebooks">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">📱</div>
+                        <div class="subcategory-count" data-fr="1,800+ templates" data-en="1,800+ templates">1,800+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Mini Ebooks Instagram" data-en="Mini Instagram Ebooks">Mini Instagram Ebooks</h3>
+                    <p class="subcategory-description" data-fr="Lead magnets, freebies, mini-guides Instagram, caroussels, contenus viraux" data-en="Lead magnets, freebies, Instagram mini-guides, carousels, viral content">Lead magnets, freebies, Instagram mini-guides, carousels, viral content</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Checklists -->
+            <div class="subcategory-card" onclick="window.location.href='./category-checklists.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop&q=80" alt="Checklists">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">✅</div>
+                        <div class="subcategory-count" data-fr="2,400+ templates" data-en="2,400+ templates">2,400+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Checklists & Workbooks" data-en="Checklists & Workbooks">Checklists & Workbooks</h3>
+                    <p class="subcategory-description" data-fr="Checklists professionnelles, workbooks interactifs, planners, trackers, templates PDF" data-en="Professional checklists, interactive workbooks, planners, trackers, PDF templates">Professional checklists, interactive workbooks, planners, trackers, PDF templates</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Social Media -->
+            <div class="subcategory-card" onclick="window.location.href='./category-social-media.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1611162616305-c69b3fa7fbe0?w=600&h=400&fit=crop&q=80" alt="Social Media">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">📸</div>
+                        <div class="subcategory-count" data-fr="1,200+ templates" data-en="1,200+ templates">1,200+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Kits Réseaux Sociaux" data-en="Social Media Kits">Social Media Kits</h3>
+                    <p class="subcategory-description" data-fr="Templates Instagram, TikTok, Pinterest, posts, stories, reels, calendriers éditoriaux" data-en="Instagram templates, TikTok, Pinterest, posts, stories, reels, editorial calendars">Instagram templates, TikTok, Pinterest, posts, stories, reels, editorial calendars</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="banner">
+        <div class="banner-content">
+            <h2 class="banner-title" data-fr="La Plateforme Tout-en-Un pour Créateurs" data-en="The All-in-One Platform for Creators">The All-in-One Platform for Creators</h2>
+            <p data-fr="GabaritKDP devient la première plateforme française qui regroupe covers, intérieurs, ebooks PLR/MRR et ressources digitales" data-en="GabaritKDP becomes the first French platform that combines covers, interiors, PLR/MRR ebooks and digital resources">GabaritKDP becomes the first French platform that combines covers, interiors, PLR/MRR ebooks and digital resources</p>
+            <div class="banner-stats">
+                <div class="banner-stat">
+                    <div class="banner-stat-number">15,000+</div>
+                    <div class="banner-stat-label" data-fr="E-Books & Ressources" data-en="E-Books & Resources">E-Books & Resources</div>
+                </div>
+                <div class="banner-stat">
+                    <div class="banner-stat-number">9</div>
+                    <div class="banner-stat-label" data-fr="Catégories" data-en="Categories">Categories</div>
+                </div>
+                <div class="banner-stat">
+                    <div class="banner-stat-number">PLR/MRR</div>
+                    <div class="banner-stat-label" data-fr="Droits de Revente" data-en="Resale Rights">Resale Rights</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="./about.html" data-fr="À propos" data-en="About">About</a>
+                <a href="./contact.html" data-fr="Contact" data-en="Contact">Contact</a>
+                <a href="./cgu.html" data-fr="CGU" data-en="Terms">Terms</a>
+                <a href="./confidentialite.html" data-fr="Confidentialité" data-en="Privacy">Privacy</a>
+            </div>
+            <p>© 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">All rights reserved.</span></p>
+        </div>
+    </footer>
+
+    <script>
+        const langButtons = document.querySelectorAll('.lang-btn');
+        let currentLang = 'en';
+
+        langButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                langButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentLang = btn.dataset.lang;
+                updateLanguage();
+            });
+        });
+
+        function updateLanguage() {
+            document.querySelectorAll('[data-fr][data-en]').forEach(element => {
+                if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                    element.placeholder = element.dataset[currentLang];
+                } else {
+                    element.textContent = element.dataset[currentLang];
+                }
+            });
+        }
+
+        document.querySelectorAll('.subcategory-card').forEach(card => {
+            card.addEventListener('click', () => {
+                console.log('Subcategory clicked');
+            });
+        });
+    </script>
+
+</body>
+</html>

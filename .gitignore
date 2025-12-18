@@ -1,0 +1,14 @@
+# Fichiers volumineux
+*.mp4
+*.exe
+*.zip
+*.rar
+
+# Dossiers à ignorer
+node_modules/
+.netlify/
+mcp/
+
+# Fichiers système
+.DS_Store
+Thumbs.db

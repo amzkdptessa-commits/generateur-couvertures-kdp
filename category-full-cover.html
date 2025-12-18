@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Full Cover Templates - GabaritKDP</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}
+    .header-nav{background:linear-gradient(135deg,#1e293b,#334155);padding:15px 0;position:sticky;top:0;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav img{height:40px}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{display:flex;gap:20px;flex-wrap:wrap}
+    .nav-links a{color:#fff;text-decoration:none;padding:10px 14px;border-radius:8px;font-size:.95rem;transition:all .3s}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .hero{background:linear-gradient(135deg,#dc2626 0%,#b91c1c 50%,#991b1b 100%);padding:3rem 1rem;text-align:center;color:#fff}
+    .breadcrumb{padding:1rem;background:#f8fafc}
+    .breadcrumb a{color:#64748b;text-decoration:none}
+    .breadcrumb a:hover{color:#FF9900}
+    .category-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:2rem;padding:3rem 1rem}
+    .category-card{position:relative;border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 4px 15px rgba(0,0,0,.1);transition:all .3s;cursor:pointer;aspect-ratio:4/3}
+    .category-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.2)}
+    .category-img{width:100%;height:100%;object-fit:cover;background:#f3f4f6}
+    .category-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.3) 50%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem}
+    .category-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem}
+    .category-count{color:#FF9900;font-weight:600;font-size:.875rem}
+    .container{max-width:1400px;margin:0 auto}
+  </style>
+</head>
+<body class="bg-gray-50">
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="index.html"><i class="fas fa-home"></i> Home</a>
+        <a href="generator.html"><i class="fas fa-magic"></i> Generator</a>
+        <a href="marketplace.html" class="active"><i class="fas fa-store"></i> Marketplace</a>
+        <a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="breadcrumb">
+    <div class="container">
+      <a href="marketplace.html">Marketplace</a> / <span style="color:#FF9900;font-weight:600">Full Cover</span>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="container">
+      <h1 class="text-4xl font-bold mb-2">🔥 FULL COVER Templates</h1>
+      <p class="text-xl opacity-90">2,792 professional full cover templates ready to print</p>
+    </div>
+  </section>
+
+  <section class="container category-grid">
+    
+    <div class="category-card" onclick="showSubcategories('art')">
+      <div id="img-art" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🎨 Art</span>
+        <span class="category-count">198 templates • 8 styles</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="showSubcategories('romance')">
+      <div id="img-romance" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">💖 Romance</span>
+        <span class="category-count">435 templates • 6 styles</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="showSubcategories('fantasy')">
+      <div id="img-fantasy" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🐉 Fantasy</span>
+        <span class="category-count">484 templates • 5 styles</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="showSubcategories('religions')">
+      <div id="img-religions" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">✝️ Religions</span>
+        <span class="category-count">368 templates • 8 styles</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-sci-fi-sci-fi.html'">
+      <div id="img-scifi" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🚀 Sci-Fi</span>
+        <span class="category-count">79 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-thriller-thriller.html'">
+      <div id="img-thriller" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🔪 Thriller</span>
+        <span class="category-count">77 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-historical-historical.html'">
+      <div id="img-historical" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🏰 Historical</span>
+        <span class="category-count">78 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-horror-horror.html'">
+      <div id="img-horror" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">👻 Horror</span>
+        <span class="category-count">79 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-mystery-mystery.html'">
+      <div id="img-mystery" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🔍 Mystery</span>
+        <span class="category-count">77 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="showSubcategories('vintage')">
+      <div id="img-vintage" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">📜 Vintage</span>
+        <span class="category-count">289 templates • 6 styles</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="showSubcategories('voyages')">
+      <div id="img-voyages" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">✈️ Voyages</span>
+        <span class="category-count">194 templates • 7 destinations</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-boheme.html'">
+      <div id="img-boheme" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🌸 Bohème</span>
+        <span class="category-count">154 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="showSubcategories('magie')">
+      <div id="img-magie" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">✨ Art Nouveau</span>
+        <span class="category-count">144 templates • 2 styles</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-textures.html'">
+      <div id="img-textures" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🧱 Textures</span>
+        <span class="category-count">95 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-paysages.html'">
+      <div id="img-paysages" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🏔️ Paysages</span>
+        <span class="category-count">23 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-fleurs.html'">
+      <div id="img-fleurs" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">🌺 Fleurs</span>
+        <span class="category-count">14 templates</span>
+      </div>
+    </div>
+
+    <div class="category-card" onclick="location.href='subcategory-full-cover-visages.html'">
+      <div id="img-visages" class="category-img"></div>
+      <div class="category-overlay">
+        <span class="category-name">👤 Visages</span>
+        <span class="category-count">4 templates</span>
+      </div>
+    </div>
+
+  </section>
+
+  <div id="modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:9999;align-items:center;justify-content:center" onclick="closeModal(event)">
+    <div style="background:#fff;border-radius:16px;max-width:800px;width:90%;max-height:80vh;overflow-y:auto;padding:2rem" onclick="event.stopPropagation()">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
+        <h2 id="modal-title" style="font-size:1.5rem;font-weight:700"></h2>
+        <button onclick="closeModal()" style="font-size:1.5rem;cursor:pointer;background:none;border:none">&times;</button>
+      </div>
+      <div id="modal-content" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1rem"></div>
+    </div>
+  </div>
+
+  <script>
+  (async function() {
+    const resp = await fetch('gallery.json');
+    const data = await resp.json();
+    const fullcovers = data.fullcovers || [];
+
+    const findThumb = (searchPath) => {
+      const item = fullcovers.find(it => {
+        const url = (it.url || '').toLowerCase();
+        return url.includes(searchPath.toLowerCase());
+      });
+      return item ? item.url : '';
+    };
+
+    const vignettes = {
+      'art': 'full%20cover/art/',
+      'romance': 'full%20cover/romance/',
+      'fantasy': 'full%20cover/fantasy/',
+      'religions': 'full%20cover/religions/',
+      'scifi': 'full%20cover/sci-fi/',
+      'thriller': 'full%20cover/thriller/',
+      'historical': 'full%20cover/historical/',
+      'horror': 'full%20cover/horror/',
+      'mystery': 'full%20cover/mystery/',
+      'vintage': 'full%20cover/vintage/',
+      'voyages': 'full%20cover/voyages/',
+      'boheme': 'full%20cover/boheme/',
+      'magie': 'full%20cover/magie%20x%20art%20nouveau',
+      'textures': 'full%20cover/textures/',
+      'paysages': 'full%20cover/paysages/',
+      'fleurs': 'full%20cover/fleurs/',
+      'visages': 'full%20cover/visages/'
+    };
+
+    for (const [id, searchPath] of Object.entries(vignettes)) {
+      const url = findThumb(searchPath);
+      if (url) {
+        const elem = document.getElementById('img-' + id);
+        if (elem) {
+          elem.style.backgroundImage = `url('${url}')`;
+          elem.style.backgroundSize = 'cover';
+          elem.style.backgroundPosition = 'center';
+        }
+      }
+    }
+  })();
+
+  const subcategories = {
+    'art': [
+      {name: 'Basquiat Inspired', url: 'subcategory-full-cover-art-basquiat-inspired.html'},
+      {name: 'Frida Kahlo', url: 'subcategory-full-cover-art-frida-kahlo-inspired-art.html'},
+      {name: 'Ukiyo-e', url: 'subcategory-full-cover-art-style-japonais-ukiyo-e.html'},
+      {name: 'Klimt', url: 'subcategory-full-cover-art-style-klimt.html'},
+      {name: 'Picasso', url: 'subcategory-full-cover-art-style-picasso.html'},
+      {name: 'Pop Art', url: 'subcategory-full-cover-art-style-pop-art.html'},
+      {name: 'Renaissance', url: 'subcategory-full-cover-art-style-renaissance.html'},
+      {name: 'Van Gogh', url: 'subcategory-full-cover-art-van-gogh-style.html'}
+    ],
+    'romance': [
+      {name: 'Black Love', url: 'subcategory-full-cover-romance-black-love.html'},
+      {name: 'Dark Romance', url: 'subcategory-full-cover-romance-dark-romance.html'},
+      {name: 'Chic & Luxe', url: 'subcategory-full-cover-romance-romance-contemporaine-chic-luxe.html'},
+      {name: 'Romance Fantasy', url: 'subcategory-full-cover-romance-romance-fantasy.html'},
+      {name: 'Enemies to Lovers', url: 'subcategory-full-cover-romance-romance-intense-passion-enemies-to-lovers.html'},
+      {name: 'Small Town', url: 'subcategory-full-cover-romance-romance-small-town.html'}
+    ],
+    'fantasy': [
+      {name: 'Dark Fantasy', url: 'subcategory-full-cover-fantasy-dark-fantasy.html'},
+      {name: 'Epic Fantasy', url: 'subcategory-full-cover-fantasy-epic-fantasy.html'},
+      {name: 'Magic Fantasy', url: 'subcategory-full-cover-fantasy-magic-fantasy.html'},
+      {name: 'Romantasy', url: 'subcategory-full-cover-fantasy-romantasy.html'},
+      {name: 'Witchcraft', url: 'subcategory-full-cover-fantasy-witchcraft-fantasy.html'}
+    ],
+    'religions': [
+      {name: 'Animisme', url: 'subcategory-full-cover-religions-animisme.html'},
+      {name: 'Christianisme', url: 'subcategory-full-cover-religions-christianisme.html'},
+      {name: 'Islam', url: 'subcategory-full-cover-religions-islam.html'},
+      {name: 'Judaïsme', url: 'subcategory-full-cover-religions-judaisme.html'},
+      {name: 'Orishas', url: 'subcategory-full-cover-religions-magie-africaine-orishas.html'},
+      {name: 'Magie Créole', url: 'subcategory-full-cover-religions-magie-creole.html'},
+      {name: 'Spiritualité Africaine', url: 'subcategory-full-cover-religions-spiritualite-africaine.html'},
+      {name: 'Vaudou', url: 'subcategory-full-cover-religions-vaudou.html'}
+    ],
+    'vintage': [
+      {name: '1930s Buildings', url: 'subcategory-full-cover-vintage-1930s-buildings-city.html'},
+      {name: '1930s Mafia', url: 'subcategory-full-cover-vintage-1930s-mafia-romance.html'},
+      {name: '1930s Maps', url: 'subcategory-full-cover-vintage-1930s-maps-geography.html'},
+      {name: '1930s Newspapers', url: 'subcategory-full-cover-vintage-1930s-newspaper-textures.html'},
+      {name: '1930s Newsroom', url: 'subcategory-full-cover-vintage-1930s-newsroom.html'},
+      {name: 'Ambiance', url: 'subcategory-full-cover-vintage-ambiance.html'}
+    ],
+    'voyages': [
+      {name: 'Marrakech', url: 'subcategory-full-cover-voyages-marrakech.html'},
+      {name: 'Martinique', url: 'subcategory-full-cover-voyages-martinique.html'},
+      {name: 'New York', url: 'subcategory-full-cover-voyages-new-york.html'},
+      {name: 'Paris', url: 'subcategory-full-cover-voyages-paris.html'},
+      {name: 'Rome', url: 'subcategory-full-cover-voyages-rome.html'},
+      {name: 'République Dominicaine', url: 'subcategory-full-cover-voyages-republique-dominicaine.html'},
+      {name: 'Tokyo', url: 'subcategory-full-cover-voyages-tokyo.html'}
+    ],
+    'magie': [
+      {name: 'Bleu Nuit & Or', url: 'subcategory-full-cover-magie-x-art-nouveau-style-premium-art-nouveau-bleu-nuit-or.html'},
+      {name: 'Art Nouveau Magique', url: 'subcategory-full-cover-magie-x-art-nouveau-style-premium-art-nouveau-magique.html'}
+    ]
+  };
+
+  function showSubcategories(category) {
+    const modal = document.getElementById('modal');
+    const title = document.getElementById('modal-title');
+    const content = document.getElementById('modal-content');
+    
+    const categoryNames = {
+      'art': '🎨 Art Styles',
+      'romance': '💖 Romance Styles',
+      'fantasy': '🐉 Fantasy Styles',
+      'religions': '✝️ Religions & Spiritualité',
+      'vintage': '📜 Vintage Styles',
+      'voyages': '✈️ Destinations',
+      'magie': '✨ Art Nouveau Styles'
+    };
+    
+    title.textContent = categoryNames[category] || 'Choose a style';
+    
+    const subs = subcategories[category] || [];
+    content.innerHTML = subs.map(sub => `
+      <a href="${sub.url}" style="display:block;padding:1rem;background:#f3f4f6;border-radius:8px;text-align:center;text-decoration:none;color:#1f2937;font-weight:600;transition:all .3s" onmouseover="this.style.background='#FF9900';this.style.color='#fff'" onmouseout="this.style.background='#f3f4f6';this.style.color='#1f2937'">
+        ${sub.name}
+      </a>
+    `).join('');
+    
+    modal.style.display = 'flex';
+  }
+
+  function closeModal(event) {
+    if (!event || event.target.id === 'modal') {
+      document.getElementById('modal').style.display = 'none';
+    }
+  }
+  </script>
+</body>
+</html>

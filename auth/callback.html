@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Connexion à Canva - GabaritKDP</title>
+  <style>
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { 
+      min-height:100vh; 
+      display:flex; 
+      align-items:center; 
+      justify-content:center; 
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto; 
+      background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); 
+    }
+    .card { 
+      width:100%; max-width:520px; background:#fff; border-radius:14px; 
+      padding:36px; box-shadow: 0 20px 50px rgba(0,0,0,0.25); text-align:center; 
+    }
+    .spinner { 
+      width:56px; height:56px; margin:0 auto 18px; border-radius:50%; 
+      border:4px solid #f3f4f6; border-top-color:#667eea; 
+      animation: spin 1s linear infinite; 
+    }
+    @keyframes spin { to { transform:rotate(360deg); } }
+    h2 { font-size:1.25rem; color:#111827; margin-bottom:8px; }
+    p { color:#6b7280; margin-bottom:12px; }
+    .success { font-size:48px; color:#10b981; margin-bottom:10px; }
+    .error { font-size:48px; color:#ef4444; margin-bottom:10px; }
+    .btn { 
+      display:inline-block; margin-top:14px; padding:10px 18px; 
+      background:#667eea; color:#fff; border-radius:10px; 
+      text-decoration:none; font-weight:600; 
+    }
+  </style>
+</head>
+<body>
+  <main class="card" id="card">
+    <div class="spinner"></div>
+    <h2>Connexion à Canva en cours...</h2>
+    <p>Veuillez patienter...</p>
+  </main>
+
+  <script>
+    (async function() {
+      const WORKER_URL = "https://gabaritkdp.com/oauth/callback";
+      const REDIRECT_URI = "https://gabaritkdp.com/auth/callback.html";
+      const FINAL_REDIRECT = "/generator.html";
+      const card = document.getElementById("card");
+
+      console.log('🚀 Début du processus callback');
+
+      function renderError(message) {
+        card.innerHTML = `
+          <div class="error">✗</div>
+          <h2>Erreur lors de l'authentification</h2>
+          <p>${message}</p>
+          <a class="btn" href="${FINAL_REDIRECT}">Retour au générateur</a>
+        `;
+      }
+
+      function renderSuccess() {
+        card.innerHTML = `
+          <div class="success">✓</div>
+          <h2>Connexion réussie !</h2>
+          <p>Redirection...</p>
+        `;
+        setTimeout(() => { window.location.href = FINAL_REDIRECT; }, 1200);
+      }
+
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get("code");
+        const error = params.get("error");
+
+        console.log('📋 Paramètres URL:', { hasCode: !!code, hasError: !!error });
+
+        if (error) {
+          return renderError("Accès refusé à Canva.");
+        }
+        
+        if (!code) {
+          return renderError("Code d'autorisation manquant.");
+        }
+
+        const verifier =
+          sessionStorage.getItem("pkce_code_verifier") ||
+          localStorage.getItem("canva_pkce_verifier") ||
+          localStorage.getItem("pkce_code_verifier") ||
+          localStorage.getItem("code_verifier");
+
+        console.log('🔑 Verifier trouvé:', !!verifier);
+
+        if (!verifier) {
+          return renderError("Session expirée. Relancez la connexion.");
+        }
+
+        console.log('📤 Envoi de la requête au Worker...');
+
+        const resp = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            code: code, 
+            code_verifier: verifier,
+            redirect_uri: REDIRECT_URI  // ✅ AJOUT CRITIQUE
+          }),
+          credentials: "include"
+        });
+
+        console.log('📥 Réponse reçue:', resp.status);
+
+        const data = await resp.json();
+        console.log('📄 Données:', data);
+
+        if (!resp.ok) {
+          console.error('❌ Échec échange token:', resp.status, data);
+          return renderError("Échec de l'échange de token : " + (data.error || 'Erreur serveur'));
+        }
+
+        if (!data.access_token) {
+          return renderError("Réponse inattendue du serveur.");
+        }
+
+        console.log('✅ Token reçu avec succès');
+
+        localStorage.setItem("canva_access_token", data.access_token);
+        if (data.refresh_token) localStorage.setItem("canva_refresh_token", data.refresh_token);
+        if (data.expires_in) localStorage.setItem("canva_token_expiry", String(Date.now() + data.expires_in * 1000));
+
+        sessionStorage.removeItem("pkce_code_verifier");
+        localStorage.removeItem("canva_pkce_verifier");
+        localStorage.removeItem("pkce_code_verifier");
+        localStorage.removeItem("code_verifier");
+
+        renderSuccess();
+
+      } catch (err) {
+        console.error('💥 Erreur:', err);
+        renderError(err.message || "Erreur réseau.");
+      }
+    })();
+  </script>
+</body>
+</html>

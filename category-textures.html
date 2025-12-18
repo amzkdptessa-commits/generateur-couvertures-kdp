@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Textures Templates - GabaritKDP Marketplace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; }
+        
+        /* Header */
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: white; text-decoration: none; }
+        .logo span { color: #64748b; }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { color: #94a3b8; text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: white; }
+        
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+        .breadcrumb a { color: #94a3b8; text-decoration: none; }
+        .breadcrumb a:hover { color: white; }
+        
+        /* Hero */
+        .hero {
+            background: linear-gradient(135deg, #64748b22 0%, transparent 50%),
+                        url('https://cdn.gabaritkdp.com/fullcovers/Textures/Textures%20(1).jpg') center/cover;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 0%, #0f172a 100%);
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero h1 { font-size: 3rem; margin-bottom: 1rem; }
+        .hero h1 .icon { font-size: 2.5rem; margin-right: 0.5rem; }
+        .hero p { color: #94a3b8; font-size: 1.125rem; max-width: 600px; margin: 0 auto 1.5rem; }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .stat-value { font-size: 1.5rem; font-weight: 700; color: #64748b; }
+        .stat-label { font-size: 0.875rem; color: #94a3b8; }
+        
+        /* Filters */
+        .filters {
+            padding: 1.5rem 2rem;
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .filter-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #94a3b8;
+            padding: 0.625rem 1.25rem;
+            border-radius: 9999px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.875rem;
+        }
+        .filter-btn:hover { background: rgba(255,255,255,0.1); color: white; }
+        .filter-btn.active { background: #64748b; color: white; border-color: #64748b; }
+        
+        /* Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Card */
+        .product-card {
+            background: #1e293b;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .product-card:hover {
+            transform: translateY(-4px);
+            border-color: #64748b;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .product-card.hidden { display: none; }
+        .card-image {
+            aspect-ratio: 3/4;
+            overflow: hidden;
+            position: relative;
+            background: #0f172a;
+        }
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        .product-card:hover .card-image img { transform: scale(1.05); }
+        .badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .badge-free { background: #22c55e; color: white; }
+        .badge-pro { background: #64748b; color: white; }
+        .card-content { padding: 1rem; }
+        .card-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .card-price { color: #64748b; font-weight: 700; }
+        .card-price.free { color: #22c55e; }
+        
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .footer p { color: #64748b; }
+        .footer a { color: #64748b; text-decoration: none; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .nav-links { display: none; }
+            .products-grid { padding: 1rem; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="marketplace.html" class="logo">Gabarit<span>KDP</span></a>
+        <nav class="nav-links">
+            <a href="marketplace.html">Marketplace</a>
+            <a href="generator.html">Générateur</a>
+            <a href="pricing.html">Pricing</a>
+        </nav>
+    </header>
+    
+    <div class="breadcrumb">
+        <a href="index.html">Accueil</a> / <a href="marketplace.html">Marketplace</a> / <strong>Textures</strong>
+    </div>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1><span class="icon">🧱</span> Textures</h1>
+            <p>Découvrez notre collection de templates textures professionnels, prêts à personnaliser pour Amazon KDP.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value" id="totalCount">95</div>
+                    <div class="stat-label">Templates</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="freeCount">19</div>
+                    <div class="stat-label">Gratuits</div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="other">Other</button>
+        <button class="filter-btn" data-filter="free">🆓 Gratuits</button>
+    </div>
+    
+    <div class="products-grid" id="productsGrid"></div>
+    
+    <footer class="footer">
+        <p>© 2025 GabaritKDP - <a href="mentions-legales.html">Mentions légales</a></p>
+    </footer>
+    
+    <script>
+    const products = [
+      { id: 1, title: "FULLCOVER 1930s Newsroom 1", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(1).png", price: 4.99 },
+  { id: 2, title: "FULLCOVER 1930s Newsroom 10", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(10).png", price: 4.99 },
+  { id: 3, title: "FULLCOVER 1930s Newsroom 11", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(11).png", price: 4.99 },
+  { id: 4, title: "FULLCOVER 1930s Newsroom 12", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(12).png", price: 4.99 },
+  { id: 5, title: "FULLCOVER 1930s Newsroom 13", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(13).png", price: 0 },
+  { id: 6, title: "FULLCOVER 1930s Newsroom 14", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(14).png", price: 4.99 },
+  { id: 7, title: "FULLCOVER 1930s Newsroom 15", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(15).png", price: 4.99 },
+  { id: 8, title: "FULLCOVER 1930s Newsroom 16", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(16).png", price: 4.99 },
+  { id: 9, title: "FULLCOVER 1930s Newsroom 17", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(17).png", price: 4.99 },
+  { id: 10, title: "FULLCOVER 1930s Newsroom 18", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(18).png", price: 0 },
+  { id: 11, title: "FULLCOVER 1930s Newsroom 19", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(19).png", price: 4.99 },
+  { id: 12, title: "FULLCOVER 1930s Newsroom 2", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(2).png", price: 4.99 },
+  { id: 13, title: "FULLCOVER 1930s Newsroom 20", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(20).png", price: 4.99 },
+  { id: 14, title: "FULLCOVER 1930s Newsroom 21", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(21).png", price: 4.99 },
+  { id: 15, title: "FULLCOVER 1930s Newsroom 22", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(22).png", price: 0 },
+  { id: 16, title: "FULLCOVER 1930s Newsroom 23", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(23).png", price: 4.99 },
+  { id: 17, title: "FULLCOVER 1930s Newsroom 24", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(24).png", price: 4.99 },
+  { id: 18, title: "FULLCOVER 1930s Newsroom 25", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(25).png", price: 4.99 },
+  { id: 19, title: "FULLCOVER 1930s Newsroom 26", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(26).png", price: 4.99 },
+  { id: 20, title: "FULLCOVER 1930s Newsroom 27", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(27).png", price: 0 },
+  { id: 21, title: "FULLCOVER 1930s Newsroom 28", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(28).png", price: 4.99 },
+  { id: 22, title: "FULLCOVER 1930s Newsroom 29", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(29).png", price: 4.99 },
+  { id: 23, title: "FULLCOVER 1930s Newsroom 3", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(3).png", price: 4.99 },
+  { id: 24, title: "FULLCOVER 1930s Newsroom 30", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(30).png", price: 4.99 },
+  { id: 25, title: "FULLCOVER 1930s Newsroom 31", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(31).png", price: 0 },
+  { id: 26, title: "FULLCOVER 1930s Newsroom 32", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(32).png", price: 4.99 },
+  { id: 27, title: "FULLCOVER 1930s Newsroom 33", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(33).png", price: 4.99 },
+  { id: 28, title: "FULLCOVER 1930s Newsroom 34", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(34).png", price: 4.99 },
+  { id: 29, title: "FULLCOVER 1930s Newsroom 35", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(35).png", price: 4.99 },
+  { id: 30, title: "FULLCOVER 1930s Newsroom 36", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(36).png", price: 0 },
+  { id: 31, title: "FULLCOVER 1930s Newsroom 37", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(37).png", price: 4.99 },
+  { id: 32, title: "FULLCOVER 1930s Newsroom 38", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(38).png", price: 4.99 },
+  { id: 33, title: "FULLCOVER 1930s Newsroom 39", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(39).png", price: 4.99 },
+  { id: 34, title: "FULLCOVER 1930s Newsroom 4", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(4).png", price: 4.99 },
+  { id: 35, title: "FULLCOVER 1930s Newsroom 40", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(40).png", price: 0 },
+  { id: 36, title: "FULLCOVER 1930s Newsroom 41", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(41).png", price: 4.99 },
+  { id: 37, title: "FULLCOVER 1930s Newsroom 42", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(42).png", price: 4.99 },
+  { id: 38, title: "FULLCOVER 1930s Newsroom 43", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(43).png", price: 4.99 },
+  { id: 39, title: "FULLCOVER 1930s Newsroom 44", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(44).png", price: 4.99 },
+  { id: 40, title: "FULLCOVER 1930s Newsroom 45", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(45).png", price: 0 },
+  { id: 41, title: "FULLCOVER 1930s Newsroom 46", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(46).png", price: 4.99 },
+  { id: 42, title: "FULLCOVER 1930s Newsroom 47", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(47).png", price: 4.99 },
+  { id: 43, title: "FULLCOVER 1930s Newsroom 48", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(48).png", price: 4.99 },
+  { id: 44, title: "FULLCOVER 1930s Newsroom 49", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(49).png", price: 4.99 },
+  { id: 45, title: "FULLCOVER 1930s Newsroom 5", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(5).png", price: 0 },
+  { id: 46, title: "FULLCOVER 1930s Newsroom 50", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(50).png", price: 4.99 },
+  { id: 47, title: "FULLCOVER 1930s Newsroom 51", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(51).png", price: 4.99 },
+  { id: 48, title: "FULLCOVER 1930s Newsroom 52", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(52).png", price: 4.99 },
+  { id: 49, title: "FULLCOVER 1930s Newsroom 53", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(53).png", price: 4.99 },
+  { id: 50, title: "FULLCOVER 1930s Newsroom 54", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(54).png", price: 0 },
+  { id: 51, title: "FULLCOVER 1930s Newsroom 55", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(55).png", price: 4.99 },
+  { id: 52, title: "FULLCOVER 1930s Newsroom 56", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(56).png", price: 4.99 },
+  { id: 53, title: "FULLCOVER 1930s Newsroom 57", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(57).png", price: 4.99 },
+  { id: 54, title: "FULLCOVER 1930s Newsroom 58", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(58).png", price: 4.99 },
+  { id: 55, title: "FULLCOVER 1930s Newsroom 59", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(59).png", price: 0 },
+  { id: 56, title: "FULLCOVER 1930s Newsroom 6", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(6).png", price: 4.99 },
+  { id: 57, title: "FULLCOVER 1930s Newsroom 60", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(60).png", price: 4.99 },
+  { id: 58, title: "FULLCOVER 1930s Newsroom 61", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(61).png", price: 4.99 },
+  { id: 59, title: "FULLCOVER 1930s Newsroom 62", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(62).png", price: 4.99 },
+  { id: 60, title: "FULLCOVER 1930s Newsroom 63", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(63).png", price: 0 },
+  { id: 61, title: "FULLCOVER 1930s Newsroom 64", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(64).png", price: 4.99 },
+  { id: 62, title: "FULLCOVER 1930s Newsroom 65", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(65).png", price: 4.99 },
+  { id: 63, title: "FULLCOVER 1930s Newsroom 66", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(66).png", price: 4.99 },
+  { id: 64, title: "FULLCOVER 1930s Newsroom 67", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(67).png", price: 4.99 },
+  { id: 65, title: "FULLCOVER 1930s Newsroom 68", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(68).png", price: 0 },
+  { id: 66, title: "FULLCOVER 1930s Newsroom 69", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(69).png", price: 4.99 },
+  { id: 67, title: "FULLCOVER 1930s Newsroom 7", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(7).png", price: 4.99 },
+  { id: 68, title: "FULLCOVER 1930s Newsroom 70", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(70).png", price: 4.99 },
+  { id: 69, title: "FULLCOVER 1930s Newsroom 71", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(71).png", price: 4.99 },
+  { id: 70, title: "FULLCOVER 1930s Newsroom 72", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(72).png", price: 0 },
+  { id: 71, title: "FULLCOVER 1930s Newsroom 73", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(73).png", price: 4.99 },
+  { id: 72, title: "FULLCOVER 1930s Newsroom 74", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(74).png", price: 4.99 },
+  { id: 73, title: "FULLCOVER 1930s Newsroom 75", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(75).png", price: 4.99 },
+  { id: 74, title: "FULLCOVER 1930s Newsroom 76", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(76).png", price: 4.99 },
+  { id: 75, title: "FULLCOVER 1930s Newsroom 77", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(77).png", price: 0 },
+  { id: 76, title: "FULLCOVER 1930s Newsroom 78", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(78).png", price: 4.99 },
+  { id: 77, title: "FULLCOVER 1930s Newsroom 79", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(79).png", price: 4.99 },
+  { id: 78, title: "FULLCOVER 1930s Newsroom 8", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(8).png", price: 4.99 },
+  { id: 79, title: "FULLCOVER 1930s Newsroom 80", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(80).png", price: 4.99 },
+  { id: 80, title: "FULLCOVER 1930s Newsroom 81", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(81).png", price: 0 },
+  { id: 81, title: "FULLCOVER 1930s Newsroom 82", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(82).png", price: 4.99 },
+  { id: 82, title: "FULLCOVER 1930s Newsroom 83", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(83).png", price: 4.99 },
+  { id: 83, title: "FULLCOVER 1930s Newsroom 84", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(84).png", price: 4.99 },
+  { id: 84, title: "FULLCOVER 1930s Newsroom 85", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(85).png", price: 4.99 },
+  { id: 85, title: "FULLCOVER 1930s Newsroom 86", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(86).png", price: 0 },
+  { id: 86, title: "FULLCOVER 1930s Newsroom 87", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(87).png", price: 4.99 },
+  { id: 87, title: "FULLCOVER 1930s Newsroom 88", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(88).png", price: 4.99 },
+  { id: 88, title: "FULLCOVER 1930s Newsroom 89", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(89).png", price: 4.99 },
+  { id: 89, title: "FULLCOVER 1930s Newsroom 9", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(9).png", price: 4.99 },
+  { id: 90, title: "FULLCOVER 1930s Newsroom 90", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(90).png", price: 0 },
+  { id: 91, title: "FULLCOVER 1930s Newsroom 91", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(91).png", price: 4.99 },
+  { id: 92, title: "FULLCOVER 1930s Newsroom 92", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(92).png", price: 4.99 },
+  { id: 93, title: "FULLCOVER 1930s Newsroom 93", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(93).png", price: 4.99 },
+  { id: 94, title: "FULLCOVER 1930s Newsroom 94", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(94).png", price: 4.99 },
+  { id: 95, title: "FULLCOVER 1930s Newsroom 95", cat: "other", img: "https://cdn.gabaritkdp.com/fullcovers/Textures/FULLCOVER_1930s%20Newsroom%20(95).png", price: 0 },
+    ];
+    
+    const grid = document.getElementById('productsGrid');
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    
+    // Render products
+    function renderProducts(filter = 'all') {
+        grid.innerHTML = '';
+        
+        let filtered = products;
+        if (filter === 'free') {
+            filtered = products.filter(p => p.price === 0);
+        } else if (filter !== 'all') {
+            filtered = products.filter(p => p.cat === filter);
+        }
+        
+        filtered.forEach(p => {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.innerHTML = `
+                <div class="card-image">
+                    <img src="${p.img}" alt="${p.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x400?text=Loading...'">
+                    <span class="badge ${p.price === 0 ? 'badge-free' : 'badge-pro'}">${p.price === 0 ? 'FREE' : 'PRO'}</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-title">${p.title}</div>
+                    <div class="card-price ${p.price === 0 ? 'free' : ''}">${p.price === 0 ? 'Gratuit' : p.price.toFixed(2) + ' €'}</div>
+                </div>
+            `;
+            card.onclick = () => {
+                window.location.href = 'generator.html?template=' + encodeURIComponent(p.img);
+            };
+            grid.appendChild(card);
+        });
+        
+        // Update counter
+        document.getElementById('totalCount').textContent = filtered.length;
+        document.getElementById('freeCount').textContent = filtered.filter(p => p.price === 0).length;
+    }
+    
+    // Filter click handlers
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderProducts(btn.dataset.filter);
+        });
+    });
+    
+    // Initial render
+    renderProducts();
+    </script>
+</body>
+</html>
