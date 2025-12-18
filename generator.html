@@ -3348,7 +3348,7 @@ img {
             // 🛒 MARKETPLACE INTEGRATION - États pour les templates chargés via URL
             const [marketplaceTemplate, setMarketplaceTemplate] = useState(null);
             const [isMarketplacePreview, setIsMarketplacePreview] = useState(false);
-            const [showStripeModal, setShowStripeModal] = useState(false);
+            const [showStripeModal, setShowStripeModal] = useState(false); // Désactivé pour beta
             
             const canvasRef = useRef(null);
 
@@ -4941,36 +4941,20 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             }, []);
 
      const handleExportClick = async () => {
-    // ✅ VÉRIFICATION BETA SYSTEM - 100 Founding Testers
-    if (!(await checkBetaAccess())) {
-        return; // Bloquer si pas inscrit ou limite atteinte
-    }
-
+    // ✅ BETA TESTING: Export libre pour tous !
     if (!dimensions) { alert(t('selectFormat')); return; }
     
-    // 🛒 STRIPE INTEGRATION - Vérifier si c'est un template marketplace
-    if (isMarketplacePreview && !isProUser()) {
-        // Afficher le modal de paiement Stripe
-        setShowStripeModal(true);
-        return;
-    }
-    
-    const limits = checkExportLimits();
-    if (!limits.canExport) {
-        if (confirm('Limite atteinte. Voir les offres ?')) window.location.href = 'index.html#tarifs';
-        return;
-    }
-    
-    // Enregistrer l'export dans Supabase
-    if (window.isUserRegistered && window.isUserRegistered()) {
-        const email = localStorage.getItem('userEmail');
-        const format = dimensions?.name || 'unknown';
-        await window.recordExportInSupabase(email, format);
-    }
-    
+    // Exporter directement - pas de limitations pendant le beta
     exportImage(); 
-    recordExport(); 
-    setExportLimitInfo(checkExportLimits()); 
+    
+    // Tracking optionnel (non bloquant)
+    try {
+        if (window.isUserRegistered && window.isUserRegistered()) {
+            const email = localStorage.getItem('userEmail');
+            const format = dimensions?.name || 'unknown';
+            await window.recordExportInSupabase(email, format);
+        }
+    } catch(e) { console.log('Tracking skipped'); }
 };
 
             // 🛒 STRIPE - Gérer le paiement
@@ -5110,7 +5094,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                         </div>
                     )}
                     
-                    {/* 🛒 STRIPE PAYMENT MODAL */}
+                    {/* 🛒 STRIPE PAYMENT MODAL - Désactivé pour beta testing
                     {showStripeModal && (
                         <div style={{
                             position: 'fixed',
@@ -5156,7 +5140,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                 </p>
                                 
                                 <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
-                                    {/* Pay-per-Export */}
                                     <button 
                                         onClick={() => handleStripePayment('payPerExport')}
                                         style={{
@@ -5185,7 +5168,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         <div style={{fontWeight: '800', fontSize: '1.5rem', color: '#FF9900'}}>2,50€</div>
                                     </button>
                                     
-                                    {/* Pro Unlimited */}
                                     <button 
                                         onClick={() => handleStripePayment('proUnlimited')}
                                         style={{
@@ -5234,6 +5216,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                             </div>
                         </div>
                     )}
+                    FIN MODAL STRIPE */}
                     
                     <div className="generator-layout">
                         <div className="sidebar">
@@ -7408,7 +7391,8 @@ function getStored() {
 </script>
 
 <!-- Système Beta 100 Founding Testers -->
-<script src="beta-system.js"></script>
+<!-- Beta system désactivé pour le lancement -->
+<!-- <script src="beta-system.js"></script> -->
 
 <!-- 🔴 Widget activité en temps réel - TEMPORAIREMENT DÉSACTIVÉ -->
 <!-- <script defer src="realtime-activity-widget.js"></script> -->
