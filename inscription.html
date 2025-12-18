@@ -907,50 +907,17 @@
         function showMessage(message, type) {
             const messageContainer = document.getElementById('messageContainer');
             messageContainer.innerHTML = `<div class="${type === 'error' ? 'error-message' : 'success-message'}">${message}</div>`;
-            if (type !== 'success') {
-                setTimeout(() => { messageContainer.innerHTML = ''; }, 5000);
-            }
-        }
-        
-        // 🎉 MODAL DE SUCCÈS
-        function showSuccessModal(email) {
-            const lang = currentLang;
-            const modal = document.createElement('div');
-            modal.id = 'successModal';
-            modal.innerHTML = `
-                <div style="position:fixed;inset:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:10000;padding:20px;">
-                    <div style="background:white;border-radius:20px;padding:40px;max-width:500px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.3);">
-                        <div style="font-size:4rem;margin-bottom:20px;">🎉</div>
-                        <h2 style="font-size:1.8rem;font-weight:700;color:#1e293b;margin-bottom:10px;">
-                            ${lang === 'fr' ? 'Bienvenue !' : 'Welcome!'}
-                        </h2>
-                        <p style="color:#10b981;font-weight:600;font-size:1.1rem;margin-bottom:15px;">
-                            ${lang === 'fr' ? '✅ Votre compte a été créé avec succès' : '✅ Your account has been created successfully'}
-                        </p>
-                        <div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;padding:15px;margin:20px 0;">
-                            <p style="font-size:1.5rem;font-weight:700;color:#92400e;margin:0;">
-                                🎁 3 ${lang === 'fr' ? 'exports gratuits offerts' : 'free exports included'}!
-                            </p>
-                        </div>
-                        <p style="color:#64748b;font-size:0.95rem;margin-bottom:25px;">
-                            ${lang === 'fr' ? 'Email: <strong>' + email + '</strong>' : 'Email: <strong>' + email + '</strong>'}
-                        </p>
-                        <button onclick="window.location.href='./generator.html'" style="background:linear-gradient(135deg,#FF9900,#e68a00);color:white;border:none;padding:16px 40px;border-radius:12px;font-weight:700;font-size:1.1rem;cursor:pointer;">
-                            ${lang === 'fr' ? '🚀 Continuer vers le Générateur' : '🚀 Continue to Generator'}
-                        </button>
-                    </div>
-                </div>
-            `;
-            document.body.appendChild(modal);
+            setTimeout(() => { messageContainer.innerHTML = ''; }, 5000);
         }
 
         async function handleEmailSignup(formData) {
             try {
-                // 1️⃣ CRÉER LE COMPTE
+                // 1) Créer le compte
                 const { data, error } = await supabase.auth.signUp({
                     email: formData.email,
                     password: formData.password,
                     options: {
+                        emailRedirectTo: window.location.origin + '/generator.html',
                         data: {
                             full_name: formData.fullName,
                             newsletter_subscription: formData.newsletter === 'on'
@@ -959,8 +926,8 @@
                 });
                 if (error) throw error;
                 
-                // 2️⃣ CRÉER LE PROFIL avec 3 exports gratuits
-                if (data.user) {
+                // 2) Créer le profil FREE avec 3 exports
+                if (data && data.user) {
                     const { error: profileError } = await supabase
                         .from('user_profiles')
                         .upsert({
@@ -974,37 +941,54 @@
                     if (profileError) {
                         console.error('Erreur création profil:', profileError);
                     } else {
-                        console.log('✅ Profil créé avec 3 exports!');
+                        console.log('Profil créé avec 3 exports!');
                     }
                     
-                    // 3️⃣ STOCKER dans localStorage
+                    // Stocker dans localStorage pour le générateur
                     localStorage.setItem('userEmail', formData.email);
                     localStorage.setItem('exportCredits', '3');
                 }
                 
-                // 4️⃣ AUTO-CONNEXION
-                await supabase.auth.signInWithPassword({
+                // 3) Auto-connexion (fonctionne si Confirm email est désactivé)
+                const { error: signInError } = await supabase.auth.signInWithPassword({
                     email: formData.email,
                     password: formData.password
                 });
                 
-                // 5️⃣ ANALYTICS
+                if (signInError) {
+                    console.log('Auto-connexion échouée:', signInError.message);
+                }
+                
+                // 4) Analytics
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'sign_up', { method: 'email' });
                 }
                 
-                // 6️⃣ AFFICHER LE MODAL DE SUCCÈS
-                showSuccessModal(formData.email);
+                // 5) Afficher modal de succès
+                var modalHtml = '<div id="successModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.8);display:flex;align-items:center;justify-content:center;z-index:10000;padding:20px;">' +
+                    '<div style="background:white;border-radius:20px;padding:40px;max-width:500px;text-align:center;box-shadow:0 25px 50px rgba(0,0,0,0.3);">' +
+                    '<div style="font-size:4rem;margin-bottom:20px;">🎉</div>' +
+                    '<h2 style="font-size:1.8rem;font-weight:700;color:#1e293b;margin-bottom:10px;">' + (currentLang === 'fr' ? 'Bienvenue !' : 'Welcome!') + '</h2>' +
+                    '<p style="color:#10b981;font-weight:600;font-size:1.1rem;margin-bottom:15px;">' + (currentLang === 'fr' ? 'Votre compte a été créé avec succès' : 'Your account has been created successfully') + '</p>' +
+                    '<div style="background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:12px;padding:15px;margin:20px 0;">' +
+                    '<p style="font-size:1.5rem;font-weight:700;color:#92400e;margin:0;">🎁 3 ' + (currentLang === 'fr' ? 'exports gratuits' : 'free exports') + '!</p>' +
+                    '</div>' +
+                    '<p style="color:#64748b;font-size:0.95rem;margin-bottom:25px;">Email: <strong>' + formData.email + '</strong></p>' +
+                    '<button onclick="window.location.href=\'./generator.html\'" style="background:linear-gradient(135deg,#FF9900,#e68a00);color:white;border:none;padding:16px 40px;border-radius:12px;font-weight:700;font-size:1.1rem;cursor:pointer;">' + (currentLang === 'fr' ? 'Continuer vers le Générateur' : 'Continue to Generator') + '</button>' +
+                    '</div></div>';
+                document.body.insertAdjacentHTML('beforeend', modalHtml);
                 
                 return true;
             } catch (error) {
-                let errorMessage = currentLang === 'fr' ? 'Erreur lors de l\'inscription' : 'Error during registration';
-                if (error.message.includes('already registered')) {
+                var errorMessage = currentLang === 'fr' ? 'Erreur lors de l\'inscription' : 'Error during registration';
+                if (error.message && error.message.includes('already registered')) {
                     errorMessage = currentLang === 'fr' 
                         ? 'Cet email est déjà utilisé. <a href="./connexion.html" style="color:#FF9900;font-weight:bold;">Se connecter</a>' 
                         : 'This email is already in use. <a href="./connexion.html" style="color:#FF9900;font-weight:bold;">Log in</a>';
                 }
-                else if (error.message.includes('weak')) errorMessage = currentLang === 'fr' ? 'Le mot de passe est trop faible' : 'Password is too weak';
+                else if (error.message && error.message.includes('weak')) {
+                    errorMessage = currentLang === 'fr' ? 'Le mot de passe est trop faible' : 'Password is too weak';
+                }
                 showMessage(errorMessage, 'error');
                 return false;
             }
