@@ -5035,21 +5035,12 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 setDraggingElement(null);
             }, []);
 
-     const handleExportClick = async () => {
+     const handleExportClick = () => {
     // ✅ BETA TESTING: Export libre pour tous !
     if (!dimensions) { alert(t('selectFormat')); return; }
     
-    // Exporter directement - pas de limitations pendant le beta
-    exportImage(); 
-    
-    // Tracking optionnel (non bloquant)
-    try {
-        if (window.isUserRegistered && window.isUserRegistered()) {
-            const email = localStorage.getItem('userEmail');
-            const format = dimensions?.name || 'unknown';
-            await window.recordExportInSupabase(email, format);
-        }
-    } catch(e) { console.log('Tracking skipped'); }
+    // Exporter directement - rapide et simple
+    exportImage();
 };
 
             // 🛒 STRIPE - Gérer le paiement
@@ -5347,7 +5338,8 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                             <div style={{display: 'flex', gap: '10px'}}>
                                 <button 
                                     onClick={() => {
-                                        window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.href);
+                                        // Ouvrir la page de pricing/inscription
+                                        window.location.href = 'index.html#tarifs';
                                     }}
                                     style={{
                                         background: 'linear-gradient(135deg, #FF9900, #e68a00)',
@@ -6946,11 +6938,11 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                 {viewMode === '2d' && (
                                     <button
                                         onClick={handleExportClick}
-                                        disabled={!dimensions || isExporting || !exportLimitInfo.canExport || (exportFormat === 'pdf' && !kdpStrictConfirmed)}
+                                        disabled={!dimensions || isExporting || (exportFormat === 'pdf' && !kdpStrictConfirmed)}
                                         className={`flex items-center space-x-3 px-8 py-4 rounded-xl font-bold text-lg text-white transition-all transform hover:scale-105 shadow-lg hover:shadow-xl ${
                                             isExporting
                                                 ? 'bg-purple-500 cursor-wait scale-95'
-                                                : !dimensions || !exportLimitInfo.canExport || (exportFormat === 'pdf' && !kdpStrictConfirmed)
+                                                : !dimensions || (exportFormat === 'pdf' && !kdpStrictConfirmed)
                                                     ? 'bg-gray-400 cursor-not-allowed'
                                                     : format === '8.5x11'
                                                         ? 'bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600'
@@ -6961,11 +6953,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         <span>
                                             {isExporting 
                                                 ? t('generating') 
-                                                : !exportLimitInfo.canExport
-                                                    ? (language === 'fr' ? 'Limite Atteinte' : 'Limit Reached')
-                                                    : exportLimitInfo.level === 'pro'
-                                                        ? t('exportDesign') + ' (Illimité)'
-                                                        : `${t('exportDesign')} (${exportLimitInfo.remaining} ${language === 'fr' ? 'restant(s)' : 'left'})`
+                                                : t('exportDesign') + ' ✨'
                                             }
                                         </span>
                                     </button>
