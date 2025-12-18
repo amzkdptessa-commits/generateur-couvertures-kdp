@@ -268,7 +268,7 @@
                 // Vérifier dans la TABLE user_profiles si is_pro = true
                 const { data: userData, error } = await supabase
                     .from('user_profiles')
-                    .select('is_pro, exports_available')
+                    .select('is_pro, exports_available, subscription_type')
                     .eq('email', session.user.email)
                     .single();
                 
@@ -288,7 +288,15 @@
                 if (userData && userData.is_pro === true) {
                     localStorage.setItem('userProfile', 'pro');
                     console.log('✅ [AUTH] Mode PRO activé! (is_pro=true)');
-                } else if (userData && userData.exports_available > 0) {
+                }
+                
+                // Stocker le subscription_type dans localStorage
+                if (userData && userData.subscription_type) {
+                    localStorage.setItem('subscription_type', userData.subscription_type);
+                    console.log('✅ [AUTH] Subscription type:', userData.subscription_type);
+                }
+                
+                if (userData && userData.exports_available > 0) {
                     localStorage.setItem('exportCredits', userData.exports_available.toString());
                     console.log('✅ [AUTH] Crédits exports:', userData.exports_available);
                 } else {
@@ -5024,9 +5032,14 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 proUnlimited: 'https://buy.stripe.com/cN17sLg1n2f9fkmeA1gUM03'   // 19,99€/mois
             };
             
-            // Vérifier si l'utilisateur est Pro (abonné)
+            // Vérifier si l'utilisateur est Pro (abonné) ou UNLIMITED
             const isProUser = () => {
-                return localStorage.getItem('gabaritkdp_pro') === 'true';
+                const subscriptionType = localStorage.getItem('subscription_type');
+                const isPro = localStorage.getItem('userProfile') === 'pro';
+                const legacyPro = localStorage.getItem('gabaritkdp_pro') === 'true';
+                
+                // UNLIMITED = accès total, PRO = accès, ou ancien système
+                return subscriptionType === 'unlimited' || subscriptionType === 'pro' || isPro || legacyPro;
             };
             
             useEffect(() => {
