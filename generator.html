@@ -273,29 +273,48 @@
         
         // 🔧 FONCTION GLOBALE: Décompter un export (async)
         window.decrementExportCredit = async function() {
-            const email = localStorage.getItem('userEmail');
-            if (!email) return false;
-            
-            const currentCredits = parseInt(localStorage.getItem('exportCredits') || '0', 10);
-            if (currentCredits <= 0) return false;
-            
             try {
-                // Mettre à jour dans Supabase
-                const { error } = await supabase
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session?.user?.email) return false;
+
+                const email = session.user.email;
+
+                // Lire les crédits actuels en base (source of truth)
+                const { data: profile, error: fetchError } = await window.supabaseClient
                     .from('user_profiles')
-                    .update({ 
+                    .select('exports_available, total_exports_used, is_pro, subscription_type')
+                    .eq('email', email)
+                    .single();
+
+                if (fetchError || !profile) {
+                    console.error('❌ [EXPORT] Erreur lecture profil:', fetchError);
+                    return false;
+                }
+
+                // Pro/unlimited : pas de décompte
+                if (profile.is_pro === true || profile.subscription_type === 'pro' || profile.subscription_type === 'unlimited') {
+                    return true;
+                }
+
+                const currentCredits = parseInt(profile.exports_available || 0, 10);
+                if (currentCredits <= 0) return false;
+
+                const { error: updateError } = await window.supabaseClient
+                    .from('user_profiles')
+                    .update({
                         exports_available: currentCredits - 1,
-                        total_exports_used: supabase.sql`total_exports_used + 1`
+                        total_exports_used: (parseInt(profile.total_exports_used || 0, 10) + 1)
                     })
                     .eq('email', email);
-                
-                if (error) {
-                    console.error('❌ [EXPORT] Erreur décompte Supabase:', error);
-                    // Décompter quand même localement
+
+                if (updateError) {
+                    console.error('❌ [EXPORT] Erreur décompte Supabase:', updateError);
+                    // On ne décrémente pas localement si la base a échoué
+                    return false;
                 }
-                
-                // Mettre à jour localStorage
-                localStorage.setItem('exportCredits', (currentCredits - 1).toString());
+
+                // Sync localStorage pour l'UI
+                localStorage.setItem('exportCredits', String(currentCredits - 1));
                 console.log('✅ [EXPORT] Crédit décompté:', currentCredits - 1, 'restants');
                 return true;
             } catch (e) {
@@ -303,7 +322,7 @@
                 return false;
             }
         };
-        
+
         // 🔧 FONCTION GLOBALE: Rafraîchir les crédits depuis Supabase
         window.refreshExportCredits = async function() {
             const email = localStorage.getItem('userEmail');
@@ -5254,6 +5273,20 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             // 💾 CHARGER LE DESIGN SAUVEGARDÉ AU MOUNT (temp ou permanent)
             useEffect(() => {
                 const timer = setTimeout(() => {
+
+                    // 🛒 Priorité MARKETPLACE : si un template est passé dans l'URL / sessionStorage,
+                    // on NE doit PAS restaurer un ancien design sauvegardé.
+                    const hasTemplateParam =
+                        window.__GKDP_TEMPLATE_URL__ ||
+                        sessionStorage.getItem("gkdp_template_url") ||
+                        new URLSearchParams(window.location.search).get("template") ||
+                        new URLSearchParams(window.location.search).get("img");
+
+                    if (hasTemplateParam) {
+                        console.log('🛒 [RESTORE] Template param détecté → skip restore saved design');
+                        return;
+                    }
+
                     // D'abord essayer de charger un design temporaire (après inscription)
                     let saved = window.loadTempDesign && window.loadTempDesign();
                     let isTemp = !!saved;
@@ -8159,42 +8192,3 @@ function getStored() {
 <script src="./logout-button.js" defer></script>
 </body></body>
 </html>
-
-// ===== FREE EXPORT CREDIT CONSUMPTION =====
-async function consumeOneExport() {
-  const { data: { session } } = await window.supabaseClient.auth.getSession();
-  if (!session?.user) return false;
-
-  const userId = session.user.id;
-  const { data: profile, error } = await window.supabaseClient
-    .from('user_profiles')
-    .select('exports_available, total_exports_used')
-    .eq('id', userId)
-    .single();
-
-  if (error || !profile || profile.exports_available <= 0) {
-    alert('❌ No free exports left.');
-    return false;
-  }
-
-  await window.supabaseClient
-    .from('user_profiles')
-    .update({
-      exports_available: profile.exports_available - 1,
-      total_exports_used: profile.total_exports_used + 1
-    })
-    .eq('id', userId);
-
-  localStorage.setItem('exportCredits', String(profile.exports_available - 1));
-  return true;
-}
-
-// Wrap existing export function if present
-if (typeof window.generateAndDownloadPDF === 'function') {
-  const _origExport = window.generateAndDownloadPDF;
-  window.generateAndDownloadPDF = async function(...args) {
-    const ok = await _origExport.apply(this, args);
-    if (ok) await consumeOneExport();
-    return ok;
-  };
-}
