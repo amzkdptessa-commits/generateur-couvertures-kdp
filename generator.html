@@ -273,30 +273,51 @@
         
         // 🔧 FONCTION GLOBALE: Décompter un export (async)
         window.decrementExportCredit = async function() {
-            const email = localStorage.getItem('userEmail');
-            if (!email) return false;
-            
-            const currentCredits = parseInt(localStorage.getItem('exportCredits') || '0', 10);
-            if (currentCredits <= 0) return false;
-            
+            // Utiliser la session Supabase au lieu de localStorage
             try {
-                // Mettre à jour dans Supabase
-                const { error } = await supabase
-                    .from('user_profiles')
-                    .update({ 
-                        exports_available: currentCredits - 1,
-                        total_exports_used: supabase.sql`total_exports_used + 1`
-                    })
-                    .eq('email', email);
-                
-                if (error) {
-                    console.error('❌ [EXPORT] Erreur décompte Supabase:', error);
-                    // Décompter quand même localement
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session || !session.user) {
+                    console.log('Pas de session → pas de décrément');
+                    return false;
                 }
                 
-                // Mettre à jour localStorage
-                localStorage.setItem('exportCredits', (currentCredits - 1).toString());
-                console.log('✅ [EXPORT] Crédit décompté:', currentCredits - 1, 'restants');
+                const userId = session.user.id;
+                
+                // 1) Récupérer les crédits actuels
+                const { data: profile, error: fetchError } = await window.supabaseClient
+                    .from('user_profiles')
+                    .select('exports_available, total_exports_used')
+                    .eq('id', userId)
+                    .single();
+                
+                if (fetchError || !profile) {
+                    console.error('Erreur récupération crédits', fetchError);
+                    return false;
+                }
+                
+                if (profile.exports_available <= 0) {
+                    console.log('Plus de crédits disponibles');
+                    return false;
+                }
+                
+                // 2) Décrémenter dans Supabase
+                const { error: updateError } = await window.supabaseClient
+                    .from('user_profiles')
+                    .update({
+                        exports_available: profile.exports_available - 1,
+                        total_exports_used: (profile.total_exports_used || 0) + 1
+                    })
+                    .eq('id', userId);
+                
+                if (updateError) {
+                    console.error('Erreur décrément export', updateError);
+                    return false;
+                }
+                
+                // 3) Mettre à jour localStorage pour l'UI
+                const newCredits = profile.exports_available - 1;
+                localStorage.setItem('exportCredits', newCredits.toString());
+                console.log('✅ [EXPORT] Crédit décompté:', newCredits, 'restants');
                 return true;
             } catch (e) {
                 console.error('❌ [EXPORT] Erreur:', e);
@@ -306,14 +327,14 @@
         
         // 🔧 FONCTION GLOBALE: Rafraîchir les crédits depuis Supabase
         window.refreshExportCredits = async function() {
-            const email = localStorage.getItem('userEmail');
-            if (!email) return 0;
-            
             try {
-                const { data, error } = await supabase
+                const { data: { session } } = await window.supabaseClient.auth.getSession();
+                if (!session || !session.user) return 0;
+                
+                const { data, error } = await window.supabaseClient
                     .from('user_profiles')
                     .select('exports_available, is_pro')
-                    .eq('email', email)
+                    .eq('id', session.user.id)
                     .single();
                 
                 if (data) {
@@ -328,15 +349,15 @@
         };
         
         try {
-            const { data: { session } } = await supabase.auth.getSession();
+            const { data: { session } } = await window.supabaseClient.auth.getSession();
             
             if (session && session.user) {
                 console.log('👤 [AUTH] Utilisateur connecté:', session.user.email);
                 
-                const { data: userData, error } = await supabase
+                const { data: userData, error } = await window.supabaseClient
                     .from('user_profiles')
                     .select('is_pro, exports_available, subscription_type')
-                    .eq('email', session.user.email)
+                    .eq('id', session.user.id)
                     .single();
                 
                 if (error) {
