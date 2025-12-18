@@ -317,6 +317,85 @@
     })();
     </script>
 
+    <!-- 💾 DESIGN SAVE SYSTEM - Sauvegarde automatique pour utilisateurs inscrits -->
+    <script>
+    (function() {
+        'use strict';
+        
+        const STORAGE_KEY = 'gkdp_saved_design';
+        const SAVE_DELAY = 2000; // Sauvegarde 2s après la dernière modification
+        let saveTimeout = null;
+        
+        // Vérifier si l'utilisateur est connecté
+        window.isUserLoggedIn = function() {
+            return !!localStorage.getItem('userEmail');
+        };
+        
+        // Sauvegarder le design (appelé par React)
+        window.saveDesignToStorage = function(designData) {
+            if (!window.isUserLoggedIn()) {
+                console.log('💾 [SAVE] Utilisateur non connecté - sauvegarde ignorée');
+                return false;
+            }
+            
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => {
+                try {
+                    const dataToSave = {
+                        ...designData,
+                        savedAt: new Date().toISOString(),
+                        userEmail: localStorage.getItem('userEmail')
+                    };
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+                    console.log('💾 [SAVE] ✅ Design sauvegardé!', new Date().toLocaleTimeString());
+                    
+                    // Notification visuelle discrète
+                    window.showSaveNotification && window.showSaveNotification();
+                } catch (e) {
+                    console.error('💾 [SAVE] Erreur:', e);
+                }
+            }, SAVE_DELAY);
+            
+            return true;
+        };
+        
+        // Charger le design sauvegardé
+        window.loadSavedDesign = function() {
+            if (!window.isUserLoggedIn()) {
+                console.log('💾 [LOAD] Utilisateur non connecté - pas de design à charger');
+                return null;
+            }
+            
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (!saved) return null;
+                
+                const data = JSON.parse(saved);
+                
+                // Vérifier que c'est bien le même utilisateur
+                if (data.userEmail !== localStorage.getItem('userEmail')) {
+                    console.log('💾 [LOAD] Design appartient à un autre utilisateur');
+                    return null;
+                }
+                
+                console.log('💾 [LOAD] ✅ Design trouvé, sauvegardé le:', data.savedAt);
+                return data;
+            } catch (e) {
+                console.error('💾 [LOAD] Erreur:', e);
+                return null;
+            }
+        };
+        
+        // Effacer le design sauvegardé
+        window.clearSavedDesign = function() {
+            localStorage.removeItem(STORAGE_KEY);
+            console.log('💾 [CLEAR] Design effacé');
+        };
+        
+        console.log('💾 [DESIGN SAVE] Système initialisé');
+    })();
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
@@ -336,6 +415,22 @@
     height: 100%;
     overflow-y: scroll; /* FIX JUMP: force consistent scrollbar to avoid layout shift */
 }
+
+        /* 💾 Animations pour les notifications */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInCenter {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
 
 
         * {
@@ -5010,6 +5105,113 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 setExportLimitInfo(checkExportLimits());
             }, []);
             
+            // 💾 STATE pour la bannière d'inscription et notification de sauvegarde
+            const [showSignupBanner, setShowSignupBanner] = useState(false);
+            const [showSaveNotification, setShowSaveNotification] = useState(false);
+            const [designRestored, setDesignRestored] = useState(false);
+            
+            // 💾 CHARGER LE DESIGN SAUVEGARDÉ AU MOUNT
+            useEffect(() => {
+                // Attendre un peu que Supabase vérifie la session
+                const timer = setTimeout(() => {
+                    if (window.isUserLoggedIn && window.isUserLoggedIn()) {
+                        const saved = window.loadSavedDesign && window.loadSavedDesign();
+                        if (saved && !isMarketplacePreview) {
+                            console.log('💾 [RESTORE] Restauration du design...');
+                            // Restaurer les paramètres du livre
+                            if (saved.format) setFormat(saved.format);
+                            if (saved.pageCount) setPageCount(saved.pageCount);
+                            if (saved.paperType) setPaperType(saved.paperType);
+                            if (saved.bindingType) setBindingType(saved.bindingType);
+                            if (saved.coverFinish) setCoverFinish(saved.coverFinish);
+                            if (saved.hasBleed !== undefined) setHasBleed(saved.hasBleed);
+                            
+                            // Restaurer le texte
+                            if (saved.spineText) setSpineText(saved.spineText);
+                            if (saved.bookTitle) setBookTitle(saved.bookTitle);
+                            if (saved.authorName) setAuthorName(saved.authorName);
+                            if (saved.backCoverText) setBackCoverText(saved.backCoverText);
+                            
+                            // Restaurer les couleurs et polices
+                            if (saved.spineColor) setSpineColor(saved.spineColor);
+                            if (saved.spineTextColor) setSpineTextColor(saved.spineTextColor);
+                            if (saved.spineTextFont) setSpineTextFont(saved.spineTextFont);
+                            if (saved.bookTitleColor) setBookTitleColor(saved.bookTitleColor);
+                            if (saved.bookTitleFont) setBookTitleFont(saved.bookTitleFont);
+                            if (saved.authorNameColor) setAuthorNameColor(saved.authorNameColor);
+                            if (saved.authorNameFont) setAuthorNameFont(saved.authorNameFont);
+                            if (saved.backCoverTextColor) setBackCoverTextColor(saved.backCoverTextColor);
+                            if (saved.backCoverTextFont) setBackCoverTextFont(saved.backCoverTextFont);
+                            if (saved.backCoverBgColor) setBackCoverBgColor(saved.backCoverBgColor);
+                            
+                            // Restaurer les positions
+                            if (saved.bookTitleX) setBookTitleX(saved.bookTitleX);
+                            if (saved.bookTitleY) setBookTitleY(saved.bookTitleY);
+                            if (saved.authorNameX) setAuthorNameX(saved.authorNameX);
+                            if (saved.authorNameY) setAuthorNameY(saved.authorNameY);
+                            
+                            // Restaurer les images (si stockées en base64 - attention à la taille!)
+                            if (saved.frontImage) setFrontImage(saved.frontImage);
+                            if (saved.backImage) setBackImage(saved.backImage);
+                            
+                            setDesignRestored(true);
+                            console.log('💾 [RESTORE] ✅ Design restauré!');
+                        }
+                    } else {
+                        // Utilisateur non connecté - montrer la bannière après 30s de travail
+                        const bannerTimer = setTimeout(() => {
+                            if (!window.isUserLoggedIn || !window.isUserLoggedIn()) {
+                                setShowSignupBanner(true);
+                            }
+                        }, 30000);
+                        return () => clearTimeout(bannerTimer);
+                    }
+                }, 1500);
+                return () => clearTimeout(timer);
+            }, []);
+            
+            // 💾 SAUVEGARDER AUTOMATIQUEMENT QUAND LE DESIGN CHANGE
+            useEffect(() => {
+                if (!window.isUserLoggedIn || !window.isUserLoggedIn()) return;
+                if (isMarketplacePreview) return; // Ne pas sauvegarder les previews marketplace
+                
+                const designData = {
+                    // Paramètres du livre
+                    format, pageCount, paperType, bindingType, coverFinish, hasBleed,
+                    // Textes
+                    spineText, bookTitle, authorName, backCoverText,
+                    // Couleurs et polices
+                    spineColor, spineTextColor, spineTextFont,
+                    bookTitleColor, bookTitleFont, bookTitleSize,
+                    authorNameColor, authorNameFont, authorNameSize,
+                    backCoverTextColor, backCoverTextFont, backCoverTextSize,
+                    backCoverBgColor,
+                    // Positions
+                    bookTitleX, bookTitleY, authorNameX, authorNameY,
+                    backCoverTextX, backCoverTextY,
+                    // Images (attention: peut être volumineux!)
+                    frontImage: frontImage ? { url: frontImage.url, naturalWidth: frontImage.naturalWidth, naturalHeight: frontImage.naturalHeight } : null,
+                    backImage: backImage ? { url: backImage.url, naturalWidth: backImage.naturalWidth, naturalHeight: backImage.naturalHeight } : null,
+                };
+                
+                window.saveDesignToStorage && window.saveDesignToStorage(designData);
+            }, [format, pageCount, paperType, bindingType, coverFinish, hasBleed,
+                spineText, bookTitle, authorName, backCoverText,
+                spineColor, spineTextColor, spineTextFont,
+                bookTitleColor, bookTitleFont, bookTitleSize,
+                authorNameColor, authorNameFont, authorNameSize,
+                backCoverTextColor, backCoverTextFont, backCoverTextSize,
+                backCoverBgColor, bookTitleX, bookTitleY, authorNameX, authorNameY,
+                frontImage, backImage]);
+            
+            // 💾 Notification de sauvegarde
+            useEffect(() => {
+                window.showSaveNotification = () => {
+                    setShowSaveNotification(true);
+                    setTimeout(() => setShowSaveNotification(false), 2000);
+                };
+            }, []);
+            
             // 🛒 STRIPE PAYMENT LINKS
             const STRIPE_LINKS = {
                 payPerExport: 'https://buy.stripe.com/8x228rd9b071c8afE5gUM01', // 2,50€
@@ -5053,6 +5255,130 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
 
             return (
                 <div className="min-h-screen bg-gray-50">
+                    {/* 💾 NOTIFICATION DE SAUVEGARDE */}
+                    {showSaveNotification && (
+                        <div style={{
+                            position: 'fixed',
+                            bottom: '20px',
+                            right: '20px',
+                            zIndex: 9999,
+                            background: 'linear-gradient(135deg, #10b981, #059669)',
+                            color: 'white',
+                            padding: '12px 20px',
+                            borderRadius: '10px',
+                            boxShadow: '0 4px 15px rgba(16,185,129,0.4)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '10px',
+                            fontSize: '0.9rem',
+                            fontWeight: '500',
+                            animation: 'slideIn 0.3s ease'
+                        }}>
+                            <span>✅</span>
+                            <span>{language === 'fr' ? 'Design sauvegardé!' : 'Design saved!'}</span>
+                        </div>
+                    )}
+                    
+                    {/* 💾 NOTIFICATION DE RESTAURATION */}
+                    {designRestored && (
+                        <div style={{
+                            position: 'fixed',
+                            bottom: '20px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            zIndex: 9999,
+                            background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                            color: 'white',
+                            padding: '14px 24px',
+                            borderRadius: '12px',
+                            boxShadow: '0 8px 25px rgba(99,102,241,0.4)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '12px',
+                            fontSize: '0.95rem',
+                            fontWeight: '600'
+                        }}>
+                            <span style={{fontSize: '1.3rem'}}>🎉</span>
+                            <span>{language === 'fr' ? 'Votre design a été restauré!' : 'Your design has been restored!'}</span>
+                            <button 
+                                onClick={() => setDesignRestored(false)}
+                                style={{
+                                    background: 'rgba(255,255,255,0.2)',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    padding: '4px 10px',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    marginLeft: '8px'
+                                }}
+                            >OK</button>
+                        </div>
+                    )}
+                    
+                    {/* 📝 BANNIÈRE D'INSCRIPTION (non bloquante) */}
+                    {showSignupBanner && !window.isUserLoggedIn?.() && (
+                        <div style={{
+                            position: 'fixed',
+                            bottom: '20px',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
+                            zIndex: 1000,
+                            background: 'white',
+                            padding: '20px 28px',
+                            borderRadius: '16px',
+                            boxShadow: '0 10px 40px rgba(0,0,0,0.15)',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '16px',
+                            maxWidth: '600px',
+                            border: '2px solid #e2e8f0'
+                        }}>
+                            <div style={{fontSize: '2.5rem'}}>💾</div>
+                            <div style={{flex: 1}}>
+                                <h3 style={{margin: '0 0 6px 0', fontSize: '1.1rem', fontWeight: '700', color: '#1e293b'}}>
+                                    {language === 'fr' ? 'Sauvegardez votre travail!' : 'Save your work!'}
+                                </h3>
+                                <p style={{margin: 0, fontSize: '0.9rem', color: '#64748b'}}>
+                                    {language === 'fr' 
+                                        ? 'Inscrivez-vous gratuitement pour retrouver votre design à chaque visite.'
+                                        : 'Sign up for free to find your design on every visit.'}
+                                </p>
+                            </div>
+                            <div style={{display: 'flex', gap: '10px'}}>
+                                <button 
+                                    onClick={() => {
+                                        window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.href);
+                                    }}
+                                    style={{
+                                        background: 'linear-gradient(135deg, #FF9900, #e68a00)',
+                                        color: 'white',
+                                        border: 'none',
+                                        padding: '12px 20px',
+                                        borderRadius: '10px',
+                                        fontWeight: '700',
+                                        cursor: 'pointer',
+                                        fontSize: '0.95rem',
+                                        whiteSpace: 'nowrap'
+                                    }}
+                                >
+                                    {language === 'fr' ? "M'inscrire" : 'Sign up'}
+                                </button>
+                                <button 
+                                    onClick={() => setShowSignupBanner(false)}
+                                    style={{
+                                        background: 'transparent',
+                                        color: '#94a3b8',
+                                        border: 'none',
+                                        padding: '8px',
+                                        borderRadius: '8px',
+                                        cursor: 'pointer',
+                                        fontSize: '1.2rem'
+                                    }}
+                                >✕</button>
+                            </div>
+                        </div>
+                    )}
+                    
                     {/* 🛒 MARKETPLACE PREVIEW BANNER */}
                     {isMarketplacePreview && (
                         <div style={{
