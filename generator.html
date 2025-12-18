@@ -254,6 +254,11 @@
         
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
         
+        // Exposer globalement pour logout-button.js
+        window.supabaseClient = supabase;
+        window.dispatchEvent(new Event('supabase:ready'));
+        console.log('✅ [SUPABASE] Client initialisé + event supabase:ready émis');
+        
         try {
             const { data: { session } } = await supabase.auth.getSession();
             
@@ -7798,6 +7803,6 @@ function getStored() {
 })();
 </script>
 
-<script src="logout-button.js"></script>
+<script src="./logout-button.js" defer></script>
 </body></body>
 </html>
