@@ -803,7 +803,9 @@
     <script>
         const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
         const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3dkYWljcGxhamxqcGZremh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MzMxMjQsImV4cCI6MjA3NzUwOTEyNH0.0IDHysD84_0ghjb-a4K0UkNrJbzdQBKUjm5mQbSfro8';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // ✅ Supabase client (singleton) — évite "Identifier 'supabase' has already been declared"
+        window.supabaseClient = window.supabaseClient || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        var supabase = window.supabaseClient;
 
         let currentLang = localStorage.getItem('selectedLanguage') || 'en';
 
@@ -917,7 +919,7 @@
                     email: formData.email,
                     password: formData.password,
                     options: {
-                        emailRedirectTo: window.location.origin + '/generator.html',
+                        emailRedirectTo: window.location.origin + '/connexion.html?from=confirm',
                         data: {
                             full_name: formData.fullName,
                             newsletter_subscription: formData.newsletter === 'on'
@@ -949,17 +951,23 @@
                     localStorage.setItem('exportCredits', '3');
                 }
                 
-                // 3) Auto-connexion (fonctionne si Confirm email est désactivé)
-                const { error: signInError } = await supabase.auth.signInWithPassword({
+                // 3) Auto-connexion (si la confirmation email est désactivée, ça marche tout de suite)
+                const { data: signInData, error: signInError } = await supabase.auth.signInWithPassword({
                     email: formData.email,
                     password: formData.password
                 });
-                
+
                 if (signInError) {
                     console.log('Auto-connexion échouée:', signInError.message);
-                }
-                
-                // 4) Analytics
+
+                    // Cas fréquent : confirmation email requise → pas de session immédiate
+                    showMessage(
+                        currentLang === 'fr'
+                          ? "✅ Compte créé. Vérifie ta boîte mail pour confirmer ton adresse, puis connecte-toi."
+                          : "✅ Account created. Check your email to confirm, then log in.",
+                        'success'
+                    );
+                }// 4) Analytics
                 if (typeof gtag !== 'undefined') {
                     gtag('event', 'sign_up', { method: 'email' });
                 }
