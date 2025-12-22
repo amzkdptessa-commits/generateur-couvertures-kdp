@@ -274,65 +274,72 @@
         // 🔧 FONCTION GLOBALE: Décompter un export (async)
         window.decrementExportCredit = async function() {
             try {
-                const { data: { session } } = await window.supabaseClient.auth.getSession();
-                if (!session?.user?.email) return false;
-
-                const email = session.user.email;
-
-                // Lire les crédits actuels en base (source of truth)
-                const { data: profile, error: fetchError } = await window.supabaseClient
-                    .from('user_profiles')
-                    .select('exports_available, total_exports_used, is_pro, subscription_type')
-                    .eq('email', email)
-                    .single();
-
-                if (fetchError || !profile) {
-                    console.error('❌ [EXPORT] Erreur lecture profil:', fetchError);
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session || !session.user) {
+                    console.log('Pas de session → pas de décrément');
                     return false;
                 }
-
-                // Pro/unlimited : pas de décompte
-                if (profile.is_pro === true || profile.subscription_type === 'pro' || profile.subscription_type === 'unlimited') {
+                
+                const userId = session.user.id;
+                
+                // 1) Récupérer les crédits actuels
+                const { data: profile, error: fetchError } = await supabase
+                    .from('user_profiles')
+                    .select('exports_available, total_exports_used, is_pro')
+                    .eq('id', userId)
+                    .single();
+                
+                if (fetchError || !profile) {
+                    console.error('Erreur récupération crédits', fetchError);
+                    return false;
+                }
+                
+                // Si PRO, pas de décrément
+                if (profile.is_pro) {
+                    console.log('✅ [EXPORT] Utilisateur PRO - exports illimités');
                     return true;
                 }
-
-                const currentCredits = parseInt(profile.exports_available || 0, 10);
-                if (currentCredits <= 0) return false;
-
-                const { error: updateError } = await window.supabaseClient
-                    .from('user_profiles')
-                    .update({
-                        exports_available: currentCredits - 1,
-                        total_exports_used: (parseInt(profile.total_exports_used || 0, 10) + 1)
-                    })
-                    .eq('email', email);
-
-                if (updateError) {
-                    console.error('❌ [EXPORT] Erreur décompte Supabase:', updateError);
-                    // On ne décrémente pas localement si la base a échoué
+                
+                if (profile.exports_available <= 0) {
+                    console.log('Plus de crédits disponibles');
                     return false;
                 }
-
-                // Sync localStorage pour l'UI
-                localStorage.setItem('exportCredits', String(currentCredits - 1));
-                console.log('✅ [EXPORT] Crédit décompté:', currentCredits - 1, 'restants');
+                
+                // 2) Décrémenter dans Supabase
+                const { error: updateError } = await supabase
+                    .from('user_profiles')
+                    .update({
+                        exports_available: profile.exports_available - 1,
+                        total_exports_used: (profile.total_exports_used || 0) + 1
+                    })
+                    .eq('id', userId);
+                
+                if (updateError) {
+                    console.error('Erreur décrément export', updateError);
+                    return false;
+                }
+                
+                // 3) Mettre à jour localStorage pour l'UI
+                const newCredits = profile.exports_available - 1;
+                localStorage.setItem('exportCredits', newCredits.toString());
+                console.log('✅ [EXPORT] Crédit décompté:', newCredits, 'restants');
                 return true;
             } catch (e) {
                 console.error('❌ [EXPORT] Erreur:', e);
                 return false;
             }
         };
-
+        
         // 🔧 FONCTION GLOBALE: Rafraîchir les crédits depuis Supabase
         window.refreshExportCredits = async function() {
-            const email = localStorage.getItem('userEmail');
-            if (!email) return 0;
-            
             try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session || !session.user) return 0;
+                
                 const { data, error } = await supabase
                     .from('user_profiles')
                     .select('exports_available, is_pro')
-                    .eq('email', email)
+                    .eq('id', session.user.id)
                     .single();
                 
                 if (data) {
@@ -352,15 +359,33 @@
             if (session && session.user) {
                 console.log('👤 [AUTH] Utilisateur connecté:', session.user.email);
                 
-                const { data: userData, error } = await supabase
+                // Chercher le profil par ID (plus fiable)
+                let { data: userData, error } = await supabase
                     .from('user_profiles')
                     .select('is_pro, exports_available, subscription_type')
-                    .eq('email', session.user.email)
+                    .eq('id', session.user.id)
                     .single();
                 
-                if (error) {
-                    console.error('❌ [AUTH] Erreur requête:', error);
-                    return;
+                // Si pas de profil trouvé, le créer automatiquement (inscription sociale)
+                if (error || !userData) {
+                    console.log('📝 [AUTH] Création profil FREE pour nouvel utilisateur social...');
+                    
+                    const { error: insertError } = await supabase
+                        .from('user_profiles')
+                        .insert({
+                            id: session.user.id,
+                            email: session.user.email,
+                            is_pro: false,
+                            exports_available: 3,
+                            total_exports_used: 0
+                        });
+                    
+                    if (insertError) {
+                        console.error('❌ [AUTH] Erreur création profil:', insertError);
+                    } else {
+                        console.log('✅ [AUTH] Profil FREE créé avec 3 exports!');
+                        userData = { is_pro: false, exports_available: 3, subscription_type: null };
+                    }
                 }
                 
                 console.log('📊 [AUTH] Données utilisateur:', userData);
@@ -368,6 +393,8 @@
                 if (userData) {
                     if (userData.is_pro === true) {
                         localStorage.setItem('userProfile', 'pro');
+                    } else {
+                        localStorage.removeItem('userProfile');
                     }
                     if (userData.subscription_type) {
                         localStorage.setItem('subscription_type', userData.subscription_type);
@@ -1180,32 +1207,6 @@
                 padding: 8px;
                 margin-left: auto;
             }
-
-            /* Responsive canvas preview */
-            .canvas-container {
-                padding: 16px 10px;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-            }
-            .canvas-4k {
-                max-width: 100%;
-                height: auto;
-            }
-            .canvas-4k:hover {
-                transform: none;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-            }
-            .position-labels {
-                gap: 14px;
-                font-size: 0.75rem;
-                padding: 6px 12px;
-                max-width: calc(100% - 20px);
-                overflow-x: auto;
-            }
-            .dimensions-overlay {
-                font-size: 0.75rem;
-            }
-
         }
 
         @media (min-width: 769px) {
@@ -3999,22 +4000,11 @@ img {
 
                 const canvas = canvasRef.current;
                 const ctx = canvas.getContext('2d');
-                // 📱 Responsive preview sizing (fits container)
-                const parent = canvas.parentElement;
-                const parentWidth = parent ? parent.clientWidth : window.innerWidth;
-                const maxW = 920;               // avoid huge preview on desktop
-                const minW = 320;               // readable on small screens
-                const padding = 40;             // keep room for container padding/borders
-                const displayWidth = Math.min(maxW, Math.max(minW, parentWidth - padding));
+                const displayWidth = 600;
+                const displayHeight = 400;
 
-                // Keep aspect ratio based on real KDP dimensions
-                const ratio = dimensions.total.width / dimensions.total.height; // width/height
-                const displayHeight = Math.round(displayWidth / ratio);
-
-                canvas.width = Math.round(displayWidth);
-                canvas.height = Math.round(displayHeight);
-                canvas.style.width = `${displayWidth}px`;
-                canvas.style.height = `${displayHeight}px`;
+                canvas.width = displayWidth; canvas.height = displayHeight;
+                canvas.style.width = `${displayWidth}px`; canvas.style.height = `${displayHeight}px`;
 
                 ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
 
@@ -5310,20 +5300,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             // 💾 CHARGER LE DESIGN SAUVEGARDÉ AU MOUNT (temp ou permanent)
             useEffect(() => {
                 const timer = setTimeout(() => {
-
-                    // 🛒 Priorité MARKETPLACE : si un template est passé dans l'URL / sessionStorage,
-                    // on NE doit PAS restaurer un ancien design sauvegardé.
-                    const hasTemplateParam =
-                        window.__GKDP_TEMPLATE_URL__ ||
-                        sessionStorage.getItem("gkdp_template_url") ||
-                        new URLSearchParams(window.location.search).get("template") ||
-                        new URLSearchParams(window.location.search).get("img");
-
-                    if (hasTemplateParam) {
-                        console.log('🛒 [RESTORE] Template param détecté → skip restore saved design');
-                        return;
-                    }
-
                     // D'abord essayer de charger un design temporaire (après inscription)
                     let saved = window.loadTempDesign && window.loadTempDesign();
                     let isTemp = !!saved;
