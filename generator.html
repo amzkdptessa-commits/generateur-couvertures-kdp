@@ -1180,6 +1180,32 @@
                 padding: 8px;
                 margin-left: auto;
             }
+
+            /* Responsive canvas preview */
+            .canvas-container {
+                padding: 16px 10px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .canvas-4k {
+                max-width: 100%;
+                height: auto;
+            }
+            .canvas-4k:hover {
+                transform: none;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            }
+            .position-labels {
+                gap: 14px;
+                font-size: 0.75rem;
+                padding: 6px 12px;
+                max-width: calc(100% - 20px);
+                overflow-x: auto;
+            }
+            .dimensions-overlay {
+                font-size: 0.75rem;
+            }
+
         }
 
         @media (min-width: 769px) {
@@ -3973,11 +3999,22 @@ img {
 
                 const canvas = canvasRef.current;
                 const ctx = canvas.getContext('2d');
-                const displayWidth = 600;
-                const displayHeight = 400;
+                // 📱 Responsive preview sizing (fits container)
+                const parent = canvas.parentElement;
+                const parentWidth = parent ? parent.clientWidth : window.innerWidth;
+                const maxW = 920;               // avoid huge preview on desktop
+                const minW = 320;               // readable on small screens
+                const padding = 40;             // keep room for container padding/borders
+                const displayWidth = Math.min(maxW, Math.max(minW, parentWidth - padding));
 
-                canvas.width = displayWidth; canvas.height = displayHeight;
-                canvas.style.width = `${displayWidth}px`; canvas.style.height = `${displayHeight}px`;
+                // Keep aspect ratio based on real KDP dimensions
+                const ratio = dimensions.total.width / dimensions.total.height; // width/height
+                const displayHeight = Math.round(displayWidth / ratio);
+
+                canvas.width = Math.round(displayWidth);
+                canvas.height = Math.round(displayHeight);
+                canvas.style.width = `${displayWidth}px`;
+                canvas.style.height = `${displayHeight}px`;
 
                 ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
 
