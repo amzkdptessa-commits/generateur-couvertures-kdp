@@ -402,12 +402,6 @@
             color: #FF9900;
             text-decoration: none;
             font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .login-link a:hover {
-            text-decoration: underline;
-            color: #e68a00;
         }
 
         .error-message,
@@ -623,11 +617,13 @@
                         <i class="fab fa-google"></i>
                         <span data-fr="S'inscrire avec Google" data-en="Sign up with Google">Sign up with Google</span>
                     </button>
+                    <!-- Facebook désactivé temporairement - en attente de vérification Meta Business
                     <button onclick="handleFacebookSignup()" class="social-btn" id="facebookBtn">
                         <i class="fab fa-facebook-f"></i>
                         <span data-fr="S'inscrire avec Facebook" data-en="Sign up with Facebook">Sign up with
                             Facebook</span>
                     </button>
+                    -->
                 </div>
 
                 <div class="divider">
@@ -1011,9 +1007,7 @@
         async function handleSocialSignup(provider) {
             const { data, error } = await supabase.auth.signInWithOAuth({
                 provider: provider,
-                options: { 
-                    redirectTo: `${window.location.origin}/generator.html?from=signup&provider=${provider}`
-                }
+                options: { redirectTo: `${window.location.origin}/generator.html` }
             });
             if (error) {
                 showMessage(currentLang === 'fr' ? `Erreur de connexion avec ${provider}` : `Error signing in with ${provider}`, 'error');
@@ -1021,50 +1015,6 @@
         }
         const handleGoogleSignup = () => handleSocialSignup('google');
         const handleFacebookSignup = () => handleSocialSignup('facebook');
-        
-        // Créer le profil FREE après connexion sociale (appelé depuis generator.html)
-        window.createFreeProfileIfNeeded = async function() {
-            try {
-                const { data: { session } } = await supabase.auth.getSession();
-                if (!session || !session.user) return false;
-                
-                const userId = session.user.id;
-                const userEmail = session.user.email;
-                
-                // Vérifier si le profil existe déjà
-                const { data: existingProfile } = await supabase
-                    .from('user_profiles')
-                    .select('id')
-                    .eq('id', userId)
-                    .single();
-                
-                if (!existingProfile) {
-                    // Créer le profil FREE avec 3 exports
-                    const { error: profileError } = await supabase
-                        .from('user_profiles')
-                        .insert({
-                            id: userId,
-                            email: userEmail,
-                            is_pro: false,
-                            exports_available: 3,
-                            total_exports_used: 0
-                        });
-                    
-                    if (profileError) {
-                        console.error('Erreur création profil social:', profileError);
-                        return false;
-                    }
-                    console.log('✅ Profil FREE créé pour utilisateur social:', userEmail);
-                    localStorage.setItem('userEmail', userEmail);
-                    localStorage.setItem('exportCredits', '3');
-                    return true;
-                }
-                return false;
-            } catch (e) {
-                console.error('Erreur createFreeProfileIfNeeded:', e);
-                return false;
-            }
-        };
 
         // --- EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', function () {
