@@ -396,12 +396,30 @@
         .login-link {
             text-align: center;
             margin-top: 30px;
+            position: relative;
+            z-index: 50;
         }
 
         .login-link a {
             color: #FF9900;
             text-decoration: none;
             font-weight: 600;
+            position: relative;
+            z-index: 50;
+            pointer-events: auto;
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px 10px;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+            color: #e68a00;
+        }
+
+        .signup-container {
+            position: relative;
+            z-index: 10;
         }
 
         .error-message,
@@ -706,9 +724,9 @@
                 </form>
 
                 <div class="login-link">
-                    <p data-fr="Vous avez déjà un compte ?" data-en="Already have an account?">Already have an account?
-                        <a href="./connexion.html" data-fr="Se connecter" data-en="Sign in">Sign in</a>
-                    </p>
+                    <a href="./connexion.html" data-fr="Vous avez déjà un compte ? Se connecter" data-en="Already have an account? Sign in">
+                        Already have an account? <strong>Sign in</strong>
+                    </a>
                 </div>
             </div>
         </div>
