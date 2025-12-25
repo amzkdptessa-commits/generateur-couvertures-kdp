@@ -5449,6 +5449,35 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 refreshDesignsList();
                 setDesignsModalOpen(true);
             };
+            
+            const openDesignById = (id) => {
+                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(id) : null;
+
+                if (!rec) {
+                    alert(language === 'fr' ? "Design introuvable." : "Design not found.");
+                    return;
+                }
+                if (!rec.designData) {
+                    alert(language === 'fr'
+                        ? "Ce design est incomplet (données manquantes). Supprime-le et re-sauvegarde."
+                        : "This design is incomplete (missing data). Delete it and save again."
+                    );
+                    return;
+                }
+
+                if (rec.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(rec.templateUrl);
+
+                setActiveDesignId(rec.id);
+                localStorage.setItem('gkdp_active_design_id', rec.id);
+                setDesignTitle(rec.title || '');
+
+                window.gkdpTouchDesign && window.gkdpTouchDesign(rec.id);
+
+                applyDesignData(rec.designData);
+                setDesignsModalOpen(false);
+                
+                console.log('✅ [DESIGN LIBRARY] Design opened:', rec.title);
+            };
 
             const saveCurrentToLibrary = () => {
                 const data = getCurrentDesignData();
@@ -5855,15 +5884,33 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                     ) : (
                                         <div style={{display:'grid', gridTemplateColumns:'1fr', gap:'10px'}}>
                                             {designsList.map((d) => (
-                                                <div key={d.id} style={{
-                                                    border: '1px solid #e5e7eb',
-                                                    borderRadius: '12px',
-                                                    padding: '12px',
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                    justifyContent: 'space-between',
-                                                    gap: '12px'
-                                                }}>
+                                                <div 
+                                                    key={d.id} 
+                                                    onClick={() => openDesignById(d.id)}
+                                                    style={{
+                                                        border: '1px solid #e5e7eb',
+                                                        borderRadius: '12px',
+                                                        padding: '12px',
+                                                        display: 'flex',
+                                                        alignItems: 'center',
+                                                        justifyContent: 'space-between',
+                                                        gap: '12px',
+                                                        cursor: 'pointer',
+                                                        transition: 'all 0.2s',
+                                                        ':hover': {
+                                                            borderColor: '#10b981',
+                                                            boxShadow: '0 2px 8px rgba(16, 185, 129, 0.1)'
+                                                        }
+                                                    }}
+                                                    onMouseEnter={(e) => {
+                                                        e.currentTarget.style.borderColor = '#10b981';
+                                                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.1)';
+                                                    }}
+                                                    onMouseLeave={(e) => {
+                                                        e.currentTarget.style.borderColor = '#e5e7eb';
+                                                        e.currentTarget.style.boxShadow = 'none';
+                                                    }}
+                                                >
                                                     <div style={{minWidth:0}}>
                                                         <div style={{fontWeight: 800, color:'#111827', fontSize:'14px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>
                                                             {d.title || (language === 'fr' ? 'Sans titre' : 'Untitled')}
@@ -5878,34 +5925,8 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
 
                                                     <div style={{display:'flex', gap:'8px', flexWrap:'wrap', justifyContent:'flex-end'}}>
                                                         <button
-                                                            onClick={() => {
-                                                                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(d.id) : null;
-                                                                if (!rec || !rec.designData) return;
-                                                                if (rec.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(rec.templateUrl);
-                                                                setActiveDesignId(rec.id);
-                                                                localStorage.setItem('gkdp_active_design_id', rec.id);
-                                                                setDesignTitle(rec.title || '');
-                                                                window.gkdpTouchDesign && window.gkdpTouchDesign(rec.id);
-                                                                applyDesignData(rec.designData);
-                                                                setDesignsModalOpen(false);
-                                                            }}
-                                                            style={{
-                                                                padding: '8px 12px',
-                                                                borderRadius: '10px',
-                                                                border: '1px solid #10b981',
-                                                                background: '#10b981',
-                                                                color: 'white',
-                                                                cursor: 'pointer',
-                                                                fontWeight: 800,
-                                                                fontSize: '12px'
-                                                            }}
-                                                            type="button"
-                                                        >
-                                                            {language === 'fr' ? 'Ouvrir' : 'Open'}
-                                                        </button>
-
-                                                        <button
-                                                            onClick={() => {
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
                                                                 const rec = window.gkdpGetDesign ? window.gkdpGetDesign(d.id) : null;
                                                                 if (!rec || !rec.designData) return;
                                                                 const copyTitle = (rec.title || 'Design') + (language === 'fr' ? ' (copie)' : ' (copy)');
@@ -5932,7 +5953,8 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                         </button>
 
                                                         <button
-                                                            onClick={() => {
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
                                                                 const ok = confirm(language === 'fr' ? 'Supprimer ce design ?' : 'Delete this design?');
                                                                 if (!ok) return;
                                                                 window.gkdpDeleteDesign && window.gkdpDeleteDesign(d.id);
