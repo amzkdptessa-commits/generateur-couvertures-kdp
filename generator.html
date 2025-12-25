@@ -5483,7 +5483,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 const data = getCurrentDesignData();
                 const title = (designTitle || bookTitle || 'Design').trim();
                 const record = window.gkdpUpsertDesign ? window.gkdpUpsertDesign({
-                    id: activeDesignId || undefined,
+                    // NE PAS passer d'ID pour forcer la création d'un nouveau design
                     title,
                     templateUrl: data.templateUrl,
                     designData: data,
@@ -6053,45 +6053,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                     )}
                     
                     {/* 🛒 MARKETPLACE PREVIEW BANNER */}
-                    {isMarketplacePreview && (
-                        <div style={{
-                            position: 'fixed',
-                            top: '70px',
-                            left: '50%',
-                            transform: 'translateX(-50%)',
-                            zIndex: 1000,
-                            background: 'linear-gradient(135deg, #FF9900, #e68a00)',
-                            color: 'white',
-                            padding: '12px 24px',
-                            borderRadius: '12px',
-                            boxShadow: '0 8px 30px rgba(255,153,0,0.4)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '12px',
-                            fontWeight: '600',
-                            fontSize: '0.95rem'
-                        }}>
-                            <span style={{fontSize: '1.5rem'}}>🎨</span>
-                            <span>{language === 'fr' ? 'Mode Prévisualisation - Exportez pour obtenir l\'image HD sans watermark' : 'Preview Mode - Export to get HD image without watermark'}</span>
-                            <button 
-                                onClick={() => {
-                                    setIsMarketplacePreview(false);
-                                    setMarketplaceTemplate(null);
-                                    setFrontImage(null);
-                                    window.history.replaceState({}, '', window.location.pathname);
-                                }}
-                                style={{
-                                    background: 'rgba(255,255,255,0.2)',
-                                    border: 'none',
-                                    borderRadius: '6px',
-                                    padding: '6px 12px',
-                                    color: 'white',
-                                    cursor: 'pointer',
-                                    marginLeft: '8px'
-                                }}
-                            >✕</button>
-                        </div>
-                    )}
+                    {/* Bandeau Mode Prévisualisation supprimé - déplacé sous le bouton EXPORT */}
                     
                     {/* 🛒 STRIPE PAYMENT MODAL - Désactivé pour beta testing
                     {showStripeModal && (
@@ -7680,6 +7642,24 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                             }
                                         </span>
                                     </button>
+                                )}
+                                
+                                {/* Texte Mode Prévisualisation sous le bouton EXPORT */}
+                                {isMarketplacePreview && (
+                                    <div style={{
+                                        marginTop: '12px',
+                                        textAlign: 'center',
+                                        color: '#FF9900',
+                                        fontSize: '0.9rem',
+                                        fontWeight: '600',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        gap: '8px'
+                                    }}>
+                                        <span style={{fontSize: '1.2rem'}}>🎨</span>
+                                        <span>{language === 'fr' ? 'Mode Prévisualisation - Exportez pour obtenir l\'image HD sans watermark' : 'Preview Mode - Export to get HD image without watermark'}</span>
+                                    </div>
                                 )}
                                 
                                 {/* Boutons Export 3D - THREE.JS */}
