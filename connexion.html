@@ -365,6 +365,34 @@
             text-decoration: underline;
         }
         
+        /* Password visibility toggle */
+        .password-input-wrapper {
+            position: relative;
+        }
+        
+        .password-input-wrapper input {
+            padding-right: 50px;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            padding: 5px;
+            z-index: 10;
+        }
+        
+        .toggle-password:hover {
+            color: #FF9900;
+        }
+        
         .signup-link {
             text-align: center;
             margin-top: 30px;
@@ -460,9 +488,14 @@
                     </div>
                     <div class="form-group">
                         <label for="password" data-fr="Mot de passe" data-en="Password">Password</label>
-                        <input type="password" id="password" name="password" class="form-input" required placeholder="Your password">
+                        <div class="password-input-wrapper">
+                            <input type="password" id="password" name="password" class="form-input" required placeholder="Your password">
+                            <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password')">
+                                <i class="fas fa-eye" id="password-icon"></i>
+                            </button>
+                        </div>
                         <div class="text-right mt-2">
-                            <a href="#" onclick="resetPassword(event)" class="forgot-password" data-fr="Mot de passe oublié ?" data-en="Forgot password?">Forgot password?</a>
+                            <a href="./forgot-password.html" class="forgot-password" data-fr="Mot de passe oublié ?" data-en="Forgot password?">Forgot password?</a>
                         </div>
                     </div>
                     <button type="submit" class="login-btn" data-fr="Se connecter" data-en="Sign in">Sign in</button>
@@ -504,6 +537,24 @@ function switchLanguage(lang) {
     document.querySelectorAll('[data-' + lang + ']').forEach(el => {
         el.textContent = el.getAttribute('data-' + lang);
     });
+}
+
+// Toggle password visibility
+function togglePasswordVisibility(inputId) {
+    const input = document.getElementById(inputId);
+    const icon = document.getElementById(inputId + '-icon');
+    
+    if (!input || !icon) return;
+    
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+    } else {
+        input.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+    }
 }
 
 // Initialize language on load
@@ -594,26 +645,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
   window.loginWithProvider = loginWithProvider;
-
-  async function resetPassword(e) {
-    e.preventDefault();
-    const email = document.getElementById('email').value.trim();
-    if (!email) {
-      showMessage(currentLang === 'fr' ? 'Veuillez entrer votre email.' : 'Please enter your email.');
-      return;
-    }
-
-    const { error } = await sb.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/update-password.html`,
-    });
-
-    if (error) {
-      showMessage(currentLang === 'fr' ? "Erreur lors de l'envoi." : "Error sending reset email.");
-    } else {
-      showMessage(`Email de réinitialisation envoyé à ${email}.`, 'success');
-    }
-  }
-  window.resetPassword = resetPassword;
 
   document.addEventListener('DOMContentLoaded', async () => {
     const form = document.getElementById('loginForm');
