@@ -5397,9 +5397,44 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 if (saved.authorNameX !== undefined) setAuthorNameX(saved.authorNameX);
                 if (saved.authorNameY !== undefined) setAuthorNameY(saved.authorNameY);
 
-                // Images
-                if (saved.frontImage) setFrontImage(saved.frontImage);
-                if (saved.backImage) setBackImage(saved.backImage);
+                // Images - charger depuis URL si nécessaire
+                if (saved.frontImage && saved.frontImage.url) {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => {
+                        setFrontImage({
+                            ...saved.frontImage,
+                            naturalWidth: img.naturalWidth,
+                            naturalHeight: img.naturalHeight
+                        });
+                        console.log('✅ [RESTORE] Front image loaded:', img.naturalWidth, 'x', img.naturalHeight);
+                    };
+                    img.onerror = (err) => {
+                        console.error('❌ [RESTORE] Error loading front image:', err);
+                    };
+                    img.src = saved.frontImage.url;
+                } else if (saved.frontImage) {
+                    setFrontImage(saved.frontImage);
+                }
+                
+                if (saved.backImage && saved.backImage.url) {
+                    const img = new Image();
+                    img.crossOrigin = 'anonymous';
+                    img.onload = () => {
+                        setBackImage({
+                            ...saved.backImage,
+                            naturalWidth: img.naturalWidth,
+                            naturalHeight: img.naturalHeight
+                        });
+                        console.log('✅ [RESTORE] Back image loaded:', img.naturalWidth, 'x', img.naturalHeight);
+                    };
+                    img.onerror = (err) => {
+                        console.error('❌ [RESTORE] Error loading back image:', err);
+                    };
+                    img.src = saved.backImage.url;
+                } else if (saved.backImage) {
+                    setBackImage(saved.backImage);
+                }
 
                 if (saved.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(saved.templateUrl);
                 setDesignRestored(true);
