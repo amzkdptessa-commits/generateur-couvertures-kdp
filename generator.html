@@ -423,12 +423,137 @@
         
         const STORAGE_KEY = 'gkdp_saved_design';
         const TEMP_STORAGE_KEY = 'gkdp_temp_design'; // Pour les non-connectés avant inscription
+        const ACTIVE_TEMPLATE_KEY = 'gkdp_active_template_url'; // Template actuellement actif (Marketplace)
+        const LIBRARY_KEY = 'gkdp_design_library_v1'; // Bibliothèque de designs (local)
+
+        // 🎯 Template actif (permet d'éviter de restaurer un ancien design sur un nouveau template)
+        window.setActiveTemplateUrl = function(url) {
+            try {
+                if (!url) {
+                    localStorage.removeItem(ACTIVE_TEMPLATE_KEY);
+                    return;
+                }
+                localStorage.setItem(ACTIVE_TEMPLATE_KEY, url);
+            } catch (e) {
+                console.error('❌ [ACTIVE TEMPLATE] Error:', e);
+            }
+        };
+
+        window.getActiveTemplateUrl = function() {
+            try {
+                return localStorage.getItem(ACTIVE_TEMPLATE_KEY) || null;
+            } catch (e) {
+                return null;
+            }
+        };
+
+        // 📚 Design Library (localStorage) — CRUD
+        function readLibrary() {
+            try {
+                const raw = localStorage.getItem(LIBRARY_KEY);
+                const arr = raw ? JSON.parse(raw) : [];
+                return Array.isArray(arr) ? arr : [];
+            } catch (e) {
+                console.error('❌ [LIBRARY] read error:', e);
+                return [];
+            }
+        }
+
+        function writeLibrary(items) {
+            try {
+                localStorage.setItem(LIBRARY_KEY, JSON.stringify(items || []));
+                return true;
+            } catch (e) {
+                console.error('❌ [LIBRARY] write error:', e);
+                return false;
+            }
+        }
+
+        function genId() {
+            try {
+                return (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('id_' + Date.now() + '_' + Math.random().toString(16).slice(2));
+            } catch (e) {
+                return 'id_' + Date.now() + '_' + Math.random().toString(16).slice(2);
+            }
+        }
+
+        window.gkdpListDesigns = function() {
+            const items = readLibrary();
+            // Tri: récemment utilisés d'abord
+            return items.sort((a,b) => (b.lastUsedAt || b.updatedAt || b.createdAt || '').localeCompare(a.lastUsedAt || a.updatedAt || a.createdAt || ''));
+        };
+
+        window.gkdpGetDesign = function(id) {
+            const items = readLibrary();
+            return items.find(d => d && d.id === id) || null;
+        };
+
+        // Upsert: crée si pas d'id, sinon update
+        window.gkdpUpsertDesign = function(payload) {
+            try {
+                const items = readLibrary();
+                const now = new Date().toISOString();
+                const id = payload && payload.id ? payload.id : genId();
+
+                const templateUrl = (payload && payload.templateUrl) || window.getActiveTemplateUrl?.() || null;
+                const title = (payload && payload.title) || 'Untitled design';
+
+                const designData = (payload && payload.designData) ? payload.designData : null;
+
+                const existingIdx = items.findIndex(d => d && d.id === id);
+                const record = {
+                    id,
+                    templateUrl,
+                    title,
+                    designData,
+                    createdAt: existingIdx >= 0 ? (items[existingIdx].createdAt || now) : now,
+                    updatedAt: now,
+                    lastUsedAt: payload && payload.lastUsedAt ? payload.lastUsedAt : (existingIdx >= 0 ? (items[existingIdx].lastUsedAt || null) : null)
+                };
+
+                if (existingIdx >= 0) items[existingIdx] = { ...items[existingIdx], ...record };
+                else items.unshift(record);
+
+                writeLibrary(items);
+                return record;
+            } catch (e) {
+                console.error('❌ [LIBRARY] upsert error:', e);
+                return null;
+            }
+        };
+
+        window.gkdpTouchDesign = function(id) {
+            try {
+                const items = readLibrary();
+                const idx = items.findIndex(d => d && d.id === id);
+                if (idx < 0) return null;
+                const now = new Date().toISOString();
+                items[idx] = { ...items[idx], lastUsedAt: now, updatedAt: now };
+                writeLibrary(items);
+                return items[idx];
+            } catch (e) {
+                return null;
+            }
+        };
+
+        window.gkdpDeleteDesign = function(id) {
+            try {
+                const items = readLibrary();
+                const next = items.filter(d => d && d.id !== id);
+                writeLibrary(next);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        };
+
         
         // 💾 Sauvegarder le design TEMPORAIREMENT (avant redirection vers inscription)
         window.saveTempDesign = function(designData) {
             try {
                 const dataToSave = {
                     ...designData,
+                    templateUrl: (designData && designData.templateUrl) ? designData.templateUrl : (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
                     savedAt: new Date().toISOString()
                 };
                 localStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(dataToSave));
@@ -467,6 +592,7 @@
             try {
                 const dataToSave = {
                     ...designData,
+                    templateUrl: (designData && designData.templateUrl) ? designData.templateUrl : (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
                     savedAt: new Date().toISOString(),
                     userEmail: localStorage.getItem('userEmail')
                 };
@@ -3551,6 +3677,13 @@ img {
             const [marketplaceTemplate, setMarketplaceTemplate] = useState(null);
             const [isMarketplacePreview, setIsMarketplacePreview] = useState(false);
             const [showStripeModal, setShowStripeModal] = useState(false); // Désactivé pour beta
+
+            // 📚 Design Library (local) — historique + sauvegardes
+            const [designsModalOpen, setDesignsModalOpen] = useState(false);
+            const [designsList, setDesignsList] = useState([]);
+            const [designTitle, setDesignTitle] = useState('');
+            const [activeDesignId, setActiveDesignId] = useState(() => localStorage.getItem('gkdp_active_design_id') || null);
+
             
             const canvasRef = useRef(null);
 
@@ -3582,6 +3715,7 @@ img {
 
                 setMarketplaceTemplate(imageUrl);
                 setIsMarketplacePreview(true);
+                window.setActiveTemplateUrl && window.setActiveTemplateUrl(imageUrl);
 
                 const isFullCover = imageUrl.toLowerCase().includes('fullcover');
                 console.log('🛒 [MARKETPLACE] Type:', isFullCover ? 'FULL COVER' : 'BACKGROUND');
@@ -5143,6 +5277,128 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             }, []);
 
             // 🎯 FONCTION PRINCIPALE D'EXPORT avec gestion complète
+            const getCurrentDesignData = () => {
+                return {
+                    format, pageCount, paperType, bindingType, coverFinish, hasBleed,
+                    spineText, bookTitle, authorName, backCoverText,
+                    spineColor, spineTextColor, spineTextFont,
+                    bookTitleColor, bookTitleFont, bookTitleSize,
+                    authorNameColor, authorNameFont, authorNameSize,
+                    backCoverTextColor, backCoverTextFont, backCoverTextSize,
+                    backCoverBgColor,
+                    bookTitleX, bookTitleY, authorNameX, authorNameY,
+                    isFullCover: !!(frontImage && frontImage.isFullCover),
+                    frontImage: frontImage ? { 
+                        url: frontImage.url, 
+                        naturalWidth: frontImage.naturalWidth, 
+                        naturalHeight: frontImage.naturalHeight,
+                        isFullCover: frontImage.isFullCover,
+                        isMarketplace: frontImage.isMarketplace
+                    } : null,
+                    backImage: backImage ? { 
+                        url: backImage.url, 
+                        naturalWidth: backImage.naturalWidth, 
+                        naturalHeight: backImage.naturalHeight 
+                    } : null,
+                    templateUrl: (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null)
+                };
+            };
+
+            const applyDesignData = (saved) => {
+                if (!saved) return;
+                // Paramètres livre
+                if (saved.format) setFormat(saved.format);
+                if (saved.pageCount) setPageCount(saved.pageCount);
+                if (saved.paperType) setPaperType(saved.paperType);
+                if (saved.bindingType) setBindingType(saved.bindingType);
+                if (saved.coverFinish) setCoverFinish(saved.coverFinish);
+                if (saved.hasBleed !== undefined) setHasBleed(saved.hasBleed);
+
+                // Texte
+                if (saved.spineText !== undefined) setSpineText(saved.spineText);
+                if (saved.bookTitle !== undefined) setBookTitle(saved.bookTitle);
+                if (saved.authorName !== undefined) setAuthorName(saved.authorName);
+                if (saved.backCoverText !== undefined) setBackCoverText(saved.backCoverText);
+
+                // Couleurs / polices
+                if (saved.spineColor) setSpineColor(saved.spineColor);
+                if (saved.spineTextColor) setSpineTextColor(saved.spineTextColor);
+                if (saved.spineTextFont) setSpineTextFont(saved.spineTextFont);
+                if (saved.bookTitleColor) setBookTitleColor(saved.bookTitleColor);
+                if (saved.bookTitleFont) setBookTitleFont(saved.bookTitleFont);
+                if (saved.bookTitleSize) setBookTitleSize(saved.bookTitleSize);
+                if (saved.authorNameColor) setAuthorNameColor(saved.authorNameColor);
+                if (saved.authorNameFont) setAuthorNameFont(saved.authorNameFont);
+                if (saved.authorNameSize) setAuthorNameSize(saved.authorNameSize);
+                if (saved.backCoverTextColor) setBackCoverTextColor(saved.backCoverTextColor);
+                if (saved.backCoverTextFont) setBackCoverTextFont(saved.backCoverTextFont);
+                if (saved.backCoverTextSize) setBackCoverTextSize(saved.backCoverTextSize);
+                if (saved.backCoverBgColor) setBackCoverBgColor(saved.backCoverBgColor);
+
+                // Positions
+                if (saved.bookTitleX !== undefined) setBookTitleX(saved.bookTitleX);
+                if (saved.bookTitleY !== undefined) setBookTitleY(saved.bookTitleY);
+                if (saved.authorNameX !== undefined) setAuthorNameX(saved.authorNameX);
+                if (saved.authorNameY !== undefined) setAuthorNameY(saved.authorNameY);
+
+                // Images
+                if (saved.frontImage) setFrontImage(saved.frontImage);
+                if (saved.backImage) setBackImage(saved.backImage);
+
+                if (saved.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(saved.templateUrl);
+                setDesignRestored(true);
+            };
+
+            const refreshDesignsList = () => {
+                const items = window.gkdpListDesigns ? window.gkdpListDesigns() : [];
+                setDesignsList(items || []);
+            };
+
+            const openDesignsModal = () => {
+                refreshDesignsList();
+                setDesignsModalOpen(true);
+            };
+
+            const saveCurrentToLibrary = () => {
+                const data = getCurrentDesignData();
+                const title = (designTitle || bookTitle || 'Design').trim();
+                const record = window.gkdpUpsertDesign ? window.gkdpUpsertDesign({
+                    id: activeDesignId || undefined,
+                    title,
+                    templateUrl: data.templateUrl,
+                    designData: data,
+                    lastUsedAt: new Date().toISOString()
+                }) : null;
+
+                if (record && record.id) {
+                    setActiveDesignId(record.id);
+                    localStorage.setItem('gkdp_active_design_id', record.id);
+                    setDesignTitle(record.title || title);
+                    refreshDesignsList();
+                    alert(language === 'fr' ? '✅ Design sauvegardé dans votre bibliothèque.' : '✅ Design saved to your library.');
+                } else {
+                    alert(language === 'fr' ? '❌ Impossible de sauvegarder le design.' : '❌ Could not save design.');
+                }
+            };
+
+            const createNewDesign = () => {
+                // Nouveau design = on oublie l'id actif + on réinitialise (via onReset)
+                setActiveDesignId(null);
+                localStorage.removeItem('gkdp_active_design_id');
+                setDesignTitle('');
+                // Évite que le restore automatique ne remette un ancien design
+                window.clearTempDesign && window.clearTempDesign();
+                // Réinitialiser l'UI / états (re-montage du composant)
+                onReset && onReset();
+
+            };
+
+            useEffect(() => {
+                if (!activeDesignId) return;
+                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(activeDesignId) : null;
+                if (rec && rec.title && !designTitle) setDesignTitle(rec.title);
+            }, [activeDesignId]);
+
             const handleExportClick = async () => {
                 if (!dimensions) { 
                     alert(t('selectFormat')); 
@@ -5309,6 +5565,13 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                         saved = window.loadPermanentDesign && window.loadPermanentDesign();
                     }
                     
+                    // ✅ Eviter de restaurer un ancien design sur un template différent
+                    const activeTemplateUrl = (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null);
+                    if (activeTemplateUrl && saved && saved.templateUrl && saved.templateUrl !== activeTemplateUrl) {
+                        console.log('💾 [RESTORE] Ignored: saved design is for another template.', saved.templateUrl, '!=', activeTemplateUrl);
+                        saved = null;
+                    }
+
                     if (saved && !isMarketplacePreview) {
                         console.log('💾 [RESTORE] Restauration du design...');
                         
@@ -5420,6 +5683,198 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             return (
                 <div className="min-h-screen bg-gray-50">
                     {/* 💾 NOTIFICATION DE RESTAURATION */}
+
+                    {/* 📚 DESIGN LIBRARY MODAL */}
+                    {designsModalOpen && (
+                        <div style={{
+                            position: 'fixed',
+                            inset: 0,
+                            background: 'rgba(0,0,0,0.65)',
+                            zIndex: 9999,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            padding: '20px'
+                        }}>
+                            <div style={{
+                                background: 'white',
+                                borderRadius: '16px',
+                                width: 'min(900px, 95vw)',
+                                maxHeight: '85vh',
+                                overflow: 'hidden',
+                                boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
+                                display: 'flex',
+                                flexDirection: 'column'
+                            }}>
+                                <div style={{
+                                    padding: '16px 18px',
+                                    borderBottom: '1px solid #e5e7eb',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'space-between',
+                                    gap: '12px'
+                                }}>
+                                    <div style={{display:'flex', flexDirection:'column', gap:'2px'}}>
+                                        <div style={{fontWeight: 800, fontSize: '16px', color:'#111827'}}>
+                                            {language === 'fr' ? 'Mes designs' : 'My designs'}
+                                        </div>
+                                        <div style={{fontSize:'12px', color:'#6b7280'}}>
+                                            {language === 'fr' ? 'Ouvrir, dupliquer ou supprimer un design.' : 'Open, duplicate, or delete a design.'}
+                                        </div>
+                                    </div>
+                                    <div style={{display:'flex', gap:'8px', alignItems:'center'}}>
+                                        <button
+                                            onClick={() => { refreshDesignsList(); }}
+                                            style={{
+                                                padding: '8px 12px',
+                                                borderRadius: '10px',
+                                                border: '1px solid #e5e7eb',
+                                                background: 'white',
+                                                cursor: 'pointer',
+                                                fontWeight: 700,
+                                                fontSize: '12px'
+                                            }}
+                                            type="button"
+                                        >
+                                            🔄 {language === 'fr' ? 'Rafraîchir' : 'Refresh'}
+                                        </button>
+                                        <button
+                                            onClick={() => setDesignsModalOpen(false)}
+                                            style={{
+                                                padding: '8px 12px',
+                                                borderRadius: '10px',
+                                                border: '1px solid #e5e7eb',
+                                                background: 'white',
+                                                cursor: 'pointer',
+                                                fontWeight: 700,
+                                                fontSize: '12px'
+                                            }}
+                                            type="button"
+                                        >
+                                            ✕ {language === 'fr' ? 'Fermer' : 'Close'}
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div style={{padding: '14px 18px', overflow:'auto'}}>
+                                    {(!designsList || designsList.length === 0) ? (
+                                        <div style={{padding:'28px 12px', textAlign:'center', color:'#6b7280'}}>
+                                            {language === 'fr' ? 'Aucun design sauvegardé pour le moment.' : 'No saved designs yet.'}
+                                        </div>
+                                    ) : (
+                                        <div style={{display:'grid', gridTemplateColumns:'1fr', gap:'10px'}}>
+                                            {designsList.map((d) => (
+                                                <div key={d.id} style={{
+                                                    border: '1px solid #e5e7eb',
+                                                    borderRadius: '12px',
+                                                    padding: '12px',
+                                                    display: 'flex',
+                                                    alignItems: 'center',
+                                                    justifyContent: 'space-between',
+                                                    gap: '12px'
+                                                }}>
+                                                    <div style={{minWidth:0}}>
+                                                        <div style={{fontWeight: 800, color:'#111827', fontSize:'14px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>
+                                                            {d.title || (language === 'fr' ? 'Sans titre' : 'Untitled')}
+                                                        </div>
+                                                        <div style={{fontSize:'12px', color:'#6b7280'}}>
+                                                            {(language === 'fr' ? 'Dernière utilisation' : 'Last used')}: {d.lastUsedAt ? new Date(d.lastUsedAt).toLocaleString() : (d.updatedAt ? new Date(d.updatedAt).toLocaleString() : '')}
+                                                        </div>
+                                                        <div style={{fontSize:'11px', color:'#9ca3af', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>
+                                                            {d.templateUrl ? d.templateUrl : (language === 'fr' ? 'Template: inconnu' : 'Template: unknown')}
+                                                        </div>
+                                                    </div>
+
+                                                    <div style={{display:'flex', gap:'8px', flexWrap:'wrap', justifyContent:'flex-end'}}>
+                                                        <button
+                                                            onClick={() => {
+                                                                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(d.id) : null;
+                                                                if (!rec || !rec.designData) return;
+                                                                if (rec.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(rec.templateUrl);
+                                                                setActiveDesignId(rec.id);
+                                                                localStorage.setItem('gkdp_active_design_id', rec.id);
+                                                                setDesignTitle(rec.title || '');
+                                                                window.gkdpTouchDesign && window.gkdpTouchDesign(rec.id);
+                                                                applyDesignData(rec.designData);
+                                                                setDesignsModalOpen(false);
+                                                            }}
+                                                            style={{
+                                                                padding: '8px 12px',
+                                                                borderRadius: '10px',
+                                                                border: '1px solid #10b981',
+                                                                background: '#10b981',
+                                                                color: 'white',
+                                                                cursor: 'pointer',
+                                                                fontWeight: 800,
+                                                                fontSize: '12px'
+                                                            }}
+                                                            type="button"
+                                                        >
+                                                            {language === 'fr' ? 'Ouvrir' : 'Open'}
+                                                        </button>
+
+                                                        <button
+                                                            onClick={() => {
+                                                                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(d.id) : null;
+                                                                if (!rec || !rec.designData) return;
+                                                                const copyTitle = (rec.title || 'Design') + (language === 'fr' ? ' (copie)' : ' (copy)');
+                                                                const created = window.gkdpUpsertDesign ? window.gkdpUpsertDesign({
+                                                                    title: copyTitle,
+                                                                    templateUrl: rec.templateUrl || null,
+                                                                    designData: rec.designData,
+                                                                    lastUsedAt: new Date().toISOString()
+                                                                }) : null;
+                                                                if (created) refreshDesignsList();
+                                                            }}
+                                                            style={{
+                                                                padding: '8px 12px',
+                                                                borderRadius: '10px',
+                                                                border: '1px solid #e5e7eb',
+                                                                background: 'white',
+                                                                cursor: 'pointer',
+                                                                fontWeight: 800,
+                                                                fontSize: '12px'
+                                                            }}
+                                                            type="button"
+                                                        >
+                                                            📄 {language === 'fr' ? 'Dupliquer' : 'Duplicate'}
+                                                        </button>
+
+                                                        <button
+                                                            onClick={() => {
+                                                                const ok = confirm(language === 'fr' ? 'Supprimer ce design ?' : 'Delete this design?');
+                                                                if (!ok) return;
+                                                                window.gkdpDeleteDesign && window.gkdpDeleteDesign(d.id);
+                                                                if (activeDesignId === d.id) {
+                                                                    setActiveDesignId(null);
+                                                                    localStorage.removeItem('gkdp_active_design_id');
+                                                                }
+                                                                refreshDesignsList();
+                                                            }}
+                                                            style={{
+                                                                padding: '8px 12px',
+                                                                borderRadius: '10px',
+                                                                border: '1px solid #ef4444',
+                                                                background: 'white',
+                                                                color: '#ef4444',
+                                                                cursor: 'pointer',
+                                                                fontWeight: 900,
+                                                                fontSize: '12px'
+                                                            }}
+                                                            type="button"
+                                                        >
+                                                            🗑️ {language === 'fr' ? 'Supprimer' : 'Delete'}
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     {designRestored && (
                         <div style={{
                             position: 'fixed',
@@ -7017,6 +7472,44 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         </div>
                                     )}
                                 </div>
+
+                                {/* 📚 Design Library controls */}
+                                {viewMode === '2d' && (
+                                    <div className="flex flex-col gap-2 items-center mb-3">
+                                        <div className="flex flex-wrap gap-2 justify-center">
+                                            <button
+                                                onClick={saveCurrentToLibrary}
+                                                className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-800 text-sm font-semibold hover:shadow"
+                                                type="button"
+                                            >
+                                                💾 {language === 'fr' ? 'Sauvegarder' : 'Save'}
+                                            </button>
+                                            <button
+                                                onClick={openDesignsModal}
+                                                className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-800 text-sm font-semibold hover:shadow"
+                                                type="button"
+                                            >
+                                                📚 {language === 'fr' ? 'Mes designs' : 'My designs'}
+                                            </button>
+                                            <button
+                                                onClick={createNewDesign}
+                                                className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-800 text-sm font-semibold hover:shadow"
+                                                type="button"
+                                            >
+                                                ➕ {language === 'fr' ? 'Nouveau' : 'New'}
+                                            </button>
+                                        </div>
+                                        <div className="w-full max-w-md">
+                                            <input
+                                                value={designTitle}
+                                                onChange={(e) => setDesignTitle(e.target.value)}
+                                                placeholder={language === 'fr' ? 'Nom du design (optionnel)' : 'Design name (optional)'}
+                                                className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm"
+                                                type="text"
+                                            />
+                                        </div>
+                                    </div>
+                                )}
 
                                 {/* Bouton Export 2D classique */}
                                 {viewMode === '2d' && (
