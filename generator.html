@@ -625,6 +625,58 @@
             }
         };
         
+        // 💾 Sauvegarder le design actuel dans la bibliothèque
+        window.gkdpSaveCurrentDesign = function() {
+            try {
+                // Récupérer le design actuel depuis React
+                if (!window.getCurrentDesignData) {
+                    console.error('❌ [LIBRARY SAVE] getCurrentDesignData manquant');
+                    alert('Erreur: impossible de récupérer le design actuel');
+                    return false;
+                }
+
+                const data = window.getCurrentDesignData();
+                if (!data) {
+                    console.error('❌ [LIBRARY SAVE] Aucun design à sauvegarder');
+                    alert('Aucun design à sauvegarder');
+                    return false;
+                }
+
+                // Demander un titre
+                const title = prompt('Nom du design:', data.title || 'Mon design');
+                if (!title) return false; // Annulé
+
+                // Créer l'objet design
+                const design = {
+                    id: 'dsg_' + Date.now(),
+                    title: title,
+                    templateUrl: window.getActiveTemplateUrl?.() || null,
+                    designData: data,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    lastUsedAt: new Date().toISOString()
+                };
+
+                // Ajouter à la bibliothèque
+                const result = window.gkdpUpsertDesign(design);
+                
+                if (result) {
+                    console.log('💾 [LIBRARY SAVE] Design sauvegardé:', result);
+                    alert('✅ Design sauvegardé !');
+                    return true;
+                } else {
+                    console.error('❌ [LIBRARY SAVE] Échec de la sauvegarde');
+                    alert('❌ Erreur lors de la sauvegarde');
+                    return false;
+                }
+
+            } catch (e) {
+                console.error('❌ [LIBRARY SAVE] Erreur:', e);
+                alert('❌ Erreur: ' + e.message);
+                return false;
+            }
+        };
+        
         console.log('💾 [DESIGN SAVE] Système initialisé');
     })();
     </script>
@@ -5300,9 +5352,13 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                         naturalWidth: backImage.naturalWidth, 
                         naturalHeight: backImage.naturalHeight 
                     } : null,
-                    templateUrl: (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null)
+                    templateUrl: (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
+                    title: (designTitle || bookTitle || 'Design').trim()
                 };
             };
+            
+            // Exposer globalement pour la sauvegarde depuis window.gkdpSaveCurrentDesign
+            window.getCurrentDesignData = getCurrentDesignData;
 
             const applyDesignData = (saved) => {
                 if (!saved) return;
