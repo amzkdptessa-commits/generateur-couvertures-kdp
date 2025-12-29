@@ -208,6 +208,38 @@
         /* Loading */
         .loading { display: none; text-align: center; padding: 40px; }
         .loading.active { display: block; }
+
+        /* Language Switcher */
+        .language-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            border-radius: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        .lang-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 153, 0, 0.1);
+        }
+        .lang-btn.active {
+            background: var(--accent-orange);
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -226,6 +258,12 @@
             </nav>
         </div>
     </header>
+
+    <!-- Language Switcher -->
+    <div class="language-switcher">
+        <button class="lang-btn active" onclick="switchLanguage('en')" id="btn-en">EN</button>
+        <button class="lang-btn" onclick="switchLanguage('fr')" id="btn-fr">FR</button>
+    </div>
 
     <!-- Dashboard Content -->
     <div class="dashboard-container">
@@ -594,8 +632,32 @@
                 "Predictive analysis for '" + catName + "' is being prepared. Multi-marketplace scraping data will be available soon.";
         }
 
+        // Language switcher
+        function switchLanguage(lang) {
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+            
+            // Store language preference
+            localStorage.setItem('language', lang);
+            
+            // Update navigation and footer (they use localStorage automatically)
+            // The navigation.js and footer.js will pick up the language change
+            
+            // Reload page to apply language to all text
+            location.reload();
+        }
+
+        // Set initial language on load
+        function initLanguage() {
+            const savedLang = localStorage.getItem('language') || 'en';
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + savedLang).classList.add('active');
+        }
+
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            initLanguage();
             checkAuth();
         });
     </script>
