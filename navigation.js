@@ -17,7 +17,7 @@ const navigationConfig = {
       textFr: 'Tableau de bord',
       textEn: 'Dashboard',
       id: 'dashboard'
-      // requiresAuth: true // Décommente cette ligne si tu veux afficher Dashboard uniquement quand l'utilisateur est connecté
+      // Dashboard is now always visible for all users
     },
     {
       href: './generator.html',
@@ -72,11 +72,6 @@ function generateNavigation(currentPage) {
   // Desktop navigation
   let desktopNav = '';
   navigationConfig.items.forEach(item => {
-    // Skip auth-required items if user is not logged in
-    if (item.requiresAuth && !isUserLoggedIn()) {
-      return;
-    }
-    
     const text = currentLang === 'fr' ? item.textFr : item.textEn;
     const fullText = item.icon ? `${item.icon} ${text}` : text;
     const isActive = isCurrentPage(item.href, currentPage);
@@ -92,11 +87,6 @@ function generateNavigation(currentPage) {
   // Mobile navigation
   let mobileNav = '';
   navigationConfig.items.forEach(item => {
-    // Skip auth-required items if user is not logged in
-    if (item.requiresAuth && !isUserLoggedIn()) {
-      return;
-    }
-    
     const text = currentLang === 'fr' ? item.textFr : item.textEn;
     const fullText = item.icon ? `${item.icon} ${text}` : text;
     
@@ -127,13 +117,6 @@ function isCurrentPage(href, currentPage) {
   // Extract filename from href
   const hrefFile = href.replace('./', '').split('#')[0];
   return currentPage.includes(hrefFile);
-}
-
-// Helper function to check if user is logged in
-function isUserLoggedIn() {
-  // TODO: Implement actual authentication check
-  // For now, check if there's a token in localStorage
-  return localStorage.getItem('userToken') !== null;
 }
 
 // Function to inject navigation into the page

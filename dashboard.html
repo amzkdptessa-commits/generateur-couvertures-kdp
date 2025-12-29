@@ -209,36 +209,38 @@
         .loading { display: none; text-align: center; padding: 40px; }
         .loading.active { display: block; }
 
-        /* Language Switcher */
-        .language-switcher {
+        /* Language Toggle Switch - Exact match with index.html */
+        .language-selector {
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 1000;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 25px;
-            padding: 5px;
+            background: #fff;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.1);
+            padding: 4px;
             display: flex;
-            gap: 5px;
+            gap: 0;
         }
         .lang-btn {
             padding: 8px 16px;
             border: none;
             background: transparent;
-            color: var(--text-dim);
+            border-radius: 50px;
             cursor: pointer;
-            border-radius: 20px;
+            transition: all .3s;
             font-weight: 600;
-            transition: all 0.3s;
-        }
-        .lang-btn:hover {
-            color: var(--text-main);
-            background: rgba(255, 153, 0, 0.1);
+            font-size: .85rem;
+            color: #64748b;
+            min-width: 45px;
         }
         .lang-btn.active {
-            background: var(--accent-orange);
-            color: white;
+            background: #FF9900;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(255, 153, 0, 0.3);
+        }
+        .lang-btn:hover:not(.active) {
+            color: #334155;
         }
     </style>
 </head>
@@ -260,7 +262,7 @@
     </header>
 
     <!-- Language Switcher -->
-    <div class="language-switcher">
+    <div class="language-selector">
         <button class="lang-btn active" onclick="switchLanguage('en')" id="btn-en">EN</button>
         <button class="lang-btn" onclick="switchLanguage('fr')" id="btn-fr">FR</button>
     </div>
