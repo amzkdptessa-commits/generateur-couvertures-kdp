@@ -4047,7 +4047,66 @@ img {
                 if (backImage) {
                     alerts.push({ type: 'info', category: 'barcode', message: `Amazon placera le code-barres en bas-droite.` });
                 }
-                if (!hasBleed && (frontImage || backImage)) {
+                
+                // Barcode safe zone collision check (KDP places a barcode on back cover bottom-right)
+                if (coverType === 'paperback' && backCoverText && backCoverText.trim().length > 0) {
+                  try {
+                    const measureCanvas = document.createElement('canvas');
+                    const mctx = measureCanvas.getContext('2d');
+                    if (mctx) {
+                      const fontSize = Number(backCoverTextFontSize) || 14;
+                      mctx.font = `${fontSize}px ${backCoverTextFont || 'Arial'}`;
+                      const maxTextWidth = Math.max(0, backWidth - safeZoneWidth * 2);
+                      const lineHeight = fontSize * 1.4;
+
+                      // Replicate wrapText logic to estimate the bounding box
+                      const words = backCoverText.replace(/\r\n/g, '\n').split(' ');
+                      let line = '';
+                      const lineWidths = [];
+                      for (let n = 0; n < words.length; n++) {
+                        const testLine = line + words[n] + ' ';
+                        const testWidth = mctx.measureText(testLine).width;
+                        if (testWidth > maxTextWidth && n > 0) {
+                          lineWidths.push(mctx.measureText(line).width);
+                          line = words[n] + ' ';
+                        } else {
+                          line = testLine;
+                        }
+                      }
+                      lineWidths.push(mctx.measureText(line).width);
+                      const lineCount = lineWidths.length;
+                      const maxLineWidth = Math.max(...lineWidths);
+
+                      const textX = startX + backWidth / 2 + (backCoverTextX / 100) * backWidth;
+                      const textBaselineY = startY + safeZoneHeight + fontSize + (backCoverTextY / 100) * bookHeight;
+
+                      const textLeft = textX - maxLineWidth / 2;
+                      const textRight = textX + maxLineWidth / 2;
+                      const textTop = textBaselineY - fontSize;
+                      const textBottom = textTop + (lineCount - 1) * lineHeight + fontSize;
+
+                      const barcodeWidth = 50.8 * scaleFactor;
+                      const barcodeHeight = 30.5 * scaleFactor;
+                      const barcodeX = startX + backWidth - barcodeWidth - 5;
+                      const barcodeY = startY + bookHeight - barcodeHeight - 5;
+
+                      const intersects = !(textRight < barcodeX || textLeft > barcodeX + barcodeWidth || textBottom < barcodeY || textTop > barcodeY + barcodeHeight);
+                      if (intersects) {
+                        alerts.push({
+                          type: 'critical',
+                          category: 'barcode',
+                          title: 'Texte dans la zone code-barres',
+                          message: 'Du texte du verso semble empiéter sur la zone réservée au code-barres (bas-droite du verso). Déplacez ou réduisez le texte pour éviter un rendu indésirable à l’impression.'
+                        });
+                        totalScore -= 12;
+                      }
+                    }
+                  } catch (e) {
+                    // ignore measurement errors
+                  }
+                }
+
+if (!hasBleed && (frontImage || backImage)) {
                     alerts.push({ type: 'info', category: 'bleed', message: `Activez le fond perdu pour éviter les liserés blancs.` });
                 }
 
@@ -4361,8 +4420,8 @@ img {
                     if (showBarcodeZone) {
                         ctx.save();
                         // Dimensions standards du code-barre ISBN: ~50.8mm x 30.5mm
-                        const barcodeWidth = 50 * scaleFactor;
-                        const barcodeHeight = 30 * scaleFactor;
+                        const barcodeWidth = 50.8 * scaleFactor;
+                        const barcodeHeight = 30.5 * scaleFactor;
                         const barcodeX = startX + backWidth - safeZoneWidth - barcodeWidth - 5;
                         const barcodeY = startY + bookHeight - safeZoneHeight - barcodeHeight - 5;
                         
