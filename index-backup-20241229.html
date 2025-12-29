@@ -159,10 +159,15 @@
         <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
       </div>
 
-
       <!-- Navigation Desktop -->
       <nav class="nav-links">
-        <!-- Navigation items will be injected here by navigation.js -->
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+        <a href="./marketplace.html" >Marketplace</a>
+        <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Tarifs</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
       </nav>
     </div>
   </header>
@@ -171,10 +176,15 @@
   <div class="mobile-menu" id="mobileMenu">
     <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
     <div class="mobile-menu-links">
-      <!-- Mobile navigation items will be injected here by navigation.js -->
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;" data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Générateur Express</a>
+      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+      <a href="./marketplace.html/" >Marketplace</a>
+      <a href="#tarifs" style="background:rgba(251,191,36,.2);border-color:#fbbf24;" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Tarifs</a>
+      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
     </div>
   </div>
-
 
 
   <!-- Hero Section -->
@@ -570,12 +580,66 @@
   </section>
 
   <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section">
+        <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières actualités KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières actualités KDP !</h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" title="YouTube - Tutoriels KDP" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" title="TikTok - Tips rapides KDP" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="text-center text-sm text-gray-400 mt-4" data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs</p>
+      </div>
 
-  <!-- Footer Placeholder -->
-  <div id="footer-placeholder">
-    <!-- Footer will be injected here by footer.js -->
-  </div>
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
+          </div>
+          <p class="text-gray-400" data-fr="Le générateur de couvertures KDP 100% conformes Amazon." data-en="The 100% Amazon-compliant KDP cover generator.">The 100% Amazon-compliant KDP cover generator.</p>
+        </div>
 
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+          <ul class="space-y-2">
+            <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a></li>
+            <li><a href="generator-magic.html" class="hover:text-white transition" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a></li>
+            <li><a href="./marketplace.html"  class="hover:text-white transition">Marketplace</a></li>
+            <li><a href="#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+            <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+            <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+            <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide utilisateur" data-en="User Guide">Guide utilisateur</a></li>
+            <li><a href="updates.html" class="hover:text-white transition" data-fr="Mises à jour / Nouveautés" data-en="Updates / What's New">Mises à jour / Nouveautés</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+          <ul class="space-y-2">
+            <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Légal Notice</a></li>
+            <li><a href="cgu.html" class="hover:text-white transition" data-fr="Conditions d'utilisation" data-en="Terms of Use">Conditions d'utilisation</a></li>
+            <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Politique de confidentialité" data-en="Privacy Policy">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p data-fr="&copy; 2025 GabaritKDP. Tous droits réservés." data-en="&copy; 2025 GabaritKDP. All rights reserved.">&copy; 2025 GabaritKDP. All rights reserved.</p>
+      </div>
+    </div>
   </footer>
 
   <script>
@@ -856,9 +920,5 @@
     setInterval(getSparklineData, 300000); // actualise sparkline toutes les 5 minutes
   })();
   </script>
-
-  <!-- Centralized Navigation & Footer Systems -->
-  <script src="navigation.js"></script>
-  <script src="footer.js"></script>
 </body>
 </html>
