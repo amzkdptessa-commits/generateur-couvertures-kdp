@@ -245,442 +245,6 @@
     })();
     </script>
 
-    <!-- 🔐 SUPABASE - Vérification abonnement -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-    (async function checkSubscriptionStatus() {
-        const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3dkYWljcGxhamxqcGZremh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MzMxMjQsImV4cCI6MjA3NzUwOTEyNH0.0IDHysD84_0ghjb-a4K0UkNrJbzdQBKUjm5mQbSfro8';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        
-        // Exposer globalement
-        window.supabaseClient = supabase;
-        window.dispatchEvent(new Event('supabase:ready'));
-        console.log('✅ [SUPABASE] Client initialisé');
-        
-        // 🔧 FONCTION GLOBALE: Vérifier si l'utilisateur est connecté
-        window.isUserLoggedIn = function() {
-            return !!localStorage.getItem('userEmail');
-        };
-        
-        // 🔧 FONCTION GLOBALE: Obtenir les crédits restants
-        window.getExportCredits = function() {
-            const isPro = localStorage.getItem('userProfile') === 'pro';
-            if (isPro) return Infinity;
-            return parseInt(localStorage.getItem('exportCredits') || '0', 10);
-        };
-        
-        // 🔧 FONCTION GLOBALE: Décompter un export (async)
-        window.decrementExportCredit = async function() {
-            try {
-                const { data: { session } } = await supabase.auth.getSession();
-                if (!session || !session.user) {
-                    console.log('Pas de session → pas de décrément');
-                    return false;
-                }
-                
-                const userId = session.user.id;
-                
-                // 1) Récupérer les crédits actuels
-                const { data: profile, error: fetchError } = await supabase
-                    .from('user_profiles')
-                    .select('exports_available, total_exports_used, is_pro')
-                    .eq('id', userId)
-                    .single();
-                
-                if (fetchError || !profile) {
-                    console.error('Erreur récupération crédits', fetchError);
-                    return false;
-                }
-                
-                // Si PRO, pas de décrément
-                if (profile.is_pro) {
-                    console.log('✅ [EXPORT] Utilisateur PRO - exports illimités');
-                    return true;
-                }
-                
-                if (profile.exports_available <= 0) {
-                    console.log('Plus de crédits disponibles');
-                    return false;
-                }
-                
-                // 2) Décrémenter dans Supabase
-                const { error: updateError } = await supabase
-                    .from('user_profiles')
-                    .update({
-                        exports_available: profile.exports_available - 1,
-                        total_exports_used: (profile.total_exports_used || 0) + 1
-                    })
-                    .eq('id', userId);
-                
-                if (updateError) {
-                    console.error('Erreur décrément export', updateError);
-                    return false;
-                }
-                
-                // 3) Mettre à jour localStorage pour l'UI
-                const newCredits = profile.exports_available - 1;
-                localStorage.setItem('exportCredits', newCredits.toString());
-                console.log('✅ [EXPORT] Crédit décompté:', newCredits, 'restants');
-                return true;
-            } catch (e) {
-                console.error('❌ [EXPORT] Erreur:', e);
-                return false;
-            }
-        };
-        
-        // 🔧 FONCTION GLOBALE: Rafraîchir les crédits depuis Supabase
-        window.refreshExportCredits = async function() {
-            try {
-                const { data: { session } } = await supabase.auth.getSession();
-                if (!session || !session.user) return 0;
-                
-                const { data, error } = await supabase
-                    .from('user_profiles')
-                    .select('exports_available, is_pro')
-                    .eq('id', session.user.id)
-                    .single();
-                
-                if (data) {
-                    localStorage.setItem('exportCredits', data.exports_available.toString());
-                    if (data.is_pro) localStorage.setItem('userProfile', 'pro');
-                    return data.exports_available;
-                }
-            } catch (e) {
-                console.error('❌ [REFRESH] Erreur:', e);
-            }
-            return 0;
-        };
-        
-        try {
-            const { data: { session } } = await supabase.auth.getSession();
-            
-            if (session && session.user) {
-                console.log('👤 [AUTH] Utilisateur connecté:', session.user.email);
-                
-                // Chercher le profil par ID (plus fiable)
-                let { data: userData, error } = await supabase
-                    .from('user_profiles')
-                    .select('is_pro, exports_available, subscription_type')
-                    .eq('id', session.user.id)
-                    .single();
-                
-                // Si pas de profil trouvé, le créer automatiquement (inscription sociale)
-                if (error || !userData) {
-                    console.log('📝 [AUTH] Création profil FREE pour nouvel utilisateur social...');
-                    
-                    const { error: insertError } = await supabase
-                        .from('user_profiles')
-                        .insert({
-                            id: session.user.id,
-                            email: session.user.email,
-                            is_pro: false,
-                            exports_available: 3,
-                            total_exports_used: 0
-                        });
-                    
-                    if (insertError) {
-                        console.error('❌ [AUTH] Erreur création profil:', insertError);
-                    } else {
-                        console.log('✅ [AUTH] Profil FREE créé avec 3 exports!');
-                        userData = { is_pro: false, exports_available: 3, subscription_type: null };
-                    }
-                }
-                
-                console.log('📊 [AUTH] Données utilisateur:', userData);
-                
-                if (userData) {
-                    if (userData.is_pro === true) {
-                        localStorage.setItem('userProfile', 'pro');
-                    } else {
-                        localStorage.removeItem('userProfile');
-                    }
-                    if (userData.subscription_type) {
-                        localStorage.setItem('subscription_type', userData.subscription_type);
-                    }
-                    localStorage.setItem('exportCredits', (userData.exports_available || 0).toString());
-                    console.log('✅ [AUTH] Crédits exports:', userData.exports_available);
-                }
-                
-                localStorage.setItem('userEmail', session.user.email);
-            } else {
-                console.log('ℹ️ [AUTH] Aucun utilisateur connecté');
-                localStorage.removeItem('userProfile');
-                localStorage.removeItem('userEmail');
-                localStorage.removeItem('exportCredits');
-            }
-        } catch (err) {
-            console.error('❌ [AUTH] Erreur:', err);
-        }
-    })();
-    </script>
-
-    <!-- 💾 DESIGN SAVE SYSTEM - Sauvegarde pour redirection inscription -->
-    <script>
-    (function() {
-        'use strict';
-        
-        const STORAGE_KEY = 'gkdp_saved_design';
-        const TEMP_STORAGE_KEY = 'gkdp_temp_design'; // Pour les non-connectés avant inscription
-        const ACTIVE_TEMPLATE_KEY = 'gkdp_active_template_url'; // Template actuellement actif (Marketplace)
-        const LIBRARY_KEY = 'gkdp_design_library_v1'; // Bibliothèque de designs (local)
-
-        // 🎯 Template actif (permet d'éviter de restaurer un ancien design sur un nouveau template)
-        window.setActiveTemplateUrl = function(url) {
-            try {
-                if (!url) {
-                    localStorage.removeItem(ACTIVE_TEMPLATE_KEY);
-                    return;
-                }
-                localStorage.setItem(ACTIVE_TEMPLATE_KEY, url);
-            } catch (e) {
-                console.error('❌ [ACTIVE TEMPLATE] Error:', e);
-            }
-        };
-
-        window.getActiveTemplateUrl = function() {
-            try {
-                return localStorage.getItem(ACTIVE_TEMPLATE_KEY) || null;
-            } catch (e) {
-                return null;
-            }
-        };
-
-        // 📚 Design Library (localStorage) — CRUD
-        function readLibrary() {
-            try {
-                const raw = localStorage.getItem(LIBRARY_KEY);
-                const arr = raw ? JSON.parse(raw) : [];
-                return Array.isArray(arr) ? arr : [];
-            } catch (e) {
-                console.error('❌ [LIBRARY] read error:', e);
-                return [];
-            }
-        }
-
-        function writeLibrary(items) {
-            try {
-                localStorage.setItem(LIBRARY_KEY, JSON.stringify(items || []));
-                return true;
-            } catch (e) {
-                console.error('❌ [LIBRARY] write error:', e);
-                return false;
-            }
-        }
-
-        function genId() {
-            try {
-                return (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('id_' + Date.now() + '_' + Math.random().toString(16).slice(2));
-            } catch (e) {
-                return 'id_' + Date.now() + '_' + Math.random().toString(16).slice(2);
-            }
-        }
-
-        window.gkdpListDesigns = function() {
-            const items = readLibrary();
-            // Tri: récemment utilisés d'abord
-            return items.sort((a,b) => (b.lastUsedAt || b.updatedAt || b.createdAt || '').localeCompare(a.lastUsedAt || a.updatedAt || a.createdAt || ''));
-        };
-
-        window.gkdpGetDesign = function(id) {
-            const items = readLibrary();
-            return items.find(d => d && d.id === id) || null;
-        };
-
-        // Upsert: crée si pas d'id, sinon update
-        window.gkdpUpsertDesign = function(payload) {
-            try {
-                const items = readLibrary();
-                const now = new Date().toISOString();
-                const id = payload && payload.id ? payload.id : genId();
-
-                const templateUrl = (payload && payload.templateUrl) || window.getActiveTemplateUrl?.() || null;
-                const title = (payload && payload.title) || 'Untitled design';
-
-                const designData = (payload && payload.designData) ? payload.designData : null;
-
-                const existingIdx = items.findIndex(d => d && d.id === id);
-                const record = {
-                    id,
-                    templateUrl,
-                    title,
-                    designData,
-                    createdAt: existingIdx >= 0 ? (items[existingIdx].createdAt || now) : now,
-                    updatedAt: now,
-                    lastUsedAt: payload && payload.lastUsedAt ? payload.lastUsedAt : (existingIdx >= 0 ? (items[existingIdx].lastUsedAt || null) : null)
-                };
-
-                if (existingIdx >= 0) items[existingIdx] = { ...items[existingIdx], ...record };
-                else items.unshift(record);
-
-                writeLibrary(items);
-                return record;
-            } catch (e) {
-                console.error('❌ [LIBRARY] upsert error:', e);
-                return null;
-            }
-        };
-
-        window.gkdpTouchDesign = function(id) {
-            try {
-                const items = readLibrary();
-                const idx = items.findIndex(d => d && d.id === id);
-                if (idx < 0) return null;
-                const now = new Date().toISOString();
-                items[idx] = { ...items[idx], lastUsedAt: now, updatedAt: now };
-                writeLibrary(items);
-                return items[idx];
-            } catch (e) {
-                return null;
-            }
-        };
-
-        window.gkdpDeleteDesign = function(id) {
-            try {
-                const items = readLibrary();
-                const next = items.filter(d => d && d.id !== id);
-                writeLibrary(next);
-                return true;
-            } catch (e) {
-                return false;
-            }
-        };
-
-        
-        // 💾 Sauvegarder le design TEMPORAIREMENT (avant redirection vers inscription)
-        window.saveTempDesign = function(designData) {
-            try {
-                const dataToSave = {
-                    ...designData,
-                    templateUrl: (designData && designData.templateUrl) ? designData.templateUrl : (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
-                    savedAt: new Date().toISOString()
-                };
-                localStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(dataToSave));
-                console.log('💾 [TEMP SAVE] ✅ Design temporaire sauvegardé!');
-                return true;
-            } catch (e) {
-                console.error('💾 [TEMP SAVE] Erreur:', e);
-                return false;
-            }
-        };
-        
-        // 💾 Charger le design temporaire (après connexion)
-        window.loadTempDesign = function() {
-            try {
-                const saved = localStorage.getItem(TEMP_STORAGE_KEY);
-                if (!saved) return null;
-                console.log('💾 [TEMP LOAD] ✅ Design temporaire trouvé!');
-                return JSON.parse(saved);
-            } catch (e) {
-                console.error('💾 [TEMP LOAD] Erreur:', e);
-                return null;
-            }
-        };
-        
-        // 💾 Effacer le design temporaire
-        window.clearTempDesign = function() {
-            localStorage.removeItem(TEMP_STORAGE_KEY);
-            console.log('💾 [TEMP CLEAR] Design temporaire effacé');
-        };
-        
-        // 💾 Sauvegarder le design permanent (pour utilisateurs connectés)
-        window.saveDesignPermanent = function(designData) {
-            if (!window.isUserLoggedIn || !window.isUserLoggedIn()) {
-                return false;
-            }
-            try {
-                const dataToSave = {
-                    ...designData,
-                    templateUrl: (designData && designData.templateUrl) ? designData.templateUrl : (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
-                    savedAt: new Date().toISOString(),
-                    userEmail: localStorage.getItem('userEmail')
-                };
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
-                console.log('💾 [PERM SAVE] ✅ Design permanent sauvegardé!');
-                return true;
-            } catch (e) {
-                console.error('💾 [PERM SAVE] Erreur:', e);
-                return false;
-            }
-        };
-        
-        // 💾 Charger le design permanent
-        window.loadPermanentDesign = function() {
-            if (!window.isUserLoggedIn || !window.isUserLoggedIn()) {
-                return null;
-            }
-            try {
-                const saved = localStorage.getItem(STORAGE_KEY);
-                if (!saved) return null;
-                const data = JSON.parse(saved);
-                if (data.userEmail !== localStorage.getItem('userEmail')) {
-                    return null;
-                }
-                console.log('💾 [PERM LOAD] ✅ Design permanent trouvé!');
-                return data;
-            } catch (e) {
-                console.error('💾 [PERM LOAD] Erreur:', e);
-                return null;
-            }
-        };
-        
-        // 💾 Sauvegarder le design actuel dans la bibliothèque
-        window.gkdpSaveCurrentDesign = function() {
-            try {
-                // Récupérer le design actuel depuis React
-                if (!window.getCurrentDesignData) {
-                    console.error('❌ [LIBRARY SAVE] getCurrentDesignData manquant');
-                    alert('Erreur: impossible de récupérer le design actuel');
-                    return false;
-                }
-
-                const data = window.getCurrentDesignData();
-                if (!data) {
-                    console.error('❌ [LIBRARY SAVE] Aucun design à sauvegarder');
-                    alert('Aucun design à sauvegarder');
-                    return false;
-                }
-
-                // Demander un titre
-                const title = prompt('Nom du design:', data.title || 'Mon design');
-                if (!title) return false; // Annulé
-
-                // Créer l'objet design
-                const design = {
-                    id: 'dsg_' + Date.now(),
-                    title: title,
-                    templateUrl: window.getActiveTemplateUrl?.() || null,
-                    designData: data,
-                    createdAt: new Date().toISOString(),
-                    updatedAt: new Date().toISOString(),
-                    lastUsedAt: new Date().toISOString()
-                };
-
-                // Ajouter à la bibliothèque
-                const result = window.gkdpUpsertDesign(design);
-                
-                if (result) {
-                    console.log('💾 [LIBRARY SAVE] Design sauvegardé:', result);
-                    alert('✅ Design sauvegardé !');
-                    return true;
-                } else {
-                    console.error('❌ [LIBRARY SAVE] Échec de la sauvegarde');
-                    alert('❌ Erreur lors de la sauvegarde');
-                    return false;
-                }
-
-            } catch (e) {
-                console.error('❌ [LIBRARY SAVE] Erreur:', e);
-                alert('❌ Erreur: ' + e.message);
-                return false;
-            }
-        };
-        
-        console.log('💾 [DESIGN SAVE] Système initialisé');
-    })();
-    </script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
@@ -700,22 +264,6 @@
     height: 100%;
     overflow-y: scroll; /* FIX JUMP: force consistent scrollbar to avoid layout shift */
 }
-
-        /* 💾 Animations pour les notifications */
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slideInCenter {
-            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
-            to { opacity: 1; transform: translateX(-50%) translateY(0); }
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
 
 
         * {
@@ -3728,22 +3276,9 @@ img {
             // 🛒 MARKETPLACE INTEGRATION - États pour les templates chargés via URL
             const [marketplaceTemplate, setMarketplaceTemplate] = useState(null);
             const [isMarketplacePreview, setIsMarketplacePreview] = useState(false);
-            const [showStripeModal, setShowStripeModal] = useState(false); // Désactivé pour beta
-
-            // 📚 Design Library (local) — historique + sauvegardes
-            const [designsModalOpen, setDesignsModalOpen] = useState(false);
-            const [designsList, setDesignsList] = useState([]);
-            const [designTitle, setDesignTitle] = useState('');
-            const [activeDesignId, setActiveDesignId] = useState(() => localStorage.getItem('gkdp_active_design_id') || null);
-
+            const [showStripeModal, setShowStripeModal] = useState(false);
             
             const canvasRef = useRef(null);
-
-            // 🎯 DEBUG - Vérifier que React monte bien le composant
-            console.log('🎯 [DEBUG] KDPCoverGenerator component mounted!');
-            console.log('🎯 [DEBUG] Current URL:', window.location.href);
-            console.log('🎯 [DEBUG] URLSearchParams template:', new URLSearchParams(window.location.search).get('template'));
-            console.log('🎯 [DEBUG] React version:', React.version);
 
             // 🔥 MARKETPLACE URL BOOTSTRAP — DOIT ÊTRE TOUT EN HAUT (après useState/useRef)
             useEffect(() => {
@@ -3767,7 +3302,6 @@ img {
 
                 setMarketplaceTemplate(imageUrl);
                 setIsMarketplacePreview(true);
-                window.setActiveTemplateUrl && window.setActiveTemplateUrl(imageUrl);
 
                 const isFullCover = imageUrl.toLowerCase().includes('fullcover');
                 console.log('🛒 [MARKETPLACE] Type:', isFullCover ? 'FULL COVER' : 'BACKGROUND');
@@ -4047,66 +3581,7 @@ img {
                 if (backImage) {
                     alerts.push({ type: 'info', category: 'barcode', message: `Amazon placera le code-barres en bas-droite.` });
                 }
-                
-                // Barcode safe zone collision check (KDP places a barcode on back cover bottom-right)
-                if (coverType === 'paperback' && backCoverText && backCoverText.trim().length > 0) {
-                  try {
-                    const measureCanvas = document.createElement('canvas');
-                    const mctx = measureCanvas.getContext('2d');
-                    if (mctx) {
-                      const fontSize = Number(backCoverTextFontSize) || 14;
-                      mctx.font = `${fontSize}px ${backCoverTextFont || 'Arial'}`;
-                      const maxTextWidth = Math.max(0, backWidth - safeZoneWidth * 2);
-                      const lineHeight = fontSize * 1.4;
-
-                      // Replicate wrapText logic to estimate the bounding box
-                      const words = backCoverText.replace(/\r\n/g, '\n').split(' ');
-                      let line = '';
-                      const lineWidths = [];
-                      for (let n = 0; n < words.length; n++) {
-                        const testLine = line + words[n] + ' ';
-                        const testWidth = mctx.measureText(testLine).width;
-                        if (testWidth > maxTextWidth && n > 0) {
-                          lineWidths.push(mctx.measureText(line).width);
-                          line = words[n] + ' ';
-                        } else {
-                          line = testLine;
-                        }
-                      }
-                      lineWidths.push(mctx.measureText(line).width);
-                      const lineCount = lineWidths.length;
-                      const maxLineWidth = Math.max(...lineWidths);
-
-                      const textX = startX + backWidth / 2 + (backCoverTextX / 100) * backWidth;
-                      const textBaselineY = startY + safeZoneHeight + fontSize + (backCoverTextY / 100) * bookHeight;
-
-                      const textLeft = textX - maxLineWidth / 2;
-                      const textRight = textX + maxLineWidth / 2;
-                      const textTop = textBaselineY - fontSize;
-                      const textBottom = textTop + (lineCount - 1) * lineHeight + fontSize;
-
-                      const barcodeWidth = 50.8 * scaleFactor;
-                      const barcodeHeight = 30.5 * scaleFactor;
-                      const barcodeX = startX + backWidth - barcodeWidth - 5;
-                      const barcodeY = startY + bookHeight - barcodeHeight - 5;
-
-                      const intersects = !(textRight < barcodeX || textLeft > barcodeX + barcodeWidth || textBottom < barcodeY || textTop > barcodeY + barcodeHeight);
-                      if (intersects) {
-                        alerts.push({
-                          type: 'critical',
-                          category: 'barcode',
-                          title: 'Texte dans la zone code-barres',
-                          message: 'Du texte du verso semble empiéter sur la zone réservée au code-barres (bas-droite du verso). Déplacez ou réduisez le texte pour éviter un rendu indésirable à l’impression.'
-                        });
-                        totalScore -= 12;
-                      }
-                    }
-                  } catch (e) {
-                    // ignore measurement errors
-                  }
-                }
-
-if (!hasBleed && (frontImage || backImage)) {
+                if (!hasBleed && (frontImage || backImage)) {
                     alerts.push({ type: 'info', category: 'bleed', message: `Activez le fond perdu pour éviter les liserés blancs.` });
                 }
 
@@ -4420,8 +3895,8 @@ if (!hasBleed && (frontImage || backImage)) {
                     if (showBarcodeZone) {
                         ctx.save();
                         // Dimensions standards du code-barre ISBN: ~50.8mm x 30.5mm
-                        const barcodeWidth = 50.8 * scaleFactor;
-                        const barcodeHeight = 30.5 * scaleFactor;
+                        const barcodeWidth = 50 * scaleFactor;
+                        const barcodeHeight = 30 * scaleFactor;
                         const barcodeX = startX + backWidth - safeZoneWidth - barcodeWidth - 5;
                         const barcodeY = startY + bookHeight - safeZoneHeight - barcodeHeight - 5;
                         
@@ -5387,287 +4862,38 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 setDraggingElement(null);
             }, []);
 
-            // 🎯 FONCTION PRINCIPALE D'EXPORT avec gestion complète
-            const getCurrentDesignData = () => {
-                return {
-                    format, pageCount, paperType, bindingType, coverFinish, hasBleed,
-                    spineText, bookTitle, authorName, backCoverText,
-                    spineColor, spineTextColor, spineTextFont,
-                    bookTitleColor, bookTitleFont, bookTitleSize,
-                    authorNameColor, authorNameFont, authorNameSize,
-                    backCoverTextColor, backCoverTextFont, backCoverTextSize,
-                    backCoverBgColor,
-                    bookTitleX, bookTitleY, authorNameX, authorNameY,
-                    isFullCover: !!(frontImage && frontImage.isFullCover),
-                    frontImage: frontImage ? { 
-                        url: frontImage.url, 
-                        naturalWidth: frontImage.naturalWidth, 
-                        naturalHeight: frontImage.naturalHeight,
-                        isFullCover: frontImage.isFullCover,
-                        isMarketplace: frontImage.isMarketplace
-                    } : null,
-                    backImage: backImage ? { 
-                        url: backImage.url, 
-                        naturalWidth: backImage.naturalWidth, 
-                        naturalHeight: backImage.naturalHeight 
-                    } : null,
-                    templateUrl: (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
-                    title: (designTitle || bookTitle || 'Design').trim()
-                };
-            };
-            
-            // Exposer globalement pour la sauvegarde depuis window.gkdpSaveCurrentDesign
-            window.getCurrentDesignData = getCurrentDesignData;
+     const handleExportClick = async () => {
+    // ✅ VÉRIFICATION BETA SYSTEM - 100 Founding Testers
+    if (!(await checkBetaAccess())) {
+        return; // Bloquer si pas inscrit ou limite atteinte
+    }
 
-            const applyDesignData = (saved) => {
-                if (!saved) return;
-                // Paramètres livre
-                if (saved.format) setFormat(saved.format);
-                if (saved.pageCount) setPageCount(saved.pageCount);
-                if (saved.paperType) setPaperType(saved.paperType);
-                if (saved.bindingType) setBindingType(saved.bindingType);
-                if (saved.coverFinish) setCoverFinish(saved.coverFinish);
-                if (saved.hasBleed !== undefined) setHasBleed(saved.hasBleed);
-
-                // Texte
-                if (saved.spineText !== undefined) setSpineText(saved.spineText);
-                if (saved.bookTitle !== undefined) setBookTitle(saved.bookTitle);
-                if (saved.authorName !== undefined) setAuthorName(saved.authorName);
-                if (saved.backCoverText !== undefined) setBackCoverText(saved.backCoverText);
-
-                // Couleurs / polices
-                if (saved.spineColor) setSpineColor(saved.spineColor);
-                if (saved.spineTextColor) setSpineTextColor(saved.spineTextColor);
-                if (saved.spineTextFont) setSpineTextFont(saved.spineTextFont);
-                if (saved.bookTitleColor) setBookTitleColor(saved.bookTitleColor);
-                if (saved.bookTitleFont) setBookTitleFont(saved.bookTitleFont);
-                if (saved.bookTitleSize) setBookTitleSize(saved.bookTitleSize);
-                if (saved.authorNameColor) setAuthorNameColor(saved.authorNameColor);
-                if (saved.authorNameFont) setAuthorNameFont(saved.authorNameFont);
-                if (saved.authorNameSize) setAuthorNameSize(saved.authorNameSize);
-                if (saved.backCoverTextColor) setBackCoverTextColor(saved.backCoverTextColor);
-                if (saved.backCoverTextFont) setBackCoverTextFont(saved.backCoverTextFont);
-                if (saved.backCoverTextSize) setBackCoverTextSize(saved.backCoverTextSize);
-                if (saved.backCoverBgColor) setBackCoverBgColor(saved.backCoverBgColor);
-
-                // Positions
-                if (saved.bookTitleX !== undefined) setBookTitleX(saved.bookTitleX);
-                if (saved.bookTitleY !== undefined) setBookTitleY(saved.bookTitleY);
-                if (saved.authorNameX !== undefined) setAuthorNameX(saved.authorNameX);
-                if (saved.authorNameY !== undefined) setAuthorNameY(saved.authorNameY);
-
-                // Images - charger depuis URL si nécessaire
-                if (saved.frontImage && saved.frontImage.url) {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.onload = () => {
-                        setFrontImage({
-                            ...saved.frontImage,
-                            naturalWidth: img.naturalWidth,
-                            naturalHeight: img.naturalHeight
-                        });
-                        console.log('✅ [RESTORE] Front image loaded:', img.naturalWidth, 'x', img.naturalHeight);
-                    };
-                    img.onerror = (err) => {
-                        console.error('❌ [RESTORE] Error loading front image:', err);
-                    };
-                    img.src = saved.frontImage.url;
-                } else if (saved.frontImage) {
-                    setFrontImage(saved.frontImage);
-                }
-                
-                if (saved.backImage && saved.backImage.url) {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.onload = () => {
-                        setBackImage({
-                            ...saved.backImage,
-                            naturalWidth: img.naturalWidth,
-                            naturalHeight: img.naturalHeight
-                        });
-                        console.log('✅ [RESTORE] Back image loaded:', img.naturalWidth, 'x', img.naturalHeight);
-                    };
-                    img.onerror = (err) => {
-                        console.error('❌ [RESTORE] Error loading back image:', err);
-                    };
-                    img.src = saved.backImage.url;
-                } else if (saved.backImage) {
-                    setBackImage(saved.backImage);
-                }
-
-                if (saved.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(saved.templateUrl);
-                setDesignRestored(true);
-            };
-
-            const refreshDesignsList = () => {
-                const items = window.gkdpListDesigns ? window.gkdpListDesigns() : [];
-                setDesignsList(items || []);
-            };
-
-            const openDesignsModal = () => {
-                refreshDesignsList();
-                setDesignsModalOpen(true);
-            };
-            
-            const openDesignById = (id) => {
-                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(id) : null;
-
-                if (!rec) {
-                    alert(language === 'fr' ? "Design introuvable." : "Design not found.");
-                    return;
-                }
-                if (!rec.designData) {
-                    alert(language === 'fr'
-                        ? "Ce design est incomplet (données manquantes). Supprime-le et re-sauvegarde."
-                        : "This design is incomplete (missing data). Delete it and save again."
-                    );
-                    return;
-                }
-
-                if (rec.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(rec.templateUrl);
-
-                setActiveDesignId(rec.id);
-                localStorage.setItem('gkdp_active_design_id', rec.id);
-                setDesignTitle(rec.title || '');
-
-                window.gkdpTouchDesign && window.gkdpTouchDesign(rec.id);
-
-                applyDesignData(rec.designData);
-                setDesignsModalOpen(false);
-                
-                console.log('✅ [DESIGN LIBRARY] Design opened:', rec.title);
-            };
-
-            const saveCurrentToLibrary = () => {
-                const data = getCurrentDesignData();
-                const title = (designTitle || bookTitle || 'Design').trim();
-                const record = window.gkdpUpsertDesign ? window.gkdpUpsertDesign({
-                    // NE PAS passer d'ID pour forcer la création d'un nouveau design
-                    title,
-                    templateUrl: data.templateUrl,
-                    designData: data,
-                    lastUsedAt: new Date().toISOString()
-                }) : null;
-
-                if (record && record.id) {
-                    setActiveDesignId(record.id);
-                    localStorage.setItem('gkdp_active_design_id', record.id);
-                    setDesignTitle(record.title || title);
-                    refreshDesignsList();
-                    alert(language === 'fr' ? '✅ Design sauvegardé dans votre bibliothèque.' : '✅ Design saved to your library.');
-                } else {
-                    alert(language === 'fr' ? '❌ Impossible de sauvegarder le design.' : '❌ Could not save design.');
-                }
-            };
-
-            const createNewDesign = () => {
-                // Nouveau design = on oublie l'id actif + on réinitialise (via onReset)
-                setActiveDesignId(null);
-                localStorage.removeItem('gkdp_active_design_id');
-                setDesignTitle('');
-                // Évite que le restore automatique ne remette un ancien design
-                window.clearTempDesign && window.clearTempDesign();
-                // Réinitialiser l'UI / états (re-montage du composant)
-                onReset && onReset();
-
-            };
-
-            useEffect(() => {
-                if (!activeDesignId) return;
-                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(activeDesignId) : null;
-                if (rec && rec.title && !designTitle) setDesignTitle(rec.title);
-            }, [activeDesignId]);
-
-            const handleExportClick = async () => {
-                if (!dimensions) { 
-                    alert(t('selectFormat')); 
-                    return; 
-                }
-                
-                // 1️⃣ VÉRIFIER SI L'UTILISATEUR EST CONNECTÉ (via Supabase OU localStorage)
-                let isLoggedIn = false;
-                let userEmail = localStorage.getItem('userEmail');
-                
-                // Double vérification: localStorage ET session Supabase
-                if (userEmail) {
-                    isLoggedIn = true;
-                } else if (window.supabaseClient) {
-                    try {
-                        const { data: { session } } = await window.supabaseClient.auth.getSession();
-                        if (session && session.user) {
-                            isLoggedIn = true;
-                            userEmail = session.user.email;
-                            localStorage.setItem('userEmail', userEmail);
-                            // Rafraîchir les crédits
-                            if (window.refreshExportCredits) {
-                                await window.refreshExportCredits();
-                            }
-                        }
-                    } catch (e) {
-                        console.log('Erreur vérification session:', e);
-                    }
-                }
-                
-                if (!isLoggedIn) {
-                    // 💾 Sauvegarder le design AVANT de rediriger
-                    const designData = {
-                        format, pageCount, paperType, bindingType, coverFinish, hasBleed,
-                        spineText, bookTitle, authorName, backCoverText,
-                        spineColor, spineTextColor, spineTextFont,
-                        bookTitleColor, bookTitleFont, bookTitleSize,
-                        authorNameColor, authorNameFont, authorNameSize,
-                        backCoverTextColor, backCoverTextFont, backCoverTextSize,
-                        backCoverBgColor,
-                        bookTitleX, bookTitleY, authorNameX, authorNameY,
-                        // Sauvegarder aussi le mode full cover
-                        isFullCover: !!(frontImage && frontImage.isFullCover),
-                        frontImage: frontImage ? { 
-                            url: frontImage.url, 
-                            naturalWidth: frontImage.naturalWidth, 
-                            naturalHeight: frontImage.naturalHeight,
-                            isFullCover: frontImage.isFullCover 
-                        } : null,
-                        backImage: backImage ? { 
-                            url: backImage.url, 
-                            naturalWidth: backImage.naturalWidth, 
-                            naturalHeight: backImage.naturalHeight 
-                        } : null,
-                    };
-                    window.saveTempDesign && window.saveTempDesign(designData);
-                    
-                    // 🔀 Rediriger vers inscription
-                    const msg = language === 'fr' 
-                        ? '📝 Inscrivez-vous gratuitement pour exporter!\n\nVous recevrez 3 exports gratuits.\nVotre design sera sauvegardé.'
-                        : '📝 Sign up for free to export!\n\nYou will get 3 free exports.\nYour design will be saved.';
-                    alert(msg);
-                    window.location.href = 'inscription.html';
-                    return;
-                }
-                
-                // 2️⃣ VÉRIFIER LES CRÉDITS
-                const credits = window.getExportCredits ? window.getExportCredits() : 0;
-                const isPro = localStorage.getItem('userProfile') === 'pro';
-                
-                if (!isPro && credits <= 0) {
-                    const msg = language === 'fr'
-                        ? '😢 Vous avez utilisé tous vos exports gratuits!\n\nPassez à PRO pour des exports illimités.'
-                        : '😢 You have used all your free exports!\n\nUpgrade to PRO for unlimited exports.';
-                    alert(msg);
-                    window.location.href = 'index.html#tarifs';
-                    return;
-                }
-                
-                // 3️⃣ EXPORTER LE DESIGN
-                exportImage();
-                
-                // 4️⃣ DÉCOMPTER LE CRÉDIT (si pas PRO)
-                if (!isPro && window.decrementExportCredit) {
-                    await window.decrementExportCredit();
-                    // Mettre à jour l'affichage
-                    const newCredits = window.getExportCredits ? window.getExportCredits() : 0;
-                    setExportLimitInfo({ canExport: newCredits > 0, remaining: newCredits, level: 'free' });
-                }
-            };
+    if (!dimensions) { alert(t('selectFormat')); return; }
+    
+    // 🛒 STRIPE INTEGRATION - Vérifier si c'est un template marketplace
+    if (isMarketplacePreview && !isProUser()) {
+        // Afficher le modal de paiement Stripe
+        setShowStripeModal(true);
+        return;
+    }
+    
+    const limits = checkExportLimits();
+    if (!limits.canExport) {
+        if (confirm('Limite atteinte. Voir les offres ?')) window.location.href = 'index.html#tarifs';
+        return;
+    }
+    
+    // Enregistrer l'export dans Supabase
+    if (window.isUserRegistered && window.isUserRegistered()) {
+        const email = localStorage.getItem('userEmail');
+        const format = dimensions?.name || 'unknown';
+        await window.recordExportInSupabase(email, format);
+    }
+    
+    exportImage(); 
+    recordExport(); 
+    setExportLimitInfo(checkExportLimits()); 
+};
 
             // 🛒 STRIPE - Gérer le paiement
             const handleStripePayment = (type) => {
@@ -5719,103 +4945,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             }, []);
 
             useEffect(() => {
-                // Initialiser les crédits depuis localStorage
-                const credits = window.getExportCredits ? window.getExportCredits() : 0;
-                const isPro = localStorage.getItem('userProfile') === 'pro';
-                setExportLimitInfo({ 
-                    canExport: isPro || credits > 0, 
-                    remaining: isPro ? Infinity : credits, 
-                    level: isPro ? 'pro' : 'free' 
-                });
-            }, []);
-            
-            // 💾 STATE pour les notifications
-            const [designRestored, setDesignRestored] = useState(false);
-            
-            // 💾 CHARGER LE DESIGN SAUVEGARDÉ AU MOUNT (temp ou permanent)
-            useEffect(() => {
-                const timer = setTimeout(() => {
-                    // D'abord essayer de charger un design temporaire (après inscription)
-                    let saved = window.loadTempDesign && window.loadTempDesign();
-                    let isTemp = !!saved;
-                    
-                    // Si pas de design temp, essayer le permanent (utilisateur connecté)
-                    if (!saved && window.isUserLoggedIn && window.isUserLoggedIn()) {
-                        saved = window.loadPermanentDesign && window.loadPermanentDesign();
-                    }
-                    
-                    // ✅ Eviter de restaurer un ancien design sur un template différent
-                    const activeTemplateUrl = (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null);
-                    if (activeTemplateUrl && saved && saved.templateUrl && saved.templateUrl !== activeTemplateUrl) {
-                        console.log('💾 [RESTORE] Ignored: saved design is for another template.', saved.templateUrl, '!=', activeTemplateUrl);
-                        saved = null;
-                    }
-
-                    if (saved && !isMarketplacePreview) {
-                        console.log('💾 [RESTORE] Restauration du design...');
-                        
-                        // Restaurer les paramètres du livre
-                        if (saved.format) setFormat(saved.format);
-                        if (saved.pageCount) setPageCount(saved.pageCount);
-                        if (saved.paperType) setPaperType(saved.paperType);
-                        if (saved.bindingType) setBindingType(saved.bindingType);
-                        if (saved.coverFinish) setCoverFinish(saved.coverFinish);
-                        if (saved.hasBleed !== undefined) setHasBleed(saved.hasBleed);
-                        
-                        // Restaurer le texte
-                        if (saved.spineText) setSpineText(saved.spineText);
-                        if (saved.bookTitle) setBookTitle(saved.bookTitle);
-                        if (saved.authorName) setAuthorName(saved.authorName);
-                        if (saved.backCoverText) setBackCoverText(saved.backCoverText);
-                        
-                        // Restaurer les couleurs et polices
-                        if (saved.spineColor) setSpineColor(saved.spineColor);
-                        if (saved.spineTextColor) setSpineTextColor(saved.spineTextColor);
-                        if (saved.spineTextFont) setSpineTextFont(saved.spineTextFont);
-                        if (saved.bookTitleColor) setBookTitleColor(saved.bookTitleColor);
-                        if (saved.bookTitleFont) setBookTitleFont(saved.bookTitleFont);
-                        if (saved.authorNameColor) setAuthorNameColor(saved.authorNameColor);
-                        if (saved.authorNameFont) setAuthorNameFont(saved.authorNameFont);
-                        if (saved.backCoverTextColor) setBackCoverTextColor(saved.backCoverTextColor);
-                        if (saved.backCoverTextFont) setBackCoverTextFont(saved.backCoverTextFont);
-                        if (saved.backCoverBgColor) setBackCoverBgColor(saved.backCoverBgColor);
-                        
-                        // Restaurer les positions
-                        if (saved.bookTitleX) setBookTitleX(saved.bookTitleX);
-                        if (saved.bookTitleY) setBookTitleY(saved.bookTitleY);
-                        if (saved.authorNameX) setAuthorNameX(saved.authorNameX);
-                        if (saved.authorNameY) setAuthorNameY(saved.authorNameY);
-                        
-                        // Restaurer les images
-                        if (saved.frontImage) setFrontImage(saved.frontImage);
-                        if (saved.backImage) setBackImage(saved.backImage);
-                        
-                        setDesignRestored(true);
-                        console.log('💾 [RESTORE] ✅ Design restauré!');
-                        
-                        // Si c'était un design temporaire, le supprimer et le sauvegarder en permanent
-                        if (isTemp) {
-                            window.clearTempDesign && window.clearTempDesign();
-                            // Sauvegarder en permanent si connecté
-                            if (window.isUserLoggedIn && window.isUserLoggedIn()) {
-                                window.saveDesignPermanent && window.saveDesignPermanent(saved);
-                            }
-                        }
-                    }
-                    
-                    // Rafraîchir les crédits depuis Supabase
-                    if (window.isUserLoggedIn && window.isUserLoggedIn() && window.refreshExportCredits) {
-                        window.refreshExportCredits().then(credits => {
-                            const isPro = localStorage.getItem('userProfile') === 'pro';
-                            setExportLimitInfo({ 
-                                canExport: isPro || credits > 0, 
-                                remaining: isPro ? Infinity : credits, 
-                                level: isPro ? 'pro' : 'free' 
-                            });
-                        });
-                    }
-                }, 1000);
-                return () => clearTimeout(timer);
+                setExportLimitInfo(checkExportLimits());
             }, []);
             
             // 🛒 STRIPE PAYMENT LINKS
@@ -5824,14 +4954,9 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 proUnlimited: 'https://buy.stripe.com/cN17sLg1n2f9fkmeA1gUM03'   // 19,99€/mois
             };
             
-            // Vérifier si l'utilisateur est Pro (abonné) ou UNLIMITED
+            // Vérifier si l'utilisateur est Pro (abonné)
             const isProUser = () => {
-                const subscriptionType = localStorage.getItem('subscription_type');
-                const isPro = localStorage.getItem('userProfile') === 'pro';
-                const legacyPro = localStorage.getItem('gabaritkdp_pro') === 'true';
-                
-                // UNLIMITED = accès total, PRO = accès, ou ancien système
-                return subscriptionType === 'unlimited' || subscriptionType === 'pro' || isPro || legacyPro;
+                return localStorage.getItem('gabaritkdp_pro') === 'true';
             };
             
             useEffect(() => {
@@ -5861,260 +4986,48 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
 
             return (
                 <div className="min-h-screen bg-gray-50">
-                    {/* 💾 NOTIFICATION DE RESTAURATION */}
-
-                    {/* 📚 DESIGN LIBRARY MODAL */}
-                    {designsModalOpen && (
+                    {/* 🛒 MARKETPLACE PREVIEW BANNER */}
+                    {isMarketplacePreview && (
                         <div style={{
                             position: 'fixed',
-                            inset: 0,
-                            background: 'rgba(0,0,0,0.65)',
-                            zIndex: 9999,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            padding: '20px'
-                        }}>
-                            <div style={{
-                                background: 'white',
-                                borderRadius: '16px',
-                                width: 'min(900px, 95vw)',
-                                maxHeight: '85vh',
-                                overflow: 'hidden',
-                                boxShadow: '0 20px 60px rgba(0,0,0,0.25)',
-                                display: 'flex',
-                                flexDirection: 'column'
-                            }}>
-                                <div style={{
-                                    padding: '16px 18px',
-                                    borderBottom: '1px solid #e5e7eb',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'space-between',
-                                    gap: '12px'
-                                }}>
-                                    <div style={{display:'flex', flexDirection:'column', gap:'2px'}}>
-                                        <div style={{fontWeight: 800, fontSize: '16px', color:'#111827'}}>
-                                            {language === 'fr' ? 'Mes designs' : 'My designs'}
-                                        </div>
-                                        <div style={{fontSize:'12px', color:'#6b7280'}}>
-                                            {language === 'fr' ? 'Ouvrir, dupliquer ou supprimer un design.' : 'Open, duplicate, or delete a design.'}
-                                        </div>
-                                    </div>
-                                    <div style={{display:'flex', gap:'8px', alignItems:'center'}}>
-                                        <button
-                                            onClick={() => { refreshDesignsList(); }}
-                                            style={{
-                                                padding: '8px 12px',
-                                                borderRadius: '10px',
-                                                border: '1px solid #e5e7eb',
-                                                background: 'white',
-                                                cursor: 'pointer',
-                                                fontWeight: 700,
-                                                fontSize: '12px'
-                                            }}
-                                            type="button"
-                                        >
-                                            🔄 {language === 'fr' ? 'Rafraîchir' : 'Refresh'}
-                                        </button>
-                                        <button
-                                            onClick={() => setDesignsModalOpen(false)}
-                                            style={{
-                                                padding: '8px 12px',
-                                                borderRadius: '10px',
-                                                border: '1px solid #e5e7eb',
-                                                background: 'white',
-                                                cursor: 'pointer',
-                                                fontWeight: 700,
-                                                fontSize: '12px'
-                                            }}
-                                            type="button"
-                                        >
-                                            ✕ {language === 'fr' ? 'Fermer' : 'Close'}
-                                        </button>
-                                    </div>
-                                </div>
-
-                                <div style={{padding: '14px 18px', overflow:'auto'}}>
-                                    {(!designsList || designsList.length === 0) ? (
-                                        <div style={{padding:'28px 12px', textAlign:'center', color:'#6b7280'}}>
-                                            {language === 'fr' ? 'Aucun design sauvegardé pour le moment.' : 'No saved designs yet.'}
-                                        </div>
-                                    ) : (
-                                        <div style={{display:'grid', gridTemplateColumns:'1fr', gap:'10px'}}>
-                                            {designsList.map((d) => (
-                                                <div 
-                                                    key={d.id} 
-                                                    onClick={() => openDesignById(d.id)}
-                                                    style={{
-                                                        border: '1px solid #e5e7eb',
-                                                        borderRadius: '12px',
-                                                        padding: '12px',
-                                                        display: 'flex',
-                                                        alignItems: 'center',
-                                                        justifyContent: 'space-between',
-                                                        gap: '12px',
-                                                        cursor: 'pointer',
-                                                        transition: 'all 0.2s',
-                                                        ':hover': {
-                                                            borderColor: '#10b981',
-                                                            boxShadow: '0 2px 8px rgba(16, 185, 129, 0.1)'
-                                                        }
-                                                    }}
-                                                    onMouseEnter={(e) => {
-                                                        e.currentTarget.style.borderColor = '#10b981';
-                                                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(16, 185, 129, 0.1)';
-                                                    }}
-                                                    onMouseLeave={(e) => {
-                                                        e.currentTarget.style.borderColor = '#e5e7eb';
-                                                        e.currentTarget.style.boxShadow = 'none';
-                                                    }}
-                                                >
-                                                    {/* Miniature de l'image */}
-                                                    {d.templateUrl && (
-                                                        <div style={{
-                                                            flexShrink: 0,
-                                                            width: '80px',
-                                                            height: '60px',
-                                                            borderRadius: '8px',
-                                                            overflow: 'hidden',
-                                                            background: '#f3f4f6',
-                                                            display: 'flex',
-                                                            alignItems: 'center',
-                                                            justifyContent: 'center'
-                                                        }}>
-                                                            <img 
-                                                                src={d.templateUrl} 
-                                                                alt={d.title || 'Design'}
-                                                                style={{
-                                                                    width: '100%',
-                                                                    height: '100%',
-                                                                    objectFit: 'cover'
-                                                                }}
-                                                                onError={(e) => {
-                                                                    e.target.style.display = 'none';
-                                                                    e.target.parentElement.innerHTML = '<span style="font-size:24px">🖼️</span>';
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    )}
-                                                    
-                                                    <div style={{minWidth:0, flex: 1}}>
-                                                        <div style={{fontWeight: 800, color:'#111827', fontSize:'14px', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>
-                                                            {d.title || (language === 'fr' ? 'Sans titre' : 'Untitled')}
-                                                        </div>
-                                                        <div style={{fontSize:'12px', color:'#6b7280'}}>
-                                                            {(language === 'fr' ? 'Dernière utilisation' : 'Last used')}: {d.lastUsedAt ? new Date(d.lastUsedAt).toLocaleString() : (d.updatedAt ? new Date(d.updatedAt).toLocaleString() : '')}
-                                                        </div>
-                                                        <div style={{fontSize:'11px', color:'#9ca3af', whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>
-                                                            {d.templateUrl ? d.templateUrl : (language === 'fr' ? 'Template: inconnu' : 'Template: unknown')}
-                                                        </div>
-                                                    </div>
-
-                                                    <div style={{display:'flex', gap:'8px', flexWrap:'wrap', justifyContent:'flex-end'}}>
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                const rec = window.gkdpGetDesign ? window.gkdpGetDesign(d.id) : null;
-                                                                if (!rec || !rec.designData) return;
-                                                                const copyTitle = (rec.title || 'Design') + (language === 'fr' ? ' (copie)' : ' (copy)');
-                                                                const created = window.gkdpUpsertDesign ? window.gkdpUpsertDesign({
-                                                                    title: copyTitle,
-                                                                    templateUrl: rec.templateUrl || null,
-                                                                    designData: rec.designData,
-                                                                    lastUsedAt: new Date().toISOString()
-                                                                }) : null;
-                                                                if (created) refreshDesignsList();
-                                                            }}
-                                                            style={{
-                                                                padding: '8px 12px',
-                                                                borderRadius: '10px',
-                                                                border: '1px solid #e5e7eb',
-                                                                background: 'white',
-                                                                cursor: 'pointer',
-                                                                fontWeight: 800,
-                                                                fontSize: '12px'
-                                                            }}
-                                                            type="button"
-                                                        >
-                                                            📄 {language === 'fr' ? 'Dupliquer' : 'Duplicate'}
-                                                        </button>
-
-                                                        <button
-                                                            onClick={(e) => {
-                                                                e.stopPropagation();
-                                                                const ok = confirm(language === 'fr' ? 'Supprimer ce design ?' : 'Delete this design?');
-                                                                if (!ok) return;
-                                                                window.gkdpDeleteDesign && window.gkdpDeleteDesign(d.id);
-                                                                if (activeDesignId === d.id) {
-                                                                    setActiveDesignId(null);
-                                                                    localStorage.removeItem('gkdp_active_design_id');
-                                                                }
-                                                                refreshDesignsList();
-                                                            }}
-                                                            style={{
-                                                                padding: '8px 12px',
-                                                                borderRadius: '10px',
-                                                                border: '1px solid #ef4444',
-                                                                background: 'white',
-                                                                color: '#ef4444',
-                                                                cursor: 'pointer',
-                                                                fontWeight: 900,
-                                                                fontSize: '12px'
-                                                            }}
-                                                            type="button"
-                                                        >
-                                                            🗑️ {language === 'fr' ? 'Supprimer' : 'Delete'}
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {designRestored && (
-                        <div style={{
-                            position: 'fixed',
-                            bottom: '20px',
+                            top: '70px',
                             left: '50%',
                             transform: 'translateX(-50%)',
-                            zIndex: 9999,
-                            background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                            zIndex: 1000,
+                            background: 'linear-gradient(135deg, #FF9900, #e68a00)',
                             color: 'white',
-                            padding: '14px 24px',
+                            padding: '12px 24px',
                             borderRadius: '12px',
-                            boxShadow: '0 8px 25px rgba(99,102,241,0.4)',
+                            boxShadow: '0 8px 30px rgba(255,153,0,0.4)',
                             display: 'flex',
                             alignItems: 'center',
                             gap: '12px',
-                            fontSize: '0.95rem',
-                            fontWeight: '600'
+                            fontWeight: '600',
+                            fontSize: '0.95rem'
                         }}>
-                            <span style={{fontSize: '1.3rem'}}>🎉</span>
-                            <span>{language === 'fr' ? 'Votre design a été restauré! Cliquez sur EXPORTER pour télécharger.' : 'Your design has been restored! Click EXPORT to download.'}</span>
+                            <span style={{fontSize: '1.5rem'}}>🎨</span>
+                            <span>{language === 'fr' ? 'Mode Prévisualisation - Exportez pour obtenir l\'image HD sans watermark' : 'Preview Mode - Export to get HD image without watermark'}</span>
                             <button 
-                                onClick={() => setDesignRestored(false)}
+                                onClick={() => {
+                                    setIsMarketplacePreview(false);
+                                    setMarketplaceTemplate(null);
+                                    setFrontImage(null);
+                                    window.history.replaceState({}, '', window.location.pathname);
+                                }}
                                 style={{
                                     background: 'rgba(255,255,255,0.2)',
                                     border: 'none',
                                     borderRadius: '6px',
-                                    padding: '4px 10px',
+                                    padding: '6px 12px',
                                     color: 'white',
                                     cursor: 'pointer',
                                     marginLeft: '8px'
                                 }}
-                            >OK</button>
+                            >✕</button>
                         </div>
                     )}
                     
-                    {/* 🛒 MARKETPLACE PREVIEW BANNER */}
-                    {/* Bandeau Mode Prévisualisation supprimé - déplacé sous le bouton EXPORT */}
-                    
-                    {/* 🛒 STRIPE PAYMENT MODAL - Désactivé pour beta testing
+                    {/* 🛒 STRIPE PAYMENT MODAL */}
                     {showStripeModal && (
                         <div style={{
                             position: 'fixed',
@@ -6160,6 +5073,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                 </p>
                                 
                                 <div style={{display: 'flex', flexDirection: 'column', gap: '16px'}}>
+                                    {/* Pay-per-Export */}
                                     <button 
                                         onClick={() => handleStripePayment('payPerExport')}
                                         style={{
@@ -6188,6 +5102,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         <div style={{fontWeight: '800', fontSize: '1.5rem', color: '#FF9900'}}>2,50€</div>
                                     </button>
                                     
+                                    {/* Pro Unlimited */}
                                     <button 
                                         onClick={() => handleStripePayment('proUnlimited')}
                                         style={{
@@ -6236,7 +5151,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                             </div>
                         </div>
                     )}
-                    FIN MODAL STRIPE */}
                     
                     <div className="generator-layout">
                         <div className="sidebar">
@@ -7636,53 +6550,15 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                     )}
                                 </div>
 
-                                {/* 📚 Design Library controls */}
-                                {viewMode === '2d' && (
-                                    <div className="flex flex-col gap-2 items-center mb-3">
-                                        <div className="flex flex-wrap gap-2 justify-center">
-                                            <button
-                                                onClick={saveCurrentToLibrary}
-                                                className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-800 text-sm font-semibold hover:shadow"
-                                                type="button"
-                                            >
-                                                💾 {language === 'fr' ? 'Sauvegarder' : 'Save'}
-                                            </button>
-                                            <button
-                                                onClick={openDesignsModal}
-                                                className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-800 text-sm font-semibold hover:shadow"
-                                                type="button"
-                                            >
-                                                📚 {language === 'fr' ? 'Mes designs' : 'My designs'}
-                                            </button>
-                                            <button
-                                                onClick={createNewDesign}
-                                                className="px-4 py-2 rounded-lg border border-gray-300 bg-white text-gray-800 text-sm font-semibold hover:shadow"
-                                                type="button"
-                                            >
-                                                ➕ {language === 'fr' ? 'Nouveau' : 'New'}
-                                            </button>
-                                        </div>
-                                        <div className="w-full max-w-md">
-                                            <input
-                                                value={designTitle}
-                                                onChange={(e) => setDesignTitle(e.target.value)}
-                                                placeholder={language === 'fr' ? 'Nom du design (optionnel)' : 'Design name (optional)'}
-                                                className="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm"
-                                                type="text"
-                                            />
-                                        </div>
-                                    </div>
-                                )}
-
                                 {/* Bouton Export 2D classique */}
                                 {viewMode === '2d' && (
                                     <button
                                         onClick={handleExportClick}
-                                        disabled={!dimensions || isExporting || (exportFormat === 'pdf' && !kdpStrictConfirmed)}
+                                        disabled={!dimensions || isExporting || !exportLimitInfo.canExport || (exportFormat === 'pdf' && !kdpStrictConfirmed)}
                                         className={`flex items-center space-x-3 px-8 py-4 rounded-xl font-bold text-lg text-white transition-all transform hover:scale-105 shadow-lg hover:shadow-xl ${
                                             isExporting
                                                 ? 'bg-purple-500 cursor-wait scale-95'
-                                                : !dimensions || (exportFormat === 'pdf' && !kdpStrictConfirmed)
+                                                : !dimensions || !exportLimitInfo.canExport || (exportFormat === 'pdf' && !kdpStrictConfirmed)
                                                     ? 'bg-gray-400 cursor-not-allowed'
                                                     : format === '8.5x11'
                                                         ? 'bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600'
@@ -7693,32 +6569,14 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         <span>
                                             {isExporting 
                                                 ? t('generating') 
-                                                : !window.isUserLoggedIn || !window.isUserLoggedIn()
-                                                    ? (language === 'fr' ? 'EXPORTER (Inscription gratuite)' : 'EXPORT (Free signup)')
+                                                : !exportLimitInfo.canExport
+                                                    ? (language === 'fr' ? 'Limite Atteinte' : 'Limit Reached')
                                                     : exportLimitInfo.level === 'pro'
-                                                        ? t('exportDesign') + ' ∞'
-                                                        : `${t('exportDesign')} (${exportLimitInfo.remaining} ${language === 'fr' ? 'restant' : 'left'})`
+                                                        ? t('exportDesign') + ' (Illimité)'
+                                                        : `${t('exportDesign')} (${exportLimitInfo.remaining} ${language === 'fr' ? 'restant(s)' : 'left'})`
                                             }
                                         </span>
                                     </button>
-                                )}
-                                
-                                {/* Texte Mode Prévisualisation sous le bouton EXPORT */}
-                                {isMarketplacePreview && (
-                                    <div style={{
-                                        marginTop: '12px',
-                                        textAlign: 'center',
-                                        color: '#FF9900',
-                                        fontSize: '0.9rem',
-                                        fontWeight: '600',
-                                        display: 'flex',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        gap: '8px'
-                                    }}>
-                                        <span style={{fontSize: '1.2rem'}}>🎨</span>
-                                        <span>{language === 'fr' ? 'Mode Prévisualisation - Exportez pour obtenir l\'image HD sans watermark' : 'Preview Mode - Export to get HD image without watermark'}</span>
-                                    </div>
                                 )}
                                 
                                 {/* Boutons Export 3D - THREE.JS */}
@@ -8467,8 +7325,7 @@ function getStored() {
 </script>
 
 <!-- Système Beta 100 Founding Testers -->
-<!-- Beta system désactivé pour le lancement -->
-<!-- <script src="beta-system.js"></script> -->
+<script src="beta-system.js"></script>
 
 <!-- 🔴 Widget activité en temps réel - TEMPORAIREMENT DÉSACTIVÉ -->
 <!-- <script defer src="realtime-activity-widget.js"></script> -->
@@ -8876,6 +7733,5 @@ function getStored() {
 })();
 </script>
 
-<script src="./logout-button.js" defer></script>
-</body></body>
+</body>
 </html>
