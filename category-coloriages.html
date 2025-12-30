@@ -34,19 +34,29 @@
 </head>
 <body class="bg-gray-50">
   <header class="header-nav">
-    <div class="nav-container">
-      <a href="index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
-        <span>GabaritKDP</span>
-      </a>
-      <nav class="nav-links">
-        <a href="index.html"><i class="fas fa-home"></i> Home</a>
-        <a href="generator.html"><i class="fas fa-magic"></i> Generator</a>
-        <a href="marketplace.html" class="active"><i class="fas fa-store"></i> Marketplace</a>
-        <a href="pricing.html"><i class="fas fa-tag"></i> Pricing</a>
-      </nav>
-    </div>
-  </header>
+        <div class="nav-container">
+            <a href="/index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+            </div>
+            <nav class="nav-links">
+                <a href="/index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="/generator.html" class="express-nav-btn" data-fr="Générateur Express"
+                    data-en="Express Generator">Express Generator</a>
+                <a href="/generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
+                    Generator</a>
+                <a href="/marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+                <a href="/pricing.html" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+                <a href="/inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+                <a href="/connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+            </nav>
+        </div>
+    </header>
 
   <div class="breadcrumb">
     <div class="container">
@@ -147,5 +157,1738 @@
     </div>
   </section>
 
+
+  <!-- ZIP Downloads (Adults + Kids) -->
+  <section class="py-10 bg-gray-50 border-t border-gray-100">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+        <div>
+          <h2 class="text-2xl font-extrabold tracking-tight text-slate-900" data-en="Download ZIP bundles" data-fr="Télécharger les packs ZIP">Download ZIP bundles</h2>
+          <p class="text-slate-600 mt-1" data-en="Find a pack, download it, and you’re ready to publish." data-fr="Trouvez un pack, téléchargez-le, et vous êtes prêt(e) à publier.">Find a pack, download it, and you’re ready to publish.</p>
+        </div>
+        <div class="w-full md:w-[420px]">
+          <label class="sr-only" for="zipSearch" data-en="Search" data-fr="Rechercher">Search</label>
+          <div class="relative">
+            <input id="zipSearch" type="text" placeholder="Search (e.g., animals, mandala, mermaid, flowers)…"
+                   class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 pr-12 text-slate-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-300"
+                   data-en-placeholder="Search (e.g., animals, mandala, mermaid, flowers)…"
+                   data-fr-placeholder="Rechercher (ex : animaux, mandala, sirène, fleurs)…">
+            <button id="zipClear" class="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg px-3 py-2 text-slate-600 hover:bg-slate-100"
+                    type="button" aria-label="Clear">✕</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Adults -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <div class="relative">
+            <img src="https://gabaritkdp.b-cdn.net/UI/book-interiors/COLORING%20BOOKS%20FOR%20ADULTS.png" alt="Coloring books for adults"
+                 class="w-full h-48 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <div class="text-white text-xl font-extrabold" data-en="Adults" data-fr="Adultes">Adults</div>
+              <div class="text-white/90 text-sm" data-en="ZIP packs ready to download" data-fr="Packs ZIP prêts à télécharger">ZIP packs ready to download</div>
+            </div>
+          </div>
+          <div class="p-5">
+            <ul id="adultsList" class="space-y-3"></ul>
+          </div>
+        </div>
+
+        <!-- Kids -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <div class="relative">
+            <img src="https://gabaritkdp.b-cdn.net/UI/book-interiors/COLORING%20BOOKS%20FOR%20KIDS.png" alt="Coloring books for kids"
+                 class="w-full h-48 object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent"></div>
+            <div class="absolute bottom-4 left-4">
+              <div class="text-white text-xl font-extrabold" data-en="Kids" data-fr="Enfants">Kids</div>
+              <div class="text-white/90 text-sm" data-en="ZIP packs ready to download" data-fr="Packs ZIP prêts à télécharger">ZIP packs ready to download</div>
+            </div>
+          </div>
+          <div class="p-5">
+            <ul id="kidsList" class="space-y-3"></ul>
+          </div>
+        </div>
+      </div>
+
+      <p class="text-xs text-slate-500 mt-6 leading-relaxed">
+        <span data-en="Tip:" data-fr="Astuce :">Tip:</span>
+        <span data-en="If a ZIP was uploaded recently and shows 404, purge the Bunny cache for that path." data-fr="Si un ZIP vient d’être uploadé et renvoie 404, purge le cache Bunny pour ce chemin.">If a ZIP was uploaded recently and shows 404, purge the Bunny cache for that path.</span>
+      </p>
+    </div>
+  </section>
+
+  <script>
+    // --- ZIP catalog (edit URLs here) ---
+    const ADULT_ZIPS = [
+  {
+    "title": "100 Bird and Flower Coloring 80312112",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Bird-and-Flower-Coloring-80312112.zip",
+    "keywords": [
+      "100",
+      "80312112",
+      "and",
+      "bird",
+      "coloring",
+      "flower"
+    ]
+  },
+  {
+    "title": "100 Bird and Flower Coloring 80312524",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Bird-and-Flower-Coloring-80312524.zip",
+    "keywords": [
+      "100",
+      "80312524",
+      "and",
+      "bird",
+      "coloring",
+      "flower"
+    ]
+  },
+  {
+    "title": "100 Editable Templates KDP 2026 Graphics 109253720",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Editable-Templates-KDP-2026-Graphics-109253720.zip",
+    "keywords": [
+      "100",
+      "109253720",
+      "2026",
+      "editable",
+      "graphics",
+      "kdp",
+      "templates"
+    ]
+  },
+  {
+    "title": "100 Motivational Coloring Pages Adult 71891205",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Motivational-Coloring-Pages-Adult-71891205.zip",
+    "keywords": [
+      "100",
+      "71891205",
+      "adult",
+      "coloring",
+      "motivational",
+      "pages"
+    ]
+  },
+  {
+    "title": "100 Steampunk Watch Coloring Pages 85727550",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Steampunk-Watch-Coloring-Pages-85727550.zip",
+    "keywords": [
+      "100",
+      "85727550",
+      "coloring",
+      "pages",
+      "steampunk",
+      "watch"
+    ]
+  },
+  {
+    "title": "100 Steampunk Watch Coloring Pages 85727554",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Steampunk-Watch-Coloring-Pages-85727554.zip",
+    "keywords": [
+      "100",
+      "85727554",
+      "coloring",
+      "pages",
+      "steampunk",
+      "watch"
+    ]
+  },
+  {
+    "title": "100 Steampunk Watch Coloring Pages 85727558",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Steampunk-Watch-Coloring-Pages-85727558.zip",
+    "keywords": [
+      "100",
+      "85727558",
+      "coloring",
+      "pages",
+      "steampunk",
+      "watch"
+    ]
+  },
+  {
+    "title": "100 Steampunk Watch Coloring Pages 85727561",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Steampunk-Watch-Coloring-Pages-85727561.zip",
+    "keywords": [
+      "100",
+      "85727561",
+      "coloring",
+      "pages",
+      "steampunk",
+      "watch"
+    ]
+  },
+  {
+    "title": "100 Steampunk Watch Coloring Pages 85727569",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Steampunk-Watch-Coloring-Pages-85727569.zip",
+    "keywords": [
+      "100",
+      "85727569",
+      "coloring",
+      "pages",
+      "steampunk",
+      "watch"
+    ]
+  },
+  {
+    "title": "100 Stress Relief Adult Coloring Pages Graphics 44399956",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Stress-Relief-Adult-Coloring-Pages-Graphics-44399956.zip",
+    "keywords": [
+      "100",
+      "44399956",
+      "adult",
+      "coloring",
+      "graphics",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "100 Stress Relief Coloring Pages 88743926",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Stress-Relief-Coloring-Pages-88743926.zip",
+    "keywords": [
+      "100",
+      "88743926",
+      "coloring",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "100 Stress Relief Coloring Pages 88959467",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Stress-Relief-Coloring-Pages-88959467.zip",
+    "keywords": [
+      "100",
+      "88959467",
+      "coloring",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "100 Stress Relief Coloring Pages 90454736",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Stress-Relief-Coloring-Pages-90454736.zip",
+    "keywords": [
+      "100",
+      "90454736",
+      "coloring",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "100 Stress Relief Coloring Pages 91577756",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Stress-Relief-Coloring-Pages-91577756.zip",
+    "keywords": [
+      "100",
+      "91577756",
+      "coloring",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "100 Unicorn Mandala Coloring Pages 82546129",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Unicorn-Mandala-Coloring-Pages-82546129.zip",
+    "keywords": [
+      "100",
+      "82546129",
+      "coloring",
+      "mandala",
+      "pages",
+      "unicorn"
+    ]
+  },
+  {
+    "title": "100 Village Scenery coloring pages 83853157",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Village-Scenery-coloring-pages-83853157.zip",
+    "keywords": [
+      "100",
+      "83853157",
+      "coloring",
+      "pages",
+      "scenery",
+      "village"
+    ]
+  },
+  {
+    "title": "100 Village Scenery coloring pages 83853161",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Village-Scenery-coloring-pages-83853161.zip",
+    "keywords": [
+      "100",
+      "83853161",
+      "coloring",
+      "pages",
+      "scenery",
+      "village"
+    ]
+  },
+  {
+    "title": "100 Village Scenery coloring pages 83853162",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/100-Village-Scenery-coloring-pages-83853162.zip",
+    "keywords": [
+      "100",
+      "83853162",
+      "coloring",
+      "pages",
+      "scenery",
+      "village"
+    ]
+  },
+  {
+    "title": "105 Forest Fairy Coloring Pages 83821959",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/105-Forest-Fairy-Coloring-Pages-83821959.zip",
+    "keywords": [
+      "105",
+      "83821959",
+      "coloring",
+      "fairy",
+      "forest",
+      "pages"
+    ]
+  },
+  {
+    "title": "110 Animal Mandala Coloring Pages 81511242",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/110-Animal-Mandala-Coloring-Pages-81511242.zip",
+    "keywords": [
+      "110",
+      "81511242",
+      "animal",
+      "coloring",
+      "mandala",
+      "pages"
+    ]
+  },
+  {
+    "title": "120 Mushroom Houses Coloring Pages 80038512",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/120-Mushroom-Houses-Coloring-Pages-80038512.zip",
+    "keywords": [
+      "120",
+      "80038512",
+      "coloring",
+      "houses",
+      "mushroom",
+      "pages"
+    ]
+  },
+  {
+    "title": "150 Chinese Dragon Coloring Pages 86447212",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/150-Chinese-Dragon-Coloring-Pages-86447212.zip",
+    "keywords": [
+      "150",
+      "86447212",
+      "chinese",
+      "coloring",
+      "dragon",
+      "pages"
+    ]
+  },
+  {
+    "title": "150 Chinese Dragon Coloring Pages 86447690",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/150-Chinese-Dragon-Coloring-Pages-86447690.zip",
+    "keywords": [
+      "150",
+      "86447690",
+      "chinese",
+      "coloring",
+      "dragon",
+      "pages"
+    ]
+  },
+  {
+    "title": "160 Merry Christmas Coloring Pages 82984095 (1)",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/160-Merry-Christmas-Coloring-Pages-82984095%20(1).zip",
+    "keywords": [
+      "(1)",
+      "160",
+      "82984095",
+      "christmas",
+      "coloring",
+      "merry",
+      "pages"
+    ]
+  },
+  {
+    "title": "160 Merry Christmas Coloring Pages 82984095",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/160-Merry-Christmas-Coloring-Pages-82984095.zip",
+    "keywords": [
+      "160",
+      "82984095",
+      "christmas",
+      "coloring",
+      "merry",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Beautiful Birds Coloring Pages 91975764",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Beautiful-Birds-Coloring-Pages-91975764.zip",
+    "keywords": [
+      "200",
+      "91975764",
+      "beautiful",
+      "birds",
+      "coloring",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Beautiful Birds Coloring Pages 91975765",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Beautiful-Birds-Coloring-Pages-91975765.zip",
+    "keywords": [
+      "200",
+      "91975765",
+      "beautiful",
+      "birds",
+      "coloring",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Beautiful Birds Coloring Pages 91975772",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Beautiful-Birds-Coloring-Pages-91975772.zip",
+    "keywords": [
+      "200",
+      "91975772",
+      "beautiful",
+      "birds",
+      "coloring",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Country Cottage Coloring Pages 90378425",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Country-Cottage-Coloring-Pages-90378425.zip",
+    "keywords": [
+      "200",
+      "90378425",
+      "coloring",
+      "cottage",
+      "country",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Easy Christmas Coloring Pages 82948795",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Easy-Christmas-Coloring-Pages-82948795.zip",
+    "keywords": [
+      "200",
+      "82948795",
+      "christmas",
+      "coloring",
+      "easy",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Open Magic Book Coloring 97620842",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Open-Magic-Book-Coloring-97620842.zip",
+    "keywords": [
+      "200",
+      "97620842",
+      "book",
+      "coloring",
+      "magic",
+      "open"
+    ]
+  },
+  {
+    "title": "200 Open Magic Book Coloring 97620844",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Open-Magic-Book-Coloring-97620844.zip",
+    "keywords": [
+      "200",
+      "97620844",
+      "book",
+      "coloring",
+      "magic",
+      "open"
+    ]
+  },
+  {
+    "title": "200 Open Magic Book Coloring 97620846",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/200-Open-Magic-Book-Coloring-97620846.zip",
+    "keywords": [
+      "200",
+      "97620846",
+      "book",
+      "coloring",
+      "magic",
+      "open"
+    ]
+  },
+  {
+    "title": "240 Dream catcher Coloring 83736632",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/240-Dream-catcher-Coloring-83736632.zip",
+    "keywords": [
+      "240",
+      "83736632",
+      "catcher",
+      "coloring",
+      "dream"
+    ]
+  },
+  {
+    "title": "240 Fairy with Wolf Coloring 100523953",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/240-Fairy-with-Wolf-Coloring-100523953.zip",
+    "keywords": [
+      "100523953",
+      "240",
+      "coloring",
+      "fairy",
+      "with",
+      "wolf"
+    ]
+  },
+  {
+    "title": "250 Midnight Flower Coloring Pages 95604368",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Midnight-Flower-Coloring-Pages-95604368.zip",
+    "keywords": [
+      "250",
+      "95604368",
+      "coloring",
+      "flower",
+      "midnight",
+      "pages"
+    ]
+  },
+  {
+    "title": "250 Midnight Flower Coloring Pages 95604372",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Midnight-Flower-Coloring-Pages-95604372.zip",
+    "keywords": [
+      "250",
+      "95604372",
+      "coloring",
+      "flower",
+      "midnight",
+      "pages"
+    ]
+  },
+  {
+    "title": "250 Midnight Flower Coloring Pages 95604381",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Midnight-Flower-Coloring-Pages-95604381.zip",
+    "keywords": [
+      "250",
+      "95604381",
+      "coloring",
+      "flower",
+      "midnight",
+      "pages"
+    ]
+  },
+  {
+    "title": "250 Pocket World Coloring Pages 99015307",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Pocket-World-Coloring-Pages-99015307.zip",
+    "keywords": [
+      "250",
+      "99015307",
+      "coloring",
+      "pages",
+      "pocket",
+      "world"
+    ]
+  },
+  {
+    "title": "250 Relaxing Flower Coloring Pages 96618461",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Relaxing-Flower-Coloring-Pages-96618461.zip",
+    "keywords": [
+      "250",
+      "96618461",
+      "coloring",
+      "flower",
+      "pages",
+      "relaxing"
+    ]
+  },
+  {
+    "title": "250 Relaxing Flower Coloring Pages 96618463",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Relaxing-Flower-Coloring-Pages-96618463.zip",
+    "keywords": [
+      "250",
+      "96618463",
+      "coloring",
+      "flower",
+      "pages",
+      "relaxing"
+    ]
+  },
+  {
+    "title": "250 Relaxing Flower Coloring Pages 96618586",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Relaxing-Flower-Coloring-Pages-96618586.zip",
+    "keywords": [
+      "250",
+      "96618586",
+      "coloring",
+      "flower",
+      "pages",
+      "relaxing"
+    ]
+  },
+  {
+    "title": "250 Stress Relief Coloring Pages 109867450",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Stress-Relief-Coloring-Pages-109867450.zip",
+    "keywords": [
+      "109867450",
+      "250",
+      "coloring",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "250 Stress Relief Coloring Pages 97637875",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/250-Stress-Relief-Coloring-Pages-97637875.zip",
+    "keywords": [
+      "250",
+      "97637875",
+      "coloring",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "255 Stress Relief Coloring Pages 101805995",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/255-Stress-Relief-Coloring-Pages-101805995.zip",
+    "keywords": [
+      "101805995",
+      "255",
+      "coloring",
+      "pages",
+      "relief",
+      "stress"
+    ]
+  },
+  {
+    "title": "263 Winter Animal Coloring Pages 83164598",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/263-Winter-Animal-Coloring-Pages-83164598.zip",
+    "keywords": [
+      "263",
+      "83164598",
+      "animal",
+      "coloring",
+      "pages",
+      "winter"
+    ]
+  },
+  {
+    "title": "62 Creative Home Coloring Pages 84535095",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/62-Creative-Home-Coloring-Pages-84535095.zip",
+    "keywords": [
+      "84535095",
+      "coloring",
+      "creative",
+      "home",
+      "pages"
+    ]
+  },
+  {
+    "title": "64 Christmas Dog Coloring Pages 80722168",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/64-Christmas-Dog-Coloring-Pages-80722168.zip",
+    "keywords": [
+      "80722168",
+      "christmas",
+      "coloring",
+      "dog",
+      "pages"
+    ]
+  },
+  {
+    "title": "ADULT Bold and Easy 115666519",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/ADULT-Bold-and-Easy-115666519.zip",
+    "keywords": [
+      "115666519",
+      "adult",
+      "and",
+      "bold",
+      "easy"
+    ]
+  },
+  {
+    "title": "Amazing Dinosaurs Coloring Pages Adult 93104518",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Amazing-Dinosaurs-Coloring-Pages-Adult-93104518.zip",
+    "keywords": [
+      "93104518",
+      "adult",
+      "amazing",
+      "coloring",
+      "dinosaurs",
+      "pages"
+    ]
+  },
+  {
+    "title": "Amazing Dinosaurs Coloring Pages Adult 93104536",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Amazing-Dinosaurs-Coloring-Pages-Adult-93104536.zip",
+    "keywords": [
+      "93104536",
+      "adult",
+      "amazing",
+      "coloring",
+      "dinosaurs",
+      "pages"
+    ]
+  },
+  {
+    "title": "Beautiful Christmas Coloring Pages Adult 136623904",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Beautiful-Christmas-Coloring-Pages-Adult-136623904.zip",
+    "keywords": [
+      "136623904",
+      "adult",
+      "beautiful",
+      "christmas",
+      "coloring",
+      "pages"
+    ]
+  },
+  {
+    "title": "Beautiful Kitchen Coloring Pages Adult 84302821",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Beautiful-Kitchen-Coloring-Pages-Adult-84302821.zip",
+    "keywords": [
+      "84302821",
+      "adult",
+      "beautiful",
+      "coloring",
+      "kitchen",
+      "pages"
+    ]
+  },
+  {
+    "title": "Beautiful Kitchen Coloring Pages Adult 84305000",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Beautiful-Kitchen-Coloring-Pages-Adult-84305000.zip",
+    "keywords": [
+      "84305000",
+      "adult",
+      "beautiful",
+      "coloring",
+      "kitchen",
+      "pages"
+    ]
+  },
+  {
+    "title": "Beautiful Witch Coloring Pages Adult 82355286",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Beautiful-Witch-Coloring-Pages-Adult-82355286.zip",
+    "keywords": [
+      "82355286",
+      "adult",
+      "beautiful",
+      "coloring",
+      "pages",
+      "witch"
+    ]
+  },
+  {
+    "title": "Beautiful Witch Coloring Pages Adult 93461239",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Beautiful-Witch-Coloring-Pages-Adult-93461239.zip",
+    "keywords": [
+      "93461239",
+      "adult",
+      "beautiful",
+      "coloring",
+      "pages",
+      "witch"
+    ]
+  },
+  {
+    "title": "Bold and Easy Space Coloring 109486069",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Bold-and-Easy-Space-Coloring-109486069.zip",
+    "keywords": [
+      "109486069",
+      "and",
+      "bold",
+      "coloring",
+      "easy",
+      "space"
+    ]
+  },
+  {
+    "title": "Carnation flowers coloring books adult 58430840",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20ADULTS/Carnation-flowers-coloring-books-adult-58430840.zip",
+    "keywords": [
+      "58430840",
+      "adult",
+      "books",
+      "carnation",
+      "coloring",
+      "flowers"
+    ]
+  }
+];
+
+    const KIDS_ZIPS = [
+  {
+    "title": "100 Cute Unicorn Coloring Pages 101175962",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/100-Cute-Unicorn-Coloring-Pages-101175962.zip",
+    "keywords": [
+      "100",
+      "101175962",
+      "coloring",
+      "cute",
+      "pages",
+      "unicorn"
+    ]
+  },
+  {
+    "title": "105 Kids Coloring Pages for 116465848",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/105-Kids-Coloring-Pages-for-116465848.zip",
+    "keywords": [
+      "105",
+      "116465848",
+      "coloring",
+      "for",
+      "kids",
+      "pages"
+    ]
+  },
+  {
+    "title": "115 Kids Coloring Pages for 135774455",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/115-Kids-Coloring-Pages-for-135774455.zip",
+    "keywords": [
+      "115",
+      "135774455",
+      "coloring",
+      "for",
+      "kids",
+      "pages"
+    ]
+  },
+  {
+    "title": "120 Monster Truck Coloring Pages 78523302",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/120-Monster-Truck-Coloring-Pages-78523302.zip",
+    "keywords": [
+      "120",
+      "78523302",
+      "coloring",
+      "monster",
+      "pages",
+      "truck"
+    ]
+  },
+  {
+    "title": "150 Cute Easter Coloring Pages 86652449",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/150-Cute-Easter-Coloring-Pages-86652449.zip",
+    "keywords": [
+      "150",
+      "86652449",
+      "coloring",
+      "cute",
+      "easter",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Cute Kawaii Coloring Pages 89009256",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/200-Cute-Kawaii-Coloring-Pages-89009256.zip",
+    "keywords": [
+      "200",
+      "89009256",
+      "coloring",
+      "cute",
+      "kawaii",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Cute Monster Coloring pages 87106162",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/200-Cute-Monster-Coloring-pages-87106162.zip",
+    "keywords": [
+      "200",
+      "87106162",
+      "coloring",
+      "cute",
+      "monster",
+      "pages"
+    ]
+  },
+  {
+    "title": "200 Monster Truck Coloring pages 87602518",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/200-Monster-Truck-Coloring-pages-87602518.zip",
+    "keywords": [
+      "200",
+      "87602518",
+      "coloring",
+      "monster",
+      "pages",
+      "truck"
+    ]
+  },
+  {
+    "title": "267 Cute Animal Coloring Pages 108670248",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/267-Cute-Animal-Coloring-Pages-108670248.zip",
+    "keywords": [
+      "108670248",
+      "267",
+      "animal",
+      "coloring",
+      "cute",
+      "pages"
+    ]
+  },
+  {
+    "title": "30 Christmas Dot To Dot 78062859",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/30-Christmas-Dot-To-Dot-78062859.zip",
+    "keywords": [
+      "78062859",
+      "christmas",
+      "dot"
+    ]
+  },
+  {
+    "title": "30 Christmas Dot to Dot 78065941",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/30-Christmas-Dot-to-Dot-78065941.zip",
+    "keywords": [
+      "78065941",
+      "christmas",
+      "dot"
+    ]
+  },
+  {
+    "title": "30 New Years Coloring Pages 138655967",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/30-New-Years-Coloring-Pages-138655967.zip",
+    "keywords": [
+      "138655967",
+      "coloring",
+      "new",
+      "pages",
+      "years"
+    ]
+  },
+  {
+    "title": "300 Happy Christmas Coloring Pages 104684101",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/300-Happy-Christmas-Coloring-Pages-104684101.zip",
+    "keywords": [
+      "104684101",
+      "300",
+      "christmas",
+      "coloring",
+      "happy",
+      "pages"
+    ]
+  },
+  {
+    "title": "315 Vehicles Coloring Pages For Kids Graphics 98415610",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/315-Vehicles-Coloring-Pages-For-Kids-Graphics-98415610.zip",
+    "keywords": [
+      "315",
+      "98415610",
+      "coloring",
+      "for",
+      "graphics",
+      "kids",
+      "pages",
+      "vehicles"
+    ]
+  },
+  {
+    "title": "440 Sea Life Coloring Pages 116469712",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/440-Sea-Life-Coloring-Pages-116469712.zip",
+    "keywords": [
+      "116469712",
+      "440",
+      "coloring",
+      "life",
+      "pages",
+      "sea"
+    ]
+  },
+  {
+    "title": "50 BOLDEASY CHRISTMAS COLORING PAGES 137024314",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/50-BOLDEASY-CHRISTMAS-COLORING-PAGES-137024314.zip",
+    "keywords": [
+      "137024314",
+      "boldeasy",
+      "christmas",
+      "coloring",
+      "pages"
+    ]
+  },
+  {
+    "title": "50 MERRY CHRISTMAS COLORING PAGESKDP Graphics 132119884 (1)",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/50-MERRY-CHRISTMAS-COLORING-PAGESKDP-Graphics-132119884%20(1).zip",
+    "keywords": [
+      "(1)",
+      "132119884",
+      "christmas",
+      "coloring",
+      "graphics",
+      "merry",
+      "pageskdp"
+    ]
+  },
+  {
+    "title": "50 MERRY CHRISTMAS COLORING PAGESKDP Graphics 132119884",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/50-MERRY-CHRISTMAS-COLORING-PAGESKDP-Graphics-132119884.zip",
+    "keywords": [
+      "132119884",
+      "christmas",
+      "coloring",
+      "graphics",
+      "merry",
+      "pageskdp"
+    ]
+  },
+  {
+    "title": "60 Christmas Dot to Dot 124607220",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/60-Christmas-Dot-to-Dot-124607220.zip",
+    "keywords": [
+      "124607220",
+      "christmas",
+      "dot"
+    ]
+  },
+  {
+    "title": "80 Merry Christmas Coloring Pages 107787478",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/80-Merry-Christmas-Coloring-Pages-107787478.zip",
+    "keywords": [
+      "107787478",
+      "christmas",
+      "coloring",
+      "merry",
+      "pages"
+    ]
+  },
+  {
+    "title": "ABC Alphabet Coloring Pages for 131074486",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/ABC-Alphabet-Coloring-Pages-for-131074486.zip",
+    "keywords": [
+      "131074486",
+      "abc",
+      "alphabet",
+      "coloring",
+      "for",
+      "pages"
+    ]
+  },
+  {
+    "title": "Alphabet Tracing And Coloring Pages 97741004",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Alphabet-Tracing-And-Coloring-Pages-97741004.zip",
+    "keywords": [
+      "97741004",
+      "alphabet",
+      "and",
+      "coloring",
+      "pages",
+      "tracing"
+    ]
+  },
+  {
+    "title": "Bible Stories Coloring Pages 135774379",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bible-Stories-Coloring-Pages-135774379.zip",
+    "keywords": [
+      "135774379",
+      "bible",
+      "coloring",
+      "pages",
+      "stories"
+    ]
+  },
+  {
+    "title": "Bible Story Coloring Pages For 133711868",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bible-Story-Coloring-Pages-For-133711868.zip",
+    "keywords": [
+      "133711868",
+      "bible",
+      "coloring",
+      "for",
+      "pages",
+      "story"
+    ]
+  },
+  {
+    "title": "Bold and Easy Christmas Coloring 132085882",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bold-and-Easy-Christmas-Coloring-132085882.zip",
+    "keywords": [
+      "132085882",
+      "and",
+      "bold",
+      "christmas",
+      "coloring",
+      "easy"
+    ]
+  },
+  {
+    "title": "Bold and Easy Cozy Winter Coloring Pages Graphics 134071987 1",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bold-and-Easy-Cozy-Winter-Coloring-Pages-Graphics-134071987-1.zip",
+    "keywords": [
+      "134071987",
+      "and",
+      "bold",
+      "coloring",
+      "cozy",
+      "easy",
+      "graphics",
+      "pages",
+      "winter"
+    ]
+  },
+  {
+    "title": "Bold and Easy Vehicles Coloring 120823150",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bold-and-Easy-Vehicles-Coloring-120823150.zip",
+    "keywords": [
+      "120823150",
+      "and",
+      "bold",
+      "coloring",
+      "easy",
+      "vehicles"
+    ]
+  },
+  {
+    "title": "Bold Easy Christmas Coloring 135501472",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bold-Easy-Christmas-Coloring-135501472.zip",
+    "keywords": [
+      "135501472",
+      "bold",
+      "christmas",
+      "coloring",
+      "easy"
+    ]
+  },
+  {
+    "title": "Bold Easy Cute Christmas Coloring 106042840",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bold-Easy-Cute-Christmas-Coloring-106042840.zip",
+    "keywords": [
+      "106042840",
+      "bold",
+      "christmas",
+      "coloring",
+      "cute",
+      "easy"
+    ]
+  },
+  {
+    "title": "Bold Easy Cute Christmas Coloring 133714193",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bold-Easy-Cute-Christmas-Coloring-133714193.zip",
+    "keywords": [
+      "133714193",
+      "bold",
+      "christmas",
+      "coloring",
+      "cute",
+      "easy"
+    ]
+  },
+  {
+    "title": "Bold Easy Valentines Day Coloring 137899769",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Bold-Easy-Valentines-Day-Coloring-137899769.zip",
+    "keywords": [
+      "137899769",
+      "bold",
+      "coloring",
+      "day",
+      "easy",
+      "valentines"
+    ]
+  },
+  {
+    "title": "BoldEasy Cute Christmas Coloring Pages 132265108",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/BoldEasy-Cute-Christmas-Coloring-Pages-132265108.zip",
+    "keywords": [
+      "132265108",
+      "boldeasy",
+      "christmas",
+      "coloring",
+      "cute",
+      "pages"
+    ]
+  },
+  {
+    "title": "BoldEasy Valentines Day Coloring Pages 137632512",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/BoldEasy-Valentines-Day-Coloring-Pages-137632512.zip",
+    "keywords": [
+      "137632512",
+      "boldeasy",
+      "coloring",
+      "day",
+      "pages",
+      "valentines"
+    ]
+  },
+  {
+    "title": "BOLDEASY VALENTINES KIDS COLORING PAGES 138363188",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/BOLDEASY-VALENTINES-KIDS-COLORING-PAGES-138363188.zip",
+    "keywords": [
+      "138363188",
+      "boldeasy",
+      "coloring",
+      "kids",
+      "pages",
+      "valentines"
+    ]
+  },
+  {
+    "title": "BoldEasy Xmas Corner Coloring Pages 132679888",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/BoldEasy-Xmas-Corner-Coloring-Pages-132679888.zip",
+    "keywords": [
+      "132679888",
+      "boldeasy",
+      "coloring",
+      "corner",
+      "pages",
+      "xmas"
+    ]
+  },
+  {
+    "title": "Capybara Christmas Fun Coloring Pages 134144813",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Capybara-Christmas-Fun-Coloring-Pages-134144813.zip",
+    "keywords": [
+      "134144813",
+      "capybara",
+      "christmas",
+      "coloring",
+      "fun",
+      "pages"
+    ]
+  },
+  {
+    "title": "Capybara Christmas Fun Coloring Pages 135739397",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Capybara-Christmas-Fun-Coloring-Pages-135739397.zip",
+    "keywords": [
+      "135739397",
+      "capybara",
+      "christmas",
+      "coloring",
+      "fun",
+      "pages"
+    ]
+  },
+  {
+    "title": "Cat Moments Coloring Pages 128287380",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cat-Moments-Coloring-Pages-128287380.zip",
+    "keywords": [
+      "128287380",
+      "cat",
+      "coloring",
+      "moments",
+      "pages"
+    ]
+  },
+  {
+    "title": "Christmas Animal Coloring Pages for 78837376",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Christmas-Animal-Coloring-Pages-for-78837376.zip",
+    "keywords": [
+      "78837376",
+      "animal",
+      "christmas",
+      "coloring",
+      "for",
+      "pages"
+    ]
+  },
+  {
+    "title": "Cozy Girly Coloring Pages Bold 137613013",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cozy-Girly-Coloring-Pages-Bold-137613013.zip",
+    "keywords": [
+      "137613013",
+      "bold",
+      "coloring",
+      "cozy",
+      "girly",
+      "pages"
+    ]
+  },
+  {
+    "title": "Cozy Routine Coloring Pages Kawaii 125319824",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cozy-Routine-Coloring-Pages-Kawaii-125319824.zip",
+    "keywords": [
+      "125319824",
+      "coloring",
+      "cozy",
+      "kawaii",
+      "pages",
+      "routine"
+    ]
+  },
+  {
+    "title": "Cute Baby Animals Coloring Pages 133797997",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cute-Baby-Animals-Coloring-Pages-133797997.zip",
+    "keywords": [
+      "133797997",
+      "animals",
+      "baby",
+      "coloring",
+      "cute",
+      "pages"
+    ]
+  },
+  {
+    "title": "Cute Christmas Candy Coloring Pages 108949976",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cute-Christmas-Candy-Coloring-Pages-108949976.zip",
+    "keywords": [
+      "108949976",
+      "candy",
+      "christmas",
+      "coloring",
+      "cute",
+      "pages"
+    ]
+  },
+  {
+    "title": "Cute Easy Valentines Day Coloring 137375353",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cute-Easy-Valentines-Day-Coloring-137375353.zip",
+    "keywords": [
+      "137375353",
+      "coloring",
+      "cute",
+      "day",
+      "easy",
+      "valentines"
+    ]
+  },
+  {
+    "title": "Cute Kawaii Christmas Coloring Pages 106218726",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cute-Kawaii-Christmas-Coloring-Pages-106218726.zip",
+    "keywords": [
+      "106218726",
+      "christmas",
+      "coloring",
+      "cute",
+      "kawaii",
+      "pages"
+    ]
+  },
+  {
+    "title": "Cute Kawaii Coloring Pages for 126941312",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cute-Kawaii-Coloring-Pages-for-126941312.zip",
+    "keywords": [
+      "126941312",
+      "coloring",
+      "cute",
+      "for",
+      "kawaii",
+      "pages"
+    ]
+  },
+  {
+    "title": "Cute Princess Coloring Pages for 79428370",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cute-Princess-Coloring-Pages-for-79428370.zip",
+    "keywords": [
+      "79428370",
+      "coloring",
+      "cute",
+      "for",
+      "pages",
+      "princess"
+    ]
+  },
+  {
+    "title": "Cute Winter Animal Coloring Pages 133644846",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Cute-Winter-Animal-Coloring-Pages-133644846.zip",
+    "keywords": [
+      "133644846",
+      "animal",
+      "coloring",
+      "cute",
+      "pages",
+      "winter"
+    ]
+  },
+  {
+    "title": "Enchanting Unicorn Coloring Pages 125174996",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Enchanting-Unicorn-Coloring-Pages-125174996.zip",
+    "keywords": [
+      "125174996",
+      "coloring",
+      "enchanting",
+      "pages",
+      "unicorn"
+    ]
+  },
+  {
+    "title": "Farm Animal Coloring Pages For 99015932",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Farm-Animal-Coloring-Pages-For-99015932.zip",
+    "keywords": [
+      "99015932",
+      "animal",
+      "coloring",
+      "farm",
+      "for",
+      "pages"
+    ]
+  },
+  {
+    "title": "Gingerbread House Coloring Pages 135541348",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Gingerbread-House-Coloring-Pages-135541348.zip",
+    "keywords": [
+      "135541348",
+      "coloring",
+      "gingerbread",
+      "house",
+      "pages"
+    ]
+  },
+  {
+    "title": "Happy Christmas Coloring Pages 135194236",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Happy-Christmas-Coloring-Pages-135194236.zip",
+    "keywords": [
+      "135194236",
+      "christmas",
+      "coloring",
+      "happy",
+      "pages"
+    ]
+  },
+  {
+    "title": "Happy New Year 2026 Coloring 136295885",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Happy-New-Year-2026-Coloring-136295885.zip",
+    "keywords": [
+      "136295885",
+      "2026",
+      "coloring",
+      "happy",
+      "new",
+      "year"
+    ]
+  },
+  {
+    "title": "Happy New Year 2026 Coloring 137621628",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Happy-New-Year-2026-Coloring-137621628.zip",
+    "keywords": [
+      "137621628",
+      "2026",
+      "coloring",
+      "happy",
+      "new",
+      "year"
+    ]
+  },
+  {
+    "title": "Happy New Year 2026 Coloring 138285739",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Happy-New-Year-2026-Coloring-138285739.zip",
+    "keywords": [
+      "138285739",
+      "2026",
+      "coloring",
+      "happy",
+      "new",
+      "year"
+    ]
+  },
+  {
+    "title": "Happy New Year 2026 Coloring Pages Graphics 135754776",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Happy-New-Year-2026-Coloring-Pages-Graphics-135754776.zip",
+    "keywords": [
+      "135754776",
+      "2026",
+      "coloring",
+      "graphics",
+      "happy",
+      "new",
+      "pages",
+      "year"
+    ]
+  },
+  {
+    "title": "HAPPY VALENTINES DAY KIDS COLORING 138363829",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/HAPPY-VALENTINES-DAY-KIDS-COLORING-138363829.zip",
+    "keywords": [
+      "138363829",
+      "coloring",
+      "day",
+      "happy",
+      "kids",
+      "valentines"
+    ]
+  },
+  {
+    "title": "Inspirational Word Coloring Pages 114092709",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Inspirational-Word-Coloring-Pages-114092709.zip",
+    "keywords": [
+      "114092709",
+      "coloring",
+      "inspirational",
+      "pages",
+      "word"
+    ]
+  },
+  {
+    "title": "Inspirational Word Coloring Pages 114093470",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Inspirational-Word-Coloring-Pages-114093470.zip",
+    "keywords": [
+      "114093470",
+      "coloring",
+      "inspirational",
+      "pages",
+      "word"
+    ]
+  },
+  {
+    "title": "Kawaii Christmas Coloring Pages for 130033141",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Kawaii-Christmas-Coloring-Pages-for-130033141.zip",
+    "keywords": [
+      "130033141",
+      "christmas",
+      "coloring",
+      "for",
+      "kawaii",
+      "pages"
+    ]
+  },
+  {
+    "title": "Kpop Coloring Pages Vol 2 27581956",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Kpop-Coloring-Pages-Vol-2-27581956.zip",
+    "keywords": [
+      "27581956",
+      "coloring",
+      "kpop",
+      "pages",
+      "vol"
+    ]
+  },
+  {
+    "title": "Merry Christmas Coloring Pages for 133155727",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Merry-Christmas-Coloring-Pages-for-133155727.zip",
+    "keywords": [
+      "133155727",
+      "christmas",
+      "coloring",
+      "for",
+      "merry",
+      "pages"
+    ]
+  },
+  {
+    "title": "Ocean Scene Bold and Easy 128597018",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Ocean-Scene-Bold-and-Easy-128597018.zip",
+    "keywords": [
+      "128597018",
+      "and",
+      "bold",
+      "easy",
+      "ocean",
+      "scene"
+    ]
+  },
+  {
+    "title": "Panda Coloring Pages For Kids 27201648",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Panda-Coloring-Pages-For-Kids-27201648.zip",
+    "keywords": [
+      "27201648",
+      "coloring",
+      "for",
+      "kids",
+      "pages",
+      "panda"
+    ]
+  },
+  {
+    "title": "Perfect Match Food Coloring Pages Graphics 113636900",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Perfect-Match-Food-Coloring-Pages-Graphics-113636900.zip",
+    "keywords": [
+      "113636900",
+      "coloring",
+      "food",
+      "graphics",
+      "match",
+      "pages",
+      "perfect"
+    ]
+  },
+  {
+    "title": "Simple Valentines Day Coloring Pages 137311362",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Simple-Valentines-Day-Coloring-Pages-137311362.zip",
+    "keywords": [
+      "137311362",
+      "coloring",
+      "day",
+      "pages",
+      "simple",
+      "valentines"
+    ]
+  },
+  {
+    "title": "Space Coloring Pages Vol11 26500315",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Space-Coloring-Pages-Vol11-26500315.zip",
+    "keywords": [
+      "26500315",
+      "coloring",
+      "pages",
+      "space",
+      "vol11"
+    ]
+  },
+  {
+    "title": "Summer Coloring Pages with Book 32749410",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Summer-Coloring-Pages-with-Book-32749410.zip",
+    "keywords": [
+      "32749410",
+      "book",
+      "coloring",
+      "pages",
+      "summer",
+      "with"
+    ]
+  },
+  {
+    "title": "Valentines Day Coloring Pages BoldEasy 136948770",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Valentines-Day-Coloring-Pages-BoldEasy-136948770.zip",
+    "keywords": [
+      "136948770",
+      "boldeasy",
+      "coloring",
+      "day",
+      "pages",
+      "valentines"
+    ]
+  },
+  {
+    "title": "Valentines Day Coloring Pages BoldEasy 138511099",
+    "url": "https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/Valentines-Day-Coloring-Pages-BoldEasy-138511099.zip",
+    "keywords": [
+      "138511099",
+      "boldeasy",
+      "coloring",
+      "day",
+      "pages",
+      "valentines"
+    ]
+  }
+];
+
+    const norm = (s) => (s || "").toString().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    const byQuery = (items, q) => {
+      if (!q) return items;
+      const qq = norm(q.trim());
+      return items.filter(it => norm(it.title + " " + (it.keywords || "") + " " + (it.url || "")).includes(qq));
+    };
+
+    function renderList(el, items){
+      el.innerHTML = "";
+      if (!items.length){
+        el.innerHTML = '<li class="text-slate-500 text-sm" data-en="No ZIP found. Add your ZIP links in the ADULT_ZIPS / KIDS_ZIPS arrays." data-fr="Aucun ZIP trouvé. Ajoute tes liens ZIP dans les tableaux ADULT_ZIPS / KIDS_ZIPS.">No ZIP found. Add your ZIP links in the ADULT_ZIPS / KIDS_ZIPS arrays.</li>';
+        return;
+      }
+      items.forEach(it => {
+        const li = document.createElement("li");
+        li.className = "flex items-start justify-between gap-3 rounded-xl border border-slate-100 bg-slate-50 px-4 py-3";
+        li.innerHTML = `
+          <div class="min-w-0">
+            <div class="font-semibold text-slate-900 truncate">${it.title}</div>
+            <div class="text-xs text-slate-500 truncate">${it.url}</div>
+          </div>
+          <a class="shrink-0 inline-flex items-center justify-center rounded-lg bg-orange-500 px-3 py-2 text-sm font-semibold text-white hover:bg-orange-600"
+             href="${it.url}" target="_blank" rel="noopener">
+            <span data-en="Download" data-fr="Télécharger">Download</span>
+          </a>
+        `;
+        el.appendChild(li);
+      });
+    }
+
+    (function initZipCatalog(){
+      const search = document.getElementById("zipSearch");
+      const clear = document.getElementById("zipClear");
+      const adultsList = document.getElementById("adultsList");
+      const kidsList = document.getElementById("kidsList");
+
+      function apply(){
+        const q = search.value || "";
+        renderList(adultsList, byQuery(ADULT_ZIPS, q));
+        renderList(kidsList, byQuery(KIDS_ZIPS, q));
+        // Refresh language (if your switchLanguage exists on page)
+        if (typeof applyLanguage === "function") { try { applyLanguage(); } catch(e) {} }
+      }
+
+      clear.addEventListener("click", () => { search.value = ""; apply(); search.focus(); });
+      search.addEventListener("input", apply);
+      apply();
+    })();
+  </script>
+
+<footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section">
+        <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières actualités KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Follow us for the latest KDP news!</h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" target="_blank"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
+          </div>
+          <p class="text-gray-400" data-fr="Le générateur de couvertures KDP 100% conformes Amazon." data-en="The 100% Amazon-compliant KDP cover generator.">The 100% Amazon-compliant KDP cover generator.</p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Product</h4>
+          <ul class="space-y-2">
+            <li><a href="/generator.html" class="hover:text-white transition" data-fr="Générateur" data-en="Generator">Generator</a></li>
+            <li><a href="/marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+            <li><a href="/pricing.html" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Pricing</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="/faq.html" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="/contact.html" class="hover:text-white transition">Contact</a></li>
+            <li><a href="/guide.html" class="hover:text-white transition" data-fr="Guide" data-en="Guide">Guide</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="/mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Legal Notice</a></li>
+            <li><a href="/cgu.html" class="hover:text-white transition" data-fr="CGU" data-en="Terms">Terms</a></li>
+            <li><a href="/confidentialite.html" class="hover:text-white transition" data-fr="Confidentialité" data-en="Privacy">Privacy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+<script>
+    let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
+    
+    function switchLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem('preferredLanguage', lang);
+      document.documentElement.lang = lang;
+      
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+      
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        const text = el.getAttribute(`data-${lang}`);
+        if (text) {
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+            el.placeholder = text;
+          } else {
+            el.innerHTML = text;
+          }
+        }
+      });
+    }
+    
+    function toggleMobileMenu() {
+      document.getElementById('mobileMenu').classList.toggle('active');
+    }
+    
+    // Initialize language on load
+    document.addEventListener('DOMContentLoaded', () => {
+      switchLanguage(currentLanguage);
+    });
+  </script>
 </body>
 </html>
