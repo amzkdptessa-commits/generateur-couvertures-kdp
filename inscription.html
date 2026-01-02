@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-fr="Inscription - GabaritKDP" data-en="Sign Up - GabaritKDP">Sign Up - GabaritKDP</title>
+    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
     <meta name="description"
         data-fr="Rejoignez des milliers d'auteurs qui utilisent GabaritKDP pour créer des couvertures KDP parfaites. Inscription gratuite !"
         data-en="Join thousands of authors using GabaritKDP to create perfect KDP covers. Free registration!"
@@ -600,7 +601,23 @@
             .mobile-menu-toggle {
                 display: none;
             }
-        }        
+        } 
+  @media (max-width:480px) {
+    .logo-nav span {
+      display: none
+    }
+
+    .language-selector {
+      right: 60px;
+      padding: 0 2px 2px 2px;
+      top: 27px
+    }
+
+    .lang-btn {
+      padding: 4px 8px;
+      font-size: .7rem
+    }
+  }
     </style>
 </head>
 
@@ -617,35 +634,35 @@
                 <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
                 <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
             </div>
-            <nav class="nav-links">
-                <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-                <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
-                    data-en="Express Generator">Express Generator</a>
-                <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
-                    Generator</a>
-<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
-                <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
-                <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-                <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-            </nav>
-        </div>
-    </header>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
-        <div class="mobile-menu-links">
-            <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-            <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
-                data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
-            <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
-<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
-            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰
-                Pricing</a>
-            <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2);" data-fr="📝 Inscription"
-                data-en="📝 Sign Up">📝 Sign Up</a>
-            <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-        </div>
+      <!-- Navigation Desktop -->
+      <nav class="nav-links">
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
+          data-en="Express Generator">Générateur Express</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+        <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+      </nav>
     </div>
+  </header>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+    <div class="mobile-menu-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;"
+        data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Générateur Express</a>
+      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+      <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
+      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription"
+        data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+    </div>
+  </div>
 
     <div class="main-content">
         <div class="signup-container">
