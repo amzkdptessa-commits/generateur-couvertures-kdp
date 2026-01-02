@@ -1,17 +1,15 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title data-fr="Fonctionnalités - GabaritKDP" data-en="Features - GabaritKDP">Fonctionnalités - GabaritKDP</title>
+    <title data-fr="Fonctionnalités - GabaritKDP" data-en="Features - GabaritKDP">Features - GabaritKDP</title>
     <meta name="description"
-        data-fr="Découvrez les fonctionnalités de GabaritKDP : Analyse par IA, générateur de couvertures conformes, et notre future Marketplace de templates KDP."
-        data-en="Discover GabaritKDP's features: AI Analysis, compliant cover generator, and our upcoming KDP template marketplace."
-        content="Découvrez les fonctionnalités de GabaritKDP : Analyse par IA, générateur de couvertures conformes, et notre future Marketplace de templates KDP.">
+        data-fr="Découvrez toutes les fonctionnalités de GabaritKDP : générateurs Express et Magic, Marketplace 6600+ templates, exports KDP conformes, et fonctionnalités à venir (Dashboard, import Canva)."
+        data-en="Explore all GabaritKDP features: Express and Magic generators, 6600+ template marketplace, KDP-compliant exports, and upcoming features (Dashboard, Canva import)."
+        content="Explore all GabaritKDP features: Express and Magic generators, 6600+ template marketplace, KDP-compliant exports, and upcoming features (Dashboard, Canva import).">
 
-    <link rel="icon" type="image/png" href="LOGO GABARIT KDP POUR SITE WEB.png">
-
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -20,27 +18,26 @@
         gtag('config', 'G-MYG5JJM8EC');
     </script>
 
-    <script>
-        function detectUserLanguage() {
-            const userChoice = localStorage.getItem('preferredLanguage');
-            if (userChoice) return userChoice;
-            return 'en';
-        }
-        const defaultLang = detectUserLanguage();
-        document.documentElement.lang = defaultLang;
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Microsoft Clarity -->
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "t09tdy9nqm");
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "t09tdy9nqm");
-</script>
     <style>
-        /* CSS CUSTOM GABARITKDP - NOUVEAU HEADER (Identique à la version précédente) */
+        /* =====================================
+           CSS CUSTOM GABARITKDP - NOUVEAU HEADER
+           ===================================== */
+
         * {
             margin: 0;
             padding: 0;
@@ -51,6 +48,7 @@
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
         }
 
+        /* Language Selector */
         .language-selector {
             background: white;
             border-radius: 20px;
@@ -74,6 +72,7 @@
             color: white;
         }
 
+        /* Navigation Header */
         .header-nav {
             background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
             padding: 15px 0;
@@ -91,6 +90,7 @@
             justify-content: space-between;
             padding: 0 20px;
             flex-wrap: wrap;
+            gap: 0px;
         }
 
         .logo-nav {
@@ -115,8 +115,8 @@
 
         .nav-links {
             width: 100%;
-            display: flex;
             justify-content: center;
+            display: flex;
             align-items: center;
             gap: 25px;
             flex-wrap: wrap;
@@ -141,14 +141,24 @@
             background: rgba(255, 153, 0, 0.1);
         }
 
+        .nav-links a.active {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.15);
+        }
+
+        /* Style spécial pour Générateur Express */
         .express-nav-btn {
             background: linear-gradient(135deg, #10b981, #059669) !important;
             color: white !important;
             border-radius: 8px !important;
+            padding: 10px 14px !important;
+            position: relative !important;
+            transition: all 0.3s ease !important;
         }
 
         .express-nav-btn:hover {
             background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: white !important;
             transform: translateY(-2px) !important;
             box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
         }
@@ -170,6 +180,202 @@
             margin-right: 4px;
         }
 
+        /* Tooltips explicatifs */
+        .tooltip {
+            position: absolute;
+            bottom: -65px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1f2937;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            max-width: 200px;
+            white-space: normal;
+            text-align: center;
+            line-height: 1.3;
+        }
+
+        .tooltip::before {
+            content: "";
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 5px solid transparent;
+            border-right: 5px solid transparent;
+            border-bottom: 5px solid #1f2937;
+        }
+
+        .nav-item:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+            bottom: -55px;
+        }
+
+        /* Badge "Nouveau" pour le studio IA */
+        .new-badge {
+            position: absolute;
+            top: -8px;
+            right: -15px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 6px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-3px);
+            }
+        }
+
+        /* Styles spécifiques FAQ */
+        .faq-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .faq-container {
+            max-width: 4xl;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1f2937;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: #f8fafc;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #FF9900;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: #4b5563;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .faq-answer.active {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-title {
+            color: #FF9900;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #FF9900;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, #fef3c7 0%, #fcd34d 100%);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 4px solid #f59e0b;
+        }
+
+        .highlight-box h4 {
+            color: #92400e;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .highlight-box p {
+            color: #92400e;
+            margin: 0;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 768px) {
+            .tooltip {
+                display: none;
+            }
+
+            .new-badge {
+                display: none;
+            }
+
+            .faq-question {
+                font-size: 1rem;
+                padding: 1rem;
+            }
+
+            .faq-answer {
+                padding: 0 1rem 1rem;
+            }
+        }
+
+        /* Mobile Menu */
         .mobile-menu {
             display: none;
             position: fixed;
@@ -216,6 +422,7 @@
             padding: 15px 20px;
             border-radius: 12px;
             background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             transition: all 0.3s ease;
             display: flex;
@@ -226,6 +433,8 @@
 
         .mobile-menu-links a:hover {
             background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
 
         .mobile-menu-close {
@@ -237,93 +446,57 @@
             color: white;
             font-size: 1.8rem;
             cursor: pointer;
-        }        
-
-        /* ... autres styles ... */
-        .features-hero {
-            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        }
-
-        .feature-card {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 8px;
+            border-radius: 50%;
             transition: all 0.3s ease;
-            border: 1px solid #e5e7eb;
         }
 
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
-            border-color: #FF9900;
+        .mobile-menu-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
         }
 
-        .feature-header {
-            background: linear-gradient(135deg, #FF9900 0%, #e68900 100%);
-            color: white;
-            padding: 2rem;
-            text-align: center;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .language-selector {
+                top: 22.5px;
+                right: 60px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            /* Mobile menu toggle button */
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px;
+                border-radius: 4px;
+                margin-left: auto;
+            }
+
+            .mobile-menu-toggle:hover {
+                background: rgba(255, 255, 255, 0.1);
+            }
         }
 
-        .feature-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
         }
 
-        .feature-body {
-            padding: 2rem;
+        .logo-nav img {
+            height: 40px;
+            width: auto;
         }
 
-        .feature-list li {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.75rem;
-            color: #4b5563;
-        }
-
-        .feature-list li:before {
-            content: '✓';
-            color: #10b981;
-            font-weight: bold;
-            margin-right: 0.75rem;
-            font-size: 1.1rem;
-        }
-
-        .cta-button {
-            background: #FF9900;
-            color: white;
-            padding: 0.75rem 2rem;
-            border-radius: 50px;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all 0.3s ease;
-            text-align: center;
-            width: 100%;
-        }
-
-        .cta-button:hover {
-            background: #e68900;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 153, 0, 0.3);
-        }
-
-        .comparison-table {
-            background: white;
-            border-radius: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            margin: 3rem 0;
-        }
-
-        .check-mark {
-            color: #10b981;
-        }
-
-        .cross-mark {
-            color: #ef4444;
-        }
-
-        /* ... styles responsive et autres ... */
+        /* Social Links */
         .social-section {
             background: rgba(255, 255, 255, 0.05);
             border-radius: 12px;
@@ -350,6 +523,8 @@
             text-decoration: none;
             font-size: 1.2rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
         .social-link:hover {
@@ -380,38 +555,130 @@
         .social-link.linkedin {
             background: linear-gradient(135deg, #0A66C2, #004182);
         }
+
         @media (max-width: 768px) {
-            .language-selector {
-                top: 22.5px;
-                right: 60px;
+            .social-links {
+                gap: 10px;
             }
 
-            .nav-links {
-                display: none;
+            .social-link {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
             }
-            
-            .mobile-menu-toggle {
-                display: block;
-                background: none;
-                border: none;
-                color: white;
-                font-size: 1.5rem;
-                cursor: pointer;
-                padding: 8px;
-                margin-left: auto;
-            }
-        }    
-        
-        @media (min-width: 769px) {
-            .mobile-menu-toggle {
-                display: none;
-            }
-        }        
-    </style>
+        }
+    
+        /* Features page extras */
+        .features-hero {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+        .stat-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            box-shadow: 0 2px 10px rgba(0,0,0,.06);
+            text-align: center;
+        }
+        .stat-number {
+            font-weight: 800;
+            color: #111827;
+        }
+        .stat-label {
+            color: #6b7280;
+            margin-top: .25rem;
+        }
+        .feature-card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.25s ease;
+            border: 1px solid #e5e7eb;
+            overflow: hidden;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+            border-color: rgba(255, 153, 0, 0.5);
+        }
+        .feature-header {
+            background: linear-gradient(135deg, #FF9900 0%, #e68900 100%);
+            color: white;
+            padding: 1.75rem;
+        }
+        .feature-icon {
+            font-size: 2.6rem;
+            margin-bottom: .75rem;
+            line-height: 1;
+        }
+        .feature-body {
+            padding: 1.75rem;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 0.7rem;
+            color: #4b5563;
+        }
+        .feature-list li:before {
+            content: '✓';
+            color: #10b981;
+            font-weight: 800;
+            margin-right: 0.75rem;
+            font-size: 1.05rem;
+            margin-top: 1px;
+        }
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: .4rem;
+            padding: .35rem .65rem;
+            border-radius: 999px;
+            font-size: .85rem;
+            font-weight: 600;
+            border: 1px solid #e5e7eb;
+            background: rgba(255,255,255,.75);
+            color: #111827;
+        }
+        .cta-primary {
+            background: #FF9900;
+            color: white;
+            padding: 0.85rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .25s ease;
+        }
+        .cta-primary:hover { background: #e68900; transform: translateY(-1px); box-shadow: 0 10px 25px rgba(255,153,0,.25); }
+        .cta-secondary {
+            background: white;
+            border: 2px solid #FF9900;
+            color: #111827;
+            padding: 0.85rem 1.5rem;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-block;
+            transition: all .25s ease;
+        }
+        .cta-secondary:hover { background: rgba(255,153,0,.08); transform: translateY(-1px); }
+        .comparison-table {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.08);
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+        }
+        .table-head {
+            background: #111827;
+            color: white;
+        }
+        .check { color: #10b981; font-weight: 800; }
+        .cross { color: #ef4444; font-weight: 800; }
+</style>
 </head>
 
 <body class="bg-gray-50">
-
     <header class="header-nav">
         <div class="nav-container">
             <a href="./index.html" class="logo-nav">
@@ -425,11 +692,12 @@
             </div>
             <nav class="nav-links">
                 <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
                 <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
                     data-en="Express Generator">Express Generator</a>
                 <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
                     Generator</a>
-                <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace>Marketplace</a>
+                <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
                 <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
                 <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
                 <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
@@ -441,6 +709,7 @@
         <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
         <div class="mobile-menu-links">
             <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+            <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
             <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
                 data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
             <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
@@ -452,198 +721,210 @@
             <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
         </div>
     </div>
+    
 
+    
+    <!-- Hero Section -->
     <section class="features-hero py-16">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6" data-fr="Fonctionnalités Clés"
-                data-en="Core Features">
-                <span style="color: #FF9900;">Core</span> Features
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div class="flex flex-wrap gap-2 justify-center mb-6">
+                <span class="pill">📏 <span data-fr="Précision millimétrique" data-en="Millimeter precision">Millimeter precision</span></span>
+                <span class="pill">✅ <span data-fr="Conforme Amazon KDP" data-en="Amazon KDP compliant">Amazon KDP compliant</span></span>
+                <span class="pill">⚡ <span data-fr="Rapide & simple" data-en="Fast & simple">Fast & simple</span></span>
+                <span class="pill">🎨 <span data-fr="Templates & génération" data-en="Templates & generation">Templates & generation</span></span>
+            </div>
+
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
+                data-fr="Toutes les fonctionnalités de GabaritKDP"
+                data-en="All GabaritKDP features">
+                <span style="color:#FF9900;" data-fr="Toutes" data-en="All">All</span> GabaritKDP features
             </h1>
+
             <p class="text-xl text-gray-600 mb-8"
-                data-fr="Les outils essentiels pour des couvertures KDP professionnelles."
-                data-en="The essential tools for professional KDP covers.">
-                The essential tools for professional KDP covers.
+               data-fr="Créez et exportez des couvertures 100% conformes Amazon KDP, en quelques minutes, sans calculs manuels."
+               data-en="Create and export 100% Amazon KDP-compliant covers in minutes — no manual calculations.">
+               Create and export 100% Amazon KDP-compliant covers in minutes — no manual calculations.
             </p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="generator.html" class="cta-primary" data-fr="🚀 Créer ma couverture" data-en="🚀 Create my cover">🚀 Create my cover</a>
+                <a href="index.html#tarifs" class="cta-secondary" data-fr="💰 Voir les tarifs" data-en="💰 View pricing">💰 View pricing</a>
+                <a href="marketplace.html" class="cta-secondary" data-fr="🛒 Explorer le Marketplace" data-en="🛒 Explore Marketplace">🛒 Explore Marketplace</a>
+            </div>
         </div>
     </section>
 
-    <section class="py-8">
+    <!-- Stats -->
+    <section class="py-10">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
                 <div class="stat-card p-4 md:p-8">
                     <div class="stat-number text-2xl md:text-4xl">100%</div>
-                    <div class="stat-label text-sm md:text-base" data-fr="Conformité KDP" data-en="KDP Compliance">KDP
-                        Compliance</div>
+                    <div class="stat-label text-sm md:text-base" data-fr="Conformité dimensions" data-en="Dimension compliance">Dimension compliance</div>
                 </div>
                 <div class="stat-card p-4 md:p-8">
-                    <div class="stat-number text-2xl md:text-4xl">
-                        < 30s</div>
-                            <div class="stat-label text-sm md:text-base" data-fr="Génération" data-en="Generation">
-                                Generation</div>
-                    </div>
-                    <div class="stat-card p-4 md:p-8">
-                        <div class="stat-number text-2xl md:text-4xl">300 DPI</div>
-                        <div class="stat-label text-sm md:text-base" data-fr="Qualité Pro" data-en="Pro Quality">Pro
-                            Quality</div>
-                    </div>
-                    <div class="stat-card p-4 md:p-8">
-                        <div class="stat-number text-2xl md:text-4xl">IA</div>
-                        <div class="stat-label text-sm md:text-base" data-fr="Création Assistée"
-                            data-en="Assisted Creation">Assisted Creation</div>
-                    </div>
+                    <div class="stat-number text-2xl md:text-4xl">300 DPI</div>
+                    <div class="stat-label text-sm md:text-base" data-fr="Qualité impression" data-en="Print-ready">Print-ready</div>
+                </div>
+                <div class="stat-card p-4 md:p-8">
+                    <div class="stat-number text-2xl md:text-4xl">17</div>
+                    <div class="stat-label text-sm md:text-base" data-fr="Formats KDP" data-en="KDP formats">KDP formats</div>
+                </div>
+                <div class="stat-card p-4 md:p-8">
+                    <div class="stat-number text-2xl md:text-4xl">6600+</div>
+                    <div class="stat-label text-sm md:text-base" data-fr="Templates" data-en="Templates">Templates</div>
                 </div>
             </div>
+        </div>
     </section>
 
+    <!-- Core Feature Cards -->
     <section class="py-16">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3"
+                    data-fr="Un workflow complet pour publier sans stress"
+                    data-en="A complete workflow to publish stress-free">
+                    A complete workflow to publish stress-free
+                </h2>
+                <p class="text-lg text-gray-600"
+                   data-fr="De la création à l’export : tout est pensé pour éviter les rejets techniques Amazon."
+                   data-en="From creation to export: everything is designed to prevent technical Amazon rejections.">
+                   From creation to export: everything is designed to prevent technical Amazon rejections.
+                </p>
+            </div>
+
             <div class="grid lg:grid-cols-3 gap-8">
 
+                <!-- Precision Engine -->
                 <div class="feature-card">
                     <div class="feature-header">
-                        <div class="feature-icon">🎨</div>
-                        <h3 class="text-xl font-bold" data-fr="Analyse & Création par IA"
-                            data-en="AI Analysis & Creation">AI Analysis & Creation</h3>
-                    </div>
-                    <div class="feature-body">
-                        <p class="text-gray-600 mb-4" data-fr="Laissez l'IA vous guider et créer pour vous."
-                            data-en="Let AI guide and create for you.">Let AI guide and create for you.</p>
-                        <ul class="feature-list">
-                            <li data-fr="Génération d'images de couverture" data-en="Cover image generation">Cover image
-                                generation</li>
-                            <li data-fr="Suggestions de titres percutants" data-en="Catchy title suggestions">Catchy
-                                title suggestions</li>
-                            <li data-fr="Analyse technique de vos images" data-en="Technical analysis of your images">
-                                Technical analysis of your images</li>
-                            <li data-fr="Recommandations de conformité" data-en="Compliance recommendations">Compliance
-                                recommendations</li>
-                        </ul>
-                        <a href="generator-magic.html" class="cta-button" data-fr="Essayer le Studio IA"
-                            data-en="Try AI Studio">Try AI Studio</a>
-                    </div>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">🛒</div>
-                        <h3 class="text-xl font-bold" data-fr="Marketplace (Bientôt)"
-                            data-en="Marketplace (Coming Soon)">Marketplace (Coming Soon)</h3>
+                        <div class="feature-icon">📏</div>
+                        <h3 class="text-xl font-bold" data-fr="Calculs KDP officiels" data-en="Official KDP calculations">Official KDP calculations</h3>
                     </div>
                     <div class="feature-body">
                         <p class="text-gray-600 mb-4"
-                            data-fr="Trouvez des designs uniques créés par des professionnels."
-                            data-en="Find unique designs from professional creators.">Find unique designs from
-                            professional creators.</p>
+                           data-fr="Le moteur GabaritKDP calcule automatiquement la couverture complète : dos, marges, fond perdu et zones de sécurité."
+                           data-en="GabaritKDP automatically calculates the full cover: spine, margins, bleed, and safety zones.">
+                           GabaritKDP automatically calculates the full cover: spine, margins, bleed, and safety zones.
+                        </p>
                         <ul class="feature-list">
-                            <li data-fr="Achetez des templates prêts à l'emploi" data-en="Buy ready-to-use templates">
-                                Buy ready-to-use templates</li>
-                            <li data-fr="Filtrez par genre et par style" data-en="Filter by genre and style">Filter by
-                                genre and style</li>
-                            <li data-fr="Designs exclusifs et en série limitée"
-                                data-en="Exclusive and limited edition designs">Exclusive and limited edition designs
-                            </li>
-                            <li data-fr="Vendez vos propres créations (à venir)" data-en="Sell your own designs (soon)">
-                                Sell your own designs (soon)</li>
+                            <li data-fr="Précision au millimètre" data-en="Millimeter-level precision">Millimeter-level precision</li>
+                            <li data-fr="Tranche calculée selon pages + papier" data-en="Spine computed from pages + paper">Spine computed from pages + paper</li>
+                            <li data-fr="Bleed & marges conformes" data-en="Compliant bleed & margins">Compliant bleed & margins</li>
+                            <li data-fr="Validation technique avant export" data-en="Technical validation before export">Technical validation before export</li>
                         </ul>
-                        <a href="./marketplace.html" target="_blank" rel="noopener" class="cta-button" data-fr="Découvrir la Marketplace"
-                            data-en="Explore the Marketplace">Explore the Marketplace</a>
+                        <a href="generator.html" class="cta-button" data-fr="Créer ma couverture" data-en="Create my cover">Create my cover</a>
                     </div>
                 </div>
 
+                <!-- Express Generator -->
                 <div class="feature-card">
                     <div class="feature-header">
                         <div class="feature-icon">⚡</div>
-                        <h3 class="text-xl font-bold" data-fr="Export Conforme & Garanti"
-                            data-en="Guaranteed Compliant Export">Guaranteed Compliant Export</h3>
+                        <h3 class="text-xl font-bold" data-fr="Express Generator" data-en="Express Generator">Express Generator</h3>
                     </div>
                     <div class="feature-body">
-                        <p class="text-gray-600 mb-4" data-fr="Générez le fichier parfait pour KDP, à chaque fois."
-                            data-en="Generate the perfect KDP file, every time.">Generate the perfect KDP file, every
-                            time.</p>
+                        <p class="text-gray-600 mb-4"
+                           data-fr="Pour aller droit au but : choisissez vos paramètres KDP, ajoutez vos visuels, exportez."
+                           data-en="The fastest path: set KDP parameters, add visuals, export.">
+                           The fastest path: set KDP parameters, add visuals, export.
+                        </p>
                         <ul class="feature-list">
-                            <li data-fr="Export PDF 300 DPI (qualité impression)"
-                                data-en="300 DPI PDF export (print quality)">300 DPI PDF export (print quality)</li>
-                            <li data-fr="Calcul automatique de la tranche" data-en="Automatic spine calculation">
-                                Automatic spine calculation</li>
-                            <li data-fr="Fond perdu (bleed) inclus" data-en="Bleed automatically included">Bleed
-                                automatically included</li>
-                            <li data-fr="Zéro refus Amazon garanti" data-en="Zero Amazon rejections guaranteed">Zero
-                                Amazon rejections guaranteed</li>
+                            <li data-fr="Canvas visuel avec zones de sécurité" data-en="Visual canvas with safe zones">Visual canvas with safe zones</li>
+                            <li data-fr="Texte du dos activé/désactivé automatiquement" data-en="Spine text auto-enabled/disabled">Spine text auto-enabled/disabled</li>
+                            <li data-fr="Prévisualisation 2D/3D & zoom" data-en="2D/3D preview & zoom">2D/3D preview & zoom</li>
+                            <li data-fr="PDF recommandé par Amazon + PNG/JPG" data-en="Amazon-recommended PDF + PNG/JPG">Amazon-recommended PDF + PNG/JPG</li>
                         </ul>
-                        <a href="generator.html" class="cta-button" data-fr="Créer ma couverture"
-                            data-en="Create my cover">Create my cover</a>
+                        <a href="generator.html" class="cta-button" data-fr="Essayer Express" data-en="Try Express">Try Express</a>
                     </div>
                 </div>
 
+                <!-- Magic Generator -->
                 <div class="feature-card">
                     <div class="feature-header">
-                        <div class="feature-icon">🛠️</div>
-                        <h3 class="text-xl font-bold" data-fr="Assembleur Visuel KDP" data-en="KDP Visual Assembler">KDP
-                            Visual Assembler</h3>
+                        <div class="feature-icon">✨</div>
+                        <h3 class="text-xl font-bold" data-fr="Magic Generator" data-en="Magic Generator">Magic Generator</h3>
                     </div>
                     <div class="feature-body">
-                        <p class="text-gray-600 mb-4" data-fr="Importez vos images et prévisualisez le résultat final."
-                            data-en="Import your images and preview the final result.">Import your images and preview
-                            the final result.</p>
+                        <p class="text-gray-600 mb-4"
+                           data-fr="Votre mode avancé pour accélérer : génération, templates premium, et workflows plus puissants."
+                           data-en="Advanced mode to move faster: generation, premium templates, and stronger workflows.">
+                           Advanced mode to move faster: generation, premium templates, and stronger workflows.
+                        </p>
                         <ul class="feature-list">
-                            <li data-fr="Prévisualisation 4K interactive" data-en="Interactive 4K preview">Interactive
-                                4K preview</li>
-                            <li data-fr="Ajustement de la tranche (texte, couleur)"
-                                data-en="Spine adjustments (text, color)">Spine adjustments (text, color)</li>
-                            <li data-fr="Guides de sécurité visibles" data-en="Visible safety guides">Visible safety
-                                guides</li>
-                            <li data-fr="Import d'images de couverture" data-en="Cover image import">Cover image import
-                            </li>
+                            <li data-fr="Génération assistée (selon modules)" data-en="Assisted generation (by modules)">Assisted generation (by modules)</li>
+                            <li data-fr="Templates premium & presets" data-en="Premium templates & presets">Premium templates & presets</li>
+                            <li data-fr="Optimisation qualité export" data-en="Export quality optimization">Export quality optimization</li>
+                            <li data-fr="Pensé pour gros volumes" data-en="Designed for high volume">Designed for high volume</li>
                         </ul>
-                        <a href="generator.html" class="cta-button" data-fr="Découvrir l'outil"
-                            data-en="Discover the tool">Discover the tool</a>
+                        <a href="generator-magic.html" class="cta-button" data-fr="Essayer Magic" data-en="Try Magic">Try Magic</a>
                     </div>
                 </div>
 
+                <!-- Marketplace -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">🛒</div>
+                        <h3 class="text-xl font-bold" data-fr="Marketplace (6600+ templates)" data-en="Marketplace (6600+ templates)">Marketplace (6600+ templates)</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4"
+                           data-fr="Des templates professionnels (couvertures, fonds, intérieurs) pour créer plus vite, avec un rendu premium."
+                           data-en="Professional templates (covers, backgrounds, interiors) to create faster with a premium look.">
+                           Professional templates (covers, backgrounds, interiors) to create faster with a premium look.
+                        </p>
+                        <ul class="feature-list">
+                            <li data-fr="20+ catégories (Romance, Thriller, Fantasy…)" data-en="20+ categories (Romance, Thriller, Fantasy…)">20+ categories (Romance, Thriller, Fantasy…)</li>
+                            <li data-fr="1200+ templates gratuits" data-en="1200+ free templates">1200+ free templates</li>
+                            <li data-fr="Full covers & intérieurs (planners, coloriages…)" data-en="Full covers & interiors (planners, coloring…)">Full covers & interiors (planners, coloring…)</li>
+                            <li data-fr="Personnalisation dans GabaritKDP" data-en="Customize inside GabaritKDP">Customize inside GabaritKDP</li>
+                        </ul>
+                        <a href="marketplace.html" class="cta-button" data-fr="Voir le Marketplace" data-en="Explore Marketplace">Explore Marketplace</a>
+                    </div>
+                </div>
+
+                <!-- Smart Analysis -->
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">🎯</div>
+                        <h3 class="text-xl font-bold" data-fr="Smart KDP Analysis" data-en="Smart KDP Analysis">Smart KDP Analysis</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4"
+                           data-fr="Des repères visuels et conseils experts pour éviter les 3 erreurs qui coûtent des rejets."
+                           data-en="Visual guides and expert tips to avoid the 3 mistakes that cause rejections.">
+                           Visual guides and expert tips to avoid the 3 mistakes that cause rejections.
+                        </p>
+                        <ul class="feature-list">
+                            <li data-fr="Zones de sécurité texte (pointillés bleus)" data-en="Text safe zones (blue dotted)">Text safe zones (blue dotted)</li>
+                            <li data-fr="Trim line et bleed (pointillés rouges)" data-en="Trim line & bleed (red dotted)">Trim line & bleed (red dotted)</li>
+                            <li data-fr="Alerte tranche trop fine" data-en="Thin spine warning">Thin spine warning</li>
+                            <li data-fr="Conseils KDP intégrés" data-en="Built-in KDP tips">Built-in KDP tips</li>
+                        </ul>
+                        <a href="faq.html" class="cta-button" data-fr="Lire la FAQ" data-en="Read FAQ">Read FAQ</a>
+                    </div>
+                </div>
+
+                <!-- API & Batch -->
                 <div class="feature-card">
                     <div class="feature-header">
                         <div class="feature-icon">⚙️</div>
-                        <h3 class="text-xl font-bold" data-fr="API & Automatisation" data-en="API & Automation">API &
-                            Automation</h3>
+                        <h3 class="text-xl font-bold" data-fr="Pro: Batch & API" data-en="Pro: Batch & API">Pro: Batch & API</h3>
                     </div>
                     <div class="feature-body">
-                        <p class="text-gray-600 mb-4" data-fr="Pour les auteurs et éditeurs à gros volume."
-                            data-en="For high-volume authors and publishers.">For high-volume authors and publishers.
+                        <p class="text-gray-600 mb-4"
+                           data-fr="Pour éditeurs et agences : automatisation, lots, et intégration via API (selon plan Pro)."
+                           data-en="For publishers and agencies: automation, batch workflows, and API integration (Pro plan).">
+                           For publishers and agencies: automation, batch workflows, and API integration (Pro plan).
                         </p>
                         <ul class="feature-list">
-                            <li data-fr="Générez des gabarits en masse" data-en="Generate templates in bulk">Generate
-                                templates in bulk</li>
-                            <li data-fr="Intégrez à vos propres outils" data-en="Integrate with your own tools">
-                                Integrate with your own tools</li>
-                            <li data-fr="Webhooks et callbacks" data-en="Webhooks and callbacks">Webhooks and callbacks
-                            </li>
-                            <li data-fr="Documentation complète" data-en="Comprehensive documentation">Comprehensive
-                                documentation</li>
+                            <li data-fr="Exports illimités (Pro Unlimited)" data-en="Unlimited exports (Pro Unlimited)">Unlimited exports (Pro Unlimited)</li>
+                            <li data-fr="Batch processing" data-en="Batch processing">Batch processing</li>
+                            <li data-fr="Basic API" data-en="Basic API">Basic API</li>
+                            <li data-fr="Support prioritaire" data-en="Priority support">Priority support</li>
                         </ul>
-                        <a href="api-pro.html" class="cta-button" data-fr="Voir l'API" data-en="View API Docs">View API
-                            Docs</a>
-                    </div>
-                </div>
-
-                <div class="feature-card">
-                    <div class="feature-header">
-                        <div class="feature-icon">👥</div>
-                        <h3 class="text-xl font-bold" data-fr="Support Expert" data-en="Expert Support">Expert Support
-                        </h3>
-                    </div>
-                    <div class="feature-body">
-                        <p class="text-gray-600 mb-4" data-fr="Nous connaissons KDP sur le bout des doigts."
-                            data-en="We know KDP inside and out.">We know KDP inside and out.</p>
-                        <ul class="feature-list">
-                            <li data-fr="Support par email réactif" data-en="Responsive email support">Responsive email
-                                support</li>
-                            <li data-fr="FAQ détaillée et guides" data-en="Detailed FAQ and guides">Detailed FAQ and
-                                guides</li>
-                            <li data-fr="Tutoriels vidéo" data-en="Video tutorials">Video tutorials</li>
-                            <li data-fr="Communauté d'auteurs" data-en="Author community">Author community</li>
-                        </ul>
-                        <a href="contact.html" class="cta-button" data-fr="Nous contacter" data-en="Contact us">Contact
-                            us</a>
+                        <a href="index.html#tarifs" class="cta-button" data-fr="Voir les plans" data-en="See plans">See plans</a>
                     </div>
                 </div>
 
@@ -651,126 +932,312 @@
         </div>
     </section>
 
+    <!-- Comparison -->
+    <section class="py-16 bg-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3"
+                    data-fr="Pourquoi GabaritKDP plutôt qu’une méthode classique ?"
+                    data-en="Why GabaritKDP vs. classic methods?">
+                    Why GabaritKDP vs. classic methods?
+                </h2>
+                <p class="text-lg text-gray-600"
+                   data-fr="Moins d’erreurs, plus vite, et des exports prêts pour Amazon."
+                   data-en="Fewer errors, faster workflow, and Amazon-ready exports.">
+                   Fewer errors, faster workflow, and Amazon-ready exports.
+                </p>
+            </div>
+
+            <div class="comparison-table">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full text-left">
+                        <thead class="table-head">
+                            <tr>
+                                <th class="px-6 py-4" data-fr="Critère" data-en="Criteria">Criteria</th>
+                                <th class="px-6 py-4">GabaritKDP</th>
+                                <th class="px-6 py-4" data-fr="Excel / calculs manuels" data-en="Excel / manual math">Excel / manual math</th>
+                                <th class="px-6 py-4" data-fr="Design seul (sans gabarit)" data-en="Design only (no template)">Design only (no template)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="px-6 py-4 font-semibold text-gray-900" data-fr="Dimensions KDP exactes" data-en="Exact KDP dimensions">Exact KDP dimensions</td>
+                                <td class="px-6 py-4"><span class="check">✓</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                            </tr>
+                            <tr class="border-b bg-gray-50">
+                                <td class="px-6 py-4 font-semibold text-gray-900" data-fr="Zones de sécurité visibles" data-en="Visible safe zones">Visible safe zones</td>
+                                <td class="px-6 py-4"><span class="check">✓</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-6 py-4 font-semibold text-gray-900" data-fr="Prévisualisation 2D/3D" data-en="2D/3D preview">2D/3D preview</td>
+                                <td class="px-6 py-4"><span class="check">✓</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                            </tr>
+                            <tr class="border-b bg-gray-50">
+                                <td class="px-6 py-4 font-semibold text-gray-900" data-fr="Export PDF prêt Amazon" data-en="Amazon-ready PDF export">Amazon-ready PDF export</td>
+                                <td class="px-6 py-4"><span class="check">✓</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 font-semibold text-gray-900" data-fr="Templates (couvertures + intérieurs)" data-en="Templates (covers + interiors)">Templates (covers + interiors)</td>
+                                <td class="px-6 py-4"><span class="check">✓</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                                <td class="px-6 py-4"><span class="cross">✕</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <a href="generator.html" class="cta-primary" data-fr="Commencer gratuitement" data-en="Start free">Start free</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coming soon -->
+    <section class="py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3"
+                    data-fr="Bientôt disponible"
+                    data-en="Coming soon">
+                    Coming soon
+                </h2>
+                <p class="text-lg text-gray-600"
+                   data-fr="Nous déployons progressivement pour garantir la stabilité et la conformité KDP."
+                   data-en="We roll out progressively to guarantee stability and KDP compliance.">
+                   We roll out progressively to guarantee stability and KDP compliance.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="text-xl font-bold" data-fr="Dashboard" data-en="Dashboard">Dashboard</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4"
+                           data-fr="Un espace central pour gérer vos designs, exports et workflows de publication."
+                           data-en="A central workspace to manage designs, exports, and publishing workflows.">
+                           A central workspace to manage designs, exports, and publishing workflows.
+                        </p>
+                        <ul class="feature-list">
+                            <li data-fr="Bibliothèque “Mes designs”" data-en="My designs library">My designs library</li>
+                            <li data-fr="Suivi des exports" data-en="Export tracking">Export tracking</li>
+                            <li data-fr="Accès rapide aux outils" data-en="Fast access to tools">Fast access to tools</li>
+                            <li data-fr="Optimisation de productivité" data-en="Productivity optimization">Productivity optimization</li>
+                        </ul>
+                        <a href="updates.html" class="cta-button" data-fr="Voir les mises à jour" data-en="See updates">See updates</a>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-header">
+                        <div class="feature-icon">🎨</div>
+                        <h3 class="text-xl font-bold" data-fr="Import depuis Canva" data-en="Import from Canva">Import from Canva</h3>
+                    </div>
+                    <div class="feature-body">
+                        <p class="text-gray-600 mb-4"
+                           data-fr="Connectez votre compte Canva et importez vos designs directement dans GabaritKDP (fonctionnalité optionnelle)."
+                           data-en="Connect your Canva account and import designs directly into GabaritKDP (optional feature).">
+                           Connect your Canva account and import designs directly into GabaritKDP (optional feature).
+                        </p>
+                        <ul class="feature-list">
+                            <li data-fr="Import d’un design existant" data-en="Import existing designs">Import existing designs</li>
+                            <li data-fr="Ajustement automatique aux specs KDP" data-en="Auto-adjust to KDP specs">Auto-adjust to KDP specs</li>
+                            <li data-fr="Gain de temps sur le resizing" data-en="Save time on resizing">Save time on resizing</li>
+                            <li data-fr="Toujours sans calcul manuel" data-en="Still no manual math">Still no manual math</li>
+                        </ul>
+                        <a href="contact.html" class="cta-button" data-fr="Être informé" data-en="Get notified">Get notified</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-4"
+                data-fr="Prêt(e) à publier sans rejet ?"
+                data-en="Ready to publish with zero rejections?">
+                Ready to publish with zero rejections?
+            </h2>
+            <p class="text-xl text-gray-600 mb-8"
+               data-fr="Testez gratuitement, puis passez au plan qui correspond à votre rythme de publication."
+               data-en="Try for free, then choose the plan that fits your publishing pace.">
+               Try for free, then choose the plan that fits your publishing pace.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="generator.html" class="cta-primary" data-fr="🚀 Démarrer (Free Trial)" data-en="🚀 Start (Free Trial)">🚀 Start (Free Trial)</a>
+                <a href="index.html#tarifs" class="cta-secondary" data-fr="💰 Comparer les plans" data-en="💰 Compare plans">💰 Compare plans</a>
+            </div>
+
+            <p class="text-sm text-gray-500 mt-6"
+               data-fr="GabaritKDP garantit la conformité technique des dimensions selon les spécifications Amazon KDP. Le contenu créatif (images/texte/droits) reste sous votre responsabilité."
+               data-en="GabaritKDP guarantees technical dimension compliance based on Amazon KDP specifications. Creative content (images/text/rights) remains under your responsibility.">
+               GabaritKDP guarantees technical dimension compliance based on Amazon KDP specifications. Creative content (images/text/rights) remains under your responsibility.
+            </p>
+        </div>
+    </section>
+
+
     <footer class="bg-gray-900 text-gray-300 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Réseaux sociaux -->
             <div class="social-section">
-                <h4 class="text-white font-semibold mb-4 text-center"
-                    data-fr="🚀 Suivez-nous pour les dernières nouveautés KDP !"
-                    data-en="🚀 Follow us for the latest KDP news!">🚀 Follow us for the latest KDP news!</h4>
+                <h4 class="text-white font-semibold mb-4 text-center">
+                    🚀 Follow us for the latest KDP news!
+                </h4>
+
                 <div class="social-links">
                     <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"
-                        title="YouTube - Tutoriels KDP"><i class="fab fa-youtube"></i></a>
+                        title="YouTube - Tutoriels KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-youtube"></i>
+                    </a>
                     <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"
-                        title="Facebook - Communauté auteurs"><i class="fab fa-facebook-f"></i></a>
+                        title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
                     <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"
-                        title="Instagram - Inspirations couvertures"><i class="fab fa-instagram"></i></a>
+                        title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-instagram"></i>
+                    </a>
                     <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"
-                        title="Pinterest - Designs couvertures"><i class="fab fa-pinterest-p"></i></a>
+                        title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-pinterest-p"></i>
+                    </a>
                     <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"
-                        title="TikTok - Tips rapides KDP"><i class="fab fa-tiktok"></i></a>
+                        title="TikTok - Tips rapides KDP" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
                     <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"
-                        title="LinkedIn - Publishers & Agences"><i class="fab fa-linkedin-in"></i></a>
+                        title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
                 </div>
-                <p class="text-center text-sm text-gray-400 mt-4"
-                    data-fr="Conseils KDP • Tutoriels • Nouveautés • Communauté d'auteurs"
-                    data-en="KDP Tips • Tutorials • News • Authors Community">KDP Tips • Tutorials • News • Authors
-                    Community</p>
+
+                <p class="text-center text-sm text-gray-400 mt-4">
+                    KDP Tips • Tutorials • News • Authors Community
+                </p>
             </div>
+
             <div class="grid md:grid-cols-4 gap-8">
                 <div>
-                    <div class="flex items-center mb-4"><img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP"
-                            class="h-8 w-auto"><span class="ml-2 text-white font-bold">GabaritKDP</span></div>
-                    <p class="text-gray-400" data-fr="L'outil de mise aux dimensions KDP 100% conformes Amazon."
-                        data-en="The Amazon KDP sizing tool for 100% compliant covers.">The Amazon KDP sizing tool for
-                        100% compliant covers.</p>
+                    <div class="flex items-center mb-4">
+                        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+                        <span class="ml-2 text-white font-bold">GabaritKDP</span>
+                    </div>
+                    <p class="text-gray-400">The generator for 100% Amazon-compliant KDP covers.</p>
                 </div>
+
                 <div>
-                    <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Product</h4>
+                    <h4 class="text-white font-semibold mb-4">Product</h4>
                     <ul class="space-y-2">
-                        <li><a href="generator.html" class="hover:text-white transition" data-fr="Générateur"
-                                data-en="Generator">Generator</a></li>
-                        <li><a href="index.html#tarifs" class="hover:text-white transition" data-fr="Tarifs"
-                                data-en="Pricing">Pricing</a></li>
-                        <li><a href="fonctionnalites.html" class="hover:text-white transition text-orange-400"
-                                data-fr="Fonctionnalités" data-en="Features">Features</a></li>
+                                                <li><a href="dashboard.html" class="hover:text-white transition">Dashboard</a></li>
+<li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene">Express Generator</a></li>
+                        <li><a href="generator-magic.html" class="hover:text-white transition">Magic Generator</a></li>
+                        <li><a href="./marketplace.html" target="_blank" rel="noopener" class="hover:text-white transition">Marketplace</a></li>
+                        <li><a href="#tarifs" class="hover:text-white transition">Pricing</a></li>
+                        <li><a href="fonctionnalites.html" class="hover:text-white transition">Features</a></li>
                     </ul>
                 </div>
+
                 <div>
-                    <h4 class="text-white font-semibold mb-4" data-fr="Support" data-en="Support">Support</h4>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
                     <ul class="space-y-2">
+                        <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
                         <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
-                        <li><a href="contact.html" class="hover:text-white transition" data-fr="Contact"
-                                data-en="Contact">Contact</a></li>
-                        <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide d'utilisation"
-                                data-en="User Guide">User Guide</a></li>
+                        <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+                        <li><a href="guide.html" class="hover:text-white transition">User Guide</a></li>
+                        <li><a href="updates.html" class="hover:text-white transition">Updates / What’s New</a></li>
                     </ul>
                 </div>
+
                 <div>
-                    <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Legal</h4>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
                     <ul class="space-y-2">
-                        <li><a href="mentions-legales.html" class="hover:text-white transition"
-                                data-fr="Mentions légales" data-en="Legal Notice">Legal Notice</a></li>
-                        <li><a href="cgu.html" class="hover:text-white transition" data-fr="CGU"
-                                data-en="Terms of Service">Terms of Service</a></li>
-                        <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Confidentialité"
-                                data-en="Privacy">Privacy</a></li>
+                        <li><a href="mentions-legales.html" class="hover:text-white transition">Legal Notice</a></li>
+                        <li><a href="cgu.html" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="confidentialite.html" class="hover:text-white transition">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
+
             <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p>&copy; 2025 GabaritKDP. <span data-fr="Tous droits réservés." data-en="All rights reserved.">All
-                        rights reserved.</span></p>
+                <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // Vos autres fonctions
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('active');
+        // Language (backward compatible: 'language' OR 'preferredLanguage')
+        function getSavedLanguage() {
+            return localStorage.getItem('language') || localStorage.getItem('preferredLanguage') || 'en';
         }
-       // --- SCRIPT DE LA PAGE (MENU, LANGUE, ETC.) ---
-        let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
 
-        // Fonction pour changer la langue
         function switchLanguage(lang) {
-            if (!['en', 'fr'].includes(lang)) return;
-
-            currentLanguage = lang;
-            localStorage.setItem('preferredLanguage', lang);
-
-            // Mettre à jour le style des boutons
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.lang === lang) {
-                    btn.classList.add('active');
-                }
-            });
-
-            // Traduire tous les éléments qui ont des attributs data-fr et data-en
-            const elementsToTranslate = document.querySelectorAll('[data-en][data-fr]');
-            elementsToTranslate.forEach(el => {
-                const text = el.getAttribute(`data-${lang}`);
-                if (text) {
-                    // Cas spéciaux pour les balises qui n'ont pas de contenu visible
-                    if (el.tagName === 'META' && el.name === 'description') {
-                        el.setAttribute('content', text);
+            const elements = document.querySelectorAll('[data-fr], [data-en]');
+            elements.forEach(element => {
+                if (lang === 'fr' && element.dataset.fr) {
+                    // Meta description needs attribute update
+                    if (element.tagName === 'META' && element.getAttribute('name') === 'description') {
+                        element.setAttribute('content', element.getAttribute('data-fr'));
                     } else {
-                        // Pour toutes les autres balises (titre, p, h1, a, etc.)
-                        el.innerHTML = text;
+                        element.innerHTML = element.dataset.fr;
+                    }
+                } else if (lang === 'en' && element.dataset.en) {
+                    if (element.tagName === 'META' && element.getAttribute('name') === 'description') {
+                        element.setAttribute('content', element.getAttribute('data-en'));
+                    } else {
+                        element.innerHTML = element.dataset.en;
                     }
                 }
             });
+
+            // Update buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            const btn = document.querySelector(`[data-lang="${lang}"]`);
+            if (btn) btn.classList.add('active');
+
+            // Save both keys for cross-page consistency
+            localStorage.setItem('language', lang);
+            localStorage.setItem('preferredLanguage', lang);
+
+            // Update title + html lang
+            const titleElement = document.querySelector('title');
+            if (titleElement) {
+                titleElement.textContent = titleElement.getAttribute(lang === 'fr' ? 'data-fr' : 'data-en');
+            }
+            document.documentElement.lang = lang;
         }
 
+        document.addEventListener('DOMContentLoaded', function() {
+            switchLanguage(getSavedLanguage());
+        });
 
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const body = document.body;
 
-        // Appliquer la langue préférée au chargement de la page
-        document.addEventListener('DOMContentLoaded', function () {
-            switchLanguage(currentLanguage);
-        });        
+            if (!mobileMenu) return;
+
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                body.style.overflow = '';
+            } else {
+                mobileMenu.classList.add('active');
+                body.style.overflow = 'hidden';
+            }
+        }
     </script>
 </body>
-
 </html>
