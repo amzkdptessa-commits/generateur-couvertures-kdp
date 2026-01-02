@@ -816,7 +816,7 @@
 <ul class="space-y-2">
 <li><a class="hover:text-white transition" href="api-pro.html">API</a></li>
 <li><a class="hover:text-white transition" href="faq.html">FAQ</a></li>
-<li><a class="hover:text-white transition" href="contact.html">Contact</a></li>
+<li><a class="hover:text-white transition" href="contact.htm">Contact</a></li>
 <li><a class="hover:text-white transition" href="guide.html">User Guide</a></li>
 <li><a class="hover:text-white transition" href="updates.html">Updates / What’s New</a></li>
 </ul>
@@ -837,6 +837,19 @@
 </footer>
 <script>
 (function(){
+
+  // Language context used for labels in the mailto payload.
+  // Prefer the persisted switch (localStorage) when present, otherwise fall back to the HTML lang attribute.
+  const currentLang = (() => {
+    try {
+      const stored = localStorage.getItem('language');
+      const raw = (stored || document.documentElement.lang || '').toLowerCase();
+      return raw.startsWith('fr') ? 'fr' : 'en';
+    } catch (e) {
+      const raw = (document.documentElement.lang || '').toLowerCase();
+      return raw.startsWith('fr') ? 'fr' : 'en';
+    }
+  })();
 
   // Contact form: static site submission via mailto (avoids POST 404 on static hosting)
   const contactForm = document.getElementById('contact-form');
@@ -867,7 +880,7 @@
         message,
         '',
         '—',
-        'Sent from https://gabaritkdp.com/contact.html'
+        'Sent from https://gabaritkdp.com/contact.htm'
       ];
 
       const mailto = `mailto:support@gabaritkdp.com?subject=${encodeURIComponent('[GabaritKDP] ' + subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
@@ -918,11 +931,14 @@
 <script>
   // -------- Language switch (shared behavior across pages) --------
   function getStoredLanguage() {
-    return localStorage.getItem('gkdp_lang') || 'en';
+    const stored = localStorage.getItem('language');
+    if (stored === 'fr' || stored === 'en') return stored;
+    const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
+    return nav.startsWith('fr') ? 'fr' : 'en';
   }
 
   function setStoredLanguage(lang) {
-    localStorage.setItem('gkdp_lang', lang);
+    localStorage.setItem('language', lang);
   }
 
   function updateLanguageButtons(activeLang) {
