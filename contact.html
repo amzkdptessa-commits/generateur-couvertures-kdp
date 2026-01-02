@@ -725,7 +725,7 @@
 <!-- Formulaire de contact -->
 <div class="form-container">
 <h3 class="text-xl font-bold text-gray-900 mb-6 text-center" data-en="Or send us a message directly" data-fr="Ou envoyez-nous un message directement">Ou envoyez-nous un message directement</h3>
-<form action="/contact.html?sent=1" class="form-grid" data-netlify="true" id="contact-form" method="POST" name="contact" netlify-honeypot="bot-field"><input name="form-name" type="hidden" value="contact"/><div style="display:none;"><input name="bot-field"/></div>
+<form action="#" class="form-grid" id="contact-form" novalidate>
 <div class="form-group">
 <label class="form-label" data-en="First Name *" data-fr="Prénom *">Prénom *</label>
 <input class="form-input" name="firstName" required="" type="text"/>
@@ -837,6 +837,50 @@
 </footer>
 <script>
 (function(){
+
+  // Contact form: static site submission via mailto (avoids POST 404 on static hosting)
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm) {
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const firstName = (document.getElementById('firstName')?.value || '').trim();
+      const lastName  = (document.getElementById('lastName')?.value || '').trim();
+      const email     = (document.getElementById('email')?.value || '').trim();
+      const subject   = (document.getElementById('subject')?.value || 'Support').trim();
+      const message   = (document.getElementById('message')?.value || '').trim();
+
+      // Basic client-side validation
+      if (!email || !message) {
+        alert(currentLang === 'fr'
+          ? 'Merci de renseigner au minimum votre e-mail et votre message.'
+          : 'Please provide at least your email and your message.');
+        return;
+      }
+
+      const fullName = `${firstName} ${lastName}`.trim();
+      const bodyLines = [
+        `Name: ${fullName || '-'}`,
+        `Email: ${email}`,
+        `Subject: ${subject}`,
+        '',
+        message,
+        '',
+        '—',
+        'Sent from https://gabaritkdp.com/contact.html'
+      ];
+
+      const mailto = `mailto:support@gabaritkdp.com?subject=${encodeURIComponent('[GabaritKDP] ' + subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+
+      // Best-effort UX: show confirmation then open the email client
+      alert(currentLang === 'fr'
+        ? "Votre logiciel e-mail va s'ouvrir pour envoyer votre message à support@gabaritkdp.com."
+        : 'Your email app will open to send your message to support@gabaritkdp.com.');
+
+      window.location.href = mailto;
+    });
+  }
+
   // Show a lightweight success message if redirected with ?sent=1
   try {
     var params = new URLSearchParams(window.location.search);
