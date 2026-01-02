@@ -78,7 +78,6 @@
             justify-content: space-between;
             padding: 0 20px;
             flex-wrap: wrap;
-            gap: 20px;
         }
 
         .logo-nav {
@@ -94,22 +93,26 @@
         .logo-nav span { font-size: 1.3rem; font-weight: 700; color: #FF9900; }
 
         .nav-links {
+            width: 100%;
             display: flex;
-            gap: 25px;
+            justify-content: center;
             align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
         }
 
         .nav-links a {
-            color: #fff;
+            color: white;
             text-decoration: none;
             font-weight: 500;
-            transition: .3s;
+            transition: all 0.3s ease;
             padding: 10px 14px;
             border-radius: 8px;
             position: relative;
             display: flex;
             align-items: center;
             gap: 6px;
+            font-size: 0.95rem;
         }
 
         .nav-links a:hover {
