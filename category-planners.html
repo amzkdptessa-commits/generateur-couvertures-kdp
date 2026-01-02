@@ -1,61 +1,438 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Planners ZIPs — GabaritKDP</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body { background:#f6f7fb; }
-    .topbar { background: linear-gradient(180deg,#1f2a3a 0%, #243246 100%); }
+    body {
+      background: #f6f7fb;
+    }
+
+  .language-selector {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+    padding: 3px
+  }
+
+  .lang-btn {
+    padding: 6px 10px;
+    border: none;
+    background: transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: .3s;
+    font-weight: 500;
+    font-size: .8rem
+  }
+
+  .lang-btn.active {
+    background: #FF9900;
+    color: #fff
+  }
+
+  .header-nav {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    padding: 15px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+    position: sticky;
+    top: 0;
+    z-index: 999
+  }
+
+  .nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    gap: 0
+  }
+
+  .logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: #fff;
+    flex-shrink: 0
+  }
+
+  .logo-nav img {
+    height: 40px;
+    width: auto
+  }
+
+  .logo-nav span {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #FF9900
+  }
+
+  .nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap
+  }
+
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: .3s;
+    padding: 10px 14px;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .95rem
+  }
+
+  .nav-links a:hover {
+    color: #FF9900;
+    background: rgba(255, 153, 0, .1)
+  }
+
+  .nav-links a.active {
+    color: #FF9900;
+    background: rgba(255, 153, 0, .15)
+  }
+
+  .express-nav-btn {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    position: relative !important;
+    transition: .3s !important
+  }
+
+  .express-nav-btn:hover {
+    background: linear-gradient(135deg, #0d9488, #047857) !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, .4) !important
+  }
+
+  .f-exp-gene {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    padding: 8px 10px;
+    border-radius: 5px
+  }
+
+  .f-exp-gene:hover {
+    background: linear-gradient(135deg, #0d9488, #047857) !important;
+    color: #fff
+  }
+
+  .express-nav-btn::before,
+  .f-exp-gene::before {
+    content: "⚡";
+    margin-right: 4px
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .95);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    padding: 80px 20px 20px;
+    overflow-y: auto
+  }
+
+  .mobile-menu.active {
+    display: block;
+    animation: slideIn .3s ease
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px)
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0)
+    }
+  }
+
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto
+  }
+
+  .mobile-menu-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, .2);
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem
+  }
+
+  .mobile-menu-links a:hover {
+    background: rgba(255, 255, 255, .2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .3)
+  }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: .3s
+  }
+
+  .mobile-menu-close:hover {
+    background: rgba(255, 255, 255, .1);
+    transform: rotate(90deg)
+  }
+
+  .social-section {
+    background: rgba(255, 255, 255, .05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 1rem;
+    flex-wrap: wrap
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: .3s;
+    position: relative;
+    overflow: hidden
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .3)
+  }
+
+  .social-link.youtube {
+    background: linear-gradient(135deg, #FF0000, #CC0000)
+  }
+
+  .social-link.facebook {
+    background: linear-gradient(135deg, #1877F2, #0866D3)
+  }
+
+  .social-link.instagram {
+    background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2)
+  }
+
+  .social-link.pinterest {
+    background: linear-gradient(135deg, #BD081C, #E60023)
+  }
+
+  .social-link.tiktok {
+    background: linear-gradient(135deg, #000, #FF0050, #00F2EA)
+  }
+
+  .social-link.linkedin {
+    background: linear-gradient(135deg, #0A66C2, #004182)
+  }
+
+  @media (min-width:769px) {
+    .mobile-menu-toggle {
+      display: none
+    }
+  }
+
+  @media (max-width:480px) {
+    .logo-nav span {
+      display: none
+    }
+    .language-selector {
+      right: 60px;
+      padding: 0 2px 2px 2px;
+      top: 27px
+    }
+
+    .lang-btn {
+      padding: 4px 8px;
+      font-size: .7rem
+    }
+  }
+
+  @media (max-width:768px) {
+    .language-selector {
+      top: 22.5px;
+      right: 60px
+    }
+
+    .nav-links {
+      display: none
+    }
+
+    .social-links {
+      gap: 10px
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem
+    }
+
+    .mobile-menu-toggle {
+      display: block;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 4px;
+      margin-left: auto
+    }
+
+    .mobile-menu-toggle:hover {
+      background: rgba(255, 255, 255, .1)
+    }
+  }
+  @media(max-width:1000px) {
+    .nav-links {
+      gap: 15px;
+    }
+  }
+  @media(max-width:500px) {
+    .res_top_result {
+       flex-wrap: wrap;
+       margin-top: 12px;
+    }
+    .res_top_result a {
+      width: 100%;
+      justify-content: center;
+    }
+  }
   </style>
 </head>
+
 <body class="min-h-screen flex flex-col">
-  <header class="topbar text-white">
-    <div class="max-w-6xl mx-auto px-5 py-4 flex items-center justify-between gap-4">
-      <a href="/index.html" class="flex items-center gap-3">
-        <img src="https://gabaritkdp.b-cdn.net/UI/logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-10 w-10 rounded"/>
-        <span class="text-xl font-semibold">GabaritKDP</span>
+  <!-- Navigation Header -->
+
+  <header class="header-nav notranslate">
+    <div class="nav-container">
+      <a href="./index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
       </a>
 
-      <nav class="hidden md:flex items-center gap-6 text-sm">
-        <a class="hover:opacity-90" href="/index.html" data-i18n="nav_home">Home</a>
-        <a class="hover:opacity-90" href="/generator.html" data-i18n="nav_generator">Generator</a>
-        <a class="hover:opacity-90" href="/marketplace.html" data-i18n="nav_marketplace">Marketplace</a>
-        <a class="hover:opacity-90" href="/pricing.html" data-i18n="nav_pricing">Pricing</a>
-      </nav>
+      <!-- Menu Hamburger - Mobile -->
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
 
-      <div class="flex items-center gap-2">
-        <div class="bg-white/10 rounded-full p-1 flex items-center">
-          <button id="btnFR" class="px-3 py-1 rounded-full text-xs font-semibold hover:bg-white/10" type="button">FR</button>
-          <button id="btnEN" class="px-3 py-1 rounded-full text-xs font-semibold hover:bg-white/10" type="button">EN</button>
-        </div>
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="lang-btn" type="button" data-lang="fr" id="btnFR">🇫🇷</button>
+        <button class="lang-btn active" type="button" data-lang="en" id="btnEN">🇺🇸</button>
       </div>
+
+      <!-- Navigation Desktop -->
+      <nav class="nav-links">
+        <a href="./index.html" data-i18n="nav_link_one">🏠 Home</a>
+        <a href="./dashboard.html" data-i18n="nav_link_two">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn" data-i18n="nav_link_three">⚡ Express Generator</a>
+        <a href="./generator-magic.html" data-i18n="nav_link_four">Magic Generator</a>
+        <a href="./marketplace.html" data-i18n="nav_link_five">Marketplace</a>
+        <a href="./inscription.html" data-i18n="nav_link_six">📝 Sign Up</a>
+        <a href="./connexion.html" data-i18n="nav_link_seven">🔓 Login</a>
+      </nav>
     </div>
   </header>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+    <div class="mobile-menu-links">
+      <a href="./index.html" data-i18n="nav_link_one">🏠 Home</a>
+      <a href="./dashboard.html" data-i18n="nav_link_two">📊 Dashboard</a>
+      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;" data-i18n="nav_link_three">⚡ Express Generator</a>
+      <a href="./generator-magic.html" data-i18n="nav_link_four">Magic Generator</a>
+      <a href="./marketplace.html" data-i18n="nav_link_five">Marketplace</a>
+      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-i18n="nav_link_six">📝 Sign Up</a>
+      <a href="./connexion.html" data-i18n="nav_link_seven">🔓 Login</a>
+    </div>
+  </div>
+
 
   <main class="flex-1">
     <section class="max-w-6xl mx-auto px-5 py-10">
       <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 class="text-3xl font-extrabold tracking-tight" data-i18n="title">PLANNERS — ZIP Downloads</h1>
-          <p class="text-slate-600 mt-1" data-i18n="subtitle">Search and download planner bundles (ZIP) hosted on Bunny CDN.</p>
+          <p class="text-slate-600 mt-1" data-i18n="subtitle">Search and download planner bundles (ZIP) hosted on Bunny
+            CDN.</p>
         </div>
 
         <div class="flex gap-2 w-full md:w-[520px]">
-          <input id="search" class="flex-1 border border-slate-200 rounded-xl px-4 py-3 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
-                 placeholder="Search by keyword (e.g., budget, academic…)" />
-          <button id="clearBtn" class="border border-slate-200 rounded-xl px-4 py-3 bg-white hover:bg-slate-50" data-i18n="clear">Clear</button>
+          <input id="search"
+            class="flex-1 border border-slate-200 rounded-xl px-4 py-3 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-slate-300"
+            placeholder="Search by keyword (e.g., budget, academic…)" />
+          <button id="clearBtn" class="border border-slate-200 rounded-xl px-4 py-3 bg-white hover:bg-slate-50"
+            data-i18n="clear">Clear</button>
         </div>
       </div>
 
-      <div class="mt-6 flex items-center justify-between text-sm text-slate-600">
+      <div class="mt-6 flex items-center justify-between flex-wrap text-sm text-slate-600">
         <div><span data-i18n="count_label">Results</span>: <span id="count">0</span></div>
-        <div class="flex gap-2">
-          <a class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 text-white hover:opacity-95" href="/marketplace.html">
+        <div class="flex res_top_result gap-2">
+          <a class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-slate-900 text-white hover:opacity-95"
+            href="/marketplace.html">
             ← <span data-i18n="back_market">Back to Marketplace</span>
           </a>
-          <a class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-500 text-white hover:opacity-95" href="/generator.html">
+          <a class="inline-flex items-center gap-2 px-3 py-2 rounded-lg bg-orange-500 text-white hover:opacity-95"
+            href="/generator.html">
             ✨ <span data-i18n="create_cover">Create my cover</span>
           </a>
         </div>
@@ -64,140 +441,224 @@
       <div id="grid" class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
 
       <div class="mt-10 text-xs text-slate-500" data-i18n="note">
-        Note: If a download returns 404 right after an upload, purge the Bunny cache (Pull Zone) or wait a few minutes for propagation.
+        Note: If a download returns 404 right after an upload, purge the Bunny cache (Pull Zone) or wait a few minutes
+        for propagation.
       </div>
     </section>
   </main>
 
-  <footer class="bg-white border-t border-slate-200">
-    <div class="max-w-6xl mx-auto px-5 py-10 grid grid-cols-1 md:grid-cols-4 gap-8">
-      <div class="md:col-span-2">
-        <div class="flex items-center gap-3">
-          <img src="https://gabaritkdp.b-cdn.net/UI/logo-gabarit-kdp-site-web.png" class="h-10 w-10 rounded" alt="GabaritKDP"/>
-          <div>
-            <div class="font-semibold">GabaritKDP</div>
-            <div class="text-sm text-slate-600" data-i18n="footer_tagline">The 100% Amazon-compliant KDP cover generator.</div>
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section">
+        <h4 class="text-white font-semibold mb-4 text-center"
+          data-fr="🚀 Suivez-nous pour les dernières actualités KDP !" data-en="🚀 Follow us for the latest KDP news!">
+          🚀 Suivez-nous pour les dernières actualités KDP !</h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" title="YouTube - Tutoriels KDP"
+            target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"
+            title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer"><i
+              class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"
+            title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer"><i
+              class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"
+            title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer"><i
+              class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" title="TikTok - Tips rapides KDP"
+            target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"
+            title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer"><i
+              class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="text-center text-sm text-gray-400 mt-4"
+          data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs"
+          data-en="KDP Tips • Tutorials • News • Authors Community">Astuces KDP • Tutoriels • Actualités • Communauté
+          d'auteurs</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
           </div>
+          <p class="text-gray-400" data-fr="Le générateur de couvertures KDP 100% conformes Amazon."
+            data-en="The 100% Amazon-compliant KDP cover generator.">The 100% Amazon-compliant KDP cover generator.</p>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+          <ul class="space-y-2">
+            <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene"
+                data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a></li>
+            <li><a href="generator-magic.html" class="hover:text-white transition" data-fr="Générateur Magique"
+                data-en="Magic Generator">Générateur Magique</a></li>
+            <li><a href="./marketplace.html" class="hover:text-white transition">Marketplace</a></li>
+            <li><a href="#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+            <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités"
+                data-en="Features">Fonctionnalités</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+            <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+            <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide utilisateur"
+                data-en="User Guide">Guide utilisateur</a></li>
+            <li><a href="updates.html" class="hover:text-white transition" data-fr="Mises à jour / Nouveautés"
+                data-en="Updates / What's New">Mises à jour / Nouveautés</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+          <ul class="space-y-2">
+            <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales"
+                data-en="Legal Notice">Légal Notice</a></li>
+            <li><a href="cgu.html" class="hover:text-white transition" data-fr="Conditions d'utilisation"
+                data-en="Terms of Use">Conditions d'utilisation</a></li>
+            <li><a href="confidentialite.html" class="hover:text-white transition"
+                data-fr="Politique de confidentialité" data-en="Privacy Policy">Privacy Policy</a></li>
+          </ul>
         </div>
       </div>
-      <div>
-        <div class="font-semibold mb-3" data-i18n="footer_product">Product</div>
-        <ul class="space-y-2 text-sm">
-          <li><a class="text-slate-600 hover:text-slate-900" href="/generator.html" data-i18n="nav_generator">Generator</a></li>
-          <li><a class="text-slate-600 hover:text-slate-900" href="/marketplace.html" data-i18n="nav_marketplace">Marketplace</a></li>
-          <li><a class="text-slate-600 hover:text-slate-900" href="/pricing.html" data-i18n="nav_pricing">Pricing</a></li>
-        </ul>
+
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p data-fr="&copy; 2025 GabaritKDP. Tous droits réservés."
+          data-en="&copy; 2025 GabaritKDP. All rights reserved.">&copy; 2025 GabaritKDP. All rights reserved.</p>
       </div>
-      <div>
-        <div class="font-semibold mb-3" data-i18n="footer_support">Support</div>
-        <ul class="space-y-2 text-sm">
-          <li><a class="text-slate-600 hover:text-slate-900" href="/guide.html" data-i18n="footer_guide">Guide</a></li>
-          <li><a class="text-slate-600 hover:text-slate-900" href="/contact.html" data-i18n="footer_contact">Contact</a></li>
-          <li><a class="text-slate-600 hover:text-slate-900" href="/faq.html" data-i18n="footer_faq">FAQ</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="border-t border-slate-200">
-      <div class="max-w-6xl mx-auto px-5 py-4 text-sm text-slate-500">© 2025 GabaritKDP. <span data-i18n="rights">All rights reserved.</span></div>
     </div>
   </footer>
 
-<script>
-  // === CONFIG ===
-  const BASE_URL = "https://gabaritkdp.b-cdn.net/PLANNERS%202026/"; // change if needed
-  const ZIPS = [{"title": "2026 KDP INTERIOR MEGA", "file": "2026-KDP-INTERIOR-MEGA-127377691.zip", "size": "2.63 GB", "keywords": "mega pack, interiors, 2026"}, {"title": "Academic Planners", "file": "Academic Planners.zip", "size": "11.51 MB", "keywords": "academic school semester college"}, {"title": "Budget Planners", "file": "Budget Planners.zip", "size": "6.99 MB", "keywords": "budget finance money tracker"}, {"title": "Business Planners", "file": "Business Planners.zip", "size": "20.81 MB", "keywords": "business entrepreneur marketing planning"}, {"title": "Marketing Planners", "file": "Marketing Planners.zip", "size": "22.28 MB", "keywords": "marketing social media content plan"}, {"title": "Online Shop Planners", "file": "Online Shop Planners.zip", "size": "7.83 MB", "keywords": "ecommerce shop etsy"}, {"title": "Personal Planners", "file": "Personal Planners.zip", "size": "12.56 MB", "keywords": "personal life goals"}, {"title": "Productivity Planners", "file": "Productivity Planners.zip", "size": "34.1 MB", "keywords": "productivity habit tracker"}, {"title": "Spiritual Planners", "file": "Spiritual Planners.zip", "size": "11.1 MB", "keywords": "spiritual faith christian prayer"}, {"title": "Wellness Planners", "file": "Wellness Planners.zip", "size": "25.59 MB", "keywords": "wellness health fitness"}, {"title": "Emotion & Therapy Planners", "file": "Emotion & Therapy Planners.zip", "size": "9.73 MB", "keywords": "emotion therapy mental health"}, {"title": "Event Planners", "file": "Event Planners.zip", "size": "2.33 MB", "keywords": "event wedding party"}, {"title": "Female Planners", "file": "Female Planners.zip", "size": "7.46 MB", "keywords": "female women"}, {"title": "Brain Dump Idea Journal", "file": "Brain-Dump-Idea-Journal-121538262.zip", "size": "8.31 MB", "keywords": "brain dump ideas journal"}, {"title": "Bucket List Journal", "file": "Bucket List Journal.zip", "size": "46.12 MB", "keywords": "bucket list goals travel"}, {"title": "Couples Journal", "file": "Couples-Journal-KDP-Interiors-129433891.zip", "size": "12.18 MB", "keywords": "couples relationship"}, {"title": "100 Editable Templates KDP 2026 Graphics", "file": "100-Editable-Templates-KDP-2026-Graphics-109253720.zip", "size": "70.23 kB", "keywords": "graphics templates"}, {"title": "145 Mega KDP Planners Bundle", "file": "145-Mega-KDP-Planners-Bundle-137476701.zip", "size": "1.89 kB", "keywords": "bundle mega"}];
-
-  const i18n = {
-    en: {
-      nav_home: "Home",
-      nav_generator: "Generator",
-      nav_marketplace: "Marketplace",
-      nav_pricing: "Pricing",
-      title: "PLANNERS — ZIP Downloads",
-      subtitle: "Search and download planner bundles (ZIP) hosted on Bunny CDN.",
-      clear: "Clear",
-      count_label: "Results",
-      back_market: "Back to Marketplace",
-      create_cover: "Create my cover",
-      note: "Note: If a download returns 404 right after an upload, purge the Bunny cache (Pull Zone) or wait a few minutes for propagation.",
-      footer_tagline: "The 100% Amazon-compliant KDP cover generator.",
-      footer_product: "Product",
-      footer_support: "Support",
-      footer_guide: "Guide",
-      footer_contact: "Contact",
-      footer_faq: "FAQ",
-      rights: "All rights reserved.",
-      btn_download: "Download ZIP",
-      btn_copy: "Copy link",
-      copied: "Copied ✓",
-      search_ph: "Search by keyword (e.g., budget, academic…)"
-    },
-    fr: {
-      nav_home: "Accueil",
-      nav_generator: "Générateur",
-      nav_marketplace: "Marketplace",
-      nav_pricing: "Tarifs",
-      title: "PLANNERS — Téléchargements ZIP",
-      subtitle: "Recherche et téléchargement de bundles planners (ZIP) hébergés sur Bunny CDN.",
-      clear: "Effacer",
-      count_label: "Résultats",
-      back_market: "Retour Marketplace",
-      create_cover: "Créer ma couverture",
-      note: "Note : si un téléchargement renvoie 404 juste après un upload, purge le cache Bunny (Pull Zone) ou attends quelques minutes (propagation).",
-      footer_tagline: "Le générateur de couvertures KDP 100% conforme Amazon.",
-      footer_product: "Produit",
-      footer_support: "Support",
-      footer_guide: "Guide",
-      footer_contact: "Contact",
-      footer_faq: "FAQ",
-      rights: "Tous droits réservés.",
-      btn_download: "Télécharger ZIP",
-      btn_copy: "Copier le lien",
-      copied: "Copié ✓",
-      search_ph: "Rechercher par mots-clés (ex : budget, scolaire…)"
+  <script>
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const body = document.body;
+      if (mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        body.style.overflow = '';
+      } else {
+        mobileMenu.classList.add('active');
+        body.style.overflow = 'hidden';
+      }
     }
-  };
 
-  const elGrid = document.getElementById("grid");
-  const elCount = document.getElementById("count");
-  const elSearch = document.getElementById("search");
-  const elClear = document.getElementById("clearBtn");
-  const btnFR = document.getElementById("btnFR");
-  const btnEN = document.getElementById("btnEN");
+    // === CONFIG ===
+    const BASE_URL = "https://gabaritkdp.b-cdn.net/PLANNERS%202026/"; // change if needed
+    const ZIPS = [{ "title": "2026 KDP INTERIOR MEGA", "file": "2026-KDP-INTERIOR-MEGA-127377691.zip", "size": "2.63 GB", "keywords": "mega pack, interiors, 2026" }, { "title": "Academic Planners", "file": "Academic Planners.zip", "size": "11.51 MB", "keywords": "academic school semester college" }, { "title": "Budget Planners", "file": "Budget Planners.zip", "size": "6.99 MB", "keywords": "budget finance money tracker" }, { "title": "Business Planners", "file": "Business Planners.zip", "size": "20.81 MB", "keywords": "business entrepreneur marketing planning" }, { "title": "Marketing Planners", "file": "Marketing Planners.zip", "size": "22.28 MB", "keywords": "marketing social media content plan" }, { "title": "Online Shop Planners", "file": "Online Shop Planners.zip", "size": "7.83 MB", "keywords": "ecommerce shop etsy" }, { "title": "Personal Planners", "file": "Personal Planners.zip", "size": "12.56 MB", "keywords": "personal life goals" }, { "title": "Productivity Planners", "file": "Productivity Planners.zip", "size": "34.1 MB", "keywords": "productivity habit tracker" }, { "title": "Spiritual Planners", "file": "Spiritual Planners.zip", "size": "11.1 MB", "keywords": "spiritual faith christian prayer" }, { "title": "Wellness Planners", "file": "Wellness Planners.zip", "size": "25.59 MB", "keywords": "wellness health fitness" }, { "title": "Emotion & Therapy Planners", "file": "Emotion & Therapy Planners.zip", "size": "9.73 MB", "keywords": "emotion therapy mental health" }, { "title": "Event Planners", "file": "Event Planners.zip", "size": "2.33 MB", "keywords": "event wedding party" }, { "title": "Female Planners", "file": "Female Planners.zip", "size": "7.46 MB", "keywords": "female women" }, { "title": "Brain Dump Idea Journal", "file": "Brain-Dump-Idea-Journal-121538262.zip", "size": "8.31 MB", "keywords": "brain dump ideas journal" }, { "title": "Bucket List Journal", "file": "Bucket List Journal.zip", "size": "46.12 MB", "keywords": "bucket list goals travel" }, { "title": "Couples Journal", "file": "Couples-Journal-KDP-Interiors-129433891.zip", "size": "12.18 MB", "keywords": "couples relationship" }, { "title": "100 Editable Templates KDP 2026 Graphics", "file": "100-Editable-Templates-KDP-2026-Graphics-109253720.zip", "size": "70.23 kB", "keywords": "graphics templates" }, { "title": "145 Mega KDP Planners Bundle", "file": "145-Mega-KDP-Planners-Bundle-137476701.zip", "size": "1.89 kB", "keywords": "bundle mega" }];
 
-  function norm(str) {
-    return (str || "").toString().toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu,"");
-  }
+    const i18n = {
+      en: {
+        nav_link_one: "🏠 Home",
+        nav_link_two: "📊 Dashboard",
+        nav_link_three: "Express Generator",
+        nav_link_four: "Magic Generator",
+        nav_link_five: "Marketplace",
+        nav_link_six: "📝 Sign Up",
+        nav_link_seven: "🔓 Login",
+        title: "PLANNERS — ZIP Downloads",
+        subtitle: "Search and download planner bundles (ZIP) hosted on Bunny CDN.",
+        clear: "Clear",
+        count_label: "Results",
+        back_market: "Back to Marketplace",
+        create_cover: "Create my cover",
+        note: "Note: If a download returns 404 right after an upload, purge the Bunny cache (Pull Zone) or wait a few minutes for propagation.",
+        footer_tagline: "The 100% Amazon-compliant KDP cover generator.",
+        footer_product: "Product",
+        footer_support: "Support",
+        footer_guide: "Guide",
+        footer_contact: "Contact",
+        footer_faq: "FAQ",
+        rights: "All rights reserved.",
+        btn_download: "Download ZIP",
+        btn_copy: "Copy link",
+        copied: "Copied ✓",
+        search_ph: "Search by keyword (e.g., budget, academic…)"
+      },
+      fr: {
+        nav_link_one: "🏠 Accueil",
+        nav_link_two: "📊 tableau de bord",
+        nav_link_three: "Générateur Express",
+        nav_link_four: "Générateur Magique",
+        nav_link_five: "marché",
+        nav_link_six: "📝 Inscription",
+        nav_link_seven: "🔓 Connexion",
+        title: "PLANNERS — Téléchargements ZIP",
+        subtitle: "Recherche et téléchargement de bundles planners (ZIP) hébergés sur Bunny CDN.",
+        clear: "Effacer",
+        count_label: "Résultats",
+        back_market: "Retour Marketplace",
+        create_cover: "Créer ma couverture",
+        note: "Note : si un téléchargement renvoie 404 juste après un upload, purge le cache Bunny (Pull Zone) ou attends quelques minutes (propagation).",
+        footer_tagline: "Le générateur de couvertures KDP 100% conforme Amazon.",
+        footer_product: "Produit",
+        footer_support: "Support",
+        footer_guide: "Guide",
+        footer_contact: "Contact",
+        footer_faq: "FAQ",
+        rights: "Tous droits réservés.",
+        btn_download: "Télécharger ZIP",
+        btn_copy: "Copier le lien",
+        copied: "Copié ✓",
+        search_ph: "Rechercher par mots-clés (ex : budget, scolaire…)"
+      }
+    };
 
-  function setLang(lang) {
-    const dict = i18n[lang] || i18n.en;
-    document.documentElement.lang = lang;
-    localStorage.setItem("gkdp_lang", lang);
+    const elGrid = document.getElementById("grid");
+    const elCount = document.getElementById("count");
+    const elSearch = document.getElementById("search");
+    const elClear = document.getElementById("clearBtn");
+    const btnFR = document.getElementById("btnFR");
+    const btnEN = document.getElementById("btnEN");
 
-    btnFR.classList.toggle("bg-white/20", lang === "fr");
-    btnEN.classList.toggle("bg-white/20", lang === "en");
+    function norm(str) {
+      return (str || "").toString().toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "");
+    }
 
-    document.querySelectorAll("[data-i18n]").forEach(node => {
-      const key = node.getAttribute("data-i18n");
-      if (dict[key]) node.textContent = dict[key];
+    btnFR.addEventListener('click', () => {
+       btnFR.classList.toggle('active');
+       btnEN.classList.toggle('active');
     });
 
-    elSearch.placeholder = dict.search_ph;
-    applyFilter();
-  }
+    btnEN.addEventListener('click', () => {
+       btnFR.classList.toggle('active');
+       btnEN.classList.toggle('active');
+    });
 
-  function zipUrl(file) {
-    const encoded = encodeURIComponent(file).replace(/%2F/g,"/");
-    return BASE_URL + encoded;
-  }
+    function setLang(lang) {
+      const dict = i18n[lang] || i18n.en;
+      document.documentElement.lang = lang;
+      localStorage.setItem("gkdp_lang", lang);
 
-  function card(zip, lang) {
-    const dict = i18n[lang] || i18n.en;
-    const url = zipUrl(zip.file);
+      btnFR.classList.toggle("bg-white/20", lang === "fr");
+      btnEN.classList.toggle("bg-white/20", lang === "en");
 
-    const wrap = document.createElement("div");
-    wrap.className = "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden";
-    wrap.innerHTML = `
+      document.querySelectorAll("[data-i18n]").forEach(node => {
+        const key = node.getAttribute("data-i18n");
+        if (dict[key]) node.textContent = dict[key];
+      });
+
+      elSearch.placeholder = dict.search_ph;
+      applyFilter();
+    }
+
+    function zipUrl(file) {
+      const encoded = encodeURIComponent(file).replace(/%2F/g, "/");
+      return BASE_URL + encoded;
+    }
+
+    function card(zip, lang) {
+      const dict = i18n[lang] || i18n.en;
+      const url = zipUrl(zip.file);
+
+      const wrap = document.createElement("div");
+      wrap.className = "bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden";
+      wrap.innerHTML = `
       <div class="p-5">
         <div class="flex items-start justify-between gap-3">
           <div>
@@ -219,47 +680,48 @@
         <div class="mt-3 text-xs text-slate-500">${zip.keywords || ""}</div>
       </div>
     `;
-    const btn = wrap.querySelector("button[data-copy]");
-    btn.addEventListener("click", async () => {
-      const old = btn.textContent;
-      try {
-        await navigator.clipboard.writeText(btn.getAttribute("data-copy"));
-        btn.textContent = dict.copied;
-        setTimeout(() => btn.textContent = old, 900);
-      } catch (e) {
-        window.prompt(lang === "fr" ? "Copie ce lien :" : "Copy this link:", btn.getAttribute("data-copy"));
-      }
+      const btn = wrap.querySelector("button[data-copy]");
+      btn.addEventListener("click", async () => {
+        const old = btn.textContent;
+        try {
+          await navigator.clipboard.writeText(btn.getAttribute("data-copy"));
+          btn.textContent = dict.copied;
+          setTimeout(() => btn.textContent = old, 900);
+        } catch (e) {
+          window.prompt(lang === "fr" ? "Copie ce lien :" : "Copy this link:", btn.getAttribute("data-copy"));
+        }
+      });
+      return wrap;
+    }
+
+    function render(list) {
+      const lang = localStorage.getItem("gkdp_lang") || "en";
+      elGrid.innerHTML = "";
+      list.forEach(z => elGrid.appendChild(card(z, lang)));
+      elCount.textContent = String(list.length);
+    }
+
+    function applyFilter() {
+      const q = norm(elSearch.value).trim();
+      if (!q) return render(ZIPS);
+      const filtered = ZIPS.filter(z => {
+        const hay = norm(z.title) + " " + norm(z.file) + " " + norm(z.keywords);
+        return hay.includes(q);
+      });
+      render(filtered);
+    }
+
+    elSearch.addEventListener("input", applyFilter);
+    elClear.addEventListener("click", () => {
+      elSearch.value = "";
+      elSearch.focus();
+      applyFilter();
     });
-    return wrap;
-  }
+    btnFR.addEventListener("click", () => setLang("fr"));
+    btnEN.addEventListener("click", () => setLang("en"));
 
-  function render(list) {
-    const lang = localStorage.getItem("gkdp_lang") || "en";
-    elGrid.innerHTML = "";
-    list.forEach(z => elGrid.appendChild(card(z, lang)));
-    elCount.textContent = String(list.length);
-  }
-
-  function applyFilter() {
-    const q = norm(elSearch.value).trim();
-    if (!q) return render(ZIPS);
-    const filtered = ZIPS.filter(z => {
-      const hay = norm(z.title) + " " + norm(z.file) + " " + norm(z.keywords);
-      return hay.includes(q);
-    });
-    render(filtered);
-  }
-
-  elSearch.addEventListener("input", applyFilter);
-  elClear.addEventListener("click", () => {
-    elSearch.value = "";
-    elSearch.focus();
-    applyFilter();
-  });
-  btnFR.addEventListener("click", () => setLang("fr"));
-  btnEN.addEventListener("click", () => setLang("en"));
-
-  setLang(localStorage.getItem("gkdp_lang") || "en");
-</script>
+    setLang(localStorage.getItem("gkdp_lang") || "en");
+  </script>
 </body>
+
 </html>
