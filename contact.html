@@ -725,7 +725,11 @@
 <!-- Formulaire de contact -->
 <div class="form-container">
 <h3 class="text-xl font-bold text-gray-900 mb-6 text-center" data-en="Or send us a message directly" data-fr="Ou envoyez-nous un message directement">Ou envoyez-nous un message directement</h3>
-<form action="#" class="form-grid" id="contact-form" novalidate>
+<div id="form-status" class="hidden" style="margin: 14px 0; padding: 12px 14px; border-radius: 12px; border: 1px solid rgba(0,0,0,.08); background: rgba(255,255,255,.8); font-weight: 600;"></div>
+<form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field" action="/contact.htm?sent=1" id="contact-form" class="form-grid" novalidate>
+      <input type="hidden" name="form-name" value="contact">
+      <p class="visually-hidden"><label>Don’t fill this out: <input name="bot-field" autocomplete="off"></label></p>
+
 <div class="form-group">
 <label class="form-label" data-en="First Name *" data-fr="Prénom *">Prénom *</label>
 <input class="form-input" name="firstName" required="" type="text"/>
@@ -854,44 +858,64 @@
   // Contact form: static site submission via mailto (avoids POST 404 on static hosting)
   const contactForm = document.getElementById('contact-form');
   if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
+    contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
 
-      const firstName = (document.getElementById('firstName')?.value || '').trim();
-      const lastName  = (document.getElementById('lastName')?.value || '').trim();
-      const email     = (document.getElementById('email')?.value || '').trim();
-      const subject   = (document.getElementById('subject')?.value || 'Support').trim();
-      const message   = (document.getElementById('message')?.value || '').trim();
+    const lang = (typeof getStoredLanguage === 'function') ? getStoredLanguage() : 'en';
 
-      // Basic client-side validation
-      if (!email || !message) {
-        alert(currentLang === 'fr'
-          ? 'Merci de renseigner au minimum votre e-mail et votre message.'
-          : 'Please provide at least your email and your message.');
-        return;
+    const emailEl = contactForm.querySelector('input[name="email"]');
+    const messageEl = contactForm.querySelector('textarea[name="message"]');
+    const nameEl = contactForm.querySelector('input[name="first_name"]');
+
+    const email = (emailEl?.value || '').trim();
+    const message = (messageEl?.value || '').trim();
+    const firstName = (nameEl?.value || '').trim();
+
+    if (!email || !message) {
+      alert(lang === 'fr'
+        ? 'Merci de renseigner au minimum votre email et votre message.'
+        : 'Please provide at least your email and your message.');
+      return;
+    }
+
+    // Netlify Forms submission (no mail client pop-up)
+    const formData = new FormData(contactForm);
+    // Ensure the form name is included (required by Netlify)
+    if (!formData.get('form-name')) formData.set('form-name', 'contact');
+
+    const body = new URLSearchParams();
+    for (const [k, v] of formData.entries()) body.append(k, v);
+
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: body.toString(),
+      });
+
+      // UX: show confirmation without navigating away
+      const status = document.getElementById('form-status');
+      if (status) {
+        status.textContent = lang === 'fr'
+          ? 'Message envoyé. Nous vous répondrons bientôt.'
+          : 'Message sent. We will reply soon.';
+        status.classList.remove('hidden');
+      } else {
+        alert(lang === 'fr'
+          ? 'Message envoyé. Nous vous répondrons bientôt.'
+          : 'Message sent. We will reply soon.');
       }
 
-      const fullName = `${firstName} ${lastName}`.trim();
-      const bodyLines = [
-        `Name: ${fullName || '-'}`,
-        `Email: ${email}`,
-        `Subject: ${subject}`,
-        '',
-        message,
-        '',
-        '—',
-        'Sent from https://gabaritkdp.com/contact.htm'
-      ];
-
-      const mailto = `mailto:support@gabaritkdp.com?subject=${encodeURIComponent('[GabaritKDP] ' + subject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
-
-      // Best-effort UX: show confirmation then open the email client
-      alert(currentLang === 'fr'
-        ? "Votre logiciel e-mail va s'ouvrir pour envoyer votre message à support@gabaritkdp.com."
-        : 'Your email app will open to send your message to support@gabaritkdp.com.');
-
-      window.location.href = mailto;
-    });
+      // Keep email filled if user wants to send again; clear message
+      if (messageEl) messageEl.value = '';
+      // Optional: keep name/email as-is
+    } catch (err) {
+      console.error(err);
+      alert(lang === 'fr'
+        ? 'Échec de l’envoi. Vous pouvez nous écrire directement à support@gabaritkdp.com.'
+        : 'Send failed. You can email us directly at support@gabaritkdp.com.');
+    }
+  });
   }
 
   // Show a lightweight success message if redirected with ?sent=1
@@ -930,7 +954,9 @@
 
 <script>
   // -------- Language switch (shared behavior across pages) --------
-  function getStoredLanguage() {
+    let currentLang = 'en';
+
+function getStoredLanguage() {
     const stored = localStorage.getItem('language');
     if (stored === 'fr' || stored === 'en') return stored;
     const nav = (navigator.language || navigator.userLanguage || 'en').toLowerCase();
@@ -950,6 +976,8 @@
   }
 
   function applyLanguage(lang) {
+    currentLang = lang;
+
     // Update any element that exposes data-en / data-fr attributes (nav, CTAs, etc.)
     document.querySelectorAll('[data-en][data-fr]').forEach(el => {
       const value = el.getAttribute(lang === 'fr' ? 'data-fr' : 'data-en');
