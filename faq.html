@@ -582,11 +582,12 @@
             </div>
             <nav class="nav-links">
                 <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
                 <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
                     data-en="Express Generator">Express Generator</a>
                 <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
                     Generator</a>
-                <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace>Marketplace</a>
+                <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
                 <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
                 <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
                 <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
@@ -598,6 +599,7 @@
         <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
         <div class="mobile-menu-links">
             <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+            <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
             <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
                 data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
             <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
@@ -660,13 +662,13 @@
 
             <div class="faq-item">
                 <button class="faq-question" onclick="toggleFAQ(this)">
-                    <span data-fr="Quelle est la différence entre le Générateur Express et le Studio IA ?"
-                        data-en="What's the difference between Express Generator and AI Studio?">Quelle est la
-                        différence entre le Générateur Express et le Studio IA ?</span>
+                    <span data-fr="Quelle est la différence entre le Générateur Express et le Magic Generator ?"
+                        data-en="What's the difference between Express Generator and Magic Generator?">Quelle est la
+                        différence entre le Générateur Express et le Magic Generator ?</span>
                 </button>
                 <div class="faq-answer">
-                    <div data-fr="<strong>Générateur Express :</strong> Parfait si vous avez déjà votre design. Vous uploadez votre image et obtenez instantanément les dimensions exactes pour votre format KDP.<br><br><strong>Studio IA :</strong> Solution complète qui génère votre couverture à partir de zéro. Vous décrivez votre livre et l'IA crée une couverture professionnelle avec les bonnes dimensions."
-                        data-en="<strong>Express Generator:</strong> Perfect if you already have your design. You upload your image and instantly get the exact dimensions for your KDP format.<br><br><strong>AI Studio:</strong> Complete solution that generates your cover from scratch. You describe your book and the AI creates a professional cover with the right dimensions.">
+                    <div data-fr="<strong>Générateur Express :</strong> Parfait si vous avez déjà votre design. Vous importez vos images (avant / dos) et positionnez vos textes, puis vous exportez un fichier prêt pour Amazon KDP avec les bonnes dimensions, marges, bleed et zones de sécurité.<br><br><strong>Magic Generator :</strong> Mode avancé conçu pour aller plus vite et industrialiser votre production : workflows guidés, templates premium, traitements en lot (batch) et fonctionnalités Pro orientées productivité."
+                        data-en="<strong>Express Generator:</strong> Perfect if you already have your design. You upload your images (front/back) and position your text, then export an Amazon KDP-ready file with the correct dimensions, margins, bleed, and safety zones.<br><br><strong>Magic Generator:</strong> Advanced mode built for speed and high-volume workflows: guided workflows, premium templates, batch processing, and Pro features focused on productivity.">
                         <strong>Générateur Express :</strong> Parfait si vous avez déjà votre design. Vous uploadez
                         votre image et obtenez instantanément les dimensions exactes pour votre format
                         KDP.<br><br><strong>Studio IA :</strong> Solution complète qui génère votre couverture à partir
@@ -714,7 +716,92 @@
             </div>
 
             <!-- Catégorie : Tarifs -->
-            <h2 class="category-title" data-fr="💰 Questions Tarifs" data-en="💰 Pricing Questions">💰 Questions Tarifs
+            
+            <!-- Catégorie : Marketplace -->
+            <h2 class="category-title" data-fr="🛒 Marketplace & Templates" data-en="🛒 Marketplace & Templates">🛒 Marketplace & Templates</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Qu’est-ce que le Marketplace GabaritKDP ?"
+                        data-en="What is the GabaritKDP Marketplace?">Qu’est-ce que le Marketplace GabaritKDP ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Le Marketplace GabaritKDP est une bibliothèque de plus de 6 600 templates professionnels pour livres Amazon KDP : couvertures complètes, fonds graphiques, éléments visuels et intérieurs (planners, cahiers, coloriages). Tous les templates sont conçus pour s’intégrer parfaitement au générateur GabaritKDP."
+                        data-en="The GabaritKDP Marketplace is a library of 6,600+ professional templates for Amazon KDP books: full covers, backgrounds, visual elements, and interiors (planners, notebooks, coloring books). All templates are designed to work seamlessly with the GabaritKDP generator.">
+                        The GabaritKDP Marketplace is a library of 6,600+ professional templates for Amazon KDP books: full covers, backgrounds, visual elements, and interiors (planners, notebooks, coloring books). All templates are designed to work seamlessly with the GabaritKDP generator.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Les templates Marketplace sont-ils conformes Amazon KDP ?"
+                        data-en="Are Marketplace templates Amazon KDP compliant?">Les templates Marketplace sont-ils conformes Amazon KDP ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Oui. Lorsqu’un template Marketplace est utilisé dans GabaritKDP, toutes les contraintes techniques Amazon KDP sont automatiquement appliquées : dimensions, bleed, marges, dos du livre et zones de sécurité."
+                        data-en="Yes. When a Marketplace template is used inside GabaritKDP, all Amazon KDP technical constraints are automatically applied: dimensions, bleed, margins, spine width, and safety zones.">
+                        Yes. When a Marketplace template is used inside GabaritKDP, all Amazon KDP technical constraints are automatically applied: dimensions, bleed, margins, spine width, and safety zones.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Faut-il un compte Canva pour utiliser les templates Marketplace ?"
+                        data-en="Do I need a Canva account to use Marketplace templates?">Faut-il un compte Canva pour utiliser les templates Marketplace ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Non. Un compte Canva n’est PAS requis. Vous pouvez utiliser les templates directement dans le générateur GabaritKDP en important vos images et en positionnant vos textes dans les zones de sécurité. L’import direct depuis Canva est une fonctionnalité optionnelle à venir."
+                        data-en="No. A Canva account is NOT required. You can use Marketplace templates directly inside the GabaritKDP generator by uploading your images and positioning your text within the safe zones. Direct Canva import is an optional upcoming feature.">
+                        No. A Canva account is NOT required. You can use Marketplace templates directly inside the GabaritKDP generator by uploading your images and positioning your text within the safe zones. Direct Canva import is an optional upcoming feature.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Catégorie : Fonctionnalités à venir -->
+            <h2 class="category-title" data-fr="🚀 Fonctionnalités à venir" data-en="🚀 Upcoming Features">🚀 Upcoming Features</h2>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="À quoi servira le Dashboard GabaritKDP ?"
+                        data-en="What is the GabaritKDP Dashboard?">À quoi servira le Dashboard GabaritKDP ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Le Dashboard sera votre espace central pour gérer vos projets KDP : retrouver vos designs, suivre vos exports, accéder plus rapidement aux outils (Express, Magic Generator, Marketplace) et optimiser votre flux de publication. Les annonces seront publiées dans “Updates / What’s New”."
+                        data-en="The Dashboard will be your central workspace to manage KDP projects: access your designs, track exports, navigate faster between tools (Express, Magic Generator, Marketplace), and optimize your publishing workflow. Announcements will be posted in “Updates / What’s New”.">
+                        The Dashboard will be your central workspace to manage KDP projects: access your designs, track exports, navigate faster between tools (Express, Magic Generator, Marketplace), and optimize your publishing workflow. Announcements will be posted in “Updates / What’s New”.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Qu’est-ce que l’import depuis Canva (Coming Soon) ?"
+                        data-en="What is Canva import (Coming Soon)?">Qu’est-ce que l’import depuis Canva (Coming Soon) ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="L’import depuis Canva permettra de connecter votre compte Canva et d’importer un design existant directement dans GabaritKDP. Les dimensions, bleed, marges et dos seront ensuite automatiquement ajustés selon les règles Amazon KDP."
+                        data-en="Canva import will allow you to connect your Canva account and import an existing design directly into GabaritKDP. Dimensions, bleed, margins, and spine will then be automatically adjusted to Amazon KDP rules.">
+                        Canva import will allow you to connect your Canva account and import an existing design directly into GabaritKDP. Dimensions, bleed, margins, and spine will then be automatically adjusted to Amazon KDP rules.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question" onclick="toggleFAQ(this)">
+                    <span data-fr="Pourquoi les nouvelles fonctionnalités arrivent progressivement ?"
+                        data-en="Why are new features released progressively?">Pourquoi les nouvelles fonctionnalités arrivent progressivement ?</span>
+                </button>
+                <div class="faq-answer">
+                    <div data-fr="Amazon KDP applique des règles strictes. GabaritKDP privilégie la fiabilité et la conformité plutôt qu’une sortie rapide de fonctionnalités non stabilisées. Chaque nouveauté est publiée uniquement lorsqu’elle est prête pour un usage réel sans risque de rejet."
+                        data-en="Amazon KDP applies strict rules. GabaritKDP prioritizes reliability and compliance over releasing unfinished features. New functionalities are released only when they are production-ready and safe to use.">
+                        Amazon KDP applies strict rules. GabaritKDP prioritizes reliability and compliance over releasing unfinished features. New functionalities are released only when they are production-ready and safe to use.
+                    </div>
+                </div>
+            </div>
+
+<h2 class="category-title" data-fr="💰 Questions Tarifs" data-en="💰 Pricing Questions">💰 Questions Tarifs
             </h2>
 
             <div class="faq-item">
@@ -759,20 +846,9 @@
                         ?</span>
                 </button>
                 <div class="faq-answer">
-                    <div data-fr="Plusieurs moyens de nous contacter selon vos besoins :<br><br><strong>📧 Email (Recommandé) :</strong><br>• support@gabaritkdp.com<br>• Réponse sous 24h en semaine<br>• Joignez vos fichiers/screenshots<br>• Support technique approfondi<br><br><strong>💬 Chat en direct :</strong><br>• Disponible dans votre compte<br>• Lundi-Vendredi 9h-18h (CET)<br>• Réponse immédiate pour questions simples<br><br><strong>📱 Réseaux sociaux :</strong><br>• Facebook : @GabaritKDP<br>• Instagram : @gabarit_kdp<br>• Réponse sous 4h pendant les heures ouvrées<br><br><strong>🎥 Ressources d'aide :</strong><br>• Tutoriels vidéo YouTube<br>• Guide d'utilisation complet<br>• FAQ mise à jour régulièrement<br>• Webinaires mensuels gratuits<br><br><strong>🆘 Urgences :</strong><br>Pour les problèmes critiques, écrivez \"
-                        URGENT\" en objet d'email."
-                        data-en="Multiple ways to contact us according to your needs:<br><br><strong>📧 Email (Recommended):</strong><br>• support@gabaritkdp.com<br>• Response within 24h on weekdays<br>• Attach your files/screenshots<br>• In-depth technical support<br><br><strong>💬 Live chat:</strong><br>• Available in your account<br>• Monday-Friday 9am-6pm (CET)<br>• Immediate response for simple questions<br><br><strong>📱 Social media:</strong><br>• Facebook: @GabaritKDP<br>• Instagram: @gabarit_kdp<br>• Response within 4h during business hours<br><br><strong>🎥 Help resources:</strong><br>• YouTube video tutorials<br>• Complete user guide<br>• Regularly updated FAQ<br>• Free monthly webinars<br><br><strong>🆘 Emergencies:</strong><br>For critical issues, write \"
-                        URGENT\" in email subject.">
-                        Plusieurs moyens de nous contacter selon vos besoins :<br><br><strong>📧 Email (Recommandé)
-                            :</strong><br>• support@gabaritkdp.com<br>• Réponse sous 24h en semaine<br>• Joignez vos
-                        fichiers/screenshots<br>• Support technique approfondi<br><br><strong>💬 Chat en direct
-                            :</strong><br>• Disponible dans votre compte<br>• Lundi-Vendredi 9h-18h (CET)<br>• Réponse
-                        immédiate pour questions simples<br><br><strong>📱 Réseaux sociaux :</strong><br>• Facebook :
-                        @GabaritKDP<br>• Instagram : @gabarit_kdp<br>• Réponse sous 4h pendant les heures
-                        ouvrées<br><br><strong>🎥 Ressources d'aide :</strong><br>• Tutoriels vidéo YouTube<br>• Guide
-                        d'utilisation complet<br>• FAQ mise à jour régulièrement<br>• Webinaires mensuels
-                        gratuits<br><br><strong>🆘 Urgences :</strong><br>Pour les problèmes critiques, écrivez "URGENT"
-                        en objet d'email.
+                    <div data-fr="Plusieurs moyens de nous contacter selon vos besoins :<br><br><strong>📧 Email support (recommandé) :</strong><br>• support@gabaritkdp.com<br>• Pour questions générales, problèmes techniques, facturation et suggestions<br>• Pensez à joindre une capture d’écran et vos paramètres KDP (format, pages, papier, bleed)<br><br><strong>📚 Help Center :</strong><br>• Consultez la FAQ et le Guide d’utilisation pour résoudre rapidement les questions les plus fréquentes<br><br><strong>DISCORD :</strong><br>• Support plus réactif, partage de couvertures, retours de la communauté d’auteurs<br><br><strong>Important :</strong> GabaritKDP garantit la conformité technique (dimensions). Le contenu créatif (textes, images, droits) reste sous votre responsabilité."
+                        data-en="Multiple ways to contact us depending on your needs:<br><br><strong>📧 Email support (recommended):</strong><br>• support@gabaritkdp.com<br>• For general questions, technical issues, billing, and suggestions<br>• Please attach a screenshot and your KDP parameters (trim size, page count, paper, bleed)<br><br><strong>📚 Help Center:</strong><br>• Check the FAQ and User Guide to resolve the most common questions quickly<br><br><strong>DISCORD:</strong><br>• Faster support, share your covers, and connect with the author community<br><br><strong>Note:</strong> GabaritKDP guarantees technical compliance (dimensions). Creative content (text, images, rights) remains under your responsibility.">
+                        Multiple ways to contact us depending on your needs:<br><br><strong>📧 Email support (recommended):</strong><br>• support@gabaritkdp.com<br>• For general questions, technical issues, billing, and suggestions<br>• Please attach a screenshot and your KDP parameters (trim size, page count, paper, bleed)<br><br><strong>📚 Help Center:</strong><br>• Check the FAQ and User Guide to resolve the most common questions quickly<br><br><strong>DISCORD:</strong><br>• Faster support, share your covers, and connect with the author community<br><br><strong>Note:</strong> GabaritKDP guarantees technical compliance (dimensions). Creative content (text, images, rights) remains under your responsibility.
                     </div>
                 </div>
             </div>
@@ -783,16 +859,9 @@
                         data-en="Do you offer training or tutorials?">Proposez-vous des formations ou tutoriels ?</span>
                 </button>
                 <div class="faq-answer">
-                    <div data-fr="Oui ! Nous proposons plusieurs ressources d'apprentissage :<br><br><strong>🎥 Chaîne YouTube :</strong><br>• Tutoriels step-by-step<br>• Astuces design avancées<br>• Cas d'usage réels d'auteurs<br>• Nouveautés et mises à jour<br><br><strong>📚 Documentation complète :</strong><br>• Guide d'utilisation détaillé<br>• Bonnes pratiques design KDP<br>• Templates et exemples<br>• Troubleshooting<br><br><strong>🔴 Webinaires live mensuels :</strong><br>• Sessions interactives<br>• Q&A avec l'équipe<br>• Cas pratiques<br>• Gratuits pour tous<br><br><strong>💬 Communauté d'auteurs :</strong><br>• Groupe Facebook privé<br>• Partage d'expériences<br>• Entraide entre auteurs<br>• Conseils experts"
-                        data-en="Yes! We offer several learning resources:<br><br><strong>🎥 YouTube Channel:</strong><br>• Step-by-step tutorials<br>• Advanced design tips<br>• Real author use cases<br>• News and updates<br><br><strong>📚 Complete documentation:</strong><br>• Detailed user guide<br>• KDP design best practices<br>• Templates and examples<br>• Troubleshooting<br><br><strong>🔴 Monthly live webinars:</strong><br>• Interactive sessions<br>• Q&A with the team<br>• Practical cases<br>• Free for everyone<br><br><strong>💬 Authors community:</strong><br>• Private Facebook group<br>• Experience sharing<br>• Mutual help between authors<br>• Expert advice">
-                        Oui ! Nous proposons plusieurs ressources d'apprentissage :<br><br><strong>🎥 Chaîne YouTube
-                            :</strong><br>• Tutoriels step-by-step<br>• Astuces design avancées<br>• Cas d'usage réels
-                        d'auteurs<br>• Nouveautés et mises à jour<br><br><strong>📚 Documentation complète
-                            :</strong><br>• Guide d'utilisation détaillé<br>• Bonnes pratiques design KDP<br>• Templates
-                        et exemples<br>• Troubleshooting<br><br><strong>🔴 Webinaires live mensuels :</strong><br>•
-                        Sessions interactives<br>• Q&A avec l'équipe<br>• Cas pratiques<br>• Gratuits pour
-                        tous<br><br><strong>💬 Communauté d'auteurs :</strong><br>• Groupe Facebook privé<br>• Partage
-                        d'expériences<br>• Entraide entre auteurs<br>• Conseils experts
+                    <div data-fr="Oui. Vous trouverez plusieurs ressources :<br><br><strong>📚 Help Center :</strong><br>• FAQ (questions fréquentes)<br>• Guide d’utilisation (pas-à-pas)<br>• Bonnes pratiques KDP (bleed, marges, zones de sécurité)<br><br><strong>🎥 Démonstrations & tutoriels :</strong><br>• Vidéos courtes et démos produit (YouTube et réseaux)<br><br><strong>DISCORD :</strong><br>• Entraide, retours sur vos couvertures, et support communautaire<br><br><strong>🆕 Nouveautés :</strong><br>• Consultez “Updates / What’s New” pour suivre les fonctionnalités ajoutées (Dashboard, import Canva, etc.)."
+                        data-en="Yes. We provide several resources:<br><br><strong>📚 Help Center:</strong><br>• FAQ (common questions)<br>• User Guide (step-by-step)<br>• KDP best practices (bleed, margins, safety zones)<br><br><strong>🎥 Demos & tutorials:</strong><br>• Short videos and product demos (YouTube and social channels)<br><br><strong>DISCORD:</strong><br>• Peer support, feedback on your covers, and community help<br><br><strong>🆕 Updates:</strong><br>• Check “Updates / What’s New” to follow newly released features (Dashboard, Canva import, etc.).">
+                        Yes. We provide several resources:<br><br><strong>📚 Help Center:</strong><br>• FAQ (common questions)<br>• User Guide (step-by-step)<br>• KDP best practices (bleed, margins, safety zones)<br><br><strong>🎥 Demos & tutorials:</strong><br>• Short videos and product demos (YouTube and social channels)<br><br><strong>DISCORD:</strong><br>• Peer support, feedback on your covers, and community help<br><br><strong>🆕 Updates:</strong><br>• Check “Updates / What’s New” to follow newly released features (Dashboard, Canva import, etc.).
                     </div>
                 </div>
             </div>
@@ -874,7 +943,8 @@
                 <div>
                     <h4 class="text-white font-semibold mb-4">Product</h4>
                     <ul class="space-y-2">
-                        <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene">Express Generator</a></li>
+                                                <li><a href="dashboard.html" class="hover:text-white transition">Dashboard</a></li>
+<li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene">Express Generator</a></li>
                         <li><a href="generator-magic.html" class="hover:text-white transition">Magic Generator</a></li>
                         <li><a href="./marketplace.html" target="_blank" rel="noopener" class="hover:text-white transition">Marketplace</a></li>
                         <li><a href="#tarifs" class="hover:text-white transition">Pricing</a></li>
@@ -991,6 +1061,80 @@
             }
         }
     </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What exactly is GabaritKDP?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GabaritKDP is a cover generator that guarantees Amazon KDP-compliant dimensions based on official specifications, eliminating rejections caused by formatting errors."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are the dimensions really Amazon KDP compliant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. All dimensions are calculated using official Amazon KDP rules, including spine width, bleed, margins, and safety zones."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What book formats are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "GabaritKDP supports all 17 official Amazon KDP trim sizes, including popular formats such as 6x9 and 8.5x11, plus A4/A5 and square options."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between Express Generator and Magic Generator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Express Generator is for quickly exporting a compliant cover from your existing assets. Magic Generator is the advanced mode for faster, high-volume workflows with Pro features like premium templates and batch processing."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the GabaritKDP Marketplace?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Marketplace provides 6,600+ professional templates (full covers, backgrounds, elements, and interiors) designed to work with the GabaritKDP generator."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need a Canva account to use Marketplace templates?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Canva is not required. You can use templates directly inside GabaritKDP by uploading images and positioning text within the safe zones. Direct Canva import is an optional upcoming feature."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the GabaritKDP Dashboard?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Dashboard is an upcoming workspace to manage your KDP projects, access designs, track exports, and navigate faster between tools."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I contact support?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can contact support by email at support@gabaritkdp.com, consult the Help Center (FAQ/User Guide), or join the Discord community for faster help."
+      }
+    }
+  ]
+}
+</script>
+
 </body>
 
 </html>
