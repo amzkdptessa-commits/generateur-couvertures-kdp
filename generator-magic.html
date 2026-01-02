@@ -533,27 +533,24 @@
                 <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
                 <span>GabaritKDP</span>
             </a>
-
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
             <div class="language-selector">
                 <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
                 <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
             </div>
-
-            <nav class="nav-links">
-                <a href="./index.html">🏠 Home</a>
-                <a href="./generator.html" class="express-nav-btn">Express Generator</a>
-                <a href="./generator-magic.html" class="active">Magic Generator</a>
-                <a href="./marketplace.html"  rel="noopener">Marketplace</a>
-                <a href="./pricing.html">💰 Pricing</a>
-                <a href="./inscription.html">📝 Sign Up</a>
-                <a href="./connexion.html">🔓 Login</a>
-            </nav>
-        </div>
-    </header>
+      <!-- Navigation Desktop -->
+      <nav class="nav-links">
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
+          data-en="Express Generator">Générateur Express</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+        <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+      </nav>
+    </div>
+  </header>
 
     <!-- MOBILE MENU -->
     <div class="mobile-menu" id="mobileMenu">
