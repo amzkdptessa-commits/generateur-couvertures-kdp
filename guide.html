@@ -389,12 +389,13 @@
             </div>
             <nav class="nav-links">
                 <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
                 <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
                     data-en="Express Generator">Express Generator</a>
                 <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic
                     Generator</a>
 <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
-           <a href="#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
+           <a href="./pricing.html" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
                 <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
                 <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
             </nav>
@@ -405,10 +406,11 @@
         <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
         <div class="mobile-menu-links">
             <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+            <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
             <a href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);"
                 data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
             <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
-<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰
+<a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>            <a href="./pricing.html" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰
                 Pricing</a>
             <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2);" data-fr="📝 Inscription"
                 data-en="📝 Sign Up">📝 Sign Up</a>
@@ -427,6 +429,21 @@
                 data-en="From design to publishing, master the perfect workflow.">
                 From design to publishing, master the perfect workflow.
             </p>
+            <div class="mt-6 flex flex-wrap justify-center gap-3 text-sm">
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-700">
+                    <span>🛒</span>
+                    <span data-en="Marketplace templates (Use Template)" data-fr="Templates Marketplace (Use Template)">Marketplace templates (Use Template)</span>
+                </span>
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-700">
+                    <span>📊</span>
+                    <span data-en="Dashboard (Coming Soon)" data-fr="Dashboard (Bientôt)">Dashboard (Coming Soon)</span>
+                </span>
+                <span class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-gray-200 text-gray-700">
+                    <span>🎨</span>
+                    <span data-en="Direct Canva import (Coming Soon)" data-fr="Import direct depuis Canva (Bientôt)">Direct Canva import (Coming Soon)</span>
+                </span>
+            </div>
+
         </div>
     </section>
 
@@ -485,6 +502,19 @@
                             </div>
                         </li>
                     </ul>
+                    <div class="tip-box mt-6">
+                        <p><strong>⚡ Fast track: start from a Marketplace template</strong><br>
+                            <span data-en="If you want to publish faster, you can start from a ready-to-use template in the <a href='./marketplace.html' class='text-blue-600 underline'>Marketplace</a>, then customize it inside the generator and export your KDP-ready file."
+                                  data-fr="Si vous voulez publier plus vite, vous pouvez partir d’un template prêt à l’emploi dans le <a href='./marketplace.html' class='text-blue-600 underline'>Marketplace</a>, puis le personnaliser dans le générateur et exporter votre fichier prêt pour KDP.">
+                            </span>
+                        </p>
+                        <ul class="mt-3 text-sm text-gray-700 list-disc list-inside">
+                            <li data-en="Pick a template (Full Cover, backgrounds, interiors)" data-fr="Choisissez un template (couvertures complètes, fonds, intérieurs)"></li>
+                            <li data-en="Click “Use template” to open it in GabaritKDP" data-fr="Cliquez sur “Use template” pour l’ouvrir dans GabaritKDP"></li>
+                            <li data-en="Adjust title/author/text, check safe zones, then export" data-fr="Ajustez titre/auteur/texte, vérifiez les zones de sécurité, puis exportez"></li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </section>
@@ -523,8 +553,7 @@
                             <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
                                 <li data-fr="<strong>Option A - Images séparées :</strong> Importez face, dos et tranche séparément."
                                     data-en="<strong>Option A - Separate images:</strong> Upload front, back and spine separately."><strong>Option A - Separate images:</strong> Upload front, back and spine separately.</li>
-                                <li data-fr="<strong>Option B - Full Cover :</strong> Importez une couverture complète depuis Canva."
-                                    data-en="<strong>Option B - Full Cover:</strong> Import a complete cover from Canva."><strong>Option B - Full Cover:</strong> Import a complete cover from Canva.</li>
+                                <li data-fr="<strong>Option B - Full Cover :</strong> Importez une couverture complète (un seul fichier image) et ajustez-la si besoin." data-en="<strong>Option B - Full Cover:</strong> Upload a complete full cover (single image file) and adjust it if needed."><strong>Option B - Full Cover:</strong> Upload a complete full cover (single image file) and adjust it if needed.</li>
                                 <li data-fr="<strong>Repositionnement :</strong> Cliquez sur une image pour la déplacer et zoomer (50%-300%)."
                                     data-en="<strong>Repositioning:</strong> Click on an image to move and zoom it (50%-300%)."><strong>Repositioning:</strong> Click on an image to move and zoom it (50%-300%).</li>
                             </ul>
@@ -561,25 +590,23 @@
                         <div class="tip-box">
                             <p><strong>💡 Le Workflow Parfait</strong><br>
                                 <span
-                                    data-fr="GabaritKDP est un outil de finalisation. Pour de meilleurs résultats, créez vos designs sur un outil comme <strong>Canva</strong>, puis importez-les ici pour l'assemblage final et la mise en conformité."
-                                    data-en="GabaritKDP is a finalization tool. For best results, create your designs in a tool like <strong>Canva</strong>, then import them here for final assembly and compliance.">GabaritKDP
-                                    is a finalization tool. For best results, create your designs in a tool like
-                                    <strong>Canva</strong>, then import them here for final assembly and
-                                    compliance.</span>
+                                    data-fr="GabaritKDP est un outil de finalisation : vous créez vos visuels où vous voulez (Canva, Photoshop, IA…), puis vous les assemblez ici pour obtenir un fichier parfaitement conforme (tranche, bleed, marges, zones de sécurité). <strong>Import direct depuis Canva : bientôt disponible.</strong>"
+                                    data-en="GabaritKDP is a finalization tool: create your visuals anywhere (Canva, Photoshop, AI…), then assemble them here to get a perfectly compliant file (spine, bleed, margins, safe zones). <strong>Direct Canva import: coming soon.</strong>">GabaritKDP
+                                    is a finalization tool. For best results, create your visuals elsewhere, then assemble them here for final compliance.</span>
                             </p>
                         </div>
                         <div class="bg-gray-50 rounded-lg p-4 border">
                             <h4 class="font-semibold text-gray-900 mb-2" data-fr="Étape 3 : Vérification et Export"
                                 data-en="Step 3: Verification and Export">⚙️ Step 3: Verification and Export</h4>
                             <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
-                                <li data-fr="Vérifiez l'aperçu 4K et assurez-vous que tout texte est dans les marges de sécurité (lignes rouges)."
-                                    data-en="Check the 4K preview and ensure all text is within the safety margins (red lines).">
+                                <li data-fr="Vérifiez l’aperçu 4K et assurez-vous que tout texte reste dans la zone de sécurité (pointillés BLEUS). Les pointillés ROUGES indiquent la ligne de coupe (images OK, texte non)."
+                                    data-en="Check the 4K preview and keep all text inside the safe zone (BLUE dotted lines). RED dotted lines indicate the trim line (images OK, text not).">
                                     Check the 4K preview and ensure all text is within the safety margins (red lines).</li>
                                 <li data-fr="Consultez 'l'Analyse Intelligente' pour d'éventuels avertissements."
                                     data-en="Check the 'Smart Analysis' for any potential warnings.">Check the 'Smart
                                     Analysis' for any potential warnings.</li>
-                                <li data-fr="Choisissez la qualité d'export : Standard (300 DPI), 4K (400 DPI) ou 8K (600 DPI)."
-                                    data-en="Choose export quality: Standard (300 DPI), 4K (400 DPI) or 8K (600 DPI).">Choose export quality: Standard (300 DPI), 4K (400 DPI) or 8K (600 DPI).</li>
+                                <li data-fr="Choisissez votre format d’export : <strong>PDF</strong> (recommandé par Amazon), <strong>PNG 300 DPI</strong> ou <strong>JPEG</strong> haute qualité."
+                                    data-en="Choose your export format: <strong>PDF</strong> (recommended by Amazon), <strong>PNG 300 DPI</strong>, or high-quality <strong>JPEG</strong>.">Choose export quality: Standard (300 DPI), 4K (400 DPI) or 8K (600 DPI).</li>
                                 <li data-fr="Cliquez sur 'Exporter le design' pour obtenir votre PDF prêt pour KDP."
                                     data-en="Click 'Export Design' to get your KDP-ready PDF.">Click 'Export Design' to
                                     get your KDP-ready PDF.</li>
@@ -679,6 +706,7 @@
                 <div>
                     <h4 class="text-white font-semibold mb-4" data-en="Product" data-fr="Produit">Product</h4>
                     <ul class="space-y-2">
+                        <li><a href="dashboard.html" class="hover:text-white transition" data-en="Dashboard" data-fr="Dashboard">Dashboard</a></li>
                         <li><a href="generator.html" class="hover:text-white transition" data-en="Express Generator"
                                 data-fr="Générateur Express">Express Generator</a></li>
                         <li><a href="generator-magic.html" class="hover:text-white transition" data-en="Magic Generator"
