@@ -4696,8 +4696,6 @@ const getScoreClass = (score) => {
                                 backImg.crossOrigin = "anonymous";
                                 backImg.onload = () => {
                                     ctx.drawImage(backImg, startX, startY, backWidth, bookHeight);
-                                    // Redraw overlays so spine text stays visible after async image draw
-                                    drawOverlays();
                                 };
                                 backImg.src = backImage.url;
                             } else {
@@ -4715,8 +4713,6 @@ const getScoreClass = (score) => {
                                 spineImg.crossOrigin = "anonymous";
                                 spineImg.onload = () => {
                                     ctx.drawImage(spineImg, startX + backWidth, startY, spineWidth, bookHeight);
-                                    // Redraw overlays so spine text stays visible after async image draw
-                                    drawOverlays();
                                 };
                                 spineImg.src = spineImage.url;
                             } else if (dimensions.spine >= 1.0 && spineColor && spineColor !== '#ffffff') {
@@ -5555,7 +5551,10 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                     setBackImage(saved.backImage);
                 }
 
-                if (saved.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(saved.templateUrl);
+                if (saved.templateUrl) {
+                    window.setActiveTemplateUrl && window.setActiveTemplateUrl(saved.templateUrl);
+                    try { setMarketplaceTemplate(saved.templateUrl); } catch (e) {}
+                }
                 setDesignRestored(true);
             };
 
@@ -5626,24 +5625,25 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
 
-                // Effacer toutes les sauvegardes locales (temp + "permanent") pour éviter un restore automatique
-                try {
-                    localStorage.removeItem('gkdp_temp_design');
-                    localStorage.removeItem('gkdp_saved_design');
-                    localStorage.removeItem('gkdp_active_template_url');
-                } catch (e) {}
-
-                // Helpers existants (si présents)
+                // Évite que le restore automatique ne remette un ancien design
                 window.clearTempDesign && window.clearTempDesign();
 
                 // Effacer le template actif (Marketplace) + sortir du mode preview
                 window.setActiveTemplateUrl && window.setActiveTemplateUrl(null);
+                try { sessionStorage.removeItem("gkdp_template_url"); } catch (e) {}
+                try { delete window.__GKDP_TEMPLATE_URL__; } catch (e) {}
+
+                // Effacer aussi l'état React Marketplace (sinon re-bootstrap via sessionStorage)
+                try { setMarketplaceTemplate(null); } catch (e) {}
+                try { setIsMarketplacePreview(false); } catch (e) {}
+
+                // Enlever ?template=... ou ?img=... de l’URL pour éviter le re-bootstrap Marketplace
                 try {
                     const url = new URL(window.location.href);
                     url.searchParams.delete('template');
+                    url.searchParams.delete('img');
                     window.history.replaceState({}, '', url.toString());
                 } catch (e) {}
-                setIsMarketplacePreview(false);
 
                 // Réinitialiser l'UI / états (re-montage du composant)
                 onReset && onReset();
@@ -5709,6 +5709,9 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                             naturalWidth: backImage.naturalWidth, 
                             naturalHeight: backImage.naturalHeight 
                         } : null,
+                        // ✅ Pour préserver un template Marketplace pendant un redirect (signup/login)
+                        templateUrl: (window.getActiveTemplateUrl && window.getActiveTemplateUrl()) || marketplaceTemplate || (function(){ try { return window.__GKDP_TEMPLATE_URL__ || sessionStorage.getItem("gkdp_template_url") || new URLSearchParams(window.location.search).get("template") || new URLSearchParams(window.location.search).get("img") || null; } catch(e){ return null; } })(),
+
                     };
                     window.saveTempDesign && window.saveTempDesign(designData);
                     
