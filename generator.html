@@ -2430,6 +2430,9 @@ img {
                 showBarcodeZone: "Afficher zone code-barre",
                 barcodeZoneColor: "Couleur de fond",
                 barcodeZoneHelp: "Amazon ajoute automatiquement le code-barre ISBN ici",
+                ownIsbnLabel: "J'ai mon propre ISBN",
+                ownIsbnPlaceholder: "Ex : 9781234567890",
+                ownIsbnHelp: "Si vous utilisez votre propre ISBN, KDP n'ajoutera pas le code-barres automatiquement : vous devez réserver cette zone et fournir le code-barres.",
                 
                 removeImage: "Supprimer l'image",
                 canvaImport: "Import depuis Canva",
@@ -2568,6 +2571,9 @@ img {
                 showBarcodeZone: "Show barcode zone",
                 barcodeZoneColor: "Background Color",
                 barcodeZoneHelp: "Amazon automatically adds the ISBN barcode here",
+                ownIsbnLabel: "I have my own ISBN",
+                ownIsbnPlaceholder: "e.g., 9781234567890",
+                ownIsbnHelp: "If you use your own ISBN, KDP may not add the barcode automatically: you must reserve this area and provide the barcode.",
                 
                 removeImage: "Remove Image",
                 canvaImport: "Import from Canva",
@@ -3697,6 +3703,8 @@ img {
             // 📊 ISBN BARCODE ZONE
             const [showBarcodeZone, setShowBarcodeZone] = useState(true);
             const [barcodeZoneColor, setBarcodeZoneColor] = useState('#ffffff');
+            const [useOwnISBN, setUseOwnISBN] = useState(false);
+            const [ownISBN, setOwnISBN] = useState('');
             const [frontImage, setFrontImage] = useState(null);
             const [backImage, setBackImage] = useState(null);
             const [spineImage, setSpineImage] = useState(null);
@@ -4245,8 +4253,7 @@ img {
                         ctx.beginPath(); ctx.moveTo(startX + backWidth, startY); ctx.lineTo(startX + backWidth, startY + bookHeight); ctx.stroke();
                         ctx.beginPath(); ctx.moveTo(startX + backWidth + spineWidth, startY); ctx.lineTo(startX + backWidth + spineWidth, startY + bookHeight); ctx.stroke();
                     }
-                    if (spineText && dimensions && dimensions.spine >= 2.8 && spineWidth > 4) {// show if spine is at least ~2.8mm (readable threshold)
-                        
+                    if (spineText && spineWidth > 15) {
                         ctx.fillStyle = spineTextColor || '#333333'; ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`; ctx.textAlign = 'center';
                         ctx.save(); ctx.translate(startX + backWidth + spineWidth / 2, startY + bookHeight / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(spineText, 0, 0); ctx.restore();
                     }
@@ -4870,7 +4877,7 @@ img {
                                     exportCtx.font = `${Math.max(12, 16 * dpiScale / 10)}px Arial`;
                                     exportCtx.textAlign = 'center';
                                     exportCtx.textBaseline = 'middle';
-                                    exportCtx.fillText('ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
+                                    exportCtx.fillText(useOwnISBN && ownISBN ? `ISBN: ${ownISBN}` : 'ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
                                     
                                     exportCtx.restore();
                                 }
@@ -5521,16 +5528,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
 
-                // ✅ IMPORTANT: empêcher la restauration automatique du dernier design (auto-save) après reset
-                try {
-                    sessionStorage.setItem('gkdp_skip_restore_once', '1');
-                } catch (e) {}
-
-                // Effacer le dernier design auto-sauvegardé (ceci n'efface PAS la bibliothèque "My designs")
-                try {
-                    localStorage.removeItem('gkdp_saved_design');
-                } catch (e) {}
-
                 // ✅ IMPORTANT: enlever le paramètre ?template=... pour éviter le rechargement automatique du template Marketplace
                 try {
                     const url = new URL(window.location.href);
@@ -5548,11 +5545,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
 
                 // Évite que le restore automatique ne remette un ancien design
                 window.clearTempDesign && window.clearTempDesign();
-
-                // Effacer aussi l'auto-save permanent (sinon il se restaure au re-mount)
-                try {
-                    localStorage.removeItem('gkdp_saved_design');
-                } catch (e) {}
 
                 // Réinitialiser l'UI / états (re-montage du composant)
                 onReset && onReset();
@@ -5721,16 +5713,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             // 💾 CHARGER LE DESIGN SAUVEGARDÉ AU MOUNT (temp ou permanent)
             useEffect(() => {
                 const timer = setTimeout(() => {
-                    // ✅ Si l'utilisateur vient de cliquer sur "New", on saute UNE fois la restauration auto
-                    try {
-                        const skip = sessionStorage.getItem('gkdp_skip_restore_once');
-                        if (skip === '1') {
-                            sessionStorage.removeItem('gkdp_skip_restore_once');
-                            console.log('💾 [RESTORE] Skipped once (New Design)');
-                            return;
-                        }
-                    } catch (e) {}
-
                     // D'abord essayer de charger un design temporaire (après inscription)
                     let saved = window.loadTempDesign && window.loadTempDesign();
                     let isTemp = !!saved;
@@ -6930,6 +6912,32 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                 )}
                                             </div>
                                             <p className="text-xs text-gray-500 mt-2">{t('barcodeZoneHelp')}</p>
+                                            {showBarcodeZone && (
+                                                <div className="mt-3 space-y-2">
+                                                    <label className="flex items-center gap-2 text-sm text-gray-700">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={useOwnISBN}
+                                                            onChange={(e) => setUseOwnISBN(e.target.checked)}
+                                                            className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
+                                                        />
+                                                        {t('ownIsbnLabel')}
+                                                    </label>
+
+                                                    {useOwnISBN && (
+                                                        <div className="space-y-1">
+                                                            <input
+                                                                type="text"
+                                                                value={ownISBN}
+                                                                onChange={(e) => setOwnISBN(e.target.value.replace(/[^0-9Xx]/g, '').slice(0, 20))}
+                                                                placeholder={t('ownIsbnPlaceholder')}
+                                                                className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500"
+                                                            />
+                                                            <p className="text-xs text-amber-700">{t('ownIsbnHelp')}</p>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
