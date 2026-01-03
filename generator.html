@@ -5551,10 +5551,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                     setBackImage(saved.backImage);
                 }
 
-                if (saved.templateUrl) {
-                    window.setActiveTemplateUrl && window.setActiveTemplateUrl(saved.templateUrl);
-                    try { setMarketplaceTemplate(saved.templateUrl); } catch (e) {}
-                }
+                if (saved.templateUrl) window.setActiveTemplateUrl && window.setActiveTemplateUrl(saved.templateUrl);
                 setDesignRestored(true);
             };
 
@@ -5620,32 +5617,42 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             };
 
             const createNewDesign = () => {
-                // Nouveau design = on oublie l'id actif + on réinitialise (via onReset)
+                // 0) Empêcher la restauration auto au prochain mount (sinon le template/perma-save revient)
+                try { sessionStorage.setItem('gkdp_skip_restore_once', '1'); } catch (e) {}
+
+                // 1) Oublier le design actif
                 setActiveDesignId(null);
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
 
-                // Évite que le restore automatique ne remette un ancien design
+                // 2) Effacer les sauvegardes (temp + permanente)
+                try { localStorage.removeItem('gkdp_temp_design'); } catch (e) {}
+                try { localStorage.removeItem('gkdp_saved_design'); } catch (e) {}
                 window.clearTempDesign && window.clearTempDesign();
+                window.clearPermanentDesign && window.clearPermanentDesign();
 
-                // Effacer le template actif (Marketplace) + sortir du mode preview
+                // 3) Effacer le template actif (Marketplace) + sortir du mode preview
                 window.setActiveTemplateUrl && window.setActiveTemplateUrl(null);
-                try { sessionStorage.removeItem("gkdp_template_url"); } catch (e) {}
-                try { delete window.__GKDP_TEMPLATE_URL__; } catch (e) {}
+                setIsMarketplacePreview && setIsMarketplacePreview(false);
 
-                // Effacer aussi l'état React Marketplace (sinon re-bootstrap via sessionStorage)
-                try { setMarketplaceTemplate(null); } catch (e) {}
-                try { setIsMarketplacePreview(false); } catch (e) {}
-
-                // Enlever ?template=... ou ?img=... de l’URL pour éviter le re-bootstrap Marketplace
+                // 4) Enlever ?template=... ET #template=... (si jamais il est dans le hash)
                 try {
                     const url = new URL(window.location.href);
                     url.searchParams.delete('template');
-                    url.searchParams.delete('img');
+
+                    // Nettoyage hash
+                    if (url.hash && url.hash.includes('template=')) {
+                        const hash = url.hash.startsWith('#') ? url.hash.slice(1) : url.hash;
+                        const hashParams = new URLSearchParams(hash);
+                        hashParams.delete('template');
+                        const newHash = hashParams.toString();
+                        url.hash = newHash ? '#' + newHash : '';
+                    }
+
                     window.history.replaceState({}, '', url.toString());
                 } catch (e) {}
 
-                // Réinitialiser l'UI / états (re-montage du composant)
+                // 5) Reset complet (UI + canvas)
                 onReset && onReset();
             };
 
@@ -5709,9 +5716,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                             naturalWidth: backImage.naturalWidth, 
                             naturalHeight: backImage.naturalHeight 
                         } : null,
-                        // ✅ Pour préserver un template Marketplace pendant un redirect (signup/login)
-                        templateUrl: (window.getActiveTemplateUrl && window.getActiveTemplateUrl()) || marketplaceTemplate || (function(){ try { return window.__GKDP_TEMPLATE_URL__ || sessionStorage.getItem("gkdp_template_url") || new URLSearchParams(window.location.search).get("template") || new URLSearchParams(window.location.search).get("img") || null; } catch(e){ return null; } })(),
-
                     };
                     window.saveTempDesign && window.saveTempDesign(designData);
                     
@@ -5826,6 +5830,15 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                     // D'abord essayer de charger un design temporaire (après inscription)
                     let saved = window.loadTempDesign && window.loadTempDesign();
                     let isTemp = !!saved;
+
+                    // Si l'utilisateur vient de cliquer sur NEW, on ignore toute restauration auto (temp/permanent)
+                    try {
+                        if (sessionStorage.getItem('gkdp_skip_restore_once') === '1') {
+                            sessionStorage.removeItem('gkdp_skip_restore_once');
+                            saved = null;
+                            isTemp = false;
+                        }
+                    } catch (e) {}
                     
                     // Si pas de design temp, essayer le permanent (utilisateur connecté)
                     if (!saved && window.isUserLoggedIn && window.isUserLoggedIn()) {
@@ -5883,10 +5896,13 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                         
                         // Si c'était un design temporaire, le supprimer et le sauvegarder en permanent
                         if (isTemp) {
-                            window.clearTempDesign && window.clearTempDesign();
-                            // Sauvegarder en permanent si connecté
+                            // Si on n'est pas encore authentifié, on garde le temp design pour éviter toute perte après Sign Up / Login.
+                            // Il sera converti en permanent dès que l'utilisateur sera connecté.
                             if (window.isUserLoggedIn && window.isUserLoggedIn()) {
+                                window.clearTempDesign && window.clearTempDesign();
                                 window.saveDesignPermanent && window.saveDesignPermanent(saved);
+                            } else {
+                                console.log("💾 [TEMP KEEP] Utilisateur non authentifié -> on conserve le design temporaire");
                             }
                         }
                     }
