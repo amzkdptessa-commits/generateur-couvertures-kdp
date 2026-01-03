@@ -584,18 +584,6 @@
             localStorage.removeItem(TEMP_STORAGE_KEY);
             console.log('💾 [TEMP CLEAR] Design temporaire effacé');
         };
-
-        // 💾 Effacer le design permanent (pour repartir de zéro)
-        window.clearPermanentDesign = function() {
-            try {
-                localStorage.removeItem(STORAGE_KEY);
-                console.log('💾 [PERM CLEAR] Design permanent effacé');
-                return true;
-            } catch (e) {
-                console.error('💾 [PERM CLEAR] Erreur:', e);
-                return false;
-            }
-        };
         
         // 💾 Sauvegarder le design permanent (pour utilisateurs connectés)
         window.saveDesignPermanent = function(designData) {
@@ -739,15 +727,6 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-        }
-
-        /* ✅ Canva: on conserve le container technique pour éviter des erreurs JS,
-           mais on force son masquage (le bouton "Connect to Canva" suffit). */
-        #canva-designs-container {
-            display: none !important;
-            visibility: hidden !important;
-            height: 0 !important;
-            overflow: hidden !important;
         }
         
         #kdp-generator-container {
@@ -2451,19 +2430,6 @@ img {
                 showBarcodeZone: "Afficher zone code-barre",
                 barcodeZoneColor: "Couleur de fond",
                 barcodeZoneHelp: "Amazon ajoute automatiquement le code-barre ISBN ici",
-                barcodeZoneHelp2: "Code-barres ajouté automatiquement par Amazon lors de la publication.",
-                ownIsbnToggle: "J'ai mon propre ISBN / code-barres",
-                ownIsbnLabel: "Votre ISBN (optionnel)",
-                ownIsbnPlaceholder: "Ex : 9781234567890",
-                barcodeUploadLabel: "Uploader votre code-barres (PNG)",
-                barcodeUploadHint: "PNG recommandé. Il sera placé automatiquement dans la zone code-barres.",
-                barcodeUploadRemove: "Supprimer le code-barres",
-                ownIsbnToggle: "J'ai mon propre ISBN",
-                ownIsbnInputLabel: "Votre ISBN (optionnel)",
-                ownIsbnInputPlaceholder: "Ex: 9781234567890",
-                ownBarcodeUploadLabel: "Uploader votre code-barres (PNG)",
-                ownBarcodeUploadHelp: "Recommandé si vous publiez avec votre propre ISBN. PNG uniquement.",
-                ownBarcodeRemove: "Retirer le fichier",
                 
                 removeImage: "Supprimer l'image",
                 canvaImport: "Import depuis Canva",
@@ -2602,13 +2568,6 @@ img {
                 showBarcodeZone: "Show barcode zone",
                 barcodeZoneColor: "Background Color",
                 barcodeZoneHelp: "Amazon automatically adds the ISBN barcode here",
-                barcodeZoneHelp2: "Barcode is automatically added by Amazon during publication.",
-                ownIsbnToggle: "I have my own ISBN / barcode",
-                ownIsbnLabel: "Your ISBN (optional)",
-                ownIsbnPlaceholder: "e.g., 9781234567890",
-                ownBarcodeUploadLabel: "Upload your barcode (PNG)",
-                ownBarcodeUploadHelp: "Upload your own barcode image if you publish with your own ISBN.",
-                removeBarcodeImage: "Remove barcode image",
                 
                 removeImage: "Remove Image",
                 canvaImport: "Import from Canva",
@@ -3738,21 +3697,6 @@ img {
             // 📊 ISBN BARCODE ZONE
             const [showBarcodeZone, setShowBarcodeZone] = useState(true);
             const [barcodeZoneColor, setBarcodeZoneColor] = useState('#ffffff');
-            const [hasOwnIsbn, setHasOwnIsbn] = useState(false);
-            const [ownIsbn, setOwnIsbn] = useState('');
-            const [ownBarcodeDataUrl, setOwnBarcodeDataUrl] = useState(null); // PNG data URL
-            const ownBarcodeImgRef = useRef(null);
-
-            useEffect(() => {
-                if (!ownBarcodeDataUrl) {
-                    ownBarcodeImgRef.current = null;
-                    return;
-                }
-                const img = new Image();
-                img.onload = () => { ownBarcodeImgRef.current = img; };
-                img.onerror = () => { ownBarcodeImgRef.current = null; };
-                img.src = ownBarcodeDataUrl;
-            }, [ownBarcodeDataUrl]);
             const [frontImage, setFrontImage] = useState(null);
             const [backImage, setBackImage] = useState(null);
             const [spineImage, setSpineImage] = useState(null);
@@ -4296,18 +4240,9 @@ img {
                         ctx.beginPath(); ctx.moveTo(startX + backWidth, startY); ctx.lineTo(startX + backWidth, startY + bookHeight); ctx.stroke();
                         ctx.beginPath(); ctx.moveTo(startX + backWidth + spineWidth, startY); ctx.lineTo(startX + backWidth + spineWidth, startY + bookHeight); ctx.stroke();
                     }
-                    // ✅ Afficher le texte de tranche dès que la tranche est réellement exploitable
-                    // Règle KDP pratique : éviter d'afficher si tranche < ~2.8mm (≈ 0.11")
-                    const spineMm = (dimensions && typeof dimensions.spine === 'number') ? dimensions.spine : 0;
-                    if (spineText && spineMm >= 2.8 && spineWidth > 4) {
-                        ctx.fillStyle = spineTextColor || '#333333';
-                        ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`;
-                        ctx.textAlign = 'center';
-                        ctx.save();
-                        ctx.translate(startX + backWidth + spineWidth / 2, startY + bookHeight / 2);
-                        ctx.rotate(-Math.PI / 2);
-                        ctx.fillText(spineText, 0, 0);
-                        ctx.restore();
+                    if (spineText && spineWidth > 15) {
+                        ctx.fillStyle = spineTextColor || '#333333'; ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`; ctx.textAlign = 'center';
+                        ctx.save(); ctx.translate(startX + backWidth + spineWidth / 2, startY + bookHeight / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(spineText, 0, 0); ctx.restore();
                     }
                     if (hasBleed) {
                         ctx.strokeStyle = 'rgba(0, 100, 255, 0.8)'; ctx.lineWidth = 1; ctx.setLineDash([6, 3]);
@@ -4449,40 +4384,13 @@ img {
                         ctx.setLineDash([]);
                         ctx.strokeRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
                         
-                        // Si l'utilisateur a un code-barres, on l'affiche.
-                        if (hasOwnIsbn && ownBarcodeImgRef.current) {
-                            const img = ownBarcodeImgRef.current;
-                            const padding = Math.max(2, 2 * scaleFactor);
-                            const targetX = barcodeX + padding;
-                            const targetY = barcodeY + padding;
-                            const targetW = barcodeWidth - padding * 2;
-                            const targetH = barcodeHeight - padding * 2;
-
-                            // Draw contain (pas de distorsion)
-                            const scale = Math.min(targetW / img.width, targetH / img.height);
-                            const drawW = img.width * scale;
-                            const drawH = img.height * scale;
-                            const drawX = targetX + (targetW - drawW) / 2;
-                            const drawY = targetY + (targetH - drawH) / 2;
-                            ctx.drawImage(img, drawX, drawY, drawW, drawH);
-
-                            // Afficher l'ISBN en petit (si fourni)
-                            if (ownIsbn && String(ownIsbn).trim().length >= 8) {
-                                ctx.fillStyle = '#333333';
-                                ctx.font = `${Math.max(6, 7 * scaleFactor / 4)}px Arial`;
-                                ctx.textAlign = 'center';
-                                ctx.textBaseline = 'bottom';
-                                ctx.fillText(`ISBN: ${String(ownIsbn).trim()}`, barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight - 2);
-                            }
-                        } else {
-                            // Texte indicatif (plus lisible)
-                            ctx.fillStyle = '#666666';
-                            ctx.font = `${Math.max(7, 9 * scaleFactor / 4)}px Arial`;
-                            ctx.textAlign = 'center';
-                            ctx.textBaseline = 'middle';
-                            ctx.fillText('ISBN', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 - 6);
-                            ctx.fillText('BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 + 6);
-                        }
+                        // Texte indicatif
+                        ctx.fillStyle = '#999999';
+                        ctx.font = `${Math.max(6, 8 * scaleFactor / 4)}px Arial`;
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText('ISBN', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 - 5);
+                        ctx.fillText('BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 + 5);
                         
                         ctx.restore();
                     }
@@ -4774,7 +4682,7 @@ img {
                 // Exécuter le dessin: d'abord le fond, puis les images
                 drawBackgroundByZone(drawImages);
                 
-            }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, hasOwnIsbn, ownIsbn, ownBarcodeDataUrl, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
+            }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
             
             const exportImage = () => {
                 if (format === '8.5x11' && !confirm(t('format8511Message'))) return;
@@ -4850,8 +4758,7 @@ img {
                             }
 
                             const finalizeExport = () => {
-                                // ✅ Texte de tranche : affichage uniquement si tranche réellement exploitable (≈ ≥ 2.8mm)
-                                if (spineText && dimensions.spine >= 2.8 && spineWidth > 10) {
+                                if (spineText && spineWidth > 40 && dimensions.spine > 1.5) {
                                     exportCtx.save();
                                     exportCtx.translate(bleedMargin + frontWidth + spineWidth / 2, exportHeight / 2);
                                     exportCtx.rotate(-Math.PI / 2);
@@ -4952,37 +4859,12 @@ img {
                                     exportCtx.lineWidth = 2;
                                     exportCtx.strokeRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
                                     
-                                    // Si l'utilisateur a un code-barres, on l'affiche.
-                                    if (hasOwnIsbn && ownBarcodeImgRef.current) {
-                                        const img = ownBarcodeImgRef.current;
-                                        const padding = Math.max(6, 6 * dpiScale / 10);
-                                        const targetX = barcodeX + padding;
-                                        const targetY = barcodeY + padding;
-                                        const targetW = barcodeWidth - padding * 2;
-                                        const targetH = barcodeHeight - padding * 2;
-
-                                        const scale = Math.min(targetW / img.width, targetH / img.height);
-                                        const drawW = img.width * scale;
-                                        const drawH = img.height * scale;
-                                        const drawX = targetX + (targetW - drawW) / 2;
-                                        const drawY = targetY + (targetH - drawH) / 2;
-                                        exportCtx.drawImage(img, drawX, drawY, drawW, drawH);
-
-                                        if (ownIsbn && String(ownIsbn).trim().length >= 8) {
-                                            exportCtx.fillStyle = '#333333';
-                                            exportCtx.font = `${Math.max(12, 14 * dpiScale / 10)}px Arial`;
-                                            exportCtx.textAlign = 'center';
-                                            exportCtx.textBaseline = 'bottom';
-                                            exportCtx.fillText(`ISBN: ${String(ownIsbn).trim()}`, barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight - 4);
-                                        }
-                                    } else {
-                                        // Texte indicatif
-                                        exportCtx.fillStyle = '#666666';
-                                        exportCtx.font = `${Math.max(12, 16 * dpiScale / 10)}px Arial`;
-                                        exportCtx.textAlign = 'center';
-                                        exportCtx.textBaseline = 'middle';
-                                        exportCtx.fillText('ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
-                                    }
+                                    // Texte indicatif
+                                    exportCtx.fillStyle = '#999999';
+                                    exportCtx.font = `${Math.max(12, 16 * dpiScale / 10)}px Arial`;
+                                    exportCtx.textAlign = 'center';
+                                    exportCtx.textBaseline = 'middle';
+                                    exportCtx.fillText('ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
                                     
                                     exportCtx.restore();
                                 }
@@ -5634,42 +5516,9 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 setDesignTitle('');
                 // Évite que le restore automatique ne remette un ancien design
                 window.clearTempDesign && window.clearTempDesign();
-                window.clearPermanentDesign && window.clearPermanentDesign();
-
-                // Nettoyer l'URL (template, hash tokens) pour repartir vraiment à zéro
-                try {
-                    const cleanUrl = window.location.origin + window.location.pathname;
-                    window.history.replaceState({}, document.title, cleanUrl);
-                } catch (e) {}
-
                 // Réinitialiser l'UI / états (re-montage du composant)
                 onReset && onReset();
 
-            };
-
-            const handleOwnBarcodeUpload = (e) => {
-                const file = e.target.files && e.target.files[0];
-                if (!file) return;
-
-                const isPng = (file.type === 'image/png') || file.name.toLowerCase().endsWith('.png');
-                if (!isPng) {
-                    alert(language === 'fr' ? 'Veuillez importer un fichier PNG.' : 'Please upload a PNG file.');
-                    e.target.value = '';
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = () => {
-                    setOwnBarcodeDataUrl(reader.result);
-                };
-                reader.onerror = () => {
-                    alert(language === 'fr' ? "Impossible de lire ce fichier." : 'Could not read this file.');
-                };
-                reader.readAsDataURL(file);
-            };
-
-            const clearOwnBarcode = () => {
-                setOwnBarcodeDataUrl(null);
             };
 
             useEffect(() => {
@@ -5806,15 +5655,23 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                     console.log('🎯 [REACT] setFrontImage appelé', imageData);
                     setFrontImage(imageData);
                 };
-                
+
                 window.reactSetBackImage = (imageData) => {
                     console.log('🎯 [REACT] setBackImage appelé', imageData);
                     setBackImage(imageData);
                 };
-                
+
+                window.reactSetSpineImage = (imageData) => {
+                    console.log('🎯 [REACT] setSpineImage appelé', imageData);
+                    setSpineImage(imageData);
+                    setSpineImageOffset({ x: 0, y: 0 });
+                    setSpineImageZoom(1.0);
+                };
+
                 return () => {
                     delete window.reactSetFrontImage;
                     delete window.reactSetBackImage;
+                    delete window.reactSetSpineImage;
                 };
             }, []);
 
@@ -7034,68 +6891,6 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                 )}
                                             </div>
                                             <p className="text-xs text-gray-500 mt-2">{t('barcodeZoneHelp')}</p>
-                                            <p className="text-xs text-gray-500 mt-1">{t('barcodeZoneHelp2')}</p>
-
-                                            {showBarcodeZone && (
-                                                <div className="mt-3 p-3 bg-white rounded-lg border border-gray-200">
-                                                    <label className="flex items-center gap-2 text-sm text-gray-700">
-                                                        <input
-                                                            type="checkbox"
-                                                            checked={hasOwnIsbn}
-                                                            onChange={(e) => {
-                                                                const v = e.target.checked;
-                                                                setHasOwnIsbn(v);
-                                                                if (!v) {
-                                                                    setOwnIsbn('');
-                                                                    clearOwnBarcode();
-                                                                }
-                                                            }}
-                                                            className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
-                                                        />
-                                                        {t('ownIsbnToggle')}
-                                                    </label>
-
-                                                    {hasOwnIsbn && (
-                                                        <div className="mt-3 space-y-3">
-                                                            <div>
-                                                                <label className="block text-xs font-medium text-gray-600 mb-1">{t('ownIsbnLabel')}</label>
-                                                                <input
-                                                                    type="text"
-                                                                    value={ownIsbn}
-                                                                    onChange={(e) => setOwnIsbn(e.target.value)}
-                                                                    placeholder={t('ownIsbnPlaceholder')}
-                                                                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500"
-                                                                />
-                                                                <div className="text-xs text-gray-500 mt-1">{t('ownIsbnTip')}</div>
-                                                            </div>
-
-                                                            <div>
-                                                                <label className="block text-xs font-medium text-gray-600 mb-1">{t('barcodeUploadLabel')}</label>
-                                                                <input
-                                                                    type="file"
-                                                                    accept="image/png"
-                                                                    onChange={handleOwnBarcodeUpload}
-                                                                    className="w-full text-xs"
-                                                                />
-                                                                <div className="text-xs text-gray-500 mt-1">{t('barcodeUploadTip')}</div>
-                                                            </div>
-
-                                                            {ownBarcodeDataUrl && (
-                                                                <div className="flex items-center justify-between gap-3">
-                                                                    <div className="text-xs text-gray-600 truncate">{t('barcodeUploaded')}</div>
-                                                                    <button
-                                                                        type="button"
-                                                                        onClick={clearOwnBarcode}
-                                                                        className="text-xs px-3 py-1 rounded bg-gray-100 hover:bg-gray-200"
-                                                                    >
-                                                                        {t('removeBarcode')}
-                                                                    </button>
-                                                                </div>
-                                                            )}
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            )}
                                         </div>
                                     </div>
 
@@ -7992,11 +7787,9 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                     </div>
                                 )}
 
-                                {/* Container technique utilisé par canva-designs-fetcher.js.
-                                    On le conserve pour éviter les erreurs JS, mais on le masque pour ne pas afficher
-                                    une seconde section (la carte ci-dessus suffit). */}
-                                <div id="canva-designs-container" className="mt-4" style={{minHeight: '100px', display: 'none'}}>
-                                    {/* Hidden */}
+                                {/* Container for Canva designs grid */}
+                                <div id="canva-designs-container" className="mt-4" style={{minHeight: '100px'}}>
+                                    {/* La grille Canva sera injectée ici par canva-designs-fetcher.js */}
                                 </div>
                             </div>
 
@@ -8558,68 +8351,68 @@ function getStored() {
   // Écouter l'événement d'import de design Canva
   document.addEventListener('canva:design-imported', async (event) => {
     console.log('🎨 [CANVA] Design importé!', event.detail);
-    
-    const { imageUrl, action, designId } = event.detail;
-    
+
+    const { imageUrl, action, designId } = (event && event.detail) ? event.detail : {};
+    if (!imageUrl) {
+      console.error('❌ [CANVA] Aucun imageUrl dans event.detail');
+      return;
+    }
+
+    // Normaliser l'action (compatibilité si le fetcher utilise d'autres libellés)
+    const a = String(action || 'front').toLowerCase().trim();
+    let target = 'front';
+    if (['back', 'verso', 'rear'].includes(a)) target = 'back';
+    if (['spine', 'tranche'].includes(a)) target = 'spine';
+    if (['front', 'cover', 'face', 'couverture'].includes(a)) target = 'front';
+
     try {
-      console.log('📥 [CANVA] Chargement image:', imageUrl);
-      
-      // Créer une image pour charger et obtenir les dimensions
+      console.log('📥 [CANVA] Chargement image:', imageUrl, '->', target);
+
       const img = new Image();
-      img.crossOrigin = "anonymous";
-      
+      img.crossOrigin = 'anonymous';
+
       img.onload = () => {
-        console.log('✅ [CANVA] Image chargée:', img.width, 'x', img.height);
-        
-        // Créer l'objet imageData au format attendu par React
+        console.log('✅ [CANVA] Image chargée:', img.naturalWidth, 'x', img.naturalHeight);
+
         const imageData = {
           url: imageUrl,
           naturalWidth: img.naturalWidth,
           naturalHeight: img.naturalHeight,
-          file: null  // Pas de file car vient de Canva
+          file: null,
+          source: 'canva'
         };
-        
-        // Importer selon l'action
-        if (action === 'front') {
-          console.log('📱 [CANVA] Import sur FACE');
-          if (window.reactSetFrontImage) {
-            window.reactSetFrontImage(imageData);
-          } else {
-            console.error('❌ reactSetFrontImage non disponible');
-            // Réessayer après un délai
-            setTimeout(() => {
-              if (window.reactSetFrontImage) {
-                window.reactSetFrontImage(imageData);
-              } else {
-                alert('Erreur: Fonction d\'import non disponible. Rechargez la page.');
-              }
-            }, 500);
-          }
-        } else if (action === 'back') {
-          console.log('🔄 [CANVA] Import sur VERSO');
-          if (window.reactSetBackImage) {
-            window.reactSetBackImage(imageData);
-          } else {
-            console.error('❌ reactSetBackImage non disponible');
-            // Réessayer après un délai
-            setTimeout(() => {
-              if (window.reactSetBackImage) {
-                window.reactSetBackImage(imageData);
-              } else {
-                alert('Erreur: Fonction d\'import non disponible. Rechargez la page.');
-              }
-            }, 500);
-          }
+
+        // 1) Voie directe React (si exposée)
+        const setters = {
+          front: window.reactSetFrontImage,
+          back: window.reactSetBackImage,
+          spine: window.reactSetSpineImage
+        };
+
+        if (typeof setters[target] === 'function') {
+          console.log(`📌 [CANVA] Import React direct -> ${target.toUpperCase()}`);
+          setters[target](imageData);
+          return;
         }
+
+        // 2) Fallback via handler global (télécharge + convertit en dataURL)
+        if (typeof window.__kdp_handleCanvaUpload === 'function') {
+          console.log(`📌 [CANVA] Import via __kdp_handleCanvaUpload -> ${target.toUpperCase()}`);
+          window.__kdp_handleCanvaUpload(imageUrl, target);
+          return;
+        }
+
+        console.error(`❌ [CANVA] Aucune fonction d'import disponible pour ${target}`);
+        alert("Erreur: import Canva indisponible. Rechargez la page.");
       };
-      
+
       img.onerror = (error) => {
         console.error('❌ [CANVA] Erreur chargement image:', error);
-        alert('Erreur lors du chargement de l\'image depuis Canva');
+        alert("Erreur lors du chargement de l'image depuis Canva");
       };
-      
+
       img.src = imageUrl;
-      
+
     } catch (error) {
       console.error('❌ [CANVA] Erreur import:', error);
       alert('Erreur lors de l\'import: ' + error.message);
