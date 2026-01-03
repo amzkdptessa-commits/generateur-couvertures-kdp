@@ -2430,6 +2430,15 @@ img {
                 showBarcodeZone: "Afficher zone code-barre",
                 barcodeZoneColor: "Couleur de fond",
                 barcodeZoneHelp: "Amazon ajoute automatiquement le code-barre ISBN ici",
+                barcodeAutoNote: "Code-barres ajouté automatiquement par Amazon lors de la publication.",
+                barcodeChoiceTitle: "Mode code-barres",
+                barcodeModeAmazon: "ISBN Amazon (recommandé)",
+                barcodeModeCustom: "J’ai mon propre ISBN / code-barres",
+                barcodeIsbnOptional: "ISBN (optionnel)",
+                barcodeUploadLabel: "Uploader un PNG de code-barres",
+                barcodeUploadHint: "Le PNG sera intégré dans la zone au moment de l’export (PDF/PNG/JPG).",
+                barcodeRemove: "Retirer l’image",
+
                 
                 removeImage: "Supprimer l'image",
                 canvaImport: "Import depuis Canva",
@@ -2568,6 +2577,15 @@ img {
                 showBarcodeZone: "Show barcode zone",
                 barcodeZoneColor: "Background Color",
                 barcodeZoneHelp: "Amazon automatically adds the ISBN barcode here",
+                barcodeAutoNote: "Barcode automatically added by Amazon during publishing.",
+                barcodeChoiceTitle: "Barcode mode",
+                barcodeModeAmazon: "Amazon ISBN (recommended)",
+                barcodeModeCustom: "I have my own ISBN / barcode",
+                barcodeIsbnOptional: "ISBN (optional)",
+                barcodeUploadLabel: "Upload a PNG barcode",
+                barcodeUploadHint: "The PNG will be drawn in the barcode zone at export (PDF/PNG/JPG).",
+                barcodeRemove: "Remove image",
+
                 
                 removeImage: "Remove Image",
                 canvaImport: "Import from Canva",
@@ -3697,7 +3715,12 @@ img {
             // 📊 ISBN BARCODE ZONE
             const [showBarcodeZone, setShowBarcodeZone] = useState(true);
             const [barcodeZoneColor, setBarcodeZoneColor] = useState('#ffffff');
-            const [frontImage, setFrontImage] = useState(null);
+            // 📦 CUSTOM ISBN / BARCODE
+            const [useCustomBarcode, setUseCustomBarcode] = useState(false);
+            const [customISBN, setCustomISBN] = useState('');
+            const [customBarcodePng, setCustomBarcodePng] = useState(null); // { file, url }
+            const barcodeImgRef = useRef(null);
+const [frontImage, setFrontImage] = useState(null);
             const [backImage, setBackImage] = useState(null);
             const [spineImage, setSpineImage] = useState(null);
             const [spineColor, setSpineColor] = useState('#ffffff');
@@ -3780,10 +3803,14 @@ img {
                 const isFullCover = imageUrl.toLowerCase().includes('fullcover');
                 console.log('🛒 [MARKETPLACE] Type:', isFullCover ? 'FULL COVER' : 'BACKGROUND');
 
-                // Auto-sélectionner format par défaut
-                setFormat('6x9');
-                setPageCount(100);
-                console.log('🛒 [MARKETPLACE] Format auto-sélectionné: 6x9, 100 pages');
+                // Auto-sélectionner format/pages par défaut (sans écraser un choix utilisateur existant)
+                if (!format) {
+                    setFormat('6x9');
+                }
+                if (!pageCount || Number(pageCount) <= 0) {
+                    setPageCount(100);
+                }
+                console.log('🛒 [MARKETPLACE] Valeurs par défaut (modifiables): 6x9, 100 pages');
 
                 const img = new Image();
                 img.crossOrigin = 'anonymous';
@@ -4068,7 +4095,23 @@ img {
                 setOverallScore(validation.score);
             }, [validateKDPCompliance]);
 
-            const getScoreClass = (score) => {
+            
+            // 📦 Charger l'image du code-barres custom (PNG) en cache pour preview + export
+            useEffect(() => {
+                if (useCustomBarcode && customBarcodePng?.url) {
+                    const img = new Image();
+                    img.onload = () => { 
+                        barcodeImgRef.current = img; 
+                    };
+                    img.onerror = () => { 
+                        barcodeImgRef.current = null; 
+                    };
+                    img.src = customBarcodePng.url;
+                } else {
+                    barcodeImgRef.current = null;
+                }
+            }, [useCustomBarcode, customBarcodePng]);
+const getScoreClass = (score) => {
                 if (score >= 23) return 'score-excellent';
                 if (score >= 19) return 'score-tres-bon';
                 if (score >= 15) return 'score-acceptable';
@@ -4080,6 +4123,29 @@ img {
                 if (score >= 15) return { label: t('scoreAcceptable'), subtitle: t('scoreSubtitleAcceptable') };
                 return { label: t('scoreProblematique'), subtitle: t('scoreSubtitleProblematique') };
             };
+            // 📦 Upload / remove code-barres custom (PNG)
+            const handleCustomBarcodeUpload = (file) => {
+                if (!file) return;
+                if (file.type !== 'image/png') {
+                    alert(language === 'fr' 
+                        ? "Veuillez uploader un fichier PNG pour le code-barres." 
+                        : "Please upload a PNG file for the barcode.");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    setCustomBarcodePng({ file, url: e.target.result });
+                    // Forcer l'affichage de la zone si l'utilisateur passe en custom
+                    if (!showBarcodeZone) setShowBarcodeZone(true);
+                };
+                reader.readAsDataURL(file);
+            };
+
+            const removeCustomBarcode = () => {
+                setCustomBarcodePng(null);
+            };
+
+
             const handleImageUpload = (file, type) => {
                 if (!file) return;
                 const reader = new FileReader();
@@ -4240,7 +4306,7 @@ img {
                         ctx.beginPath(); ctx.moveTo(startX + backWidth, startY); ctx.lineTo(startX + backWidth, startY + bookHeight); ctx.stroke();
                         ctx.beginPath(); ctx.moveTo(startX + backWidth + spineWidth, startY); ctx.lineTo(startX + backWidth + spineWidth, startY + bookHeight); ctx.stroke();
                     }
-                    if (spineText && spineWidth > 15) {
+                    if (spineText && (dimensions?.spine || 0) >= 0.06 && spineWidth > 6) {
                         ctx.fillStyle = spineTextColor || '#333333'; ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`; ctx.textAlign = 'center';
                         ctx.save(); ctx.translate(startX + backWidth + spineWidth / 2, startY + bookHeight / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(spineText, 0, 0); ctx.restore();
                     }
@@ -4373,25 +4439,46 @@ img {
                         const barcodeHeight = 30 * scaleFactor;
                         const barcodeX = startX + backWidth - safeZoneWidth - barcodeWidth - 5;
                         const barcodeY = startY + bookHeight - safeZoneHeight - barcodeHeight - 5;
-                        
-                        // Fond blanc pour le code-barre
+
+                        // Fond / zone
                         ctx.fillStyle = barcodeZoneColor;
                         ctx.fillRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
-                        
+
                         // Bordure
                         ctx.strokeStyle = '#cccccc';
                         ctx.lineWidth = 1;
                         ctx.setLineDash([]);
                         ctx.strokeRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
-                        
-                        // Texte indicatif
-                        ctx.fillStyle = '#999999';
-                        ctx.font = `${Math.max(6, 8 * scaleFactor / 4)}px Arial`;
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillText('ISBN', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 - 5);
-                        ctx.fillText('BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 + 5);
-                        
+
+                        // Si l'utilisateur fournit son propre code-barres (PNG), on l'affiche
+                        if (useCustomBarcode && barcodeImgRef.current) {
+                            const img = barcodeImgRef.current;
+                            // Contain sans déformation
+                            const ratio = Math.min(barcodeWidth / img.width, barcodeHeight / img.height);
+                            const w = img.width * ratio;
+                            const h = img.height * ratio;
+                            const ix = barcodeX + (barcodeWidth - w) / 2;
+                            const iy = barcodeY + (barcodeHeight - h) / 2;
+                            ctx.drawImage(img, ix, iy, w, h);
+
+                            // ISBN optionnel en petit sous la zone (dans la safe zone)
+                            if (customISBN) {
+                                ctx.fillStyle = '#444444';
+                                ctx.font = `${Math.max(6, 8 * scaleFactor / 4)}px Arial`;
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'top';
+                                ctx.fillText(customISBN, barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight + 2);
+                            }
+                        } else {
+                            // Placeholder informatif (Amazon)
+                            ctx.fillStyle = '#999999';
+                            ctx.font = `${Math.max(6, 8 * scaleFactor / 4)}px Arial`;
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText('ISBN', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 - 5);
+                            ctx.fillText('BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 + 5);
+                        }
+
                         ctx.restore();
                     }
                 };
@@ -4609,6 +4696,8 @@ img {
                                 backImg.crossOrigin = "anonymous";
                                 backImg.onload = () => {
                                     ctx.drawImage(backImg, startX, startY, backWidth, bookHeight);
+                                    // Redraw overlays so spine text stays visible after async image draw
+                                    drawOverlays();
                                 };
                                 backImg.src = backImage.url;
                             } else {
@@ -4626,6 +4715,8 @@ img {
                                 spineImg.crossOrigin = "anonymous";
                                 spineImg.onload = () => {
                                     ctx.drawImage(spineImg, startX + backWidth, startY, spineWidth, bookHeight);
+                                    // Redraw overlays so spine text stays visible after async image draw
+                                    drawOverlays();
                                 };
                                 spineImg.src = spineImage.url;
                             } else if (dimensions.spine >= 1.0 && spineColor && spineColor !== '#ffffff') {
@@ -4682,7 +4773,7 @@ img {
                 // Exécuter le dessin: d'abord le fond, puis les images
                 drawBackgroundByZone(drawImages);
                 
-            }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
+            }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, useCustomBarcode, customISBN, customBarcodePng, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
             
             const exportImage = () => {
                 if (format === '8.5x11' && !confirm(t('format8511Message'))) return;
@@ -4851,21 +4942,41 @@ img {
                                     const barcodeHeight = 30.5 * dpiScale;
                                     const barcodeX = bleedMargin + frontWidth - safeZone - barcodeWidth - 20;
                                     const barcodeY = exportHeight - safeZone - barcodeHeight - 20;
-                                    
+
                                     exportCtx.fillStyle = barcodeZoneColor;
                                     exportCtx.fillRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
-                                    
+
                                     exportCtx.strokeStyle = '#cccccc';
                                     exportCtx.lineWidth = 2;
                                     exportCtx.strokeRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
-                                    
-                                    // Texte indicatif
-                                    exportCtx.fillStyle = '#999999';
-                                    exportCtx.font = `${Math.max(12, 16 * dpiScale / 10)}px Arial`;
-                                    exportCtx.textAlign = 'center';
-                                    exportCtx.textBaseline = 'middle';
-                                    exportCtx.fillText('ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
-                                    
+
+                                    // Si code-barres custom: dessiner le PNG (si déjà chargé)
+                                    if (useCustomBarcode && barcodeImgRef.current) {
+                                        const img = barcodeImgRef.current;
+                                        const ratio = Math.min(barcodeWidth / img.width, barcodeHeight / img.height);
+                                        const w = img.width * ratio;
+                                        const h = img.height * ratio;
+                                        const ix = barcodeX + (barcodeWidth - w) / 2;
+                                        const iy = barcodeY + (barcodeHeight - h) / 2;
+                                        exportCtx.drawImage(img, ix, iy, w, h);
+
+                                        // ISBN optionnel en petit sous la zone
+                                        if (customISBN) {
+                                            exportCtx.fillStyle = '#444444';
+                                            exportCtx.font = `${Math.max(10, 12 * dpiScale / 10)}px Arial`;
+                                            exportCtx.textAlign = 'center';
+                                            exportCtx.textBaseline = 'top';
+                                            exportCtx.fillText(customISBN, barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight + (4 * dpiScale / 10));
+                                        }
+                                    } else {
+                                        // Placeholder informatif (Amazon)
+                                        exportCtx.fillStyle = '#999999';
+                                        exportCtx.font = `${Math.max(12, 16 * dpiScale / 10)}px Arial`;
+                                        exportCtx.textAlign = 'center';
+                                        exportCtx.textBaseline = 'middle';
+                                        exportCtx.fillText('ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
+                                    }
+
                                     exportCtx.restore();
                                 }
                                 
@@ -5514,11 +5625,21 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 setActiveDesignId(null);
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
+
                 // Évite que le restore automatique ne remette un ancien design
                 window.clearTempDesign && window.clearTempDesign();
+
+                // Effacer le template actif (Marketplace) + sortir du mode preview
+                window.setActiveTemplateUrl && window.setActiveTemplateUrl(null);
+                try {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('template');
+                    window.history.replaceState({}, '', url.toString());
+                } catch (e) {}
+                setIsMarketplacePreview(false);
+
                 // Réinitialiser l'UI / états (re-montage du composant)
                 onReset && onReset();
-
             };
 
             useEffect(() => {
@@ -6868,29 +6989,122 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                             <h4 className="font-medium text-amber-700 mb-3">
                                                 {t('barcodeSection')}
                                             </h4>
-                                            <div className="flex items-center justify-between">
-                                                <label className="flex items-center gap-2 text-sm text-gray-700">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={showBarcodeZone}
-                                                        onChange={(e) => setShowBarcodeZone(e.target.checked)}
-                                                        className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
-                                                    />
-                                                    {t('showBarcodeZone')}
-                                                </label>
-                                                {showBarcodeZone && (
-                                                    <div className="flex items-center gap-2">
-                                                        <span className="text-xs text-gray-600">{t('barcodeZoneColor')}:</span>
+
+                                            <div className="space-y-3">
+                                                <div className="flex items-center justify-between">
+                                                    <label className="flex items-center gap-2 text-sm text-gray-700">
                                                         <input
-                                                            type="color"
-                                                            value={barcodeZoneColor}
-                                                            onChange={(e) => setBarcodeZoneColor(e.target.value)}
-                                                            className="w-8 h-6 border border-gray-300 rounded cursor-pointer"
+                                                            type="checkbox"
+                                                            checked={showBarcodeZone}
+                                                            onChange={(e) => setShowBarcodeZone(e.target.checked)}
+                                                            className="h-4 w-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
                                                         />
+                                                        {t('showBarcodeZone')}
+                                                    </label>
+
+                                                    {showBarcodeZone && (
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-xs text-gray-600">{t('barcodeZoneColor')}:</span>
+                                                            <input
+                                                                type="color"
+                                                                value={barcodeZoneColor}
+                                                                onChange={(e) => setBarcodeZoneColor(e.target.value)}
+                                                                className="w-8 h-6 border border-gray-300 rounded cursor-pointer"
+                                                            />
+                                                        </div>
+                                                    )}
+                                                </div>
+
+                                                {/* Texte clair sous la zone (Amazon par défaut) */}
+                                                {showBarcodeZone && !useCustomBarcode && (
+                                                    <p className="text-xs text-gray-500">
+                                                        {t('barcodeAutoNote')}
+                                                    </p>
+                                                )}
+
+                                                {/* Choix Amazon vs code-barres custom */}
+                                                {showBarcodeZone && (
+                                                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 space-y-2">
+                                                        <div className="text-sm font-medium text-amber-800">
+                                                            {t('barcodeChoiceTitle')}
+                                                        </div>
+
+                                                        <label className="flex items-center gap-2 text-sm text-gray-700">
+                                                            <input
+                                                                type="radio"
+                                                                name="barcodeMode"
+                                                                checked={!useCustomBarcode}
+                                                                onChange={() => setUseCustomBarcode(false)}
+                                                            />
+                                                            {t('barcodeModeAmazon')}
+                                                        </label>
+
+                                                        <label className="flex items-center gap-2 text-sm text-gray-700">
+                                                            <input
+                                                                type="radio"
+                                                                name="barcodeMode"
+                                                                checked={useCustomBarcode}
+                                                                onChange={() => {
+                                                                    setUseCustomBarcode(true);
+                                                                    if (!showBarcodeZone) setShowBarcodeZone(true);
+                                                                }}
+                                                            />
+                                                            {t('barcodeModeCustom')}
+                                                        </label>
+
+                                                        {useCustomBarcode && (
+                                                            <div className="pt-2 space-y-2">
+                                                                <div>
+                                                                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                                                                        {t('barcodeIsbnOptional')}
+                                                                    </label>
+                                                                    <input
+                                                                        type="text"
+                                                                        value={customISBN}
+                                                                        onChange={(e) => setCustomISBN(e.target.value)}
+                                                                        placeholder="978-..."
+                                                                        className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                                                                    />
+                                                                </div>
+
+                                                                <div>
+                                                                    <label className="block text-xs font-medium text-gray-600 mb-1">
+                                                                        {t('barcodeUploadLabel')}
+                                                                    </label>
+                                                                    <input
+                                                                        type="file"
+                                                                        accept="image/png"
+                                                                        onChange={(e) => handleCustomBarcodeUpload(e.target.files?.[0])}
+                                                                        className="w-full text-sm"
+                                                                    />
+                                                                    <p className="text-xs text-gray-500 mt-1">
+                                                                        {t('barcodeUploadHint')}
+                                                                    </p>
+                                                                </div>
+
+                                                                {customBarcodePng?.url && (
+                                                                    <div className="flex items-center justify-between gap-3 bg-white rounded border border-gray-200 p-2">
+                                                                        <img
+                                                                            src={customBarcodePng.url}
+                                                                            alt="Barcode"
+                                                                            className="h-16 object-contain"
+                                                                        />
+                                                                        <button
+                                                                            type="button"
+                                                                            onClick={removeCustomBarcode}
+                                                                            className="text-xs text-red-600 hover:underline"
+                                                                        >
+                                                                            {t('barcodeRemove')}
+                                                                        </button>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 )}
+
+                                                <p className="text-xs text-gray-500">{t('barcodeZoneHelp')}</p>
                                             </div>
-                                            <p className="text-xs text-gray-500 mt-2">{t('barcodeZoneHelp')}</p>
                                         </div>
                                     </div>
 
@@ -7584,8 +7798,8 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                 />
                                                 <span className="text-sm text-amber-900">
                                                     <strong>🔒 KDP Strict :</strong> {language === 'fr' 
-                                                        ? `Je confirme que les paramètres KDP de mon livre correspondent EXACTEMENT à ceux-ci : ${kdpFormats[format]?.name || format}, ${pageCount} pages, ${paperType === 'white' ? 'N&B papier blanc' : paperType === 'cream' ? 'N&B papier crème' : paperType}, ${hasBleed ? 'avec fond perdu' : 'sans fond perdu'}. Sinon KDP rejettera la couverture.`
-                                                        : `I confirm that my KDP book parameters EXACTLY match: ${kdpFormats[format]?.name || format}, ${pageCount} pages, ${paperType}, ${hasBleed ? 'with bleed' : 'without bleed'}. Otherwise KDP will reject the cover.`
+                                                        ? `Je confirme que les paramètres KDP de mon livre correspondent EXACTEMENT : ${(kdpFormats[format]?.name || format)}, ${pageCount} pages${(isMarketplacePreview && String(pageCount) === '100') ? ' (valeur par défaut, modifiable)' : ''}, ${bindingType === 'paperback' ? 'Broché' : 'Relié'}, ${(paperOptions[bindingType]?.find(o => o.value === paperType)?.labelFr || paperType)}, ${hasBleed ? 'avec fond perdu' : 'sans fond perdu'}. Sinon KDP rejettera la couverture.`
+                                                        : `I confirm that my KDP book parameters EXACTLY match: ${(kdpFormats[format]?.name || format)}, ${pageCount} pages${(isMarketplacePreview && String(pageCount) === '100') ? ' (default value, editable)' : ''}, ${bindingType === 'paperback' ? 'Paperback' : 'Hardcover'}, ${(paperOptions[bindingType]?.find(o => o.value === paperType)?.labelEn || paperType)}, ${hasBleed ? 'with bleed' : 'without bleed'}. Otherwise KDP will reject the cover.`
                                                     }
                                                 </span>
                                             </label>
