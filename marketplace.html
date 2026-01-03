@@ -584,9 +584,149 @@
   </section>
 
   <script>
-    // Les cartes FULL COVER sont maintenant générées automatiquement par marketplace-categories.js
+    // Insérer les cartes FULL COVER dynamiquement
+    document.addEventListener('DOMContentLoaded', function () {
+      const fullcoverGrid = document.getElementById('fullcover-categories');
+      if (fullcoverGrid) {
+        fullcoverGrid.innerHTML = `<div class="category-card" onclick="loadCategoryImages('FULL COVER/Art')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg" alt="Art" loading="lazy">
+          <span class="category-badge badge-premium">PREMIUM</span>
+          <div class="category-overlay">
+            <div class="category-icon">🎨</div>
+            <div class="category-name">Art</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Boheme')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" alt="Boheme" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🌸</div>
+            <div class="category-name">Boheme</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/FANTASY')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg" alt="FANTASY" loading="lazy">
+          <span class="category-badge badge-popular">POPULAR</span>
+          <div class="category-overlay">
+            <div class="category-icon">🧙</div>
+            <div class="category-name">FANTASY</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Fleurs')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" alt="Fleurs" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🌺</div>
+            <div class="category-name">Fleurs</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Historical')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" alt="Historical" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🏛️</div>
+            <div class="category-name">Historical</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Horror')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg" alt="Horror" loading="lazy">
+          <span class="category-badge badge-new">NEW</span>
+          <div class="category-overlay">
+            <div class="category-icon">👻</div>
+            <div class="category-name">Horror</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/MAGIE x ART NOUVEAU (STYLE PREMIUM)')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg" alt="MAGIE x ART NOUVEAU (STYLE PREMIUM)" loading="lazy">
+          <span class="category-badge badge-premium">PREMIUM</span>
+          <div class="category-overlay">
+            <div class="category-icon">✨</div>
+            <div class="category-name">MAGIE x ART NOUVEAU (STYLE PREMIUM)</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Mystery')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" alt="Mystery" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🔍</div>
+            <div class="category-name">Mystery</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Paysages')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Paysages/fullcover_couverture_de_livres_paysages_009.png" alt="Paysages" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🏞️</div>
+            <div class="category-name">Paysages</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/RELIGIONS')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" alt="RELIGIONS" loading="lazy">
+          <span class="category-badge badge-premium">PREMIUM</span>
+          <div class="category-overlay">
+            <div class="category-icon">✝️</div>
+            <div class="category-name">RELIGIONS</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Romance')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg" alt="Romance" loading="lazy">
+          <span class="category-badge badge-best">BEST SELLER</span>
+          <div class="category-overlay">
+            <div class="category-icon">💖</div>
+            <div class="category-name">Romance</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Sci-fi')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg" alt="Sci-fi" loading="lazy">
+          <span class="category-badge badge-popular">POPULAR</span>
+          <div class="category-overlay">
+            <div class="category-icon">🚀</div>
+            <div class="category-name">Sci-fi</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Thriller')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" alt="Thriller" loading="lazy">
+          <span class="category-badge badge-new">NEW</span>
+          <div class="category-overlay">
+            <div class="category-icon">🔪</div>
+            <div class="category-name">Thriller</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Vintage')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Buildings%20%26%20City/fullcover_vintage_1930s_buildings_city_006.jpg" alt="Vintage" loading="lazy">
+          <span class="category-badge badge-popular">POPULAR</span>
+          <div class="category-overlay">
+            <div class="category-icon">📷</div>
+            <div class="category-name">Vintage</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Voyages')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" alt="Voyages" loading="lazy">
+          <span class="category-badge badge-new">NEW</span>
+          <div class="category-overlay">
+            <div class="category-icon">🌍</div>
+            <div class="category-name">Voyages</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        `;
+      }
+    });
   </script>
-
 
   <!-- Book Covers Section -->
   <section class="py-12 bg-white">
@@ -1153,9 +1293,6 @@ document.querySelectorAll(".card_section").forEach(section => {
       window.location.href = url;
     }
   </script>
-
-  <!-- Marketplace Categories Auto-Loader -->
-  <script src="marketplace-categories.js"></script>
 
   <!-- Bunny Loader Script -->
   <script src="bunny-loader.js"></script>
