@@ -5521,6 +5521,16 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
 
+                // ✅ IMPORTANT: empêcher la restauration automatique du dernier design (auto-save) après reset
+                try {
+                    sessionStorage.setItem('gkdp_skip_restore_once', '1');
+                } catch (e) {}
+
+                // Effacer le dernier design auto-sauvegardé (ceci n'efface PAS la bibliothèque "My designs")
+                try {
+                    localStorage.removeItem('gkdp_saved_design');
+                } catch (e) {}
+
                 // ✅ IMPORTANT: enlever le paramètre ?template=... pour éviter le rechargement automatique du template Marketplace
                 try {
                     const url = new URL(window.location.href);
@@ -5538,6 +5548,11 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
 
                 // Évite que le restore automatique ne remette un ancien design
                 window.clearTempDesign && window.clearTempDesign();
+
+                // Effacer aussi l'auto-save permanent (sinon il se restaure au re-mount)
+                try {
+                    localStorage.removeItem('gkdp_saved_design');
+                } catch (e) {}
 
                 // Réinitialiser l'UI / états (re-montage du composant)
                 onReset && onReset();
@@ -5706,6 +5721,16 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             // 💾 CHARGER LE DESIGN SAUVEGARDÉ AU MOUNT (temp ou permanent)
             useEffect(() => {
                 const timer = setTimeout(() => {
+                    // ✅ Si l'utilisateur vient de cliquer sur "New", on saute UNE fois la restauration auto
+                    try {
+                        const skip = sessionStorage.getItem('gkdp_skip_restore_once');
+                        if (skip === '1') {
+                            sessionStorage.removeItem('gkdp_skip_restore_once');
+                            console.log('💾 [RESTORE] Skipped once (New Design)');
+                            return;
+                        }
+                    } catch (e) {}
+
                     // D'abord essayer de charger un design temporaire (après inscription)
                     let saved = window.loadTempDesign && window.loadTempDesign();
                     let isTemp = !!saved;
