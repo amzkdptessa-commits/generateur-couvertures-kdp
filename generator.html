@@ -5626,7 +5626,14 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
 
-                // Évite que le restore automatique ne remette un ancien design
+                // Effacer toutes les sauvegardes locales (temp + "permanent") pour éviter un restore automatique
+                try {
+                    localStorage.removeItem('gkdp_temp_design');
+                    localStorage.removeItem('gkdp_saved_design');
+                    localStorage.removeItem('gkdp_active_template_url');
+                } catch (e) {}
+
+                // Helpers existants (si présents)
                 window.clearTempDesign && window.clearTempDesign();
 
                 // Effacer le template actif (Marketplace) + sortir du mode preview
