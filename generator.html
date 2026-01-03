@@ -584,6 +584,18 @@
             localStorage.removeItem(TEMP_STORAGE_KEY);
             console.log('💾 [TEMP CLEAR] Design temporaire effacé');
         };
+
+        // 💾 Effacer le design permanent (pour repartir de zéro)
+        window.clearPermanentDesign = function() {
+            try {
+                localStorage.removeItem(STORAGE_KEY);
+                console.log('💾 [PERM CLEAR] Design permanent effacé');
+                return true;
+            } catch (e) {
+                console.error('💾 [PERM CLEAR] Erreur:', e);
+                return false;
+            }
+        };
         
         // 💾 Sauvegarder le design permanent (pour utilisateurs connectés)
         window.saveDesignPermanent = function(designData) {
@@ -727,6 +739,15 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* ✅ Canva: on conserve le container technique pour éviter des erreurs JS,
+           mais on force son masquage (le bouton "Connect to Canva" suffit). */
+        #canva-designs-container {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            overflow: hidden !important;
         }
         
         #kdp-generator-container {
@@ -2430,9 +2451,19 @@ img {
                 showBarcodeZone: "Afficher zone code-barre",
                 barcodeZoneColor: "Couleur de fond",
                 barcodeZoneHelp: "Amazon ajoute automatiquement le code-barre ISBN ici",
-                ownIsbnLabel: "J'ai mon propre ISBN",
+                barcodeZoneHelp2: "Code-barres ajouté automatiquement par Amazon lors de la publication.",
+                ownIsbnToggle: "J'ai mon propre ISBN / code-barres",
+                ownIsbnLabel: "Votre ISBN (optionnel)",
                 ownIsbnPlaceholder: "Ex : 9781234567890",
-                ownIsbnHelp: "Si vous utilisez votre propre ISBN, KDP n'ajoutera pas le code-barres automatiquement : vous devez réserver cette zone et fournir le code-barres.",
+                barcodeUploadLabel: "Uploader votre code-barres (PNG)",
+                barcodeUploadHint: "PNG recommandé. Il sera placé automatiquement dans la zone code-barres.",
+                barcodeUploadRemove: "Supprimer le code-barres",
+                ownIsbnToggle: "J'ai mon propre ISBN",
+                ownIsbnInputLabel: "Votre ISBN (optionnel)",
+                ownIsbnInputPlaceholder: "Ex: 9781234567890",
+                ownBarcodeUploadLabel: "Uploader votre code-barres (PNG)",
+                ownBarcodeUploadHelp: "Recommandé si vous publiez avec votre propre ISBN. PNG uniquement.",
+                ownBarcodeRemove: "Retirer le fichier",
                 
                 removeImage: "Supprimer l'image",
                 canvaImport: "Import depuis Canva",
@@ -2466,7 +2497,7 @@ img {
                 kdpTips: "Conseils KDP",
                 tipFormat: "Le format 6×9\" est le plus populaire sur Amazon.",
                 tipBleed: "Activez le fond perdu pour éviter les liserés blancs.",
-                tipSpine: "Texte sur la tranche : KDP l’imprime uniquement à partir de 79 pages. Sur les tranches fines, le texte reste difficile à lire.",
+                tipSpine: "Les tranches fines (<2.5mm) rendent le texte difficile à lire.",
                 tipResolution: "Même si votre image est en basse résolution (ex: 150 DPI), notre outil l'optimisera à 300 DPI pour l'export.",
                 disclaimer: "Clause de non-responsabilité",
                 disclaimerShort: "GabaritKDP garantit uniquement la conformité technique des dimensions selon les spécifications Amazon KDP.",
@@ -2571,9 +2602,13 @@ img {
                 showBarcodeZone: "Show barcode zone",
                 barcodeZoneColor: "Background Color",
                 barcodeZoneHelp: "Amazon automatically adds the ISBN barcode here",
-                ownIsbnLabel: "I have my own ISBN",
+                barcodeZoneHelp2: "Barcode is automatically added by Amazon during publication.",
+                ownIsbnToggle: "I have my own ISBN / barcode",
+                ownIsbnLabel: "Your ISBN (optional)",
                 ownIsbnPlaceholder: "e.g., 9781234567890",
-                ownIsbnHelp: "If you use your own ISBN, KDP may not add the barcode automatically: you must reserve this area and provide the barcode.",
+                ownBarcodeUploadLabel: "Upload your barcode (PNG)",
+                ownBarcodeUploadHelp: "Upload your own barcode image if you publish with your own ISBN.",
+                removeBarcodeImage: "Remove barcode image",
                 
                 removeImage: "Remove Image",
                 canvaImport: "Import from Canva",
@@ -2607,7 +2642,7 @@ img {
                 kdpTips: "KDP Tips",
                 tipFormat: "The 6×9\" format is the most popular on Amazon.",
                 tipBleed: "Enable bleed to avoid white borders.",
-                tipSpine: "Spine text: KDP prints it only from 79 pages. On thin spines, text is hard to read.",
+                tipSpine: "Thin spines (<2.5mm) make text hard to read.",
                 tipResolution: "Even if your image has a low resolution (e.g., 150 DPI), our tool will optimize it to 300 DPI for export.",
                 disclaimer: "Disclaimer",
                 disclaimerShort: "GabaritKDP only guarantees technical compliance of dimensions according to Amazon KDP specifications.",
@@ -3703,8 +3738,21 @@ img {
             // 📊 ISBN BARCODE ZONE
             const [showBarcodeZone, setShowBarcodeZone] = useState(true);
             const [barcodeZoneColor, setBarcodeZoneColor] = useState('#ffffff');
-            const [useOwnISBN, setUseOwnISBN] = useState(false);
-            const [ownISBN, setOwnISBN] = useState('');
+            const [hasOwnIsbn, setHasOwnIsbn] = useState(false);
+            const [ownIsbn, setOwnIsbn] = useState('');
+            const [ownBarcodeDataUrl, setOwnBarcodeDataUrl] = useState(null); // PNG data URL
+            const ownBarcodeImgRef = useRef(null);
+
+            useEffect(() => {
+                if (!ownBarcodeDataUrl) {
+                    ownBarcodeImgRef.current = null;
+                    return;
+                }
+                const img = new Image();
+                img.onload = () => { ownBarcodeImgRef.current = img; };
+                img.onerror = () => { ownBarcodeImgRef.current = null; };
+                img.src = ownBarcodeDataUrl;
+            }, [ownBarcodeDataUrl]);
             const [frontImage, setFrontImage] = useState(null);
             const [backImage, setBackImage] = useState(null);
             const [spineImage, setSpineImage] = useState(null);
@@ -4053,14 +4101,9 @@ img {
                 
                 if (dimensions.bindingType === 'paperback') {
                      const spineWidthMM = dimensions.spine;
-
-                    // KDP: pas de texte sur la tranche en dessous de 79 pages (papier/hardcover: règle KDP pour spine text)
-                    if (spineText && pageCount < 79) {
-                        alerts.push({ type: 'critical', category: 'spine', message: `REJET AMAZON: Texte sur tranche interdit sous 79 pages (vous avez ${pageCount})` });
-                    } else if (spineText && spineWidthMM < 2.8) {
-                        alerts.push({ type: 'warning', category: 'spine', message: `Tranche fine (${spineWidthMM.toFixed(1)}mm): Texte autorisé (≥79 pages) mais risque d'être peu lisible.` });
+                    if (spineText && spineWidthMM < 2.8) {
+                        alerts.push({ type: 'warning', category: 'spine', message: `Tranche fine (${spineWidthMM.toFixed(1)}mm): Texte possible mais peu lisible.` });
                     }
-
                     totalScore += 20;
                     scoreComponents++;
                 }
@@ -4253,9 +4296,18 @@ img {
                         ctx.beginPath(); ctx.moveTo(startX + backWidth, startY); ctx.lineTo(startX + backWidth, startY + bookHeight); ctx.stroke();
                         ctx.beginPath(); ctx.moveTo(startX + backWidth + spineWidth, startY); ctx.lineTo(startX + backWidth + spineWidth, startY + bookHeight); ctx.stroke();
                     }
-                    if (spineText && spineWidth > 15) {
-                        ctx.fillStyle = spineTextColor || '#333333'; ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`; ctx.textAlign = 'center';
-                        ctx.save(); ctx.translate(startX + backWidth + spineWidth / 2, startY + bookHeight / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(spineText, 0, 0); ctx.restore();
+                    // ✅ Afficher le texte de tranche dès que la tranche est réellement exploitable
+                    // Règle KDP pratique : éviter d'afficher si tranche < ~2.8mm (≈ 0.11")
+                    const spineMm = (dimensions && typeof dimensions.spine === 'number') ? dimensions.spine : 0;
+                    if (spineText && spineMm >= 2.8 && spineWidth > 4) {
+                        ctx.fillStyle = spineTextColor || '#333333';
+                        ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`;
+                        ctx.textAlign = 'center';
+                        ctx.save();
+                        ctx.translate(startX + backWidth + spineWidth / 2, startY + bookHeight / 2);
+                        ctx.rotate(-Math.PI / 2);
+                        ctx.fillText(spineText, 0, 0);
+                        ctx.restore();
                     }
                     if (hasBleed) {
                         ctx.strokeStyle = 'rgba(0, 100, 255, 0.8)'; ctx.lineWidth = 1; ctx.setLineDash([6, 3]);
@@ -4397,13 +4449,40 @@ img {
                         ctx.setLineDash([]);
                         ctx.strokeRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
                         
-                        // Texte indicatif
-                        ctx.fillStyle = '#999999';
-                        ctx.font = `${Math.max(6, 8 * scaleFactor / 4)}px Arial`;
-                        ctx.textAlign = 'center';
-                        ctx.textBaseline = 'middle';
-                        ctx.fillText('ISBN', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 - 5);
-                        ctx.fillText('BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 + 5);
+                        // Si l'utilisateur a un code-barres, on l'affiche.
+                        if (hasOwnIsbn && ownBarcodeImgRef.current) {
+                            const img = ownBarcodeImgRef.current;
+                            const padding = Math.max(2, 2 * scaleFactor);
+                            const targetX = barcodeX + padding;
+                            const targetY = barcodeY + padding;
+                            const targetW = barcodeWidth - padding * 2;
+                            const targetH = barcodeHeight - padding * 2;
+
+                            // Draw contain (pas de distorsion)
+                            const scale = Math.min(targetW / img.width, targetH / img.height);
+                            const drawW = img.width * scale;
+                            const drawH = img.height * scale;
+                            const drawX = targetX + (targetW - drawW) / 2;
+                            const drawY = targetY + (targetH - drawH) / 2;
+                            ctx.drawImage(img, drawX, drawY, drawW, drawH);
+
+                            // Afficher l'ISBN en petit (si fourni)
+                            if (ownIsbn && String(ownIsbn).trim().length >= 8) {
+                                ctx.fillStyle = '#333333';
+                                ctx.font = `${Math.max(6, 7 * scaleFactor / 4)}px Arial`;
+                                ctx.textAlign = 'center';
+                                ctx.textBaseline = 'bottom';
+                                ctx.fillText(`ISBN: ${String(ownIsbn).trim()}`, barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight - 2);
+                            }
+                        } else {
+                            // Texte indicatif (plus lisible)
+                            ctx.fillStyle = '#666666';
+                            ctx.font = `${Math.max(7, 9 * scaleFactor / 4)}px Arial`;
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'middle';
+                            ctx.fillText('ISBN', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 - 6);
+                            ctx.fillText('BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2 + 6);
+                        }
                         
                         ctx.restore();
                     }
@@ -4695,7 +4774,7 @@ img {
                 // Exécuter le dessin: d'abord le fond, puis les images
                 drawBackgroundByZone(drawImages);
                 
-            }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
+            }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, hasOwnIsbn, ownIsbn, ownBarcodeDataUrl, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
             
             const exportImage = () => {
                 if (format === '8.5x11' && !confirm(t('format8511Message'))) return;
@@ -4771,7 +4850,8 @@ img {
                             }
 
                             const finalizeExport = () => {
-                                if (spineText && pageCount >= 79 && spineWidth > 40 && dimensions.spine > 2.5) {
+                                // ✅ Texte de tranche : affichage uniquement si tranche réellement exploitable (≈ ≥ 2.8mm)
+                                if (spineText && dimensions.spine >= 2.8 && spineWidth > 10) {
                                     exportCtx.save();
                                     exportCtx.translate(bleedMargin + frontWidth + spineWidth / 2, exportHeight / 2);
                                     exportCtx.rotate(-Math.PI / 2);
@@ -4872,12 +4952,37 @@ img {
                                     exportCtx.lineWidth = 2;
                                     exportCtx.strokeRect(barcodeX, barcodeY, barcodeWidth, barcodeHeight);
                                     
-                                    // Texte indicatif
-                                    exportCtx.fillStyle = '#999999';
-                                    exportCtx.font = `${Math.max(12, 16 * dpiScale / 10)}px Arial`;
-                                    exportCtx.textAlign = 'center';
-                                    exportCtx.textBaseline = 'middle';
-                                    exportCtx.fillText(useOwnISBN && ownISBN ? `ISBN: ${ownISBN}` : 'ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
+                                    // Si l'utilisateur a un code-barres, on l'affiche.
+                                    if (hasOwnIsbn && ownBarcodeImgRef.current) {
+                                        const img = ownBarcodeImgRef.current;
+                                        const padding = Math.max(6, 6 * dpiScale / 10);
+                                        const targetX = barcodeX + padding;
+                                        const targetY = barcodeY + padding;
+                                        const targetW = barcodeWidth - padding * 2;
+                                        const targetH = barcodeHeight - padding * 2;
+
+                                        const scale = Math.min(targetW / img.width, targetH / img.height);
+                                        const drawW = img.width * scale;
+                                        const drawH = img.height * scale;
+                                        const drawX = targetX + (targetW - drawW) / 2;
+                                        const drawY = targetY + (targetH - drawH) / 2;
+                                        exportCtx.drawImage(img, drawX, drawY, drawW, drawH);
+
+                                        if (ownIsbn && String(ownIsbn).trim().length >= 8) {
+                                            exportCtx.fillStyle = '#333333';
+                                            exportCtx.font = `${Math.max(12, 14 * dpiScale / 10)}px Arial`;
+                                            exportCtx.textAlign = 'center';
+                                            exportCtx.textBaseline = 'bottom';
+                                            exportCtx.fillText(`ISBN: ${String(ownIsbn).trim()}`, barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight - 4);
+                                        }
+                                    } else {
+                                        // Texte indicatif
+                                        exportCtx.fillStyle = '#666666';
+                                        exportCtx.font = `${Math.max(12, 16 * dpiScale / 10)}px Arial`;
+                                        exportCtx.textAlign = 'center';
+                                        exportCtx.textBaseline = 'middle';
+                                        exportCtx.fillText('ISBN BARCODE', barcodeX + barcodeWidth / 2, barcodeY + barcodeHeight / 2);
+                                    }
                                     
                                     exportCtx.restore();
                                 }
@@ -5527,27 +5632,44 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 setActiveDesignId(null);
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
-
-                // ✅ IMPORTANT: enlever le paramètre ?template=... pour éviter le rechargement automatique du template Marketplace
-                try {
-                    const url = new URL(window.location.href);
-                    if (url.searchParams.has('template')) {
-                        url.searchParams.delete('template');
-                        window.history.replaceState({}, '', url.pathname + (url.search ? url.search : '') + url.hash);
-                    }
-                } catch (e) {
-                    // ignore
-                }
-
-                // Désactiver le mode preview marketplace et vider le template actif
-                setIsMarketplacePreview(false);
-                window.setActiveTemplateUrl && window.setActiveTemplateUrl(null);
-
                 // Évite que le restore automatique ne remette un ancien design
                 window.clearTempDesign && window.clearTempDesign();
+                window.clearPermanentDesign && window.clearPermanentDesign();
+
+                // Nettoyer l'URL (template, hash tokens) pour repartir vraiment à zéro
+                try {
+                    const cleanUrl = window.location.origin + window.location.pathname;
+                    window.history.replaceState({}, document.title, cleanUrl);
+                } catch (e) {}
 
                 // Réinitialiser l'UI / états (re-montage du composant)
                 onReset && onReset();
+
+            };
+
+            const handleOwnBarcodeUpload = (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+
+                const isPng = (file.type === 'image/png') || file.name.toLowerCase().endsWith('.png');
+                if (!isPng) {
+                    alert(language === 'fr' ? 'Veuillez importer un fichier PNG.' : 'Please upload a PNG file.');
+                    e.target.value = '';
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = () => {
+                    setOwnBarcodeDataUrl(reader.result);
+                };
+                reader.onerror = () => {
+                    alert(language === 'fr' ? "Impossible de lire ce fichier." : 'Could not read this file.');
+                };
+                reader.readAsDataURL(file);
+            };
+
+            const clearOwnBarcode = () => {
+                setOwnBarcodeDataUrl(null);
             };
 
             useEffect(() => {
@@ -6374,12 +6496,12 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                             type="text"
                                             value={spineText}
                                             onChange={(e) => setSpineText(e.target.value)}
-                                            placeholder={bindingType === 'hardcover' ? t('spineTextAuto') : (pageCount < 79 ? (language === 'fr' ? 'KDP n’imprime pas de texte sur la tranche en dessous de 79 pages.' : 'KDP does not print spine text below 79 pages.') : (dimensions && dimensions.spine < 2.5 ? t('spineTextThin') : t('spineTextHelp')))}
-                                            disabled={bindingType === 'hardcover' || pageCount < 79}
+                                            placeholder={bindingType === 'hardcover' ? t('spineTextAuto') : dimensions && dimensions.spine < 1.5 ? t('spineTextThin') : t('spineTextHelp')}
+                                            disabled={bindingType === 'hardcover' || (dimensions && dimensions.spine < 1.5)}
                                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
                                         />
 
-                                        {spineText && bindingType === 'paperback' && pageCount >= 79 && dimensions && (
+                                        {spineText && bindingType === 'paperback' && dimensions && dimensions.spine > 1.5 && (
                                             <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
                                                 <h4 className="font-medium text-gray-700">Spine text options</h4>
 
@@ -6912,28 +7034,64 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                 )}
                                             </div>
                                             <p className="text-xs text-gray-500 mt-2">{t('barcodeZoneHelp')}</p>
+                                            <p className="text-xs text-gray-500 mt-1">{t('barcodeZoneHelp2')}</p>
+
                                             {showBarcodeZone && (
-                                                <div className="mt-3 space-y-2">
+                                                <div className="mt-3 p-3 bg-white rounded-lg border border-gray-200">
                                                     <label className="flex items-center gap-2 text-sm text-gray-700">
                                                         <input
                                                             type="checkbox"
-                                                            checked={useOwnISBN}
-                                                            onChange={(e) => setUseOwnISBN(e.target.checked)}
+                                                            checked={hasOwnIsbn}
+                                                            onChange={(e) => {
+                                                                const v = e.target.checked;
+                                                                setHasOwnIsbn(v);
+                                                                if (!v) {
+                                                                    setOwnIsbn('');
+                                                                    clearOwnBarcode();
+                                                                }
+                                                            }}
                                                             className="w-4 h-4 rounded border-gray-300 text-amber-600 focus:ring-amber-500"
                                                         />
-                                                        {t('ownIsbnLabel')}
+                                                        {t('ownIsbnToggle')}
                                                     </label>
 
-                                                    {useOwnISBN && (
-                                                        <div className="space-y-1">
-                                                            <input
-                                                                type="text"
-                                                                value={ownISBN}
-                                                                onChange={(e) => setOwnISBN(e.target.value.replace(/[^0-9Xx]/g, '').slice(0, 20))}
-                                                                placeholder={t('ownIsbnPlaceholder')}
-                                                                className="w-full p-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-amber-500"
-                                                            />
-                                                            <p className="text-xs text-amber-700">{t('ownIsbnHelp')}</p>
+                                                    {hasOwnIsbn && (
+                                                        <div className="mt-3 space-y-3">
+                                                            <div>
+                                                                <label className="block text-xs font-medium text-gray-600 mb-1">{t('ownIsbnLabel')}</label>
+                                                                <input
+                                                                    type="text"
+                                                                    value={ownIsbn}
+                                                                    onChange={(e) => setOwnIsbn(e.target.value)}
+                                                                    placeholder={t('ownIsbnPlaceholder')}
+                                                                    className="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500"
+                                                                />
+                                                                <div className="text-xs text-gray-500 mt-1">{t('ownIsbnTip')}</div>
+                                                            </div>
+
+                                                            <div>
+                                                                <label className="block text-xs font-medium text-gray-600 mb-1">{t('barcodeUploadLabel')}</label>
+                                                                <input
+                                                                    type="file"
+                                                                    accept="image/png"
+                                                                    onChange={handleOwnBarcodeUpload}
+                                                                    className="w-full text-xs"
+                                                                />
+                                                                <div className="text-xs text-gray-500 mt-1">{t('barcodeUploadTip')}</div>
+                                                            </div>
+
+                                                            {ownBarcodeDataUrl && (
+                                                                <div className="flex items-center justify-between gap-3">
+                                                                    <div className="text-xs text-gray-600 truncate">{t('barcodeUploaded')}</div>
+                                                                    <button
+                                                                        type="button"
+                                                                        onClick={clearOwnBarcode}
+                                                                        className="text-xs px-3 py-1 rounded bg-gray-100 hover:bg-gray-200"
+                                                                    >
+                                                                        {t('removeBarcode')}
+                                                                    </button>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     )}
                                                 </div>
@@ -6950,7 +7108,9 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                 {dimensions.bindingType === 'paperback' && (
                                                     <div>
                                                         {t('spineThickness')}: {Math.round(dimensions.spine * 10) / 10} mm
-                                                        {pageCount < 79 ? (<span className="text-red-600 ml-2">{language === 'fr' ? '(pas de texte sur tranche < 79 pages)' : '(no spine text < 79 pages)'}</span>) : (dimensions.spine < 2.5 ? (<span className="text-orange-600 ml-2">{t('thinSpine')}</span>) : null)}
+                                                        {dimensions.spine < 1.5 && (
+                                                            <span className="text-orange-600 ml-2">{t('thinSpine')}</span>
+                                                        )}
                                                     </div>
                                                 )}
                                             </div>
@@ -7832,9 +7992,11 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                     </div>
                                 )}
 
-                                {/* Container for Canva designs grid */}
-                                <div id="canva-designs-container" className="mt-4" style={{minHeight: '100px'}}>
-                                    {/* La grille Canva sera injectée ici par canva-designs-fetcher.js */}
+                                {/* Container technique utilisé par canva-designs-fetcher.js.
+                                    On le conserve pour éviter les erreurs JS, mais on le masque pour ne pas afficher
+                                    une seconde section (la carte ci-dessus suffit). */}
+                                <div id="canva-designs-container" className="mt-4" style={{minHeight: '100px', display: 'none'}}>
+                                    {/* Hidden */}
                                 </div>
                             </div>
 
