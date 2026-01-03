@@ -2463,7 +2463,7 @@ img {
                 kdpTips: "Conseils KDP",
                 tipFormat: "Le format 6×9\" est le plus populaire sur Amazon.",
                 tipBleed: "Activez le fond perdu pour éviter les liserés blancs.",
-                tipSpine: "Les tranches fines (<2.5mm) rendent le texte difficile à lire.",
+                tipSpine: "Texte sur la tranche : KDP l’imprime uniquement à partir de 79 pages. Sur les tranches fines, le texte reste difficile à lire.",
                 tipResolution: "Même si votre image est en basse résolution (ex: 150 DPI), notre outil l'optimisera à 300 DPI pour l'export.",
                 disclaimer: "Clause de non-responsabilité",
                 disclaimerShort: "GabaritKDP garantit uniquement la conformité technique des dimensions selon les spécifications Amazon KDP.",
@@ -2601,7 +2601,7 @@ img {
                 kdpTips: "KDP Tips",
                 tipFormat: "The 6×9\" format is the most popular on Amazon.",
                 tipBleed: "Enable bleed to avoid white borders.",
-                tipSpine: "Thin spines (<2.5mm) make text hard to read.",
+                tipSpine: "Spine text: KDP prints it only from 79 pages. On thin spines, text is hard to read.",
                 tipResolution: "Even if your image has a low resolution (e.g., 150 DPI), our tool will optimize it to 300 DPI for export.",
                 disclaimer: "Disclaimer",
                 disclaimerShort: "GabaritKDP only guarantees technical compliance of dimensions according to Amazon KDP specifications.",
@@ -4045,9 +4045,14 @@ img {
                 
                 if (dimensions.bindingType === 'paperback') {
                      const spineWidthMM = dimensions.spine;
-                    if (spineText && spineWidthMM < 2.8) {
-                        alerts.push({ type: 'warning', category: 'spine', message: `Tranche fine (${spineWidthMM.toFixed(1)}mm): Texte possible mais peu lisible.` });
+
+                    // KDP: pas de texte sur la tranche en dessous de 79 pages (papier/hardcover: règle KDP pour spine text)
+                    if (spineText && pageCount < 79) {
+                        alerts.push({ type: 'critical', category: 'spine', message: `REJET AMAZON: Texte sur tranche interdit sous 79 pages (vous avez ${pageCount})` });
+                    } else if (spineText && spineWidthMM < 2.8) {
+                        alerts.push({ type: 'warning', category: 'spine', message: `Tranche fine (${spineWidthMM.toFixed(1)}mm): Texte autorisé (≥79 pages) mais risque d'être peu lisible.` });
                     }
+
                     totalScore += 20;
                     scoreComponents++;
                 }
@@ -4240,7 +4245,8 @@ img {
                         ctx.beginPath(); ctx.moveTo(startX + backWidth, startY); ctx.lineTo(startX + backWidth, startY + bookHeight); ctx.stroke();
                         ctx.beginPath(); ctx.moveTo(startX + backWidth + spineWidth, startY); ctx.lineTo(startX + backWidth + spineWidth, startY + bookHeight); ctx.stroke();
                     }
-                    if (spineText && spineWidth > 15) {
+                    if (spineText && dimensions && dimensions.spine >= 2.8 && spineWidth > 4) {// show if spine is at least ~2.8mm (readable threshold)
+                        
                         ctx.fillStyle = spineTextColor || '#333333'; ctx.font = `${Math.max(10, spineTextSize)}px ${spineTextFont}`; ctx.textAlign = 'center';
                         ctx.save(); ctx.translate(startX + backWidth + spineWidth / 2, startY + bookHeight / 2); ctx.rotate(-Math.PI / 2); ctx.fillText(spineText, 0, 0); ctx.restore();
                     }
@@ -4758,7 +4764,7 @@ img {
                             }
 
                             const finalizeExport = () => {
-                                if (spineText && spineWidth > 40 && dimensions.spine > 1.5) {
+                                if (spineText && pageCount >= 79 && spineWidth > 40 && dimensions.spine > 2.5) {
                                     exportCtx.save();
                                     exportCtx.translate(bleedMargin + frontWidth + spineWidth / 2, exportHeight / 2);
                                     exportCtx.rotate(-Math.PI / 2);
@@ -5514,11 +5520,27 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                 setActiveDesignId(null);
                 localStorage.removeItem('gkdp_active_design_id');
                 setDesignTitle('');
+
+                // ✅ IMPORTANT: enlever le paramètre ?template=... pour éviter le rechargement automatique du template Marketplace
+                try {
+                    const url = new URL(window.location.href);
+                    if (url.searchParams.has('template')) {
+                        url.searchParams.delete('template');
+                        window.history.replaceState({}, '', url.pathname + (url.search ? url.search : '') + url.hash);
+                    }
+                } catch (e) {
+                    // ignore
+                }
+
+                // Désactiver le mode preview marketplace et vider le template actif
+                setIsMarketplacePreview(false);
+                window.setActiveTemplateUrl && window.setActiveTemplateUrl(null);
+
                 // Évite que le restore automatique ne remette un ancien design
                 window.clearTempDesign && window.clearTempDesign();
+
                 // Réinitialiser l'UI / états (re-montage du composant)
                 onReset && onReset();
-
             };
 
             useEffect(() => {
@@ -6345,12 +6367,12 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                             type="text"
                                             value={spineText}
                                             onChange={(e) => setSpineText(e.target.value)}
-                                            placeholder={bindingType === 'hardcover' ? t('spineTextAuto') : dimensions && dimensions.spine < 1.5 ? t('spineTextThin') : t('spineTextHelp')}
-                                            disabled={bindingType === 'hardcover' || (dimensions && dimensions.spine < 1.5)}
+                                            placeholder={bindingType === 'hardcover' ? t('spineTextAuto') : (pageCount < 79 ? (language === 'fr' ? 'KDP n’imprime pas de texte sur la tranche en dessous de 79 pages.' : 'KDP does not print spine text below 79 pages.') : (dimensions && dimensions.spine < 2.5 ? t('spineTextThin') : t('spineTextHelp')))}
+                                            disabled={bindingType === 'hardcover' || pageCount < 79}
                                             className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 disabled:bg-gray-100"
                                         />
 
-                                        {spineText && bindingType === 'paperback' && dimensions && dimensions.spine > 1.5 && (
+                                        {spineText && bindingType === 'paperback' && pageCount >= 79 && dimensions && (
                                             <div className="mt-4 p-4 bg-gray-50 rounded-lg space-y-3">
                                                 <h4 className="font-medium text-gray-700">Spine text options</h4>
 
@@ -6895,9 +6917,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                 {dimensions.bindingType === 'paperback' && (
                                                     <div>
                                                         {t('spineThickness')}: {Math.round(dimensions.spine * 10) / 10} mm
-                                                        {dimensions.spine < 1.5 && (
-                                                            <span className="text-orange-600 ml-2">{t('thinSpine')}</span>
-                                                        )}
+                                                        {pageCount < 79 ? (<span className="text-red-600 ml-2">{language === 'fr' ? '(pas de texte sur tranche < 79 pages)' : '(no spine text < 79 pages)'}</span>) : (dimensions.spine < 2.5 ? (<span className="text-orange-600 ml-2">{t('thinSpine')}</span>) : null)}
                                                     </div>
                                                 )}
                                             </div>
