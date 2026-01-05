@@ -20,713 +20,203 @@
     document.documentElement.lang = defaultLang;
   </script>
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif
-    }
-
-    .language-selector {
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
-      padding: 3px
-    }
-
-    .lang-btn {
-      padding: 6px 10px;
-      border: none;
-      background: transparent;
-      border-radius: 16px;
-      cursor: pointer;
-      transition: .3s;
-      font-weight: 500;
-      font-size: .8rem
-    }
-
-    .lang-btn.active {
-      background: #FF9900;
-      color: #fff
-    }
-
-    .header-nav {
-      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-      padding: 15px 0;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
-      position: sticky;
-      top: 0;
-      z-index: 999
-    }
-
-    .nav-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 20px;
-      flex-wrap: wrap;
-      gap: 0
-    }
-
-    .logo-nav {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      text-decoration: none;
-      color: #fff;
-      flex-shrink: 0
-    }
-
-    .logo-nav img {
-      height: 40px;
-      width: auto
-    }
-
-    .logo-nav span {
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: #FF9900
-    }
-
-    .nav-links {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 25px;
-      flex-wrap: wrap
-    }
-
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      transition: .3s;
-      padding: 10px 14px;
-      border-radius: 8px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-size: .95rem
-    }
-
-    .nav-links a:hover {
-      color: #FF9900;
-      background: rgba(255, 153, 0, .1)
-    }
-
-    .nav-links a.active {
-      color: #FF9900;
-      background: rgba(255, 153, 0, .15)
-    }
-
-    .express-nav-btn {
-      background: linear-gradient(135deg, #10b981, #059669) !important;
-      color: #fff !important
-    }
-
-    .express-nav-btn:hover {
-      background: linear-gradient(135deg, #0d9488, #047857) !important
-    }
-
-    .express-nav-btn::before {
-      content: "⚡";
-      margin-right: 4px
-    }
-
-    .hero-gradient {
-      background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)
-    }
-
-    .category-card {
-      position: relative;
-      border-radius: 16px;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      cursor: pointer;
-      transition: all .3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
-      background: #f1f5f9;
-      touch-action: manipulation;
-      -webkit-tap-highlight-color: rgba(255, 153, 0, .2);
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    .category-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
-    }
-
-    .category-card img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform .5s ease;
-    }
-
-    .category-card:hover img {
-      transform: scale(1.1);
-    }
-
-    .category-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to top, rgba(0, 0, 0, .85) 0%, rgba(0, 0, 0, .3) 50%, transparent 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 1.5rem;
-      pointer-events: none;
-    }
-
-    .category-icon {
-      font-size: 2rem;
-      margin-bottom: .5rem;
-      pointer-events: none
-    }
-
-    .category-name {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: .25rem
-    }
-
-    .category-count {
-      color: #FF9900;
-      font-weight: 600;
-      font-size: .875rem
-    }
-
-    .category-badge {
-      pointer-events: none;
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      padding: .25rem .75rem;
-      border-radius: 9999px;
-      font-size: .75rem;
-      font-weight: 600;
-      color: #fff;
-    }
-
-    .badge-new {
-      background: #10b981
-    }
-
-    .badge-popular {
-      background: #f59e0b
-    }
-
-    .badge-best {
-      background: #8b5cf6
-    }
-
-    .badge-premium {
-      background: linear-gradient(135deg, #dc2626, #b91c1c);
-      box-shadow: 0 4px 15px rgba(220, 38, 38, .4)
-    }
-
-    /* FULL COVER Premium Card */
-    .fullcover-premium {
-      grid-column: span 2;
-      aspect-ratio: 2/1;
-      border: 3px solid #dc2626;
-      box-shadow: 0 8px 30px rgba(220, 38, 38, .3);
-      animation: pulseGlow 3s ease-in-out infinite;
-    }
-
-    .fullcover-premium:hover {
-      border-color: #ef4444;
-      box-shadow: 0 15px 50px rgba(220, 38, 38, .4);
-    }
-
-    .fullcover-premium .category-overlay {
-      background: linear-gradient(to top, rgba(0, 0, 0, .9) 0%, rgba(139, 0, 0, .3) 50%, transparent 100%);
-    }
-
-    .fullcover-premium .category-name {
-      font-size: 1.75rem;
-      color: #fff;
-    }
-
-    .fullcover-premium .category-count {
-      font-size: 1rem;
-    }
-
-    @keyframes pulseGlow {
-
-      0%,
-      100% {
-        box-shadow: 0 8px 30px rgba(220, 38, 38, .3);
-      }
-
-      50% {
-        box-shadow: 0 8px 40px rgba(220, 38, 38, .5);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .fullcover-premium {
-        grid-column: span 1;
-        aspect-ratio: 4/3;
-      }
-    }
-
-    .social-section {
-      background: rgba(255, 255, 255, .05);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 2rem
-    }
-
-    .social-links {
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      margin-top: 1rem;
-      flex-wrap: wrap
-    }
-
-    .social-link {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 45px;
-      height: 45px;
-      border-radius: 50%;
-      color: #fff;
-      text-decoration: none;
-      font-size: 1.2rem;
-      transition: .3s
-    }
-
-    .social-link:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, .3)
-    }
-
-    .social-link.youtube {
-      background: linear-gradient(135deg, #FF0000, #CC0000)
-    }
-
-    .social-link.facebook {
-      background: linear-gradient(135deg, #1877F2, #0866D3)
-    }
-
-    .social-link.instagram {
-      background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2)
-    }
-
-    .social-link.pinterest {
-      background: linear-gradient(135deg, #BD081C, #E60023)
-    }
-
-    .social-link.tiktok {
-      background: linear-gradient(135deg, #000, #FF0050, #00F2EA)
-    }
-
-    .social-link.linkedin {
-      background: linear-gradient(135deg, #0A66C2, #004182)
-    }
-
-    .mobile-menu {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100vh;
-      background: rgba(0, 0, 0, .95);
-      backdrop-filter: blur(10px);
-      z-index: 999;
-      padding: 80px 20px 20px;
-      overflow-y: auto
-    }
-
-    .mobile-menu.active {
-      display: block;
-      animation: slideIn .3s ease
-    }
-
-    @keyframes slideIn {
-      from {
-        opacity: 0;
-        transform: translateY(-20px)
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0)
-      }
-    }
-
-    .mobile-menu-links {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-      max-width: 400px;
-      margin: 0 auto
-    }
-
-    .mobile-menu-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 15px 20px;
-      border-radius: 12px;
-      background: rgba(255, 255, 255, .1);
-      border: 1px solid rgba(255, 255, 255, .2);
-      transition: .3s;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 1.1rem
-    }
-
-    .mobile-menu-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.8rem;
-      cursor: pointer
-    }
-
-    @media (max-width:768px) {
-      .nav-links {
-        display: none
-      }
-
-      .mobile-menu-toggle {
-        display: block;
-        background: none;
-        border: none;
-        color: #fff;
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 8px;
-        margin-left: auto;
-      }
-    }
-
-    @media (min-width:769px) {
-      .mobile-menu-toggle {
-        display: none
-      }
-    }
-
-    /* custom css code */
-    .premium_edit_sec {
-      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    }
-
-    .see_more_btn_sec {
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 30px 0 0;
-    }
-
-    .d_hidden {
-      display: none;
-    }
-
-    .card_section.show .d_hidden {
-      display: block;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    .top_value_row {
-      gap: 24px;
-    }
-
-    @media(max-width:550px) {
-      .top_value_row {
-        gap: 10px;
-      }
-
-      .top_value_box {
-        width: 100%;
-      }
-    }
-  @media (max-width:480px) {
-    .logo-nav span {
-      display: none
-    }
-
-    .language-selector {
-      right: 60px;
-      padding: 0 2px 2px 2px;
-      top: 27px
-    }
-
-    .lang-btn {
-      padding: 4px 8px;
-      font-size: .7rem
-    }
+  <script src="https:// =====================
+// Marketplace: navigation FULL COVER (data-driven)
+// Source: fullcover-nav.json
+// =====================
+document.addEventListener('DOMContentLoaded', async () => {
+  const grid = document.getElementById('categoriesGrid');
+  if (!grid) return;
+
+  const NAV_URL = 'fullcover-nav.json';
+
+  // Optional thumbnails (fallback = gradient)
+  const categoryThumbs = {
+    "art": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/ART/thumb.jpg",
+    "boheme": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/BOHEME/thumb.jpg",
+    "fleurs": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/FLEURS/thumb.jpg",
+    "fantasy": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/FANTASY/thumb.jpg",
+    "horror": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/HORROR/thumb.jpg",
+    "historical": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/HISTORICAL/thumb.jpg",
+    "mystery": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/MYSTERY/thumb.jpg",
+    "romance": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/ROMANCE/thumb.jpg",
+    "thriller": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/THRILLER/thumb.jpg",
+    "vintage": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/VINTAGE/thumb.jpg",
+    "voyages": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/VOYAGES/thumb.jpg",
+    "religions": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/RELIGIONS/thumb.jpg",
+    "magie": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/MAGIE/thumb.jpg",
+    "sci-fi": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/SCI-FI/thumb.jpg",
+    "sci": "https://gabaritkdp.b-cdn.net/backgrounds/FULLCOVER/SCI-FI/thumb.jpg"
+  };
+
+  const escapeHtml = (s) =>
+    String(s ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
+
+  const titleCase = (s) => {
+    const str = String(s ?? '').trim();
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  };
+
+  const getLandingHtml = (cat) => {
+    const subs = Array.isArray(cat?.subcategories) ? cat.subcategories : [];
+    const all = subs.find((x) => x?.slug === 'all' && x?.html);
+    return (all?.html || subs[0]?.html || '#');
+  };
+
+  const ensureModal = () => {
+    let modal = document.getElementById('subcatModal');
+    if (modal) return modal;
+
+    modal = document.createElement('div');
+    modal.id = 'subcatModal';
+    modal.style.position = 'fixed';
+    modal.style.inset = '0';
+    modal.style.background = 'rgba(0,0,0,0.55)';
+    modal.style.display = 'none';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = '9999';
+
+    modal.innerHTML = `
+      <div style="width:min(920px,92vw); max-height:80vh; overflow:auto; background:#0f172a; border:1px solid rgba(255,255,255,0.12); border-radius:16px; padding:18px;">
+        <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px;">
+          <div>
+            <div id="subcatTitle" style="font-size:18px; font-weight:700; color:#fff;"></div>
+            <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:2px;">Choisissez une sous-catégorie</div>
+          </div>
+          <button id="subcatClose" style="border:0; background:rgba(255,255,255,0.08); color:#fff; padding:10px 12px; border-radius:12px; cursor:pointer;">Fermer</button>
+        </div>
+        <div id="subcatList" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:10px;"></div>
+      </div>
+    `;
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) modal.style.display = 'none';
+    });
+    modal.querySelector('#subcatClose').addEventListener('click', () => (modal.style.display = 'none'));
+
+    document.body.appendChild(modal);
+    return modal;
+  };
+
+  const openCategory = (cat) => {
+    const subs = Array.isArray(cat?.subcategories) ? cat.subcategories.filter((s) => s?.html) : [];
+
+    // If only one destination: go directly
+    if (subs.length <= 1) {
+      window.location.href = getLandingHtml(cat);
+      return;
+    }
+
+    // Otherwise show modal
+    const modal = ensureModal();
+    modal.querySelector('#subcatTitle').textContent = titleCase(cat?.label || cat?.slug || 'Catégorie');
+
+    const list = modal.querySelector('#subcatList');
+    list.innerHTML = '';
+
+    // Show "All" first (if exists), then others alphabetically
+    const all = subs.filter((s) => s.slug === 'all');
+    const others = subs.filter((s) => s.slug !== 'all').sort((a, b) => String(a.label).localeCompare(String(b.label), 'fr', { sensitivity: 'base' }));
+    const ordered = [...all, ...others];
+
+    for (const sub of ordered) {
+      const a = document.createElement('a');
+      a.href = sub.html;
+      a.style.display = 'block';
+      a.style.padding = '12px 12px';
+      a.style.borderRadius = '14px';
+      a.style.background = 'rgba(255,255,255,0.06)';
+      a.style.border = '1px solid rgba(255,255,255,0.10)';
+      a.style.textDecoration = 'none';
+
+      const label = titleCase(sub.label || sub.slug);
+      a.innerHTML = `
+        <div style="font-weight:700; color:#fff;">${escapeHtml(label)}</div>
+        <div style="font-size:12px; color:rgba(255,255,255,0.65); margin-top:4px;">Ouvrir →</div>
+      `;
+      list.appendChild(a);
+    }
+
+    modal.style.display = 'flex';
+  };
+
+  // Load JSON (cache-bust to avoid Netlify/browser caching during tests)
+  let nav;
+  try {
+    const res = await fetch(`${NAV_URL}?v=${Date.now()}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`HTTP ${res.status} on ${NAV_URL}`);
+    nav = await res.json();
+  } catch (err) {
+    console.error('Failed to load fullcover-nav.json:', err);
+    grid.innerHTML = `
+      <div style="padding:14px; border-radius:14px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.10); color:#fff;">
+        Impossible de charger <b>fullcover-nav.json</b>.<br>
+        Vérifie qu'il est bien déployé à la racine (ex: https://gabaritkdp.com/fullcover-nav.json).
+      </div>
+    `;
+    return;
   }
-  </style>
-</head>
 
-<body class="bg-white">
+  // Filter out accidental single-letter buckets (a, b, f...) if they exist
+  const categories = (Array.isArray(nav?.categories) ? nav.categories : [])
+    .filter((c) => c && c.slug && !/^[a-z]$/.test(c.slug))
+    .sort((a, b) => String(a.label).localeCompare(String(b.label), 'fr', { sensitivity: 'base' }));
 
-  <!-- Navigation Header -->
-  <header class="header-nav">
-    <div class="nav-container">
-      <a href="/index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
-        <span>GabaritKDP</span>
-      </a>
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-      <div class="language-selector">
-        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
-      </div>
-      <!-- Navigation Desktop -->
-      <nav class="nav-links">
-        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-        <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
-          data-en="Express Generator">Générateur Express</a>
-        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
-        <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
-        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-      </nav>
-    </div>
-  </header>
+  if (!categories.length) {
+    grid.innerHTML = `<div style="color:#fff;">Aucune catégorie trouvée dans fullcover-nav.json.</div>`;
+    return;
+  }
 
-  <!-- Menu Mobile -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
-    <div class="mobile-menu-links">
-      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-      <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;"
-        data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Générateur Express</a>
-      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
-      <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
-      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription"
-        data-en="📝 Sign Up">📝 Sign Up</a>
-      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-    </div>
-  </div>
+  grid.innerHTML = '';
 
-  <!-- Hero Section -->
-  <section class="hero-gradient py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          <span data-fr="Marketplace" data-en="Marketplace">Marketplace</span> <span style="color:#FF9900;">KDP</span>
-        </h1>
-        <p class="text-xl text-gray-600 mb-6" data-fr="6600+ templates professionnels pour vos livres Amazon KDP"
-          data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon
-          KDP books</p>
-        <div class="top_value_row flex justify-center flex-wrap">
-          <div class="top_value_box bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">6600+</div>
-            <div class="text-sm text-gray-600">Templates</div>
-          </div>
-          <div class="top_value_box bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">20+</div>
-            <div class="text-sm text-gray-600" data-fr="Catégories" data-en="Categories">Categories</div>
-          </div>
-          <div class="top_value_box bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">1200+</div>
-            <div class="text-sm text-gray-600" data-fr="Gratuits" data-en="Free">Free</div>
-          </div>
+  for (const cat of categories) {
+    const slug = String(cat.slug || '').trim();
+    const label = titleCase(cat.label || slug);
+    const thumb = categoryThumbs[slug];
+
+    const card = document.createElement('div');
+    card.className = 'category-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+
+    // Background
+    if (thumb) {
+      card.style.backgroundImage = `linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.65)), url('${thumb}')`;
+      card.style.backgroundSize = 'cover';
+      card.style.backgroundPosition = 'center';
+    }
+
+    card.innerHTML = `
+      <div class="category-overlay">
+        <div class="category-content">
+          <h3>${escapeHtml(label)}</h3>
+          <span class="explore-link">Explore templates →</span>
         </div>
       </div>
-    </div>
-  </section>
+    `;
 
-  <!-- FULL COVER Premium Section -->
-  <section class="premium_edit_sec py-12 from-red-900 via-red-800 to-red-900 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-      <!-- Header -->
-      <div class="text-center mb-10">
-        <h2 class="text-4xl font-bold text-white mb-2">
-          🔥 <span>FULL COVER - Premium Edition</span>
-        </h2>
-        <p class="text-red-200 text-lg">Professional KDP book covers ready to use</p>
-      </div>
-
-      <!-- Grid de catégories FULL COVER -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 card_section"
-        id="fullcover-categories">
-        <!-- Les cartes seront insérées ici -->
-      </div>
-      <div class="see_more_btn_sec">
-        <button
-          class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-12 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 uppercase"
-          id="SMBtnOne">See more</button>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    // Insérer les cartes FULL COVER dynamiquement
-    document.addEventListener('DOMContentLoaded', function () {
-      const fullcoverGrid = document.getElementById('fullcover-categories');
-      if (fullcoverGrid) {
-        fullcoverGrid.innerHTML = `<div class="category-card" onclick="loadCategoryImages('FULL COVER/Art')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg" alt="Art" loading="lazy">
-          <span class="category-badge badge-premium">PREMIUM</span>
-          <div class="category-overlay">
-            <div class="category-icon">🎨</div>
-            <div class="category-name">Art</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Boheme')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" alt="Boheme" loading="lazy">
-          
-          <div class="category-overlay">
-            <div class="category-icon">🌸</div>
-            <div class="category-name">Boheme</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card" onclick="loadCategoryImages('FULL COVER/FANTASY')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg" alt="FANTASY" loading="lazy">
-          <span class="category-badge badge-popular">POPULAR</span>
-          <div class="category-overlay">
-            <div class="category-icon">🧙</div>
-            <div class="category-name">FANTASY</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Fleurs')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" alt="Fleurs" loading="lazy">
-          
-          <div class="category-overlay">
-            <div class="category-icon">🌺</div>
-            <div class="category-name">Fleurs</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Historical')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" alt="Historical" loading="lazy">
-          
-          <div class="category-overlay">
-            <div class="category-icon">🏛️</div>
-            <div class="category-name">Historical</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Horror')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg" alt="Horror" loading="lazy">
-          <span class="category-badge badge-new">NEW</span>
-          <div class="category-overlay">
-            <div class="category-icon">👻</div>
-            <div class="category-name">Horror</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card" onclick="loadCategoryImages('FULL COVER/MAGIE x ART NOUVEAU (STYLE PREMIUM)')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg" alt="MAGIE x ART NOUVEAU (STYLE PREMIUM)" loading="lazy">
-          <span class="category-badge badge-premium">PREMIUM</span>
-          <div class="category-overlay">
-            <div class="category-icon">✨</div>
-            <div class="category-name">MAGIE x ART NOUVEAU (STYLE PREMIUM)</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Mystery')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" alt="Mystery" loading="lazy">
-          
-          <div class="category-overlay">
-            <div class="category-icon">🔍</div>
-            <div class="category-name">Mystery</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Paysages')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Paysages/fullcover_couverture_de_livres_paysages_009.png" alt="Paysages" loading="lazy">
-          
-          <div class="category-overlay">
-            <div class="category-icon">🏞️</div>
-            <div class="category-name">Paysages</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/RELIGIONS')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" alt="RELIGIONS" loading="lazy">
-          <span class="category-badge badge-premium">PREMIUM</span>
-          <div class="category-overlay">
-            <div class="category-icon">✝️</div>
-            <div class="category-name">RELIGIONS</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Romance')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg" alt="Romance" loading="lazy">
-          <span class="category-badge badge-best">BEST SELLER</span>
-          <div class="category-overlay">
-            <div class="category-icon">💖</div>
-            <div class="category-name">Romance</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Sci-fi')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg" alt="Sci-fi" loading="lazy">
-          <span class="category-badge badge-popular">POPULAR</span>
-          <div class="category-overlay">
-            <div class="category-icon">🚀</div>
-            <div class="category-name">Sci-fi</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Thriller')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" alt="Thriller" loading="lazy">
-          <span class="category-badge badge-new">NEW</span>
-          <div class="category-overlay">
-            <div class="category-icon">🔪</div>
-            <div class="category-name">Thriller</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Vintage')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Buildings%20%26%20City/fullcover_vintage_1930s_buildings_city_006.jpg" alt="Vintage" loading="lazy">
-          <span class="category-badge badge-popular">POPULAR</span>
-          <div class="category-overlay">
-            <div class="category-icon">📷</div>
-            <div class="category-name">Vintage</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Voyages')" ontouchstart="">
-          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" alt="Voyages" loading="lazy">
-          <span class="category-badge badge-new">NEW</span>
-          <div class="category-overlay">
-            <div class="category-icon">🌍</div>
-            <div class="category-name">Voyages</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        </div>
-        `;
+    const go = () => openCategory(cat);
+    card.addEventListener('click', go);
+    card.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        go();
       }
     });
-  </script>
+
+    grid.appendChild(card);
+  }
+});
+
+
+</script>
 
   <!-- Book Covers Section -->
   <section class="py-12 bg-white">
