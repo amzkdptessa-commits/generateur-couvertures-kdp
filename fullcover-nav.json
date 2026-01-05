@@ -1,0 +1,480 @@
+{
+  "type": "fullcover",
+  "generatedAt": "2026-01-05T13:00:56Z",
+  "categories": [
+    {
+      "slug": "art",
+      "label": "Art",
+      "subcategories": [
+        {
+          "id": "a/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-art.html",
+          "label": "all"
+        },
+        {
+          "id": "art/basquiat-inspired",
+          "slug": "basquiat-inspired",
+          "html": "subcategory-full-cover-art-basquiat-inspired.html",
+          "label": "basquiat inspired"
+        },
+        {
+          "id": "art/frida-kahlo-inspired-art",
+          "slug": "frida-kahlo-inspired-art",
+          "html": "subcategory-full-cover-art-frida-kahlo-inspired-art.html",
+          "label": "frida kahlo inspired art"
+        },
+        {
+          "id": "art/style-japonais-ukiyo-e",
+          "slug": "style-japonais-ukiyo-e",
+          "html": "subcategory-full-cover-art-style-japonais-ukiyo-e.html",
+          "label": "style japonais ukiyo e"
+        },
+        {
+          "id": "art/style-klimt",
+          "slug": "style-klimt",
+          "html": "subcategory-full-cover-art-style-klimt.html",
+          "label": "style klimt"
+        },
+        {
+          "id": "art/style-picasso",
+          "slug": "style-picasso",
+          "html": "subcategory-full-cover-art-style-picasso.html",
+          "label": "style picasso"
+        },
+        {
+          "id": "art/style-pop-art",
+          "slug": "style-pop-art",
+          "html": "subcategory-full-cover-art-style-pop-art.html",
+          "label": "style pop art"
+        },
+        {
+          "id": "art/style-renaissance",
+          "slug": "style-renaissance",
+          "html": "subcategory-full-cover-art-style-renaissance.html",
+          "label": "style renaissance"
+        },
+        {
+          "id": "art/van-gogh-style",
+          "slug": "van-gogh-style",
+          "html": "subcategory-full-cover-art-van-gogh-style.html",
+          "label": "van gogh style"
+        }
+      ]
+    },
+    {
+      "slug": "boheme",
+      "label": "Bohème",
+      "subcategories": [
+        {
+          "id": "b/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-boheme.html",
+          "label": "all"
+        }
+      ]
+    },
+    {
+      "slug": "fleurs",
+      "label": "Fleurs",
+      "subcategories": [
+        {
+          "id": "f/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-fleurs.html",
+          "label": "all"
+        }
+      ]
+    },
+    {
+      "slug": "fantasy",
+      "label": "Fantasy",
+      "subcategories": [
+        {
+          "id": "fantasy/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-fantasy.html",
+          "label": "All"
+        },
+        {
+          "id": "fantasy/dark-fantasy",
+          "slug": "dark-fantasy",
+          "html": "subcategory-full-cover-fantasy-dark-fantasy.html",
+          "label": "dark fantasy"
+        },
+        {
+          "id": "fantasy/epic-fantasy",
+          "slug": "epic-fantasy",
+          "html": "subcategory-full-cover-fantasy-epic-fantasy.html",
+          "label": "epic fantasy"
+        },
+        {
+          "id": "fantasy/magic-fantasy",
+          "slug": "magic-fantasy",
+          "html": "subcategory-full-cover-fantasy-magic-fantasy.html",
+          "label": "magic fantasy"
+        },
+        {
+          "id": "fantasy/romantasy",
+          "slug": "romantasy",
+          "html": "subcategory-full-cover-fantasy-romantasy.html",
+          "label": "romantasy"
+        },
+        {
+          "id": "fantasy/witchcraft-fantasy",
+          "slug": "witchcraft-fantasy",
+          "html": "subcategory-full-cover-fantasy-witchcraft-fantasy.html",
+          "label": "witchcraft fantasy"
+        }
+      ]
+    },
+    {
+      "slug": "historical",
+      "label": "Historical",
+      "subcategories": [
+        {
+          "id": "historical/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-historical.html",
+          "label": "All"
+        },
+        {
+          "id": "historical/historical",
+          "slug": "historical",
+          "html": "subcategory-full-cover-historical-historical.html",
+          "label": "historical"
+        }
+      ]
+    },
+    {
+      "slug": "horror",
+      "label": "Horror",
+      "subcategories": [
+        {
+          "id": "horror/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-horror.html",
+          "label": "All"
+        },
+        {
+          "id": "horror/horror",
+          "slug": "horror",
+          "html": "subcategory-full-cover-horror-horror.html",
+          "label": "horror"
+        }
+      ]
+    },
+    {
+      "slug": "magie",
+      "label": "Magie",
+      "subcategories": [
+        {
+          "id": "magie/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-magie-x-art-nouveau-style-premium.html",
+          "label": "All"
+        },
+        {
+          "id": "magie/x-art-nouveau-style-premium",
+          "slug": "x-art-nouveau-style-premium",
+          "html": "subcategory-full-cover-magie-x-art-nouveau-style-premium.html",
+          "label": "x art nouveau style premium"
+        },
+        {
+          "id": "magie/x-art-nouveau-style-premium-art-nouveau-bleu-nuit-or",
+          "slug": "x-art-nouveau-style-premium-art-nouveau-bleu-nuit-or",
+          "html": "subcategory-full-cover-magie-x-art-nouveau-style-premium-art-nouveau-bleu-nuit-or.html",
+          "label": "x art nouveau style premium art nouveau bleu nuit or"
+        },
+        {
+          "id": "magie/x-art-nouveau-style-premium-art-nouveau-magique",
+          "slug": "x-art-nouveau-style-premium-art-nouveau-magique",
+          "html": "subcategory-full-cover-magie-x-art-nouveau-style-premium-art-nouveau-magique.html",
+          "label": "x art nouveau style premium art nouveau magique"
+        }
+      ]
+    },
+    {
+      "slug": "mystery",
+      "label": "Mystery",
+      "subcategories": [
+        {
+          "id": "mystery/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-mystery.html",
+          "label": "All"
+        },
+        {
+          "id": "mystery/mystery",
+          "slug": "mystery",
+          "html": "subcategory-full-cover-mystery-mystery.html",
+          "label": "mystery"
+        }
+      ]
+    },
+    {
+      "slug": "paysages",
+      "label": "Paysages",
+      "subcategories": [
+        {
+          "id": "p/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-paysages.html",
+          "label": "all"
+        }
+      ]
+    },
+    {
+      "slug": "religions",
+      "label": "Religions",
+      "subcategories": [
+        {
+          "id": "religions/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-religions.html",
+          "label": "All"
+        },
+        {
+          "id": "religions/animisme",
+          "slug": "animisme",
+          "html": "subcategory-full-cover-religions-animisme.html",
+          "label": "animisme"
+        },
+        {
+          "id": "religions/christianisme",
+          "slug": "christianisme",
+          "html": "subcategory-full-cover-religions-christianisme.html",
+          "label": "christianisme"
+        },
+        {
+          "id": "religions/islam",
+          "slug": "islam",
+          "html": "subcategory-full-cover-religions-islam.html",
+          "label": "islam"
+        },
+        {
+          "id": "religions/judaisme",
+          "slug": "judaisme",
+          "html": "subcategory-full-cover-religions-judaisme.html",
+          "label": "judaisme"
+        },
+        {
+          "id": "religions/magie-africaine-orishas",
+          "slug": "magie-africaine-orishas",
+          "html": "subcategory-full-cover-religions-magie-africaine-orishas.html",
+          "label": "magie africaine orishas"
+        },
+        {
+          "id": "religions/magie-creole",
+          "slug": "magie-creole",
+          "html": "subcategory-full-cover-religions-magie-creole.html",
+          "label": "magie creole"
+        },
+        {
+          "id": "religions/spiritualite-africaine",
+          "slug": "spiritualite-africaine",
+          "html": "subcategory-full-cover-religions-spiritualite-africaine.html",
+          "label": "spiritualite africaine"
+        },
+        {
+          "id": "religions/vaudou",
+          "slug": "vaudou",
+          "html": "subcategory-full-cover-religions-vaudou.html",
+          "label": "vaudou"
+        }
+      ]
+    },
+    {
+      "slug": "romance",
+      "label": "Romance",
+      "subcategories": [
+        {
+          "id": "romance/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-romance.html",
+          "label": "All"
+        },
+        {
+          "id": "romance/black-love",
+          "slug": "black-love",
+          "html": "subcategory-full-cover-romance-black-love.html",
+          "label": "black love"
+        },
+        {
+          "id": "romance/dark-romance",
+          "slug": "dark-romance",
+          "html": "subcategory-full-cover-romance-dark-romance.html",
+          "label": "dark romance"
+        },
+        {
+          "id": "romance/romance-intense-passion-enemies-to-lovers",
+          "slug": "romance-intense-passion-enemies-to-lovers",
+          "html": "subcategory-full-cover-romance-romance-intense-passion-enemies-to-lovers.html",
+          "label": "enemies to lovers"
+        },
+        {
+          "id": "romance/romance-contemporaine-chic-luxe",
+          "slug": "romance-contemporaine-chic-luxe",
+          "html": "subcategory-full-cover-romance-romance-contemporaine-chic-luxe.html",
+          "label": "romance contemporaine chic luxe"
+        },
+        {
+          "id": "romance/romance-fantasy",
+          "slug": "romance-fantasy",
+          "html": "subcategory-full-cover-romance-romance-fantasy.html",
+          "label": "romance fantasy"
+        },
+        {
+          "id": "romance/romance-small-town",
+          "slug": "romance-small-town",
+          "html": "subcategory-full-cover-romance-romance-small-town.html",
+          "label": "small town"
+        }
+      ]
+    },
+    {
+      "slug": "sci-fi",
+      "label": "Sci‑Fi",
+      "subcategories": [
+        {
+          "id": "sci-fi/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-sci-fi.html",
+          "label": "All"
+        },
+        {
+          "id": "sci/fi-sci-fi",
+          "slug": "fi-sci-fi",
+          "html": "subcategory-full-cover-sci-fi-sci-fi.html",
+          "label": "sci-fi"
+        },
+        {
+          "id": "sci/fi",
+          "slug": "fi",
+          "html": "subcategory-full-cover-sci-fi.html",
+          "label": "sci-fi (all)"
+        }
+      ]
+    },
+    {
+      "slug": "thriller",
+      "label": "Thriller",
+      "subcategories": [
+        {
+          "id": "thriller/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-thriller.html",
+          "label": "All"
+        },
+        {
+          "id": "thriller/thriller",
+          "slug": "thriller",
+          "html": "subcategory-full-cover-thriller-thriller.html",
+          "label": "thriller"
+        }
+      ]
+    },
+    {
+      "slug": "vintage",
+      "label": "Vintage",
+      "subcategories": [
+        {
+          "id": "vintage/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-vintage.html",
+          "label": "All"
+        },
+        {
+          "id": "vintage/1930s-buildings-city",
+          "slug": "1930s-buildings-city",
+          "html": "subcategory-full-cover-vintage-1930s-buildings-city.html",
+          "label": "1930s buildings city"
+        },
+        {
+          "id": "vintage/1930s-mafia-romance",
+          "slug": "1930s-mafia-romance",
+          "html": "subcategory-full-cover-vintage-1930s-mafia-romance.html",
+          "label": "1930s mafia romance"
+        },
+        {
+          "id": "vintage/1930s-maps-geography",
+          "slug": "1930s-maps-geography",
+          "html": "subcategory-full-cover-vintage-1930s-maps-geography.html",
+          "label": "1930s maps geography"
+        },
+        {
+          "id": "vintage/1930s-newspaper-textures",
+          "slug": "1930s-newspaper-textures",
+          "html": "subcategory-full-cover-vintage-1930s-newspaper-textures.html",
+          "label": "1930s newspaper textures"
+        },
+        {
+          "id": "vintage/1930s-newsroom",
+          "slug": "1930s-newsroom",
+          "html": "subcategory-full-cover-vintage-1930s-newsroom.html",
+          "label": "1930s newsroom"
+        },
+        {
+          "id": "vintage/ambiance",
+          "slug": "ambiance",
+          "html": "subcategory-full-cover-vintage-ambiance.html",
+          "label": "ambiance"
+        }
+      ]
+    },
+    {
+      "slug": "voyages",
+      "label": "Voyages",
+      "subcategories": [
+        {
+          "id": "voyages/all",
+          "slug": "all",
+          "html": "subcategory-full-cover-voyages.html",
+          "label": "All"
+        },
+        {
+          "id": "voyages/marrakech",
+          "slug": "marrakech",
+          "html": "subcategory-full-cover-voyages-marrakech.html",
+          "label": "marrakech"
+        },
+        {
+          "id": "voyages/martinique",
+          "slug": "martinique",
+          "html": "subcategory-full-cover-voyages-martinique.html",
+          "label": "martinique"
+        },
+        {
+          "id": "voyages/new-york",
+          "slug": "new-york",
+          "html": "subcategory-full-cover-voyages-new-york.html",
+          "label": "new york"
+        },
+        {
+          "id": "voyages/paris",
+          "slug": "paris",
+          "html": "subcategory-full-cover-voyages-paris.html",
+          "label": "paris"
+        },
+        {
+          "id": "voyages/republique-dominicaine",
+          "slug": "republique-dominicaine",
+          "html": "subcategory-full-cover-voyages-republique-dominicaine.html",
+          "label": "republique dominicaine"
+        },
+        {
+          "id": "voyages/rome",
+          "slug": "rome",
+          "html": "subcategory-full-cover-voyages-rome.html",
+          "label": "rome"
+        },
+        {
+          "id": "voyages/tokyo",
+          "slug": "tokyo",
+          "html": "subcategory-full-cover-voyages-tokyo.html",
+          "label": "tokyo"
+        }
+      ]
+    }
+  ]
+}
