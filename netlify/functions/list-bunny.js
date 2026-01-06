@@ -1,40 +1,52 @@
-// api/list-files.js (Pour Vercel)
-const fetch = require('node-fetch');
+// netlify/functions/list-bunny.js
 
-export default async function handler(req, res) {
-  // Configuration CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+exports.handler = async (event) => {
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Content-Type': 'application/json'
+  };
 
-  const { path = '' } = req.query;
+  const path = event.queryStringParameters.path || '';
   const STORAGE_ZONE = 'gabaritkdp-images'; 
-  const ACCESS_KEY = process.env.BUNNY_STORAGE_API_KEY; // À régler dans le tableau de bord Vercel
-  const CDN_URL = 'https://cdn.gabaritkdp.com'; 
+  const ACCESS_KEY = process.env.BUNNY_STORAGE_API_KEY; 
+  const CDN_URL = 'https://gabaritkdp.b-cdn.net'; // On utilise l'URL par défaut de Bunny pour être sûr
 
   try {
-    const url = `https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURIComponent(path)}/`;
-    
-    const response = await fetch(url, {
+    // Utilisation du fetch natif de Node.js (pas besoin de require)
+    const response = await fetch(`https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURIComponent(path)}/`, {
       method: 'GET',
       headers: { 
-        'AccessKey': ACCESS_KEY,
+        'AccessKey': ACCESS_KEY, 
         'Accept': 'application/json' 
       }
     });
 
+    if (!response.ok) throw new Error(`Bunny API error: ${response.status}`);
+
     const data = await response.json();
 
-    const formattedData = data.map(item => ({
-      name: item.ObjectName,
-      isDir: item.IsDirectory,
-      url: item.IsDirectory 
-           ? `${CDN_URL}/${path}/${item.ObjectName}/vignette.png` 
-           : `${CDN_URL}/${path}/${item.ObjectName}`,
-      path: `${path}/${item.ObjectName}`.replace(/\/+/g, '/')
-    }));
+    const result = data.map(item => {
+      const isDir = item.IsDirectory;
+      const cleanPath = `${path}/${item.ObjectName}`.replace(/\/+/g, '/');
+      
+      return {
+        name: item.ObjectName,
+        isDir: isDir,
+        path: cleanPath,
+        url: isDir 
+          ? `${CDN_URL}/${cleanPath}/vignette.png` 
+          : `${CDN_URL}/${path}/${item.ObjectName}`
+      };
+    });
 
-    return res.status(200).json(formattedData);
+    return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error('Erreur:', error);
+    return { 
+      statusCode: 500, 
+      headers, 
+      body: JSON.stringify({ error: error.message }) 
+    };
   }
-}
+};
