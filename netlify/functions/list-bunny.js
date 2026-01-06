@@ -10,11 +10,16 @@ exports.handler = async (event) => {
   const path = event.queryStringParameters.path || '';
   const STORAGE_ZONE = 'gabaritkdp-images'; 
   const ACCESS_KEY = process.env.BUNNY_STORAGE_API_KEY; 
-  const CDN_URL = 'https://gabaritkdp.b-cdn.net'; // On utilise l'URL par défaut de Bunny pour être sûr
+  const CDN_URL = 'https://gabaritkdp.b-cdn.net'; 
 
   try {
-    // Utilisation du fetch natif de Node.js (pas besoin de require)
-    const response = await fetch(`https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURIComponent(path)}/`, {
+    // 🎯 LA CORRECTION EST ICI : on utilise encodeURI au lieu de encodeURIComponent
+    // pour garder les "/" intacts dans l'adresse
+    const bunnyUrl = `https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURI(path)}/`;
+    
+    console.log("Appel Bunny vers :", bunnyUrl);
+
+    const response = await fetch(bunnyUrl, {
       method: 'GET',
       headers: { 
         'AccessKey': ACCESS_KEY, 
@@ -28,6 +33,7 @@ exports.handler = async (event) => {
 
     const result = data.map(item => {
       const isDir = item.IsDirectory;
+      // Nettoyage du chemin pour éviter les doubles barres //
       const cleanPath = `${path}/${item.ObjectName}`.replace(/\/+/g, '/');
       
       return {
@@ -35,8 +41,8 @@ exports.handler = async (event) => {
         isDir: isDir,
         path: cleanPath,
         url: isDir 
-          ? `${CDN_URL}/${cleanPath}/vignette.png` 
-          : `${CDN_URL}/${path}/${item.ObjectName}`
+          ? `${CDN_URL}/${encodeURI(cleanPath)}/vignette.png` 
+          : `${CDN_URL}/${encodeURI(path)}/${encodeURIComponent(item.ObjectName)}`
       };
     });
 
