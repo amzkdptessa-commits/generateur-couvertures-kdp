@@ -8,36 +8,35 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-    .header-nav{background:#1e293b; padding:10px 0; position:sticky; top:0; z-index:999}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background-color: #fff;}
+    .header-nav{background:#1e293b; padding:10px 0; position:sticky; top:0; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,0.2)}
     .nav-container{max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 20px}
-    .logo-nav{display:flex; align-items:center; gap:12px; text-decoration:none; color:#fff}
+    .logo-nav{display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff}
     .logo-nav img{height:32px;}
     .logo-nav span{font-size:1.1rem; font-weight:700; color:#FF9900}
-    .nav-links{display:flex; gap:15px; align-items:center}
+    .nav-links{display:flex; gap:12px; align-items:center}
     .nav-links a{color:#fff; text-decoration:none; font-weight:500; padding:6px 10px; border-radius:8px; font-size:.85rem}
+    .nav-links a:hover{color:#FF9900}
     .express-nav-btn{background:#10b981!important; color:#fff!important}
     .language-selector{background:#fff; border-radius:20px; padding:2px; display:flex}
-    .lang-btn{padding:3px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-size:.65rem; font-weight:bold}
+    .lang-btn{padding:3px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-size:.65rem; font-weight:bold; color: #1e293b}
     .lang-btn.active{background:#FF9900; color:#fff}
     
-    .premium-sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); }
-    .category-card{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,.1); background:#f1f5f9 }
+    .premium-sec { background: #1e293b; padding: 60px 0; }
+    .category-card{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; background:#334155; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
     .category-card:hover{ transform:translateY(-8px); }
     .category-card img{ width:100%; height:100%; object-fit:cover; }
-    .category-overlay{ position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:1.2rem; pointer-events:none }
-    .category-name{ font-size:1.1rem; font-weight:700; color:#fff; text-transform: capitalize; }
-    .category-link{ color:#FF9900; font-weight:600; font-size:.75rem }
+    .category-overlay{ position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 70%); display:flex; flex-direction:column; justify-content:flex-end; padding:20px; pointer-events:none }
+    .category-name{ font-size:1rem; font-weight:800; color:#fff; text-transform: uppercase; letter-spacing: 0.5px; }
+    .category-link{ color:#FF9900; font-weight:600; font-size:.75rem; margin-top: 4px; }
 
     footer{background:#0f172a; color:#94a3b8; padding:60px 20px 20px}
     .social-box{background:rgba(255,255,255,0.03); border-radius:16px; padding:30px; text-align:center; margin-bottom:40px; border:1px solid rgba(255,255,255,0.05)}
     .social-links{display:flex; justify-content:center; gap:12px; margin-top:15px}
-    .social-link{width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.1rem; transition:.3s}
-    .youtube{background:#FF0000} .facebook{background:#1877F2} .instagram{background:linear-gradient(45deg,#405DE6,#833AB4,#C13584,#E1306C,#FD1D1D)}
+    .social-link{width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:1.2rem; transition:.3s}
+    .youtube{background:#FF0000} .facebook{background:#1877F2} .instagram{background:linear-gradient(45deg,#405DE6,#833AB4,#E1306C,#FD1D1D)}
     .pinterest{background:#BD081C} .tiktok{background:#000; border:1px solid #444} .linkedin{background:#0A66C2}
     
-    .loader { border-top-color: #FF9900; animation: spin 1s linear infinite; border-width: 3px; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @media (max-width: 1024px) { .nav-links { display: none; } }
   </style>
 </head>
@@ -51,7 +50,7 @@
         <a href="./dashboard.html" data-en="📊 Dashboard" data-fr="📊 Tableau">📊 Dashboard</a>
         <a href="./generator.html" class="express-nav-btn" data-en="Express Generator" data-fr="Générateur Express">Express Generator</a>
         <a href="./generator-magic.html" data-en="Magic Generator" data-fr="Générateur Magique">Magic Generator</a>
-        <a href="./marketplace.html" data-en="Marketplace" data-fr="Marché">Marketplace</a>
+        <a href="./marketplace.html">Marketplace</a>
         <a href="./inscription.html" data-en="📝 Sign Up" data-fr="📝 Inscription">📝 Sign Up</a>
         <a href="./connexion.html" data-en="🔓 Login" data-fr="🔓 Connexion">🔓 Login</a>
       </nav>
@@ -64,35 +63,35 @@
 
   <section class="py-12 bg-slate-50 text-center">
     <h1 class="text-4xl font-black text-gray-900 mb-2">Marketplace <span style="color:#FF9900;">KDP</span></h1>
-    <p class="text-lg text-gray-600" data-en="All your templates, synchronized in real-time." data-fr="Tous vos templates, synchronisés en temps réel.">All your templates, synchronized in real-time.</p>
+    <p class="text-lg text-gray-600" data-en="6600+ professional templates" data-fr="6600+ templates professionnels">6600+ professional templates</p>
   </section>
 
-  <!-- SECTION PREMIUM -->
-  <section class="premium-sec py-12">
+  <!-- PREMIUM SECTION -->
+  <section class="premium-sec">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl font-bold text-white mb-8 text-center uppercase tracking-widest">🔥 Premium Edition</h2>
+      <h2 class="text-2xl font-bold text-white mb-10 text-center uppercase tracking-widest">🔥 Premium Edition</h2>
       <div id="grid-premium" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div class="col-span-full flex justify-center py-10"><div class="loader rounded-full h-10 w-10 border-gray-300"></div></div>
+          <div class="col-span-full text-center text-gray-400">Loading Premium Categories...</div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION COVERS -->
-  <section class="py-16 bg-white">
+  <!-- BACKGROUND COVERS -->
+  <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl font-bold text-center mb-8 text-gray-900 uppercase tracking-widest">📚 Book Covers</h2>
+      <h2 class="text-2xl font-bold text-center mb-10 text-gray-900 uppercase tracking-widest">📚 Book Covers</h2>
       <div id="grid-backgrounds" class="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div class="col-span-full flex justify-center py-10"><div class="loader rounded-full h-10 w-10 border-gray-300"></div></div>
+          <div class="col-span-full text-center">Loading Backgrounds...</div>
       </div>
     </div>
   </section>
 
-  <!-- SECTION INTERIORS -->
-  <section class="py-16 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4 text-center">
-      <h2 class="text-2xl font-bold mb-8 text-gray-900 uppercase tracking-widest">📖 Book Interiors</h2>
-      <div id="grid-interiors" class="grid grid-cols-2 md:grid-cols-2 max-w-2xl mx-auto gap-6">
-          <!-- Chargé par l'API -->
+  <!-- BOOK INTERIORS (Rétabli) -->
+  <section class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-2xl font-bold text-center mb-10 text-gray-900 uppercase tracking-widest">📖 Book Interiors</h2>
+      <div id="grid-interiors" class="grid grid-cols-2 md:grid-cols-2 max-w-3xl mx-auto gap-8">
+          <div class="col-span-full text-center text-gray-400 italic">Syncing interiors...</div>
       </div>
     </div>
   </section>
@@ -112,9 +111,9 @@
       </div>
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm text-center md:text-left">
         <div><h4 class="text-white font-bold mb-4">GabaritKDP</h4><p>100% Amazon-compliant KDP generator.</p></div>
-        <div><h4 class="text-white font-bold mb-4">Product</h4><ul class="space-y-1"><li>Generator</li><li>Marketplace</li></ul></div>
-        <div><h4 class="text-white font-bold mb-4">Support</h4><ul class="space-y-1"><li>FAQ</li><li>Contact</li></ul></div>
-        <div><h4 class="text-white font-bold mb-4">Legal</h4><ul class="space-y-1"><li>Terms</li><li>Privacy</li></ul></div>
+        <div><h4 class="text-white font-bold mb-4">Product</h4><ul><li>Generator</li><li>Marketplace</li></ul></div>
+        <div><h4 class="text-white font-bold mb-4">Support</h4><ul><li>FAQ</li><li>Contact</li></ul></div>
+        <div><h4 class="text-white font-bold mb-4">Legal</h4><ul><li>Terms</li><li>Privacy</li></ul></div>
       </div>
     </div>
   </footer>
@@ -133,11 +132,11 @@
                     card.className = "category-card";
                     card.onclick = () => location.href = `category.html?path=${encodeURIComponent(item.path)}`;
                     
-                    // On affiche vignette.png si elle existe, sinon un placeholder propre
+                    // URL de la vignette (on force vignette.png)
                     const thumb = item.url;
 
                     card.innerHTML = `
-                        <img src="${thumb}" onerror="this.src='https://via.placeholder.com/400x300?text=${item.name}'" loading="lazy">
+                        <img src="${thumb}" onerror="this.parentElement.classList.add('no-img'); this.style.display='none';" loading="lazy">
                         <div class="category-overlay">
                             <div class="category-name">${item.name.replace(/-/g, ' ').replace(/_/g, ' ')}</div>
                             <div class="category-link" data-en="Explore →" data-fr="Explorer →">Explore →</div>
@@ -146,7 +145,7 @@
                     grid.appendChild(card);
                 }
             });
-        } catch (e) { grid.innerHTML = "Error loading."; }
+        } catch (e) { console.error(e); }
     }
 
     function switchLanguage(l) {
@@ -161,8 +160,11 @@
         // CHARGEMENT AUTOMATIQUE DES 3 SECTIONS
         loadAutoCategories('FULL COVER', 'grid-premium');
         loadAutoCategories('backgrounds', 'grid-backgrounds');
-        // Ici, mets le chemin exact vers tes dossiers de Planners/Coloriages sur Bunny
-        loadAutoCategories('UI/book-interiors', 'grid-interiors'); 
+        
+        // CORRECTION : On pointe vers le bon dossier pour les intérieurs
+        // Si tes dossiers s'appellent PLANNERS et COLORIAGES sur Bunny, c'est ici :
+        loadAutoCategories('backgrounds/PLANNERS', 'grid-interiors'); 
+        loadAutoCategories('backgrounds/COLORIAGES', 'grid-interiors'); 
 
         switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
     });
