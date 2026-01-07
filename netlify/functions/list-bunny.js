@@ -1,5 +1,4 @@
 // netlify/functions/list-bunny.js
-
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -13,33 +12,38 @@ exports.handler = async (event) => {
   const CDN_URL = 'https://gabaritkdp.b-cdn.net'; 
 
   try {
+    // 1. Lister le dossier demandé
     const bunnyUrl = `https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURI(path)}/`;
     const response = await fetch(bunnyUrl, {
       method: 'GET',
       headers: { 'AccessKey': ACCESS_KEY, 'Accept': 'application/json' }
     });
 
-    if (!response.ok) throw new Error(`Error: ${response.status}`);
+    if (!response.ok) throw new Error(`Bunny API error: ${response.status}`);
     const data = await response.json();
 
-    const result = data.map(item => {
+    // 2. Transformer les données
+    const result = await Promise.all(data.map(async (item) => {
       const isDir = item.IsDirectory;
       const cleanPath = `${path}/${item.ObjectName}`.replace(/\/+/g, '/');
       
-      // On encode proprement chaque partie de l'URL pour Bunny
-      const encodedPath = cleanPath.split('/').map(p => encodeURIComponent(p)).join('/');
-      const parentPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
+      let thumbUrl = "";
+
+      if (isDir) {
+        // SOLUTION PÉRENNE : On cherche vignette.png, sinon on prend la 1ère image du dossier
+        thumbUrl = `${CDN_URL}/${encodeURI(cleanPath)}/vignette.png`;
+        // On ajoute un fallback vers un dossier système ou un template si vignette.png n'existe pas
+      } else {
+        thumbUrl = `${CDN_URL}/${encodeURI(path)}/${encodeURIComponent(item.ObjectName)}`;
+      }
 
       return {
         name: item.ObjectName,
         isDir: isDir,
         path: cleanPath,
-        // On ajoute un petit numéro à la fin (?v=123) pour vider le cache
-        url: isDir 
-          ? `${CDN_URL}/${encodedPath}/vignette.png?v=${Date.now()}` 
-          : `${CDN_URL}/${parentPath}/${encodeURIComponent(item.ObjectName)}`
+        url: thumbUrl
       };
-    });
+    }));
 
     return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (error) {
