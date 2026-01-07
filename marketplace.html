@@ -3,65 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-fr="Marketplace - GabaritKDP" data-en="Marketplace - GabaritKDP">Marketplace - GabaritKDP</title>
-  
+  <title>Marketplace - GabaritKDP</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background-color: #fff;}
-
-    /* HEADER SLIM */
-    .header-nav { background:#1e293b; padding: 6px 0; position:sticky; top:0; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
-    .nav-container { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 20px; }
-    .logo-nav { display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff; }
-    .logo-nav img { height:28px; width:auto; }
-    .logo-nav span { font-size:1rem; font-weight:700; color:#FF9900; }
-
-    .nav-links { display:flex; align-items:center; gap:10px; }
-    .nav-links a { color:#fff; text-decoration:none; font-weight:500; padding:5px 10px; border-radius:6px; font-size:.8rem; transition:.2s; }
-    .nav-links a:hover { color:#FF9900; background:rgba(255,153,0,.1); }
-    .express-nav-btn { background:#10b981!important; color:#fff!important; font-weight:700!important; }
-
-    /* LANGUE */
-    .language-selector { background:#fff; border-radius:20px; padding:2px; display:flex; gap:2px; }
-    .lang-btn { padding:2px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-weight:bold; font-size:.65rem; color:#1e293b; }
-    .lang-btn.active { background:#FF9900; color:#fff; }
-
-    /* CARDS */
-    .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 40px 0; }
-    .category-card { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.15); background:#2d3748; }
-    .category-card:hover { transform:translateY(-5px); }
-    .category-card img { width:100%; height:100%; object-fit:cover; }
-    .category-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 70%); display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; pointer-events:none; }
-    .category-name { font-size:0.85rem; font-weight:700; color:#fff; text-transform: uppercase; }
-
-    .category-badge { position:absolute; top:0.8rem; right:0.8rem; padding:.2rem .6rem; border-radius:9999px; font-size:.55rem; font-weight:800; color:#fff; pointer-events:none; }
-    .badge-premium { background:linear-gradient(135deg,#dc2626,#b91c1c); }
-    .badge-popular { background:#f59e0b; }
-    .badge-best { background:#8b5cf6; }
-
-    /* FOOTER COMPACT */
-    footer { background:#0f172a; color:#94a3b8; padding:30px 20px 15px; font-size: 0.8rem; }
-    .social-box { background:rgba(255,255,255,0.03); border-radius:12px; padding:15px; text-align:center; margin-bottom:25px; border: 1px solid rgba(255,255,255,0.05); }
-    .social-links { display:flex; justify-content:center; gap:10px; margin-top:10px; }
-    .social-link { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.9rem; transition:.3s; text-decoration:none; }
-    .youtube { background:#FF0000; } .facebook { background:#1877F2; } .instagram { background:linear-gradient(45deg,#405DE6,#833AB4,#FD1D1D); }
-    .pinterest { background:#BD081C; } .tiktok { background:#000; border:1px solid #444; } .linkedin { background:#0A66C2; }
-
+    .header-nav{background:#1e293b; padding:8px 0; position:sticky; top:0; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,0.1)}
+    .nav-container{max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 20px}
+    .logo-nav{display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff}
+    .logo-nav img{height:28px;}
+    .logo-nav span{font-size:1rem; font-weight:700; color:#FF9900}
+    .nav-links a{color:#fff; text-decoration:none; font-weight:500; padding:6px 10px; border-radius:8px; font-size:.8rem}
+    .express-nav-btn{background:#10b981!important; color:#fff!important; font-weight:700!important}
+    .language-selector{background:#fff; border-radius:20px; padding:2px; display:flex; gap:2px}
+    .lang-btn{padding:2px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-weight:bold; font-size:.6rem; color:#1e293b}
+    .lang-btn.active{background:#FF9900; color:#fff}
+    .premium-bg { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 40px 0; }
+    .category-card{ position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.2); background:#2d3748 }
+    .category-card:hover{ transform:translateY(-5px); }
+    .category-card img{ width:100%; height:100%; object-fit:cover; }
+    .category-overlay{ position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; pointer-events:none }
+    .category-name{ font-size:0.9rem; font-weight:700; color:#fff; text-transform: uppercase; }
+    .category-badge{ position:absolute; top:0.8rem; right:0.8rem; padding:.2rem .6rem; border-radius:9999px; font-size:.55rem; font-weight:800; color:#fff; }
+    footer{background:#0f172a; color:#94a3b8; padding:30px 20px 15px; font-size: 0.8rem;}
+    .social-links{display:flex; justify-content:center; gap:10px; margin-top:10px}
+    .social-link{width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.9rem; transition:.3s}
+    .youtube{background:#FF0000} .facebook{background:#1877F2} .instagram{background:#E4405F}
     @media (max-width: 1024px) { .nav-links { display: none; } }
   </style>
 </head>
 <body>
 
-  <!-- Header Slim -->
   <header class="header-nav notranslate">
     <div class="nav-container">
-      <a href="./index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="Logo">
-        <span>GabaritKDP</span>
-      </a>
+      <a href="./index.html" class="logo-nav"><img src="logo-gabarit-kdp-site-web.png"><span>GabaritKDP</span></a>
       <nav class="nav-links">
         <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
         <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
@@ -78,116 +54,114 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="py-10 bg-slate-50 text-center border-b border-gray-100">
-    <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">Marketplace <span style="color:#FF9900;">KDP</span></h1>
-    <p class="text-md text-gray-500" data-fr="6600+ templates professionnels" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
+  <section class="py-10 bg-slate-50 text-center border-b">
+    <h1 class="text-3xl font-black">Marketplace <span style="color:#FF9900;">KDP</span></h1>
+    <p class="text-gray-500">6600+ templates synchronized automatically from your PC.</p>
   </section>
 
-  <!-- SECTION 1: PREMIUM EDITION -->
-  <section class="premium_edit_sec">
+  <!-- SECTION 1: PREMIUM -->
+  <section class="premium-bg">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl font-bold text-white text-center mb-8 uppercase tracking-widest">🔥 Premium Edition</h2>
+      <h2 class="text-xl font-bold text-white text-center mb-8 tracking-widest uppercase">🔥 Premium Edition</h2>
       <div id="grid-premium" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
     </div>
   </section>
 
-  <!-- SECTION 2: BOOK COVERS -->
+  <!-- SECTION 2: COVERS -->
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl font-bold text-center mb-8 text-gray-900 uppercase tracking-widest">📚 Book Covers (Backgrounds)</h2>
-      <div id="grid-backgrounds" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+      <h2 class="text-xl font-bold text-center mb-8 uppercase tracking-widest text-slate-800">📚 Book Covers</h2>
+      <div id="grid-covers" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
     </div>
   </section>
 
-  <!-- SECTION 3: BOOK INTERIORS -->
-  <section class="py-16 bg-slate-50 border-t border-gray-100">
+  <!-- SECTION 3: INTERIORS -->
+  <section class="py-16 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-2xl font-bold text-center mb-8 text-gray-900 uppercase tracking-widest" data-fr="📖 Intérieurs de Livres" data-en="📖 Book Interiors">📖 Book Interiors</h2>
-      <div id="grid-interiors" class="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8"></div>
+      <h2 class="text-xl font-bold text-center mb-8 uppercase tracking-widest text-slate-800">📖 Book Interiors</h2>
+      <div id="grid-interiors" class="grid grid-cols-1 md:grid-cols-2 max-w-2xl mx-auto gap-8"></div>
     </div>
   </section>
 
-  <!-- Footer Slim -->
   <footer>
-    <div class="max-w-6xl mx-auto">
-      <div class="social-box">
-        <h4 class="text-white font-bold" data-fr="🚀 Suivez-nous !" data-en="🚀 Follow us for news!">🚀 Follow us for news!</h4>
-        <div class="social-links">
-          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"><i class="fab fa-pinterest-p"></i></a>
-          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"><i class="fab fa-tiktok"></i></a>
-          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"><i class="fab fa-linkedin-in"></i></a>
-        </div>
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="social-links">
+        <a href="#" class="social-link youtube"><i class="fab fa-youtube"></i></a>
+        <a href="#" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-link instagram"><i class="fab fa-instagram"></i></a>
       </div>
-      <div class="text-center opacity-40">&copy; 2025 GabaritKDP. All rights reserved.</div>
+      <p class="mt-4 opacity-40">&copy; 2025 GabaritKDP. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    const config = {
+    const data = {
       premium: [
-        { name: "Art", path: "FULL COVER/Art", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg", badge: "PREMIUM" },
-        { name: "Boheme", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
-        { name: "Fantasy", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
-        { name: "Fleurs", path: "FULL COVER/Fleurs", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" },
-        { name: "Historical", path: "FULL COVER/Historical/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" },
-        { name: "Horror", path: "FULL COVER/Horror/Horror", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg", badge: "NEW" },
-        { name: "Mystery", path: "FULL COVER/Mystery/Mystery", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" },
-        { name: "Religions", path: "FULL COVER/RELIGIONS", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" },
-        { name: "Romance", path: "FULL COVER/Romance", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg", badge: "BEST" },
-        { name: "Sci-Fi", path: "FULL COVER/Sci-fi/Sci-fi", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg" },
-        { name: "Thriller", path: "FULL COVER/Thriller/Thriller", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" },
-        { name: "Voyages", path: "FULL COVER/Voyages/MARRAKECH", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" }
+        { n: "Art", p: "FULL COVER/Art" },
+        { n: "Boheme", p: "FULL COVER/Boheme" },
+        { n: "Fantasy", p: "FULL COVER/FANTASY" },
+        { n: "Fleurs", p: "FULL COVER/Fleurs" },
+        { n: "Historical", p: "FULL COVER/Historical/Historical" },
+        { n: "Horror", p: "FULL COVER/Horror/Horror" },
+        { n: "Mystery", p: "FULL COVER/Mystery/Mystery" },
+        { n: "Religions", p: "FULL COVER/RELIGIONS" },
+        { n: "Romance", p: "FULL COVER/Romance" },
+        { n: "Sci-Fi", p: "FULL COVER/Sci-fi/Sci-fi" },
+        { n: "Thriller", p: "FULL COVER/Thriller/Thriller" },
+        { n: "Voyages", p: "FULL COVER/Voyages/MARRAKECH" }
       ],
-      backgrounds: [
-        { name: "Romance", path: "backgrounds/ROMANCE", img: "https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_002.png" },
-        { name: "Thriller", path: "backgrounds/THRILLER", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" },
-        { name: "Fantasy", path: "backgrounds/FANTASY", img: "https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/EPIC%20FANTASY/EPIC%20FANTASY/image_couverture_de_livres_fantasy_epic_fantasy_006.png" },
-        { name: "Mystery", path: "backgrounds/MYSTERY", img: "https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_004.png" },
-        { name: "Sci-Fi", path: "backgrounds/SCI-FI", img: "https://gabaritkdp.b-cdn.net/backgrounds/SCI-FI/TECH%20ROMANCE%20%20AI/image_couverture_de_livres_sci_fi_tech_romance_ai_001.png" },
-        { name: "Historical", path: "backgrounds/HISTORICAL", img: "https://gabaritkdp.b-cdn.net/backgrounds/HISTORICAL/Medieval/Medieval/image_couverture_de_livres_historical_medieval_010.png" },
-        { name: "Boheme", path: "backgrounds/BOHEME", img: "https://gabaritkdp.b-cdn.net/backgrounds/BOHEME/BOHEME/Boheme_270.png" },
-        { name: "Hippie", path: "backgrounds/HIPPIE", img: "https://gabaritkdp.b-cdn.net/backgrounds/HIPPIE/HIPPIE/image_couverture_de_livres_hippie_013.png" },
-        { name: "Business", path: "backgrounds/BUSINESS", img: "https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Entrepreneurship/Entrepreneurship/image_couverture_de_livres_business_entrepreneurship_008.png" },
-        { name: "Cartoon", path: "backgrounds/CARTOON", img: "https://gabaritkdp.b-cdn.net/backgrounds/CARTOON/Dinosaures/Dinosaures/image_couverture_de_livres_cartoon_dinosaures_006.png" },
-        { name: "Animals", path: "backgrounds/ANIMAUX", img: "https://gabaritkdp.b-cdn.net/backgrounds/ANIMAUX/Loups/Loups/image_couverture_de_livres_animaux_loups_004.png" }
+      covers: [
+        { n: "Romance", p: "backgrounds/ROMANCE" },
+        { n: "Thriller", p: "backgrounds/THRILLER" },
+        { n: "Fantasy", p: "backgrounds/FANTASY" },
+        { n: "Mystery", p: "backgrounds/MYSTERY" },
+        { n: "Historical", p: "backgrounds/HISTORICAL" },
+        { n: "Business", p: "backgrounds/BUSINESS" }
       ],
       interiors: [
-        { name: "Planners", url: "category-planners.html", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png", badge: "BEST SELLER" },
-        { name: "Coloring Books", url: "category-coloriages.html", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" }
+        { n: "Planners", u: "category-planners.html", i: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png" },
+        { n: "Coloring Books", u: "category-coloriages.html", i: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" }
       ]
     };
 
-    function render(data, gridId, isInterior = false) {
+    async function renderSection(items, gridId, isInt = false) {
       const grid = document.getElementById(gridId);
-      data.forEach(item => {
-        const link = isInterior ? item.url : `category.html?path=${encodeURIComponent(item.path)}`;
-        grid.innerHTML += `
-          <div class="category-card" onclick="location.href='${link}'">
-            <img src="${item.img}" loading="lazy" onerror="this.src='https://via.placeholder.com/400x300?text=${item.name}'">
-            ${item.badge ? `<span class="category-badge ${item.badge.includes('PREMIUM') ? 'badge-premium' : (item.badge.includes('POPULAR') ? 'badge-popular' : 'badge-best')}">${item.badge}</span>` : ''}
-            <div class="category-overlay">
-              <div class="category-name">${item.name}</div>
-            </div>
-          </div>`;
-      });
+      for (const item of items) {
+        let thumb = isInt ? item.i : `https://gabaritkdp.b-cdn.net/${item.p}/vignette.png`;
+        let link = isInt ? item.u : `category.html?path=${encodeURIComponent(item.p)}`;
+
+        const card = document.createElement('div');
+        card.className = "category-card";
+        card.onclick = () => location.href = link;
+        card.innerHTML = `
+          <img src="${thumb}" onerror="loadFallback(this, '${item.p}')">
+          <div class="category-overlay"><div class="category-name">${item.n}</div></div>
+        `;
+        grid.appendChild(card);
+      }
+    }
+
+    // FALLBACK : Si vignette.png n'existe pas, on demande au serveur de nous donner la 1ère image
+    async function loadFallback(imgTag, path) {
+      try {
+        const res = await fetch(`/.netlify/functions/list-bunny?path=${encodeURIComponent(path)}`);
+        const files = await res.json();
+        const firstImg = files.find(f => !f.isDir && f.url.includes('vignette.png') === false);
+        if (firstImg) imgTag.src = firstImg.url;
+        else imgTag.src = "https://via.placeholder.com/400x300?text=KDP+Template";
+      } catch (e) { imgTag.src = "https://via.placeholder.com/400x300?text=KDP"; }
     }
 
     function switchLanguage(lang) {
       localStorage.setItem('preferredLanguage', lang);
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
-        el.innerText = el.getAttribute(`data-${lang}`);
-      });
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => { el.innerText = el.getAttribute(`data-${lang}`); });
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      render(config.premium, 'grid-premium');
-      render(config.backgrounds, 'grid-backgrounds');
-      render(config.interiors, 'grid-interiors', true);
+      renderSection(data.premium, 'grid-premium');
+      renderSection(data.covers, 'grid-covers');
+      renderSection(data.interiors, 'grid-interiors', true);
       switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
     });
   </script>
