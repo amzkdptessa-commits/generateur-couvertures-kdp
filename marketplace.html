@@ -3,122 +3,125 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marketplace - GabaritKDP</title>
+  <title data-fr="Marketplace - GabaritKDP" data-en="Marketplace - GabaritKDP">Marketplace - GabaritKDP</title>
   
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #fff; }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
 
-    /* HEADER STYLE SLIM */
-    .header-nav { background-color: #1e293b; padding: 8px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
-    .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
-    .logo-area { display: flex; align-items: center; gap: 20px; }
-    .logo-nav { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-    .logo-nav img { height: 32px; width: auto; }
-    .logo-nav span { font-size: 1.2rem; font-weight: 700; color: #FF9900; }
+    /* HEADER STYLE SAUVEGARDE (Slim & Fixé) */
+    .header-nav{background:#1e293b; padding:10px 0; box-shadow:0 4px 20px rgba(0,0,0,0.1); position:sticky; top:0; z-index:999}
+    .nav-container{max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 20px}
+    .logo-nav{display:flex; align-items:center; gap:12px; text-decoration:none; color:#fff}
+    .logo-nav img{height:35px; width:auto}
+    .logo-nav span{font-size:1.2rem; font-weight:700; color:#FF9900}
+    .nav-links{display:flex; align-items:center; gap:15px}
+    .nav-links a{color:#fff; text-decoration:none; font-weight:500; transition:.3s; padding:8px 12px; border-radius:8px; font-size:.9rem}
+    .nav-links a:hover{color:#FF9900; background:rgba(255,153,0,.1)}
+    .express-nav-btn{background:#10b981!important; color:#fff!important; border-radius:10px!important}
 
-    .language-selector { background: #fff; border-radius: 20px; padding: 2px; display: flex; gap: 2px; }
-    .lang-btn { padding: 3px 8px; border: none; background: transparent; border-radius: 15px; cursor: pointer; font-size: 0.65rem; font-weight: bold; color: #1e293b; }
-    .lang-btn.active { background: #FF9900; color: #fff; }
+    /* LANGUAGE SELECTOR */
+    .language-selector{background:#fff; border-radius:20px; padding:3px; display:flex; gap:2px}
+    .lang-btn{padding:4px 10px; border:none; background:transparent; border-radius:16px; cursor:pointer; font-weight:bold; font-size:.7rem}
+    .lang-btn.active{background:#FF9900; color:#fff}
 
-    .nav-links { display: flex; align-items: center; gap: 10px; }
-    .nav-links a { color: #fff; text-decoration: none; font-weight: 500; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; transition: 0.3s; }
-    .nav-links a:hover { color: #FF9900; }
-    .nav-links a.active { color: #FF9900; background: rgba(255,153,0,0.1); }
-    .express-btn { background: #10b981 !important; color: white !important; font-weight: 600 !important; }
+    /* CATEGORY CARDS */
+    .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); }
+    .category-card{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:all .3s ease; box-shadow:0 4px 15px rgba(0,0,0,.1); background:#f1f5f9 }
+    .category-card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.15) }
+    .category-card img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease }
+    .category-overlay{ position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:1.5rem; pointer-events:none }
+    .category-name{ font-size:1.25rem; font-weight:700; color:#fff; margin-bottom:.25rem }
+    .category-count{ color:#FF9900; font-weight:600; font-size:.875rem }
+    .category-badge{ position:absolute; top:1rem; right:1rem; padding:.25rem .75rem; border-radius:9999px; font-size:.75rem; font-weight:600; color:#fff; pointer-events:none}
+    .badge-premium{background:linear-gradient(135deg,#dc2626,#b91c1c)}
+    .badge-popular{background:#f59e0b}
+    .badge-best{background:#8b5cf6}
 
-    /* GRID & CARDS */
-    .premium-section { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 60px 20px; }
-    .category-card { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; transition: transform 0.3s ease; background: #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    .category-card:hover { transform: translateY(-8px); }
-    .category-card img { width: 100%; height: 100%; object-fit: cover; }
-    .category-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; pointer-events: none; }
-    .category-name { font-size: 1rem; font-weight: 700; color: #fff; }
-    .category-link { color: #FF9900; font-size: 0.75rem; font-weight: 600; margin-top: 5px; }
-    .badge { position: absolute; top: 15px; right: 15px; padding: 4px 10px; border-radius: 20px; font-size: 0.6rem; font-weight: 800; color: #fff; text-transform: uppercase; pointer-events: none; }
-    .badge-premium { background: linear-gradient(135deg, #dc2626, #b91c1c); }
-    .badge-popular { background: #f59e0b; }
-    .badge-best { background: #8b5cf6; }
+    /* FOOTER STYLE SAUVEGARDE */
+    .social-section-box{background:rgba(255,255,255,.05); border-radius:12px; padding:2rem; margin-bottom:2rem; text-align:center}
+    .social-links{display:flex; justify-content:center; gap:15px; margin-top:1rem}
+    .social-link{width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; text-decoration:none; font-size:1.2rem; transition:.3s}
+    .youtube{background:#FF0000} .facebook{background:#1877F2} .instagram{background:linear-gradient(45deg,#405DE6,#C13584,#FD1D1D)}
+    .pinterest{background:#BD081C} .tiktok{background:#000} .linkedin{background:#0A66C2}
 
-    /* FOOTER */
-    footer { background-color: #0f172a; color: #94a3b8; padding: 60px 20px 20px; }
-    .social-box { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 30px; text-align: center; margin-bottom: 50px; border: 1px solid rgba(255,255,255,0.05); }
-    .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 20px; flex-wrap: wrap; }
-    .social-link { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; transition: 0.3s; text-decoration: none; }
-    .social-link:hover { transform: translateY(-5px); filter: brightness(1.2); }
-    .youtube { background: #FF0000; }
-    .facebook { background: #1877F2; }
-    .instagram { background: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D); }
-    .pinterest { background: #BD081C; }
-    .tiktok { background: #000000; border: 1px solid rgba(255,255,255,0.2); }
-    .linkedin { background: #0A66C2; }
-
-    .d-none { display: none; }
+    @media (max-width: 1024px) { .nav-links { display: none; } }
   </style>
 </head>
-<body>
 
-  <!-- HEADER -->
-  <header class="header-nav">
+<body class="bg-white">
+
+  <!-- Header -->
+  <header class="header-nav notranslate">
     <div class="nav-container">
-      <div class="logo-area">
-        <a href="./index.html" class="logo-nav">
-          <img src="logo-gabarit-kdp-site-web.png" alt="Logo">
-          <span>GabaritKDP</span>
-        </a>
-        <div class="language-selector">
-          <button class="lang-btn">FR</button>
-          <button class="lang-btn active">US</button>
-        </div>
+      <a href="./index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="Logo">
+        <span>GabaritKDP</span>
+      </a>
+
+      <div class="language-selector">
+        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">US</button>
       </div>
+
       <nav class="nav-links">
-        <a href="./index.html">🏠 Home</a>
-        <a href="./dashboard.html">📊 Dashboard</a>
-        <a href="./generator.html" class="express-btn">⚡ Express Generator</a>
-        <a href="./generator-magic.html">Magic Generator</a>
-        <a href="./marketplace.html" class="active">Marketplace</a>
-        <a href="./inscription.html">📝 Sign Up</a>
-        <a href="./connexion.html">🔓 Login</a>
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./dashboard.html" data-fr="📊 Tableau" data-en="📊 Dashboard">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+        <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
       </nav>
     </div>
   </header>
 
-  <!-- HERO -->
+  <!-- Hero -->
   <section class="py-12 bg-slate-50 text-center">
-    <h1 class="text-5xl font-black text-gray-900 mb-2">Marketplace <span style="color:#FF9900;">KDP</span></h1>
-    <p class="text-gray-500 text-lg">6600+ professional templates for your Amazon KDP books</p>
+    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+      Marketplace <span style="color:#FF9900;">KDP</span>
+    </h1>
+    <p class="text-xl text-gray-600" data-fr="6600+ templates professionnels pour vos livres Amazon KDP" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
   </section>
 
-  <!-- PREMIUM FULL COVER -->
-  <section class="premium-section">
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl font-bold text-white text-center mb-10">🔥 FULL COVER - Premium Edition</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="fullcover-grid"></div>
-      <div class="text-center mt-12">
-        <button id="btn-more-premium" class="bg-orange-500 text-white px-8 py-3 rounded-full font-bold uppercase text-sm hover:bg-orange-600 transition">See More</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- BACKGROUND COVERS -->
-  <section class="py-20 bg-white">
+  <!-- Section PREMIUM -->
+  <section class="premium_edit_sec py-12">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">📚 Book Covers (Backgrounds)</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="background-grid"></div>
-      <div class="text-center mt-12">
-        <button id="btn-more-bg" class="bg-slate-800 text-white px-8 py-3 rounded-full font-bold uppercase text-sm hover:bg-slate-900 transition">See More</button>
+      <h2 class="text-3xl font-bold text-white text-center mb-10">🔥 FULL COVER - Premium Edition</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="grid-premium">
+        <!-- Rempli par le script -->
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
-  <footer>
-    <div class="max-w-6xl mx-auto">
-      <div class="social-box">
-        <h4 class="text-white font-bold text-xl">🚀 Follow us for the latest KDP news!</h4>
+  <!-- Section INTERIORS (Nouveauté) -->
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900" data-fr="📖 Intérieurs de Livres" data-en="📖 Book Interiors">📖 Book Interiors</h2>
+      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto gap-6" id="grid-interiors">
+        <!-- Rempli par le script -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Section COVERS -->
+  <section class="py-16 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900" data-fr="📚 Couvertures" data-en="📚 Book Covers">📚 Book Covers</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="grid-backgrounds">
+        <!-- Rempli par le script -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer Sauvegarde -->
+  <footer class="bg-gray-900 text-gray-300 py-12 mt-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="social-section-box">
+        <h4 class="text-white font-semibold mb-4" data-fr="🚀 Suivez-nous !" data-en="🚀 Follow us for the latest KDP news!">🚀 Follow us for the latest KDP news!</h4>
         <div class="social-links">
           <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"><i class="fab fa-youtube"></i></a>
           <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
@@ -128,110 +131,66 @@
           <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 pt-10 border-t border-gray-800">
-        <div>
-          <div class="flex items-center gap-2 mb-4">
-            <img src="logo-gabarit-kdp-site-web.png" style="height:25px">
-            <span class="text-white font-bold">GabaritKDP</span>
-          </div>
-          <p class="text-sm">The 100% Amazon-compliant KDP cover generator.</p>
-        </div>
-        <div>
-          <h4 class="text-white font-bold mb-4">Product</h4>
-          <ul class="space-y-2 text-sm">
-            <li><a href="./generator.html">Generator</a></li>
-            <li><a href="./marketplace.html">Marketplace</a></li>
-            <li><a href="./pricing.html">Pricing</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-white font-bold mb-4">Support</h4>
-          <ul class="space-y-2 text-sm">
-            <li><a href="./faq.html">FAQ</a></li>
-            <li><a href="./contact.html">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-white font-bold mb-4">Legal</h4>
-          <ul class="space-y-2 text-sm">
-            <li><a href="./mentions-legales.html">Legal Notice</a></li>
-            <li><a href="./cgu.html">Terms</a></li>
-          </ul>
-        </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
+        <div><h4 class="text-white font-bold mb-4">GabaritKDP</h4><p>The 100% Amazon-compliant KDP cover generator.</p></div>
+        <div><h4 class="text-white font-bold mb-4">Product</h4><ul class="space-y-2"><li>Generator</li><li>Marketplace</li><li>Pricing</li></ul></div>
+        <div><h4 class="text-white font-bold mb-4">Support</h4><ul class="space-y-2"><li>FAQ</li><li>Contact</li><li>Guide</li></ul></div>
+        <div><h4 class="text-white font-bold mb-4">Legal</h4><ul class="space-y-2"><li>Legal Notice</li><li>Terms</li><li>Privacy</li></ul></div>
       </div>
-      <p class="text-center mt-10 text-xs opacity-50">&copy; 2025 GabaritKDP. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    // --- TOUTES LES CATÉGORIES RESTAURÉES ---
-    const fullcovers = [
-      { name: "Art", path: "FULL COVER/Art", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg", badge: "PREMIUM" },
-      { name: "Boheme", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
-      { name: "Fantasy", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
-      { name: "Historical", path: "FULL COVER/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" },
-      { name: "Horror", path: "FULL COVER/Horror", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg" },
-      { name: "Magie Premium", path: "FULL COVER/MAGIE x ART NOUVEAU (STYLE PREMIUM)", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg", badge: "PREMIUM" },
-      { name: "Mystery", path: "FULL COVER/Mystery", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" },
-      { name: "Romance", path: "FULL COVER/Romance", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg", badge: "BEST" },
-      { name: "Sci-Fi", path: "FULL COVER/Sci-fi", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg" },
-      { name: "Thriller", path: "FULL COVER/Thriller", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" },
-      { name: "Voyages", path: "FULL COVER/Voyages", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" },
-      { name: "Vintage", path: "FULL COVER/Vintage", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Buildings%20%26%20City/fullcover_vintage_1930s_buildings_city_006.jpg" }
-    ];
+    // Configuration des dossiers et des vignettes de secours
+    const categories = {
+      premium: [
+        { name: "Art", path: "FULL COVER/Art", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg", badge: "PREMIUM" },
+        { name: "Boheme", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
+        { name: "Fantasy", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
+        { name: "Historical", path: "FULL COVER/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" },
+        { name: "Horror", path: "FULL COVER/Horror/Horror", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg", badge: "NEW" },
+        { name: "Mystery", path: "FULL COVER/Mystery/Mystery", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" },
+        { name: "Romance", path: "FULL COVER/Romance", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg", badge: "BEST" }
+      ],
+      interiors: [
+        { name: "Planners", path: "backgrounds/PLANNERS", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png", badge: "BEST SELLER" },
+        { name: "Coloring Books", path: "backgrounds/COLORIAGES", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" }
+      ],
+      backgrounds: [
+        { name: "Romance", path: "backgrounds/ROMANCE", img: "https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_002.png" },
+        { name: "Thriller", path: "backgrounds/THRILLER", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" }
+      ]
+    };
 
-    const backgrounds = [
-      { name: "Romance", path: "backgrounds/ROMANCE", img: "https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_002.png" },
-      { name: "Thriller", path: "backgrounds/THRILLER", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" },
-      { name: "Fantasy", path: "backgrounds/FANTASY", img: "https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/EPIC%20FANTASY/EPIC%20FANTASY/image_couverture_de_livres_fantasy_epic_fantasy_006.png" },
-      { name: "Mystery", path: "backgrounds/MYSTERY", img: "https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_004.png" },
-      { name: "Planners", path: "backgrounds/PLANNERS", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png", badge: "BEST" },
-      { name: "Coloring", path: "backgrounds/COLORIAGES", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" },
-      { name: "Sci-Fi", path: "backgrounds/SCI-FI", img: "https://gabaritkdp.b-cdn.net/backgrounds/SCI-FI/TECH%20ROMANCE%20%20AI/image_couverture_de_livres_sci_fi_tech_romance_ai_001.png" },
-      { name: "Historical", path: "backgrounds/HISTORICAL", img: "https://gabaritkdp.b-cdn.net/backgrounds/HISTORICAL/Medieval/Medieval/image_couverture_de_livres_historical_medieval_010.png" },
-      { name: "Boheme", path: "backgrounds/BOHEME", img: "https://gabaritkdp.b-cdn.net/backgrounds/BOHEME/BOHEME/Boheme_270.png" },
-      { name: "Hippie", path: "backgrounds/HIPPIE", img: "https://gabaritkdp.b-cdn.net/backgrounds/HIPPIE/HIPPIE/image_couverture_de_livres_hippie_013.png" },
-      { name: "Business", path: "backgrounds/BUSINESS", img: "https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Entrepreneurship/Entrepreneurship/image_couverture_de_livres_business_entrepreneurship_008.png" },
-      { name: "Cartoon", path: "backgrounds/CARTOON", img: "https://gabaritkdp.b-cdn.net/backgrounds/CARTOON/Dinosaures/Dinosaures/image_couverture_de_livres_cartoon_dinosaures_006.png" }
-    ];
-
-    function renderCards(data, containerId, limit = 8) {
-      const container = document.getElementById(containerId);
-      container.innerHTML = "";
-      data.forEach((item, index) => {
-        const isHidden = index >= limit ? 'd-none' : '';
-        container.innerHTML += `
-          <div class="category-card ${isHidden}" onclick="location.href='category.html?path=${encodeURIComponent(item.path)}'">
+    function render(data, gridId) {
+      const grid = document.getElementById(gridId);
+      data.forEach(item => {
+        grid.innerHTML += `
+          <div class="category-card" onclick="location.href='category.html?path=${encodeURIComponent(item.path)}'">
             <img src="${item.img}" loading="lazy">
-            ${item.badge ? `<span class="badge ${item.badge === 'PREMIUM' ? 'badge-premium' : (item.badge === 'POPULAR' ? 'badge-popular' : 'badge-best')}">${item.badge}</span>` : ''}
+            ${item.badge ? `<span class="category-badge badge-premium">${item.badge}</span>` : ''}
             <div class="category-overlay">
               <div class="category-name">${item.name}</div>
-              <div class="category-link">Explore templates →</div>
+              <div class="category-count" data-fr="Explorer →" data-en="Explore templates →">Explore templates →</div>
             </div>
           </div>`;
       });
     }
 
-    // Gestion du See More
-    function setupToggle(btnId, containerId, data) {
-      const btn = document.getElementById(btnId);
-      btn.onclick = () => {
-        const cards = document.querySelectorAll(`#${containerId} .category-card`);
-        const isShowingAll = btn.innerText === "SHOW LESS";
-        cards.forEach((card, index) => {
-          if (index >= 8) card.classList.toggle('d-none');
-        });
-        btn.innerText = isShowingAll ? "SEE MORE" : "SHOW LESS";
-      };
-    }
-
     document.addEventListener('DOMContentLoaded', () => {
-      renderCards(fullcovers, 'fullcover-grid', 8);
-      renderCards(backgrounds, 'background-grid', 8);
-      setupToggle('btn-more-premium', 'fullcover-grid', fullcovers);
-      setupToggle('btn-more-bg', 'background-grid', backgrounds);
+      render(categories.premium, 'grid-premium');
+      render(categories.interiors, 'grid-interiors');
+      render(categories.backgrounds, 'grid-backgrounds');
+      switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
     });
+
+    function switchLanguage(lang) {
+      localStorage.setItem('preferredLanguage', lang);
+      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        el.innerText = el.getAttribute(`data-${lang}`);
+      });
+    }
   </script>
 </body>
 </html>
