@@ -245,26 +245,49 @@
     // Supports both:
     //  - folder/vignette.png
     //  - folder/<same-name>/vignette.png (legacy nested)
+    // Supports both:
+    //  - folder/vignette.(webp|jpg|png)
+    //  - folder/<same-name>/vignette.(webp|jpg|png) (legacy nested)
     function vignetteCandidates(folderPath) {
       const base = `${BUNNY_PULL_BASE}/${encodeBunnyPath(folderPath)}`;
       const last = folderPath.split('/').filter(Boolean).pop();
-      return [
-        `${base}/vignette.png`,
-        `${base}/${encodeURIComponent(last)}/vignette.png`
-      ];
+      const baseLegacy = `${base}/${encodeURIComponent(last)}`;
+      const names = ["vignette.webp", "vignette.jpg", "vignette.png"];
+      const out = [];
+      names.forEach(n => out.push(`${base}/${n}`));
+      names.forEach(n => out.push(`${baseLegacy}/${n}`));
+      return out;
     }
 
     function setImgFallback(imgEl) {
       const list = (imgEl.dataset.fallbacks || "").split("|").filter(Boolean);
       const i = parseInt(imgEl.dataset.fallbackIndex || "0", 10);
+
+      // Try next candidate URL first
       if (i < list.length - 1) {
         imgEl.dataset.fallbackIndex = String(i + 1);
         imgEl.src = list[i + 1];
         return;
       }
-      const label = imgEl.dataset.fallbackLabel || "KDP";
-      imgEl.src = `https://via.placeholder.com/600x450?text=${encodeURIComponent(label)}`;
+
+      // Final fallback: inline SVG (no external dependency)
+      const label = ((imgEl.dataset.fallbackLabel || "KDP") + "").toUpperCase().slice(0, 24);
+      const svg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e293b"/>
+      <stop offset="1" stop-color="#334155"/>
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#g)"/>
+  <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle"
+        font-family="system-ui, -apple-system, Segoe UI, Arial" font-size="64"
+        fill="white" font-weight="800">${label}</text>
+</svg>`;
+      imgEl.src = "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg.trim());
     }
+
 
     const config = {
       premium: [
