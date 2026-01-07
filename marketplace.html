@@ -4,17 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-fr="Marketplace - GabaritKDP" data-en="Marketplace - GabaritKDP">Marketplace - GabaritKDP</title>
-  <meta name="description" data-fr="Découvrez 6600+ templates KDP professionnels pour vos couvertures et intérieurs de livres Amazon." data-en="Discover 6600+ professional KDP templates for your Amazon book covers and interiors.">
-
-  <script>
-    function detectUserLanguage() {
-      const userChoice = localStorage.getItem('preferredLanguage');
-      if (userChoice) return userChoice;
-      return 'en';
-    }
-    const defaultLang = detectUserLanguage();
-    document.documentElement.lang = defaultLang;
-  </script>
+  <meta name="description" data-fr="Découvrez 6600+ templates KDP professionnels..." data-en="Discover 6600+ professional KDP templates...">
 
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -22,380 +12,147 @@
   <style>
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-
     .language-selector{background:#fff;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1);padding:3px}
     .lang-btn{padding:6px 10px;border:none;background:transparent;border-radius:16px;cursor:pointer;transition:.3s;font-weight:500;font-size:.8rem}
     .lang-btn.active{background:#FF9900;color:#fff}
-
     .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;box-shadow:0 4px 20px rgba(0,0,0,.1);position:sticky;top:0;z-index:999}
     .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:0}
     .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff;flex-shrink:0}
     .logo-nav img{height:40px;width:auto}
     .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
-
-    .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:25px;flex-wrap:wrap}
-    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;position:relative;display:flex;align-items:center;gap:6px;font-size:.95rem}
-    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
-    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
-
+    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;font-size:.95rem}
+    .nav-links a:hover, .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.1)}
     .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important}
-    .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important}
-    .express-nav-btn::before{content:"⚡";margin-right:4px}
-
-    .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%)}
-
-    .category-card{
-      position:relative;
-      border-radius:16px;
-      overflow:hidden;
-      aspect-ratio:4/3;
-      cursor:pointer;
-      transition:all .3s ease;
-      box-shadow:0 4px 15px rgba(0,0,0,.1);
-      background:#f1f5f9;
-      touch-action:manipulation;
-      -webkit-tap-highlight-color:rgba(255,153,0,.2);
-      user-select:none;
-      -webkit-user-select:none;
-    }
-    .category-card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 20px 40px rgba(0,0,0,.15);
-    }
-    .category-card img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      transition:transform .5s ease;
-    }
-    .category-card:hover img{
-      transform:scale(1.1);
-    }
-    .category-overlay{
-      position:absolute;
-      inset:0;
-      background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%);
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
-      padding:1.5rem;
-      pointer-events:none;
-    }
-    .category-icon{font-size:2rem;margin-bottom:.5rem;pointer-events:none}
+    .category-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 15px rgba(0,0,0,.1);background:#f1f5f9}
+    .category-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
+    .category-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+    .category-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;pointer-events:none}
     .category-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem}
     .category-count{color:#FF9900;font-weight:600;font-size:.875rem}
-    .category-badge{
-      pointer-events:none;
-      position:absolute;
-      top:1rem;
-      right:1rem;
-      padding:.25rem .75rem;
-      border-radius:9999px;
-      font-size:.75rem;
-      font-weight:600;
-      color:#fff;
-    }
-    .badge-new{background:#10b981}
-    .badge-popular{background:#f59e0b}
-    .badge-best{background:#8b5cf6}
-    .badge-premium{background:linear-gradient(135deg,#dc2626,#b91c1c);box-shadow:0 4px 15px rgba(220,38,38,.4)}
-
-    .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); }
-    .see_more_btn_sec { width: 100%; display: flex; justify-content: center; align-items: center; padding: 30px 0 0; }
-    .d_hidden { display: none; }
-    .card_section.show .d_hidden { display: block; }
-    html { scroll-behavior: smooth; }
-    .top_value_row { gap: 24px; }
-    @media(max-width:550px) { .top_value_row { gap: 10px; } .top_value_box { width: 100%; } }
-
+    .category-badge{position:absolute;top:1rem;right:1rem;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:600;color:#fff}
+    .badge-new{background:#10b981} .badge-popular{background:#f59e0b} .badge-best{background:#8b5cf6} .badge-premium{background:linear-gradient(135deg,#dc2626,#b91c1c)}
     .social-section{background:rgba(255,255,255,.05);border-radius:12px;padding:1.5rem;margin-bottom:2rem}
-    .social-links{display:flex;justify-content:center;gap:15px;margin-top:1rem;flex-wrap:wrap}
+    .social-links{display:flex;justify-content:center;gap:15px;margin-top:1rem}
     .social-link{display:flex;align-items:center;justify-content:center;width:45px;height:45px;border-radius:50%;color:#fff;text-decoration:none;font-size:1.2rem;transition:.3s}
-    .social-link:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
-    .social-link.youtube{background:linear-gradient(135deg,#FF0000,#CC0000)}
-    .social-link.facebook{background:linear-gradient(135deg,#1877F2,#0866D3)}
-    .social-link.instagram{background:linear-gradient(135deg,#E4405F,#C13584,#8A2BE2)}
-    .social-link.pinterest{background:linear-gradient(135deg,#BD081C,#E60023)}
-    .social-link.tiktok{background:linear-gradient(135deg,#000,#FF0050,#00F2EA)}
-    .social-link.linkedin{background:linear-gradient(135deg,#0A66C2,#004182)}
-
-    .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);z-index:999;padding:80px 20px 20px;overflow-y:auto}
-    .mobile-menu.active{display:block;animation:slideIn .3s ease}
-    @keyframes slideIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-    .mobile-menu-links{display:flex;flex-direction:column;gap:15px;max-width:400px;margin:0 auto}
-    .mobile-menu-links a{color:#fff;text-decoration:none;font-weight:600;padding:15px 20px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);transition:.3s;display:flex;align-items:center;gap:12px;font-size:1.1rem}
-    .mobile-menu-close{position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
-
-    @media (max-width:768px){
-      .nav-links{display:none}
-      .mobile-menu-toggle{display:block;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:8px;margin-left: auto;}
-    }
+    .social-link.youtube{background:#FF0000} .social-link.facebook{background:#1877F2} .social-link.instagram{background:#E4405F}
+    .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);z-index:999;padding:80px 20px}
+    .mobile-menu.active{display:block}
+    @media (max-width:768px){ .nav-links{display:none} .mobile-menu-toggle{display:block!important} }
+    @media (min-width:769px){ .mobile-menu-toggle{display:none!important} }
+    .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); }
+    .d_hidden { display: none; } .card_section.show .d_hidden { display: block; }
   </style>
 </head>
 
 <body class="bg-white">
 
-  <!-- Navigation Header -->
+  <!-- Header -->
   <header class="header-nav notranslate">
     <div class="nav-container">
       <a href="./index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP">
         <span>GabaritKDP</span>
       </a>
 
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <button class="mobile-menu-toggle text-white text-2xl" onclick="toggleMobileMenu()">
         <i class="fas fa-bars"></i>
       </button>
 
       <div class="language-selector">
-        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+        <button class="lang-btn" onclick="switchLanguage('fr')">🇫🇷</button>
+        <button class="lang-btn active" onclick="switchLanguage('en')">🇺🇸</button>
       </div>
 
       <nav class="nav-links">
-        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-        <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a>
-        <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
-        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+        <a href="./index.html">🏠 Home</a>
+        <a href="./dashboard.html">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn">⚡ Express Generator</a>
+        <a href="./generator-magic.html">Magic Generator</a>
+        <a href="./marketplace.html" class="active">Marketplace</a>
+        <a href="./inscription.html">📝 Sign Up</a>
+        <a href="./connexion.html">🔓 Login</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero Section -->
-  <section class="hero-gradient py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center">
-        <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-          <span data-fr="Marketplace" data-en="Marketplace">Marketplace</span> <span style="color:#FF9900;">KDP</span>
-        </h1>
-        <p class="text-xl text-gray-600 mb-6" data-fr="6600+ templates professionnels pour vos livres Amazon KDP" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
-        <div class="top_value_row flex justify-center flex-wrap">
-          <div class="top_value_box bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">6600+</div>
-            <div class="text-sm text-gray-600">Templates</div>
-          </div>
-          <div class="top_value_box bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">20+</div>
-            <div class="text-sm text-gray-600">Categories</div>
-          </div>
-          <div class="top_value_box bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">1200+</div>
-            <div class="text-sm text-gray-600">Free</div>
-          </div>
-        </div>
+  <!-- Hero -->
+  <section class="hero-gradient py-12 text-center">
+    <h1 class="text-4xl md:text-5xl font-bold mb-4">Marketplace <span style="color:#FF9900;">KDP</span></h1>
+    <p class="text-xl text-gray-600 mb-6">6600+ professional templates for your Amazon KDP books</p>
+  </section>
+
+  <!-- FULL COVER SECTION -->
+  <section class="premium_edit_sec py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-4xl font-bold text-white text-center mb-10">🔥 FULL COVER - Premium Edition</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 card_section" id="fullcover-grid">
+         <!-- Rempli par JS pour pointer vers category.html?path=... -->
       </div>
     </div>
   </section>
 
-  <!-- FULL COVER Premium Section -->
-  <section class="premium_edit_sec py-12 relative">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-10">
-        <h2 class="text-4xl font-bold text-white mb-2">🔥 <span>FULL COVER - Premium Edition</span></h2>
-        <p class="text-red-200 text-lg">Professional KDP book covers ready to use</p>
+  <!-- BOOK COVERS SECTION -->
+  <section class="py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-10">📚 Book Covers (Backgrounds)</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="bg-grid">
+         <!-- Rempli par JS pour pointer vers category.html?path=... -->
       </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 card_section" id="fullcover-categories">
-        <!-- Les cartes Premium sont générées par le script JS en bas -->
-      </div>
-      <div class="see_more_btn_sec">
-        <button class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-12 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 uppercase" id="SMBtnOne">See more</button>
-      </div>  
-    </div>  
-  </section>
-
-  <!-- Book Covers Section (Backgrounds) -->
-  <section class="py-12 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-10">
-        <h2 class="text-3xl font-bold text-gray-900 mb-2">📚 <span>Book Covers</span></h2>
-        <p class="text-gray-600">Backgrounds and elements to create your own covers</p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 card_section" id="SecondCoverSection">
-        
-        <!-- ROMANCE -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/ROMANCE'">
-          <img src="https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_002.png" alt="Romance">
-          <div class="category-overlay">
-            <span class="category-icon">💕</span>
-            <span class="category-name">Romance</span>
-            <span class="category-count">Explore →</span>
-          </div>
-          <span class="category-badge badge-popular">POPULAR</span>
-        </div>
-
-        <!-- THRILLER -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/THRILLER'">
-          <img src="https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" alt="Thriller">
-          <div class="category-overlay">
-            <span class="category-icon">🔪</span>
-            <span class="category-name">Thriller</span>
-            <span class="category-count">Explore →</span>
-          </div>
-          <span class="category-badge badge-new">NEW</span>
-        </div>
-
-        <!-- FANTASY -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/FANTASY'">
-          <img src="https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/EPIC%20FANTASY/EPIC%20FANTASY/image_couverture_de_livres_fantasy_epic_fantasy_006.png" alt="Fantasy">
-          <div class="category-overlay">
-            <span class="category-icon">🐉</span>
-            <span class="category-name">Fantasy</span>
-            <span class="category-count">Explore →</span>
-          </div>
-        </div>
-
-        <!-- MYSTERY -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/MYSTERY'">
-          <img src="https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_004.png" alt="Mystery">
-          <div class="category-overlay">
-            <span class="category-icon">🔍</span>
-            <span class="category-name">Mystery</span>
-            <span class="category-count">Explore →</span>
-          </div>
-        </div>
-
-        <!-- SCI-FI -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/SCI-FI'">
-          <img src="https://gabaritkdp.b-cdn.net/backgrounds/SCI-FI/TECH%20ROMANCE%20%20AI/image_couverture_de_livres_sci_fi_tech_romance_ai_001.png" alt="Science Fiction">
-          <div class="category-overlay">
-            <span class="category-icon">🚀</span>
-            <span class="category-name">Science-Fiction</span>
-            <span class="category-count">Explore →</span>
-          </div>
-        </div>
-
-        <!-- HISTORICAL -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/HISTORICAL'">
-          <img src="https://gabaritkdp.b-cdn.net/backgrounds/HISTORICAL/Medieval/Medieval/image_couverture_de_livres_historical_medieval_010.png" alt="Historical">
-          <div class="category-overlay">
-            <span class="category-icon">🏰</span>
-            <span class="category-name">Historical</span>
-            <span class="category-count">Explore →</span>
-          </div>
-        </div>
-
-        <!-- BOHEME -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/BOHEME'">
-          <img src="https://gabaritkdp.b-cdn.net/backgrounds/BOHEME/BOHEME/Boheme_270.png" alt="Bohème">
-          <div class="category-overlay">
-            <span class="category-icon">🌸</span>
-            <span class="category-name">Bohème</span>
-            <span class="category-count">Explore →</span>
-          </div>
-        </div>
-
-        <!-- PLANNERS (Interiors) -->
-        <div class="category-card" onclick="location.href='category.html?path=backgrounds/PLANNERS'">
-          <img src="https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png" alt="Planners">
-          <div class="category-overlay">
-            <span class="category-icon">📅</span>
-            <span class="category-name">Planners</span>
-            <span class="category-count">Explore →</span>
-          </div>
-          <span class="category-badge badge-best">BEST SELLER</span>
-        </div>
-
-        <!-- COLORIAGES -->
-        <div class="category-card d_hidden" onclick="location.href='category.html?path=backgrounds/COLORIAGES'">
-          <img src="https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" alt="Coloring Books">
-          <div class="category-overlay">
-            <span class="category-icon">🖍️</span>
-            <span class="category-name">Coloring Books</span>
-            <span class="category-count">Explore →</span>
-          </div>
-        </div>
-
-      </div>
-      <div class="see_more_btn_sec">
-        <button class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-12 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 uppercase" id="SMBtnTwo">See more</button>
-      </div>       
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="bg-gray-900 text-gray-300 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="social-section">
-        <h4 class="text-white font-semibold mb-4 text-center">🚀 Follow us for the latest KDP news!</h4>
-        <div class="social-links text-center">
-            <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" target="_blank"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="social-section text-center">
+        <h4 class="text-white font-semibold mb-4">🚀 Follow us for the latest KDP news!</h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"><i class="fab fa-instagram"></i></a>
         </div>
       </div>
-      <div class="text-center border-t border-gray-800 mt-8 pt-8">
+      <div class="text-center border-t border-gray-800 pt-8">
         <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
       </div>
     </div>
   </footer>
 
   <script>
-    // Navigation mobile
-    function toggleMobileMenu() {
-      document.getElementById('mobileMenu')?.classList.toggle('active');
+    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
+    
+    // Remplissage automatique des cartes avec les liens dynamiques
+    const fullcovers = [
+        { name: "Art", path: "FULL COVER/Art", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg", badge: "PREMIUM" },
+        { name: "Boheme", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
+        { name: "Fantasy", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
+        { name: "Historical", path: "FULL COVER/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" }
+    ];
+
+    const backgrounds = [
+        { name: "Romance", path: "backgrounds/ROMANCE", img: "https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_002.png" },
+        { name: "Thriller", path: "backgrounds/THRILLER", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" },
+        { name: "Planners", path: "backgrounds/PLANNERS", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png", badge: "BEST" }
+    ];
+
+    function renderCards(data, containerId) {
+        const container = document.getElementById(containerId);
+        data.forEach(item => {
+            container.innerHTML += `
+                <div class="category-card" onclick="location.href='category.html?path=${encodeURIComponent(item.path)}'">
+                    <img src="${item.img}" loading="lazy">
+                    ${item.badge ? `<span class="category-badge badge-premium">${item.badge}</span>` : ''}
+                    <div class="category-overlay">
+                        <div class="category-name">${item.name}</div>
+                        <div class="category-count">Explore templates →</div>
+                    </div>
+                </div>`;
+        });
     }
 
-    // Gestion de la langue
-    function switchLanguage(lang) {
-      localStorage.setItem('preferredLanguage', lang);
-      document.documentElement.lang = lang;
-      document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
-        el.innerHTML = el.getAttribute(`data-${lang}`);
-      });
-    }
-
-    // Fonction de chargement dynamique pour les dossiers
-    function loadCategoryImages(folderPath) {
-      window.location.href = `category.html?path=${encodeURIComponent(folderPath)}`;
-    }
-
-    // Génération des cartes Premium
-    document.addEventListener('DOMContentLoaded', function() {
-      const fullcoverGrid = document.getElementById('fullcover-categories');
-      const premiumCategories = [
-        { name: "Art", icon: "🎨", path: "FULL COVER/Art", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg", badge: "PREMIUM" },
-        { name: "Boheme", icon: "🌸", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
-        { name: "Fantasy", icon: "🧙", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
-        { name: "Historical", icon: "🏛️", path: "FULL COVER/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" },
-        { name: "Horror", icon: "👻", path: "FULL COVER/Horror", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg", badge: "NEW" },
-        { name: "Magie Premium", icon: "✨", path: "FULL COVER/MAGIE x ART NOUVEAU (STYLE PREMIUM)", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg", badge: "PREMIUM" },
-        { name: "Mystery", icon: "🔍", path: "FULL COVER/Mystery", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" },
-        { name: "Romance", icon: "💖", path: "FULL COVER/Romance", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg", badge: "BEST SELLER" }
-      ];
-
-      premiumCategories.forEach(cat => {
-        const card = document.createElement('div');
-        card.className = "category-card";
-        card.onclick = () => loadCategoryImages(cat.path);
-        card.innerHTML = `
-          <img src="${cat.img}" alt="${cat.name}" loading="lazy">
-          ${cat.badge ? `<span class="category-badge badge-premium">${cat.badge}</span>` : ''}
-          <div class="category-overlay">
-            <div class="category-icon">${cat.icon}</div>
-            <div class="category-name">${cat.name}</div>
-            <div class="category-count">Explore templates →</div>
-          </div>
-        `;
-        fullcoverGrid.appendChild(card);
-      });
-
-      // Boutons See More
-      const SMBtnOne = document.getElementById("SMBtnOne");
-      const SMBtnTwo = document.getElementById("SMBtnTwo");
-      SMBtnOne?.addEventListener("click", () => {
-        fullcoverGrid.classList.toggle('show');
-        SMBtnOne.textContent = fullcoverGrid.classList.contains('show') ? 'Show Less' : 'Show More';
-      });
-      SMBtnTwo?.addEventListener("click", () => {
-        document.getElementById("SecondCoverSection")?.classList.toggle('show');
-        SMBtnTwo.textContent = document.getElementById("SecondCoverSection")?.classList.contains('show') ? 'Show Less' : 'Show More';
-      });
-    });
+    renderCards(fullcovers, 'fullcover-grid');
+    renderCards(backgrounds, 'bg-grid');
   </script>
 </body>
 </html>
