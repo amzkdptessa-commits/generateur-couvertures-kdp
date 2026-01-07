@@ -3,156 +3,157 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-fr="Marketplace - GabaritKDP" data-en="Marketplace - GabaritKDP">Marketplace - GabaritKDP</title>
-  <meta name="description" data-fr="Découvrez 6600+ templates KDP professionnels..." data-en="Discover 6600+ professional KDP templates...">
-
+  <title>Marketplace - GabaritKDP</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
-    .language-selector{background:#fff;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1);padding:3px}
-    .lang-btn{padding:6px 10px;border:none;background:transparent;border-radius:16px;cursor:pointer;transition:.3s;font-weight:500;font-size:.8rem}
-    .lang-btn.active{background:#FF9900;color:#fff}
-    .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;box-shadow:0 4px 20px rgba(0,0,0,.1);position:sticky;top:0;z-index:999}
-    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:0}
-    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff;flex-shrink:0}
-    .logo-nav img{height:40px;width:auto}
-    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
-    .nav-links{display:flex;justify-content:center;align-items:center;gap:25px}
-    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;font-size:.95rem}
-    .nav-links a:hover, .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.1)}
-    .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important}
-    .category-card{position:relative;border-radius:16px;overflow:hidden;aspect-ratio:4/3;cursor:pointer;transition:all .3s ease;box-shadow:0 4px 15px rgba(0,0,0,.1);background:#f1f5f9}
-    .category-card:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,.15)}
-    .category-card img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
-    .category-overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:1.5rem;pointer-events:none}
-    .category-name{font-size:1.25rem;font-weight:700;color:#fff;margin-bottom:.25rem}
-    .category-count{color:#FF9900;font-weight:600;font-size:.875rem}
-    .category-badge{position:absolute;top:1rem;right:1rem;padding:.25rem .75rem;border-radius:9999px;font-size:.75rem;font-weight:600;color:#fff}
-    .badge-new{background:#10b981} .badge-popular{background:#f59e0b} .badge-best{background:#8b5cf6} .badge-premium{background:linear-gradient(135deg,#dc2626,#b91c1c)}
-    .social-section{background:rgba(255,255,255,.05);border-radius:12px;padding:1.5rem;margin-bottom:2rem}
-    .social-links{display:flex;justify-content:center;gap:15px;margin-top:1rem}
-    .social-link{display:flex;align-items:center;justify-content:center;width:45px;height:45px;border-radius:50%;color:#fff;text-decoration:none;font-size:1.2rem;transition:.3s}
-    .social-link.youtube{background:#FF0000} .social-link.facebook{background:#1877F2} .social-link.instagram{background:#E4405F}
-    .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);z-index:999;padding:80px 20px}
-    .mobile-menu.active{display:block}
-    @media (max-width:768px){ .nav-links{display:none} .mobile-menu-toggle{display:block!important} }
-    @media (min-width:769px){ .mobile-menu-toggle{display:none!important} }
-    .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); }
-    .d_hidden { display: none; } .card_section.show .d_hidden { display: block; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #fff; }
+
+    /* HEADER SLIM STYLE */
+    .header-nav { background-color: #1e293b; padding: 8px 0; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+    .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+    .logo-nav { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .logo-nav img { height: 32px; width: auto; }
+    .logo-nav span { font-size: 1.2rem; font-weight: 700; color: #FF9900; }
+    .nav-links { display: flex; align-items: center; gap: 12px; }
+    .nav-links a { color: #fff; text-decoration: none; font-weight: 500; padding: 6px 12px; border-radius: 8px; font-size: 0.85rem; transition: 0.3s; }
+    .nav-links a:hover { color: #FF9900; }
+    .express-btn { background: #10b981 !important; color: white !important; font-weight: 600 !important; }
+
+    /* CARDS */
+    .premium-bg { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+    .category-card { position: relative; border-radius: 16px; overflow: hidden; aspect-ratio: 4/3; cursor: pointer; transition: 0.3s; background: #f1f5f9; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+    .category-card:hover { transform: translateY(-8px); }
+    .category-card img { width: 100%; height: 100%; object-fit: cover; }
+    .category-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%); display: flex; flex-direction: column; justify-content: flex-end; padding: 20px; pointer-events: none; }
+    .category-name { font-size: 1rem; font-weight: 700; color: #fff; text-transform: capitalize; }
+    
+    /* FOOTER */
+    footer { background-color: #0f172a; color: #94a3b8; padding: 60px 20px 20px; }
+    .social-box { background: rgba(255,255,255,0.03); border-radius: 16px; padding: 30px; text-align: center; margin-bottom: 50px; border: 1px solid rgba(255,255,255,0.05); }
+    .social-links { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+    .social-link { width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.2rem; transition: 0.3s; }
+    .youtube { background: #FF0000; } .facebook { background: #1877F2; } .instagram { background: #E4405F; }
+    .pinterest { background: #BD081C; } .tiktok { background: #000; border: 1px solid #334155; } .linkedin { background: #0A66C2; }
+
+    .loader { border-top-color: #FF9900; animation: spinner 1.5s linear infinite; }
+    @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
+<body>
 
-<body class="bg-white">
-
-  <!-- Header -->
-  <header class="header-nav notranslate">
+  <header class="header-nav">
     <div class="nav-container">
       <a href="./index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP">
+        <img src="logo-gabarit-kdp-site-web.png" alt="Logo">
         <span>GabaritKDP</span>
       </a>
-
-      <button class="mobile-menu-toggle text-white text-2xl" onclick="toggleMobileMenu()">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <div class="language-selector">
-        <button class="lang-btn" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" onclick="switchLanguage('en')">🇺🇸</button>
-      </div>
-
       <nav class="nav-links">
         <a href="./index.html">🏠 Home</a>
         <a href="./dashboard.html">📊 Dashboard</a>
-        <a href="./generator.html" class="express-nav-btn">⚡ Express Generator</a>
+        <a href="./generator.html" class="express-btn">⚡ Express Generator</a>
         <a href="./generator-magic.html">Magic Generator</a>
-        <a href="./marketplace.html" class="active">Marketplace</a>
+        <a href="./marketplace.html">Marketplace</a>
         <a href="./inscription.html">📝 Sign Up</a>
         <a href="./connexion.html">🔓 Login</a>
       </nav>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="hero-gradient py-12 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">Marketplace <span style="color:#FF9900;">KDP</span></h1>
-    <p class="text-xl text-gray-600 mb-6">6600+ professional templates for your Amazon KDP books</p>
+  <section class="py-12 bg-slate-50 text-center">
+    <h1 class="text-5xl font-black text-gray-900 mb-2">Marketplace <span style="color:#FF9900;">KDP</span></h1>
+    <p class="text-gray-500">Discover all our professional templates automatically synchronized.</p>
   </section>
 
-  <!-- FULL COVER SECTION -->
-  <section class="premium_edit_sec py-12">
+  <!-- SECTION 1: PREMIUM (Scanne le dossier FULL COVER) -->
+  <section class="premium-bg py-16">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-4xl font-bold text-white text-center mb-10">🔥 FULL COVER - Premium Edition</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 card_section" id="fullcover-grid">
-         <!-- Rempli par JS pour pointer vers category.html?path=... -->
+      <h2 class="text-3xl font-bold text-white text-center mb-10">🔥 FULL COVER - Premium Edition</h2>
+      <div id="grid-premium" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div class="col-span-full flex justify-center"><div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div></div>
       </div>
     </div>
   </section>
 
-  <!-- BOOK COVERS SECTION -->
-  <section class="py-12">
+  <!-- SECTION 2: INTERIORS (Scanne le dossier UI/book-interiors ou backgrounds/PLANNERS) -->
+  <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-10">📚 Book Covers (Backgrounds)</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="bg-grid">
-         <!-- Rempli par JS pour pointer vers category.html?path=... -->
+      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">📖 Book Interiors (Planners & Coloring)</h2>
+      <div id="grid-interiors" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <!-- Chargement automatique -->
       </div>
     </div>
   </section>
 
-  <!-- Footer -->
-  <footer class="bg-gray-900 text-gray-300 py-12">
+  <!-- SECTION 3: BACKGROUNDS (Scanne le dossier backgrounds) -->
+  <section class="py-16 bg-slate-50">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="social-section text-center">
-        <h4 class="text-white font-semibold mb-4">🚀 Follow us for the latest KDP news!</h4>
+      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900">📚 Book Covers (Backgrounds)</h2>
+      <div id="grid-backgrounds" class="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <!-- Chargement automatique -->
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="max-w-6xl mx-auto text-center">
+      <div class="social-box">
+        <h4 class="text-white font-bold text-xl">🚀 Follow us for the latest KDP news!</h4>
         <div class="social-links">
           <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"><i class="fab fa-youtube"></i></a>
           <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
           <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
-      <div class="text-center border-t border-gray-800 pt-8">
-        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
-      </div>
+      <p class="text-sm opacity-50">&copy; 2025 GabaritKDP. All rights reserved.</p>
     </div>
   </footer>
 
   <script>
-    function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('active'); }
-    
-    // Remplissage automatique des cartes avec les liens dynamiques
-    const fullcovers = [
-        { name: "Art", path: "FULL COVER/Art", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg", badge: "PREMIUM" },
-        { name: "Boheme", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
-        { name: "Fantasy", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
-        { name: "Historical", path: "FULL COVER/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" }
-    ];
+    // FONCTION MAGIQUE QUI SCANNE TES DOSSIERS BUNNY
+    async function loadSection(folderPath, gridId) {
+        const grid = document.getElementById(gridId);
+        try {
+            const response = await fetch(`/.netlify/functions/list-bunny?path=${encodeURIComponent(folderPath)}`);
+            const items = await response.json();
+            
+            grid.innerHTML = ""; // On enlève le loader
 
-    const backgrounds = [
-        { name: "Romance", path: "backgrounds/ROMANCE", img: "https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_002.png" },
-        { name: "Thriller", path: "backgrounds/THRILLER", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" },
-        { name: "Planners", path: "backgrounds/PLANNERS", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png", badge: "BEST" }
-    ];
+            items.forEach(item => {
+                if (item.isDir) {
+                    const card = document.createElement('div');
+                    card.className = "category-card";
+                    card.onclick = () => window.location.href = `category.html?path=${encodeURIComponent(item.path)}`;
+                    
+                    // La vignette est cherchée automatiquement dans le dossier
+                    const thumb = item.url; 
 
-    function renderCards(data, containerId) {
-        const container = document.getElementById(containerId);
-        data.forEach(item => {
-            container.innerHTML += `
-                <div class="category-card" onclick="location.href='category.html?path=${encodeURIComponent(item.path)}'">
-                    <img src="${item.img}" loading="lazy">
-                    ${item.badge ? `<span class="category-badge badge-premium">${item.badge}</span>` : ''}
-                    <div class="category-overlay">
-                        <div class="category-name">${item.name}</div>
-                        <div class="category-count">Explore templates →</div>
-                    </div>
-                </div>`;
-        });
+                    card.innerHTML = `
+                        <img src="${thumb}" onerror="this.src='https://via.placeholder.com/400x300?text=${item.name}'" loading="lazy">
+                        <div class="category-overlay">
+                            <div class="category-name">${item.name.replace(/_/g, ' ')}</div>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+        } catch (e) {
+            grid.innerHTML = "<p class='text-red-500'>Error loading categories</p>";
+        }
     }
 
-    renderCards(fullcovers, 'fullcover-grid');
-    renderCards(backgrounds, 'bg-grid');
+    // ON LANCE LE SCAN DES DOSSIERS AU CHARGEMENT
+    document.addEventListener('DOMContentLoaded', () => {
+        loadSection('FULL COVER', 'grid-premium');
+        loadSection('backgrounds', 'grid-backgrounds');
+        // Si tu as un dossier spécifique pour les intérieurs, change 'interiors' ci-dessous
+        loadSection('backgrounds/PLANNERS', 'grid-interiors'); 
+    });
   </script>
 </body>
 </html>
