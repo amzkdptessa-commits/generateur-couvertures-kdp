@@ -1,90 +1,57 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GabaritKDP - Explorateur de Templates</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        .card { transition: all 0.3s cubic-bezier(.25,.8,.25,1); }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-    </style>
-</head>
-<body class="bg-gray-50 text-gray-900">
+<script>
+    const params = new URLSearchParams(window.location.search);
+    let path = params.get('path') || 'FULL COVER';
+    // On récupère la langue actuelle
+    const lang = localStorage.getItem('preferredLanguage') || 'en';
 
-    <header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 id="folderName" class="text-xl font-bold text-orange-400">Marketplace</h1>
-            <a href="marketplace.html" class="bg-slate-700 px-4 py-2 rounded-lg text-sm hover:bg-slate-600 border border-slate-600">← Retour</a>
-        </div>
-    </header>
+    async function initExplorer() {
+        const grid = document.getElementById('explorerGrid');
+        const loader = document.getElementById('loader');
+        const statusArea = document.getElementById('statusArea');
+        document.getElementById('folderName').innerText = path.split('/').pop() || 'Marketplace';
 
-    <main class="max-w-7xl mx-auto p-6">
-        <div id="explorerGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+        try {
+            const response = await fetch(`/.netlify/functions/list-bunny?path=${encodeURIComponent(path)}`);
+            if (!response.ok) throw new Error(`Erreur ${response.status}`);
+            const items = await response.json();
 
-        <div id="statusArea" class="flex flex-col items-center justify-center py-20">
-            <div id="loader" class="flex flex-col items-center">
-                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mb-4"></div>
-                <p class="text-gray-500 italic">Connexion à Bunny CDN...</p>
-            </div>
-            <div id="errorMessage" class="hidden max-w-lg w-full bg-red-50 p-6 rounded-xl border border-red-200 text-red-600 shadow-sm text-center"></div>
-        </div>
-    </main>
+            loader.classList.add('hidden');
+            statusArea.classList.remove('py-20');
 
-    <script>
-        const params = new URLSearchParams(window.location.search);
-        let path = params.get('path') || 'FULL COVER';
+            items.forEach(item => {
+                if (item.name.toLowerCase() === 'vignette.png') return;
 
-        async function initExplorer() {
-            const grid = document.getElementById('explorerGrid');
-            const loader = document.getElementById('loader');
-            const statusArea = document.getElementById('statusArea');
-            const errorDiv = document.getElementById('errorMessage');
-            document.getElementById('folderName').innerText = path.split('/').pop() || 'Marketplace';
+                const card = document.createElement('div');
+                card.className = "card bg-white rounded-xl border border-gray-200 overflow-hidden cursor-pointer shadow-sm";
+                
+                // Labels traduits
+                const labelOpen = lang === 'fr' ? 'OUVRIR' : 'OPEN';
+                const labelUse = lang === 'fr' ? 'UTILISER' : 'USE TEMPLATE';
 
-            try {
-                const response = await fetch(`/.netlify/functions/list-bunny?path=${encodeURIComponent(path)}`);
-                if (!response.ok) throw new Error(`Erreur ${response.status}`);
-                const items = await response.json();
+                card.innerHTML = `
+                    <div class="aspect-[4/3] bg-gray-100 relative">
+                        <img src="${item.url}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=KDP+Template'" loading="lazy">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="font-semibold text-sm truncate text-gray-800">${item.name}</h3>
+                        <button class="mt-3 w-full ${item.isDir ? 'bg-gray-100 text-gray-700' : 'bg-orange-500 text-white'} py-2 rounded-lg text-[10px] font-black uppercase tracking-widest">
+                            ${item.isDir ? labelOpen : labelUse}
+                        </button>
+                    </div>
+                `;
 
-                loader.classList.add('hidden');
-                statusArea.classList.remove('py-20');
-
-                items.forEach(item => {
-                    if (item.name.toLowerCase() === 'vignette.png') return;
-
-                    const card = document.createElement('div');
-                    card.className = "card bg-white rounded-xl border border-gray-200 overflow-hidden cursor-pointer shadow-sm";
-                    
-                    // Nettoyage : On a enlevé l'overlay "Dossier" pour un rendu propre
-                    card.innerHTML = `
-                        <div class="aspect-[4/3] bg-gray-100 relative">
-                            <img src="${item.url}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=KDP+Template'" loading="lazy">
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-sm truncate text-gray-800" title="${item.name}">${item.name}</h3>
-                            <button class="mt-3 w-full ${item.isDir ? 'bg-gray-100 text-gray-700' : 'bg-orange-500 text-white'} py-2 rounded-lg text-[10px] font-black uppercase tracking-widest transition-colors">
-                                ${item.isDir ? 'Ouvrir' : 'Utiliser'}
-                            </button>
-                        </div>
-                    `;
-
-                    card.onclick = () => {
-                        if (item.isDir) {
-                            window.location.href = `category.html?path=${encodeURIComponent(item.path)}`;
-                        } else {
-                            window.location.href = `generator.html?template=${encodeURIComponent(item.url)}`;
-                        }
-                    };
-                    grid.appendChild(card);
-                });
-            } catch (err) {
-                loader.classList.add('hidden');
-                errorDiv.classList.remove('hidden');
-                errorDiv.innerHTML = `<p class="font-bold">Erreur : ${err.message}</p>`;
-            }
+                card.onclick = () => {
+                    if (item.isDir) {
+                        window.location.href = `category.html?path=${encodeURIComponent(item.path)}`;
+                    } else {
+                        window.location.href = `generator.html?template=${encodeURIComponent(item.url)}`;
+                    }
+                };
+                grid.appendChild(card);
+            });
+        } catch (err) {
+            loader.innerHTML = `<p class="text-red-500">Erreur : ${err.message}</p>`;
         }
-        document.addEventListener('DOMContentLoaded', initExplorer);
-    </script>
-</body>
-</html>
+    }
+    document.addEventListener('DOMContentLoaded', initExplorer);
+</script>
