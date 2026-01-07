@@ -12,7 +12,7 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background-color: #fff;}
 
-    /* --- HEADER SLIM --- */
+    /* HEADER SLIM */
     .header-nav { background:#1e293b; padding: 6px 0; position:sticky; top:0; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
     .nav-container { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 20px; }
     .logo-nav { display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff; }
@@ -20,28 +20,29 @@
     .logo-nav span { font-size:1rem; font-weight:700; color:#FF9900; }
 
     .nav-links { display:flex; align-items:center; gap:10px; }
-    .nav-links a { color:#fff; text-decoration:none; font-weight:500; transition:.2s; padding:5px 10px; border-radius:6px; font-size:.8rem; }
+    .nav-links a { color:#fff; text-decoration:none; font-weight:500; padding:5px 10px; border-radius:6px; font-size:.8rem; transition:.2s; }
     .nav-links a:hover { color:#FF9900; background:rgba(255,153,0,.1); }
     .express-nav-btn { background:#10b981!important; color:#fff!important; font-weight:700!important; }
 
-    /* --- LANGUE --- */
+    /* LANGUE */
     .language-selector { background:#fff; border-radius:20px; padding:2px; display:flex; gap:2px; }
-    .lang-btn { padding:2px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-weight:bold; font-size:.6rem; color:#1e293b; }
+    .lang-btn { padding:2px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-weight:bold; font-size:.65rem; color:#1e293b; }
     .lang-btn.active { background:#FF9900; color:#fff; }
 
-    /* --- CARDS STYLE --- */
+    /* CARDS */
     .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 40px 0; }
-    .category-card { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.2); background:#2d3748; }
+    .category-card { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.15); background:#2d3748; }
     .category-card:hover { transform:translateY(-5px); }
     .category-card img { width:100%; height:100%; object-fit:cover; }
-    .category-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; pointer-events:none; }
-    .category-name { font-size:0.95rem; font-weight:700; color:#fff; margin-bottom:.2rem; text-transform: uppercase; }
+    .category-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 70%); display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; pointer-events:none; }
+    .category-name { font-size:0.85rem; font-weight:700; color:#fff; text-transform: uppercase; }
+
     .category-badge { position:absolute; top:0.8rem; right:0.8rem; padding:.2rem .6rem; border-radius:9999px; font-size:.55rem; font-weight:800; color:#fff; pointer-events:none; }
     .badge-premium { background:linear-gradient(135deg,#dc2626,#b91c1c); }
     .badge-popular { background:#f59e0b; }
     .badge-best { background:#8b5cf6; }
 
-    /* --- FOOTER COMPACT --- */
+    /* FOOTER COMPACT */
     footer { background:#0f172a; color:#94a3b8; padding:30px 20px 15px; font-size: 0.8rem; }
     .social-box { background:rgba(255,255,255,0.03); border-radius:12px; padding:15px; text-align:center; margin-bottom:25px; border: 1px solid rgba(255,255,255,0.05); }
     .social-links { display:flex; justify-content:center; gap:10px; margin-top:10px; }
@@ -132,13 +133,13 @@
         { name: "Boheme", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
         { name: "Fantasy", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
         { name: "Fleurs", path: "FULL COVER/Fleurs", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" },
-        { name: "Historical", path: "FULL COVER/Historical", img: "https://gabaritkdp.b-cdn.net/backgrounds/HISTORICAL/Medieval/Medieval/image_couverture_de_livres_historical_medieval_010.png" },
+        { name: "Historical", path: "FULL COVER/Historical/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" },
         { name: "Horror", path: "FULL COVER/Horror/Horror", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg", badge: "NEW" },
-        { name: "Mystery", path: "FULL COVER/Mystery/Mystery", img: "https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_004.png" },
+        { name: "Mystery", path: "FULL COVER/Mystery/Mystery", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" },
         { name: "Religions", path: "FULL COVER/RELIGIONS", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" },
         { name: "Romance", path: "FULL COVER/Romance", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg", badge: "BEST" },
-        { name: "Sci-Fi", path: "FULL COVER/Sci-fi/Sci-fi", img: "https://gabaritkdp.b-cdn.net/backgrounds/SCI-FI/TECH%20ROMANCE%20%20AI/image_couverture_de_livres_sci_fi_tech_romance_ai_001.png" },
-        { name: "Thriller", path: "FULL COVER/Thriller/Thriller", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" },
+        { name: "Sci-Fi", path: "FULL COVER/Sci-fi/Sci-fi", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg" },
+        { name: "Thriller", path: "FULL COVER/Thriller/Thriller", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" },
         { name: "Voyages", path: "FULL COVER/Voyages/MARRAKECH", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" }
       ],
       backgrounds: [
