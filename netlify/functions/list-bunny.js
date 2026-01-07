@@ -13,46 +13,36 @@ exports.handler = async (event) => {
   const CDN_URL = 'https://gabaritkdp.b-cdn.net'; 
 
   try {
-    // 🎯 LA CORRECTION EST ICI : on utilise encodeURI au lieu de encodeURIComponent
-    // pour garder les "/" intacts dans l'adresse
     const bunnyUrl = `https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURI(path)}/`;
-    
-    console.log("Appel Bunny vers :", bunnyUrl);
-
     const response = await fetch(bunnyUrl, {
       method: 'GET',
-      headers: { 
-        'AccessKey': ACCESS_KEY, 
-        'Accept': 'application/json' 
-      }
+      headers: { 'AccessKey': ACCESS_KEY, 'Accept': 'application/json' }
     });
 
-    if (!response.ok) throw new Error(`Bunny API error: ${response.status}`);
-
+    if (!response.ok) throw new Error(`Error: ${response.status}`);
     const data = await response.json();
 
     const result = data.map(item => {
       const isDir = item.IsDirectory;
-      // Nettoyage du chemin pour éviter les doubles barres //
       const cleanPath = `${path}/${item.ObjectName}`.replace(/\/+/g, '/');
       
+      // On encode proprement chaque partie de l'URL pour Bunny
+      const encodedPath = cleanPath.split('/').map(p => encodeURIComponent(p)).join('/');
+      const parentPath = path.split('/').map(p => encodeURIComponent(p)).join('/');
+
       return {
         name: item.ObjectName,
         isDir: isDir,
         path: cleanPath,
+        // On ajoute un petit numéro à la fin (?v=123) pour vider le cache
         url: isDir 
-          ? `${CDN_URL}/${encodeURI(cleanPath)}/vignette.png` 
-          : `${CDN_URL}/${encodeURI(path)}/${encodeURIComponent(item.ObjectName)}`
+          ? `${CDN_URL}/${encodedPath}/vignette.png?v=${Date.now()}` 
+          : `${CDN_URL}/${parentPath}/${encodeURIComponent(item.ObjectName)}`
       };
     });
 
     return { statusCode: 200, headers, body: JSON.stringify(result) };
   } catch (error) {
-    console.error('Erreur:', error);
-    return { 
-      statusCode: 500, 
-      headers, 
-      body: JSON.stringify({ error: error.message }) 
-    };
+    return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
   }
 };
