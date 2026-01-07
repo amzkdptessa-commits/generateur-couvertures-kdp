@@ -23,55 +23,117 @@
     </main>
 
     <script>
-        const params = new URLSearchParams(window.location.search);
-        let path = params.get('path') || 'FULL COVER';
-        const lang = localStorage.getItem('preferredLanguage') || 'en';
+      const params = new URLSearchParams(window.location.search);
+      let path = params.get('path') || 'FULL COVER';
+      const lang = localStorage.getItem('preferredLanguage') || 'en';
+      const CDN_BASE = "https://gabaritkdp.b-cdn.net";
 
-        async function init() {
-            const grid = document.getElementById('explorerGrid');
-            const loader = document.getElementById('loader');
-            document.getElementById('folderName').innerText = path.split('/').pop();
+      function encodeBunnyPath(p) {
+        return p.split('/').map(seg => encodeURIComponent(seg)).join('/');
+      }
 
-            try {
-                const response = await fetch(`/.netlify/functions/list-bunny?path=${encodeURIComponent(path)}`);
-                const items = await response.json();
-                loader.classList.add('hidden');
+      // Support both: folder/vignette.png and folder/<same-name>/vignette.png (legacy nested)
+      function vignetteCandidates(folderPath) {
+        const base = `${CDN_BASE}/${encodeBunnyPath(folderPath)}`;
+        const last = folderPath.split('/').filter(Boolean).pop();
+        return [
+          `${base}/vignette.png`,
+          `${base}/${encodeURIComponent(last)}/vignette.png`
+        ];
+      }
 
-                items.forEach(item => {
-                    if (item.name.toLowerCase() === 'vignette.png') return;
-                    const card = document.createElement('div');
-                    card.className = "bg-white rounded-xl border border-gray-200 overflow-hidden cursor-pointer shadow-sm p-2";
-                    
-                    const btnLabel = item.isDir 
-                        ? (lang === 'fr' ? 'OUVRIR' : 'OPEN') 
-                        : (lang === 'fr' ? 'UTILISER' : 'USE TEMPLATE');
-
-                    card.innerHTML = `
-                        <div class="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
-                            <img src="${item.url}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=KDP'">
-                        </div>
-                        <div class="p-3">
-                            <h3 class="font-semibold text-xs truncate text-gray-800">${item.name}</h3>
-                            <button class="mt-3 w-full ${item.isDir ? 'bg-gray-100 text-gray-600' : 'bg-orange-500 text-white'} py-2 rounded-lg text-[10px] font-black uppercase">
-                                ${btnLabel}
-                            </button>
-                        </div>
-                    `;
-
-                    card.onclick = () => {
-                        if (item.isDir) {
-                            window.location.href = `category.html?path=${encodeURIComponent(item.path)}`;
-                        } else {
-                            window.location.href = `generator.html?template=${encodeURIComponent(item.url)}`;
-                        }
-                    };
-                    grid.appendChild(card);
-                });
-            } catch (err) {
-                loader.innerHTML = "Error connecting to Netlify function. Please check if the file is pushed to GitHub.";
-            }
+      function setImgFallback(imgEl) {
+        const list = (imgEl.dataset.fallbacks || "").split("|").filter(Boolean);
+        const i = parseInt(imgEl.dataset.fallbackIndex || "0", 10);
+        if (i < list.length - 1) {
+          imgEl.dataset.fallbackIndex = String(i + 1);
+          imgEl.src = list[i + 1];
+          return;
         }
-        init();
+        imgEl.src = "https://via.placeholder.com/400x300?text=KDP";
+      }
+
+      function getButtonLabel(isDir) {
+        if (isDir) return (lang === 'fr' ? 'OUVRIR' : 'OPEN');
+        return (lang === 'fr' ? 'UTILISER' : 'USE TEMPLATE');
+      }
+
+      function makeCard({ title, imgSrc, isDir, onClick, fallbacks }) {
+        const card = document.createElement('div');
+        card.className = "bg-white rounded-xl border border-gray-200 overflow-hidden cursor-pointer shadow-sm p-2 hover:shadow-md transition";
+        card.innerHTML = `
+          <div class="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
+            <img src="${imgSrc}" class="w-full h-full object-cover"
+                 data-fallbacks="${fallbacks || ''}" data-fallback-index="0"
+                 onerror="setImgFallback(this)">
+          </div>
+          <div class="p-3">
+            <h3 class="font-semibold text-xs truncate text-gray-800">${title}</h3>
+            <button class="mt-3 w-full ${isDir ? 'bg-gray-100 text-gray-600' : 'bg-orange-500 text-white'} py-2 rounded-lg text-[10px] font-black uppercase">
+              ${getButtonLabel(isDir)}
+            </button>
+          </div>
+        `;
+        card.onclick = onClick;
+        return card;
+      }
+
+      async function init() {
+        const grid = document.getElementById('explorerGrid');
+        const loader = document.getElementById('loader');
+
+        const folderName = path.split('/').filter(Boolean).pop() || 'Marketplace';
+        document.getElementById('folderName').innerText = folderName;
+
+        try {
+          const response = await fetch(`/.netlify/functions/list-bunny?path=${encodeURIComponent(path)}`);
+          const items = await response.json();
+          loader.classList.add('hidden');
+
+          if (!Array.isArray(items)) {
+            loader.classList.remove('hidden');
+            loader.innerHTML = (items && items.error) ? `Error: ${items.error}` : "Error loading folder.";
+            return;
+          }
+
+          const filtered = items.filter(it => (it.name || '').toLowerCase() !== 'vignette.png');
+          const dirs = filtered.filter(it => it.isDir);
+          const files = filtered.filter(it => !it.isDir);
+
+          // Folders first
+          dirs.forEach(dir => {
+            const cands = vignetteCandidates(dir.path);
+            grid.appendChild(makeCard({
+              title: dir.name,
+              imgSrc: cands[0],
+              isDir: true,
+              fallbacks: cands.join("|"),
+              onClick: () => window.location.href = `category.html?path=${encodeURIComponent(dir.path)}`
+            }));
+          });
+
+          // Files after
+          files.forEach(file => {
+            grid.appendChild(makeCard({
+              title: file.name,
+              imgSrc: file.url,
+              isDir: false,
+              fallbacks: "",
+              onClick: () => window.location.href = `generator.html?template=${encodeURIComponent(file.url)}`
+            }));
+          });
+
+          if (dirs.length === 0 && files.length === 0) {
+            loader.classList.remove('hidden');
+            loader.innerHTML = (lang === 'fr') ? "Aucun fichier dans ce dossier." : "No files in this folder.";
+          }
+
+        } catch (err) {
+          loader.innerHTML = "Error connecting to Netlify function. Please check if the file is pushed to GitHub.";
+        }
+      }
+
+      init();
     </script>
 </body>
 </html>
