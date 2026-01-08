@@ -20,7 +20,7 @@ const MARKETPLACE_CATEGORIES = {
     {
       name: "Boheme",
       icon: "🌸",
-      image: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg",
+      image: "https://gabaritkdp.b-cdn.net/backgrounds/BOHEME/Boheme_152.png",
       link: "/category-boheme.html"
     },
     {
@@ -59,7 +59,7 @@ const MARKETPLACE_CATEGORIES = {
     {
       name: "Mystery",
       icon: "🔍",
-      image: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg",
+      image: "https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_001.png",
       link: "/category-mystery.html"
     },
     {
@@ -80,7 +80,7 @@ const MARKETPLACE_CATEGORIES = {
     {
       name: "Romance",
       icon: "💖",
-      image: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg",
+      image: "https://gabaritkdp.b-cdn.net/backgrounds/vignette.webp",
       link: "/category-romance.html",
       badge: "best",
       hidden: true
@@ -140,7 +140,7 @@ const MARKETPLACE_CATEGORIES = {
     {
       name: "Fantasy",
       icon: "🐉",
-      image: "https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/EPIC%20FANTASY/EPIC%20FANTASY/image_couverture_de_livres_fantasy_epic_fantasy_006.png",
+      image: "https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/DARK%20FANTASY/image_couverture_de_livres_fantasy_dark_fantasy_006.png",
       link: "/category-fantasy.html"
     },
     {
@@ -172,20 +172,20 @@ const MARKETPLACE_CATEGORIES = {
     {
       name: "Hippie",
       icon: "☮️",
-      image: "https://gabaritkdp.b-cdn.net/backgrounds/HIPPIE/HIPPIE/image_couverture_de_livres_hippie_013.png",
+      image: "https://gabaritkdp.b-cdn.net/backgrounds/HIPPIE/image_couverture_de_livres_hippie_001.png",
       link: "/category-hippie.html"
     },
     {
       name: "Business",
       icon: "💼",
-      image: "https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Entrepreneurship/Entrepreneurship/image_couverture_de_livres_business_entrepreneurship_008.png",
+      image: "https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Entrepreneurship/image_couverture_de_livres_business_entrepreneurship_011.png",
       link: "/category-business.html",
       hidden: true
     },
     {
       name: "Cartoon",
       icon: "🎬",
-      image: "https://gabaritkdp.b-cdn.net/backgrounds/CARTOON/Dinosaures/Dinosaures/image_couverture_de_livres_cartoon_dinosaures_006.png",
+      image: "https://gabaritkdp.b-cdn.net/backgrounds/CARTOON/Animaux%20cartoon/image_couverture_de_livres_cartoon_animaux_cartoon_001.png",
       link: "/category-cartoon.html",
       hidden: true
     },
