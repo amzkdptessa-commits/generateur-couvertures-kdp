@@ -1,139 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GabaritKDP - Explorer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GabaritKDP - Explorer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-900">
-    <header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <h1 id="folderName" class="text-xl font-bold text-orange-400">Marketplace</h1>
-            <a href="marketplace.html" class="bg-slate-700 px-4 py-2 rounded-lg text-sm hover:bg-slate-600 border border-slate-600">← Back</a>
-        </div>
-    </header>
 
-    <main class="max-w-7xl mx-auto p-6">
-        <div id="explorerGrid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
-        <div id="loader" class="flex flex-col items-center justify-center py-20">
-            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500 mb-4"></div>
-            <p class="text-gray-500 italic">Loading templates...</p>
-        </div>
-    </main>
+<header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-50">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <h1 id="title" class="text-xl font-bold">Explorer</h1>
+    <button id="backBtn" class="bg-slate-600 hover:bg-slate-500 px-4 py-2 rounded-lg text-sm hidden">← Back</button>
+  </div>
+</header>
 
-    <script>
-      const params = new URLSearchParams(window.location.search);
-      let path = params.get('path') || 'FULL COVER';
-      const lang = localStorage.getItem('preferredLanguage') || 'en';
-      const CDN_BASE = "https://gabaritkdp.b-cdn.net";
+<main class="max-w-7xl mx-auto p-6">
+  <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
+  <p id="loading" class="text-center text-gray-500 mt-8">Loading…</p>
+</main>
 
-      function encodeBunnyPath(p) {
-        return p.split('/').map(seg => encodeURIComponent(seg)).join('/');
+<script>
+  // ===== Option A : 1 vignette par dossier =====
+  // Pour un dossier: <dossier>/vignette.webp puis .png puis .jpg
+  // Pour un fichier: on utilise item.url
+  // Remplacement d'une vignette (même nom) => Bunny peut servir l'ancienne version (cache) : purge ou cache-bust.
+
+  const API_ENDPOINT = '/.netlify/functions/list-bunny';
+  const CDN_BASE = 'https://gabaritkdp.b-cdn.net';
+
+  // Cache-bust léger (change toutes les 10 minutes) : pratique quand vous remplacez une vignette.
+  const CACHE_BUST = Math.floor(Date.now() / (10 * 60 * 1000));
+
+  const titleEl = document.getElementById('title');
+  const backBtn = document.getElementById('backBtn');
+  const grid = document.getElementById('grid');
+  const loading = document.getElementById('loading');
+
+  function svgPlaceholder(text) {
+    const safe = String(text || 'Preview').slice(0, 40).replace(/[&<>]/g, '');
+    const svg = `
+      <svg xmlns="http://www.w3.org/2000/svg" width="800" height="600">
+        <defs>
+          <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#0f172a" />
+            <stop offset="1" stop-color="#334155" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#g)" />
+        <text x="50%" y="52%" dominant-baseline="middle" text-anchor="middle"
+              font-family="system-ui, -apple-system, Segoe UI, Roboto, Arial"
+              font-size="42" fill="#ffffff" opacity="0.92">${safe}</text>
+      </svg>`;
+    return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  }
+
+  function encodePath(path) {
+    return String(path || '')
+      .split('/')
+      .filter(Boolean)
+      .map(seg => encodeURIComponent(seg))
+      .join('/');
+  }
+
+  function vignetteCandidatesForDir(dirPath) {
+    const enc = encodePath(dirPath);
+    return [
+      `${CDN_BASE}/${enc}/vignette.webp?v=${CACHE_BUST}`,
+      `${CDN_BASE}/${enc}/vignette.png?v=${CACHE_BUST}`,
+      `${CDN_BASE}/${enc}/vignette.jpg?v=${CACHE_BUST}`
+    ];
+  }
+
+  function setImgWithCandidates(img, candidates, label) {
+    let i = 0;
+    const tryNext = () => {
+      if (i >= candidates.length) {
+        img.onerror = null;
+        img.src = svgPlaceholder(label);
+        return;
+      }
+      img.src = candidates[i++];
+    };
+    img.onerror = tryNext;
+    tryNext();
+  }
+
+  function getParam(name) {
+    const url = new URL(window.location.href);
+    return url.searchParams.get(name);
+  }
+
+  let currentPath = getParam('path') || '';
+
+  function updateTitle() {
+    if (!currentPath) {
+      titleEl.textContent = 'Explorer';
+      backBtn.classList.add('hidden');
+      return;
+    }
+    const parts = currentPath.split('/').filter(Boolean);
+    titleEl.textContent = parts[parts.length - 1] || 'Explorer';
+    backBtn.classList.remove('hidden');
+  }
+
+  function parentPath(p) {
+    const parts = String(p || '').split('/').filter(Boolean);
+    parts.pop();
+    return parts.join('/');
+  }
+
+  backBtn.addEventListener('click', () => {
+    const p = parentPath(currentPath);
+    const url = new URL(window.location.href);
+    if (p) url.searchParams.set('path', p);
+    else url.searchParams.delete('path');
+    window.location.href = url.toString();
+  });
+
+  async function fetchItems(path) {
+    const url = `${API_ENDPOINT}?path=${encodeURIComponent(path || '')}`;
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`API error: ${res.status}`);
+    return res.json();
+  }
+
+  function createCard(item) {
+    const card = document.createElement('div');
+    card.className = 'bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden border';
+
+    const img = document.createElement('img');
+    img.className = 'w-full h-44 object-cover bg-slate-200';
+    img.alt = item.name;
+
+    if (item.isDir) {
+      setImgWithCandidates(img, vignetteCandidatesForDir(item.path), item.name);
+    } else {
+      img.src = item.url || svgPlaceholder(item.name);
+      img.onerror = () => { img.src = svgPlaceholder(item.name); };
+    }
+
+    const body = document.createElement('div');
+    body.className = 'p-4';
+
+    const h3 = document.createElement('h3');
+    h3.className = 'font-semibold text-sm tracking-wide uppercase';
+    h3.textContent = item.name;
+
+    const p = document.createElement('p');
+    p.className = 'text-xs text-gray-500 mt-1';
+    p.textContent = item.isDir ? 'Folder' : 'File';
+
+    const btn = document.createElement('button');
+    btn.className = 'mt-3 w-full bg-slate-800 hover:bg-slate-700 text-white py-2 rounded-lg text-sm';
+    btn.textContent = item.isDir ? 'Open' : 'Use';
+
+    btn.addEventListener('click', () => {
+      if (item.isDir) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('path', item.path);
+        window.location.href = url.toString();
+      } else if (item.url) {
+        window.open(item.url, '_blank');
+      }
+    });
+
+    body.appendChild(h3);
+    body.appendChild(p);
+    body.appendChild(btn);
+
+    card.appendChild(img);
+    card.appendChild(body);
+
+    return card;
+  }
+
+  async function render() {
+    updateTitle();
+    grid.innerHTML = '';
+    loading.style.display = 'block';
+
+    try {
+      const data = await fetchItems(currentPath);
+      const items = (data && data.items) ? data.items : [];
+
+      // folders first
+      items.sort((a, b) => {
+        const ad = a.isDir ? -1 : 1;
+        const bd = b.isDir ? -1 : 1;
+        if (ad !== bd) return ad - bd;
+        return String(a.name).localeCompare(String(b.name), 'fr', { sensitivity: 'base' });
+      });
+
+      items.forEach(item => grid.appendChild(createCard(item)));
+
+      if (!items.length) {
+        const empty = document.createElement('div');
+        empty.className = 'col-span-full text-center text-gray-500 py-12';
+        empty.textContent = 'No items found.';
+        grid.appendChild(empty);
       }
 
-      // Support both: folder/vignette.png and folder/<same-name>/vignette.png (legacy nested)
-      function vignetteCandidates(folderPath) {
-        const base = `${CDN_BASE}/${encodeBunnyPath(folderPath)}`;
-        const last = folderPath.split('/').filter(Boolean).pop();
-        return [
-          `${base}/vignette.png`,
-          `${base}/${encodeURIComponent(last)}/vignette.png`
-        ];
-      }
+    } catch (e) {
+      console.error(e);
+      const err = document.createElement('div');
+      err.className = 'col-span-full bg-red-50 border border-red-200 text-red-700 p-4 rounded-lg';
+      err.innerHTML = `<div class="font-semibold">Unable to load this folder.</div>
+                       <div class="text-sm mt-1">${String(e.message || e)}</div>`;
+      grid.appendChild(err);
+    } finally {
+      loading.style.display = 'none';
+    }
+  }
 
-      function setImgFallback(imgEl) {
-        const list = (imgEl.dataset.fallbacks || "").split("|").filter(Boolean);
-        const i = parseInt(imgEl.dataset.fallbackIndex || "0", 10);
-        if (i < list.length - 1) {
-          imgEl.dataset.fallbackIndex = String(i + 1);
-          imgEl.src = list[i + 1];
-          return;
-        }
-        imgEl.src = "https://via.placeholder.com/400x300?text=KDP";
-      }
+  render();
+</script>
 
-      function getButtonLabel(isDir) {
-        if (isDir) return (lang === 'fr' ? 'OUVRIR' : 'OPEN');
-        return (lang === 'fr' ? 'UTILISER' : 'USE TEMPLATE');
-      }
-
-      function makeCard({ title, imgSrc, isDir, onClick, fallbacks }) {
-        const card = document.createElement('div');
-        card.className = "bg-white rounded-xl border border-gray-200 overflow-hidden cursor-pointer shadow-sm p-2 hover:shadow-md transition";
-        card.innerHTML = `
-          <div class="aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden">
-            <img src="${imgSrc}" class="w-full h-full object-cover"
-                 data-fallbacks="${fallbacks || ''}" data-fallback-index="0"
-                 onerror="setImgFallback(this)">
-          </div>
-          <div class="p-3">
-            <h3 class="font-semibold text-xs truncate text-gray-800">${title}</h3>
-            <button class="mt-3 w-full ${isDir ? 'bg-gray-100 text-gray-600' : 'bg-orange-500 text-white'} py-2 rounded-lg text-[10px] font-black uppercase">
-              ${getButtonLabel(isDir)}
-            </button>
-          </div>
-        `;
-        card.onclick = onClick;
-        return card;
-      }
-
-      async function init() {
-        const grid = document.getElementById('explorerGrid');
-        const loader = document.getElementById('loader');
-
-        const folderName = path.split('/').filter(Boolean).pop() || 'Marketplace';
-        document.getElementById('folderName').innerText = folderName;
-
-        try {
-          const response = await fetch(`/.netlify/functions/list-bunny?path=${encodeURIComponent(path)}`);
-          const items = await response.json();
-          loader.classList.add('hidden');
-
-          if (!Array.isArray(items)) {
-            loader.classList.remove('hidden');
-            loader.innerHTML = (items && items.error) ? `Error: ${items.error}` : "Error loading folder.";
-            return;
-          }
-
-          const filtered = items.filter(it => (it.name || '').toLowerCase() !== 'vignette.png');
-          const dirs = filtered.filter(it => it.isDir);
-          const files = filtered.filter(it => !it.isDir);
-
-          // Folders first
-          dirs.forEach(dir => {
-            const cands = vignetteCandidates(dir.path);
-            grid.appendChild(makeCard({
-              title: dir.name,
-              imgSrc: cands[0],
-              isDir: true,
-              fallbacks: cands.join("|"),
-              onClick: () => window.location.href = `category.html?path=${encodeURIComponent(dir.path)}`
-            }));
-          });
-
-          // Files after
-          files.forEach(file => {
-            grid.appendChild(makeCard({
-              title: file.name,
-              imgSrc: file.url,
-              isDir: false,
-              fallbacks: "",
-              onClick: () => window.location.href = `generator.html?template=${encodeURIComponent(file.url)}`
-            }));
-          });
-
-          if (dirs.length === 0 && files.length === 0) {
-            loader.classList.remove('hidden');
-            loader.innerHTML = (lang === 'fr') ? "Aucun fichier dans ce dossier." : "No files in this folder.";
-          }
-
-        } catch (err) {
-          loader.innerHTML = "Error connecting to Netlify function. Please check if the file is pushed to GitHub.";
-        }
-      }
-
-      init();
-    </script>
 </body>
 </html>
