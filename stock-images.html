@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unsplash Images – GabaritKDP</title>
+<style>
+body { font-family: Arial, sans-serif; padding: 20px; }
+input { padding: 8px; width: 300px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 16px; margin-top: 20px; }
+.card img { width: 100%; border-radius: 8px; }
+.small { font-size: 12px; color: #555; }
+</style>
+</head>
+<body>
+
+<h1>Unsplash Images (test)</h1>
+<input id="q" placeholder="Search images…" />
+<button onclick="search()">Search</button>
+
+<div class="grid" id="grid"></div>
+
+<script>
+async function search() {
+  const q = document.getElementById("q").value;
+  const res = await fetch(`/.netlify/functions/unsplash-search?q=${encodeURIComponent(q)}`);
+  const data = await res.json();
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  (data.results || []).forEach(img => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <img src="${img.urls.small}">
+      <div class="small">Photo by ${img.user.name} / Unsplash</div>
+    `;
+    grid.appendChild(div);
+  });
+}
+</script>
+
+</body>
+</html>
