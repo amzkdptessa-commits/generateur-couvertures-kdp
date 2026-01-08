@@ -2,40 +2,111 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Unsplash Images – GabaritKDP</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unsplash Images – GabaritKDP (test)</title>
 <style>
-body { font-family: Arial, sans-serif; padding: 20px; }
-input { padding: 8px; width: 300px; }
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px,1fr)); gap: 16px; margin-top: 20px; }
-.card img { width: 100%; border-radius: 8px; }
-.small { font-size: 12px; color: #555; }
+  body { font-family: Arial, sans-serif; padding: 20px; }
+  .row { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  input { padding: 10px; width: 320px; max-width: 90vw; }
+  button { padding: 10px 14px; cursor:pointer; }
+  .hint { color:#666; font-size: 13px; margin-top: 8px; }
+  .error { margin-top: 16px; padding: 12px; border:1px solid #f5c2c7; background:#f8d7da; color:#842029; border-radius:8px; white-space:pre-wrap; display:none; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 16px; margin-top: 20px; }
+  .card { background:#fff; border:1px solid #eee; border-radius:12px; overflow:hidden; }
+  .card img { width: 100%; height: 160px; object-fit: cover; display:block; }
+  .meta { padding:10px; font-size:12px; color:#555; display:flex; flex-direction:column; gap:6px; }
+  .meta a { color:#111; text-decoration:none; font-weight:700; }
+  .meta .attrib { color:#666; }
 </style>
 </head>
 <body>
 
 <h1>Unsplash Images (test)</h1>
-<input id="q" placeholder="Search images…" />
-<button onclick="search()">Search</button>
 
+<div class="row">
+  <input id="q" placeholder="Search images…" value="lapin" />
+  <button id="btn" onclick="search()">Search</button>
+  <button onclick="testEndpoint()">Test API</button>
+</div>
+
+<div class="hint">
+  This page calls <code>/.netlify/functions/unsplash-search</code>.
+  If nothing shows, click “Test API” and copy the error message.
+</div>
+
+<div class="error" id="err"></div>
 <div class="grid" id="grid"></div>
 
 <script>
+function showError(msg) {
+  const e = document.getElementById("err");
+  e.style.display = "block";
+  e.textContent = msg;
+}
+function clearError() {
+  const e = document.getElementById("err");
+  e.style.display = "none";
+  e.textContent = "";
+}
+
+async function testEndpoint() {
+  clearError();
+  try {
+    const res = await fetch(`/.netlify/functions/unsplash-search?q=test&per_page=1`);
+    const txt = await res.text();
+    if (!res.ok) {
+      showError(`Function HTTP ${res.status}\n\n${txt}`);
+      return;
+    }
+    showError(`OK ✅ Function reachable.\n\nResponse:\n${txt}`);
+  } catch (err) {
+    showError(String(err));
+  }
+}
+
 async function search() {
-  const q = document.getElementById("q").value;
-  const res = await fetch(`/.netlify/functions/unsplash-search?q=${encodeURIComponent(q)}`);
-  const data = await res.json();
+  clearError();
+  const q = document.getElementById("q").value.trim();
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
-  (data.results || []).forEach(img => {
-    const div = document.createElement("div");
-    div.className = "card";
-    div.innerHTML = `
-      <img src="${img.urls.small}">
-      <div class="small">Photo by ${img.user.name} / Unsplash</div>
-    `;
-    grid.appendChild(div);
-  });
+  document.getElementById("btn").disabled = true;
+
+  try {
+    const res = await fetch(`/.netlify/functions/unsplash-search?q=${encodeURIComponent(q)}&per_page=24`);
+    const txt = await res.text();
+    if (!res.ok) {
+      showError(`Function HTTP ${res.status}\n\n${txt}`);
+      return;
+    }
+
+    const data = JSON.parse(txt);
+    const items = data.items || [];
+    if (!items.length) {
+      showError("No results. Try another keyword.");
+      return;
+    }
+
+    items.forEach(img => {
+      const div = document.createElement("div");
+      div.className = "card";
+      div.innerHTML = `
+        <img src="${img.thumb}" alt="Unsplash image">
+        <div class="meta">
+          <div class="attrib">Photo by <strong>${img.author || "Unknown"}</strong> on Unsplash</div>
+          <a href="${img.unsplash_page}" target="_blank" rel="noreferrer">Open on Unsplash</a>
+        </div>
+      `;
+      grid.appendChild(div);
+    });
+
+  } catch (err) {
+    showError(String(err));
+  } finally {
+    document.getElementById("btn").disabled = false;
+  }
 }
+
+search();
 </script>
 
 </body>
