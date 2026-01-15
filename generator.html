@@ -699,9 +699,9 @@
     </script>
 
     <!-- ⚠️ React / ReactDOM / Babel : NE PAS defer -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js" defer></script>
 
 <!-- ✅ Outils lourds : defer SAFE -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
@@ -2084,13 +2084,101 @@ img {
 </head>
 
 <body>
-<!-- Navigation Header -->
-<div id="header-placeholder"></div>
+<!-- Navigation Header (inlined to avoid file:// CORS on fetch) -->
+<header class="header-nav notranslate">
+  <div class="nav-container">
+
+    <!-- Logo -->
+    <a href="./index.html" class="logo-nav">
+      <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+      <span>GabaritKDP</span>
+    </a>
+
+    <!-- Menu Hamburger - Mobile -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+      <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">US</button>
+    </div>
+
+    <!-- Navigation Desktop -->
+    <nav class="nav-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+
+      <a href="./dashboard.html"
+         data-fr="📊 Tableau de bord"
+         data-en="📊 Dashboard">📊 Dashboard</a>
+
+      <a href="./generator.html"
+   class="express-nav-btn"
+   data-fr="⚡ Générateur Express"
+   data-en="⚡ Express Generator">
+   Express Generator
+</a>
+
+      <a href="./generator-magic.html"
+         data-fr="🪄 Générateur Magique"
+         data-en="🪄 Magic Generator">🪄 Magic Generator</a>
+
+      <a href="./marketplace.html"
+         data-fr="📚 Templates"
+         data-en="📚 Templates">📚 Templates</a>
+
+      <a href="./inscription.html"
+         data-fr="📝 Inscription"
+         data-en="📝 Sign Up">📝 Sign Up</a>
+
+      <a href="./connexion.html"
+         data-fr="🔐 Connexion"
+         data-en="🔐 Login">🔐 Login</a>
+    </nav>
+  </div>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="mobile-menu-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./dashboard.html" data-fr="📊 Tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+      <a href="./generator.html" data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+      <a href="./generator-magic.html" data-fr="🪄 Générateur Magique" data-en="🪄 Magic Generator">🪄 Magic Generator</a>
+      <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
+      <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
+    </div>
+  </div>
+  <style>
+  /* Safety defaults: desktop shows nav-links; mobile menu hidden */
+  .mobile-menu { display: none; }
+  .mobile-menu-toggle { display: none; }
+
+  /* Mobile breakpoint */
+  @media (max-width: 768px) {
+    .nav-links { display: none !important; }
+    .mobile-menu-toggle { display: inline-flex !important; }
+  }
+
+  /* When opened via JS */
+  .mobile-menu.open { display: block; }
+</style>
+
 <script>
-  fetch('./header.html')
-    .then(r => r.text())
-    .then(html => document.getElementById('header-placeholder').innerHTML = html);
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+    menu.classList.toggle('open');
+  }
 </script>
+
+</header>
+
 
    
 
@@ -3803,30 +3891,43 @@ const [frontImage, setFrontImage] = useState(null);
                 }
                 console.log('🛒 [MARKETPLACE] Valeurs par défaut (modifiables): 6x9, 100 pages');
 
+                // ✅ IMPORTANT PERF: on pousse l'URL tout de suite à React (UI immédiate)
+                // Le canvas chargera l'image de façon asynchrone.
+                setFrontImage({
+                    url: imageUrl,
+                    naturalWidth: null,
+                    naturalHeight: null,
+                    file: null,
+                    isMarketplace: true,
+                    isFullCover: isFullCover,
+                    loading: true
+                });
+
+                // Puis on récupère les dimensions en arrière-plan sans bloquer l'UI.
                 const img = new Image();
                 img.crossOrigin = 'anonymous';
 
                 img.onload = () => {
                     console.log('✅ [MARKETPLACE] Image chargée', img.naturalWidth, 'x', img.naturalHeight);
-
-                    const imageData = {
+                    setFrontImage(prev => ({
+                        ...(prev || {}),
                         url: imageUrl,
                         naturalWidth: img.naturalWidth,
                         naturalHeight: img.naturalHeight,
                         file: null,
                         isMarketplace: true,
-                        isFullCover: isFullCover
-                    };
-                    
-                    setFrontImage(imageData);
-                    console.log('🛒 [MARKETPLACE] Image définie dans frontImage');
-                    
-                    // Nettoyer sessionStorage après utilisation
+                        isFullCover: isFullCover,
+                        loading: false
+                    }));
+
+                    console.log('🛒 [MARKETPLACE] Image dimensions applied');
                     sessionStorage.removeItem("gkdp_template_url");
                 };
 
                 img.onerror = () => {
                     console.error('❌ [MARKETPLACE] Erreur chargement image:', imageUrl);
+                    // On enlève l'état loading pour éviter un état bloqué.
+                    setFrontImage(prev => ({ ...(prev || {}), loading: false }));
                     sessionStorage.removeItem("gkdp_template_url");
                 };
 
