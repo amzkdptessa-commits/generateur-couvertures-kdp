@@ -4394,34 +4394,28 @@ const getScoreClass = (score) => {
                         ctx.restore();
                     }
                     
-                    // 📖 4ÈME DE COUVERTURE (sur le dos)
+                    // 📖 4ÈME DE COUVERTURE (sur le dos/partie gauche)
                     if (backCoverText) {
                         ctx.save();
                         ctx.fillStyle = backCoverTextColor;
                         const backTextFontSize = Math.max(6, backCoverTextSize * scaleFactor / 6);
                         ctx.font = `${backTextFontSize}px ${backCoverTextFont}`;
-                        ctx.textAlign = 'center';
+                        ctx.textAlign = 'left';
                         ctx.textBaseline = 'top';
-                        
-                        // Position X/Y basée sur les pourcentages
-                        const textX = backStartX + (backWidth * backCoverTextX / 100);
-                        const textY = startY + (bookHeight * backCoverTextY / 100);
-                        const maxWidth = backWidth - (safeZoneWidth * 2) - 10;
-                        
-                        wrapText(ctx, backCoverText, textX, textY, maxWidth, backTextFontSize * 1.4);
-                        
-                        // Indicateur de position si dragging
-                        if (draggingElement === 'backText') {
-                            ctx.strokeStyle = '#ffff00';
-                            ctx.lineWidth = 2;
-                            ctx.setLineDash([5, 5]);
-                            ctx.strokeRect(textX - 60, textY - 5, 120, 60);
-                            ctx.setLineDash([]);
-                        }
-                        
+
+                        // Définition des marges internes (Safe Zone)
+                        const marginInternal = 10 * scaleFactor; // Petit padding de confort
+                        const safeLeft = startX + safeZoneWidth + marginInternal;
+                        const safeRight = startX + backWidth - safeZoneWidth - marginInternal;
+                        const maxWidth = safeRight - safeLeft; // Largeur exacte du cadre utilisable
+
+                        // Position Y basée sur le curseur
+                        const textY = startY + safeZoneHeight + ((bookHeight - (safeZoneHeight * 2)) * backCoverTextY / 100);
+
+                        wrapText(ctx, backCoverText, safeLeft, textY, maxWidth, backTextFontSize * 1.4);
                         ctx.restore();
                     }
-                    
+
                     // 📊 ZONE CODE-BARRE ISBN (sur le dos, en bas à droite)
                     if (showBarcodeZone) {
                         ctx.save();
@@ -4475,25 +4469,40 @@ const getScoreClass = (score) => {
                 };
                 
                 // 📝 Helper function pour word wrap
-                const wrapText = (context, text, x, y, maxWidth, lineHeight) => {
-                    const words = text.split(' ');
-                    let line = '';
-                    let currentY = y;
-                    
-                    for (let n = 0; n < words.length; n++) {
-                        const testLine = line + words[n] + ' ';
-                        const metrics = context.measureText(testLine);
-                        const testWidth = metrics.width;
-                        
-                        if (testWidth > maxWidth && n > 0) {
-                            context.fillText(line.trim(), x, currentY);
-                            line = words[n] + ' ';
-                            currentY += lineHeight;
-                        } else {
-                            line = testLine;
+                function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+                    const paragraphs = String(text || '').split('\n');
+                    paragraphs.forEach(para => {
+                        const words = para.split(' ');
+                        let line = '';
+
+                        for (let n = 0; n < words.length; n++) {
+                            let word = words[n];
+                            let testLine = line + word + ' ';
+                            let metrics = ctx.measureText(testLine);
+
+                            if (metrics.width > maxWidth && n > 0) {
+                                ctx.fillText(line.trim(), x, y);
+                                line = word + ' ';
+                                y += lineHeight;
+                            } else if (ctx.measureText(word).width > maxWidth) {
+                                // Si UN SEUL MOT est plus large que le cadre (ex: rrrrrrrr...)
+                                for (let i = 0; i < word.length; i++) {
+                                    if (ctx.measureText(line + word[i]).width > maxWidth) {
+                                        ctx.fillText(line, x, y);
+                                        line = word[i];
+                                        y += lineHeight;
+                                    } else {
+                                        line += word[i];
+                                    }
+                                }
+                                line += ' ';
+                            } else {
+                                line = testLine;
+                            }
                         }
-                    }
-                    context.fillText(line.trim(), x, currentY);
+                        ctx.fillText(line.trim(), x, y);
+                        y += lineHeight * 1.5; // Espace entre les paragraphes
+                    });
                 };
 
                 ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, displayWidth, displayHeight);
@@ -4908,19 +4917,19 @@ const getScoreClass = (score) => {
                                 if (backCoverText) {
                                     exportCtx.save();
                                     exportCtx.fillStyle = backCoverTextColor;
-                                    const backTextFontSize = Math.max(18, backCoverTextSize * dpiScale / 4);
+                                    const backTextFontSize = Math.max(12, backCoverTextSize * dpiScale / 3);
                                     exportCtx.font = `${backTextFontSize}px ${backCoverTextFont}`;
-                                    exportCtx.textAlign = 'center';
+                                    exportCtx.textAlign = 'left';
                                     exportCtx.textBaseline = 'top';
-                                    
-                                    const textX = backStartXExport + (frontWidth * backCoverTextX / 100);
+
+                                    const safeLeft = backStartXExport + safeZone + (10 * dpiScale);
+                                    const maxWidth = frontWidth - (safeZone * 2) - (20 * dpiScale);
                                     const textY = exportHeight * backCoverTextY / 100;
-                                    const maxWidth = frontWidth - (safeZone * 2);
-                                    
-                                    wrapTextExport(exportCtx, backCoverText, textX, textY, maxWidth, backTextFontSize * 1.5);
+
+                                    wrapTextExport(exportCtx, backCoverText, safeLeft, textY, maxWidth, backTextFontSize * 1.5);
                                     exportCtx.restore();
                                 }
-                                
+
                                 // 📊 ZONE CODE-BARRE ISBN
                                 if (showBarcodeZone) {
                                     exportCtx.save();
@@ -4968,26 +4977,43 @@ const getScoreClass = (score) => {
                                 }
                                 
                                 // Helper function pour word wrap export
-                                function wrapTextExport(context, text, x, y, maxWidth, lineHeight) {
-                                    const words = text.split(' ');
-                                    let line = '';
-                                    let currentY = y;
-                                    
-                                    for (let n = 0; n < words.length; n++) {
-                                        const testLine = line + words[n] + ' ';
-                                        const metrics = context.measureText(testLine);
-                                        
-                                        if (metrics.width > maxWidth && n > 0) {
-                                            context.fillText(line.trim(), x, currentY);
-                                            line = words[n] + ' ';
-                                            currentY += lineHeight;
-                                        } else {
-                                            line = testLine;
+                                function wrapTextExport(ctx, text, x, y, maxWidth, lineHeight) {
+                                    const paragraphs = String(text || '').split('\n');
+
+                                    paragraphs.forEach(para => {
+                                        const words = para.split(' ');
+                                        let line = '';
+
+                                        for (let n = 0; n < words.length; n++) {
+                                            let word = words[n];
+                                            let testLine = line + word + ' ';
+                                            let metrics = ctx.measureText(testLine);
+
+                                            if (metrics.width > maxWidth && n > 0) {
+                                                ctx.fillText(line.trim(), x, y);
+                                                line = word + ' ';
+                                                y += lineHeight;
+                                            } else if (ctx.measureText(word).width > maxWidth) {
+                                                // Si UN SEUL MOT est plus large que le cadre (ex: rrrrrrrr...)
+                                                for (let i = 0; i < word.length; i++) {
+                                                    if (ctx.measureText(line + word[i]).width > maxWidth) {
+                                                        ctx.fillText(line, x, y);
+                                                        line = word[i];
+                                                        y += lineHeight;
+                                                    } else {
+                                                        line += word[i];
+                                                    }
+                                                }
+                                                line += ' ';
+                                            } else {
+                                                line = testLine;
+                                            }
                                         }
-                                    }
-                                    context.fillText(line.trim(), x, currentY);
+                                        ctx.fillText(line.trim(), x, y);
+                                        y += lineHeight * 1.5; // Espace entre les paragraphes
+                                    });
                                 }
-                                
+
                                 const userLevel = checkExportLimits().level;
                                 const actualDPI = format === '8.5x11' ? '360' : '300';
                                 // 🔒 KDP STRICT - Nom de fichier avec tous les paramètres
