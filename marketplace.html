@@ -30,6 +30,13 @@
   justify-content: space-between;
   padding: 0 20px;
   flex-wrap: wrap;
+  position: relative; /* ✅ ANCRE le switch */
+}
+.language-selector {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  z-index: 1000;
 }
 
 .logo-nav {
@@ -177,8 +184,10 @@
 
   <section class="py-10 bg-slate-50 text-center border-b border-gray-100">
 <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">
-  Templates <span style="color:#FF9900;">KDP</span>
+  <span data-fr="Modèles" data-en="Templates">Templates</span>
+  <span style="color:#FF9900;">KDP</span>
 </h1>
+
     <p class="text-md text-gray-500" data-fr="6600+ templates professionnels" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
   </section>
 
