@@ -220,6 +220,40 @@ footer {
     </div>
   </section>
 
+  <!-- SECTION 4: UNSPLASH (Demo) -->
+<section class="py-16 bg-white border-t border-gray-100">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-widest">
+          🖼️ Unsplash Inspirations
+        </h2>
+        <p class="text-sm text-gray-500">
+          Demo integration for approval: hotlinked images + attribution + download trigger
+        </p>
+      </div>
+
+      <div class="flex gap-2">
+        <input id="unsplash-query"
+               class="border border-gray-200 rounded-lg px-3 py-2 w-64"
+               type="text"
+               placeholder="ex: romance, thriller, fantasy">
+        <button id="unsplash-search-btn"
+                class="px-4 py-2 rounded-lg text-white font-semibold"
+                style="background:#FF9900;">
+          Search
+        </button>
+      </div>
+    </div>
+
+    <div id="grid-unsplash" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+
+    <p class="text-xs text-gray-400 mt-4">
+      Photos are provided by Unsplash. All photos are hotlinked, and attribution is displayed per Unsplash guidelines.
+    </p>
+  </div>
+</section>
+
     <footer class="bg-gray-900 text-gray-300 py-12">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
@@ -412,13 +446,85 @@ function render(data, gridId, isInterior = false) {
         el.innerText = el.getAttribute(`data-${lang}`);
       });
     }
+/* =======================
+   UNSPLASH DEMO INTEGRATION
+   ======================= */
 
-    document.addEventListener('DOMContentLoaded', () => {
-      render(config.premium, 'grid-premium');
-      render(config.backgrounds, 'grid-backgrounds');
-      render(config.interiors, 'grid-interiors', true);
-      switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
-    });
+const UNSPLASH_ACCESS_KEY = "sklZ_HVAN_naWeOHWRmYgh2pqS5w134A302cuUa8Vjk";
+
+async function fetchUnsplashPhotos(query = "book cover", perPage = 12) {
+  const url = new URL("https://api.unsplash.com/search/photos");
+  url.searchParams.set("query", query);
+  url.searchParams.set("per_page", perPage);
+  url.searchParams.set("orientation", "portrait");
+
+  const res = await fetch(url, {
+    headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` }
+  });
+
+  const data = await res.json();
+  return data.results || [];
+}
+
+async function triggerUnsplashDownload(downloadUrl) {
+  if (!downloadUrl) return;
+  const url = new URL(downloadUrl);
+  url.searchParams.set("client_id", UNSPLASH_ACCESS_KEY);
+  fetch(url.toString()).catch(() => {});
+}
+
+function renderUnsplashGrid(photos) {
+  const grid = document.getElementById("grid-unsplash");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  photos.forEach(photo => {
+    const card = document.createElement("div");
+    card.className = "category-card";
+    card.innerHTML = `
+      <img src="${photo.urls.small}" loading="lazy">
+
+      <div class="category-overlay" style="pointer-events:auto">
+        <div style="font-size:.75rem">
+          Photo by
+          <a href="${photo.user.links.html}" target="_blank">${photo.user.name}</a>
+          on
+          <a href="https://unsplash.com" target="_blank">Unsplash</a>
+        </div>
+
+        <button class="mt-2 px-3 py-2"
+          style="background:#FF9900;color:#fff;border-radius:8px">
+          Use image
+        </button>
+      </div>
+    `;
+
+    card.querySelector("button").onclick = () => {
+      triggerUnsplashDownload(photo.links.download_location);
+    };
+
+    grid.appendChild(card);
+  });
+}
+
+async function loadUnsplash(query = "book cover") {
+  const photos = await fetchUnsplashPhotos(query);
+  renderUnsplashGrid(photos);
+}
+
+/* ======================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+  render(config.premium, 'grid-premium');
+  render(config.backgrounds, 'grid-backgrounds');
+  render(config.interiors, 'grid-interiors', true);
+  switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
+
+  // 🔥 UNSPLASH AUTO LOAD
+loadUnsplash();
+});
+
   </script>
 </body>
 </html>
