@@ -12,7 +12,23 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background-color: #fff;}
 
-    
+    /* HEADER SLIM */
+    .header-nav { background:#1e293b; padding: 6px 0; position:sticky; top:0; z-index:999; box-shadow:0 2px 10px rgba(0,0,0,0.1); }
+    .nav-container { max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 20px; }
+    .logo-nav { display:flex; align-items:center; gap:10px; text-decoration:none; color:#fff; }
+    .logo-nav img { height:28px; width:auto; }
+    .logo-nav span { font-size:1rem; font-weight:700; color:#FF9900; }
+
+    .nav-links { display:flex; align-items:center; gap:10px; }
+    .nav-links a { color:#fff; text-decoration:none; font-weight:500; transition:.2s; padding:5px 10px; border-radius:6px; font-size:.8rem; }
+    .nav-links a:hover { color:#FF9900; background:rgba(255,153,0,.1); }
+    .express-nav-btn { background:#10b981!important; color:#fff!important; font-weight:700!important; }
+
+    /* LANGUE */
+    .language-selector { background:#fff; border-radius:20px; padding:2px; display:flex; gap:2px; }
+    .lang-btn { padding:2px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-weight:bold; font-size:.65rem; color:#1e293b; }
+    .lang-btn.active { background:#FF9900; color:#fff; }
+
     /* CARDS */
     .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 40px 0; }
     .category-card { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.15); background:#2d3748; }
@@ -33,17 +49,32 @@
     .youtube { background:#FF0000; } .facebook { background:#1877F2; } .instagram { background:linear-gradient(45deg,#405DE6,#833AB4,#FD1D1D); }
     .pinterest { background:#BD081C; } .tiktok { background:#000; border:1px solid #444; } .linkedin { background:#0A66C2; }
 
+    @media (max-width: 1024px) { .nav-links { display: none; } }
   </style>
 </head>
 <body>
-<!-- Navigation Header (shared) -->
-<div id="header-placeholder"></div>
-<script>
-  fetch('./header.html')
-    .then(r => r.text())
-    .then(html => document.getElementById('header-placeholder').innerHTML = html);
-</script>
-  
+
+  <header class="header-nav notranslate">
+    <div class="nav-container">
+      <a href="./index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="Logo">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+        <a href="./marketplace.html" class="active">Marketplace</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+      </nav>
+      <div class="language-selector">
+        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">US</button>
+      </div>
+    </div>
+  </header>
 
   <section class="py-10 bg-slate-50 text-center border-b border-gray-100">
     <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">Marketplace <span style="color:#FF9900;">KDP</span></h1>
