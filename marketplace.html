@@ -513,14 +513,20 @@ btn.addEventListener("click", async (e) => {
   // 1) Download trigger (Unsplash)
   await triggerUnsplashDownload(photo.links.download_location);
 
-  // 2) Stocker l'image + attribution pour le générateur
-  localStorage.setItem("gkdp_unsplash_image", photo.urls.full);
-  localStorage.setItem("gkdp_unsplash_photographer", photo.user.name);
-  localStorage.setItem("gkdp_unsplash_photographer_url", photo.user.links.html);
-  localStorage.setItem("gkdp_unsplash_photo_url", photo.links.html);
+  // 2) Construire l'URL du générateur comme tes autres templates (paramètres)
+  const img = encodeURIComponent(photo.urls.full);
 
-  // 3) Aller au Générateur Express (dans ton header c'est ./generator.html)
-  window.location.href = "./generator.html";
+  // Format par défaut = 6x9
+  const trim = "6x9";
+
+  // (optionnel) attribution en params (utile si tu veux l'afficher dans le générateur)
+  const author = encodeURIComponent(photo.user.name || "");
+  const authorUrl = encodeURIComponent(photo.user.links.html || "");
+  const photoUrl = encodeURIComponent(photo.links.html || "");
+
+  window.location.href =
+    `./generator.html?trim=${trim}&src=unsplash&img=${img}` +
+    `&u=${author}&uu=${authorUrl}&pu=${photoUrl}`;
 });
 
 
