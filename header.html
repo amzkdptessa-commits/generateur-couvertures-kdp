@@ -67,4 +67,27 @@
       <a href="./connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
     </div>
   </div>
+  <style>
+  /* Safety defaults: desktop shows nav-links; mobile menu hidden */
+  .mobile-menu { display: none; }
+  .mobile-menu-toggle { display: none; }
+
+  /* Mobile breakpoint */
+  @media (max-width: 768px) {
+    .nav-links { display: none !important; }
+    .mobile-menu-toggle { display: inline-flex !important; }
+  }
+
+  /* When opened via JS */
+  .mobile-menu.open { display: block; }
+</style>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+    menu.classList.toggle('open');
+  }
+</script>
+
 </header>
