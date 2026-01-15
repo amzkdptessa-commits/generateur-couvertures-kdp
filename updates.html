@@ -758,94 +758,15 @@
 
 <body class="bg-white">
     <!-- Navigation Header -->
-    <header class="header-nav">
-        <div class="nav-container">
-            <a href="./index.html" class="logo-nav">
-                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
-                <span>GabaritKDP</span>
-            </a>
+<div id="header-placeholder"></div>
+<script>
+  fetch('./header.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+    });
+</script>
 
-            <!-- Menu Hamburger - Mobile -->
-            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <!-- Language Selector -->
-            <div class="language-selector">
-                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
-            </div>
-
-            <!-- Navigation Desktop -->
-            <nav class="nav-links">
-                <a href="./index.html">
-                    🏠 Home
-                </a>
-
-                <a href="./generator.html" class="express-nav-btn">
-                    Express Generator
-                </a>
-
-                <a href="./generator-magic.html">
-                    Magic Generator
-                </a>
-
-                <a href="./Marketplace.html">
-                    Marketplace
-                </a>
-
-                <a href="#tarifs">
-                    💰 Pricing
-                </a>
-
-                <a href="./inscription.html">
-                    📝 Sign Up
-                </a>
-
-                <a href="./connexion.html">
-                    🔓 Login
-                </a>
-            </nav>
-        </div>
-    </header>
-
-    <!-- Menu Mobile -->
-    <div class="mobile-menu" id="mobileMenu">
-        <button class="mobile-menu-close" onclick="toggleMobileMenu()">
-            <i class="fas fa-times"></i>
-        </button>
-
-        <div class="mobile-menu-links">
-            <a href="./index.html">
-                🏠 Home
-            </a>
-
-            <a href="./generator.html"
-                style="background: linear-gradient(135deg, #10b981, #059669); border-color: #10b981;">
-                ⚡ Express Generator
-            </a>
-
-            <a href="./generator-magic.html">
-                Magic Generator
-            </a>
-
-            <a href="./Marketplace.html">
-                Marketplace
-            </a>
-
-            <a href="#tarifs" style="background: rgba(251, 191, 36, 0.2); border-color: #fbbf24;">
-                💰 Pricing
-            </a>
-
-            <a href="./inscription.html" style="background: rgba(34, 197, 94, 0.2); border-color: #22c55e;">
-                📝 Sign Up
-            </a>
-
-            <a href="./connexion.html">
-                🔓 Login
-            </a>
-        </div>
-    </div>
 
     <!-- Hero Section Updates -->
     <section class="hero-updates">

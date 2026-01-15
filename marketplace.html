@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-fr="Marketplace - GabaritKDP" data-en="Marketplace - GabaritKDP">Marketplace - GabaritKDP</title>
-  <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
+    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
   <meta name="description"
     data-fr="Découvrez 6600+ templates KDP professionnels pour vos couvertures et intérieurs de livres Amazon."
     data-en="Discover 6600+ professional KDP templates for your Amazon book covers and interiors.">
@@ -238,6 +238,45 @@
       box-shadow: 0 4px 15px rgba(220, 38, 38, .4)
     }
 
+    /* FULL COVER Premium Card */
+    .fullcover-premium {
+      grid-column: span 2;
+      aspect-ratio: 2/1;
+      border: 3px solid #dc2626;
+      box-shadow: 0 8px 30px rgba(220, 38, 38, .3);
+      animation: pulseGlow 3s ease-in-out infinite;
+    }
+
+    .fullcover-premium:hover {
+      border-color: #ef4444;
+      box-shadow: 0 15px 50px rgba(220, 38, 38, .4);
+    }
+
+    .fullcover-premium .category-overlay {
+      background: linear-gradient(to top, rgba(0, 0, 0, .9) 0%, rgba(139, 0, 0, .3) 50%, transparent 100%);
+    }
+
+    .fullcover-premium .category-name {
+      font-size: 1.75rem;
+      color: #fff;
+    }
+
+    .fullcover-premium .category-count {
+      font-size: 1rem;
+    }
+
+    @keyframes pulseGlow {
+
+      0%,
+      100% {
+        box-shadow: 0 8px 30px rgba(220, 38, 38, .3);
+      }
+
+      50% {
+        box-shadow: 0 8px 40px rgba(220, 38, 38, .5);
+      }
+    }
+
     @media (max-width: 768px) {
       .fullcover-premium {
         grid-column: span 1;
@@ -390,6 +429,7 @@
       }
     }
 
+    /* custom css code */
     .premium_edit_sec {
       background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
     }
@@ -427,203 +467,41 @@
         width: 100%;
       }
     }
-
-    @media (max-width:480px) {
-      .logo-nav span {
-        display: none
-      }
-
-      .language-selector {
-        right: 60px;
-        padding: 0 2px 2px 2px;
-        top: 27px
-      }
-
-      .lang-btn {
-        padding: 4px 8px;
-        font-size: .7rem
-      }
+  @media (max-width:480px) {
+    .logo-nav span {
+      display: none
     }
 
-    /* Modal */
-    .fc-modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, .75);
-      backdrop-filter: blur(6px);
-      z-index: 2000;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
+    .language-selector {
+      right: 60px;
+      padding: 0 2px 2px 2px;
+      top: 27px
     }
 
-    .fc-modal-backdrop.active {
-      display: flex;
+    .lang-btn {
+      padding: 4px 8px;
+      font-size: .7rem
     }
-
-    .fc-modal {
-      width: 100%;
-      max-width: 900px;
-      background: #0b1220;
-      border: 1px solid rgba(255, 255, 255, .12);
-      border-radius: 16px;
-      box-shadow: 0 30px 80px rgba(0, 0, 0, .55);
-      overflow: hidden;
-    }
-
-    .fc-modal-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 18px;
-      background: linear-gradient(135deg, #111827, #0b1220);
-      border-bottom: 1px solid rgba(255, 255, 255, .08);
-    }
-
-    .fc-modal-title {
-      color: #fff;
-      font-weight: 800;
-      font-size: 1.05rem;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .fc-modal-close {
-      background: rgba(255, 255, 255, .08);
-      border: 1px solid rgba(255, 255, 255, .12);
-      color: #fff;
-      border-radius: 10px;
-      padding: 8px 10px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .fc-modal-close:hover {
-      background: rgba(255, 255, 255, .14);
-    }
-
-    .fc-modal-body {
-      padding: 16px 18px 18px;
-      color: #cbd5e1;
-    }
-
-    .fc-search {
-      width: 100%;
-      background: rgba(255, 255, 255, .06);
-      border: 1px solid rgba(255, 255, 255, .12);
-      color: #fff;
-      border-radius: 12px;
-      padding: 10px 12px;
-      outline: none;
-    }
-
-    .fc-sub-grid {
-      margin-top: 14px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    @media (max-width: 640px) {
-      .fc-sub-grid {
-        grid-template-columns: repeat(1, minmax(0, 1fr));
-      }
-    }
-
-    .fc-sub-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 12px;
-      background: rgba(255, 255, 255, .05);
-      border: 1px solid rgba(255, 255, 255, .10);
-      border-radius: 12px;
-      cursor: pointer;
-      transition: .2s;
-    }
-
-    .fc-sub-item:hover {
-      background: rgba(255, 255, 255, .08);
-      border-color: rgba(255, 153, 0, .45);
-    }
-
-    .fc-sub-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-      min-width: 0;
-    }
-
-    .fc-sub-label {
-      color: #fff;
-      font-weight: 700;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .fc-sub-meta {
-      font-size: .8rem;
-      color: #94a3b8;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .fc-sub-cta {
-      color: #FF9900;
-      font-weight: 800;
-      flex-shrink: 0;
-    }
+  }
   </style>
 </head>
 
 <body class="bg-white">
+<!-- Navigation Header -->
+<div id="header-placeholder"></div>
+<script>
+  fetch('./header.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+    });
+</script>
 
   <!-- Navigation Header -->
-  <header class="header-nav">
-    <div class="nav-container">
-      <a href="/index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
-        <span>GabaritKDP</span>
-      </a>
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-      <div class="language-selector">
-        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
-      </div>
-      <!-- Navigation Desktop -->
-      <nav class="nav-links">
-        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-        <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
-          data-en="Express Generator">Générateur Express</a>
-        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
-        <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
-        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-      </nav>
-    </div>
-  </header>
+  
 
   <!-- Menu Mobile -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
-    <div class="mobile-menu-links">
-      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-      <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;"
-        data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Générateur Express</a>
-      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
-      <a href="./marketplace.html" data-fr="marché" data-en="Marketplace">Marketplace</a>
-      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription"
-        data-en="📝 Sign Up">📝 Sign Up</a>
-      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-    </div>
-  </div>
+  
 
   <!-- Hero Section -->
   <section class="hero-gradient py-12">
@@ -668,9 +546,8 @@
       <!-- Grid de catégories FULL COVER -->
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 card_section"
         id="fullcover-categories">
-        <!-- Les cartes sont insérées depuis data/fullcover-nav.json -->
+        <!-- Les cartes seront insérées ici -->
       </div>
-
       <div class="see_more_btn_sec">
         <button
           class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-12 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 uppercase"
@@ -679,309 +556,151 @@
     </div>
   </section>
 
-  <!-- FULLCOVER SUBCATEGORIES MODAL -->
-  <div class="fc-modal-backdrop" id="fcModalBackdrop" aria-hidden="true">
-    <div class="fc-modal" role="dialog" aria-modal="true" aria-labelledby="fcModalTitle">
-      <div class="fc-modal-header">
-        <div class="fc-modal-title" id="fcModalTitle">
-          <span id="fcModalIcon">🔥</span>
-          <span id="fcModalCatName">Category</span>
-        </div>
-        <button class="fc-modal-close" id="fcModalClose" type="button">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="fc-modal-body">
-        <input id="fcModalSearch" class="fc-search" placeholder="Search subcategories..." />
-        <div class="fc-sub-grid" id="fcModalList"></div>
-        <div class="mt-4 text-sm text-slate-400" id="fcModalHint"></div>
-      </div>
-    </div>
-  </div>
-
   <script>
-    /**
-     * Brancher fullcover-nav.json dans marketplace.html
-     * - Fetch ./data/fullcover-nav.json
-     * - Render catégories
-     * - Au clic: modal qui liste les sous-catégories avec liens vers leur .html
-     */
-
-    function safeLabel(s) {
-      if (!s) return '';
-      return String(s).replace(/\s+/g, ' ').trim();
-    }
-
-    function slugToTitle(slug) {
-      return safeLabel(slug).replace(/-/g, ' ');
-    }
-
-    function makeSvgPlaceholder(text) {
-      const t = (text || 'FULL COVER').slice(0, 18);
-      const svg =
-        `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900">
-          <defs>
-            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-              <stop offset="0" stop-color="#0f172a"/>
-              <stop offset="1" stop-color="#334155"/>
-            </linearGradient>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#g)"/>
-          <text x="50%" y="52%" text-anchor="middle" dominant-baseline="middle"
-            font-family="Segoe UI, Arial" font-size="64" fill="#FF9900" font-weight="800">${t}</text>
-        </svg>`;
-      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-    }
-
-    // Icônes + thumbnails (tu peux enrichir autant que tu veux)
-    const FULLCOVER_UI = {
-      art: {
-        icon: "🎨",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg",
-        badge: "PREMIUM",
-        badgeClass: "badge-premium"
-      },
-      boheme: {
-        icon: "🌸",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg",
-        badge: "",
-        badgeClass: ""
-      },
-      fantasy: {
-        icon: "🧙",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg",
-        badge: "POPULAR",
-        badgeClass: "badge-popular"
-      },
-      fleurs: {
-        icon: "🌺",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png",
-        badge: "",
-        badgeClass: ""
-      },
-      historical: {
-        icon: "🏛️",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg",
-        badge: "",
-        badgeClass: ""
-      },
-      horror: {
-        icon: "👻",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg",
-        badge: "NEW",
-        badgeClass: "badge-new"
-      },
-      magie: {
-        icon: "✨",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg",
-        badge: "PREMIUM",
-        badgeClass: "badge-premium"
-      },
-      mystery: {
-        icon: "🔍",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg",
-        badge: "",
-        badgeClass: ""
-      },
-      paysages: {
-        icon: "🏞️",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Paysages/fullcover_couverture_de_livres_paysages_009.png",
-        badge: "",
-        badgeClass: ""
-      },
-      religions: {
-        icon: "✝️",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg",
-        badge: "PREMIUM",
-        badgeClass: "badge-premium"
-      },
-      romance: {
-        icon: "💖",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg",
-        badge: "BEST SELLER",
-        badgeClass: "badge-best"
-      },
-      "sci": {
-        icon: "🚀",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg",
-        badge: "POPULAR",
-        badgeClass: "badge-popular"
-      },
-      thriller: {
-        icon: "🔪",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg",
-        badge: "NEW",
-        badgeClass: "badge-new"
-      },
-      vintage: {
-        icon: "📷",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Buildings%20%26%20City/fullcover_vintage_1930s_buildings_city_006.jpg",
-        badge: "POPULAR",
-        badgeClass: "badge-popular"
-      },
-      voyages: {
-        icon: "🌍",
-        thumb: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg",
-        badge: "NEW",
-        badgeClass: "badge-new"
-      }
-    };
-
-    let __FULLCOVER_NAV = null;
-    let __FULLCOVER_CATEGORIES = [];
-
-    function getUiForCategorySlug(slug) {
-      const key = String(slug || '').toLowerCase();
-      return FULLCOVER_UI[key] || {
-        icon: "🔥",
-        thumb: makeSvgPlaceholder(slugToTitle(slug)),
-        badge: "",
-        badgeClass: ""
-      };
-    }
-
-    function openFullcoverModal(category) {
-      const backdrop = document.getElementById('fcModalBackdrop');
-      const closeBtn = document.getElementById('fcModalClose');
-      const listEl = document.getElementById('fcModalList');
-      const searchEl = document.getElementById('fcModalSearch');
-      const catNameEl = document.getElementById('fcModalCatName');
-      const catIconEl = document.getElementById('fcModalIcon');
-      const hintEl = document.getElementById('fcModalHint');
-
-      const ui = getUiForCategorySlug(category.slug);
-
-      catNameEl.textContent = safeLabel(category.label || slugToTitle(category.slug));
-      catIconEl.textContent = ui.icon;
-
-      const subs = Array.isArray(category.subcategories) ? category.subcategories.slice() : [];
-      subs.sort((a, b) => safeLabel(a.label).localeCompare(safeLabel(b.label)));
-
-      function renderSubList(filter) {
-        const q = safeLabel(filter || '').toLowerCase();
-        const filtered = subs.filter(s => {
-          const label = safeLabel(s.label || s.slug || '').toLowerCase();
-          const slug = safeLabel(s.slug || '').toLowerCase();
-          return !q || label.includes(q) || slug.includes(q);
-        });
-
-        listEl.innerHTML = filtered.map(s => {
-          const label = safeLabel(s.label || slugToTitle(s.slug));
-          const meta = safeLabel(s.id || '');
-          const href = safeLabel(s.html || '');
-          const safeHref = href ? href : '#';
-
-          return `
-            <div class="fc-sub-item" onclick="(function(){ if('${safeHref}'!=='#'){ window.location.href='/${safeHref}'; } })()">
-              <div class="fc-sub-left">
-                <div class="fc-sub-label">${label}</div>
-                <div class="fc-sub-meta">${meta}</div>
-              </div>
-              <div class="fc-sub-cta">Open →</div>
-            </div>
-          `;
-        }).join('');
-
-        hintEl.textContent = `${filtered.length} subcategories • Click to open the subcategory page`;
-      }
-
-      // Init
-      searchEl.value = "";
-      renderSubList("");
-
-      // Events
-      function onKeyDown(e) {
-        if (e.key === "Escape") close();
-      }
-      function close() {
-        backdrop.classList.remove('active');
-        backdrop.setAttribute('aria-hidden', 'true');
-        document.removeEventListener('keydown', onKeyDown);
-      }
-
-      searchEl.oninput = () => renderSubList(searchEl.value);
-      closeBtn.onclick = close;
-      backdrop.onclick = (e) => {
-        if (e.target === backdrop) close();
-      };
-
-      document.addEventListener('keydown', onKeyDown);
-
-      // Show
-      backdrop.classList.add('active');
-      backdrop.setAttribute('aria-hidden', 'false');
-      setTimeout(() => searchEl.focus(), 50);
-    }
-
-    function renderFullcoverCategories(categories) {
-      const grid = document.getElementById('fullcover-categories');
-      if (!grid) return;
-
-      const cardsHtml = categories.map((cat, idx) => {
-        const ui = getUiForCategorySlug(cat.slug);
-        const title = safeLabel(cat.label || slugToTitle(cat.slug));
-        const subsCount = Array.isArray(cat.subcategories) ? cat.subcategories.length : 0;
-
-        // Par défaut: on affiche les 8 premières cartes, le reste est masqué (See more)
-        const hiddenClass = idx >= 8 ? 'd_hidden' : '';
-
-        const badgeHtml = ui.badge
-          ? `<span class="category-badge ${ui.badgeClass}">${ui.badge}</span>`
-          : '';
-
-        return `
-          <div class="category-card ${hiddenClass}" ontouchstart=""
-               onclick='(function(){ openFullcoverModal(__FULLCOVER_CATEGORIES[${idx}]); })()'>
-            <img src="${ui.thumb}" alt="${title}" loading="lazy">
-            ${badgeHtml}
-            <div class="category-overlay">
-              <div class="category-icon">${ui.icon}</div>
-              <div class="category-name">${title}</div>
-              <div class="category-count">${subsCount} subcategories • Explore →</div>
-            </div>
+    // Insérer les cartes FULL COVER dynamiquement
+    document.addEventListener('DOMContentLoaded', function () {
+      const fullcoverGrid = document.getElementById('fullcover-categories');
+      if (fullcoverGrid) {
+        fullcoverGrid.innerHTML = `<div class="category-card" onclick="loadCategoryImages('FULL COVER/Art')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg" alt="Art" loading="lazy">
+          <span class="category-badge badge-premium">PREMIUM</span>
+          <div class="category-overlay">
+            <div class="category-icon">🎨</div>
+            <div class="category-name">Art</div>
+            <div class="category-count">Explore templates →</div>
           </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Boheme')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" alt="Boheme" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🌸</div>
+            <div class="category-name">Boheme</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/FANTASY')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg" alt="FANTASY" loading="lazy">
+          <span class="category-badge badge-popular">POPULAR</span>
+          <div class="category-overlay">
+            <div class="category-icon">🧙</div>
+            <div class="category-name">FANTASY</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Fleurs')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" alt="Fleurs" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🌺</div>
+            <div class="category-name">Fleurs</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Historical')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" alt="Historical" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🏛️</div>
+            <div class="category-name">Historical</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Horror')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg" alt="Horror" loading="lazy">
+          <span class="category-badge badge-new">NEW</span>
+          <div class="category-overlay">
+            <div class="category-icon">👻</div>
+            <div class="category-name">Horror</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/MAGIE x ART NOUVEAU (STYLE PREMIUM)')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg" alt="MAGIE x ART NOUVEAU (STYLE PREMIUM)" loading="lazy">
+          <span class="category-badge badge-premium">PREMIUM</span>
+          <div class="category-overlay">
+            <div class="category-icon">✨</div>
+            <div class="category-name">MAGIE x ART NOUVEAU (STYLE PREMIUM)</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card" onclick="loadCategoryImages('FULL COVER/Mystery')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" alt="Mystery" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🔍</div>
+            <div class="category-name">Mystery</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Paysages')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Paysages/fullcover_couverture_de_livres_paysages_009.png" alt="Paysages" loading="lazy">
+          
+          <div class="category-overlay">
+            <div class="category-icon">🏞️</div>
+            <div class="category-name">Paysages</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/RELIGIONS')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" alt="RELIGIONS" loading="lazy">
+          <span class="category-badge badge-premium">PREMIUM</span>
+          <div class="category-overlay">
+            <div class="category-icon">✝️</div>
+            <div class="category-name">RELIGIONS</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Romance')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg" alt="Romance" loading="lazy">
+          <span class="category-badge badge-best">BEST SELLER</span>
+          <div class="category-overlay">
+            <div class="category-icon">💖</div>
+            <div class="category-name">Romance</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Sci-fi')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg" alt="Sci-fi" loading="lazy">
+          <span class="category-badge badge-popular">POPULAR</span>
+          <div class="category-overlay">
+            <div class="category-icon">🚀</div>
+            <div class="category-name">Sci-fi</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Thriller')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" alt="Thriller" loading="lazy">
+          <span class="category-badge badge-new">NEW</span>
+          <div class="category-overlay">
+            <div class="category-icon">🔪</div>
+            <div class="category-name">Thriller</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Vintage')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Buildings%20%26%20City/fullcover_vintage_1930s_buildings_city_006.jpg" alt="Vintage" loading="lazy">
+          <span class="category-badge badge-popular">POPULAR</span>
+          <div class="category-overlay">
+            <div class="category-icon">📷</div>
+            <div class="category-name">Vintage</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
+        <div class="category-card d_hidden" onclick="loadCategoryImages('FULL COVER/Voyages')" ontouchstart="">
+          <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" alt="Voyages" loading="lazy">
+          <span class="category-badge badge-new">NEW</span>
+          <div class="category-overlay">
+            <div class="category-icon">🌍</div>
+            <div class="category-name">Voyages</div>
+            <div class="category-count">Explore templates →</div>
+          </div>
+        </div>
         `;
-      }).join('');
-
-      grid.innerHTML = cardsHtml;
-    }
-
-    async function loadFullcoverNavJson() {
-      // Cache-busting simple
-      const url = `/data/fullcover-nav.json?v=${Date.now()}`;
-      const res = await fetch(url, { cache: "no-store" });
-      if (!res.ok) {
-        throw new Error(`Cannot load ${url} (HTTP ${res.status})`);
-      }
-      const data = await res.json();
-      return data;
-    }
-
-    document.addEventListener('DOMContentLoaded', async function () {
-      try {
-        __FULLCOVER_NAV = await loadFullcoverNavJson();
-        __FULLCOVER_CATEGORIES = Array.isArray(__FULLCOVER_NAV.categories) ? __FULLCOVER_NAV.categories.slice() : [];
-
-        // Nettoyage: on évite les doublons "romance-intense... (1)" etc. (optionnel)
-        // Ici on garde tout, mais tu peux activer le dédoublonnage si besoin.
-        renderFullcoverCategories(__FULLCOVER_CATEGORIES);
-      } catch (err) {
-        console.error(err);
-        const grid = document.getElementById('fullcover-categories');
-        if (grid) {
-          grid.innerHTML = `
-            <div class="col-span-full bg-white/10 border border-white/10 rounded-xl p-4 text-white">
-              <div class="font-bold">FULL COVER NAV not loaded</div>
-              <div class="text-sm text-slate-200 mt-1">
-                Ensure <code>/data/fullcover-nav.json</code> exists on the deployed site.
-              </div>
-            </div>
-          `;
-        }
       }
     });
   </script>
-
+<div id="bookcovers-section">
   <!-- Book Covers Section -->
   <section class="py-12 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -996,6 +715,7 @@
 
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 card_section"
         id="SecondCoverSection">
+
 
         <!-- ROMANCE -->
         <div class="category-card" onclick="location.href='/category-romance.html'">
@@ -1186,13 +906,14 @@
           id="SMBtnTwo">See more</button>
       </div>
 
-      <!-- Templates Grid (inchangé) -->
+      <!-- Templates Grid -->
       <div class="mt-16">
         <h3 class="text-2xl font-bold text-gray-900 mb-8 text-center">
           ✨ <span data-fr="Templates Populaires" data-en="Popular Templates">Popular Templates</span>
         </h3>
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          <!-- ... inchangé ... -->
+
+          <!-- Romance Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-romance.html'">
@@ -1208,6 +929,7 @@
             </div>
           </div>
 
+          <!-- Thriller Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-thriller.html'">
@@ -1223,6 +945,7 @@
             </div>
           </div>
 
+          <!-- Fantasy Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-fantasy.html'">
@@ -1238,6 +961,7 @@
             </div>
           </div>
 
+          <!-- Mystery Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-mystery.html'">
@@ -1253,6 +977,7 @@
             </div>
           </div>
 
+          <!-- Sci-Fi Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-scifi.html'">
@@ -1268,6 +993,7 @@
             </div>
           </div>
 
+          <!-- Historical Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-historical.html'">
@@ -1283,6 +1009,7 @@
             </div>
           </div>
 
+          <!-- Boheme Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-boheme.html'">
@@ -1296,6 +1023,7 @@
             </div>
           </div>
 
+          <!-- Business Template -->
           <div
             class="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 cursor-pointer"
             onclick="location.href='/category-business.html'">
@@ -1313,6 +1041,7 @@
 
         </div>
 
+        <!-- View All Button -->
         <div class="text-center mt-8">
           <button
             class="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-8 py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300">
@@ -1323,8 +1052,9 @@
 
     </div>
   </section>
+</div>
 
-  <!-- Book Interiors Section (inchangé) -->
+  <!-- Book Interiors Section -->
   <section class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="text-center mb-10">
@@ -1336,6 +1066,10 @@
       </div>
 
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 max-w-4xl mx-auto">
+
+
+
+        <!-- Planners -->
         <div class="category-card" onclick="location.href='/category-planners.html'">
           <img src="https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png" alt="Planners"
             loading="lazy">
@@ -1347,6 +1081,7 @@
           <span class="category-badge badge-best">BEST SELLER</span>
         </div>
 
+        <!-- Coloriages -->
         <div class="category-card" onclick="location.href='/category-coloriages.html'">
           <img src="https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" alt="Coloring Books"
             loading="lazy">
@@ -1356,7 +1091,9 @@
             <span class="category-count">188 templates • 37 free</span>
           </div>
         </div>
+
       </div>
+
     </div>
   </section>
 
@@ -1476,29 +1213,58 @@
       document.getElementById('mobileMenu').classList.toggle('active');
     }
 
+    // Initialize language on load
     document.addEventListener('DOMContentLoaded', () => {
       switchLanguage(currentLanguage);
     });
   </script>
 
+  <!-- custom js code -->
+
+  <!-- <script>
+document.querySelectorAll(".card_section").forEach(section => {
+    const btn = section.querySelector(".see_more_btn");
+    const hiddenCards = section.querySelectorAll(".category-card.d_hidden");
+
+    btn.addEventListener("click", () => {
+        hiddenCards.forEach(card => card.classList.remove("d_hidden"));
+        btn.style.display = "none"; // hide button after expand
+    });
+});
+</script> -->
   <script>
     const cardSectionOne = document.getElementById("fullcover-categories");
     const cardSectionTwo = document.getElementById("SecondCoverSection");
     const SMBtnOne = document.getElementById("SMBtnOne");
     const SMBtnTwo = document.getElementById("SMBtnTwo");
+    SMBtnOne.addEventListener("click", () => {
+      cardSectionOne.classList.toggle('show');
+      if (cardSectionOne.classList.contains('show')) {
+        SMBtnOne.textContent = 'Show Less';
+      } else {
+        SMBtnOne.textContent = 'Show More';
+      }
+    });
 
-    if (SMBtnOne && cardSectionOne) {
-      SMBtnOne.addEventListener("click", () => {
-        cardSectionOne.classList.toggle('show');
-        SMBtnOne.textContent = cardSectionOne.classList.contains('show') ? 'Show Less' : 'Show More';
-      });
-    }
+    SMBtnTwo.addEventListener("click", () => {
+      cardSectionTwo.classList.toggle('show');
+      if (cardSectionTwo.classList.contains('show')) {
+        SMBtnTwo.textContent = 'Show Less';
+      } else {
+        SMBtnTwo.textContent = 'Show More';
+      }
+    });    
+  </script>
 
-    if (SMBtnTwo && cardSectionTwo) {
-      SMBtnTwo.addEventListener("click", () => {
-        cardSectionTwo.classList.toggle('show');
-        SMBtnTwo.textContent = cardSectionTwo.classList.contains('show') ? 'Show Less' : 'Show More';
-      });
+
+
+  <script>
+    // FULL COVER: open category page with absolute path to avoid mobile routing issues
+    function loadCategoryImages(folder) {
+      // If you have a dedicated page, change this to: `/fullcover.html?folder=...`
+      // For now, redirect to generator with a query param (safe).
+      const url = `/generator.html?fullcoverFolder=${encodeURIComponent(folder)}`;
+      window.location.href = url;
     }
   </script>
 

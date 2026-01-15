@@ -297,31 +297,14 @@
 
 <body class="bg-gray-50">
   <!-- Navigation Header -->
-  <header class="header-nav">
-    <div class="nav-container">
-      <a href="./index.html" class="logo-nav">
-        <img src="LOGO GABARIT KDP POUR SITE WEB.png" alt="GabaritKDP Logo">
-        <span>GabaritKDP</span>
-      </a>
-
-      <!-- Language Selector -->
-      <div class="language-selector">
-        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
-      </div>
-
-      <!-- Navigation Desktop -->
-      <nav class="nav-links">
-        <a href="./index.html">🏠 Home</a>
-        <a href="./generator.html" class="express-nav-btn">Express Generator</a>
-        <a href="./generator-magic.html">Magic Generator</a>
-        <a href="./marketplace.html"  rel="noopener">Marketplace</a>
-        <a href="./pricing.html" class="active">💰 Pricing</a>
-        <a href="./inscription.html">📝 Sign Up</a>
-        <a href="./connexion.html">🔓 Login</a>
-      </nav>
-    </div>
-  </header>
+  <div id="header-placeholder"></div>
+<script>
+  fetch('./header.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+    });
+</script>
 
   <!-- Hero Section -->
   <section class="py-20" style="background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">

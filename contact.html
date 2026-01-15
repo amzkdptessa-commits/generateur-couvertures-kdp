@@ -651,40 +651,16 @@
     </style>
 </head>
 <body class="bg-white">
-<header class="header-nav">
-<div class="nav-container">
-<a class="logo-nav" href="./index.html">
-<img alt="GabaritKDP Logo" src="logo-gabarit-kdp-site-web.png"/>
-<span>GabaritKDP</span>
-</a>
-<button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-<div class="language-selector">
-<button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-<button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
-</div>
-<nav class="nav-links">
-<a data-en="🏠 Home" data-fr="🏠 Accueil" href="./index.html">🏠 Home</a>
-<a class="express-nav-btn" data-en="Express Generator" data-fr="Générateur Express" href="./generator.html">Express Generator</a>
-<a data-en="Magic Generator" data-fr="Générateur Magique" href="./generator-magic.html">Magic
-                    Generator</a>
-<a data-en="💰 Pricing" data-fr="💰 Tarifs" href="./marketplace.html#tarifs">💰 Pricing</a>
-<a data-en="📝 Sign Up" data-fr="📝 Inscription" href="./inscription.html">📝 Sign Up</a>
-<a data-en="🔓 Login" data-fr="🔓 Connexion" href="./connexion.html">🔓 Login</a>
-</nav>
-</div>
-</header>
-<div class="mobile-menu" id="mobileMenu">
-<button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
-<div class="mobile-menu-links">
-<a data-en="🏠 Home" data-fr="🏠 Accueil" href="./index.html">🏠 Home</a>
-<a data-en="⚡ Express Generator" data-fr="⚡ Générateur Express" href="./generator.html" style="background: linear-gradient(135deg, #10b981, #059669);">⚡ Express Generator</a>
-<a data-en="Magic Generator" data-fr="Générateur Magique" href="./generator-magic.html">Magic Generator</a>
-<a data-en="Marketplace" data-fr="Marché" href="./marketplace.html" rel="noopener" target="_blank">Marketplace</a>
-<a data-en="💰 Pricing" data-fr="💰 Tarifs" href="#tarifs" style="background: rgba(251, 191, 36, 0.2);">💰
-                Pricing</a>
-<a data-en="📝 Sign Up" data-fr="📝 Inscription" href="./inscription.html" style="background: rgba(34, 197, 94, 0.2);">📝 Sign Up</a>
-<a data-en="🔓 Login" data-fr="🔓 Connexion" href="./connexion.html">🔓 Login</a>
-</div>
+<!-- Navigation Header -->
+<div id="header-placeholder"></div>
+<script>
+  fetch('./header.html')
+    .then(r => r.text())
+    .then(html => {
+      document.getElementById('header-placeholder').innerHTML = html;
+    });
+</script>
+
 </div>
 <!-- Hero Section -->
 <section class="contact-hero py-16">
