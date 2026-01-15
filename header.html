@@ -1,20 +1,70 @@
-<!-- ====================================================================== -->
-<!-- COMPOSANT HEADER RÉUTILISABLE (à sauvegarder dans header.html)         -->
-<!-- ====================================================================== -->
-<header class="header-nav">
-    <div class="nav-container">
-        <a href="./index.html" class="logo-nav">
-            <img src="logo gabarit kdp pour site web.jpg" alt="GabaritKDP Logo">
-            <span>GabaritKDP</span>
-        </a>
-        <nav class="nav-links">
-            <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-            <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
-            <a href="./generator-magic.html" class="magic-nav-btn" data-fr="🪄 Studio IA" data-en="🪄 AI Studio">🪄 AI Studio</a>
-            <a href="./api-pro.html" data-fr="<strong><i class='fas fa-code'></i> API & Pro</strong>" data-en="<strong><i class='fas fa-code'></i> API & Pro</strong>"><strong><i class="fas fa-code"></i> API & Pro</strong></a>
-            <a href="./index.html#tarifs" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
-            <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-            <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-        </nav>
+<header class="header-nav notranslate">
+  <div class="nav-container">
+
+    <!-- Logo -->
+    <a href="./index.html" class="logo-nav">
+      <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+      <span>GabaritKDP</span>
+    </a>
+
+    <!-- Menu Hamburger - Mobile -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+      <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">US</button>
     </div>
+
+    <!-- Navigation Desktop -->
+    <nav class="nav-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+
+      <a href="./dashboard.html"
+         data-fr="📊 Tableau de bord"
+         data-en="📊 Dashboard">📊 Dashboard</a>
+
+      <a href="./generator.html"
+   class="express-nav-btn"
+   data-fr="⚡ Générateur Express"
+   data-en="⚡ Express Generator">
+   Express Generator
+</a>
+
+      <a href="./generator-magic.html"
+         data-fr="🪄 Générateur Magique"
+         data-en="🪄 Magic Generator">🪄 Magic Generator</a>
+
+      <a href="./marketplace.html"
+         data-fr="📚 Templates"
+         data-en="📚 Templates">📚 Templates</a>
+
+      <a href="./inscription.html"
+         data-fr="📝 Inscription"
+         data-en="📝 Sign Up">📝 Sign Up</a>
+
+      <a href="./connexion.html"
+         data-fr="🔐 Connexion"
+         data-en="🔐 Login">🔐 Login</a>
+    </nav>
+  </div>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="mobile-menu-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./dashboard.html" data-fr="📊 Tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+      <a href="./generator.html" data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+      <a href="./generator-magic.html" data-fr="🪄 Générateur Magique" data-en="🪄 Magic Generator">🪄 Magic Generator</a>
+      <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
+      <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
+    </div>
+  </div>
 </header>
