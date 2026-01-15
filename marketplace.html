@@ -144,6 +144,10 @@
     .badge-premium { background:linear-gradient(135deg,#dc2626,#b91c1c); }
     .badge-popular { background:#f59e0b; }
     .badge-best { background:#8b5cf6; }
+.category-overlay button,
+.category-overlay a {
+  pointer-events: auto;
+}
 
     /* FOOTER */
 footer {
@@ -500,9 +504,25 @@ function renderUnsplashGrid(photos) {
       </div>
     `;
 
-    card.querySelector("button").onclick = () => {
-      triggerUnsplashDownload(photo.links.download_location);
-    };
+    const btn = card.querySelector("button");
+
+btn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // 1) Download trigger (Unsplash)
+  await triggerUnsplashDownload(photo.links.download_location);
+
+  // 2) Stocker l'image + attribution pour le générateur
+  localStorage.setItem("gkdp_unsplash_image", photo.urls.full);
+  localStorage.setItem("gkdp_unsplash_photographer", photo.user.name);
+  localStorage.setItem("gkdp_unsplash_photographer_url", photo.user.links.html);
+  localStorage.setItem("gkdp_unsplash_photo_url", photo.links.html);
+
+  // 3) Aller au Générateur Express (dans ton header c'est ./generator.html)
+  window.location.href = "./generator.html";
+});
+
 
     grid.appendChild(card);
   });
