@@ -35,8 +35,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- 🎬 THREE.JS pour Mockup 3D -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
     <!-- 🛒 MARKETPLACE EARLY CAPTURE - DOIT ÊTRE AVANT TOUT AUTRE SCRIPT -->
     <script>
     (function captureTemplateParamEarly() {
@@ -56,7 +54,22 @@
         }
     })();
     </script>
-    
+    <script>
+  // ✅ Lazy-load Three.js : chargé uniquement quand nécessaire
+  window.ensureThree = function () {
+    return new Promise((resolve, reject) => {
+      if (window.THREE) return resolve(window.THREE);
+
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.async = true;
+      s.onload = () => resolve(window.THREE);
+      s.onerror = () => reject(new Error('Failed to load Three.js'));
+      document.head.appendChild(s);
+    });
+  };
+</script>
+
     <script>
     (function() {
       'use strict';
@@ -7423,12 +7436,26 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         >
                                             2D
                                         </button>
-                                        <button 
-                                            className={viewMode === '3d' ? 'active' : ''}
-                                            onClick={() => setViewMode('3d')}
-                                        >
-                                            3D
-                                        </button>
+ <button
+  className={viewMode === '3d' ? 'active' : ''}
+  onClick={async () => {
+    try {
+      if (window.ensureThree) {
+        await window.ensureThree();
+      }
+      setViewMode('3d');
+    } catch (e) {
+      console.error('Three.js load failed:', e);
+      alert("Le mode 3D n'a pas pu se charger. Vérifie ta connexion puis réessaie.");
+    }
+  }}
+>
+  3D
+</button>
+
+
+
+
                                     </div>
 
                                     <button
