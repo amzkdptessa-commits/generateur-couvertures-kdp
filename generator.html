@@ -2572,15 +2572,14 @@ img {
                 legendTrim: "Bord de coupe (Trim)",
                 legendSafeZone: "Marge de sécurité (Texte)",
                 howToTitle: "Guide Rapide",
-                howToStep1: "1. Paramétrez votre livre (format, pages, etc.)",
-                howToStep2: "2. Importez vos images pour la couverture.",
-                howToStep2Tip: "💡 Bientôt : import direct depuis Canva ! En manque d'inspiration ? Essayez notre",
-                howToStep2Link: "Générateur Magique",
+howToStep1: "1. Paramétrez votre livre (type de reliure, format, pages, fond perdu, encre, finition, textes et polices de la tranche, du titre, de l’auteur et de la quatrième de couverture. Options supplémentaires : choix de la zone de travail, couleurs, textures…).",
+howToStep2: "2. Importez vos images depuis votre ordinateur.",
+                howToStep2Tip: "💡 Bientôt : import direct depuis Canva ! En manque d'inspiration ? Parcourez nos magnifiques",
+howToStep2Link: "templates prêts à l'emploi",
                 howToStep3: "3. Vérifiez que votre texte est bien à l'intérieur des pointillés BLEUS (zone de sécurité).",
                 howToStep3Tip: "ℹ️ Les pointillés BLEUS = zone de sécurité pour le texte. Les pointillés ROUGES = ligne de coupe (vos images peuvent aller jusque-là, mais pas le texte !). C'est requis par Amazon KDP.",
                 howToStep4: "4. Exportez votre fichier PDF, prêt pour Amazon KDP, et réalisez votre rêve ! 🚀",
-                betaBannerActive: "places Beta restantes ! Devenez Founding Tester - Accès illimité jusqu'à Noël 2025",
-                betaBannerFull: "Programme Beta COMPLET - Inscription gratuite toujours disponible (3 exports/mois)",
+                
             },
             en: {
                 title: "KDP Cover Generator",
@@ -2719,10 +2718,10 @@ img {
                 legendTrim: "Trim Line",
                 legendSafeZone: "Safe Zone (Text)",
                 howToTitle: "Quick Guide",
-                howToStep1: "1. Set up your book (format, pages, etc.)",
-                howToStep2: "2. Upload your images for the cover.",
-                howToStep2Tip: "💡 Coming soon: direct import from Canva! Need inspiration? Try our",
-                howToStep2Link: "Magic Generator",
+howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finish, spine text and fonts, title, author name and back cover. Additional options: workspace area, colors, textures…).",
+howToStep2: "2. Upload your images from your computer.",
+                howToStep2Tip: "💡 Coming soon: direct import from Canva! Need inspiration? Browse our beautiful",
+howToStep2Link: "ready-to-use templates",
                 howToStep3: "3. Check that your text is well within the BLUE dotted lines (safe zone).",
                 howToStep3Tip: "ℹ️ BLUE dotted lines = text safe zone. RED dotted lines = trim line (your images can go there, but not text!). Required by Amazon KDP.",
                 howToStep4: "4. Export your PDF file, ready for Amazon KDP, and make your dream come true! 🚀",
@@ -6476,14 +6475,15 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         <p className="font-medium text-gray-800 mb-1">{t('howToStep2')}</p>
                                         <p className="text-xs text-blue-600 mt-1">
                                             {t('howToStep2Tip')} {' '}
-                                            <a 
-                                                href="https://gabaritkdp.com/generator-magic.html" 
-                                                target="_blank" 
-                                                rel="noopener noreferrer"
-                                                className="underline font-semibold hover:text-blue-800"
-                                            >
-                                                {t('howToStep2Link')}
-                                            </a>
+                                            <a
+  href="https://gabaritkdp.com/marketplace.html"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="underline font-semibold hover:text-blue-800"
+>
+  {t('howToStep2Link')}
+</a>
+
                                         </p>
                                     </div>
                                     
