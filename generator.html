@@ -7773,14 +7773,29 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                                         if (el && !el.dataset.init && window.initBook3D) {
                                                             el.dataset.init = 'true';
                                                             setTimeout(() => {
+                                                                // ✅ Fallback: si aucune image importée, on snapshot le canvas 2D (couverture complète)
+                                                                const snapshot = (() => {
+                                                                    try {
+                                                                        return canvasRef.current ? canvasRef.current.toDataURL('image/png') : null;
+                                                                    } catch (e) {
+                                                                        console.warn('3D snapshot failed (tainted canvas?)', e);
+                                                                        return null;
+                                                                    }
+                                                                })();
+
+                                                                const isUsingSnapshot = !frontImage?.url && !!snapshot;
+                                                                const isFullCoverFinal = (frontImage?.isFullCover === true) || isUsingSnapshot;
+                                                                const coverUrlFinal = frontImage?.url || snapshot || null;
+                                                                const backUrlFinal = isFullCoverFinal ? null : (backImage?.url || null);
+
                                                                 window.initBook3D(el, {
-                                                                    coverUrl: frontImage?.url || null,
-                                                                    backUrl: backImage?.url || null,
+                                                                    coverUrl: coverUrlFinal,
+                                                                    backUrl: backUrlFinal,
                                                                     spineColor: spineColor || '#222222',
                                                                     bookWidth: dimensions.format.width,
                                                                     bookHeight: dimensions.format.height,
                                                                     spineWidth: dimensions.spine,
-                                                                    isFullCover: frontImage?.isFullCover || false
+                                                                    isFullCover: isFullCoverFinal
                                                                 });
                                                             }, 50);
                                                         }
