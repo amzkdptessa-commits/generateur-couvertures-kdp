@@ -62,6 +62,10 @@
   }
 
   .language-selector {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    z-index: 1002;
     background: #fff;
     border-radius: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
@@ -562,6 +566,12 @@
     .then(html => document.getElementById('header-placeholder').innerHTML = html);
 </script>
 
+  <!-- Language Switch (FR/EN) -->
+  <div class="language-selector" id="languageSelector" aria-label="Language switch">
+    <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+    <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
+  </div>
+
 
   <!-- Menu Mobile -->
   <div class="mobile-menu" id="mobileMenu">
@@ -1038,91 +1048,107 @@
           perfect for authors who publish occasionally</p>
       </div>
 
-      <div class="grid xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 max-w-6xl mx-auto">
-        <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200">
-          <div class="text-center mb-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Plan Gratuit" data-en="Free Plan">Free Plan</h3>
-            <p class="text-sm text-gray-600 mb-4" data-fr="Pour découvrir" data-en="To discover">To discover</p>
-            <div class="mb-6"><span class="text-3xl font-bold text-gray-900">$0</span><span class="text-gray-600"
-                data-fr="/mois" data-en="/month">/month</span></div>
-          </div>
-          <div class="space-y-2 mb-8">
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="<strong>3 exports</strong> par mois"
-                data-en="<strong>3 exports</strong> per month"><strong>3 exports</strong> per month</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="5 formats populaires" data-en="5 popular formats">5 popular
-                formats</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="300 DPI prêt à imprimer" data-en="300 DPI print-ready">300 DPI
-                print-ready</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="Intégration Canva" data-en="Canva integration">Canva
-                integration</span></div>
-          </div>
-          <button onclick="startFree()"
-            class="w-full bg-gray-100 text-gray-700 py-3 px-4 rounded-lg font-medium hover:bg-gray-200 transition"
-            data-fr="Commencer gratuitement" data-en="Start free">Start free</button>
-        </div>
+      <div class="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-8 max-w-6xl mx-auto">
 
-        <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-blue-200 relative">
-          <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
-            <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-medium" data-fr="Le plus populaire"
-              data-en="Most popular">Most popular</span>
-          </div>
+        <!-- FREE -->
+        <div class="pricing-card bg-white rounded-2xl shadow-lg p-8 border border-gray-200 relative overflow-hidden">
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-gray-200 to-gray-100"></div>
+
           <div class="text-center mb-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Paiement par export" data-en="Pay per export">Pay
-              per export</h3>
-            <p class="text-sm text-gray-600 mb-4" data-fr="Parfait pour une utilisation occasionnelle"
-              data-en="Perfect for occasional use">Perfect for occasional use</p>
-            <div class="mb-6"><span class="text-3xl font-bold text-blue-600">$2.50</span><span class="text-gray-600"
-                data-fr="/export" data-en="/export">/export</span></div>
-          </div>
-          <div class="space-y-2 mb-8">
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="Les 17 formats" data-en="All 17 formats">All 17 formats</span>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 text-gray-700 text-xs font-semibold mb-3">
+              <span>🟢</span>
+              <span data-fr="Découverte" data-en="Discovery">Discovery</span>
             </div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="300 DPI prêt à imprimer" data-en="300 DPI print-ready">300 DPI
-                print-ready</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="Licence commerciale" data-en="Commercial license">Commercial
-                license</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="Support prioritaire" data-en="Priority support">Priority
-                support</span></div>
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-1" data-fr="Plan Gratuit" data-en="Free Plan">Free Plan</h3>
+            <p class="text-sm text-gray-600" data-fr="Les curieux, débutants, auteurs en herbe" data-en="Curious users, beginners, aspiring authors">Curious users, beginners, aspiring authors</p>
+            <div class="mt-5">
+              <span class="text-5xl font-extrabold text-gray-900">$0</span>
+              <span class="text-gray-600 font-semibold" data-fr="/mois" data-en="/month">/month</span>
+            </div>
           </div>
-          <button onclick="buyOneExport()"
-            class="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-blue-700 transition"
-            data-fr="Acheter un export" data-en="Buy one export">Buy one export</button>
+
+          <div class="border-t border-gray-100 pt-6">
+            <div class="text-xs font-bold tracking-wide text-gray-500 uppercase mb-4" data-fr="Ce que ça comprend" data-en="What's included">What's included</div>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="3 exports gratuits (offre découverte)" data-en="3 free exports (discovery offer)">3 free exports (discovery offer)</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Qualité haute résolution" data-en="High-resolution quality">High-resolution quality</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès à toutes les fonctionnalités du générateur express" data-en="Access to all Express Generator features">Access to all Express Generator features</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès à l’import Canva" data-en="Coming soon: Canva import access">Coming soon: Canva import access</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
+            </ul>
+
+            <button onclick="startFree()" class="w-full mt-8 bg-gray-900 text-white py-3.5 px-4 rounded-xl font-semibold hover:bg-black transition" data-fr="Commencer gratuitement" data-en="Start free">Start free</button>
+            <p class="text-xs text-gray-500 mt-3 text-center" data-fr="Sans carte bancaire" data-en="No credit card required">No credit card required</p>
+          </div>
         </div>
 
-        <div class="pricing-card bg-white rounded-2xl shadow-lg p-6 border-2 border-purple-200">
-          <div class="text-center mb-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2" data-fr="Pro Illimité" data-en="Pro Unlimited">Pro
-              Unlimited</h3>
-            <p class="text-sm text-gray-600 mb-4" data-fr="Éditeurs & Agences" data-en="Publishers & Agencies">
-              Publishers & Agencies</p>
-            <div class="mb-6"><span class="text-3xl font-bold text-purple-600">$19.99</span><span class="text-gray-600"
-                data-fr="/mois" data-en="/month">/month</span></div>
+        <!-- PAY PER EXPORT -->
+        <div class="pricing-card bg-white rounded-2xl shadow-xl p-8 border-2 border-blue-200 relative overflow-hidden">
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow" data-fr="Le plus populaire" data-en="Most popular">Most popular</span>
           </div>
-          <div class="space-y-2 mb-8">
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="Exports illimités" data-en="Unlimited exports">Unlimited
-                exports</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="API basique" data-en="Basic API">Basic API</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="Traitement par lots" data-en="Batch processing">Batch
-                processing</span></div>
-            <div class="flex items-center"><span class="text-green-500 text-sm mr-2">✓</span><span
-                class="text-sm text-gray-700" data-fr="Modèles premium" data-en="Premium templates">Premium
-                templates</span></div>
+
+          <div class="text-center mb-6 mt-2">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-3">
+              <span>⚡</span>
+              <span data-fr="Flex" data-en="Flexible">Flexible</span>
+            </div>
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-1" data-fr="Paiement par export" data-en="Pay per export">Pay per export</h3>
+            <p class="text-sm text-gray-600" data-fr="Auteurs modérés" data-en="Moderate-output authors">Moderate-output authors</p>
+            <div class="mt-5">
+              <span class="text-5xl font-extrabold text-blue-600">$2.50</span>
+              <span class="text-gray-600 font-semibold" data-fr="/export" data-en="/export">/export</span>
+            </div>
           </div>
-          <button onclick="subscribePro()"
-            class="w-full bg-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:bg-purple-700 transition"
-            data-fr="Commencer Pro" data-en="Start Pro">Start Pro</button>
+
+          <div class="border-t border-blue-50 pt-6">
+            <div class="text-xs font-bold tracking-wide text-gray-500 uppercase mb-4" data-fr="Ce que ça comprend" data-en="What's included">What's included</div>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Qualité haute résolution" data-en="High-resolution quality">High-resolution quality</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès à toutes les fonctionnalités du générateur express" data-en="Access to all Express Generator features">Access to all Express Generator features</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès à l’import Canva" data-en="Coming soon: Canva import access">Coming soon: Canva import access</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès aux templates premium prêts à l’emploi + bibliothèque Unsplash" data-en="Access to ready-to-use premium templates + Unsplash library">Access to ready-to-use premium templates + Unsplash library</span></li>
+            </ul>
+
+            <button onclick="buyOneExport()" class="w-full mt-8 bg-blue-600 text-white py-3.5 px-4 rounded-xl font-semibold hover:bg-blue-700 transition" data-fr="Acheter un export" data-en="Buy one export">Buy one export</button>
+            <p class="text-xs text-gray-500 mt-3 text-center" data-fr="Idéal pour tester puis scaler" data-en="Great to test, then scale">Great to test, then scale</p>
+          </div>
         </div>
+
+        <!-- PRO -->
+        <div class="pricing-card bg-white rounded-2xl shadow-lg p-8 border border-purple-200 relative overflow-hidden">
+          <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-600 to-fuchsia-500"></div>
+
+          <div class="text-center mb-6">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold mb-3">
+              <span>👑</span>
+              <span data-fr="Illimité" data-en="Unlimited">Unlimited</span>
+            </div>
+            <h3 class="text-2xl font-extrabold text-gray-900 mb-1" data-fr="Pro Illimité" data-en="Pro Unlimited">Pro Unlimited</h3>
+            <p class="text-sm text-gray-600" data-fr="Aspirant KDP EMPIRE, auteurs prolifiques, agences et maisons d’éditions" data-en="Aspiring KDP empire builders, prolific authors, agencies and publishers">Aspiring KDP empire builders, prolific authors, agencies and publishers</p>
+            <div class="mt-5">
+              <span class="text-5xl font-extrabold text-purple-600">$19.99</span>
+              <span class="text-gray-600 font-semibold" data-fr="/mois" data-en="/month">/month</span>
+            </div>
+          </div>
+
+          <div class="border-t border-purple-50 pt-6">
+            <div class="text-xs font-bold tracking-wide text-gray-500 uppercase mb-4" data-fr="Ce que ça comprend" data-en="What's included">What's included</div>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Qualité haute résolution" data-en="High-resolution quality">High-resolution quality</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès illimité à toutes les fonctionnalités du générateur express" data-en="Unlimited access to all Express Generator features">Unlimited access to all Express Generator features</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès illimité à l’import Canva" data-en="Coming soon: unlimited Canva import access">Coming soon: unlimited Canva import access</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès illimité aux templates premium prêts à l’emploi + bibliothèque Unsplash" data-en="Unlimited access to ready-to-use premium templates + Unsplash library">Unlimited access to ready-to-use premium templates + Unsplash library</span></li>
+            </ul>
+
+            <button onclick="subscribePro()" class="w-full mt-8 bg-purple-600 text-white py-3.5 px-4 rounded-xl font-semibold hover:bg-purple-700 transition" data-fr="Commencer Pro" data-en="Start Pro">Start Pro</button>
+            <p class="text-xs text-gray-500 mt-3 text-center" data-fr="Pensé pour les équipes" data-en="Built for teams">Built for teams</p>
+          </div>
+        </div>
+
       </div>
 
       <div class="text-center mt-16">
