@@ -28,3 +28,26 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     return true;
   }
 });
+// Écoute les demandes venant du Dashboard (via content.js)
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'START_SYNC_FROM_DASHBOARD') {
+    // 1. Envoyer un signal "en cours" au dashboard
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      chrome.tabs.sendMessage(tabs[0].id, {
+        type: "SYNC_STATUS_UPDATE",
+        payload: { status: "running", message: "Synchronisation en cours..." }
+      });
+    });
+
+    // 2. Ici tu peux appeler ta fonction de scraping existante
+    // Une fois fini, tu envoies le succès :
+    setTimeout(() => {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, {
+            type: "SYNC_STATUS_UPDATE",
+            payload: { status: "success", message: "Données KDP mises à jour !" }
+          });
+        });
+    }, 2000);
+  }
+});
