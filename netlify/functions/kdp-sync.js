@@ -8,39 +8,73 @@ const headers = {
 };
 
 exports.handler = async (event) => {
-  // 1) Preflight CORS
+  // =========================
+  // CORS preflight
+  // =========================
   if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 204, headers, body: "" };
+    return {
+      statusCode: 204,
+      headers,
+      body: ""
+    };
   }
 
-  // 2) Only POST is allowed
+  // =========================
+  // Only POST allowed
+  // =========================
   if (event.httpMethod !== "POST") {
     return {
       statusCode: 405,
       headers,
-      body: JSON.stringify({ ok: false, error: "Method Not Allowed" })
+      body: JSON.stringify({
+        ok: false,
+        error: "Method Not Allowed"
+      })
     };
   }
 
-  // 3) POST handler
+  // =========================
+  // Main logic
+  // =========================
   try {
     const body = JSON.parse(event.body || "{}");
-
-    // Ici, ton extension envoie: { cookies: ... }
     const cookies = body.cookies;
 
-    // Pour l’instant on valide juste que le flux marche
-    // Tu brancheras ensuite ton vrai traitement (Supabase etc.)
+    if (!cookies) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({
+          ok: false,
+          error: "No cookies received"
+        })
+      };
+    }
+
+    // ✅ À CE STADE, LE PIPELINE FONCTIONNE
+    // Tu pourras ensuite ajouter ici :
+    // - parsing cookies
+    // - appel Amazon
+    // - save Supabase / DB
+
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ ok: true, receivedCookies: !!cookies })
+      body: JSON.stringify({
+        ok: true,
+        message: "KDP sync endpoint reached successfully",
+        cookiesReceived: true
+      })
     };
-  } catch (e) {
+
+  } catch (err) {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ ok: false, error: e.message })
+      body: JSON.stringify({
+        ok: false,
+        error: err.message
+      })
     };
   }
 };
