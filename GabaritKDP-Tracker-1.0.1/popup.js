@@ -1,15 +1,24 @@
 const API_URL = 'https://gabaritkdp.com';
 
 document.addEventListener('DOMContentLoaded', () => {
+  console.log('[GKDP] popup.js loaded');
+
   const syncBtn = document.getElementById('sync-btn');
   const status = document.getElementById('status');
 
-  syncBtn.addEventListener('click', async () => {
-    status.textContent = 'Synchronizing…';
+  const setStatus = (msg) => {
+    status.textContent = msg;
+    console.log('[GKDP] STATUS:', msg);
+  };
 
-    chrome.runtime.sendMessage({ type: 'GET_KDP_COOKIES' }, async response => {
+  syncBtn.addEventListener('click', async () => {
+    setStatus('Synchronizing…');
+
+    chrome.runtime.sendMessage({ type: 'GET_KDP_COOKIES' }, async (response) => {
+      console.log('[GKDP] GET_KDP_COOKIES response:', response);
+
       if (!response || !response.success) {
-        status.textContent = 'Failed to read KDP session';
+        setStatus('Failed to read KDP session (cookies)');
         return;
       }
 
@@ -20,11 +29,18 @@ document.addEventListener('DOMContentLoaded', () => {
           body: JSON.stringify({ cookies: response.data })
         });
 
-        if (!res.ok) throw new Error('Sync failed');
+        const text = await res.text().catch(() => '');
+        console.log('[GKDP] /api/kdp-sync status:', res.status, text);
 
-        status.textContent = 'Sync completed successfully';
+        if (!res.ok) {
+          setStatus(`Sync failed (${res.status}) ${text.slice(0, 140)}`);
+          return;
+        }
+
+        setStatus('Sync completed successfully');
       } catch (e) {
-        status.textContent = 'Sync error';
+        console.error('[GKDP] fetch error:', e);
+        setStatus(`Sync error: ${e?.message || 'unknown'}`);
       }
     });
   });
