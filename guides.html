@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-fr="Guides - GabaritKDP" data-en="Guides - GabaritKDP">Guides - GabaritKDP</title>
+  <meta name="description"
+    data-fr="Guides et ressources pour réussir sur Amazon KDP : conformité, couvertures, export, workflow."
+    data-en="Guides and resources to succeed on Amazon KDP: compliance, covers, exports, workflow."
+    content="Guides and resources to succeed on Amazon KDP: compliance, covers, exports, workflow.">
+
+  <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('./header.html').then(r => r.text()).then(html => {
+      const el = document.getElementById('header-placeholder');
+      if (el) el.innerHTML = html;
+    }).catch(() => {});
+  </script>
+
+  <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+      <div>
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900" data-fr="Guides & Ressources" data-en="Guides & Resources">Guides & Resources</h1>
+        <p class="text-gray-600 mt-2" data-fr="Des articles pratiques pour publier vite, proprement, et sans rejet sur Amazon KDP." data-en="Practical articles to publish faster, cleaner, and without rejection on Amazon KDP.">
+          Practical articles to publish faster, cleaner, and without rejection on Amazon KDP.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="btn-fr" class="px-3 py-2 rounded-lg border bg-white text-sm font-semibold">FR</button>
+        <button id="btn-en" class="px-3 py-2 rounded-lg border bg-white text-sm font-semibold">EN</button>
+      </div>
+    </div>
+
+    <div class="mt-8 bg-white border rounded-xl p-4 md:p-5 flex flex-col md:flex-row md:items-center gap-4">
+      <div class="flex-1">
+        <p class="font-semibold text-gray-900" data-fr="Guide de conformité (PDF)" data-en="Compliance guide (PDF)">Compliance guide (PDF)</p>
+        <p class="text-sm text-gray-600" data-fr="La référence officielle pour éviter les rejets et valider dès le premier upload." data-en="The official reference to avoid rejections and validate on the first upload.">
+          The official reference to avoid rejections and validate on the first upload.
+        </p>
+      </div>
+      <a href="./guide-conformite-amazon-kdp-gabaritkdp.pdf" target="_blank" class="px-4 py-2 rounded-lg bg-orange-500 text-white font-semibold hover:bg-orange-600 transition text-center">
+        Télécharger le PDF
+      </a>
+    </div>
+
+    <div class="mt-8 flex flex-col md:flex-row gap-3">
+      <input id="search" type="text" placeholder="Search..." class="flex-1 px-4 py-3 rounded-xl border bg-white" />
+      <select id="status" class="px-4 py-3 rounded-xl border bg-white">
+        <option value="published">Published</option>
+      </select>
+    </div>
+
+    <div id="list" class="mt-8 grid md:grid-cols-2 gap-6"></div>
+
+    <div id="empty" class="hidden mt-12 text-center text-gray-600">
+      <p class="font-semibold">No article found.</p>
+      <p class="text-sm">Try another keyword.</p>
+    </div>
+  </main>
+
+  <script>
+    // ------------------------
+    // CONFIG
+    // ------------------------
+    const SUPABASE_URL = 'PUT_YOUR_SUPABASE_URL_HERE';
+    const SUPABASE_ANON_KEY = 'PUT_YOUR_SUPABASE_ANON_KEY_HERE';
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    function detectUserLanguage() {
+      const userChoice = localStorage.getItem('preferredLanguage');
+      if (userChoice) return userChoice;
+      return 'fr';
+    }
+
+    let currentLanguage = detectUserLanguage();
+
+    function applyLanguage(lang) {
+      currentLanguage = (lang === 'en') ? 'en' : 'fr';
+      localStorage.setItem('preferredLanguage', currentLanguage);
+      document.documentElement.lang = currentLanguage;
+
+      document.querySelectorAll('[data-en][data-fr]').forEach(el => {
+        const val = el.getAttribute('data-' + currentLanguage);
+        if (val) {
+          if (el.tagName === 'META') el.setAttribute('content', val);
+          else el.innerHTML = val;
+        }
+      });
+
+      document.getElementById('btn-fr')?.classList.toggle('ring-2', currentLanguage === 'fr');
+      document.getElementById('btn-en')?.classList.toggle('ring-2', currentLanguage === 'en');
+    }
+
+    function slugToUrl(slug) {
+      return `./article.html?slug=${encodeURIComponent(slug)}`;
+    }
+
+    function escapeHtml(str) {
+      return (str || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#039;'}[m]));
+    }
+
+    async function loadArticles() {
+      const q = (document.getElementById('search')?.value || '').trim();
+
+      let query = supabase
+        .from('articles')
+        .select('slug,title,excerpt,cover_image_url,published_at,language')
+        .eq('status', 'published')
+        .order('published_at', { ascending: false });
+
+      // language filter
+      query = query.eq('language', currentLanguage);
+
+      if (q) {
+        // basic ilike search
+        query = query.or(`title.ilike.%${q}%,excerpt.ilike.%${q}%`);
+      }
+
+      const { data, error } = await query;
+
+      const listEl = document.getElementById('list');
+      const emptyEl = document.getElementById('empty');
+      if (!listEl) return;
+
+      if (error) {
+        listEl.innerHTML = `
+          <div class="md:col-span-2 p-4 bg-red-50 border border-red-200 rounded-xl text-red-800">
+            <p class="font-semibold">Error loading articles</p>
+            <p class="text-sm">${escapeHtml(error.message || '')}</p>
+          </div>
+        `;
+        emptyEl?.classList.add('hidden');
+        return;
+      }
+
+      const items = (data || []).filter(Boolean);
+      if (!items.length) {
+        listEl.innerHTML = '';
+        emptyEl?.classList.remove('hidden');
+        return;
+      }
+      emptyEl?.classList.add('hidden');
+
+      listEl.innerHTML = items.map(a => {
+        const title = escapeHtml(a.title);
+        const excerpt = escapeHtml(a.excerpt || '');
+        const img = a.cover_image_url ? `<img src="${escapeHtml(a.cover_image_url)}" alt="" class="w-full h-40 object-cover rounded-lg mb-4" />` : '';
+        const date = a.published_at ? new Date(a.published_at).toLocaleDateString() : '';
+
+        return `
+          <a href="${slugToUrl(a.slug)}" class="block bg-white border rounded-2xl p-5 hover:shadow-md transition">
+            ${img}
+            <div class="flex items-center justify-between gap-2">
+              <h2 class="text-xl font-bold text-gray-900">${title}</h2>
+              <span class="text-xs text-gray-500">${escapeHtml(date)}</span>
+            </div>
+            <p class="text-gray-600 mt-2">${excerpt}</p>
+            <div class="mt-4 text-orange-600 font-semibold text-sm">Read →</div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    // init
+    document.getElementById('btn-fr')?.addEventListener('click', () => { applyLanguage('fr'); loadArticles(); });
+    document.getElementById('btn-en')?.addEventListener('click', () => { applyLanguage('en'); loadArticles(); });
+    document.getElementById('search')?.addEventListener('input', () => {
+      window.clearTimeout(window.__gkdpSearchTimer);
+      window.__gkdpSearchTimer = window.setTimeout(loadArticles, 200);
+    });
+
+    applyLanguage(currentLanguage);
+    loadArticles();
+  </script>
+</body>
+</html>
