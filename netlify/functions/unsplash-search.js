@@ -3,7 +3,6 @@
  * - Works with either UNSPLASH_ACCESS_KEY (preferred) OR UNSPLASH_ACCESS (legacy)
  * - Provides safe debug info with ?debug=1 (never returns secret)
  */
-const fetch = require("node-fetch");
 
 function corsHeaders() {
   return {
