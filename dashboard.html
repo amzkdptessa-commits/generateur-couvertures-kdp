@@ -748,10 +748,70 @@
         </div>
     </div>
 
-    <!-- Footer Placeholder -->
-    <div id="footer-placeholder">
-        <!-- Footer will be injected here by footer.js -->
-    </div>
+    <!-- Footer (self-contained to avoid dependency on footer.js) -->
+    <footer style="margin-top:40px; padding:40px 20px; background:linear-gradient(135deg,#0b1220 0%,#0f172a 100%); border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1400px; margin:0 auto;">
+        <div class="social-section" style="text-align:center;">
+          <h3 style="margin:0; font-size:1.05rem; color:#fff; font-weight:700;">
+            🚀 <span data-fr="Suivez-nous pour les dernières actualités KDP !" data-en="Follow us for the latest KDP updates!">Suivez-nous pour les dernières actualités KDP !</span>
+          </h3>
+          <div class="social-links" aria-label="Social links">
+            <a class="social-link youtube" href="#" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a class="social-link facebook" href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a class="social-link instagram" href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a class="social-link pinterest" href="#" title="Pinterest" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            <a class="social-link tiktok" href="#" title="TikTok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a class="social-link linkedin" href="#" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+          <div style="margin-top:12px; color:rgba(255,255,255,0.75); font-size:0.95rem;">
+            <span data-fr="Astuces KDP · Tutoriels · Actualités · Communauté d’auteurs" data-en="KDP Tips · Tutorials · News · Author Community">Astuces KDP · Tutoriels · Actualités · Communauté d’auteurs</span>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:28px; margin-top:30px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+              <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" style="height:32px; width:auto;">
+              <div style="font-weight:800; color:#FF9900; font-size:1.1rem;">GabaritKDP</div>
+            </div>
+            <div style="color:rgba(255,255,255,0.7); line-height:1.6; font-size:0.95rem;">
+              <span data-fr="Le générateur de couvertures KDP conforme + votre dashboard de pilotage." data-en="KDP-compliant cover generator + your tracking dashboard.">Le générateur de couvertures KDP conforme + votre dashboard de pilotage.</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Produit</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <a href="./dashboard.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Tableau de bord" data-en="Dashboard">Tableau de bord</a>
+              <a href="./generator.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a>
+              <a href="./generator-magic.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+              <a href="./marketplace.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Support</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <a href="./resources.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Ressources" data-en="Resources">Ressources</a>
+              <a href="./tarifs.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Tarifs" data-en="Pricing">Tarifs</a>
+              <a href="./connexion.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Connexion" data-en="Login">Connexion</a>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Légal</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <a href="./mentions-legales.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Mentions légales" data-en="Legal notice">Mentions légales</a>
+              <a href="./cgu.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Conditions d'utilisation" data-en="Terms of use">Conditions d'utilisation</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:30px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.55); font-size:0.9rem; text-align:center;">
+          © <span id="footerYear"></span> GabaritKDP
+        </div>
+      </div>
+    </footer>
 
     <!-- Supabase Configuration -->
     <script>
@@ -1132,7 +1192,11 @@
 
     let currentLanguage = 'en';
 
-    document.addEventListener('DOMContentLoaded', function () {
+    // Safe fallback: older builds referenced animateStats() but never defined it.
+    // Keeping it as a no-op prevents runtime crashes that block the dashboard.
+    function animateStats() {}
+
+    document.addEventListener('DOMContentLoaded', async function () {
       // Start with English by default, but respect user's saved preference
       const savedLang = localStorage.getItem('preferredLanguage');
       currentLanguage = savedLang || 'en';
@@ -1144,7 +1208,16 @@
 
       applyLanguage(currentLanguage);
       updateLanguageButtons();
-      animateStats();
+
+      // Boot the dashboard (data + extension detection)
+      try {
+        await checkAuth();
+      } catch (e) {
+        console.error('Dashboard init failed:', e);
+        // Fail-safe: at least stop the spinner
+        document.getElementById('loadingState')?.classList.remove('active');
+        document.getElementById('dashboardContent')?.style && (document.getElementById('dashboardContent').style.display = 'block');
+      }
     });
 
     function switchLanguage(lang) {
@@ -1194,9 +1267,10 @@
     }
     </script>
 
-    <!-- Centralized Navigation & Footer Systems -->
-    <script src="navigation.js"></script>
-    <script src="footer.js"></script>
+    <script>
+      // Footer year
+      document.getElementById('footerYear').textContent = new Date().getFullYear();
+    </script>
 
 </body>
 </html>
