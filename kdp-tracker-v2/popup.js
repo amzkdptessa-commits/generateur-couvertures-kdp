@@ -1,4 +1,4 @@
-const API_URL = 'https://gabaritkdp.com'; // Remplace par ton URL de serveur réelle
+const API_URL = 'http://localhost:3000';
 
 document.getElementById('sync-btn').addEventListener('click', async () => {
   const email = document.getElementById('email').value;
