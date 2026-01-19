@@ -1,14 +1,11 @@
-// background.js (v1.0.4)
+// background.js (v1.0.5) - cookies via URL (fix CSRF)
 
 const DEFAULT_API_URL = "http://localhost:3000";
 
 function broadcastToDashboard(payload) {
   chrome.tabs.query({ url: ["https://gabaritkdp.com/*"] }, (tabs) => {
     for (const tab of tabs) {
-      chrome.tabs.sendMessage(tab.id, {
-        type: "SYNC_STATUS_UPDATE",
-        payload
-      });
+      chrome.tabs.sendMessage(tab.id, { type: "SYNC_STATUS_UPDATE", payload });
     }
   });
 }
@@ -23,13 +20,21 @@ function getApiUrl() {
 
 function getKdpReportsCookies() {
   return new Promise((resolve) => {
-    chrome.cookies.getAll({ domain: "kdpreports.amazon.com" }, (cookiesReports) => {
-      const cookies = cookiesReports || [];
+    // IMPORTANT: utiliser url au lieu de domain (plus fiable)
+    chrome.cookies.getAll({ url: "https://kdpreports.amazon.com/" }, (cookies) => {
+      cookies = cookies || [];
 
+      // Log safe: noms seulement
+      console.log("[GKDP] Cookies kdpreports count:", cookies.length);
+      console.log("[GKDP] Cookie names:", cookies.map(c => c.name));
+
+      // Best-effort CSRF: plusieurs noms possibles selon comptes / régions
       const csrfCookie =
-        cookies.find((c) => c.name === "csrf-token") ||
-        cookies.find((c) => c.name === "csrfToken") ||
-        cookies.find((c) => c.name === "csrf");
+        cookies.find(c => c.name === "csrf-token") ||
+        cookies.find(c => c.name === "csrfToken") ||
+        cookies.find(c => c.name === "csrf") ||
+        cookies.find(c => c.name === "x-csrf-token") ||
+        null;
 
       resolve({
         cookies,
@@ -54,8 +59,6 @@ async function syncWithBackend({ email, password, marketplace = "US", year, mont
     csrfToken,
     marketplace
   };
-
-  // Optionnel : synchro d'un mois précis
   if (year) body.year = year;
   if (month) body.month = month;
 
@@ -74,7 +77,6 @@ async function syncWithBackend({ email, password, marketplace = "US", year, mont
 }
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  // 1) Popup : récupérer cookies + csrf
   if (message.type === "GET_KDP_COOKIES") {
     getKdpReportsCookies()
       .then(({ cookies, csrfToken }) => {
@@ -85,15 +87,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         }
       })
       .catch((e) => sendResponse({ success: false, message: e.message }));
-
-    return true; // async
+    return true;
   }
 
-  // 2) Dashboard : déclencher sync depuis gabaritkdp.com
   if (message.type === "START_SYNC_FROM_DASHBOARD") {
     const p = message.payload || {};
-
-    // Payload attendu (au minimum email/password)
     const email = p.email || "";
     const password = p.password || "";
     const marketplace = p.marketplace || "US";
@@ -101,10 +99,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     const month = p.month;
 
     if (!email || !password) {
-      broadcastToDashboard({
-        level: "error",
-        message: "Email/mot de passe manquants (dashboard)."
-      });
+      broadcastToDashboard({ level: "error", message: "Email/mot de passe manquants (dashboard)." });
       sendResponse({ success: false });
       return true;
     }
@@ -121,6 +116,6 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         sendResponse({ success: false, error: err.message });
       });
 
-    return true; // async
+    return true;
   }
 });
