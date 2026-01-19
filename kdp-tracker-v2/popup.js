@@ -12,38 +12,35 @@ document.getElementById('sync-btn').addEventListener('click', async () => {
 
   status.textContent = 'Récupération des cookies...';
 
+  // On demande les cookies au background.js
   chrome.runtime.sendMessage({ type: 'GET_KDP_COOKIES' }, async response => {
-      if (response && response.success) {
-        status.textContent = 'Envoi au serveur...';
-        try {
-          const res = await fetch(`${API_URL}/api/sync-kdp`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-              email, 
-              password, 
-              cookies: response.cookies, // <--- CHANGEMENT ICI
-              marketplace: 'US' 
-            })
-          });
-          const result = await res.json();
-          status.textContent = 'Synchronisation réussie !';
-        } catch (e) {
-          status.textContent = 'Erreur de connexion au serveur';
-        }
-      } else {
-        status.textContent = 'Erreur : Connectez-vous à KDP d\'abord';
-      }
-    });
+    if (response && response.success) {
+      status.textContent = 'Envoi au serveur...';
+      
+      try {
+        const res = await fetch(`${API_URL}/api/sync-kdp`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ 
+            email: email, 
+            password: password, 
+            cookies: response.cookies, 
+            marketplace: 'US' 
           })
         });
+
+        if (!res.ok) throw new Error('Erreur lors de l\'appel API');
+
         const result = await res.json();
-        status.textContent = result.message || 'Synchronisation terminée !';
+        status.textContent = 'Synchronisation réussie !';
+        console.log('Résultat:', result);
+
       } catch (e) {
+        console.error('Erreur:', e);
         status.textContent = 'Erreur de connexion au serveur';
       }
     } else {
-      status.textContent = 'Connectez-vous à KDP d\'abord';
+      status.textContent = response.message || 'Connectez-vous à KDP d\'abord';
     }
   });
 });
