@@ -5,21 +5,21 @@ console.log("GabaritKDP Tracker: Content Script Active");
 window.addEventListener("message", (event) => {
   // Sécurité : on n'écoute que les messages qui viennent de notre propre Dashboard
   if (event.data.source === "gkdp-dashboard") {
-    
+
     // Réponse au PING pour l'affichage du statut "Extension Detected"
     if (event.data.type === "GKDP_EXTENSION_PING") {
       window.postMessage({
         source: "gkdp-extension",
         type: "GKDP_EXTENSION_PONG",
-        payload: { version: "1.0.2" }
+        payload: { version: "1.0.4" }
       }, "*");
     }
 
     // Relais du bouton "REFRESH DATA" du Dashboard vers le background de l'extension
     if (event.data.type === "GKDP_START_SYNC") {
-      chrome.runtime.sendMessage({ 
-        type: "START_SYNC_FROM_DASHBOARD", 
-        payload: event.data.payload 
+      chrome.runtime.sendMessage({
+        type: "START_SYNC_FROM_DASHBOARD",
+        payload: event.data.payload
       });
     }
   }
