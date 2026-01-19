@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - GabaritKDP Tracker</title>
-    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
     
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -34,346 +33,25 @@
             color: var(--text-main); 
             margin: 0; 
         }
-
-  @media(max-width:1000px) {
-    .nav-links {
-      gap: 15px;
-    }
-  }
-
-  .header-nav {
-    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-    padding: 15px 0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
-    position: sticky;
-    top: 0;
-    z-index: 999
-  }
-
-  .nav-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 20px;
-    flex-wrap: wrap;
-    gap: 0
-  }
-
-  .language-selector {
-    background: #fff;
-    border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
-    padding: 3px
-  }
-
-  .lang-btn {
-    padding: 6px 10px;
-    border: none;
-    background: transparent;
-    border-radius: 16px;
-    cursor: pointer;
-    transition: .3s;
-    font-weight: 500;
-    font-size: .8rem;
-    color: #000;
-  }
-
-  .lang-btn.active {
-    background: #FF9900;
-    color: #fff
-  }
-
-  .logo-nav {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    text-decoration: none;
-    color: #fff;
-    flex-shrink: 0
-  }
-
-  .logo-nav img {
-    height: 40px;
-    width: auto
-  }
-
-  .logo-nav span {
-    font-size: 1.3rem;
-    font-weight: 700;
-    color: #FF9900
-  }
-
-  .nav-links {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 25px;
-    flex-wrap: wrap
-  }
-
-  .nav-links a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 500;
-    transition: .3s;
-    padding: 10px 14px;
-    border-radius: 8px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: .95rem
-  }
-
-  .nav-links a:hover {
-    color: #FF9900;
-    background: rgba(255, 153, 0, .1)
-  }
-
-  .nav-links a.active {
-    color: #FF9900;
-    background: rgba(255, 153, 0, .15)
-  }
-
-  .express-nav-btn {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    color: #fff !important;
-    border-radius: 8px !important;
-    padding: 10px 14px !important;
-    position: relative !important;
-    transition: .3s !important
-  }
-
-  .express-nav-btn:hover {
-    background: linear-gradient(135deg, #0d9488, #047857) !important;
-    color: #fff !important;
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 15px rgba(16, 185, 129, .4) !important
-  }
-
-  .f-exp-gene {
-    background: linear-gradient(135deg, #10b981, #059669) !important;
-    padding: 8px 10px;
-    border-radius: 5px
-  }
-
-  .f-exp-gene:hover {
-    background: linear-gradient(135deg, #0d9488, #047857) !important;
-    color: #fff
-  }
-
-  .express-nav-btn::before,
-  .f-exp-gene::before {
-    content: "⚡";
-    margin-right: 4px
-  }
-
-  .mobile-menu {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(0, 0, 0, .95);
-    backdrop-filter: blur(10px);
-    z-index: 999;
-    padding: 80px 20px 20px;
-    overflow-y: auto
-  }
-
-  .mobile-menu.active {
-    display: block;
-    animation: slideIn .3s ease
-  }
-
-  @keyframes slideIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px)
-    }
-
-    to {
-      opacity: 1;
-      transform: translateY(0)
-    }
-  }
-
-  .mobile-menu-links {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    max-width: 400px;
-    margin: 0 auto
-  }
-
-  .mobile-menu-links a {
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    padding: 15px 20px;
-    border-radius: 12px;
-    background: rgba(255, 255, 255, .1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, .2);
-    transition: .3s;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 1.1rem
-  }
-
-  .mobile-menu-links a:hover {
-    background: rgba(255, 255, 255, .2);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, .3)
-  }
-
-  .mobile-menu-close {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: #fff;
-    font-size: 1.8rem;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    transition: .3s
-  }
-
-  .mobile-menu-close:hover {
-    background: rgba(255, 255, 255, .1);
-    transform: rotate(90deg)
-  }
-
-  .social-section {
-    background: rgba(255, 255, 255, .05);
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem
-  }
-
-  .social-links {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 1rem;
-    flex-wrap: wrap
-  }
-
-  .social-link {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2rem;
-    transition: .3s;
-    position: relative;
-    overflow: hidden
-  }
-
-  .social-link:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, .3)
-  }
-
-  .social-link.youtube {
-    background: linear-gradient(135deg, #FF0000, #CC0000)
-  }
-
-  .social-link.facebook {
-    background: linear-gradient(135deg, #1877F2, #0866D3)
-  }
-
-  .social-link.instagram {
-    background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2)
-  }
-
-  .social-link.pinterest {
-    background: linear-gradient(135deg, #BD081C, #E60023)
-  }
-
-  .social-link.tiktok {
-    background: linear-gradient(135deg, #000, #FF0050, #00F2EA)
-  }
-
-  .social-link.linkedin {
-    background: linear-gradient(135deg, #0A66C2, #004182)
-  }
-
-  @media (min-width:769px) {
-    .mobile-menu-toggle {
-      display: none
-    }
-  }
-
-  @media (max-width:480px) {
-    .logo-nav span {
-      display: none
-    }
-    .language-selector {
-      right: 60px;
-      padding: 0 2px 2px 2px;
-      top: 27px
-    }
-
-    .lang-btn {
-      padding: 4px 8px;
-      font-size: .7rem
-    }
-  }
-
-  @media (max-width:768px) {
-    .language-selector {
-      top: 22.5px;
-      right: 60px
-    }
-
-    .nav-links {
-      display: none
-    }
-
-    .social-links {
-      gap: 10px
-    }
-
-    .social-link {
-      width: 40px;
-      height: 40px;
-      font-size: 1rem
-    }
-
-    .mobile-menu-toggle {
-      display: block;
-      background: none;
-      border: none;
-      color: #fff;
-      font-size: 1.5rem;
-      cursor: pointer;
-      padding: 8px;
-      border-radius: 4px;
-      margin-left: auto
-    }
-
-    .mobile-menu-toggle:hover {
-      background: rgba(255, 255, 255, .1)
-    }
-  }
         
         .dashboard-container { 
             max-width: 1400px; 
             margin: 0 auto; 
             padding: 20px;
         }
+
+        /* Header Navigation Styles */
+        .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+        .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:0}
+        .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+        .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+        .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:25px;flex-wrap:wrap;margin-top:10px}
+        .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;position:relative;display:flex;align-items:center;gap:6px;font-size:.95rem}
+        .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+        .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+        .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important;border-radius:8px!important;padding:10px 14px!important}
+        .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important;transform:translateY(-2px)!important;box-shadow:0 4px 15px rgba(16,185,129,.4)!important}
+        .express-nav-btn::before{content:"⚡";margin-right:4px}
 
         /* Banner Extension */
         .extension-banner {
@@ -531,59 +209,106 @@
         .loading { display: none; text-align: center; padding: 40px; }
         .loading.active { display: block; }
 
+        /* Language Toggle Switch - Exact match with index.html */
+        .language-selector {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #fff;
+            border-radius: 50px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.1);
+            padding: 4px;
+            display: flex;
+            gap: 0;
+        }
+        .lang-btn {
+            padding: 8px 16px;
+            border: none;
+            background: transparent;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all .3s;
+            font-weight: 600;
+            font-size: .85rem;
+            color: #64748b;
+            min-width: 45px;
+        }
+        .lang-btn.active {
+            background: #FF9900;
+            color: #fff;
+            box-shadow: 0 2px 8px rgba(255, 153, 0, 0.3);
+        }
+        .lang-btn:hover:not(.active) {
+            color: #334155;
+        }
+
+        /* Mobile Menu (from index.html) */
+        .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);z-index:999;padding:80px 20px 20px;overflow-y:auto}
+        .mobile-menu.active{display:block;animation:slideIn .3s ease}
+        @keyframes slideIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+        .mobile-menu-links{display:flex;flex-direction:column;gap:15px;max-width:400px;margin:0 auto}
+        .mobile-menu-links a{color:#fff;text-decoration:none;font-weight:600;padding:15px 20px;border-radius:12px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.2);transition:.3s;display:flex;align-items:center;gap:12px;font-size:1.1rem}
+        .mobile-menu-links a:hover{background:rgba(255,255,255,.2);transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,.3)}
+        .mobile-menu-close{position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer;padding:8px;border-radius:50%;transition:.3s}
+        .mobile-menu-close:hover{background:rgba(255,255,255,.1);transform:rotate(90deg)}
+        .mobile-menu-toggle{display:none;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:8px;border-radius:4px;margin-left:auto}
+        .mobile-menu-toggle:hover{background:rgba(255,255,255,.1)}
+
+        @media (max-width:768px){
+            .nav-links{display:none}
+            .mobile-menu-toggle{display:block}
+        }
+        @media (min-width:769px){.mobile-menu-toggle{display:none}}
     </style>
 </head>
 <body>
 
-  <!-- Navigation Header -->
+    <!-- Navigation Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo" style="height: 32px;">
+                <span>GabaritKDP</span>
+            </a>
 
-  <header class="header-nav notranslate">
-    <div class="nav-container">
-      <a href="./index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
-        <span>GabaritKDP</span>
-      </a>
+            <!-- Menu Hamburger - Mobile -->
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()" aria-label="Open menu">
+                <i class="fas fa-bars"></i>
+            </button>
 
-      <!-- Menu Hamburger - Mobile -->
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-        <i class="fas fa-bars"></i>
-      </button>
+            <!-- Navigation Desktop -->
+            <nav class="nav-links">
+                <a href="./index.html">🏠 Home</a>
+                <a href="./dashboard.html" class="active">📊 Dashboard</a>
+                <a href="./generator.html" class="express-nav-btn">Express Generator</a>
+                <a href="./generator-magic.html">Magic Generator</a>
+                <a href="./marketplace.html">Marketplace</a>
+                <a href="./inscription.html">📝 Sign Up</a>
+                <a href="./connexion.html">🔓 Login</a>
+            </nav>
+        </div>
+    </header>
 
-      <!-- Language Selector -->
-      <div class="language-selector">
-        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
-      </div>
-
-      <!-- Navigation Desktop -->
-      <nav class="nav-links">
-        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-        <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
-          data-en="Express Generator">Générateur Express</a>
-        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
-        <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
-        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-      </nav>
+    <!-- Menu Mobile -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="mobile-menu-close" onclick="toggleMobileMenu()" aria-label="Close menu"><i class="fas fa-times"></i></button>
+        <div class="mobile-menu-links">
+            <a href="./index.html">🏠 Home</a>
+            <a href="./dashboard.html">📊 Dashboard</a>
+            <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;">⚡ Express Generator</a>
+            <a href="./generator-magic.html">Magic Generator</a>
+            <a href="./marketplace.html">Marketplace</a>
+            <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;">📝 Sign Up</a>
+            <a href="./connexion.html">🔓 Login</a>
+        </div>
     </div>
-  </header>
 
-  <!-- Menu Mobile -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
-    <div class="mobile-menu-links">
-      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-      <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;"
-        data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Générateur Express</a>
-      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
-      <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
-      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription"
-        data-en="📝 Sign Up">📝 Sign Up</a>
-      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+<!-- Language Switcher -->
+    <div class="language-selector">
+        <button class="lang-btn active" onclick="switchLanguage('en')" id="btn-en">EN</button>
+        <button class="lang-btn" onclick="switchLanguage('fr')" id="btn-fr">FR</button>
     </div>
-  </div>
 
     <!-- Dashboard Content -->
     <div class="dashboard-container">
@@ -599,35 +324,25 @@
             
             <!-- Extension Installation Section -->
             <div class="extension-setup" id="extensionSetup">
-                <span class="coming-soon-badge">✅ AVAILABLE NOW</span>
+                <span class="coming-soon-badge">🚀 COMING SOON</span>
                 <h2><i class="fas fa-download"></i> Install Chrome Extension</h2>
                 <p>
-                    Track your Amazon KDP sales automatically! Install the official GabaritKDP Tracker extension from the Chrome Web Store.
+                    Track your Amazon KDP sales automatically! The GabaritKDP Tracker extension is currently under review by Google.<br>
+                    <strong>It will be available in 2-3 days.</strong>
                 </p>
                 
                 <a href="https://chromewebstore.google.com/detail/gabaritkdp-tracker/mbngmlkggdapbbncgoijjcbmbcgeomip" 
                    class="btn-install-extension" 
                    id="installBtn"
-                   >
-                    <i class="fas fa-chrome"></i> INSTALL EXTENSION NOW
+                   style="opacity: 0.6; pointer-events: none;">
+                    <i class="fas fa-chrome"></i> INSTALL EXTENSION (Coming Soon)
                 </a>
-
-                <!-- Shown when the extension is detected on this browser -->
-                <div id="extensionDetected" style="display:none; margin-top:18px;">
-                    <div style="display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; background:rgba(16,185,129,.15); border:1px solid rgba(16,185,129,.35); color:#d1fae5; font-weight:700;">
-                        <span>✅ Extension detected</span>
-                        <span id="extensionVersion" style="font-weight:600; opacity:.9;"></span>
-                    </div>
-                    <div style="margin-top:10px; color: var(--text-dim); font-size: 0.95rem;">
-                        You can sync your KDP data directly from this dashboard.
-                    </div>
-                </div>
 
                 <div class="setup-steps">
                     <div class="setup-step">
                         <div class="step-number">1</div>
                         <h4>Install Extension</h4>
-                        <p>Add GabaritKDP Tracker to Chrome from the Chrome Web Store</p>
+                        <p>Add GabaritKDP Tracker to Chrome from the Chrome Web Store (available soon)</p>
                     </div>
                     <div class="setup-step">
                         <div class="step-number">2</div>
@@ -661,22 +376,9 @@
                         <small style="color: var(--text-dim);" id="lastSync">Last sync: Never</small>
                     </div>
                 </div>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <span id="extensionStatusPill" style="display:none; padding:8px 12px; border-radius:999px; background:rgba(16,185,129,.15); border:1px solid rgba(16,185,129,.35); color:#d1fae5; font-weight:700; font-size:0.85rem;">
-                        ✅ Extension detected
-                    </span>
                 <button class="btn-sync" onclick="syncData()">
                     <i class="fas fa-sync"></i> REFRESH DATA
                 </button>
-                </div>
-            </div>
-
-            <!-- Lightweight toast for premium UX feedback -->
-            <div id="toast" style="display:none; position:fixed; right:18px; bottom:18px; z-index:9999; max-width:420px;">
-                <div id="toastInner" style="background:#111827; border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:14px 16px; box-shadow:0 18px 60px rgba(0,0,0,.45);">
-                    <div id="toastTitle" style="font-weight:800; margin-bottom:4px;"></div>
-                    <div id="toastMsg" style="color:var(--text-dim); font-size:0.95rem; line-height:1.35;"></div>
-                </div>
             </div>
 
             <!-- Stats Cards -->
@@ -748,212 +450,81 @@
         </div>
     </div>
 
-    <!-- Footer (self-contained to avoid dependency on footer.js) -->
-    <footer style="margin-top:40px; padding:40px 20px; background:linear-gradient(135deg,#0b1220 0%,#0f172a 100%); border-top:1px solid rgba(255,255,255,0.08);">
-      <div style="max-width:1400px; margin:0 auto;">
-        <div class="social-section" style="text-align:center;">
-          <h3 style="margin:0; font-size:1.05rem; color:#fff; font-weight:700;">
-            🚀 <span data-fr="Suivez-nous pour les dernières actualités KDP !" data-en="Follow us for the latest KDP updates!">Suivez-nous pour les dernières actualités KDP !</span>
-          </h3>
-          <div class="social-links" aria-label="Social links">
-            <a class="social-link youtube" href="#" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-            <a class="social-link facebook" href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a class="social-link instagram" href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a class="social-link pinterest" href="#" title="Pinterest" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
-            <a class="social-link tiktok" href="#" title="TikTok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-            <a class="social-link linkedin" href="#" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    <!-- Footer Placeholder -->
+    <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section">
+        <h4 class="text-white font-semibold mb-4 text-center" data-fr="🚀 Suivez-nous pour les dernières actualités KDP !" data-en="🚀 Follow us for the latest KDP news!">🚀 Suivez-nous pour les dernières actualités KDP !</h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" title="YouTube - Tutoriels KDP" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" title="Facebook - Communauté auteurs" target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" title="Instagram - Inspirations couvertures" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" title="Pinterest - Designs couvertures" target="_blank" rel="noopener noreferrer"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" title="TikTok - Tips rapides KDP" target="_blank" rel="noopener noreferrer"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" title="LinkedIn - Publishers & Agences" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <p class="text-center text-sm text-gray-400 mt-4" data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs" data-en="KDP Tips • Tutorials • News • Authors Community">Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs</p>
+      </div>
+
+      <div class="grid md:grid-cols-4 gap-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
           </div>
-          <div style="margin-top:12px; color:rgba(255,255,255,0.75); font-size:0.95rem;">
-            <span data-fr="Astuces KDP · Tutoriels · Actualités · Communauté d’auteurs" data-en="KDP Tips · Tutorials · News · Author Community">Astuces KDP · Tutoriels · Actualités · Communauté d’auteurs</span>
-          </div>
+          <p class="text-gray-400" data-fr="Le générateur de couvertures KDP 100% conformes Amazon." data-en="The 100% Amazon-compliant KDP cover generator.">The 100% Amazon-compliant KDP cover generator.</p>
         </div>
 
-        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:28px; margin-top:30px;">
-          <div>
-            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-              <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" style="height:32px; width:auto;">
-              <div style="font-weight:800; color:#FF9900; font-size:1.1rem;">GabaritKDP</div>
-            </div>
-            <div style="color:rgba(255,255,255,0.7); line-height:1.6; font-size:0.95rem;">
-              <span data-fr="Le générateur de couvertures KDP conforme + votre dashboard de pilotage." data-en="KDP-compliant cover generator + your tracking dashboard.">Le générateur de couvertures KDP conforme + votre dashboard de pilotage.</span>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Produit</div>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <a href="./dashboard.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Tableau de bord" data-en="Dashboard">Tableau de bord</a>
-              <a href="./generator.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a>
-              <a href="./generator-magic.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
-              <a href="./marketplace.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Support</div>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <a href="./resources.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Ressources" data-en="Resources">Ressources</a>
-              <a href="./tarifs.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Tarifs" data-en="Pricing">Tarifs</a>
-              <a href="./connexion.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Connexion" data-en="Login">Connexion</a>
-            </div>
-          </div>
-
-          <div>
-            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Légal</div>
-            <div style="display:flex; flex-direction:column; gap:8px;">
-              <a href="./mentions-legales.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Mentions légales" data-en="Legal notice">Mentions légales</a>
-              <a href="./cgu.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Conditions d'utilisation" data-en="Terms of use">Conditions d'utilisation</a>
-            </div>
-          </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
+          <ul class="space-y-2">
+            <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a></li>
+            <li><a href="generator-magic.html" class="hover:text-white transition" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a></li>
+            <li><a href="./marketplace.html"  class="hover:text-white transition">Marketplace</a></li>
+            <li><a href="#tarifs" class="hover:text-white transition" data-fr="Tarifs" data-en="Pricing">Tarifs</a></li>
+            <li><a href="fonctionnalites.html" class="hover:text-white transition" data-fr="Fonctionnalités" data-en="Features">Fonctionnalités</a></li>
+          </ul>
         </div>
 
-        <div style="margin-top:30px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.55); font-size:0.9rem; text-align:center;">
-          © <span id="footerYear"></span> GabaritKDP
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="api-pro.html" class="hover:text-white transition">API</a></li>
+            <li><a href="faq.html" class="hover:text-white transition">FAQ</a></li>
+            <li><a href="contact.html" class="hover:text-white transition">Contact</a></li>
+            <li><a href="guide.html" class="hover:text-white transition" data-fr="Guide utilisateur" data-en="User Guide">Guide utilisateur</a></li>
+            <li><a href="updates.html" class="hover:text-white transition" data-fr="Mises à jour / Nouveautés" data-en="Updates / What's New">Mises à jour / Nouveautés</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-fr="Légal" data-en="Legal">Légal</h4>
+          <ul class="space-y-2">
+            <li><a href="mentions-legales.html" class="hover:text-white transition" data-fr="Mentions légales" data-en="Legal Notice">Légal Notice</a></li>
+            <li><a href="cgu.html" class="hover:text-white transition" data-fr="Conditions d'utilisation" data-en="Terms of Use">Conditions d'utilisation</a></li>
+            <li><a href="confidentialite.html" class="hover:text-white transition" data-fr="Politique de confidentialité" data-en="Privacy Policy">Privacy Policy</a></li>
+          </ul>
         </div>
       </div>
-    </footer>
 
-    <!-- Supabase Configuration -->
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p data-fr="&copy; 2025 GabaritKDP. Tous droits réservés." data-en="&copy; 2025 GabaritKDP. All rights reserved.">&copy; 2025 GabaritKDP. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+<!-- Supabase Configuration -->
     <script>
         // Supabase Configuration
-      // dashboard.html - Lignes 715-716
-const SUPABASE_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
+        const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
+        const SUPABASE_ANON_KEY = 'sb_publishable_HGEXYCHK0H3JzKEluWy2GQ_tdmb8UWg';
         
         // Create Supabase client
         const { createClient } = window.supabase;
         const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-        // Chrome Web Store Extension ID (GabaritKDP Tracker)
-        const GKDP_EXTENSION_ID = 'mbngmlkggdapbbncgoijjcbmbcgeomip';
-        const GKDP_DASHBOARD_ORIGIN = window.location.origin;
-        let gkdpExtension = {
-            present: false,
-            version: null,
-            lastSeenAt: null
-        };
         
         let revenueChart, marketChart;
         let currentUser = null;
-
-        // Premium UX helpers
-        function showToast(title, message, type = 'info', timeoutMs = 4500) {
-            const toast = document.getElementById('toast');
-            const inner = document.getElementById('toastInner');
-            const t = document.getElementById('toastTitle');
-            const m = document.getElementById('toastMsg');
-            if (!toast || !inner || !t || !m) return;
-
-            t.textContent = title;
-            m.textContent = message;
-
-            // Subtle semantic styling
-            if (type === 'success') {
-                inner.style.borderColor = 'rgba(16,185,129,.35)';
-            } else if (type === 'error') {
-                inner.style.borderColor = 'rgba(239,68,68,.35)';
-            } else {
-                inner.style.borderColor = 'rgba(255,255,255,.12)';
-            }
-
-            toast.style.display = 'block';
-            clearTimeout(showToast._t);
-            showToast._t = setTimeout(() => {
-                toast.style.display = 'none';
-            }, timeoutMs);
-        }
-
-        // ---------------------------
-        // Extension ↔ Dashboard bridge
-        // ---------------------------
-        function postToExtension(type, payload = {}) {
-            window.postMessage({
-                source: 'gkdp-dashboard',
-                type,
-                payload,
-                origin: GKDP_DASHBOARD_ORIGIN
-            }, '*');
-        }
-
-        function markExtensionPresent(info = {}) {
-            gkdpExtension.present = true;
-            gkdpExtension.lastSeenAt = Date.now();
-            gkdpExtension.version = info.version || gkdpExtension.version;
-
-            // Hide the install block (as requested)
-            const setup = document.getElementById('extensionSetup');
-            if (setup) setup.style.display = 'none';
-
-            // Show premium status pills
-            const pill = document.getElementById('extensionStatusPill');
-            if (pill) pill.style.display = 'inline-flex';
-
-            const detected = document.getElementById('extensionDetected');
-            if (detected) detected.style.display = 'block';
-
-            const v = document.getElementById('extensionVersion');
-            if (v) v.textContent = gkdpExtension.version ? `v${gkdpExtension.version}` : '';
-        }
-
-        // Detect extension presence using window.postMessage handshake.
-        // Requires a lightweight content script in the extension on https://gabaritkdp.com/*
-        function detectExtension(timeoutMs = 900) {
-            return new Promise((resolve) => {
-                let done = false;
-
-                const onMessage = (event) => {
-                    if (!event || !event.data) return;
-                    const msg = event.data;
-                    if (msg.source !== 'gkdp-extension') return;
-                    if (msg.type !== 'GKDP_EXTENSION_PONG') return;
-                    done = true;
-                    window.removeEventListener('message', onMessage);
-                    resolve({ present: true, version: msg.payload?.version || null });
-                };
-
-                window.addEventListener('message', onMessage);
-
-                // Ping the extension bridge
-                postToExtension('GKDP_EXTENSION_PING', { ts: Date.now() });
-
-                setTimeout(() => {
-                    if (done) return;
-                    window.removeEventListener('message', onMessage);
-                    resolve({ present: false, version: null });
-                }, timeoutMs);
-            });
-        }
-
-        // Listen for sync status events pushed by the extension
-        window.addEventListener('message', async (event) => {
-            if (!event || !event.data) return;
-            const msg = event.data;
-            if (msg.source !== 'gkdp-extension') return;
-
-            if (msg.type === 'GKDP_EXTENSION_PONG') {
-                markExtensionPresent({ version: msg.payload?.version });
-                return;
-            }
-
-            if (msg.type === 'GKDP_SYNC_STATUS') {
-                const status = msg.payload?.status;
-                const text = msg.payload?.message || '';
-
-                if (status === 'running') {
-                    showToast('Sync in progress', text || 'Fetching your latest KDP data...', 'info', 6000);
-                }
-
-                if (status === 'success') {
-                    showToast('Sync complete', text || 'Dashboard updated.', 'success');
-                    // Refresh dashboard data after a successful sync
-                    await loadDashboardData();
-                }
-
-                if (status === 'error') {
-                    showToast('Sync failed', text || 'Please try again.', 'error', 8000);
-                }
-            }
-        });
 
         // Check authentication on page load
         async function checkAuth() {
@@ -975,16 +546,6 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
             
             // Update extension installation section
             updateExtensionSection();
-
-            // Detect extension and upgrade UX if installed
-            try {
-                const det = await detectExtension();
-                if (det.present) {
-                    markExtensionPresent(det);
-                }
-            } catch (e) {
-                console.warn('Extension detection failed:', e);
-            }
             
             /* ORIGINAL AUTH CODE (uncomment when ready)
             const { data: { session } } = await supabase.auth.getSession();
@@ -1001,8 +562,8 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
         // Update extension installation section based on approval status
         function updateExtensionSection() {
-            // Extension is live on Chrome Web Store
-            const extensionApproved = true;
+            // TODO: Change this to true once extension is approved on Chrome Web Store
+            const extensionApproved = false;
             
             const setupSection = document.getElementById('extensionSetup');
             const badge = setupSection.querySelector('.coming-soon-badge');
@@ -1153,32 +714,15 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
         }
 
         // Sync data function
-        async function syncData(evt) {
-            const btn = (evt && evt.currentTarget) ? evt.currentTarget : document.querySelector('.btn-sync');
-            if (btn) {
-                btn.disabled = true;
-                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SYNCING...';
-            }
+        async function syncData() {
+            const btn = event.target;
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SYNCING...';
 
-            // If the extension is installed, request a premium sync from the extension.
-            // The extension will push GKDP_SYNC_STATUS events (running/success/error).
-            if (gkdpExtension.present) {
-                showToast('Starting sync', 'Asking the Chrome extension to fetch your latest KDP data…', 'info', 5000);
-                postToExtension('GKDP_START_SYNC', {
-                    userId: currentUser?.id || null,
-                    email: currentUser?.email || null
-                });
-            } else {
-                // Fallback: just refresh from Supabase
-                await loadDashboardData();
-                showToast('Dashboard refreshed', 'Latest data loaded from your workspace.', 'success');
-            }
+            await loadDashboardData();
 
-            // Re-enable button (extension sync completion will also refresh)
-            if (btn) {
-                btn.disabled = false;
-                btn.innerHTML = '<i class="fas fa-sync"></i> REFRESH DATA';
-            }
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-sync"></i> REFRESH DATA';
         }
 
         // Category selection
@@ -1191,87 +735,70 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
                 "Predictive analysis for '" + catName + "' is being prepared. Multi-marketplace scraping data will be available soon.";
         }
 
-    let currentLanguage = 'en';
-
-    // Safe fallback: older builds referenced animateStats() but never defined it.
-    // Keeping it as a no-op prevents runtime crashes that block the dashboard.
-    function animateStats() {}
-
-    document.addEventListener('DOMContentLoaded', async function () {
-      // Start with English by default, but respect user's saved preference
-      const savedLang = localStorage.getItem('preferredLanguage');
-      currentLanguage = savedLang || 'en';
-
-      // If no saved preference, explicitly set to English
-      if (!savedLang) {
-        localStorage.setItem('preferredLanguage', 'en');
-      }
-
-      applyLanguage(currentLanguage);
-      updateLanguageButtons();
-
-      // Boot the dashboard (data + extension detection)
-      try {
-        await checkAuth();
-      } catch (e) {
-        console.error('Dashboard init failed:', e);
-        // Fail-safe: at least stop the spinner
-        document.getElementById('loadingState')?.classList.remove('active');
-        document.getElementById('dashboardContent')?.style && (document.getElementById('dashboardContent').style.display = 'block');
-      }
-    });
-
-    function switchLanguage(lang) {
-      currentLanguage = lang;
-      localStorage.setItem('preferredLanguage', lang);
-      document.documentElement.lang = lang;
-      applyLanguage(lang);
-      updateLanguageButtons();
-    }
-
-    function applyLanguage(lang) {
-      const elements = document.querySelectorAll('[data-' + lang + ']');
-      elements.forEach(element => {
-        const text = element.getAttribute('data-' + lang);
-        if (text) {
-          if (element.tagName === 'META') {
-            element.setAttribute('content', text);
-          } else if (element.tagName === 'TITLE') {
-            element.textContent = text;
-          } else {
-            element.innerHTML = text;
-          }
+        // Language switcher
+        function switchLanguage(lang) {
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + lang).classList.add('active');
+            
+            // Store language preference
+            localStorage.setItem('language', lang);
+            
+            // Update navigation and footer (they use localStorage automatically)
+            // The navigation.js and footer.js will pick up the language change
+            
+            // Reload page to apply language to all text
+            location.reload();
         }
-      });
-      document.documentElement.lang = lang;
-    }
 
-    function updateLanguageButtons() {
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('data-lang') === currentLanguage) {
-          btn.classList.add('active');
+        // Set initial language on load
+        function initLanguage() {
+            const savedLang = localStorage.getItem('language') || 'en';
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + savedLang).classList.add('active');
         }
-      });
-    }
 
-    function toggleMobileMenu() {
-      const mobileMenu = document.getElementById('mobileMenu');
-      const body = document.body;
-      if (mobileMenu.classList.contains('active')) {
-        mobileMenu.classList.remove('active');
-        body.style.overflow = '';
-      } else {
-        mobileMenu.classList.add('active');
-        body.style.overflow = 'hidden';
-      }
-    }
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            initLanguage();
+            checkAuth();
+        });
     </script>
 
-    <script>
-      // Footer year
-      document.getElementById('footerYear').textContent = new Date().getFullYear();
-    </script>
+    <!-- Centralized Navigation & Footer Systems -->
 
+<script>
+        // Mobile menu (Dashboard)
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (!mobileMenu) return;
+            mobileMenu.classList.toggle('active');
+
+            // Prevent background scroll when menu open
+            if (mobileMenu.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Close mobile menu when a link is clicked
+        document.addEventListener('click', (e) => {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (!mobileMenu || !mobileMenu.classList.contains('active')) return;
+
+            const target = e.target.closest('a');
+            if (target && target.closest('#mobileMenu')) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Close on ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key !== 'Escape') return;
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu && mobileMenu.classList.contains('active')) toggleMobileMenu();
+        });
+    </script>
 </body>
 </html>
