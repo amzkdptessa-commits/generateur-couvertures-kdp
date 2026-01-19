@@ -13,17 +13,28 @@ document.getElementById('sync-btn').addEventListener('click', async () => {
   status.textContent = 'Récupération des cookies...';
 
   chrome.runtime.sendMessage({ type: 'GET_KDP_COOKIES' }, async response => {
-    if (response && response.success) {
-      status.textContent = 'Envoi au serveur...';
-      try {
-        const res = await fetch(`${API_URL}/api/sync-kdp`, { // URL CORRIGÉE
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            email, 
-            password, 
-            cookies: response.data[0].cookies, // On prend les cookies du premier domaine KDP
-            marketplace: 'US' 
+      if (response && response.success) {
+        status.textContent = 'Envoi au serveur...';
+        try {
+          const res = await fetch(`${API_URL}/api/sync-kdp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              email, 
+              password, 
+              cookies: response.cookies, // <--- CHANGEMENT ICI
+              marketplace: 'US' 
+            })
+          });
+          const result = await res.json();
+          status.textContent = 'Synchronisation réussie !';
+        } catch (e) {
+          status.textContent = 'Erreur de connexion au serveur';
+        }
+      } else {
+        status.textContent = 'Erreur : Connectez-vous à KDP d\'abord';
+      }
+    });
           })
         });
         const result = await res.json();

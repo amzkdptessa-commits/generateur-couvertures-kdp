@@ -1,53 +1,17 @@
-const KDP_URLS = [
-  'https://kdp.amazon.com',
-  'https://kdp.amazon.co.uk',
-  'https://kdp.amazon.de',
-  'https://kdp.amazon.fr',
-  'https://kdp.amazon.ca',
-  'https://kdp.amazon.com.au',
-  'https://kdpreports.amazon.com'
-];
-
-chrome.runtime.onInstalled.addListener(() => {
-  console.log('GabaritKDP Tracker installed');
-});
-
+// background.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'GET_KDP_COOKIES') {
-    Promise.all(
-      KDP_URLS.map(url =>
-        new Promise(resolve => {
-          chrome.cookies.getAll({ url }, cookies => {
-            resolve({ url, cookies });
-          });
-        })
-      )
-    ).then(results => {
-      sendResponse({ success: true, data: results });
-    });
-    return true;
-  }
-});
-// Écoute les demandes venant du Dashboard (via content.js)
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.type === 'START_SYNC_FROM_DASHBOARD') {
-    // 1. Envoyer un signal "en cours" au dashboard
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, {
-        type: "SYNC_STATUS_UPDATE",
-        payload: { status: "running", message: "Synchronisation en cours..." }
+    // On récupère TOUS les cookies d'Amazon
+    chrome.cookies.getAll({ domain: "amazon.com" }, (cookies1) => {
+      chrome.cookies.getAll({ domain: "amazon.fr" }, (cookies2) => {
+        const allCookies = [...cookies1, ...cookies2];
+        if (allCookies.length > 0) {
+          sendResponse({ success: true, cookies: allCookies });
+        } else {
+          sendResponse({ success: false, message: "Aucun cookie trouvé. Connectez-vous à KDP." });
+        }
       });
     });
-
-    // 2. Ici tu peux appeler ta fonction de scraping existante
-    // Une fois fini, tu envoies le succès :
-    setTimeout(() => {
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-          chrome.tabs.sendMessage(tabs[0].id, {
-            type: "SYNC_STATUS_UPDATE",
-            payload: { status: "success", message: "Données KDP mises à jour !" }
-          });
-        });
-    }, 2000);
+    return true; 
   }
 });
