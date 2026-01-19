@@ -1,21 +1,22 @@
 {
   "manifest_version": 3,
   "name": "GabaritKDP Tracker",
-  "version": "1.0.2",
-  "description": "Track your Amazon KDP sales automatically",
+  "version": "1.0.3",
+  "description": "Track your Amazon KDP sales",
   "permissions": [
     "cookies",
     "storage",
-    "alarms"
+    "alarms",
+    "tabs"
   ],
   "host_permissions": [
-    "https://kdp.amazon.com/*",
-    "https://kdp.amazon.co.uk/*",
-    "https://kdp.amazon.de/*",
-    "https://kdp.amazon.fr/*",
-    "https://kdp.amazon.ca/*",
-    "https://kdp.amazon.com.au/*",
-    "https://kdpreports.amazon.com/*",
+    "*://*.amazon.com/*",
+    "*://*.amazon.fr/*",
+    "*://*.amazon.co.uk/*",
+    "*://*.amazon.ca/*",
+    "*://*.amazon.de/*",
+    "*://kdpreports.amazon.com/*",
+    "http://localhost/*",
     "https://gabaritkdp.com/*"
   ],
   "action": {
@@ -23,12 +24,5 @@
   },
   "background": {
     "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": ["https://gabaritkdp.com/*"],
-      "js": ["content.js"],
-      "run_at": "document_idle"
-    }
-  ]
+  }
 }

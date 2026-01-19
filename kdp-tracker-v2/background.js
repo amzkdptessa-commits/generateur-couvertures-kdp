@@ -1,29 +1,26 @@
 // background.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'GET_KDP_COOKIES') {
-    // On cherche sur tous les domaines Amazon possibles
-    const domains = [".amazon.com", "amazon.com", ".amazon.fr", "amazon.fr", ".amazon.co.uk", "amazon.co.uk"];
-    let allCookies = [];
-    let processed = 0;
-
-    domains.forEach(dom => {
-      chrome.cookies.getAll({ domain: dom }, (cookies) => {
-        if (cookies) allCookies = [...allCookies, ...cookies];
-        processed++;
+    // On essaie de récupérer les cookies du domaine .com et .fr
+    chrome.cookies.getAll({ domain: "amazon.com" }, (cookiesCOM) => {
+      chrome.cookies.getAll({ domain: "amazon.fr" }, (cookiesFR) => {
         
-        if (processed === domains.length) {
+        let allCookies = [...(cookiesCOM || []), ...(cookiesFR || [])];
+
+        // On tente aussi de récupérer spécifiquement sur le sous-domaine des rapports
+        chrome.cookies.getAll({ domain: "kdpreports.amazon.com" }, (cookiesReports) => {
+          allCookies = [...allCookies, ...(cookiesReports || [])];
+
           if (allCookies.length > 0) {
-            // Filtrage pour ne garder que les cookies utiles (session)
-            const filtered = allCookies.filter(c => 
-              c.name.includes('session') || c.name.includes('at-main') || c.name.includes('ubid')
-            );
-            sendResponse({ success: true, cookies: filtered });
+            console.log("Cookies trouvés :", allCookies.length);
+            sendResponse({ success: true, cookies: allCookies });
           } else {
+            console.error("Aucun cookie Amazon trouvé dans le navigateur.");
             sendResponse({ success: false });
           }
-        }
+        });
       });
     });
-    return true;
+    return true; // Obligatoire pour sendResponse asynchrone
   }
 });
