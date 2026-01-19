@@ -1,40 +1,29 @@
 // background.js
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.type === 'GET_KDP_COOKIES') {
-    // Liste des URLs précises où KDP range ses cookies
-    const urls = [
-      "https://kdp.amazon.com",
-      "https://kdpreports.amazon.com",
-      "https://www.amazon.com",
-      "https://www.amazon.fr"
-    ];
-
+    // On cherche sur tous les domaines Amazon possibles
+    const domains = [".amazon.com", "amazon.com", ".amazon.fr", "amazon.fr", ".amazon.co.uk", "amazon.co.uk"];
     let allCookies = [];
-    let completed = 0;
+    let processed = 0;
 
-    urls.forEach(url => {
-      chrome.cookies.getAll({ url: url }, (cookies) => {
-        if (cookies) {
-          allCookies = [...allCookies, ...cookies];
-        }
-        completed++;
+    domains.forEach(dom => {
+      chrome.cookies.getAll({ domain: dom }, (cookies) => {
+        if (cookies) allCookies = [...allCookies, ...cookies];
+        processed++;
         
-        // Une fois qu'on a fait toutes les URLs
-        if (completed === urls.length) {
-          // On supprime les doublons
-          const uniqueCookies = Array.from(new Set(allCookies.map(c => JSON.stringify(c))))
-                                    .map(s => JSON.parse(s));
-
-          if (uniqueCookies.length > 0) {
-            console.log(uniqueCookies.length + " cookies trouvés");
-            sendResponse({ success: true, cookies: uniqueCookies });
+        if (processed === domains.length) {
+          if (allCookies.length > 0) {
+            // Filtrage pour ne garder que les cookies utiles (session)
+            const filtered = allCookies.filter(c => 
+              c.name.includes('session') || c.name.includes('at-main') || c.name.includes('ubid')
+            );
+            sendResponse({ success: true, cookies: filtered });
           } else {
-            sendResponse({ success: false, message: "Aucun cookie trouvé. Connectez-vous à KDP et rafraîchissez la page." });
+            sendResponse({ success: false });
           }
         }
       });
     });
-
-    return true; // Important pour l'asynchrone
+    return true;
   }
 });
