@@ -1,4 +1,4 @@
-// server.js - Backend complet pour GabaritKDP Tracker (Version Stable)
+// server.js - Backend complet pour GabaritKDP Tracker (Version 1.1 - Stable)
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
@@ -8,13 +8,13 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configuration Supabase
+// 1. Configuration Supabase
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_KEY
 );
 
-// Middleware
+// 2. Middleware
 app.use(cors());
 app.use(express.json());
 
@@ -22,19 +22,23 @@ app.use(express.json());
 // API ENDPOINTS
 // ====================
 
-// Endpoint: Synchroniser KDP (appelé par l'extension)
+// Endpoint: Synchronisation initiale (Appelé par l'extension)
 app.post('/api/sync-kdp', async (req, res) => {
   try {
-    const { email, password, cookies, marketplace } = req.body;
+    const { email, cookies, marketplace } = req.body;
 
-    console.log(`\n--- Nouvelle demande de Sync ---`);
-    console.log('Utilisateur:', email);
-    console.log('Nombre de cookies reçus:', cookies ? cookies.length : 0);
+    console.log(`\n--- 📥 Nouvelle demande de Sync ---`);
+    console.log('Utilisateur :', email);
+    console.log('Cookies reçus :', cookies ? cookies.length : 0);
     
-    // ID de test pour le développement (bypass auth pour l'instant)
+    // ID de test (Bypass Auth pour le dev)
     const userId = 'ed825c71-c523-4503-b705-02f818f7b71e';
 
-    // 1. Sauvegarder les cookies en base de données
+    if (!cookies || cookies.length < 5) {
+        console.log('⚠️ Trop peu de cookies reçus. La session Amazon risque d\'échouer.');
+    }
+
+    // Sauvegarde des cookies dans Supabase
     const { error: cookieError } = await supabase
       .from('kdp_cookies')
       .upsert({
@@ -45,13 +49,13 @@ app.post('/api/sync-kdp', async (req, res) => {
       }, { onConflict: 'user_id,marketplace' });
 
     if (cookieError) {
-      console.error('❌ Erreur Supabase Cookies:', cookieError.message);
-      return res.status(500).json({ message: 'Erreur lors de la sauvegarde des cookies' });
+      console.error('❌ Erreur Supabase Cookies :', cookieError.message);
+      return res.status(500).json({ message: 'Erreur sauvegarde cookies' });
     }
 
-    console.log('✅ Cookies enregistrés avec succès.');
+    console.log('✅ Cookies mis à jour en base de données.');
 
-    // 2. Lancer la récupération des données
+    // Lancement du scraping API
     const scrapedData = await scrapeKDPData(userId, cookies, marketplace || 'US');
     
     res.json({
@@ -62,12 +66,12 @@ app.post('/api/sync-kdp', async (req, res) => {
     });
 
   } catch (error) {
-    console.error('❌ Erreur globale Sync:', error);
+    console.error('❌ Erreur globale Sync :', error);
     res.status(500).json({ message: 'Erreur serveur: ' + error.message });
   }
 });
 
-// Endpoint: Récupérer les ventes pour le Dashboard
+// Endpoint: Récupération des ventes pour le Dashboard
 app.get('/api/sales/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
@@ -81,47 +85,45 @@ app.get('/api/sales/:userId', async (req, res) => {
     if (error) throw error;
     res.json({ sales: data });
   } catch (error) {
-    console.error('❌ Erreur Get Sales:', error);
     res.status(500).json({ message: 'Erreur de récupération' });
   }
 });
 
 // ====================
-// RÉCUPÉRATION DES DONNÉES KDP
+// RÉCUPÉRATION DES DONNÉES KDP (API SECURE)
 // ====================
 
 async function scrapeKDPData(userId, cookies, marketplace) {
   try {
-    console.log('🚀 Début de l\'appel API KDP...');
+    console.log('🚀 Tentative d\'appel API Amazon KDP...');
     
-    if (!cookies || cookies.length === 0) {
-        throw new Error("Aucun cookie fourni");
-    }
-
-    // Reconstruction de la chaîne de cookies
+    // On transforme les cookies en format texte pour les headers
     const cookieString = cookies.map(c => `${c.name}=${c.value}`).join('; ');
     
+    // On essaie de trouver le token CSRF dans les cookies (indispensable pour éviter l'erreur 400)
+    const csrfToken = cookies.find(c => c.name === 'csrf-token')?.value || 
+                      cookies.find(c => c.name === 'session-id')?.value;
+
     const headers = {
       'Cookie': cookieString,
       'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       'Accept': 'application/json, text/plain, */*',
-      'Accept-Language': 'fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7',
+      'x-csrf-token': csrfToken, // On injecte le token de sécurité
       'Referer': 'https://kdpreports.amazon.com/',
       'Origin': 'https://kdpreports.amazon.com'
     };
 
-    // URL la plus stable de l'API KDP Reports
+    // URL officielle de l'API de ventes Amazon
     const kdpApiUrl = 'https://kdpreports.amazon.com/api/v1/reports/sales';
 
-    const response = await axios.get(kdpApiUrl, { headers, timeout: 10000 });
+    const response = await axios.get(kdpApiUrl, { headers, timeout: 15000 });
 
-    console.log('📡 Réponse API KDP reçue ! Status:', response.status);
+    console.log('📡 Réponse API KDP reçue ! Status :', response.status);
 
     let totalSales = 0;
     let totalRoyalties = 0;
     let sales = [];
 
-    // Analyse de la réponse d'Amazon
     if (response.data && response.data.sales) {
         sales = response.data.sales.map(s => {
             const units = parseInt(s.unitsSold || s.units || 0);
@@ -137,29 +139,28 @@ async function scrapeKDPData(userId, cookies, marketplace) {
         });
     }
 
-    console.log(`📊 Résultat : ${totalSales} ventes, ${totalRoyalties.toFixed(2)} royalties.`);
+    console.log(`📊 Résultat : ${totalSales} ventes trouvées.`);
 
-    const salesData = {
-      sales,
-      totalSales,
-      totalRoyalties,
-      scrapedAt: new Date().toISOString()
-    };
-
-    // Sauvegarde dans les tables Supabase
+    const salesData = { sales, totalSales, totalRoyalties, scrapedAt: new Date().toISOString() };
+    
+    // Enregistrement dans Supabase
     await saveSalesData(userId, salesData, marketplace);
 
     return salesData;
 
   } catch (error) {
-    console.error('❌ Erreur API KDP:', error.response ? `Status ${error.response.status}` : error.message);
+    if (error.response && error.response.status === 400) {
+        console.error('❌ Erreur 400 : Amazon a rejeté la requête. Vérifie que tes cookies sont à jour en rafraîchissant la page KDP.');
+    } else {
+        console.error('❌ Erreur API KDP :', error.message);
+    }
     return { sales: [], totalSales: 0, totalRoyalties: 0, error: error.message };
   }
 }
 
 async function saveSalesData(userId, salesData, marketplace) {
   try {
-    // 1. Sauvegarder les lignes de ventes (si il y en a)
+    // 1. Sauvegarder les lignes de ventes détaillées
     if (salesData.sales.length > 0) {
         const salesToInsert = salesData.sales.map(s => ({
             user_id: userId,
@@ -174,7 +175,7 @@ async function saveSalesData(userId, salesData, marketplace) {
         await supabase.from('kdp_sales').insert(salesToInsert);
     }
 
-    // 2. Mettre à jour le résumé global
+    // 2. Mettre à jour le résumé global pour le Dashboard
     await supabase.from('kdp_summary').upsert({
       user_id: userId,
       marketplace: marketplace,
@@ -184,14 +185,14 @@ async function saveSalesData(userId, salesData, marketplace) {
       updated_at: new Date().toISOString()
     }, { onConflict: 'user_id,marketplace' });
 
-    console.log('💾 Données enregistrées en base de données.');
+    console.log('💾 Données enregistrées avec succès dans Supabase.');
   } catch (error) {
-    console.error('❌ Erreur sauvegarde DB:', error.message);
+    console.error('❌ Erreur sauvegarde DB :', error.message);
   }
 }
 
-// Démarrage
+// Lancement
 app.listen(PORT, () => {
   console.log(`\n🚀 KDP Tracker API running on port ${PORT}`);
-  console.log(`Prêt à recevoir les données de l'extension.`);
+  console.log('En attente de synchronisation...');
 });
