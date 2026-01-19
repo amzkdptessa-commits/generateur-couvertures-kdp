@@ -1,37 +1,76 @@
-// GabaritKDP Bridge - content.js
-console.log("GabaritKDP Tracker: Content Script Active");
+// kdp-content.js (v1.0.6) - Execute marketplaceOverview from inside KDP context
 
-// 1. Détection : Répondre au Dashboard quand il demande "Es-tu là ?"
-window.addEventListener("message", (event) => {
-  // Sécurité : on n'écoute que les messages qui viennent de notre propre Dashboard
-  if (event.data.source === "gkdp-dashboard") {
+function sleep(ms) {
+  return new Promise((r) => setTimeout(r, ms));
+}
 
-    // Réponse au PING pour l'affichage du statut "Extension Detected"
-    if (event.data.type === "GKDP_EXTENSION_PING") {
-      window.postMessage({
-        source: "gkdp-extension",
-        type: "GKDP_EXTENSION_PONG",
-        payload: { version: "1.0.4" }
-      }, "*");
+async function fetchMarketplaceOverview({ startISO, endISO }) {
+  const url =
+    `https://kdpreports.amazon.com/reports/pmr/print/marketplaceOverview` +
+    `?startDate=${encodeURIComponent(startISO)}` +
+    `&endDate=${encodeURIComponent(endISO)}` +
+    `&shouldShowCreateSpace=false`;
+
+  const res = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "accept": "application/json, text/javascript, */*; q=0.01",
+      "x-requested-with": "XMLHttpRequest"
+      // Pas besoin de x-csrf-token ici : le navigateur a le contexte / tokens nécessaires
     }
+  });
 
-    // Relais du bouton "REFRESH DATA" du Dashboard vers le background de l'extension
-    if (event.data.type === "GKDP_START_SYNC") {
-      chrome.runtime.sendMessage({
-        type: "START_SYNC_FROM_DASHBOARD",
-        payload: event.data.payload
+  const txt = await res.text();
+  let data;
+  try { data = JSON.parse(txt); } catch { data = { raw: txt }; }
+
+  if (!res.ok) {
+    throw new Error(`KDP responded ${res.status}: ${typeof data === "string" ? data : (data?.message || "error")}`);
+  }
+  return data;
+}
+
+function computeTargetMonth(year, month) {
+  const now = new Date();
+  const y = Number.isFinite(+year) ? +year : now.getUTCFullYear();
+  const m = Number.isFinite(+month) ? +month : (now.getUTCMonth() + 1);
+
+  const start = new Date(Date.UTC(y, m - 1, 1, 0, 0, 0));
+  const end = new Date(Date.UTC(y, m, 0, 23, 59, 59));
+
+  return {
+    startISO: start.toISOString().replace(".000Z", "Z"),
+    endISO: end.toISOString().replace(".000Z", "Z"),
+    y, m
+  };
+}
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.type !== "GKDP_KDP_SYNC") return;
+
+  (async () => {
+    try {
+      // petit délai pour laisser la page finir de charger (SPA)
+      await sleep(500);
+
+      const { year, month } = msg.payload || {};
+      const range = computeTargetMonth(year, month);
+
+      const data = await fetchMarketplaceOverview(range);
+
+      sendResponse({
+        success: true,
+        range,
+        data
+      });
+    } catch (e) {
+      sendResponse({
+        success: false,
+        error: e.message
       });
     }
-  }
-});
+  })();
 
-// 2. Retour d'infos : Envoyer les statuts de synchro vers le Dashboard (le petit toast)
-chrome.runtime.onMessage.addListener((request) => {
-  if (request.type === "SYNC_STATUS_UPDATE") {
-    window.postMessage({
-      source: "gkdp-extension",
-      type: "GKDP_SYNC_STATUS",
-      payload: request.payload
-    }, "*");
-  }
+  return true;
 });
