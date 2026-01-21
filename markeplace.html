@@ -5,184 +5,348 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-fr="Marketplace - GabaritKDP" data-en="Marketplace - GabaritKDP">Marketplace - GabaritKDP</title>
   
+  <!-- Chargement Tailwind (Séparé pour éviter les bugs) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
+    /* GKDP PIXABAY (isolé) */
+    .gkdp-pixabay-tab{
+      padding: 8px 12px;
+      border-radius: 9999px;
+      border: 1px solid rgba(15, 23, 42, 0.15);
+      background: #fff;
+      color: #0f172a;
+      font-weight: 700;
+      font-size: .8rem;
+      transition: .2s;
+      cursor: pointer;
+      user-select: none;
+    }
+    .gkdp-pixabay-tab:hover{ transform: translateY(-1px); }
+    .gkdp-pixabay-tab.active{
+      background: #FF9900;
+      border-color: #FF9900;
+      color: #fff;
+    }
+
     *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background-color: #fff;}
 
-    /* HEADER STYLE SAUVEGARDE (Slim & Fixé) */
-    .header-nav{background:#1e293b; padding:10px 0; box-shadow:0 4px 20px rgba(0,0,0,0.1); position:sticky; top:0; z-index:999}
-    .nav-container{max-width:1400px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; padding:0 20px}
-    .logo-nav{display:flex; align-items:center; gap:12px; text-decoration:none; color:#fff}
-    .logo-nav img{height:35px; width:auto}
-    .logo-nav span{font-size:1.2rem; font-weight:700; color:#FF9900}
-    .nav-links{display:flex; align-items:center; gap:15px}
-    .nav-links a{color:#fff; text-decoration:none; font-weight:500; transition:.3s; padding:8px 12px; border-radius:8px; font-size:.9rem}
-    .nav-links a:hover{color:#FF9900; background:rgba(255,153,0,.1)}
-    .express-nav-btn{background:#10b981!important; color:#fff!important; border-radius:10px!important}
+   /* HEADER STANDARD */
+    .header-nav {
+      background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+      padding: 15px 0;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+      position: sticky;
+      top: 0;
+      z-index: 999;
+    }
 
-    /* LANGUAGE SELECTOR */
-    .language-selector{background:#fff; border-radius:20px; padding:3px; display:flex; gap:2px}
-    .lang-btn{padding:4px 10px; border:none; background:transparent; border-radius:16px; cursor:pointer; font-weight:bold; font-size:.7rem}
-    .lang-btn.active{background:#FF9900; color:#fff}
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      flex-wrap: wrap;
+      position: relative;
+    }
 
-    /* CATEGORY CARDS */
-    .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); }
-    .category-card{ position:relative; border-radius:16px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:all .3s ease; box-shadow:0 4px 15px rgba(0,0,0,.1); background:#f1f5f9 }
-    .category-card:hover{ transform:translateY(-8px); box-shadow:0 20px 40px rgba(0,0,0,.15) }
-    .category-card img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease }
-    .category-overlay{ position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.85) 0%, rgba(0,0,0,.3) 50%, transparent 100%); display:flex; flex-direction:column; justify-content:flex-end; padding:1.5rem; pointer-events:none }
-    .category-name{ font-size:1.25rem; font-weight:700; color:#fff; margin-bottom:.25rem }
-    .category-count{ color:#FF9900; font-weight:600; font-size:.875rem }
-    .category-badge{ position:absolute; top:1rem; right:1rem; padding:.25rem .75rem; border-radius:9999px; font-size:.75rem; font-weight:600; color:#fff; pointer-events:none}
-    .badge-premium{background:linear-gradient(135deg,#dc2626,#b91c1c)}
-    .badge-popular{background:#f59e0b}
-    .badge-best{background:#8b5cf6}
+    .logo-nav {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      text-decoration: none;
+      color: #fff;
+      flex-shrink: 0;
+    }
 
-    /* FOOTER STYLE SAUVEGARDE */
-    .social-section-box{background:rgba(255,255,255,.05); border-radius:12px; padding:2rem; margin-bottom:2rem; text-align:center}
-    .social-links{display:flex; justify-content:center; gap:15px; margin-top:1rem}
-    .social-link{width:45px; height:45px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; text-decoration:none; font-size:1.2rem; transition:.3s}
-    .youtube{background:#FF0000} .facebook{background:#1877F2} .instagram{background:linear-gradient(45deg,#405DE6,#C13584,#FD1D1D)}
-    .pinterest{background:#BD081C} .tiktok{background:#000} .linkedin{background:#0A66C2}
+    .logo-nav img { height: 40px; width: auto; }
+    .logo-nav span { font-size: 1.3rem; font-weight: 700; color: #FF9900; }
+
+    .nav-links {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: .3s;
+      padding: 10px 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: .95rem;
+    }
+
+    .nav-links a:hover, .nav-links a.active {
+      color: #FF9900;
+      background: rgba(255, 153, 0, .1);
+    }
+
+    .express-nav-btn {
+      background: linear-gradient(135deg, #10b981, #059669) !important;
+      color: #fff !important;
+    }
+
+    .language-selector {
+      position: absolute;
+      top: 12px;
+      right: 20px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+      padding: 3px;
+      display: flex;
+      gap: 2px;
+    }
+
+    .lang-btn {
+      padding: 6px 10px;
+      border: none;
+      background: transparent;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: .3s;
+      font-weight: 500;
+      font-size: .8rem;
+    }
+
+    .lang-btn.active { background: #FF9900; color: #fff; }
+
+    /* CARDS */
+    .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 40px 0; }
+    .category-card { position:relative; border-radius:12px; overflow:hidden; aspect-ratio:4/3; cursor:pointer; transition:0.3s; box-shadow:0 4px 15px rgba(0,0,0,0.15); background:#2d3748; }
+    .category-card:hover { transform:translateY(-5px); }
+    .category-card img { width:100%; height:100%; object-fit:cover; }
+    .category-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); display:flex; flex-direction:column; justify-content:flex-end; padding:1rem; pointer-events:none; }
+    .category-name { font-size:0.9rem; font-weight:700; color:#fff; margin-bottom:.2rem; text-transform: uppercase; }
+    .category-badge { position:absolute; top:0.8rem; right:0.8rem; padding:.2rem .6rem; border-radius:9999px; font-size:.55rem; font-weight:800; color:#fff; pointer-events:none; z-index: 10; }
+    .badge-premium { background:linear-gradient(135deg,#dc2626,#b91c1c); }
+    .badge-popular { background:#f59e0b; }
+    .badge-best { background:#8b5cf6; }
+    .category-overlay button { pointer-events: auto; }
+
+    /* FOOTER */
+    footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size: 1.05rem; }
+    .social-links { display:flex; justify-content:center; gap:10px; margin-top:10px; }
+    .social-link { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.9rem; transition:.3s; text-decoration:none; }
+    .youtube { background:#FF0000; } .facebook { background:#1877F2; } .instagram { background:linear-gradient(45deg,#405DE6,#833AB4,#FD1D1D); }
+    .pinterest { background:#BD081C; } .tiktok { background:#000; border:1px solid #444; } .linkedin { background:#0A66C2; }
 
     @media (max-width: 1024px) { .nav-links { display: none; } }
-  </style>
+</style>
 </head>
+<body>
 
-<body class="bg-white">
-
-  <!-- Header -->
   <header class="header-nav notranslate">
     <div class="nav-container">
       <a href="./index.html" class="logo-nav">
         <img src="logo-gabarit-kdp-site-web.png" alt="Logo">
         <span>GabaritKDP</span>
       </a>
-
+      <nav class="nav-links">
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
+        <a href="./marketplace.html" class="active" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+      </nav>
       <div class="language-selector">
         <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
         <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">US</button>
       </div>
-
-      <nav class="nav-links">
-        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-        <a href="./dashboard.html" data-fr="📊 Tableau" data-en="📊 Dashboard">📊 Dashboard</a>
-        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
-        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
-        <a href="./marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
-        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
-      </nav>
     </div>
   </header>
 
-  <!-- Hero -->
-  <section class="py-12 bg-slate-50 text-center">
-    <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-      Marketplace <span style="color:#FF9900;">KDP</span>
+  <section class="py-10 bg-slate-50 text-center border-b border-gray-100">
+    <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">
+      <span data-fr="Modèles" data-en="Templates">Templates</span>
+      <span style="color:#FF9900;">KDP</span>
     </h1>
-    <p class="text-xl text-gray-600" data-fr="6600+ templates professionnels pour vos livres Amazon KDP" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
+    <p class="text-md text-gray-500" data-fr="6600+ templates professionnels" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
   </section>
 
-  <!-- Section PREMIUM -->
-  <section class="premium_edit_sec py-12">
+  <!-- SECTION 1: PREMIUM -->
+  <section class="premium_edit_sec">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-white text-center mb-10">🔥 FULL COVER - Premium Edition</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="grid-premium">
-        <!-- Rempli par le script -->
-      </div>
+      <h2 class="text-2xl font-bold text-white text-center mb-8 uppercase tracking-widest">🔥 Premium Edition</h2>
+      <div id="grid-premium" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
     </div>
   </section>
 
-  <!-- Section INTERIORS (Nouveauté) -->
+  <!-- SECTION 2: BOOK COVERS -->
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900" data-fr="📖 Intérieurs de Livres" data-en="📖 Book Interiors">📖 Book Interiors</h2>
-      <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-2 max-w-4xl mx-auto gap-6" id="grid-interiors">
-        <!-- Rempli par le script -->
-      </div>
+      <h2 class="text-2xl font-bold text-center mb-8 text-gray-900 uppercase tracking-widest">📚 Book Covers (Backgrounds)</h2>
+      <div id="grid-backgrounds" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
     </div>
   </section>
 
-  <!-- Section COVERS -->
-  <section class="py-16 bg-slate-50">
-    <div class="max-w-7xl mx-auto px-4">
-      <h2 class="text-3xl font-bold text-center mb-10 text-gray-900" data-fr="📚 Couvertures" data-en="📚 Book Covers">📚 Book Covers</h2>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="grid-backgrounds">
-        <!-- Rempli par le script -->
-      </div>
+  <!-- SECTION 3: PIXABAY -->
+  <section class="py-16 bg-slate-100">
+    <div class="max-w-7xl mx-auto px-4 text-center">
+        <h2 class="text-2xl font-bold mb-6 uppercase tracking-widest text-gray-900">🖼️ Stock Images (Pixabay)</h2>
+        <div class="flex flex-col md:flex-row items-center justify-center gap-4 mb-8">
+            <div class="flex gap-2">
+                <div id="gkdp-pixabay-tab-v" class="gkdp-pixabay-tab active">Portrait</div>
+                <div id="gkdp-pixabay-tab-h" class="gkdp-pixabay-tab">Landscape</div>
+            </div>
+            <div class="flex w-full max-w-sm">
+                <input type="text" id="gkdp-pixabay-query" placeholder="Search..." class="border p-2 rounded-l w-full outline-none">
+                <button id="gkdp-pixabay-search-btn" class="bg-gray-800 text-white px-4 py-2 rounded-r hover:bg-black transition">Search</button>
+            </div>
+        </div>
+        <div id="gkdp-pixabay-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
     </div>
   </section>
 
-  <!-- Footer Sauvegarde -->
-  <footer class="bg-gray-900 text-gray-300 py-12 mt-12">
+  <!-- SECTION 4: BOOK INTERIORS -->
+  <section class="py-16 bg-slate-50 border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="social-section-box">
-        <h4 class="text-white font-semibold mb-4" data-fr="🚀 Suivez-nous !" data-en="🚀 Follow us for the latest KDP news!">🚀 Follow us for the latest KDP news!</h4>
+      <h2 class="text-2xl font-bold text-center mb-8 text-gray-900 uppercase tracking-widest" data-fr="📖 Intérieurs de Livres" data-en="📖 Book Interiors">📖 Book Interiors</h2>
+      <div id="grid-interiors" class="grid grid-cols-1 md:grid-cols-2 max-w-4xl mx-auto gap-8"></div>
+    </div>
+  </section>
+
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section mb-12">
+        <h4 class="text-white font-semibold mb-4 text-center" data-en="🚀 Follow us for the latest KDP news!" data-fr="🚀 Suivez-nous pour les dernières actualités KDP !">🚀 Follow us for the latest KDP news!</h4>
         <div class="social-links">
-          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram"><i class="fab fa-instagram"></i></a>
-          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest"><i class="fab fa-pinterest-p"></i></a>
-          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok"><i class="fab fa-tiktok"></i></a>
-          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin"><i class="fab fa-linkedin-in"></i></a>
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" target="_blank"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
         </div>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
-        <div><h4 class="text-white font-bold mb-4">GabaritKDP</h4><p>The 100% Amazon-compliant KDP cover generator.</p></div>
-        <div><h4 class="text-white font-bold mb-4">Product</h4><ul class="space-y-2"><li>Generator</li><li>Marketplace</li><li>Pricing</li></ul></div>
-        <div><h4 class="text-white font-bold mb-4">Support</h4><ul class="space-y-2"><li>FAQ</li><li>Contact</li><li>Guide</li></ul></div>
-        <div><h4 class="text-white font-bold mb-4">Legal</h4><ul class="space-y-2"><li>Legal Notice</li><li>Terms</li><li>Privacy</li></ul></div>
+
+      <div class="grid md:grid-cols-4 gap-8 border-t border-gray-800 pt-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
+          </div>
+          <p class="text-sm text-gray-400" data-en="The generator for 100% Amazon-compliant KDP covers." data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">The generator for 100% Amazon-compliant KDP covers.</p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Product</h4>
+          <ul class="text-sm space-y-2">
+            <li><a href="./generator.html">Express Generator</a></li>
+            <li><a href="./marketplace.html">Templates</a></li>
+            <li><a href="./index.html#tarifs">Pricing</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Support</h4>
+          <ul class="text-sm space-y-2">
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="./contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4">Legal</h4>
+          <ul class="text-sm space-y-2">
+            <li><a href="./cgu.html">Terms of Service</a></li>
+            <li><a href="./confidentialite.html">Privacy Policy</a></li>
+          </ul>
+        </div>
       </div>
+      <div class="mt-8 text-center text-xs text-gray-500">&copy; 2025 GabaritKDP. All rights reserved.</div>
     </div>
   </footer>
 
   <script>
-    // Configuration des dossiers et des vignettes de secours
-    const categories = {
+    // 1. CONFIGURATION
+    const config = {
       premium: [
         { name: "Art", path: "FULL COVER/Art", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg", badge: "PREMIUM" },
         { name: "Boheme", path: "FULL COVER/Boheme", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" },
         { name: "Fantasy", path: "FULL COVER/FANTASY", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg", badge: "POPULAR" },
-        { name: "Historical", path: "FULL COVER/Historical", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg" },
-        { name: "Horror", path: "FULL COVER/Horror/Horror", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg", badge: "NEW" },
-        { name: "Mystery", path: "FULL COVER/Mystery/Mystery", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg" },
-        { name: "Romance", path: "FULL COVER/Romance", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg", badge: "BEST" }
-      ],
-      interiors: [
-        { name: "Planners", path: "backgrounds/PLANNERS", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png", badge: "BEST SELLER" },
-        { name: "Coloring Books", path: "backgrounds/COLORIAGES", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" }
+        { name: "Fleurs", path: "FULL COVER/Fleurs", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" },
+        { name: "Historical", path: "FULL COVER/Historical" },
+        { name: "Horror", path: "FULL COVER/Horror", badge: "NEW" },
+        { name: "Mystery", path: "FULL COVER/Mystery" },
+        { name: "Religions", path: "FULL COVER/RELIGIONS", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" },
+        { name: "Romance", path: "FULL COVER/Romance", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg", badge: "BEST" },
+        { name: "Sci-Fi", path: "FULL COVER/Sci-fi" },
+        { name: "Thriller", path: "FULL COVER/Thriller" },
+        { name: "Voyages", path: "FULL COVER/Voyages/MARRAKECH", img: "https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" }
       ],
       backgrounds: [
-        { name: "Romance", path: "backgrounds/ROMANCE", img: "https://gabaritkdp.b-cdn.net/backgrounds/ROMANCE/DARK%20ROMANCE/Dark%20romance/image_couverture_de_livres_romance_dark_romance_002.png" },
-        { name: "Thriller", path: "backgrounds/THRILLER", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" }
+        { name: "Romance", path: "backgrounds/ROMANCE", img: "https://gabaritkdp.b-cdn.net/backgrounds/vignette.webp" },
+        { name: "Thriller", path: "backgrounds/THRILLER", img: "https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" },
+        { name: "Fantasy", path: "backgrounds/FANTASY", img: "https://gabaritkdp.b-cdn.net/backgrounds/FANTASY/DARK%20FANTASY/image_couverture_de_livres_fantasy_dark_fantasy_006.png" },
+        { name: "Mystery", path: "backgrounds/MYSTERY", img: "https://gabaritkdp.b-cdn.net/backgrounds/MYSTERY/Cozy%20Mystery/image_couverture_de_livres_mystery_cozy_mystery_001.png" },
+        { name: "Sci-Fi", path: "backgrounds/SCI-FI", img: "https://gabaritkdp.b-cdn.net/backgrounds/SCI-FI/TECH%20ROMANCE%20%20AI/image_couverture_de_livres_sci_fi_tech_romance_ai_001.png" },
+        { name: "Historical", path: "backgrounds/HISTORICAL", img: "https://gabaritkdp.b-cdn.net/backgrounds/HISTORICAL/Medieval/Medieval/image_couverture_de_livres_historical_medieval_010.png" },
+        { name: "Boheme", path: "backgrounds/BOHEME", img: "https://gabaritkdp.b-cdn.net/backgrounds/BOHEME/Boheme_152.png" },
+        { name: "Hippie", path: "backgrounds/HIPPIE", img: "https://gabaritkdp.b-cdn.net/backgrounds/HIPPIE/image_couverture_de_livres_hippie_001.png" },
+        { name: "Business", path: "backgrounds/BUSINESS", img: "https://gabaritkdp.b-cdn.net/backgrounds/BUSINESS/Entrepreneurship/image_couverture_de_livres_business_entrepreneurship_011.png" },
+        { name: "Cartoon", path: "backgrounds/CARTOON", img: "https://gabaritkdp.b-cdn.net/backgrounds/CARTOON/Animaux%20cartoon/image_couverture_de_livres_cartoon_animaux_cartoon_001.png" },
+        { name: "Animals", path: "backgrounds/ANIMAUX", img: "https://gabaritkdp.b-cdn.net/backgrounds/ANIMAUX/Loups/Loups/image_couverture_de_livres_animaux_loups_004.png" }
+      ],
+      interiors: [
+        { name: "Planners", url: "category-planners.html", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignettes%20PLANNERS%202026.png", badge: "BEST SELLER" },
+        { name: "Coloring Books", url: "category-coloriages.html", img: "https://gabaritkdp.b-cdn.net/UI/book-interiors/Vignette%20COLORING%20BOOKS.png" }
       ]
     };
 
-    function render(data, gridId) {
+    // 2. LOGIQUE IMAGES & RENDU
+    const BUNNY_CDN_BASE = "https://gabaritkdp.b-cdn.net/";
+
+    function bunnyJoin(path){ 
+      return BUNNY_CDN_BASE + encodeURIComponent(path).replace(/%2F/g,'/') + "/";
+    }
+
+    function vignetteCandidates(folderPath){
+      const base = bunnyJoin(folderPath);
+      return [base + "vignette.webp", base + "vignette.png", base + "vignette.jpg"];
+    }
+
+    function handleVignetteError(imgEl, folderPath){
+      try{
+        const tries = parseInt(imgEl.getAttribute('data-try') || '0', 10);
+        const cands = vignetteCandidates(folderPath);
+        if(tries < cands.length){
+          imgEl.setAttribute('data-try', String(tries+1));
+          imgEl.src = cands[tries];
+          return;
+        }
+      }catch(e){}
+      imgEl.src = "https://gabaritkdp.b-cdn.net/backgrounds/vignette.webp";
+    }
+
+    function render(data, gridId, isInterior = false) {
       const grid = document.getElementById(gridId);
+      if (!grid) return;
+      grid.innerHTML = "";
       data.forEach(item => {
+        const link = isInterior ? item.url : `category.html?path=${encodeURIComponent(item.path)}`;
+        const imgSrc = (item.img && !item.img.includes('...')) ? item.img : vignetteCandidates(item.path)[0];
         grid.innerHTML += `
-          <div class="category-card" onclick="location.href='category.html?path=${encodeURIComponent(item.path)}'">
-            <img src="${item.img}" loading="lazy">
-            ${item.badge ? `<span class="category-badge badge-premium">${item.badge}</span>` : ''}
+          <div class="category-card" onclick="location.href='${link}'">
+            <img src="${imgSrc}" loading="lazy" data-try="1" onerror="handleVignetteError(this, '${item.path}')">
+            ${item.badge ? `<span class="category-badge ${item.badge.includes('PREMIUM') ? 'badge-premium' : (item.badge.includes('POPULAR') ? 'badge-popular' : 'badge-best')}">${item.badge}</span>` : ''}
             <div class="category-overlay">
               <div class="category-name">${item.name}</div>
-              <div class="category-count" data-fr="Explorer →" data-en="Explore templates →">Explore templates →</div>
             </div>
           </div>`;
       });
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      render(categories.premium, 'grid-premium');
-      render(categories.interiors, 'grid-interiors');
-      render(categories.backgrounds, 'grid-backgrounds');
-      switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
-    });
 
     function switchLanguage(lang) {
       localStorage.setItem('preferredLanguage', lang);
@@ -191,6 +355,50 @@
         el.innerText = el.getAttribute(`data-${lang}`);
       });
     }
+
+    // 3. PIXABAY
+    const PIXABAY_API_KEY = "54299270-a26f023b47f440fc2718be4ac";
+    let gkdpPixabayMode = "vertical";
+
+    function gkdpPixabaySetMode(mode){
+      gkdpPixabayMode = mode;
+      document.getElementById("gkdp-pixabay-tab-v").classList.toggle("active", mode === "vertical");
+      document.getElementById("gkdp-pixabay-tab-h").classList.toggle("active", mode === "horizontal");
+    }
+
+    async function gkdpPixabayLoad(q = ""){
+      const grid = document.getElementById("gkdp-pixabay-grid");
+      const query = q || (gkdpPixabayMode === "vertical" ? "portrait background" : "landscape nature");
+      const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&orientation=${gkdpPixabayMode}&per_page=12&image_type=photo&safesearch=true`;
+
+      try{
+        const res = await fetch(url);
+        const data = await res.json();
+        grid.innerHTML = "";
+        data.hits.forEach(photo => {
+          grid.innerHTML += `
+            <div class="category-card" onclick="window.location.href='./generator.html?trim=6x9&img=${encodeURIComponent(photo.largeImageURL)}&src=pixabay'">
+              <img src="${photo.webformatURL}" loading="lazy">
+              <div class="category-overlay" style="pointer-events:auto">
+                <button class="bg-orange-500 text-white px-3 py-1 rounded text-xs font-bold">USE IMAGE</button>
+              </div>
+            </div>`;
+        });
+      }catch(e){ grid.innerHTML = "<p>Error loading Pixabay</p>"; }
+    }
+
+    // 4. INITIALISATION
+    document.addEventListener("DOMContentLoaded", () => {
+      render(config.premium, "grid-premium");
+      render(config.backgrounds, "grid-backgrounds");
+      render(config.interiors, "grid-interiors", true);
+
+      document.getElementById("gkdp-pixabay-tab-v").addEventListener("click", () => { gkdpPixabaySetMode("vertical"); gkdpPixabayLoad(); });
+      document.getElementById("gkdp-pixabay-tab-h").addEventListener("click", () => { gkdpPixabaySetMode("horizontal"); gkdpPixabayLoad(); });
+      document.getElementById("gkdp-pixabay-search-btn").addEventListener("click", () => { gkdpPixabayLoad(document.getElementById("gkdp-pixabay-query").value); });
+
+      gkdpPixabayLoad("");
+    });
   </script>
 </body>
 </html>
