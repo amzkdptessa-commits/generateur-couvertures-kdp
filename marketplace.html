@@ -163,28 +163,6 @@ footer {
     .pinterest { background:#BD081C; } .tiktok { background:#000; border:1px solid #444; } .linkedin { background:#0A66C2; }
 
     @media (max-width: 1024px) { .nav-links { display: none; } }
-  
-
-    /* PIXABAY TABS */
-    .pixabay-tab{
-      padding: 8px 12px;
-      border-radius: 9999px;
-      border: 1px solid rgba(15, 23, 42, 0.15);
-      background: #fff;
-      color: #0f172a;
-      font-weight: 700;
-      font-size: .8rem;
-      transition: .2s;
-      cursor: pointer;
-      user-select: none;
-    }
-    .pixabay-tab:hover{ transform: translateY(-1px); }
-    .pixabay-tab.active{
-      background: #FF9900;
-      border-color: #FF9900;
-      color: #fff;
-    }
-
   </style>
 </head>
 <body>
@@ -253,35 +231,21 @@ footer {
       <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
         <div>
           <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-widest mb-4">
-            🖼️ <span data-fr="Inspirations Pixabay" data-en="Pixabay Inspirations">Pixabay Inspirations</span>
+            🖼️ Pixabay Inspirations
           </h2>
           <div class="flex gap-2">
-            <button onclick="changePixabayMode('vertical')" id="tab-v" class="pixabay-tab active"
-                    data-fr="Portrait (Recto)" data-en="Portrait (Front)">Portrait (Front)</button>
-            <button onclick="changePixabayMode('horizontal')" id="tab-h" class="pixabay-tab"
-                    data-fr="Paysage (Couverture complète)" data-en="Landscape (Full Cover)">Landscape (Full Cover)</button>
+            <button onclick="changePixabayMode('vertical')" id="tab-v" class="pixabay-tab active">Portrait (Front)</button>
+            <button onclick="changePixabayMode('horizontal')" id="tab-h" class="pixabay-tab">Landscape (Full Cover)</button>
           </div>
         </div>
 
         <div class="flex gap-2">
-          <input id="pixabay-query"
-                 class="border border-gray-200 rounded-lg px-3 py-2 w-64"
-                 type="text"
-                 data-placeholder-fr="Rechercher des images..."
-                 data-placeholder-en="Search images..."
-                 placeholder="Search images...">
-          <button id="pixabay-search-btn" class="px-4 py-2 rounded-lg text-white font-semibold" style="background:#FF9900;"
-                  data-fr="Rechercher" data-en="Search">Search</button>
+          <input id="pixabay-query" class="border border-gray-200 rounded-lg px-3 py-2 w-64" type="text" placeholder="Search images...">
+          <button id="pixabay-search-btn" class="px-4 py-2 rounded-lg text-white font-semibold" style="background:#FF9900;">Search</button>
         </div>
       </div>
 
       <div id="grid-pixabay" class="grid grid-cols-2 md:grid-cols-4 gap-6 min-h-[300px]"></div>
-
-      <p class="text-xs text-gray-400 mt-4"
-         data-fr="Images fournies par Pixabay. Cliquez sur « Utiliser » pour ouvrir le générateur en 6x9."
-         data-en="Images provided by Pixabay. Click “Use” to open the generator in 6x9.">
-        Images provided by Pixabay. Click “Use” to open the generator in 6x9.
-      </p>
     </div>
   </section>
 <footer class="bg-gray-900 text-gray-300 py-12">
@@ -456,24 +420,12 @@ footer {
     }
 function render(data, gridId, isInterior = false) {
       const grid = document.getElementById(gridId);
-      if (!grid) return;
-      grid.innerHTML = "";
       data.forEach(item => {
         const link = isInterior ? item.url : `category.html?path=${encodeURIComponent(item.path)}`;
-
-        // If item.img is provided, use it; otherwise try vignette candidates from Bunny CDN
-        const defaultVignette = (typeof vignetteCandidates === 'function' && item.path)
-          ? vignetteCandidates(item.path)[0]
-          : "https://gabaritkdp.b-cdn.net/backgrounds/vignette.webp";
-
-        const imgSrc = (item.img && String(item.img).startsWith("http")) ? item.img : defaultVignette;
-
-        const badgeClass = (item.badgeType === 'popular') ? 'badge-popular' : 'badge-best';
-
         grid.innerHTML += `
           <div class="category-card" onclick="location.href='${link}'">
-            <img src="${imgSrc}" data-try="1" onerror="handleVignetteError(this, '${item.path || ''}')" loading="lazy" alt="">
-            ${item.badge ? `<span class="category-badge ${badgeClass}">${item.badge}</span>` : ''}
+            <img src="${(item.img && !String(item.img).includes('...')) ? item.img : vignetteCandidates(item.path)[0]}" loading="lazy" data-try="1" onerror="handleVignetteError(this, '${item.path}')">
+            ${item.badge ? `<span class="category-badge ${item.badge.includes('PREMIUM') ? 'badge-premium' : (item.badge.includes('POPULAR') ? 'badge-popular' : 'badge-best')}">${item.badge}</span>` : ''}
             <div class="category-overlay">
               <div class="category-name">${item.name}</div>
             </div>
@@ -481,24 +433,15 @@ function render(data, gridId, isInterior = false) {
       });
     }
 
-
     function switchLanguage(lang) {
       localStorage.setItem('preferredLanguage', lang);
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-
-      // Update all text nodes that have translations
       document.querySelectorAll('[data-fr][data-en]').forEach(el => {
         el.innerText = el.getAttribute(`data-${lang}`);
       });
-
-      // Update placeholders (inputs)
-      document.querySelectorAll('[data-placeholder-fr][data-placeholder-en]').forEach(el => {
-        const ph = el.getAttribute(`data-placeholder-${lang}`);
-        if (ph) el.setAttribute('placeholder', ph);
-      });
     }
 
-/* =======================
+/* ======================= 
    PIXABAY INTEGRATION 
    ======================= */
 const PIXABAY_API_KEY = "54299270-a26f023b47f440fc2718be4ac"; 
@@ -524,21 +467,24 @@ async function loadPixabay(q = "") {
       card.innerHTML = `
         <img src="${photo.webformatURL}" loading="lazy" alt="">
         <div class="category-overlay" style="pointer-events:auto">
-          <button class="px-3 py-2 text-xs text-white font-bold rounded" style="background:#FF9900;">${(localStorage.getItem('preferredLanguage') || 'en') === 'fr' ? 'Utiliser' : 'Use'}</button>
+          <button class="px-3 py-2 text-xs text-white font-bold rounded" style="background:#FF9900;">Use</button>
         </div>`;
 
       card.querySelector("button").onclick = (e) => {
-        e.preventDefault(); 
+        e.preventDefault();
         e.stopPropagation();
         const img = encodeURIComponent(photo.largeImageURL);
 
-        // Landscape -> template (Full Cover) | Portrait -> img (Background)
-        const param = (currentPixabayMode === 'horizontal') ? `template=${img}&src=premium` : `img=${img}&src=pixabay`;
+        // Landscape -> template (Full Cover) | Portrait -> img (Front background)
+        const param = (currentPixabayMode === 'horizontal') ? `template=${img}&src=pixabay` : `img=${img}&src=pixabay`;
         window.location.href = `./generator.html?trim=6x9&${param}`;
       };
+
       grid.appendChild(card);
     });
-  } catch (e) { console.error("Pixabay Error", e); }
+  } catch (e) {
+    console.error("Pixabay Error", e);
+  }
 }
 
 function changePixabayMode(mode) {
@@ -554,9 +500,10 @@ document.addEventListener('DOMContentLoaded', () => {
   render(config.backgrounds, 'grid-backgrounds');
   render(config.interiors, 'grid-interiors', true);
   switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
+
   // 🔥 PIXABAY AUTO LOAD
-  loadPixabay();
-  document.getElementById('pixabay-search-btn').onclick = () => loadPixabay(document.getElementById('pixabay-query').value);
+    loadPixabay();
+    document.getElementById('pixabay-search-btn').onclick = () => loadPixabay(document.getElementById('pixabay-query').value);
 });
 
   </script>
