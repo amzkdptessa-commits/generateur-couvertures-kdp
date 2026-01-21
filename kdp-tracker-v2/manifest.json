@@ -18,7 +18,7 @@
     "*://*.amazon.ca/*",
     "*://*.amazon.com.au/*",
     "*://kdpreports.amazon.com/*",
-    "http://localhost:3000/*"
+    "http://localhost:3001/*"
   ],
   "action": {
     "default_popup": "popup.html"
