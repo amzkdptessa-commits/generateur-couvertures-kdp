@@ -1,5 +1,5 @@
 // popup.js - VERSION ROBUSTE
-const API_URL = 'http://localhost:3000';
+const API_URL = 'http://localhost:3001';
 
 function updateStatus(message, isError = false) {
   const statusElement = document.getElementById('status');
