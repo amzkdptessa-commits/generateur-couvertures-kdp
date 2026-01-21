@@ -12,7 +12,7 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background-color: #fff;}
 
-   /* HEADER STANDARD (Sauvegarde 3) */
+   /* HEADER STANDARD (comme index) */
 .header-nav {
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   padding: 15px 0;
@@ -30,7 +30,7 @@
   justify-content: space-between;
   padding: 0 20px;
   flex-wrap: wrap;
-  position: relative;
+  position: relative; /* ✅ ANCRE le switch */
 }
 .language-selector {
   position: absolute;
@@ -48,8 +48,16 @@
   flex-shrink: 0;
 }
 
-.logo-nav img { height: 40px; width: auto; }
-.logo-nav span { font-size: 1.3rem; font-weight: 700; color: #FF9900; }
+.logo-nav img {
+  height: 40px;
+  width: auto;
+}
+
+.logo-nav span {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #FF9900;
+}
 
 .nav-links {
   width: 100%;
@@ -73,15 +81,57 @@
   font-size: .95rem;
 }
 
-.nav-links a:hover { color: #FF9900; background: rgba(255, 153, 0, .1); }
-.nav-links a.active { color: #FF9900; background: rgba(255, 153, 0, .15); }
-.express-nav-btn { background: linear-gradient(135deg, #10b981, #059669) !important; color: #fff !important; border-radius: 8px !important; padding: 10px 14px !important; }
+.nav-links a:hover {
+  color: #FF9900;
+  background: rgba(255, 153, 0, .1);
+}
 
-.language-selector { background: #fff; border-radius: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, .1); padding: 3px; display: flex; gap: 2px; }
-.lang-btn { padding: 6px 10px; border: none; background: transparent; border-radius: 16px; cursor: pointer; transition: .3s; font-weight: 500; font-size: .8rem; }
-.lang-btn.active { background: #FF9900; color: #fff; }
+.nav-links a.active {
+  color: #FF9900;
+  background: rgba(255, 153, 0, .15);
+}
 
-@media (max-width: 1024px) { .nav-links { display: none; } }
+.express-nav-btn {
+  background: linear-gradient(135deg, #10b981, #059669) !important;
+  color: #fff !important;
+  border-radius: 8px !important;
+  padding: 10px 14px !important;
+}
+
+.language-selector {
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+  padding: 3px;
+  display: flex;
+  gap: 2px;
+}
+
+.lang-btn {
+  padding: 6px 10px;
+  border: none;
+  background: transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: .3s;
+  font-weight: 500;
+  font-size: .8rem;
+}
+
+.lang-btn.active {
+  background: #FF9900;
+  color: #fff;
+}
+
+/* Responsive: cacher le menu desktop sur tablette/mobile (comme ailleurs) */
+@media (max-width: 1024px) {
+  .nav-links { display: none; }
+}
+
+    /* LANGUE */
+    .language-selector { background:#fff; border-radius:20px; padding:2px; display:flex; gap:2px; }
+    .lang-btn { padding:2px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-weight:bold; font-size:.65rem; color:#1e293b; }
+    .lang-btn.active { background:#FF9900; color:#fff; }
 
     /* CARDS */
     .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 40px 0; }
@@ -94,18 +144,25 @@
     .badge-premium { background:linear-gradient(135deg,#dc2626,#b91c1c); }
     .badge-popular { background:#f59e0b; }
     .badge-best { background:#8b5cf6; }
-    .category-overlay button { pointer-events: auto; }
+.category-overlay button,
+.category-overlay a {
+  pointer-events: auto;
+}
 
-    /* PIXABAY TABS */
-    .pixabay-tab { padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: 0.2s; border: 1px solid #e2e8f0; color: #64748b; background: #fff; }
-    .pixabay-tab.active { background: #FF9900; color: #fff; border-color: #FF9900; }
-
-    /* FOOTER STANDARD (Sauvegarde 3) */
-footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size: 1.05rem; }
+    /* FOOTER */
+footer {
+  background: #0f172a;
+  color: #cbd5e1;
+  padding: 40px 20px 20px;
+  font-size: 1.05rem;
+}
+    .social-box { background:rgba(255,255,255,0.03); border-radius:12px; padding:15px; text-align:center; margin-bottom:25px; border: 1px solid rgba(255,255,255,0.05); }
     .social-links { display:flex; justify-content:center; gap:10px; margin-top:10px; }
     .social-link { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.9rem; transition:.3s; text-decoration:none; }
     .youtube { background:#FF0000; } .facebook { background:#1877F2; } .instagram { background:linear-gradient(45deg,#405DE6,#833AB4,#FD1D1D); }
     .pinterest { background:#BD081C; } .tiktok { background:#000; border:1px solid #444; } .linkedin { background:#0A66C2; }
+
+    @media (max-width: 1024px) { .nav-links { display: none; } }
   </style>
 </head>
 <body>
@@ -121,7 +178,9 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
         <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
         <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
         <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
-        <a href="./marketplace.html" class="active" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
+        <a href="./marketplace.html" class="active"
+   data-fr="📚 Templates"
+   data-en="📚 Templates">📚 Templates</a>
         <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
         <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
       </nav>
@@ -133,13 +192,15 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
   </header>
 
   <section class="py-10 bg-slate-50 text-center border-b border-gray-100">
-    <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">
-      <span data-fr="Modèles" data-en="Templates">Templates</span>
-      <span style="color:#FF9900;">KDP</span>
-    </h1>
-    <p class="text-md text-gray-500">6600+ professional templates for your Amazon KDP books</p>
+<h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">
+  <span data-fr="Modèles" data-en="Templates">Templates</span>
+  <span style="color:#FF9900;">KDP</span>
+</h1>
+
+    <p class="text-md text-gray-500" data-fr="6600+ templates professionnels" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
   </section>
 
+  <!-- SECTION 1: PREMIUM -->
   <section class="premium_edit_sec">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl font-bold text-white text-center mb-8 uppercase tracking-widest">🔥 Premium Edition</h2>
@@ -147,6 +208,7 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
     </div>
   </section>
 
+  <!-- SECTION 2: BOOK COVERS -->
   <section class="py-16 bg-white">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl font-bold text-center mb-8 text-gray-900 uppercase tracking-widest">📚 Book Covers (Backgrounds)</h2>
@@ -154,6 +216,7 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
     </div>
   </section>
 
+  <!-- SECTION 3: BOOK INTERIORS -->
   <section class="py-16 bg-slate-50 border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4">
       <h2 class="text-2xl font-bold text-center mb-8 text-gray-900 uppercase tracking-widest" data-fr="📖 Intérieurs de Livres" data-en="📖 Book Interiors">📖 Book Interiors</h2>
@@ -161,75 +224,151 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
     </div>
   </section>
 
-  <section class="py-16 bg-white border-t border-gray-100">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
-        <div>
-          <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-widest mb-4">🖼️ Pixabay Inspirations</h2>
-          <div class="flex gap-2">
-            <button onclick="changePixabayMode('vertical')" id="tab-v" class="pixabay-tab active">Portrait (Front)</button>
-            <button onclick="changePixabayMode('horizontal')" id="tab-h" class="pixabay-tab">Landscape (Full Cover)</button>
-          </div>
-        </div>
-        <div class="flex gap-2">
-          <input id="pixabay-query" class="border border-gray-200 rounded-lg px-3 py-2 w-64" type="text" placeholder="Search images...">
-          <button id="pixabay-search-btn" class="px-4 py-2 rounded-lg text-white font-semibold" style="background:#FF9900;">Search</button>
-        </div>
+  <!-- SECTION 4: UNSPLASH (Demo) -->
+<section class="py-16 bg-white border-t border-gray-100">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-widest">
+          🖼️ Unsplash Inspirations
+        </h2>
+        <p class="text-sm text-gray-500">
+          Demo integration for approval: hotlinked images + attribution + download trigger
+        </p>
       </div>
-      <div id="grid-pixabay" class="grid grid-cols-2 md:grid-cols-4 gap-6 min-h-[300px]"></div>
-    </div>
-  </section>
 
-  <footer class="bg-gray-900 text-gray-300 py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="social-section text-center">
-        <h4 class="text-white font-semibold mb-4">🚀 Follow us for the latest KDP news!</h4>
-        <div class="social-links">
-          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" target="_blank"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" target="_blank"><i class="fab fa-pinterest-p"></i></a>
-          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
-          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-      </div>
-      <div class="grid md:grid-cols-4 gap-8 mt-8">
-        <div>
-          <div class="flex items-center mb-4">
-            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
-            <span class="ml-2 text-white font-bold">GabaritKDP</span>
-          </div>
-          <p class="text-gray-400">The generator for 100% Amazon-compliant KDP covers.</p>
-        </div>
-        <div>
-          <h4 class="text-white font-semibold mb-4">Product</h4>
-          <ul class="space-y-2">
-            <li><a href="./generator.html" class="hover:text-white transition">Express Generator</a></li>
-            <li><a href="./generator-magic.html" class="hover:text-white transition">Magic Generator</a></li>
-            <li><a href="./marketplace.html" class="hover:text-white transition">Templates</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-white font-semibold mb-4">Support</h4>
-          <ul class="space-y-2">
-            <li><a href="./faq.html" class="hover:text-white transition">FAQ</a></li>
-            <li><a href="./contact.html" class="hover:text-white transition">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-white font-semibold mb-4">Legal</h4>
-          <ul class="space-y-2">
-            <li><a href="./cgu.html" class="hover:text-white transition">Terms</a></li>
-            <li><a href="./confidentialite.html" class="hover:text-white transition">Privacy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+      <div class="flex gap-2">
+        <input id="unsplash-query"
+               class="border border-gray-200 rounded-lg px-3 py-2 w-64"
+               type="text"
+               placeholder="ex: romance, thriller, fantasy">
+        <button id="unsplash-search-btn"
+                class="px-4 py-2 rounded-lg text-white font-semibold"
+                style="background:#FF9900;">
+          Search
+        </button>
       </div>
     </div>
-  </footer>
 
+    <div id="grid-unsplash" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+
+    <p class="text-xs text-gray-400 mt-4">
+      Photos are provided by Unsplash. All photos are hotlinked, and attribution is displayed per Unsplash guidelines.
+    </p>
+  </div>
+</section>
+
+    <footer class="bg-gray-900 text-gray-300 py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="social-section">
+      <h4 class="text-white font-semibold mb-4 text-center"
+          data-en="🚀 Follow us for the latest KDP news!"
+          data-fr="🚀 Suivez-nous pour les dernières actualités KDP !">
+        🚀 Follow us for the latest KDP news!
+      </h4>
+
+      <div class="social-links">
+        <a href="https://www.youtube.com/@Gabaritkdp"
+           class="social-link youtube"
+           title="YouTube - KDP Tutorials"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-youtube"></i>
+        </a>
+
+        <a href="https://www.facebook.com/profile.php?id=61578785408904"
+           class="social-link facebook"
+           title="Facebook - Authors Community"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+
+        <a href="https://www.instagram.com/gabaritkdp/"
+           class="social-link instagram"
+           title="Instagram - Cover Inspirations"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="https://fr.pinterest.com/Gabaritkdp/"
+           class="social-link pinterest"
+           title="Pinterest - Cover Designs"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-pinterest-p"></i>
+        </a>
+
+        <a href="https://www.tiktok.com/@gabaritkdp"
+           class="social-link tiktok"
+           title="TikTok - Quick KDP Tips"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-tiktok"></i>
+        </a>
+
+        <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/"
+           class="social-link linkedin"
+           title="LinkedIn - Publishers & Agencies"
+           target="_blank" rel="noopener noreferrer">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+
+      <p class="text-center text-sm text-gray-400 mt-4"
+         data-en="KDP Tips • Tutorials • News • Authors Community"
+         data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs">
+        KDP Tips • Tutorials • News • Authors Community
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-4 gap-8">
+      <div>
+        <div class="flex items-center mb-4">
+          <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+          <span class="ml-2 text-white font-bold">GabaritKDP</span>
+        </div>
+        <p class="text-gray-400"
+           data-en="The generator for 100% Amazon-compliant KDP covers."
+           data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">
+          The generator for 100% Amazon-compliant KDP covers.
+        </p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4" data-en="Product" data-fr="Produit">Product</h4>
+        <ul class="space-y-2">
+          <li><a href="./generator.html" class="hover:text-white transition" data-en="Express Generator" data-fr="Générateur Express">Express Generator</a></li>
+          <li><a href="./generator-magic.html" class="hover:text-white transition" data-en="Magic Generator" data-fr="Générateur Magique">Magic Generator</a></li>
+          <li><a href="./marketplace.html" class="hover:text-white transition" data-en="Templates" data-fr="Templates">Templates</a></li>
+          <li><a href="./index.html#tarifs" class="hover:text-white transition" data-en="Pricing" data-fr="Tarifs">Pricing</a></li>
+          <li><a href="./fonctionnalites.html" class="hover:text-white transition" data-en="Features" data-fr="Fonctionnalités">Features</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4" data-en="Support" data-fr="Support">Support</h4>
+        <ul class="space-y-2">
+          <li><a href="./api-pro.html" class="hover:text-white transition" data-en="API" data-fr="API">API</a></li>
+          <li><a href="./faq.html" class="hover:text-white transition" data-en="FAQ" data-fr="FAQ">FAQ</a></li>
+          <li><a href="./contact.html" class="hover:text-white transition" data-en="Contact" data-fr="Contact">Contact</a></li>
+          <li><a href="./guide.html" class="hover:text-white transition" data-en="User Guide" data-fr="Guide d'utilisation">User Guide</a></li>
+          <li><a href="./updates.html" class="hover:text-white transition" data-en="Updates / What’s New" data-fr="Mises à jour / Nouveautés">Updates / What’s New</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold mb-4" data-en="Legal" data-fr="Légal">Legal</h4>
+        <ul class="space-y-2">
+          <li><a href="./mentions-legales.html" class="hover:text-white transition" data-en="Legal Notice" data-fr="Mentions Légales">Legal Notice</a></li>
+          <li><a href="./cgu.html" class="hover:text-white transition" data-en="Terms of Service" data-fr="Conditions d'utilisation">Terms of Service</a></li>
+          <li><a href="./confidentialite.html" class="hover:text-white transition" data-en="Privacy Policy" data-fr="Politique de confidentialité">Privacy Policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+      <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+    </div>
+  </div>
+    </footer>
   <script>
     const config = {
       premium: [
@@ -265,29 +404,41 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
       ]
     };
 
+    
+    // --- Vignette helper (Option A): tries vignette.webp/png/jpg inside the folder ---
     const BUNNY_CDN_BASE = "https://gabaritkdp.b-cdn.net/";
-    function bunnyJoin(path){ return BUNNY_CDN_BASE + encodeURIComponent(path).replace(/%2F/g,'/') + "/"; }
-    function vignetteCandidates(folderPath){ const base = bunnyJoin(folderPath); return [base + "vignette.webp", base + "vignette.png", base + "vignette.jpg"]; }
+    function bunnyJoin(path){ 
+      // path like "FULL COVER/Art" or "backgrounds/ROMANCE"
+      return BUNNY_CDN_BASE + encodeURIComponent(path).replace(/%2F/g,'/') + "/";
+    }
+    function vignetteCandidates(folderPath){
+      const base = bunnyJoin(folderPath);
+      return [base + "vignette.webp", base + "vignette.png", base + "vignette.jpg"];
+    }
+    // Called by <img onerror>
     function handleVignetteError(imgEl, folderPath){
       try{
         const tries = parseInt(imgEl.getAttribute('data-try') || '0', 10);
         const cands = vignetteCandidates(folderPath);
-        if(tries < cands.length){ imgEl.setAttribute('data-try', String(tries+1)); imgEl.src = cands[tries]; return; }
+        if(tries < cands.length){
+          imgEl.setAttribute('data-try', String(tries+1));
+          imgEl.src = cands[tries];
+          return;
+        }
       }catch(e){}
       imgEl.src = "https://gabaritkdp.b-cdn.net/backgrounds/vignette.webp";
     }
-
-    function render(data, gridId, isInterior = false) {
+function render(data, gridId, isInterior = false) {
       const grid = document.getElementById(gridId);
-      if(!grid) return;
       data.forEach(item => {
         const link = isInterior ? item.url : `category.html?path=${encodeURIComponent(item.path)}`;
-        const initialSrc = (item.img && !String(item.img).includes('...')) ? item.img : vignetteCandidates(item.path)[0];
         grid.innerHTML += `
           <div class="category-card" onclick="location.href='${link}'">
-            <img src="${initialSrc}" loading="lazy" data-try="1" onerror="handleVignetteError(this, '${item.path}')">
+            <img src="${(item.img && !String(item.img).includes('...')) ? item.img : vignetteCandidates(item.path)[0]}" loading="lazy" data-try="1" onerror="handleVignetteError(this, '${item.path}')">
             ${item.badge ? `<span class="category-badge ${item.badge.includes('PREMIUM') ? 'badge-premium' : (item.badge.includes('POPULAR') ? 'badge-popular' : 'badge-best')}">${item.badge}</span>` : ''}
-            <div class="category-overlay"><div class="category-name">${item.name}</div></div>
+            <div class="category-overlay">
+              <div class="category-name">${item.name}</div>
+            </div>
           </div>`;
       });
     }
@@ -295,60 +446,111 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
     function switchLanguage(lang) {
       localStorage.setItem('preferredLanguage', lang);
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
-      document.querySelectorAll('[data-fr][data-en]').forEach(el => { el.innerText = el.getAttribute(`data-${lang}`); });
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        el.innerText = el.getAttribute(`data-${lang}`);
+      });
     }
+/* =======================
+   UNSPLASH DEMO INTEGRATION
+   ======================= */
 
-    /* PIXABAY LOGIC */
-    const PIXABAY_API_KEY = "54299270-a26f023b47f440fc2718be4ac"; 
-    let currentMode = 'vertical';
+const UNSPLASH_ACCESS_KEY = "sklZ_HVAN_naWeOHWRmYgh2pqS5w134A302cuUa8Vjk";
 
-    async function loadPixabay(q = "") {
-      const query = q || (currentMode === 'vertical' ? 'background texture' : 'landscape nature');
-      const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&orientation=${currentMode}&per_page=12&image_type=photo&safesearch=true`;
-      
-      try {
-        const res = await fetch(url);
-        const data = await res.json();
-        const grid = document.getElementById("grid-pixabay");
-        grid.innerHTML = "";
-        
-        data.hits.forEach(photo => {
-          const card = document.createElement("div");
-          card.className = "category-card";
-          if(currentMode === 'horizontal') card.style.aspectRatio = "16/9";
-          card.innerHTML = `
-            <img src="${photo.webformatURL}" loading="lazy">
-            <div class="category-overlay" style="pointer-events:auto">
-              <button class="px-3 py-2 text-xs text-white font-bold rounded" style="background:#FF9900;">Utiliser</button>
-            </div>`;
-          
-          card.querySelector("button").onclick = (e) => {
-            e.preventDefault(); e.stopPropagation();
-            const img = encodeURIComponent(photo.largeImageURL);
-            // ✅ Logique de redirection corrigée pour forcer le mode Full Cover
-            const param = (currentMode === 'horizontal') ? `template=${img}&src=premium` : `img=${img}`;
-            window.location.href = `./generator.html?trim=6x9&${param}`;
-          };
-          grid.appendChild(card);
-        });
-      } catch (e) { console.error("Pixabay Error", e); }
-    }
+async function fetchUnsplashPhotos(query = "book cover", perPage = 12) {
+  const url = new URL("https://api.unsplash.com/search/photos");
+  url.searchParams.set("query", query);
+  url.searchParams.set("per_page", perPage);
+  url.searchParams.set("orientation", "portrait");
 
-    function changePixabayMode(mode) {
-      currentMode = mode;
-      document.getElementById('tab-v').classList.toggle('active', mode === 'vertical');
-      document.getElementById('tab-h').classList.toggle('active', mode === 'horizontal');
-      loadPixabay(document.getElementById("pixabay-query").value);
-    }
+  const res = await fetch(url, {
+    headers: { Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}` }
+  });
 
-    document.addEventListener('DOMContentLoaded', () => {
-      render(config.premium, 'grid-premium');
-      render(config.backgrounds, 'grid-backgrounds');
-      render(config.interiors, 'grid-interiors', true);
-      switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
-      loadPixabay();
-      document.getElementById("pixabay-search-btn").onclick = () => loadPixabay(document.getElementById("pixabay-query").value);
-    });
+  const data = await res.json();
+  return data.results || [];
+}
+
+async function triggerUnsplashDownload(downloadUrl) {
+  if (!downloadUrl) return;
+  const url = new URL(downloadUrl);
+  url.searchParams.set("client_id", UNSPLASH_ACCESS_KEY);
+  fetch(url.toString()).catch(() => {});
+}
+
+function renderUnsplashGrid(photos) {
+  const grid = document.getElementById("grid-unsplash");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  photos.forEach(photo => {
+    const card = document.createElement("div");
+    card.className = "category-card";
+    card.innerHTML = `
+      <img src="${photo.urls.small}" loading="lazy">
+
+      <div class="category-overlay" style="pointer-events:auto">
+        <div style="font-size:.75rem">
+          Photo by
+          <a href="${photo.user.links.html}" target="_blank">${photo.user.name}</a>
+          on
+          <a href="https://unsplash.com" target="_blank">Unsplash</a>
+        </div>
+
+        <button class="mt-2 px-3 py-2"
+          style="background:#FF9900;color:#fff;border-radius:8px">
+          Use image
+        </button>
+      </div>
+    `;
+
+    const btn = card.querySelector("button");
+
+btn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // 1) Download trigger (Unsplash)
+  await triggerUnsplashDownload(photo.links.download_location);
+
+  // 2) Construire l'URL du générateur comme tes autres templates (paramètres)
+  const img = encodeURIComponent(photo.urls.full);
+
+  // Format par défaut = 6x9
+  const trim = "6x9";
+
+  // (optionnel) attribution en params (utile si tu veux l'afficher dans le générateur)
+  const author = encodeURIComponent(photo.user.name || "");
+  const authorUrl = encodeURIComponent(photo.user.links.html || "");
+  const photoUrl = encodeURIComponent(photo.links.html || "");
+
+  window.location.href =
+    `./generator.html?trim=${trim}&src=unsplash&img=${img}` +
+    `&u=${author}&uu=${authorUrl}&pu=${photoUrl}`;
+});
+
+
+    grid.appendChild(card);
+  });
+}
+
+async function loadUnsplash(query = "book cover") {
+  const photos = await fetchUnsplashPhotos(query);
+  renderUnsplashGrid(photos);
+}
+
+/* ======================= */
+
+document.addEventListener('DOMContentLoaded', () => {
+  render(config.premium, 'grid-premium');
+  render(config.backgrounds, 'grid-backgrounds');
+  render(config.interiors, 'grid-interiors', true);
+  switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
+
+  // 🔥 UNSPLASH AUTO LOAD
+loadUnsplash();
+});
+
   </script>
 </body>
 </html>
