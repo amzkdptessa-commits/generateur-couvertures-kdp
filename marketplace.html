@@ -101,7 +101,7 @@
     .pixabay-tab.active { background: #FF9900; color: #fff; border-color: #FF9900; }
 
     /* FOOTER */
-footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size: 1.05rem; }
+    footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size: 1.05rem; }
     .social-links { display:flex; justify-content:center; gap:10px; margin-top:10px; }
     .social-link { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.9rem; transition:.3s; text-decoration:none; }
     .youtube { background:#FF0000; } .facebook { background:#1877F2; } .instagram { background:linear-gradient(45deg,#405DE6,#833AB4,#FD1D1D); }
@@ -267,7 +267,8 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
     };
 
     const BUNNY_CDN_BASE = "https://gabaritkdp.b-cdn.net/";
-    function vignetteCandidates(folderPath){ const base = BUNNY_CDN_BASE + encodeURIComponent(folderPath).replace(/%2F/g,'/') + "/"; return [base + "vignette.webp", base + "vignette.png", base + "vignette.jpg"]; }
+    function bunnyJoin(path){ return BUNNY_CDN_BASE + encodeURIComponent(path).replace(/%2F/g,'/') + "/"; }
+    function vignetteCandidates(folderPath){ const base = bunnyJoin(folderPath); return [base + "vignette.webp", base + "vignette.png", base + "vignette.jpg"]; }
     function handleVignetteError(imgEl, folderPath){
       try{
         const tries = parseInt(imgEl.getAttribute('data-try') || '0', 10);
@@ -325,9 +326,7 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
           card.querySelector("button").onclick = (e) => {
             e.preventDefault(); e.stopPropagation();
             const img = encodeURIComponent(photo.largeImageURL);
-            // ✅ SOLUTION DYNAMIQUE : 
-            // Si paysage -> on utilise template= pour forcer le full cover
-            // Si portrait -> on utilise img= pour rester sur le recto (background)
+            // ✅ DIFFÉRENCE CRUCIALE : paysage = template / portrait = img
             const param = (currentMode === 'horizontal') ? `template=${img}&src=premium` : `img=${img}`;
             window.location.href = `./generator.html?trim=6x9&${param}`;
           };
@@ -336,11 +335,11 @@ footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size
       } catch (e) { console.error("Pixabay Error", e); }
     }
 
-    function changePixabayMode(m) {
-      currentMode = m;
-      document.getElementById('tab-v').classList.toggle('active', m === 'vertical');
-      document.getElementById('tab-h').classList.toggle('active', m === 'horizontal');
-      loadPixabay();
+    function changePixabayMode(mode) {
+      currentMode = mode;
+      document.getElementById('tab-v').classList.toggle('active', mode === 'vertical');
+      document.getElementById('tab-h').classList.toggle('active', mode === 'horizontal');
+      loadPixabay(document.getElementById("pixabay-query").value);
     }
 
     document.addEventListener('DOMContentLoaded', () => {
