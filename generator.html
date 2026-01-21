@@ -3896,9 +3896,11 @@ const [frontImage, setFrontImage] = useState(null);
                 setMarketplaceTemplate(imageUrl);
                 setIsMarketplacePreview(true);
                 window.setActiveTemplateUrl && window.setActiveTemplateUrl(imageUrl);
+// Détection du mode : Full Cover si l'URL contient 'fullcover' OU si le paramètre 'template' est utilisé
+const params = new URLSearchParams(window.location.search);
+const isFullCover = imageUrl.toLowerCase().includes('fullcover') || params.has('template');
 
-                const isFullCover = imageUrl.toLowerCase().includes('fullcover');
-                console.log('🛒 [MARKETPLACE] Type:', isFullCover ? 'FULL COVER' : 'BACKGROUND');
+console.log('🛒 [MARKETPLACE] Type:', isFullCover ? 'FULL COVER' : 'BACKGROUND');
 
                 // Auto-sélectionner format/pages par défaut (sans écraser un choix utilisateur existant)
                 if (!format) {
