@@ -12,7 +12,7 @@
     *{margin:0;padding:0;box-sizing:border-box}
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; background-color: #fff;}
 
-   /* HEADER STANDARD (comme index) */
+   /* HEADER STANDARD */
 .header-nav {
   background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
   padding: 15px 0;
@@ -30,7 +30,7 @@
   justify-content: space-between;
   padding: 0 20px;
   flex-wrap: wrap;
-  position: relative; /* ✅ ANCRE le switch */
+  position: relative;
 }
 .language-selector {
   position: absolute;
@@ -123,15 +123,10 @@
   color: #fff;
 }
 
-/* Responsive: cacher le menu desktop sur tablette/mobile (comme ailleurs) */
+/* Responsive */
 @media (max-width: 1024px) {
   .nav-links { display: none; }
 }
-
-    /* LANGUE */
-    .language-selector { background:#fff; border-radius:20px; padding:2px; display:flex; gap:2px; }
-    .lang-btn { padding:2px 8px; border:none; background:transparent; border-radius:15px; cursor:pointer; font-weight:bold; font-size:.65rem; color:#1e293b; }
-    .lang-btn.active { background:#FF9900; color:#fff; }
 
     /* CARDS */
     .premium_edit_sec { background:linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 40px 0; }
@@ -144,53 +139,22 @@
     .badge-premium { background:linear-gradient(135deg,#dc2626,#b91c1c); }
     .badge-popular { background:#f59e0b; }
     .badge-best { background:#8b5cf6; }
-.category-overlay button,
-.category-overlay a {
-  pointer-events: auto;
-}
+    .category-overlay button, .category-overlay a { pointer-events: auto; }
 
     /* FOOTER */
-footer {
-  background: #0f172a;
-  color: #cbd5e1;
-  padding: 40px 20px 20px;
-  font-size: 1.05rem;
-}
+    footer { background: #0f172a; color: #cbd5e1; padding: 40px 20px 20px; font-size: 1.05rem; }
     .social-box { background:rgba(255,255,255,0.03); border-radius:12px; padding:15px; text-align:center; margin-bottom:25px; border: 1px solid rgba(255,255,255,0.05); }
     .social-links { display:flex; justify-content:center; gap:10px; margin-top:10px; }
     .social-link { width:32px; height:32px; border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:0.9rem; transition:.3s; text-decoration:none; }
     .youtube { background:#FF0000; } .facebook { background:#1877F2; } .instagram { background:linear-gradient(45deg,#405DE6,#833AB4,#FD1D1D); }
     .pinterest { background:#BD081C; } .tiktok { background:#000; border:1px solid #444; } .linkedin { background:#0A66C2; }
-
-    @media (max-width: 1024px) { .nav-links { display: none; } }
-  
-/* GKDP PIXABAY (isolé) */
-.gkdp-pixabay-tab{
-  padding: 8px 12px;
-  border-radius: 9999px;
-  border: 1px solid rgba(15, 23, 42, 0.15);
-  background: #fff;
-  color: #0f172a;
-  font-weight: 700;
-  font-size: .8rem;
-  transition: .2s;
-  cursor: pointer;
-  user-select: none;
-}
-.gkdp-pixabay-tab:hover{ transform: translateY(-1px); }
-.gkdp-pixabay-tab.active{
-  background: #FF9900;
-  border-color: #FF9900;
-  color: #fff;
-}
 </style>
 </head>
 <body>
-  <!-- Netlify Forms detection (keep this form outside of any other form) -->
+  <!-- Netlify Forms detection -->
   <form name="template_requests" method="POST" data-netlify="true" action="/thanks.html" hidden>
     <input type="hidden" name="form-name" value="template_requests">
   </form>
-
 
   <header class="header-nav notranslate">
     <div class="nav-container">
@@ -203,9 +167,7 @@ footer {
         <a href="./dashboard.html" data-fr="📊 Dashboard" data-en="📊 Dashboard">📊 Dashboard</a>
         <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
         <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
-        <a href="./marketplace.html" class="active"
-   data-fr="📚 Templates"
-   data-en="📚 Templates">📚 Templates</a>
+        <a href="./marketplace.html" class="active" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
         <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
         <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
       </nav>
@@ -217,11 +179,10 @@ footer {
   </header>
 
   <section class="py-10 bg-slate-50 text-center border-b border-gray-100">
-<h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">
-  <span data-fr="Modèles" data-en="Templates">Templates</span>
-  <span style="color:#FF9900;">KDP</span>
-</h1>
-
+    <h1 class="text-3xl md:text-4xl font-black text-gray-900 mb-2">
+      <span data-fr="Modèles" data-en="Templates">Templates</span>
+      <span style="color:#FF9900;">KDP</span>
+    </h1>
     <p class="text-md text-gray-500" data-fr="6600+ templates professionnels" data-en="6600+ professional templates for your Amazon KDP books">6600+ professional templates for your Amazon KDP books</p>
   </section>
 
@@ -249,151 +210,179 @@ footer {
     </div>
   </section>
 
-  <!-- SECTION 4: PIXABAY (Isolé) -->
+  <!-- SECTION 4: PIXABAY (Améliorée) -->
   <section class="py-16 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
-        <div>
-          <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-widest">
-            🖼️ Pixabay Inspirations
-          </h2>
-          <div class="flex gap-2 mt-3">
-            <button type="button" id="gkdp-pixabay-tab-v" class="gkdp-pixabay-tab active">Portrait (Front)</button>
-            <button type="button" id="gkdp-pixabay-tab-h" class="gkdp-pixabay-tab">Landscape (Full Cover)</button>
-          </div>
-        </div>
-
-        <div class="flex gap-2">
-          <input id="gkdp-pixabay-query"
-                 class="border border-gray-200 rounded-lg px-3 py-2 w-64"
-                 type="text"
-                 placeholder="ex: romance, thriller, fantasy">
-          <button id="gkdp-pixabay-search-btn"
-                  class="px-4 py-2 rounded-lg text-white font-semibold"
-                  style="background:#FF9900;">
-            Search
-          </button>
-        </div>
-      </div>
-
-      <div id="gkdp-pixabay-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
-
-      <p class="text-xs text-gray-400 mt-4">
-        Images provided by Pixabay. Click “Use” to open the generator in 6x9.
-      </p>
-    </div>
-  </section>
-<footer class="bg-gray-900 text-gray-300 py-12">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    <div class="social-section">
-      <h4 class="text-white font-semibold mb-4 text-center"
-          data-en="🚀 Follow us for the latest KDP news!"
-          data-fr="🚀 Suivez-nous pour les dernières actualités KDP !">
-        🚀 Follow us for the latest KDP news!
-      </h4>
-
-      <div class="social-links">
-        <a href="https://www.youtube.com/@Gabaritkdp"
-           class="social-link youtube"
-           title="YouTube - KDP Tutorials"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-youtube"></i>
-        </a>
-
-        <a href="https://www.facebook.com/profile.php?id=61578785408904"
-           class="social-link facebook"
-           title="Facebook - Authors Community"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-facebook-f"></i>
-        </a>
-
-        <a href="https://www.instagram.com/gabaritkdp/"
-           class="social-link instagram"
-           title="Instagram - Cover Inspirations"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-instagram"></i>
-        </a>
-
-        <a href="https://fr.pinterest.com/Gabaritkdp/"
-           class="social-link pinterest"
-           title="Pinterest - Cover Designs"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-pinterest-p"></i>
-        </a>
-
-        <a href="https://www.tiktok.com/@gabaritkdp"
-           class="social-link tiktok"
-           title="TikTok - Quick KDP Tips"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-tiktok"></i>
-        </a>
-
-        <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/"
-           class="social-link linkedin"
-           title="LinkedIn - Publishers & Agencies"
-           target="_blank" rel="noopener noreferrer">
-          <i class="fab fa-linkedin-in"></i>
-        </a>
-      </div>
-
-      <p class="text-center text-sm text-gray-400 mt-4"
-         data-en="KDP Tips • Tutorials • News • Authors Community"
-         data-fr="Astuces KDP • Tutoriels • Actualités • Communauté d'auteurs">
-        KDP Tips • Tutorials • News • Authors Community
-      </p>
-    </div>
-
-    <div class="grid md:grid-cols-4 gap-8">
-      <div>
-        <div class="flex items-center mb-4">
-          <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
-          <span class="ml-2 text-white font-bold">GabaritKDP</span>
-        </div>
-        <p class="text-gray-400"
-           data-en="The generator for 100% Amazon-compliant KDP covers."
-           data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">
-          The generator for 100% Amazon-compliant KDP covers.
+      
+      <!-- En-tête avec mention du nombre d'images -->
+      <div class="text-center mb-8">
+        <h2 class="text-3xl font-bold text-gray-900 uppercase tracking-widest mb-2">
+          🖼️ Pixabay Inspirations
+        </h2>
+        <p class="text-gray-500 font-medium" 
+           data-fr="Découvrez plus de 4.4 millions d'images et vidéos de haute qualité partagées par notre talentueuse communauté."
+           data-en="Discover over 4.4 million+ high quality images and videos shared by our talented community.">
+           Discover over 4.4 million+ high quality images and videos shared by our talented community.
         </p>
       </div>
 
-      <div>
-        <h4 class="text-white font-semibold mb-4" data-en="Product" data-fr="Produit">Product</h4>
-        <ul class="space-y-2">
-          <li><a href="./generator.html" class="hover:text-white transition" data-en="Express Generator" data-fr="Générateur Express">Express Generator</a></li>
-          <li><a href="./generator-magic.html" class="hover:text-white transition" data-en="Magic Generator" data-fr="Générateur Magique">Magic Generator</a></li>
-          <li><a href="./marketplace.html" class="hover:text-white transition" data-en="Templates" data-fr="Templates">Templates</a></li>
-          <li><a href="./index.html#tarifs" class="hover:text-white transition" data-en="Pricing" data-fr="Tarifs">Pricing</a></li>
-          <li><a href="./fonctionnalites.html" class="hover:text-white transition" data-en="Features" data-fr="Fonctionnalités">Features</a></li>
-        </ul>
+      <!-- Barre d'outils et Filtres -->
+      <div class="bg-slate-50 p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
+        
+        <!-- Ligne 1 : Recherche et Bouton -->
+        <div class="flex flex-col md:flex-row gap-4 mb-4">
+          <div class="flex-grow relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
+            <input id="gkdp-pixabay-query"
+                   class="w-full border border-gray-300 rounded-lg pl-10 pr-4 py-3 focus:ring-2 focus:ring-orange-400 focus:outline-none"
+                   type="text"
+                   placeholder="ex: lion, galaxy, vintage flower...">
+          </div>
+          <button id="gkdp-pixabay-search-btn"
+                  class="px-8 py-3 rounded-lg text-white font-bold transition hover:shadow-lg flex items-center justify-center gap-2"
+                  style="background:#FF9900;">
+            <span data-fr="Rechercher" data-en="Search">Search</span>
+          </button>
+        </div>
+
+        <!-- Ligne 2 : Filtres avancés -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+          
+          <!-- Format (Spécifique KDP) -->
+          <div class="col-span-2 md:col-span-1">
+             <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block">Format KDP</label>
+             <div class="flex bg-white rounded-lg border border-gray-300 p-1">
+                <button type="button" id="gkdp-pixabay-tab-v" class="flex-1 text-xs py-2 rounded font-bold text-center transition active">Portrait</button>
+                <button type="button" id="gkdp-pixabay-tab-h" class="flex-1 text-xs py-2 rounded font-bold text-center transition">Landscape</button>
+             </div>
+          </div>
+
+          <!-- Type d'image -->
+          <div>
+            <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Type" data-en="Type">Type</label>
+            <select id="pix-type" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
+              <option value="all" data-fr="Toutes" data-en="All images">All images</option>
+              <option value="photo" data-fr="Photos" data-en="Photos">Photos</option>
+              <option value="illustration" data-fr="Illustrations" data-en="Illustrations">Illustrations</option>
+              <option value="vector" data-fr="Vectoriels" data-en="Vectors">Vectors</option>
+            </select>
+          </div>
+
+          <!-- Catégorie -->
+          <div>
+            <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Catégorie" data-en="Category">Category</label>
+            <select id="pix-category" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
+              <option value="" data-fr="Toutes" data-en="All">All</option>
+              <option value="backgrounds">Backgrounds</option>
+              <option value="nature">Nature</option>
+              <option value="science">Science</option>
+              <option value="education">Education</option>
+              <option value="feelings">Feelings</option>
+              <option value="health">Health</option>
+              <option value="people">People</option>
+              <option value="religion">Religion</option>
+              <option value="places">Places</option>
+              <option value="animals">Animals</option>
+              <option value="business">Business</option>
+            </select>
+          </div>
+
+          <!-- Couleurs -->
+          <div>
+            <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Couleur" data-en="Color">Color</label>
+            <select id="pix-color" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
+              <option value="" data-fr="Toutes" data-en="Any Color">Any Color</option>
+              <option value="grayscale" data-fr="Noir & Blanc" data-en="Black & White">Black & White</option>
+              <option value="transparent" data-fr="Transparent" data-en="Transparent">Transparent</option>
+              <option value="red" data-fr="Rouge" data-en="Red">🔴 Red</option>
+              <option value="orange" data-fr="Orange" data-en="Orange">🟠 Orange</option>
+              <option value="yellow" data-fr="Jaune" data-en="Yellow">🟡 Yellow</option>
+              <option value="green" data-fr="Vert" data-en="Green">🟢 Green</option>
+              <option value="turquoise" data-fr="Turquoise" data-en="Turquoise">🔵 Turquoise</option>
+              <option value="blue" data-fr="Bleu" data-en="Blue">🔵 Blue</option>
+              <option value="lilac" data-fr="Lilas" data-en="Lilac">🟣 Lilac</option>
+              <option value="pink" data-fr="Rose" data-en="Pink">🌸 Pink</option>
+            </select>
+          </div>
+
+          <!-- Tri -->
+          <div>
+            <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Trier par" data-en="Order by">Order by</label>
+            <select id="pix-order" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
+              <option value="popular" data-fr="Populaires" data-en="Popular">Popular</option>
+              <option value="latest" data-fr="Récents" data-en="Latest">Latest</option>
+            </select>
+          </div>
+
+        </div>
       </div>
 
-      <div>
-        <h4 class="text-white font-semibold mb-4" data-en="Support" data-fr="Support">Support</h4>
-        <ul class="space-y-2">
-          <li><a href="./api-pro.html" class="hover:text-white transition" data-en="API" data-fr="API">API</a></li>
-          <li><a href="./faq.html" class="hover:text-white transition" data-en="FAQ" data-fr="FAQ">FAQ</a></li>
-          <li><a href="./contact.html" class="hover:text-white transition" data-en="Contact" data-fr="Contact">Contact</a></li>
-          <li><a href="./guide.html" class="hover:text-white transition" data-en="User Guide" data-fr="Guide d'utilisation">User Guide</a></li>
-          <li><a href="./updates.html" class="hover:text-white transition" data-en="Updates / What’s New" data-fr="Mises à jour / Nouveautés">Updates / What’s New</a></li>
-        </ul>
-      </div>
+      <!-- Grille de résultats -->
+      <div id="gkdp-pixabay-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
 
-      <div>
-        <h4 class="text-white font-semibold mb-4" data-en="Legal" data-fr="Légal">Legal</h4>
-        <ul class="space-y-2">
-          <li><a href="./mentions-legales.html" class="hover:text-white transition" data-en="Legal Notice" data-fr="Mentions Légales">Legal Notice</a></li>
-          <li><a href="./cgu.html" class="hover:text-white transition" data-en="Terms of Service" data-fr="Conditions d'utilisation">Terms of Service</a></li>
-          <li><a href="./confidentialite.html" class="hover:text-white transition" data-en="Privacy Policy" data-fr="Politique de confidentialité">Privacy Policy</a></li>
-        </ul>
+      <!-- Pagination / Loading -->
+      <div class="text-center mt-8">
+         <p class="text-xs text-gray-400">
+            Images provided by <a href="https://pixabay.com" target="_blank" class="underline hover:text-gray-600">Pixabay</a>.
+         </p>
       </div>
     </div>
+  </section>
 
-    <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-      <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+  <footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="social-section">
+        <h4 class="text-white font-semibold mb-4 text-center"
+            data-en="🚀 Follow us for the latest KDP news!"
+            data-fr="🚀 Suivez-nous pour les dernières actualités KDP !">
+          🚀 Follow us for the latest KDP news!
+        </h4>
+        <div class="social-links">
+          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link facebook" target="_blank"><i class="fab fa-facebook-f"></i></a>
+          <a href="https://www.instagram.com/gabaritkdp/" class="social-link instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link pinterest" target="_blank"><i class="fab fa-pinterest-p"></i></a>
+          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link linkedin" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-4 gap-8 mt-8">
+        <div>
+          <div class="flex items-center mb-4">
+            <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" class="h-8 w-auto">
+            <span class="ml-2 text-white font-bold">GabaritKDP</span>
+          </div>
+          <p class="text-gray-400" data-en="The generator for 100% Amazon-compliant KDP covers." data-fr="Le générateur de couvertures KDP 100% conformes pour Amazon.">The generator for 100% Amazon-compliant KDP covers.</p>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-en="Product" data-fr="Produit">Product</h4>
+          <ul class="space-y-2">
+            <li><a href="./generator.html" class="hover:text-white transition" data-en="Express Generator" data-fr="Générateur Express">Express Generator</a></li>
+            <li><a href="./generator-magic.html" class="hover:text-white transition" data-en="Magic Generator" data-fr="Générateur Magique">Magic Generator</a></li>
+            <li><a href="./marketplace.html" class="hover:text-white transition" data-en="Templates" data-fr="Templates">Templates</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-en="Support" data-fr="Support">Support</h4>
+          <ul class="space-y-2">
+            <li><a href="./faq.html" class="hover:text-white transition" data-en="FAQ" data-fr="FAQ">FAQ</a></li>
+            <li><a href="./contact.html" class="hover:text-white transition" data-en="Contact" data-fr="Contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-white font-semibold mb-4" data-en="Legal" data-fr="Légal">Legal</h4>
+          <ul class="space-y-2">
+            <li><a href="./mentions-legales.html" class="hover:text-white transition" data-en="Legal Notice" data-fr="Mentions Légales">Legal Notice</a></li>
+            <li><a href="./cgu.html" class="hover:text-white transition" data-en="Terms of Service" data-fr="Conditions d'utilisation">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
+      </div>
     </div>
-  </div>
-    </footer>
+  </footer>
+
   <script>
     const config = {
       premium: [
@@ -429,18 +418,14 @@ footer {
       ]
     };
 
-    
-    // --- Vignette helper (Option A): tries vignette.webp/png/jpg inside the folder ---
     const BUNNY_CDN_BASE = "https://gabaritkdp.b-cdn.net/";
     function bunnyJoin(path){ 
-      // path like "FULL COVER/Art" or "backgrounds/ROMANCE"
       return BUNNY_CDN_BASE + encodeURIComponent(path).replace(/%2F/g,'/') + "/";
     }
     function vignetteCandidates(folderPath){
       const base = bunnyJoin(folderPath);
       return [base + "vignette.webp", base + "vignette.png", base + "vignette.jpg"];
     }
-    // Called by <img onerror>
     function handleVignetteError(imgEl, folderPath){
       try{
         const tries = parseInt(imgEl.getAttribute('data-try') || '0', 10);
@@ -453,7 +438,8 @@ footer {
       }catch(e){}
       imgEl.src = "https://gabaritkdp.b-cdn.net/backgrounds/vignette.webp";
     }
-function render(data, gridId, isInterior = false) {
+
+    function render(data, gridId, isInterior = false) {
       const grid = document.getElementById(gridId);
       if (!grid) return;
       grid.innerHTML = "";
@@ -479,55 +465,102 @@ function render(data, gridId, isInterior = false) {
     }
 
     /* =======================
-       PIXABAY (ISOLÉ)
+       PIXABAY (INTEGRATION AVANCEE)
        ======================= */
     const PIXABAY_API_KEY = "54299270-a26f023b47f440fc2718be4ac";
     let gkdpPixabayMode = "vertical"; // vertical=portrait, horizontal=landscape
 
+    // Gestion du style des boutons Portrait/Landscape
     function gkdpPixabaySetMode(mode){
       gkdpPixabayMode = mode;
-      document.getElementById("gkdp-pixabay-tab-v")?.classList.toggle("active", mode === "vertical");
-      document.getElementById("gkdp-pixabay-tab-h")?.classList.toggle("active", mode === "horizontal");
+      const btnV = document.getElementById("gkdp-pixabay-tab-v");
+      const btnH = document.getElementById("gkdp-pixabay-tab-h");
+      
+      if(btnV && btnH) {
+          if (mode === "vertical") {
+            btnV.classList.add("bg-orange-500", "text-white", "shadow-md");
+            btnV.classList.remove("hover:bg-gray-100");
+            btnH.classList.remove("bg-orange-500", "text-white", "shadow-md");
+            btnH.classList.add("hover:bg-gray-100");
+          } else {
+            btnH.classList.add("bg-orange-500", "text-white", "shadow-md");
+            btnH.classList.remove("hover:bg-gray-100");
+            btnV.classList.remove("bg-orange-500", "text-white", "shadow-md");
+            btnV.classList.add("hover:bg-gray-100");
+          }
+      }
     }
 
     async function gkdpPixabayLoad(q = ""){
       const grid = document.getElementById("gkdp-pixabay-grid");
       if (!grid) return;
 
-      const query = q || (gkdpPixabayMode === "vertical" ? "background texture" : "landscape nature");
-      const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&orientation=${gkdpPixabayMode}&per_page=12&image_type=photo&safesearch=true`;
+      // Récupération des filtres
+      const inputQuery = document.getElementById("gkdp-pixabay-query")?.value || "";
+      const query = q || inputQuery || (gkdpPixabayMode === "vertical" ? "background texture" : "landscape nature");
+      
+      const imageType = document.getElementById("pix-type")?.value || "all";
+      const category = document.getElementById("pix-category")?.value || "";
+      const colors = document.getElementById("pix-color")?.value || "";
+      const order = document.getElementById("pix-order")?.value || "popular";
+
+      let url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}`;
+      url += `&orientation=${gkdpPixabayMode}`;
+      url += `&image_type=${imageType}`;
+      url += `&order=${order}`;
+      if(category) url += `&category=${category}`;
+      if(colors) url += `&colors=${colors}`;
+      url += `&per_page=20&safesearch=true`; 
+
+      // Indicateur de chargement
+      grid.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-orange-500"></i></div>';
 
       try{
         const res = await fetch(url);
         const data = await res.json();
         grid.innerHTML = "";
 
+        if(data.hits.length === 0) {
+            grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">
+                <i class="fa-regular fa-face-frown text-2xl mb-2"></i><br>
+                ${(localStorage.getItem("preferredLanguage") === "fr") ? "Aucun résultat trouvé." : "No results found."}
+            </div>`;
+            return;
+        }
+
         (data.hits || []).forEach(photo => {
           const card = document.createElement("div");
-          card.className = "category-card";
-          if (gkdpPixabayMode === "horizontal") card.style.aspectRatio = "16/9";
+          card.className = "category-card group"; 
+          if (gkdpPixabayMode === "horizontal") {
+              card.style.aspectRatio = "16/9";
+          } else {
+              card.style.aspectRatio = "2/3";
+          }
 
-          const label = (localStorage.getItem("preferredLanguage") || "en") === "fr" ? "Utiliser" : "Use";
+          const lang = localStorage.getItem("preferredLanguage") || "en";
+          const label = lang === "fr" ? "Utiliser" : "Use";
+          const tags = photo.tags.split(',').slice(0,3).join(', ');
 
           card.innerHTML = `
-            <img src="${photo.webformatURL}" loading="lazy" alt="">
-            <div class="category-overlay" style="pointer-events:auto">
-              <button type="button" class="mt-2 px-3 py-2" style="background:#FF9900;color:#fff;border-radius:8px">
+            <img src="${photo.webformatURL}" class="transition duration-500 group-hover:scale-110" loading="lazy" alt="${photo.tags}">
+            <div class="category-overlay opacity-0 group-hover:opacity-100 transition duration-300" style="pointer-events:auto">
+              <span class="text-xs text-gray-200 mb-2 truncate px-2">${tags}</span>
+              <button type="button" class="mt-1 px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-lg shadow-lg transform hover:scale-105 transition">
                 ${label}
               </button>
+            </div>
+            <div class="absolute top-2 left-2 bg-black/50 text-white text-[10px] px-2 py-1 rounded backdrop-blur-sm pointer-events-none">
+                ${photo.type}
             </div>
           `;
 
           card.querySelector("button").addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
-
             const img = encodeURIComponent(photo.largeImageURL);
-
             const param = (gkdpPixabayMode === "horizontal")
-              ? `template=${img}&src=pixabay`
+              ? `template=${img}&src=pixabay` 
               : `img=${img}&src=pixabay`;
-
             window.location.href = `./generator.html?trim=6x9&${param}`;
           });
 
@@ -535,35 +568,41 @@ function render(data, gridId, isInterior = false) {
         });
       }catch(err){
         console.error("[PIXABAY] error", err);
-        grid.innerHTML = `<p class="text-sm text-gray-500">Pixabay loading error. Check console.</p>`;
+        grid.innerHTML = `<p class="col-span-full text-center text-red-500">Error loading Pixabay images.</p>`;
       }
     }
 
+    document.addEventListener('DOMContentLoaded', () => {
+      render(config.premium, 'grid-premium');
+      render(config.backgrounds, 'grid-backgrounds');
+      render(config.interiors, 'grid-interiors', true);
+      switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
 
-document.addEventListener('DOMContentLoaded', () => {
-render(config.premium, 'grid-premium');
-  render(config.backgrounds, 'grid-backgrounds');
-  render(config.interiors, 'grid-interiors', true);
-  switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
+      // 🔥 PIXABAY EVENTS
+      const triggerSearch = () => gkdpPixabayLoad();
 
+      document.getElementById("gkdp-pixabay-tab-v")?.addEventListener("click", () => {
+        gkdpPixabaySetMode("vertical");
+        triggerSearch();
+      });
+      document.getElementById("gkdp-pixabay-tab-h")?.addEventListener("click", () => {
+        gkdpPixabaySetMode("horizontal");
+        triggerSearch();
+      });
+      document.getElementById("gkdp-pixabay-search-btn")?.addEventListener("click", triggerSearch);
+      document.getElementById("gkdp-pixabay-query")?.addEventListener("keypress", (e) => {
+          if(e.key === 'Enter') triggerSearch();
+      });
 
-  // 🔥 PIXABAY AUTO LOAD (isolé)
-  document.getElementById("gkdp-pixabay-tab-v")?.addEventListener("click", () => {
-    gkdpPixabaySetMode("vertical");
-    gkdpPixabayLoad(document.getElementById("gkdp-pixabay-query")?.value || "");
-  });
-  document.getElementById("gkdp-pixabay-tab-h")?.addEventListener("click", () => {
-    gkdpPixabaySetMode("horizontal");
-    gkdpPixabayLoad(document.getElementById("gkdp-pixabay-query")?.value || "");
-  });
-  document.getElementById("gkdp-pixabay-search-btn")?.addEventListener("click", () => {
-    gkdpPixabayLoad(document.getElementById("gkdp-pixabay-query")?.value || "");
-  });
+      // Filtres dynamiques
+      ['pix-type', 'pix-category', 'pix-color', 'pix-order'].forEach(id => {
+          document.getElementById(id)?.addEventListener("change", triggerSearch);
+      });
 
-  gkdpPixabaySetMode("vertical");
-  gkdpPixabayLoad("");
-
-});
-</script>
+      // Initialisation
+      gkdpPixabaySetMode("vertical");
+      triggerSearch();
+    });
+  </script>
 </body>
 </html>
