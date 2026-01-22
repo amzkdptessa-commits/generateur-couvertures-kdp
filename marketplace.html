@@ -210,11 +210,11 @@
     </div>
   </section>
 
-  <!-- SECTION 4: PIXABAY (Améliorée) -->
+  <!-- SECTION 4: PIXABAY (Améliorée + Load More) -->
   <section class="py-16 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4">
       
-      <!-- En-tête avec mention du nombre d'images -->
+      <!-- En-tête -->
       <div class="text-center mb-8">
         <h2 class="text-3xl font-bold text-gray-900 uppercase tracking-widest mb-2">
           🖼️ Pixabay Inspirations
@@ -226,10 +226,8 @@
         </p>
       </div>
 
-      <!-- Barre d'outils et Filtres -->
+      <!-- Filtres -->
       <div class="bg-slate-50 p-6 rounded-xl border border-gray-200 shadow-sm mb-8">
-        
-        <!-- Ligne 1 : Recherche et Bouton -->
         <div class="flex flex-col md:flex-row gap-4 mb-4">
           <div class="flex-grow relative">
             <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
@@ -245,10 +243,7 @@
           </button>
         </div>
 
-        <!-- Ligne 2 : Filtres avancés -->
         <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
-          
-          <!-- Format (Spécifique KDP) -->
           <div class="col-span-2 md:col-span-1">
              <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block">Format KDP</label>
              <div class="flex bg-white rounded-lg border border-gray-300 p-1">
@@ -256,8 +251,6 @@
                 <button type="button" id="gkdp-pixabay-tab-h" class="flex-1 text-xs py-2 rounded font-bold text-center transition">Landscape</button>
              </div>
           </div>
-
-          <!-- Type d'image -->
           <div>
             <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Type" data-en="Type">Type</label>
             <select id="pix-type" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
@@ -267,8 +260,6 @@
               <option value="vector" data-fr="Vectoriels" data-en="Vectors">Vectors</option>
             </select>
           </div>
-
-          <!-- Catégorie -->
           <div>
             <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Catégorie" data-en="Category">Category</label>
             <select id="pix-category" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
@@ -286,8 +277,6 @@
               <option value="business">Business</option>
             </select>
           </div>
-
-          <!-- Couleurs -->
           <div>
             <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Couleur" data-en="Color">Color</label>
             <select id="pix-color" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
@@ -304,8 +293,6 @@
               <option value="pink" data-fr="Rose" data-en="Pink">🌸 Pink</option>
             </select>
           </div>
-
-          <!-- Tri -->
           <div>
             <label class="text-xs font-bold text-gray-500 uppercase ml-1 mb-1 block" data-fr="Trier par" data-en="Order by">Order by</label>
             <select id="pix-order" class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white cursor-pointer hover:border-orange-400">
@@ -313,14 +300,21 @@
               <option value="latest" data-fr="Récents" data-en="Latest">Latest</option>
             </select>
           </div>
-
         </div>
       </div>
 
       <!-- Grille de résultats -->
       <div id="gkdp-pixabay-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
 
-      <!-- Pagination / Loading -->
+      <!-- LOAD MORE BUTTON -->
+      <div id="gkdp-pixabay-load-more-container" class="text-center mt-10 hidden">
+          <button id="gkdp-pixabay-load-more" class="px-6 py-2 bg-white border border-gray-300 rounded-full text-gray-700 font-bold hover:bg-gray-100 hover:shadow transition">
+             <i class="fa-solid fa-plus mr-2"></i> 
+             <span data-fr="Charger plus" data-en="Load more">Load more</span>
+          </button>
+      </div>
+
+      <!-- Credit -->
       <div class="text-center mt-8">
          <p class="text-xs text-gray-400">
             Images provided by <a href="https://pixabay.com" target="_blank" class="underline hover:text-gray-600">Pixabay</a>.
@@ -468,7 +462,8 @@
        PIXABAY (INTEGRATION AVANCEE)
        ======================= */
     const PIXABAY_API_KEY = "54299270-a26f023b47f440fc2718be4ac";
-    let gkdpPixabayMode = "vertical"; // vertical=portrait, horizontal=landscape
+    let gkdpPixabayMode = "vertical"; 
+    let pixabayCurrentPage = 1; // Pagination
 
     // Gestion du style des boutons Portrait/Landscape
     function gkdpPixabaySetMode(mode){
@@ -491,13 +486,26 @@
       }
     }
 
-    async function gkdpPixabayLoad(q = ""){
+    // Fonction de chargement avec paramètre isLoadMore
+    async function gkdpPixabayLoad(isLoadMore = false){
       const grid = document.getElementById("gkdp-pixabay-grid");
+      const loadMoreBtnContainer = document.getElementById("gkdp-pixabay-load-more-container");
       if (!grid) return;
+
+      if (!isLoadMore) {
+          pixabayCurrentPage = 1; // Reset si nouvelle recherche
+          grid.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-orange-500"></i></div>';
+          loadMoreBtnContainer.classList.add("hidden");
+      } else {
+          pixabayCurrentPage++;
+          // Petit effet de chargement sur le bouton
+          const btn = document.getElementById("gkdp-pixabay-load-more");
+          if(btn) btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+      }
 
       // Récupération des filtres
       const inputQuery = document.getElementById("gkdp-pixabay-query")?.value || "";
-      const query = q || inputQuery || (gkdpPixabayMode === "vertical" ? "background texture" : "landscape nature");
+      const query = inputQuery || (gkdpPixabayMode === "vertical" ? "background texture" : "landscape nature");
       
       const imageType = document.getElementById("pix-type")?.value || "all";
       const category = document.getElementById("pix-category")?.value || "";
@@ -510,21 +518,22 @@
       url += `&order=${order}`;
       if(category) url += `&category=${category}`;
       if(colors) url += `&colors=${colors}`;
-      url += `&per_page=20&safesearch=true`; 
-
-      // Indicateur de chargement
-      grid.innerHTML = '<div class="col-span-full text-center py-10"><i class="fas fa-spinner fa-spin text-4xl text-orange-500"></i></div>';
+      url += `&per_page=24&page=${pixabayCurrentPage}&safesearch=true`; // Page dynamique
 
       try{
         const res = await fetch(url);
         const data = await res.json();
-        grid.innerHTML = "";
+        
+        if (!isLoadMore) grid.innerHTML = ""; // Clear spinner if new search
 
         if(data.hits.length === 0) {
-            grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">
-                <i class="fa-regular fa-face-frown text-2xl mb-2"></i><br>
-                ${(localStorage.getItem("preferredLanguage") === "fr") ? "Aucun résultat trouvé." : "No results found."}
-            </div>`;
+            if(!isLoadMore) {
+                grid.innerHTML = `<div class="col-span-full text-center text-gray-500 py-10">
+                    <i class="fa-regular fa-face-frown text-2xl mb-2"></i><br>
+                    ${(localStorage.getItem("preferredLanguage") === "fr") ? "Aucun résultat trouvé." : "No results found."}
+                </div>`;
+            }
+            loadMoreBtnContainer.classList.add("hidden");
             return;
         }
 
@@ -566,6 +575,18 @@
 
           grid.appendChild(card);
         });
+
+        // Afficher le bouton "Load More" s'il reste des résultats
+        if (data.hits.length >= 24) {
+            loadMoreBtnContainer.classList.remove("hidden");
+            // Reset text button
+            const btn = document.getElementById("gkdp-pixabay-load-more");
+            const lang = localStorage.getItem("preferredLanguage") || "en";
+            if(btn) btn.innerHTML = `<i class="fa-solid fa-plus mr-2"></i> ${lang === "fr" ? "Charger plus" : "Load more"}`;
+        } else {
+            loadMoreBtnContainer.classList.add("hidden");
+        }
+
       }catch(err){
         console.error("[PIXABAY] error", err);
         grid.innerHTML = `<p class="col-span-full text-center text-red-500">Error loading Pixabay images.</p>`;
@@ -579,29 +600,35 @@
       switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
 
       // 🔥 PIXABAY EVENTS
-      const triggerSearch = () => gkdpPixabayLoad();
+      // Nouvelle recherche (reset page 1)
+      const triggerNewSearch = () => gkdpPixabayLoad(false);
 
       document.getElementById("gkdp-pixabay-tab-v")?.addEventListener("click", () => {
         gkdpPixabaySetMode("vertical");
-        triggerSearch();
+        triggerNewSearch();
       });
       document.getElementById("gkdp-pixabay-tab-h")?.addEventListener("click", () => {
         gkdpPixabaySetMode("horizontal");
-        triggerSearch();
+        triggerNewSearch();
       });
-      document.getElementById("gkdp-pixabay-search-btn")?.addEventListener("click", triggerSearch);
+      document.getElementById("gkdp-pixabay-search-btn")?.addEventListener("click", triggerNewSearch);
       document.getElementById("gkdp-pixabay-query")?.addEventListener("keypress", (e) => {
-          if(e.key === 'Enter') triggerSearch();
+          if(e.key === 'Enter') triggerNewSearch();
       });
 
       // Filtres dynamiques
       ['pix-type', 'pix-category', 'pix-color', 'pix-order'].forEach(id => {
-          document.getElementById(id)?.addEventListener("change", triggerSearch);
+          document.getElementById(id)?.addEventListener("change", triggerNewSearch);
+      });
+
+      // Bouton Load More (page suivante)
+      document.getElementById("gkdp-pixabay-load-more")?.addEventListener("click", () => {
+          gkdpPixabayLoad(true); // true = charger la suite
       });
 
       // Initialisation
       gkdpPixabaySetMode("vertical");
-      triggerSearch();
+      triggerNewSearch();
     });
   </script>
 </body>
