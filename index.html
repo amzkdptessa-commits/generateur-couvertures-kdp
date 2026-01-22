@@ -552,6 +552,108 @@
     }
   }
   
+
+/* ===== BOOK MARQUEE (single row) ===== */
+.book-marquee-wrap{
+  background: #ffffff;
+  border-top: 1px solid rgba(15,23,42,.06);
+  border-bottom: 1px solid rgba(15,23,42,.06);
+  padding: 18px 0;
+  position: relative;
+  overflow: hidden;
+}
+.book-marquee-wrap:before,
+.book-marquee-wrap:after{
+  content:"";
+  position:absolute;
+  top:0; bottom:0;
+  width: 90px;
+  z-index: 2;
+  pointer-events: none;
+}
+.book-marquee-wrap:before{
+  left:0;
+  background: linear-gradient(90deg, #ffffff 0%, rgba(255,255,255,0) 100%);
+}
+.book-marquee-wrap:after{
+  right:0;
+  background: linear-gradient(270deg, #ffffff 0%, rgba(255,255,255,0) 100%);
+}
+.book-marquee{
+  display:flex;
+  gap: 18px;
+  align-items:center;
+  width: max-content;
+  animation: bookMarquee 42s linear infinite;
+  will-change: transform;
+}
+@keyframes bookMarquee{
+  from{ transform: translateX(0); }
+  to{ transform: translateX(-50%); }
+}
+.book-card{
+  flex: 0 0 auto;
+  width: 150px;
+  height: 220px;
+  border-radius: 18px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 14px 35px rgba(0,0,0,.12);
+  border: 1px solid rgba(15,23,42,.08);
+  background: #e5e7eb;
+}
+.book-card img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  display:block;
+}
+.book-card .shine{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.22) 42%, rgba(255,255,255,0) 70%);
+  transform: translateX(-55%);
+  opacity:.9;
+  pointer-events:none;
+}
+.book-card:hover .shine{
+  animation: bookShine .9s ease;
+}
+@keyframes bookShine{
+  from{ transform: translateX(-55%); }
+  to{ transform: translateX(70%); }
+}
+.book-marquee-inner{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.book-marquee-topline{
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+.book-marquee-title{
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #0f172a;
+  font-size: 12px;
+  opacity: .85;
+}
+.book-marquee-cta{
+  font-weight: 900;
+  font-size: 12px;
+  color: #FF9900;
+  text-decoration: none;
+}
+.book-marquee-cta:hover{ text-decoration: underline; }
+@media (prefers-reduced-motion: reduce){
+  .book-marquee{ animation: none; }
+}
+
 </style>
 </head>
 
@@ -644,6 +746,103 @@
       </div>
     </div>
   </section>
+  <!-- ===== BOOK MARQUEE (single row) ===== -->
+  <section class="book-marquee-wrap">
+    <div class="book-marquee-inner">
+      <div class="book-marquee-topline">
+        <div class="book-marquee-title" data-en="Cover inspiration gallery" data-fr="Galerie d’inspiration de couvertures">
+          Cover inspiration gallery
+        </div>
+        <a class="book-marquee-cta" href="./marketplace.html" data-en="Explore the Marketplace →" data-fr="Explorer la Marketplace →">
+          Explore the Marketplace →
+        </a>
+      </div>
+    </div>
+
+    <div class="book-marquee" aria-hidden="true">
+      <a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/fullcover_couverture_de_livres_mystery_002.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/fullcover_couverture_de_livres_mystery_002.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/fullcover_couverture_de_livres_thriller_001.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/MARRAKECH/fullcover_voyages_marrakech_017.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+<a class="book-card" href="./marketplace.html" aria-label="Template preview">
+  <img src="https://gabaritkdp.b-cdn.net/backgrounds/THRILLER/THRILLER%20%E2%80%93%20NOIR/image_couverture_de_livres_thriller_thriller_noir_012.png" loading="lazy" alt="Book cover preview">
+  <div class="shine"></div>
+</a>
+    </div>
+  </section>
+
 
   <!-- Fonctionnalités Section -->
   <section class="py-20 bg-white">
