@@ -1,57 +1,46 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Merci – GabaritKDP</title>
+  <title>Thank you – GabaritKDP</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
 <body class="bg-slate-50 text-slate-900">
   <div class="min-h-screen flex items-center justify-center p-6">
     <div class="bg-white border border-slate-200 rounded-2xl shadow-lg p-8 max-w-lg w-full text-center">
-
       <div class="text-4xl mb-3">✅</div>
 
-      <h1 class="text-2xl font-black mb-2"
-          data-fr="Merci pour ta demande !"
-          data-en="Thank you for your request!">
-        Merci pour ta demande !
-      </h1>
+      <h1 class="text-2xl font-black mb-2" data-en="Thank you!" data-fr="Merci !">Thank you!</h1>
 
       <p class="text-slate-600 mb-6"
-         data-fr="Ton idée de template a bien été envoyée. Elle sera étudiée pour les prochaines créations."
-         data-en="Your template idea has been sent successfully and will be reviewed for future creations.">
-        Ton idée de template a bien été envoyée. Elle sera étudiée pour les prochaines créations.
+         data-en="Your template request has been sent successfully. I read every request personally."
+         data-fr="Ta demande de template a bien été envoyée. Je lis chaque demande personnellement.">
+        Your template request has been sent successfully. I read every request personally.
       </p>
 
       <a href="/marketplace.html"
          class="inline-block bg-orange-500 hover:bg-orange-600 transition text-white font-extrabold px-6 py-3 rounded-xl"
-         data-fr="⬅ Retour au Marketplace"
-         data-en="⬅ Back to Marketplace">
-        ⬅ Retour au Marketplace
+         data-en="Back to Marketplace"
+         data-fr="Retour au Marketplace">
+        Back to Marketplace
       </a>
 
       <div class="text-xs text-slate-400 mt-4"
-           data-fr="Redirection automatique dans 5 secondes…"
-           data-en="Automatic redirection in 5 seconds…">
-        Redirection automatique dans 5 secondes…
+           data-en="Automatic redirection in 5 seconds…"
+           data-fr="Redirection automatique dans 5 secondes…">
+        Automatic redirection in 5 seconds…
       </div>
-
     </div>
   </div>
 
   <script>
-    // Redirection auto vers marketplace
-    setTimeout(() => {
-      window.location.href = "/marketplace.html";
-    }, 5000);
-
-    // Gestion bilingue simple (si tu veux l'étendre plus tard)
-    const lang = localStorage.getItem('preferredLanguage') || 'fr';
-    document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+    const lang = localStorage.getItem('preferredLanguage') || 'en';
+    document.querySelectorAll('[data-en][data-fr]').forEach(el => {
       el.innerText = el.getAttribute(`data-${lang}`);
     });
+    setTimeout(() => { window.location.href = '/marketplace.html'; }, 5000);
   </script>
 </body>
 </html>
