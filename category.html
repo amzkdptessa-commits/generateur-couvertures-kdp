@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GabaritKDP - Explorer</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-50 text-gray-900">
   <header class="bg-slate-800 text-white p-4 shadow-md sticky top-0 z-50">
     <div class="max-w-7xl mx-auto flex justify-between items-center">
@@ -32,6 +33,9 @@
 
     let path = params.get('path') || 'FULL COVER';
     path = (path || '').trim();
+
+    // ✅ détecte si on est dans la section BACKGROUNDS
+    const isBackgroundPath = (path || '').toLowerCase().startsWith('backgrounds/');
 
     function encodeBunnyPath(p) {
       return p.split('/').map(seg => encodeURIComponent(seg)).join('/');
@@ -160,7 +164,15 @@
             imgSrc: file.url,
             fallbacks: "",
             isDir: false,
-            onClick: () => window.location.href = `generator.html?template=${encodeURIComponent(file.url)}`
+            onClick: () => {
+              // ✅ BACKGROUNDS => recto (img=)
+              // ✅ FULL COVER / autres => full cover (template=)
+              const target = isBackgroundPath
+                ? `generator.html?trim=6x9&img=${encodeURIComponent(file.url)}&src=backgrounds`
+                : `generator.html?trim=6x9&template=${encodeURIComponent(file.url)}&src=templates`;
+
+              window.location.href = target;
+            }
           }));
         });
 
