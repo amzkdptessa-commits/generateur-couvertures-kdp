@@ -163,7 +163,27 @@ footer {
     .pinterest { background:#BD081C; } .tiktok { background:#000; border:1px solid #444; } .linkedin { background:#0A66C2; }
 
     @media (max-width: 1024px) { .nav-links { display: none; } }
-  </style>
+  
+/* GKDP PIXABAY (isolé) */
+.gkdp-pixabay-tab{
+  padding: 8px 12px;
+  border-radius: 9999px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: #fff;
+  color: #0f172a;
+  font-weight: 700;
+  font-size: .8rem;
+  transition: .2s;
+  cursor: pointer;
+  user-select: none;
+}
+.gkdp-pixabay-tab:hover{ transform: translateY(-1px); }
+.gkdp-pixabay-tab.active{
+  background: #FF9900;
+  border-color: #FF9900;
+  color: #fff;
+}
+</style>
 </head>
 <body>
 
@@ -224,28 +244,38 @@ footer {
     </div>
   </section>
 
-  
-  <!-- SECTION 4: PIXABAY (Inspirations) -->
+  <!-- SECTION 4: PIXABAY (Isolé) -->
   <section class="py-16 bg-white border-t border-gray-100">
     <div class="max-w-7xl mx-auto px-4">
-      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-8">
         <div>
-          <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-widest mb-4">
+          <h2 class="text-2xl font-bold text-gray-900 uppercase tracking-widest">
             🖼️ Pixabay Inspirations
           </h2>
-          <div class="flex gap-2">
-            <button onclick="changePixabayMode('vertical')" id="tab-v" class="pixabay-tab active">Portrait (Front)</button>
-            <button onclick="changePixabayMode('horizontal')" id="tab-h" class="pixabay-tab">Landscape (Full Cover)</button>
+          <div class="flex gap-2 mt-3">
+            <button type="button" id="gkdp-pixabay-tab-v" class="gkdp-pixabay-tab active">Portrait (Front)</button>
+            <button type="button" id="gkdp-pixabay-tab-h" class="gkdp-pixabay-tab">Landscape (Full Cover)</button>
           </div>
         </div>
 
         <div class="flex gap-2">
-          <input id="pixabay-query" class="border border-gray-200 rounded-lg px-3 py-2 w-64" type="text" placeholder="Search images...">
-          <button id="pixabay-search-btn" class="px-4 py-2 rounded-lg text-white font-semibold" style="background:#FF9900;">Search</button>
+          <input id="gkdp-pixabay-query"
+                 class="border border-gray-200 rounded-lg px-3 py-2 w-64"
+                 type="text"
+                 placeholder="ex: romance, thriller, fantasy">
+          <button id="gkdp-pixabay-search-btn"
+                  class="px-4 py-2 rounded-lg text-white font-semibold"
+                  style="background:#FF9900;">
+            Search
+          </button>
         </div>
       </div>
 
-      <div id="grid-pixabay" class="grid grid-cols-2 md:grid-cols-4 gap-6 min-h-[300px]"></div>
+      <div id="gkdp-pixabay-grid" class="grid grid-cols-2 md:grid-cols-4 gap-6"></div>
+
+      <p class="text-xs text-gray-400 mt-4">
+        Images provided by Pixabay. Click “Use” to open the generator in 6x9.
+      </p>
     </div>
   </section>
 <footer class="bg-gray-900 text-gray-300 py-12">
@@ -420,6 +450,8 @@ footer {
     }
 function render(data, gridId, isInterior = false) {
       const grid = document.getElementById(gridId);
+      if (!grid) return;
+      grid.innerHTML = "";
       data.forEach(item => {
         const link = isInterior ? item.url : `category.html?path=${encodeURIComponent(item.path)}`;
         grid.innerHTML += `
@@ -441,59 +473,130 @@ function render(data, gridId, isInterior = false) {
       });
     }
 
-/* ======================= 
-   PIXABAY INTEGRATION 
-   ======================= */
-const PIXABAY_API_KEY = "54299270-a26f023b47f440fc2718be4ac"; 
-let currentPixabayMode = 'vertical';
+    /* =======================
+       PIXABAY (ISOLÉ)
+       ======================= */
+    const PIXABAY_API_KEY = "54299270-a26f023b47f440fc2718be4ac";
+    let gkdpPixabayMode = "vertical"; // vertical=portrait, horizontal=landscape
 
-async function loadPixabay(q = "") {
-  const query = q || (currentPixabayMode === 'vertical' ? 'background texture' : 'landscape nature');
-  const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&orientation=${currentPixabayMode}&per_page=12&image_type=photo&safesearch=true`;
+    function gkdpPixabaySetMode(mode){
+      gkdpPixabayMode = mode;
+      document.getElementById("gkdp-pixabay-tab-v")?.classList.toggle("active", mode === "vertical");
+      document.getElementById("gkdp-pixabay-tab-h")?.classList.toggle("active", mode === "horizontal");
+    }
 
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    const grid = document.getElementById("grid-pixabay");
-    if (!grid) return;
+    async function gkdpPixabayLoad(q = ""){
+      const grid = document.getElementById("gkdp-pixabay-grid");
+      if (!grid) return;
 
-    grid.innerHTML = "";
+      const query = q || (gkdpPixabayMode === "vertical" ? "background texture" : "landscape nature");
+      const url = `https://pixabay.com/api/?key=${PIXABAY_API_KEY}&q=${encodeURIComponent(query)}&orientation=${gkdpPixabayMode}&per_page=12&image_type=photo&safesearch=true`;
 
-    (data.hits || []).forEach(photo => {
-      const card = document.createElement("div");
-      card.className = "category-card";
-      if (currentPixabayMode === 'horizontal') card.style.aspectRatio = "16/9";
+      try{
+        const res = await fetch(url);
+        const data = await res.json();
+        grid.innerHTML = "";
 
-      card.innerHTML = `
-        <img src="${photo.webformatURL}" loading="lazy" alt="">
-        <div class="category-overlay" style="pointer-events:auto">
-          <button class="px-3 py-2 text-xs text-white font-bold rounded" style="background:#FF9900;">Use</button>
-        </div>`;
+        (data.hits || []).forEach(photo => {
+          const card = document.createElement("div");
+          card.className = "category-card";
+          if (gkdpPixabayMode === "horizontal") card.style.aspectRatio = "16/9";
 
-      card.querySelector("button").onclick = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        const img = encodeURIComponent(photo.largeImageURL);
+          const label = (localStorage.getItem("preferredLanguage") || "en") === "fr" ? "Utiliser" : "Use";
 
-        // Landscape -> template (Full Cover) | Portrait -> img (Front background)
-        const param = (currentPixabayMode === 'horizontal') ? `template=${img}&src=pixabay` : `img=${img}&src=pixabay`;
-        window.location.href = `./generator.html?trim=6x9&${param}`;
-      };
+          card.innerHTML = `
+            <img src="${photo.webformatURL}" loading="lazy" alt="">
+            <div class="category-overlay" style="pointer-events:auto">
+              <button type="button" class="mt-2 px-3 py-2" style="background:#FF9900;color:#fff;border-radius:8px">
+                ${label}
+              </button>
+            </div>
+          `;
 
-      grid.appendChild(card);
-    });
-  } catch (e) {
-    console.error("Pixabay Error", e);
-  }
+          card.querySelector("button").addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            const img = encodeURIComponent(photo.largeImageURL);
+
+            const param = (gkdpPixabayMode === "horizontal")
+              ? `template=${img}&src=pixabay`
+              : `img=${img}&src=pixabay`;
+
+            window.location.href = `./generator.html?trim=6x9&${param}`;
+          });
+
+          grid.appendChild(card);
+        });
+      }catch(err){
+        console.error("[PIXABAY] error", err);
+        grid.innerHTML = `<p class="text-sm text-gray-500">Pixabay loading error. Check console.</p>`;
+      }
+    }
+
+function renderUnsplashGrid(photos) {
+  const grid = document.getElementById("grid-unsplash");
+  if (!grid) return;
+
+  grid.innerHTML = "";
+
+  photos.forEach(photo => {
+    const card = document.createElement("div");
+    card.className = "category-card";
+    card.innerHTML = `
+      <img src="${photo.urls.small}" loading="lazy">
+
+      <div class="category-overlay" style="pointer-events:auto">
+        <div style="font-size:.75rem">
+          Photo by
+          <a href="${photo.user.links.html}" target="_blank">${photo.user.name}</a>
+          on
+          <a href="https://unsplash.com" target="_blank">Unsplash</a>
+        </div>
+
+        <button class="mt-2 px-3 py-2"
+          style="background:#FF9900;color:#fff;border-radius:8px">
+          Use image
+        </button>
+      </div>
+    `;
+
+    const btn = card.querySelector("button");
+
+btn.addEventListener("click", async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  // 1) Download trigger (Unsplash)
+  await triggerUnsplashDownload(photo.links.download_location);
+
+  // 2) Construire l'URL du générateur comme tes autres templates (paramètres)
+  const img = encodeURIComponent(photo.urls.full);
+
+  // Format par défaut = 6x9
+  const trim = "6x9";
+
+  // (optionnel) attribution en params (utile si tu veux l'afficher dans le générateur)
+  const author = encodeURIComponent(photo.user.name || "");
+  const authorUrl = encodeURIComponent(photo.user.links.html || "");
+  const photoUrl = encodeURIComponent(photo.links.html || "");
+
+  window.location.href =
+    `./generator.html?trim=${trim}&src=unsplash&img=${img}` +
+    `&u=${author}&uu=${authorUrl}&pu=${photoUrl}`;
+});
+
+
+    grid.appendChild(card);
+  });
 }
 
-function changePixabayMode(mode) {
-  currentPixabayMode = mode;
-  document.getElementById('tab-v')?.classList.toggle('active', mode === 'vertical');
-  document.getElementById('tab-h')?.classList.toggle('active', mode === 'horizontal');
-  loadPixabay(document.getElementById("pixabay-query")?.value || "");
+async function loadUnsplash(query = "book cover") {
+  const photos = await fetchUnsplashPhotos(query);
+  renderUnsplashGrid(photos);
 }
 
+/* ======================= */
 
 document.addEventListener('DOMContentLoaded', () => {
   render(config.premium, 'grid-premium');
@@ -501,9 +604,8 @@ document.addEventListener('DOMContentLoaded', () => {
   render(config.interiors, 'grid-interiors', true);
   switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
 
-  // 🔥 PIXABAY AUTO LOAD
-    loadPixabay();
-    document.getElementById('pixabay-search-btn').onclick = () => loadPixabay(document.getElementById('pixabay-query').value);
+  // 🔥 UNSPLASH AUTO LOAD
+loadUnsplash();
 });
 
   </script>
