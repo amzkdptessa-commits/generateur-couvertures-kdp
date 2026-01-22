@@ -1282,9 +1282,9 @@
         </div>
 
         <!-- PAY PER EXPORT -->
-        <div class="pricing-card bg-white rounded-2xl shadow-xl p-8 border-2 border-blue-200 relative overflow-hidden">
+        <div class="pricing-card bg-white rounded-2xl shadow-xl p-8 border-2 border-blue-200 relative overflow-visible">
           <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
             <span class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow" data-fr="Le plus populaire" data-en="Most popular">Most popular</span>
           </div>
 
@@ -1308,7 +1308,7 @@
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès à toutes les fonctionnalités du générateur express" data-en="Access to all Express Generator features">Access to all Express Generator features</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès à l’import Canva" data-en="Coming soon: Canva import access">Coming soon: Canva import access</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
-              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès aux templates premium prêts à l’emploi + bibliothèque Unsplash" data-en="Access to ready-to-use premium templates + Unsplash library">Access to ready-to-use premium templates + Unsplash library</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès aux templates premium prêts à l’emploi + bibliothèque Pixabay (5+ millions d’images libres de droits)" data-en="Access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)">Access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)</span></li>
             </ul>
 
             <button onclick="buyOneExport()" class="w-full mt-8 bg-blue-600 text-white py-3.5 px-4 rounded-xl font-semibold hover:bg-blue-700 transition" data-fr="Acheter un export" data-en="Buy one export">Buy one export</button>
@@ -1340,8 +1340,53 @@
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès illimité à toutes les fonctionnalités du générateur express" data-en="Unlimited access to all Express Generator features">Unlimited access to all Express Generator features</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès illimité à l’import Canva" data-en="Coming soon: unlimited Canva import access">Coming soon: unlimited Canva import access</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
-              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès illimité aux templates premium prêts à l’emploi + bibliothèque Unsplash" data-en="Unlimited access to ready-to-use premium templates + Unsplash library">Unlimited access to ready-to-use premium templates + Unsplash library</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès illimité aux templates premium prêts à l’emploi + bibliothèque Pixabay (5+ millions d’images libres de droits)" data-en="Unlimited access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)">Unlimited access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)</span></li>
+            
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span>
+                <span class="text-sm text-gray-700"
+                      data-fr="Exports illimités : créez, testez et recommencez sans compter"
+                      data-en="Unlimited exports: create, test and iterate without limits">
+                  Unlimited exports: create, test and iterate without limits
+                </span>
+              </li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span>
+                <span class="text-sm text-gray-700"
+                      data-fr="+5 millions d’images Pixabay intégrées pour des covers uniques à l’infini"
+                      data-en="5+ million Pixabay images to generate endless unique covers">
+                  5+ million Pixabay images to generate endless unique covers
+                </span>
+              </li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span>
+                <span class="text-sm text-gray-700"
+                      data-fr="Pensé pour scaler : auteurs prolifiques, agences, maisons d’édition"
+                      data-en="Built to scale: prolific authors, agencies, publishers">
+                  Built to scale: prolific authors, agencies, publishers
+                </span>
+              </li>
+
             </ul>
+
+            <div class="mt-6 p-5 rounded-2xl border" style="border-color:rgba(255,153,0,.35); background:rgba(255,153,0,.10);">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="text-xl">🧠</span>
+                <div class="font-extrabold text-gray-900"
+                     data-fr="Pourquoi c’est une évidence"
+                     data-en="Why it’s a no‑brainer">
+                  Why it’s a no‑brainer
+                </div>
+              </div>
+              <p class="text-sm text-gray-700 leading-relaxed"
+                 data-fr="Si vous publiez plus d’1 livre/mois, Pro Illimité devient mathématiquement plus rentable : exports illimités + templates premium + 5+ millions d’images, sans aucune friction."
+                 data-en="Publishing more than 1 book/month? Pro Unlimited becomes mathematically more cost‑effective: unlimited exports + premium templates + 5+ million images, with zero friction.">
+                Publishing more than 1 book/month? Pro Unlimited becomes mathematically more cost‑effective: unlimited exports + premium templates + 5+ million images, with zero friction.
+              </p>
+              <div class="mt-3 text-xs text-gray-500"
+                   data-fr="Vous payez pour ne plus jamais réfléchir : tout est illimité."
+                   data-en="You pay to never think about limits again: everything is unlimited.">
+                You pay to never think about limits again: everything is unlimited.
+              </div>
+            </div>
+
 
             <button onclick="subscribePro()" class="w-full mt-8 bg-purple-600 text-white py-3.5 px-4 rounded-xl font-semibold hover:bg-purple-700 transition" data-fr="Commencer Pro" data-en="Start Pro">Start Pro</button>
             <p class="text-xs text-gray-500 mt-3 text-center" data-fr="Pensé pour les équipes" data-en="Built for teams">Built for teams</p>
