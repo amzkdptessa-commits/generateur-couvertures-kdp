@@ -534,80 +534,31 @@ function render(data, gridId, isInterior = false) {
       }
     }
 
-function renderUnsplashGrid(photos) {
-  const grid = document.getElementById("grid-unsplash");
-  if (!grid) return;
-
-  grid.innerHTML = "";
-
-  photos.forEach(photo => {
-    const card = document.createElement("div");
-    card.className = "category-card";
-    card.innerHTML = `
-      <img src="${photo.urls.small}" loading="lazy">
-
-      <div class="category-overlay" style="pointer-events:auto">
-        <div style="font-size:.75rem">
-          Photo by
-          <a href="${photo.user.links.html}" target="_blank">${photo.user.name}</a>
-          on
-          <a href="https://unsplash.com" target="_blank">Unsplash</a>
-        </div>
-
-        <button class="mt-2 px-3 py-2"
-          style="background:#FF9900;color:#fff;border-radius:8px">
-          Use image
-        </button>
-      </div>
-    `;
-
-    const btn = card.querySelector("button");
-
-btn.addEventListener("click", async (e) => {
-  e.preventDefault();
-  e.stopPropagation();
-
-  // 1) Download trigger (Unsplash)
-  await triggerUnsplashDownload(photo.links.download_location);
-
-  // 2) Construire l'URL du générateur comme tes autres templates (paramètres)
-  const img = encodeURIComponent(photo.urls.full);
-
-  // Format par défaut = 6x9
-  const trim = "6x9";
-
-  // (optionnel) attribution en params (utile si tu veux l'afficher dans le générateur)
-  const author = encodeURIComponent(photo.user.name || "");
-  const authorUrl = encodeURIComponent(photo.user.links.html || "");
-  const photoUrl = encodeURIComponent(photo.links.html || "");
-
-  window.location.href =
-    `./generator.html?trim=${trim}&src=unsplash&img=${img}` +
-    `&u=${author}&uu=${authorUrl}&pu=${photoUrl}`;
-});
-
-
-    grid.appendChild(card);
-  });
-}
-
-async function loadUnsplash(query = "book cover") {
-  const photos = await fetchUnsplashPhotos(query);
-  renderUnsplashGrid(photos);
-}
-
-/* ======================= */
 
 document.addEventListener('DOMContentLoaded', () => {
-  render(config.premium, 'grid-premium');
+render(config.premium, 'grid-premium');
   render(config.backgrounds, 'grid-backgrounds');
   render(config.interiors, 'grid-interiors', true);
   switchLanguage(localStorage.getItem('preferredLanguage') || 'en');
 
-  // 🔥 UNSPLASH AUTO LOAD
-loadUnsplash();
-});
 
-  </script>
+  // 🔥 PIXABAY AUTO LOAD (isolé)
+  document.getElementById("gkdp-pixabay-tab-v")?.addEventListener("click", () => {
+    gkdpPixabaySetMode("vertical");
+    gkdpPixabayLoad(document.getElementById("gkdp-pixabay-query")?.value || "");
+  });
+  document.getElementById("gkdp-pixabay-tab-h")?.addEventListener("click", () => {
+    gkdpPixabaySetMode("horizontal");
+    gkdpPixabayLoad(document.getElementById("gkdp-pixabay-query")?.value || "");
+  });
+  document.getElementById("gkdp-pixabay-search-btn")?.addEventListener("click", () => {
+    gkdpPixabayLoad(document.getElementById("gkdp-pixabay-query")?.value || "");
+  });
+
+  gkdpPixabaySetMode("vertical");
+  gkdpPixabayLoad("");
+
+});
+</script>
 </body>
 </html>
