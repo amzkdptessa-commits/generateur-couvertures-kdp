@@ -186,6 +186,11 @@ footer {
 </style>
 </head>
 <body>
+  <!-- Netlify Forms detection (keep this form outside of any other form) -->
+  <form name="template_requests" method="POST" data-netlify="true" action="/thanks.html" hidden>
+    <input type="hidden" name="form-name" value="template_requests">
+  </form>
+
 
   <header class="header-nav notranslate">
     <div class="nav-container">
@@ -470,8 +475,7 @@ function render(data, gridId, isInterior = false) {
       document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
       document.querySelectorAll('[data-fr][data-en]').forEach(el => {
         el.innerText = el.getAttribute(`data-${lang}`);
-      if (window.gkdpUpdateReqWidgetLang) window.gkdpUpdateReqWidgetLang(lang);
-    });
+      });
     }
 
     /* =======================
@@ -561,187 +565,5 @@ render(config.premium, 'grid-premium');
 
 });
 </script>
-
-<!-- GKDP Template Request Widget (Netlify Forms) -->
-<div id="gkdp-req" class="notranslate" style="position:fixed; right:18px; bottom:18px; z-index:99999; font-family:system-ui, -apple-system, Segoe UI, Arial;">
-  <button id="gkdp-req-open"
-          type="button"
-          data-en="+ Request a template"
-          data-fr="+ Demander un template"
-          style="background:#FF9900; color:#fff; border:none; border-radius:9999px; padding:12px 14px; font-weight:800; cursor:pointer; box-shadow:0 10px 30px rgba(0,0,0,.18);">
-    + Request a template
-  </button>
-
-  <div id="gkdp-req-panel"
-       style="display:none; width:360px; margin-top:10px; background:#fff; border:1px solid rgba(15,23,42,.12); border-radius:16px; overflow:hidden; box-shadow:0 18px 50px rgba(0,0,0,.18);">
-    <div style="padding:12px 14px; background:linear-gradient(135deg,#1e293b 0%,#334155 100%); color:#fff; display:flex; align-items:center; justify-content:space-between;">
-      <div id="gkdp-req-title"
-           data-en="What should I create next?"
-           data-fr="Quel template veux-tu que je crée ?"
-           style="font-weight:900;">
-        What should I create next?
-      </div>
-      <button id="gkdp-req-close" type="button"
-              aria-label="Close"
-              style="background:transparent; border:none; color:#fff; font-size:18px; cursor:pointer;">×</button>
-    </div>
-
-    <form name="template_requests"
-          method="POST"
-action="https://gabaritkdp.com/thanks.html"
-          data-netlify="true"
-          netlify-honeypot="bot-field"
-          style="padding:14px; display:flex; flex-direction:column; gap:10px;">
-<!-- Netlify Forms detection (do not remove) -->
-<form
-  name="template_requests"
-  method="POST"
-  data-netlify="true"
-  action="/thanks.html"
-  hidden
->
-  <input type="hidden" name="form-name" value="template_requests">
-</form>
-
-      <input type="hidden" name="form-name" value="template_requests">
-      <p style="display:none;">
-        <label>Don’t fill this out: <input name="bot-field"></label>
-      </p>
-
-      <label id="gkdp-req-label-cat"
-             data-en="Category"
-             data-fr="Catégorie"
-             style="font-size:12px; font-weight:800; color:#0f172a;">Category</label>
-      <select id="gkdp-req-category" name="category" required
-              style="border:1px solid rgba(15,23,42,.15); border-radius:10px; padding:10px;">
-        <option value="" data-en="Choose…" data-fr="Choisir…">Choose…</option>
-        <option>Romance</option>
-        <option>Thriller</option>
-        <option>Fantasy</option>
-        <option>Mystery</option>
-        <option>Business</option>
-        <option>Religion</option>
-        <option>Children</option>
-        <option data-en="Other" data-fr="Autre">Other</option>
-      </select>
-
-      <label id="gkdp-req-label-format"
-             data-en="Format"
-             data-fr="Format"
-             style="font-size:12px; font-weight:800; color:#0f172a;">Format</label>
-      <select id="gkdp-req-format" name="format" required
-              style="border:1px solid rgba(15,23,42,.15); border-radius:10px; padding:10px;">
-        <option value="" data-en="Choose…" data-fr="Choisir…">Choose…</option>
-        <option data-en="Background (Front only)" data-fr="Background (Recto uniquement)">Background (Front only)</option>
-        <option data-en="Full cover" data-fr="Couverture complète">Full cover</option>
-        <option data-en="Interior" data-fr="Intérieur">Interior</option>
-      </select>
-
-      <label id="gkdp-req-label-details"
-             data-en="Describe what you want"
-             data-fr="Décris ce que tu veux"
-             style="font-size:12px; font-weight:800; color:#0f172a;">Describe what you want</label>
-      <textarea id="gkdp-req-details" name="details" rows="4" required
-                data-ph-en="Example: Dark Romance background, moonlight, elegant empty zone for title, no faces..."
-                data-ph-fr="Exemple : Background Dark Romance, clair de lune, zone vide élégante pour le titre, pas de visage..."
-                placeholder="Example: Dark Romance background, moonlight, elegant empty zone for title, no faces..."
-                style="border:1px solid rgba(15,23,42,.15); border-radius:10px; padding:10px; resize:vertical;"></textarea>
-
-      <label id="gkdp-req-label-email"
-             data-en="Email (optional)"
-             data-fr="Email (optionnel)"
-             style="font-size:12px; font-weight:800; color:#0f172a;">Email (optional)</label>
-      <input id="gkdp-req-email" name="email" type="email"
-             data-ph-en="you@email.com"
-             data-ph-fr="ton@email.com"
-             placeholder="you@email.com"
-             style="border:1px solid rgba(15,23,42,.15); border-radius:10px; padding:10px;">
-
-      <input type="hidden" name="page_url" value="">
-      <input type="hidden" name="created_at" value="">
-      <input type="hidden" name="lang" value="">
-
-      <button id="gkdp-req-submit" type="submit"
-              data-en="Send request"
-              data-fr="Envoyer la demande"
-              style="background:#FF9900; color:#fff; border:none; border-radius:12px; padding:10px; font-weight:900; cursor:pointer;">
-        Send request
-      </button>
-
-      <div id="gkdp-req-legal"
-           data-en="Requests are stored to improve GabaritKDP. No spam."
-           data-fr="Les demandes sont enregistrées pour améliorer GabaritKDP. Pas de spam."
-           style="font-size:11px; color:#64748b; line-height:1.35;">
-        Requests are stored to improve GabaritKDP. No spam.
-      </div>
-    </form>
-  </div>
-</div>
-
-<script>
-/* GKDP Template Request Widget (bilingual, Netlify Forms) */
-(function(){
-  const openBtn = document.getElementById("gkdp-req-open");
-  const closeBtn = document.getElementById("gkdp-req-close");
-  const panel = document.getElementById("gkdp-req-panel");
-  const form = document.querySelector('form[name="template_requests"]');
-
-  function applyLang(lang){
-    const nodes = [
-      "gkdp-req-open","gkdp-req-title","gkdp-req-label-cat","gkdp-req-label-format",
-      "gkdp-req-label-details","gkdp-req-label-email","gkdp-req-submit","gkdp-req-legal"
-    ];
-    nodes.forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      const t = el.getAttribute(`data-${lang}`);
-      if (t) el.innerText = t;
-    });
-
-    const phEls = [document.getElementById("gkdp-req-details"), document.getElementById("gkdp-req-email")];
-    phEls.forEach(el => {
-      if (!el) return;
-      const ph = el.getAttribute(`data-ph-${lang}`);
-      if (ph) el.setAttribute("placeholder", ph);
-    });
-
-    ["gkdp-req-category","gkdp-req-format"].forEach(selId => {
-      const sel = document.getElementById(selId);
-      if (!sel) return;
-      Array.from(sel.options).forEach(opt => {
-        const t = opt.getAttribute(`data-${lang}`);
-        if (t) opt.text = t;
-      });
-    });
-
-    if (form){
-      const langInput = form.querySelector('input[name="lang"]');
-      if (langInput) langInput.value = lang;
-    }
-  }
-
-  window.gkdpUpdateReqWidgetLang = applyLang;
-
-  if (!openBtn || !closeBtn || !panel || !form) return;
-
-  const pageUrl = form.querySelector('input[name="page_url"]');
-  const createdAt = form.querySelector('input[name="created_at"]');
-  if (pageUrl) pageUrl.value = window.location.href;
-  if (createdAt) createdAt.value = new Date().toISOString();
-
-  const preferred = localStorage.getItem("preferredLanguage") || "en";
-  applyLang(preferred);
-
-  openBtn.addEventListener("click", () => {
-    panel.style.display = (panel.style.display === "none" || !panel.style.display) ? "block" : "none";
-  });
-  closeBtn.addEventListener("click", () => panel.style.display = "none");
-
-  form.addEventListener("submit", () => {
-    panel.style.display = "none";
-  });
-})();
-</script>
-
 </body>
 </html>
