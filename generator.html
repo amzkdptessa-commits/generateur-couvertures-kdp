@@ -9378,5 +9378,109 @@ function getStored() {
 </script>
 
 <script src="./logout-button.js" defer></script>
-</body></body>
+
+<!-- ✅ Auto-scroll vers l'aperçu (sans toucher à React/Canva) -->
+<script>
+(function () {
+  if (window.__GKDP_AUTO_SCROLL_PREVIEW__) return;
+  window.__GKDP_AUTO_SCROLL_PREVIEW__ = true;
+
+  function getHeaderOffset(){
+    const header = document.querySelector('.header-nav');
+    const h = header ? header.getBoundingClientRect().height : 0;
+    return Math.max(70, Math.round(h));
+  }
+
+  function scrollToPreviewIfHidden(){
+    const preview = document.querySelector('.preview-zone');
+    if (!preview) return;
+
+    const rect = preview.getBoundingClientRect();
+    const topSafe = getHeaderOffset() + 20;
+    const bottomSafe = 40;
+    const isVisible = rect.top >= topSafe && rect.bottom <= (window.innerHeight - bottomSafe);
+
+    if (isVisible) return;
+
+    const y = rect.top + window.pageYOffset - getHeaderOffset();
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  let t = null;
+  function schedule(){
+    if (t) clearTimeout(t);
+    t = setTimeout(scrollToPreviewIfHidden, 120);
+  }
+
+  // On capte les saisies dans le générateur (inputs, textarea, select)
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+
+  // On capte aussi les changements (select / range)
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+})();
+</script>
+
+</body>
+<!-- ✅ Auto-scroll vers l'aperçu (sans toucher à React/Canva) -->
+<script>
+(function () {
+  if (window.__GKDP_AUTO_SCROLL_PREVIEW__) return;
+  window.__GKDP_AUTO_SCROLL_PREVIEW__ = true;
+
+  function getHeaderOffset(){
+    const header = document.querySelector('.header-nav');
+    const h = header ? header.getBoundingClientRect().height : 0;
+    return Math.max(70, Math.round(h));
+  }
+
+  function scrollToPreviewIfHidden(){
+    const preview = document.querySelector('.preview-zone');
+    if (!preview) return;
+
+    const rect = preview.getBoundingClientRect();
+    const topSafe = getHeaderOffset() + 20;
+    const bottomSafe = 40;
+    const isVisible = rect.top >= topSafe && rect.bottom <= (window.innerHeight - bottomSafe);
+
+    if (isVisible) return;
+
+    const y = rect.top + window.pageYOffset - getHeaderOffset();
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  let t = null;
+  function schedule(){
+    if (t) clearTimeout(t);
+    t = setTimeout(scrollToPreviewIfHidden, 120);
+  }
+
+  // On capte les saisies dans le générateur (inputs, textarea, select)
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+
+  // On capte aussi les changements (select / range)
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+})();
+</script>
+
+</body>
 </html>
