@@ -6,17 +6,20 @@ const { createClient } = require("@supabase/supabase-js");
 dotenv.config();
 
 // Validation env
-if (!process.env.SUPABASE_URL) {
-  throw new Error("SUPABASE_URL is missing in .env");
-}
-if (!process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  throw new Error("SUPABASE_SERVICE_ROLE_KEY is missing in .env");
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+  console.error("❌ Erreur: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY manquant dans le .env");
 }
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// Configuration CORS complète
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST"],
+  allowedHeaders: ["Content-Type"]
+}));
+
 app.use(express.json({ limit: "2mb" }));
 
 const supabase = createClient(
@@ -29,36 +32,37 @@ app.get("/", (req, res) => {
   res.json({ status: "ok", message: "GabaritKDP Tracker API running" });
 });
 
-// Endpoint attendu par ton extension (à adapter si ton popup.js appelle /api/sync-kdp)
+// Endpoint de synchro
 app.post("/api/sync-kdp", async (req, res) => {
   try {
-    const { email, data } = req.body || {};
+    const { email, cookies, marketplace } = req.body || {};
 
-    if (!email || !data) {
-      return res.status(400).json({ error: "Missing email or data" });
+    if (!email || !cookies) {
+      return res.status(400).json({ error: "Email ou cookies manquants" });
     }
+
+    console.log(`📩 Reçu synchro pour: ${email} (${marketplace})`);
 
     const { error } = await supabase
       .from("kdp_reports")
       .insert({
         user_email: email,
-        payload: data,
+        payload: { cookies, marketplace },
         created_at: new Date().toISOString()
       });
 
-    if (error) {
-      console.error("Supabase insert error:", error);
-      return res.status(500).json({ error: error.message });
-    }
+    if (error) throw error;
 
-    return res.json({ success: true });
+    return res.json({ success: true, message: "Données reçues par le serveur" });
   } catch (err) {
-    console.error("SYNC ERROR:", err);
+    console.error("❌ SYNC ERROR:", err.message);
     return res.status(500).json({ error: err.message });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`✅ KDP Tracker backend running on http://localhost:${PORT}`);
+// FIX : On force l'écoute sur 0.0.0.0 (IPv4)
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`✅ Serveur prêt !`);
+  console.log(`🚀 Local: http://127.0.0.1:${PORT}`);
+  console.log(`📡 Testez avec: curl http://127.0.0.1:${PORT}`);
 });
-
