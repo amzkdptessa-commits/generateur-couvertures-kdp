@@ -3895,7 +3895,7 @@ const [frontImage, setFrontImage] = useState(null);
             const [warnings, setWarnings] = useState([]);
             const [overallScore, setOverallScore] = useState(0);
             const [zoomLevel, setZoomLevel] = useState(1.5);
-            const [canvasQuality, setCanvasQuality] = useState('4K');
+            const [canvasQuality, setCanvasQuality] = useState('Standard');;
             const [exportFormat, setExportFormat] = useState('pdf');
             const [exportLimitInfo, setExportLimitInfo] = useState({ canExport: false, remaining: 0, level: 'anonymous' });
             const [viewMode, setViewMode] = useState('2d'); // '2d' ou '3d'
@@ -4961,7 +4961,149 @@ const getScoreClass = (score) => {
                 
             }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, useCustomBarcode, customISBN, customBarcodePng, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
             
-            const exportImage = () => {
+            
+// 🚀 EXPORT PERFORMANCE V2: cache drawable assets (ImageBitmap if possible) between exports
+// Goal: avoid re-download + re-decode on every Export click.
+window.__GKDP_EXPORT_DRAWABLE_CACHE__ = window.__GKDP_EXPORT_DRAWABLE_CACHE__ || new Map();
+const __GKDP_EXPORT_DRAWABLE_CACHE_MAX__ = 60;
+
+// Internal: maintain a simple LRU by insertion order
+function __gkdpCachePut(url, promise) {
+    const cache = window.__GKDP_EXPORT_DRAWABLE_CACHE__;
+    // refresh insertion order
+    if (cache.has(url)) cache.delete(url);
+    cache.set(url, promise);
+
+    // prune oldest
+    while (cache.size > __GKDP_EXPORT_DRAWABLE_CACHE_MAX__) {
+        const oldestKey = cache.keys().next().value;
+        const oldestPromise = cache.get(oldestKey);
+        cache.delete(oldestKey);
+        // If it was an ImageBitmap, we can try to close it once resolved
+        Promise.resolve(oldestPromise).then(v => {
+            try { if (v && typeof v.close === 'function') v.close(); } catch (_) {}
+        });
+    }
+}
+
+// ✅ Load a drawable that can be passed to ctx.drawImage(): ImageBitmap preferred, else HTMLImageElement.
+// Uses fetch+createImageBitmap when possible for faster decode; falls back to <img> for compatibility.
+const __gkdpLoadDrawable = (url) => {
+    return new Promise((resolve) => {
+        if (!url) return resolve(null);
+
+        const cache = window.__GKDP_EXPORT_DRAWABLE_CACHE__;
+        if (cache.has(url)) {
+            return cache.get(url).then(resolve);
+        }
+
+        const promise = (async () => {
+            // Prefer ImageBitmap for faster decode and draw
+            if (typeof createImageBitmap === 'function') {
+                try {
+                    const resp = await fetch(url, { mode: 'cors', credentials: 'omit', cache: 'force-cache' });
+                    if (resp && resp.ok) {
+                        const blob = await resp.blob();
+                        const bmp = await createImageBitmap(blob);
+                        return bmp;
+                    }
+                } catch (e) {
+                    // Silent fallback to <img>
+                }
+            }
+
+            // Fallback: HTMLImageElement
+            return await new Promise((res2) => {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => res2(img);
+                img.onerror = () => res2(null);
+                img.src = url;
+            });
+        })();
+
+        __gkdpCachePut(url, promise);
+
+        promise.then((val) => {
+            if (!val) {
+                // remove failed entry so a retry can happen later
+                try { window.__GKDP_EXPORT_DRAWABLE_CACHE__.delete(url); } catch (_) {}
+            }
+            resolve(val);
+        });
+    });
+};
+
+// ✅ Safe PDF save without expensive base64 unless needed
+const __gkdpSafeAddPdfImage = (pdf, exportCanvas, Wpt, Hpt) => {
+                try {
+                    pdf.addImage(exportCanvas, 'PNG', 0, 0, Wpt, Hpt);
+                } catch (e) {
+                    console.warn('PDF addImage(canvas) failed -> fallback toDataURL', e);
+                    const imgData = exportCanvas.toDataURL('image/png', 1.0);
+                    pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
+                }
+            };
+
+// ✅ Safe image download without toDataURL (Worker when possible + fallback to toBlob)
+window.__GKDP_EXPORT_ENCODE_WORKER__ = window.__GKDP_EXPORT_ENCODE_WORKER__ || null;
+
+function __gkdpGetEncodeWorker() {
+    try {
+        if (window.__GKDP_EXPORT_ENCODE_WORKER__) return window.__GKDP_EXPORT_ENCODE_WORKER__;
+        // Worker file expected at: js/export-encode.worker.js
+        window.__GKDP_EXPORT_ENCODE_WORKER__ = new Worker('js/export-encode.worker.js');
+        return window.__GKDP_EXPORT_ENCODE_WORKER__;
+    } catch (e) {
+        return null;
+    }
+}
+
+const __gkdpDownloadCanvasAsImage = (exportCanvas, exportFormat, baseFilename) => {
+    const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+    const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
+
+    const canUseWorker = (typeof OffscreenCanvas !== 'undefined' && typeof createImageBitmap === 'function' && __gkdpGetEncodeWorker());
+    if (canUseWorker) {
+        return (async () => {
+            const worker = __gkdpGetEncodeWorker();
+            const bitmap = await createImageBitmap(exportCanvas);
+
+            const blob = await new Promise((resolve, reject) => {
+                const onMsg = (evt) => {
+                    const msg = evt.data;
+                    worker.removeEventListener('message', onMsg);
+                    if (!msg || !msg.ok) reject(new Error(msg?.error || 'Worker export failed'));
+                    else resolve(msg.blob);
+                };
+                worker.addEventListener('message', onMsg);
+                worker.postMessage({ bitmap, mimeType, quality: 0.95, filename }, [bitmap]);
+            });
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = url;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+        })();
+    }
+
+    // Fallback: toBlob on main thread (still much faster than toDataURL)
+    return new Promise((resolve, reject) => {
+        exportCanvas.toBlob((blob) => {
+            if (!blob) return reject(new Error('Export blob empty'));
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = url;
+            link.click();
+            setTimeout(() => URL.revokeObjectURL(url), 1500);
+            resolve();
+        }, mimeType, 0.95);
+    });
+};
+const exportImage = () => {
                 if (format === '8.5x11' && !confirm(t('format8511Message'))) return;
                 setIsExporting(true);
                 setTimeout(() => {
@@ -4986,21 +5128,36 @@ const getScoreClass = (score) => {
                             console.log('📄 [PDF] Export forcé à 300 DPI pour compatibilité KDP');
                         } else {
                             // PNG/JPEG: qualité au choix
-                            switch(canvasQuality) {
-                                case 'Standard':
-                                    baseDpiScale = 11.811; // 300 DPI
-                                    qualityLabel = '300 DPI';
-                                    break;
-                                case '8K':
-                                    baseDpiScale = 23.622; // 600 DPI
-                                    qualityLabel = '600 DPI';
-                                    break;
-                                case '4K':
-                                default:
-                                    baseDpiScale = 15.748; // 400 DPI
-                                    qualityLabel = '400 DPI';
-                                    break;
-                            }
+                            
+// 🔒 Perf gating: 4K/8K réservés aux PRO (sinon export trop lent / crash)
+const isProUser = (localStorage.getItem('userProfile') === 'pro');
+
+switch(canvasQuality) {
+    case '8K':
+        if (!isProUser) {
+            baseDpiScale = 11.811; // 300 DPI
+            qualityLabel = '300 DPI (Free)';
+        } else {
+            baseDpiScale = 23.622; // 600 DPI
+            qualityLabel = '600 DPI';
+        }
+        break;
+    case '4K':
+        if (!isProUser) {
+            baseDpiScale = 11.811; // 300 DPI
+            qualityLabel = '300 DPI (Free)';
+        } else {
+            baseDpiScale = 15.748; // 400 DPI
+            qualityLabel = '400 DPI';
+        }
+        break;
+    case 'Standard':
+    default:
+        baseDpiScale = 11.811; // 300 DPI
+        qualityLabel = '300 DPI';
+        break;
+}
+
                         }
                         
                         const dpiScale = format === '8.5x11' ? baseDpiScale * 1.2 : baseDpiScale;
@@ -5209,7 +5366,7 @@ const getScoreClass = (score) => {
                                 // 🔒 KDP STRICT - Nom de fichier avec tous les paramètres
                                 const baseFilename = `couverture-kdp-${userLevel}-${format}-${pageCount}pages-${actualDPI}dpi-${bindingType}-${paperType}-${hasBleed ? 'bleed' : 'nobleed'}`;
 
-                          if (exportFormat === 'pdf') {
+                                if (exportFormat === 'pdf') {
                                     try {
                                         // 🔒 KDP STRICT - Validation bloquante
                                         validateKdpStrict({
@@ -5240,75 +5397,46 @@ const getScoreClass = (score) => {
                                             compress: true
                                         });
 
-                                        // ✅ Évite toDataURL (très lourd) : on passe le canvas directement si possible
-                                        if (window.GKDPExportHelpers && typeof window.GKDPExportHelpers.safeSavePdf === 'function') {
-                                            window.GKDPExportHelpers.safeSavePdf(pdf, exportCanvas, Wpt, Hpt, baseFilename);
-                                        } else {
-                                            try {
-                                                pdf.addImage(exportCanvas, 'PNG', 0, 0, Wpt, Hpt);
-                                            } catch (e) {
-                                                const imgData = exportCanvas.toDataURL('image/png', 1.0);
-                                                pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
-                                            }
-                                            pdf.save(`${baseFilename}.pdf`);
-                                        }
+                                        // Image placée exactement à la taille de page
+                                        // Image placée exactement à la taille de page (sans base64)
+                                        __gkdpSafeAddPdfImage(pdf, exportCanvas, Wpt, Hpt);
+                                        
 
                                         console.log(`🔒 [KDP STRICT] Export PDF: ${Wpt.toFixed(2)}pt × ${Hpt.toFixed(2)}pt (${(Wpt/72).toFixed(3)}" × ${(Hpt/72).toFixed(3)}")`);
 
+                                        pdf.save(`${baseFilename}.pdf`);
                                     } catch (err) {
                                         alert(err.message);
                                         setIsExporting(false);
                                         return;
                                     }
                                 } else {
-                                    // ✅ PNG/JPEG sans toDataURL : Worker (si dispo) + fallback toBlob
-                                    if (window.GKDPExportHelpers && typeof window.GKDPExportHelpers.downloadCanvasAsImage === 'function') {
-                                        await window.GKDPExportHelpers.downloadCanvasAsImage(exportCanvas, exportFormat, baseFilename);
-                                    } else {
-                                        const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
-                                        const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
-                                        await new Promise((resolve, reject) => {
-                                            exportCanvas.toBlob((blob) => {
-                                                if (!blob) return reject(new Error('Blob vide'));
-                                                const url = URL.createObjectURL(blob);
-                                                const link = document.createElement('a');
-                                                link.download = filename;
-                                                link.href = url;
-                                                link.click();
-                                                setTimeout(() => URL.revokeObjectURL(url), 1500);
-                                                resolve();
-                                            }, mimeType, 0.95);
-                                        });
-                                    }
-                                }      alert(t('disclaimerExport'));
+                                    const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+                                    const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
+                                    await __gkdpDownloadCanvasAsImage(exportCanvas, exportFormat, baseFilename);
+                                }
+                                alert(t('disclaimerExport'));
 
 showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
 
                                 setIsExporting(false);
                             };
 
-                            const processImage4K = (imageData, box) => {
-                                return new Promise((resolve) => {
-                                    if (!imageData?.url) {
-                                        console.log('⚠️ [EXPORT] Image sans URL, skip');
-                                        resolve();
-                                        return;
-                                    }
-                                    console.log('🖼️ [EXPORT] Chargement image:', imageData.url.substring(0, 50) + '...');
-                                    const img = new Image();
-                                    img.crossOrigin = "anonymous";
-                                    img.onload = () => {
-                                        console.log('✅ [EXPORT] Image chargée, dessin à', box.x, box.y, box.width, box.height);
-                                        exportCtx.drawImage(img, box.x, box.y, box.width, box.height);
-                                        resolve();
-                                    };
-                                    img.onerror = (err) => {
-                                        console.error('❌ [EXPORT] Erreur chargement image:', err);
-                                        resolve();
-                                    };
-                                    img.src = imageData.url;
-                                });
-                            };
+                            
+const processImage4K = async (imageData, box) => {
+    if (!imageData?.url) {
+        console.log('⚠️ [EXPORT] Image sans URL, skip');
+        return;
+    }
+    console.log('🖼️ [EXPORT] Chargement image (cache):', imageData.url.substring(0, 50) + '...');
+    const img = await __gkdpLoadDrawable(imageData.url);
+    if (!img) {
+        console.error('❌ [EXPORT] Erreur chargement image (cache miss/failed)');
+        return;
+    }
+    exportCtx.drawImage(img, box.x, box.y, box.width, box.height);
+};
+
                             
                             // ✅ CORRECTION FINALE : Layout KDP officiel avec bleed
                             // Le canvas total fait : totalWidth × totalHeight (avec bleed inclus)
@@ -5357,63 +5485,42 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                     await processImage4K(frontImage, fullCoverBox);
                                 } else {
                                     // 🎨 EXPORT: Fond personnalisé selon la zone choisie
-                                    const drawExportBackground = (targetBox) => {
-                                        return new Promise((resolve) => {
-                                            // Dessiner la couleur de fond
-                                            exportCtx.fillStyle = backCoverBgColor;
-                                            exportCtx.fillRect(targetBox.x, targetBox.y, targetBox.width, targetBox.height);
-                                            
-                                            // Si une texture est définie
-                                            if (backCoverTexture) {
-                                                if (backCoverTexture.url) {
-                                                    const textureImg = new Image();
-                                                    textureImg.crossOrigin = "anonymous";
-                                                    textureImg.onload = () => {
-                                                        exportCtx.drawImage(textureImg, targetBox.x, targetBox.y, targetBox.width, targetBox.height);
-                                                        if (textureColorFilter) {
-                                                            exportCtx.save();
-                                                            const hexToRgba = (hex, alpha) => {
-                                                                const r = parseInt(hex.slice(1, 3), 16);
-                                                                const g = parseInt(hex.slice(3, 5), 16);
-                                                                const b = parseInt(hex.slice(5, 7), 16);
-                                                                return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-                                                            };
-                                                            exportCtx.globalCompositeOperation = 'overlay';
-                                                            exportCtx.fillStyle = hexToRgba(textureColorFilter, 0.7);
-                                                            exportCtx.fillRect(targetBox.x, targetBox.y, targetBox.width, targetBox.height);
-                                                            exportCtx.restore();
-                                                        }
-                                                        resolve();
-                                                    };
-                                                    textureImg.onerror = () => resolve();
-                                                    textureImg.src = backCoverTexture.url;
-                                                } else if (backCoverTexture.name) {
-                                                    const textureCanvas = generateTexture(backCoverTexture.name, Math.round(targetBox.width), Math.round(targetBox.height), backCoverBgColor);
-                                                    exportCtx.drawImage(textureCanvas, targetBox.x, targetBox.y, targetBox.width, targetBox.height);
-                                                    if (textureColorFilter) {
-                                                        exportCtx.save();
-                                                        const hexToRgba = (hex, alpha) => {
-                                                            const r = parseInt(hex.slice(1, 3), 16);
-                                                            const g = parseInt(hex.slice(3, 5), 16);
-                                                            const b = parseInt(hex.slice(5, 7), 16);
-                                                            return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-                                                        };
-                                                        exportCtx.globalCompositeOperation = 'overlay';
-                                                        exportCtx.fillStyle = hexToRgba(textureColorFilter, 0.7);
-                                                        exportCtx.fillRect(targetBox.x, targetBox.y, targetBox.width, targetBox.height);
-                                                        exportCtx.restore();
-                                                    }
-                                                    resolve();
-                                                } else {
-                                                    resolve();
-                                                }
-                                            } else {
-                                                resolve();
-                                            }
-                                        });
-                                    };
+                                    
+const drawExportBackground = async (targetBox) => {
+    // Dessiner la couleur de fond
+    exportCtx.fillStyle = backCoverBgColor;
+    exportCtx.fillRect(targetBox.x, targetBox.y, targetBox.width, targetBox.height);
 
-                                    // Dessiner le fond si nécessaire
+    // Texture (cache) + filtre couleur éventuel
+    if (backCoverTexture && backCoverTexture.url) {
+        const textureImg = await __gkdpLoadDrawable(backCoverTexture.url);
+        if (textureImg) {
+            exportCtx.drawImage(textureImg, targetBox.x, targetBox.y, targetBox.width, targetBox.height);
+
+            if (textureColorFilter) {
+                exportCtx.save();
+                const hexToRgba = (hex, alpha = 1.0) => {
+                    try {
+                        const h = String(hex || '').replace('#', '').trim();
+                        const bigint = parseInt(h.length === 3 ? h.split('').map(c => c + c).join('') : h, 16);
+                        const r = (bigint >> 16) & 255;
+                        const g = (bigint >> 8) & 255;
+                        const b = bigint & 255;
+                        return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+                    } catch (e) {
+                        return `rgba(0,0,0,0)`;
+                    }
+                };
+                exportCtx.globalCompositeOperation = 'multiply';
+                exportCtx.fillStyle = hexToRgba(textureColorFilter, 0.6);
+                exportCtx.fillRect(targetBox.x, targetBox.y, targetBox.width, targetBox.height);
+                exportCtx.restore();
+            }
+        }
+    }
+};
+
+// Dessiner le fond si nécessaire
                                     if (backgroundApplyTo === 'full') {
                                         const fullBox = { x: backBox.x, y: backBox.y, width: backBox.width + spineBox.width + frontBox.width, height: backBox.height };
                                         await drawExportBackground(fullBox);
@@ -5444,7 +5551,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                 }
                                 
                                 console.log('✅ [EXPORT] Toutes les images dessinées, finalisation...');
-                                finalizeExport();
+                                await finalizeExport();
                             };
 
                             // Lancer le dessin
@@ -9301,108 +9408,7 @@ function getStored() {
         }
         
         book = new THREE.Mesh(geometry, materials);
-        book.castShadow = true
-<script>
-/**
- * GKDP Export Helpers
- * - Supprime les toDataURL lourds (base64)
- * - Encode PNG/JPEG via Web Worker si possible (OffscreenCanvas)
- * - Fallback robuste si Worker/OffscreenCanvas indisponible
- */
-(function() {
-  'use strict';
-
-  // Init Worker (si supporté)
-  let worker = null;
-  try {
-    // IMPORTANT: placez le worker à cet emplacement dans votre projet:
-    // /js/export-encode.worker.js
-    worker = new Worker('js/export-encode.worker.js');
-  } catch (e) {
-    worker = null;
-  }
-
-  function downloadBlob(blob, filename) {
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.download = filename;
-    a.href = url;
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1500);
-  }
-
-  async function downloadViaWorker(canvas, mimeType, quality, filename) {
-    if (!worker) throw new Error('Worker not available');
-    if (typeof OffscreenCanvas === 'undefined') throw new Error('OffscreenCanvas not supported');
-    if (typeof createImageBitmap !== 'function') throw new Error('createImageBitmap not supported');
-
-    const bitmap = await createImageBitmap(canvas);
-
-    const blob = await new Promise((resolve, reject) => {
-      const onMsg = (evt) => {
-        const msg = evt.data || {};
-        worker.removeEventListener('message', onMsg);
-        if (!msg.ok) return reject(new Error(msg.error || 'Worker export failed'));
-        resolve(msg.blob);
-      };
-      worker.addEventListener('message', onMsg);
-
-      // ImageBitmap est transférable: on libère de la mémoire côté UI
-      worker.postMessage({ bitmap, mimeType, quality, filename }, [bitmap]);
-    });
-
-    downloadBlob(blob, filename);
-  }
-
-  async function downloadCanvasAsImage(canvas, exportFormat, baseFilename) {
-    const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
-    const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
-    const quality = 0.95;
-
-    // 1) Worker (si dispo) — UI non bloquée
-    if (worker) {
-      try {
-        await downloadViaWorker(canvas, mimeType, quality, filename);
-        return;
-      } catch (e) {
-        console.warn('[EXPORT] Worker failed → fallback to toBlob', e);
-      }
-    }
-
-    // 2) Fallback standard (toBlob) — beaucoup mieux que toDataURL
-    const blob = await new Promise((resolve, reject) => {
-      canvas.toBlob((b) => {
-        if (!b) return reject(new Error('Blob vide'));
-        resolve(b);
-      }, mimeType, quality);
-    });
-
-    downloadBlob(blob, filename);
-  }
-
-  function safeSavePdf(pdf, canvas, Wpt, Hpt, baseFilename) {
-    try {
-      // jsPDF accepte souvent directement un HTMLCanvasElement
-      pdf.addImage(canvas, 'PNG', 0, 0, Wpt, Hpt);
-      pdf.save(`${baseFilename}.pdf`);
-      return;
-    } catch (e) {
-      console.warn('[EXPORT][PDF] addImage(canvas) failed → fallback toDataURL', e);
-    }
-
-    // Fallback ultime (garde compatibilité même si plus lent)
-    const imgData = canvas.toDataURL('image/png', 1.0);
-    pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
-    pdf.save(`${baseFilename}.pdf`);
-  }
-
-  window.GKDPExportHelpers = {
-    downloadCanvasAsImage,
-    safeSavePdf
-  };
-})();
-</script>
-;
+        book.castShadow = true;
         book.receiveShadow = true;
         scene.add(book);
     }
