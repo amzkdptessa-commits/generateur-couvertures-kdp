@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>KDP Tracker Pro</title>
+    <title>KDP Tracker Pro - 12 Mois</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,47 +13,32 @@
         <header class="flex justify-between items-center mb-10">
             <div>
                 <h1 class="text-3xl font-bold text-orange-500 italic">KDP <span class="text-white">Analytics</span></h1>
-                <p id="periodLabel" class="text-slate-400 text-sm mt-1">Analyse des ventes</p>
+                <p id="periodLabel" class="text-orange-400 text-sm mt-1 font-bold italic">Analyse des 12 derniers mois</p>
             </div>
             <div class="text-right">
                 <p id="lastSync" class="text-xs text-green-400 font-mono mb-2">--</p>
-                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold transition">
-                    ACTUALISER
-                </button>
+                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold transition">ACTUALISER</button>
             </div>
         </header>
 
-        <!-- KPI GRID -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <!-- Royalties -->
-            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden">
-                <div class="absolute -right-6 -top-6 text-slate-700 opacity-20"><i class="fas fa-euro-sign" style="font-size: 150px;">€</i></div>
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties Estimées</p>
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties Estimées (12m)</p>
                 <p id="royaltiesAmt" class="text-6xl font-extrabold text-orange-500 mt-4">0.00 €</p>
             </div>
-
-            <!-- Commandes -->
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
                 <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Commandes Totales</p>
                 <p id="ordersAmt" class="text-6xl font-extrabold text-white mt-4">0</p>
-                <div class="mt-4 flex gap-4 text-sm text-slate-400">
-                    <span class="bg-slate-900 px-3 py-1 rounded">📚 Broché: <b id="detailPrint" class="text-white">0</b></span>
-                    <span class="bg-slate-900 px-3 py-1 rounded">📱 Ebook: <b id="detailEbook" class="text-white">0</b></span>
-                </div>
             </div>
-
-            <!-- KENP -->
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
                 <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Pages Lues (KENP)</p>
                 <p id="kenpAmt" class="text-6xl font-extrabold text-blue-400 mt-4">0</p>
-                <p class="text-slate-500 text-xs mt-2">Pages lues via l'abonnement Kindle</p>
             </div>
         </div>
 
-        <!-- GRAPHIQUE -->
         <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-            <h2 class="text-lg font-bold mb-6 text-slate-300">Répartition Géographique (Top Marchés)</h2>
-            <div class="h-80">
+            <h2 class="text-lg font-bold mb-6 text-slate-300">Ventes & Royalties par Pays</h2>
+            <div class="h-96">
                 <canvas id="countryChart"></canvas>
             </div>
         </div>
@@ -65,75 +50,40 @@
         const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
         async function loadData() {
-            // On récupère la dernière entrée
-            const { data, error } = await sb
-                .from('kdp_reports')
-                .select('*')
-                .eq('user_email', 'peacestreet@hotmail.com')
-                .order('created_at', { ascending: false })
-                .limit(1);
-
+            const { data, error } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
             if (!data || data.length === 0) return;
 
             const report = data[0];
             const payload = report.payload;
             
-            // Mise à jour date
             const date = new Date(report.created_at);
             document.getElementById('lastSync').innerText = `Dernière synchro : ${date.toLocaleDateString()} à ${date.toLocaleTimeString()}`;
 
-            // --- 1. TRAITEMENT DES TOTAUX (Overview) ---
             if (payload.overview) {
-                const w = payload.overview.overviewWidget || payload.overview; // Adaptabilité
-
-                // Royalties
-                let money = 0;
-                if (w.totalRoyalties && w.totalRoyalties.amount !== undefined) money = w.totalRoyalties.amount;
-                else if (typeof w.totalRoyalties === 'number') money = w.totalRoyalties;
-                document.getElementById('royaltiesAmt').innerText = parseFloat(money).toFixed(2) + " €";
-
-                // Commandes
-                const print = w.printOrders || 0;
-                const ebook = w.digitalOrders || 0;
-                document.getElementById('ordersAmt').innerText = print + ebook;
-                document.getElementById('detailPrint').innerText = print;
-                document.getElementById('detailEbook').innerText = ebook;
-
-                // KENP
+                const w = payload.overview.overviewWidget || payload.overview;
+                document.getElementById('royaltiesAmt').innerText = (w.totalRoyalties?.amount || 0).toFixed(2) + " €";
+                document.getElementById('ordersAmt').innerText = (w.printOrders || 0) + (w.digitalOrders || 0);
                 document.getElementById('kenpAmt').innerText = w.kenpRead || 0;
             }
 
-            // --- 2. TRAITEMENT DU GRAPHIQUE (Distribution) ---
-            if (payload.distribution) {
-                renderCountryChart(payload.distribution);
-            }
+            if (payload.distribution) renderCountryChart(payload.distribution);
         }
 
         function renderCountryChart(json) {
             const ctx = document.getElementById('countryChart').getContext('2d');
-            
-            let labels = [];
-            let dataValues = [];
+            let labels = [], royaltyData = [], unitsData = [];
 
-            // Amazon range les données dans histogram -> data
             if (json.histogram && json.histogram.data) {
-                // On trie pour avoir les plus gros pays en premier
-                const sortedData = json.histogram.data.sort((a, b) => {
-                    const valA = a.values.Royalties || a.values.EstEarnings || 0;
-                    const valB = b.values.Royalties || b.values.EstEarnings || 0;
-                    return valB - valA;
-                });
+                // Tri par royalties décroissantes
+                const sorted = json.histogram.data.sort((a, b) => (b.values.Royalties || 0) - (a.values.Royalties || 0));
 
-                sortedData.forEach(item => {
-                    // On nettoie le nom (ex: "Amazon.fr" -> "France")
+                sorted.forEach(item => {
                     let country = item.bin.replace('Amazon.', '').toUpperCase();
                     if(country === 'COM') country = 'USA';
-                    if(country === 'UK') country = 'ROYAUME-UNI';
-                    
                     labels.push(country);
-                    
-                    const val = item.values.Royalties || item.values.EstEarnings || 0;
-                    dataValues.push(val);
+                    royaltyData.push(item.values.Royalties || 0);
+                    // On additionne Brochés + Ebooks pour le pays
+                    unitsData.push((item.values.UnitsSold || 0) + (item.values.EbookUnitsSold || 0));
                 });
             }
 
@@ -141,26 +91,22 @@
                 type: 'bar',
                 data: {
                     labels: labels,
-                    datasets: [{
-                        label: 'Royalties (€)',
-                        data: dataValues,
-                        backgroundColor: '#f97316',
-                        borderRadius: 6,
-                        barThickness: 40
-                    }]
+                    datasets: [
+                        { label: 'Royalties (€)', data: royaltyData, backgroundColor: '#f97316', borderRadius: 5 },
+                        { label: 'Ventes (Unités)', data: unitsData, backgroundColor: '#38bdf8', borderRadius: 5 }
+                    ]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: { legend: { display: false } },
                     scales: {
                         y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-                        x: { grid: { display: false }, ticks: { color: 'white', font: { weight: 'bold' } } }
-                    }
+                        x: { ticks: { color: 'white', font: { weight: 'bold' } } }
+                    },
+                    plugins: { legend: { labels: { color: 'white' } } }
                 }
             });
         }
-
         loadData();
     </script>
 </body>
