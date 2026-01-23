@@ -1,65 +1,30 @@
 const API_URL = 'http://127.0.0.1:3001';
 
-function updateStatus(message, isError = false) {
-  const statusElement = document.getElementById('status');
-  if (statusElement) {
-    statusElement.textContent = message;
-    statusElement.className = isError ? 'status disconnected' : 'status connected';
-  }
-}
-
-function detectMarketplaceFromCookies(cookies) {
-  const domains = cookies.map(c => c.domain);
-  if (domains.some(d => d.includes('.amazon.fr'))) return 'FR';
-  if (domains.some(d => d.includes('.amazon.co.uk'))) return 'UK';
-  if (domains.some(d => d.includes('.amazon.de'))) return 'DE';
-  if (domains.some(d => d.includes('.amazon.ca'))) return 'CA';
-  return 'US';
-}
-
 async function syncKDP() {
-  const email = document.getElementById('email').value;
-  const password = document.getElementById('password').value;
-
-  if (!email) {
-    updateStatus('⚠️ Email requis', true);
-    return;
-  }
-
-  updateStatus('🔄 Capture des cookies...');
+  updateStatus('🔄 Récupération des données Amazon...');
 
   try {
-    const response = await chrome.runtime.sendMessage({ action: 'getCookies' });
+    // 1. L'extension appelle directement l'API Amazon (elle utilise TA session active)
+    const amazonRes = await fetch("https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL");
+    
+    if (!amazonRes.ok) throw new Error("Session Amazon expirée. Re-connecte-toi.");
+    
+    const salesData = await amazonRes.json();
+    console.log("Données aspirées :", salesData);
 
-    if (!response || !response.success || !response.cookies) {
-      throw new Error('Connectez-vous à KDP d\'abord');
-    }
+    updateStatus('📤 Envoi au Dashboard...');
 
-    const cookies = response.cookies;
-    const marketplace = detectMarketplaceFromCookies(cookies);
-
-    updateStatus(`🔄 Envoi au serveur (Marketplace: ${marketplace})...`);
-
+    // 2. Elle envoie ces données TOUTES PRÊTES à ton serveur
     const syncResponse = await fetch(`${API_URL}/api/sync-kdp`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email,
-        marketplace,
-        cookies: cookies
+        email: document.getElementById('email').value,
+        payload: salesData // On envoie le JSON complet ici
       })
     });
 
-    if (!syncResponse.ok) {
-      throw new Error(`Serveur injoignable (${syncResponse.status})`);
-    }
-
-    const result = await syncResponse.json();
-    
-    await chrome.storage.local.set({
-      lastSync: new Date().toISOString(),
-      email
-    });
+    if (!syncResponse.ok) throw new Error("Le serveur backend est éteint.");
 
     updateStatus('✅ Synchronisation réussie !');
 
@@ -69,17 +34,10 @@ async function syncKDP() {
   }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
-  const data = await chrome.storage.local.get(['email', 'lastSync']);
-  if (data.email) document.getElementById('email').value = data.email;
-  
-  if (data.lastSync) {
-    const date = new Date(data.lastSync);
-    document.getElementById('status').textContent = `Dernière sync: ${date.toLocaleTimeString()}`;
-  }
+function updateStatus(msg, isError = false) {
+  const s = document.getElementById('status');
+  s.textContent = msg;
+  s.style.color = isError ? "#ff4c4c" : "#4cff4c";
+}
 
-  document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    syncKDP();
-  });
-});
+document.getElementById('loginForm').addEventListener('submit', (e) => { e.preventDefault(); syncKDP(); });
