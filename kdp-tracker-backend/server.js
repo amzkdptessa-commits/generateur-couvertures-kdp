@@ -3,33 +3,42 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const { createClient } = require("@supabase/supabase-js");
 
+// Chargement du fichier .env
 dotenv.config();
 
-// Validation env
-if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
-  console.error("❌ Erreur: SUPABASE_URL ou SUPABASE_SERVICE_ROLE_KEY manquant dans le .env");
+// --- DIAGNOSTIC DES VARIABLES ---
+// On nettoie les variables pour enlever les espaces ou retours à la ligne invisibles
+const SB_URL = process.env.SUPABASE_URL ? process.env.SUPABASE_URL.trim() : null;
+const SB_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY ? process.env.SUPABASE_SERVICE_ROLE_KEY.trim() : null;
+
+console.log("--- Diagnostic de connexion ---");
+console.log("URL Supabase :", SB_URL ? SB_URL : "❌ MANQUANTE");
+console.log("Clé Service Role :", SB_KEY ? "✅ Présente (nettoyée)" : "❌ MANQUANTE");
+console.log("-------------------------------");
+
+if (!SB_URL || !SB_KEY) {
+  console.error("❌ ERREUR FATALE: Vérifie ton fichier .env à la racine du dossier !");
+  process.exit(1); // Arrête le serveur si les clés manquent
 }
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Configuration CORS complète
+// Configuration CORS
 app.use(cors({
   origin: "*",
   methods: ["GET", "POST"],
   allowedHeaders: ["Content-Type"]
 }));
 
-app.use(express.json({ limit: "2mb" }));
+app.use(express.json({ limit: "5mb" })); // Augmenté à 5mb au cas où les cookies sont lourds
 
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
-);
+// Initialisation du client Supabase avec les variables nettoyées
+const supabase = createClient(SB_URL, SB_KEY);
 
 // Health check
 app.get("/", (req, res) => {
-  res.json({ status: "ok", message: "GabaritKDP Tracker API running" });
+  res.json({ status: "ok", message: "Serveur KDP Tracker opérationnel" });
 });
 
 // Endpoint de synchro
@@ -38,31 +47,43 @@ app.post("/api/sync-kdp", async (req, res) => {
     const { email, cookies, marketplace } = req.body || {};
 
     if (!email || !cookies) {
+      console.warn("⚠️ Requête reçue mais données incomplètes.");
       return res.status(400).json({ error: "Email ou cookies manquants" });
     }
 
-    console.log(`📩 Reçu synchro pour: ${email} (${marketplace})`);
+    console.log(`📩 Tentative d'insertion pour: ${email}`);
 
     const { error } = await supabase
       .from("kdp_reports")
-      .insert({
-        user_email: email,
-        payload: { cookies, marketplace },
-        created_at: new Date().toISOString()
-      });
+      .insert([
+        {
+          user_email: email,
+          payload: { cookies, marketplace },
+          created_at: new Date().toISOString()
+        }
+      ]);
 
-    if (error) throw error;
+    if (error) {
+      console.error("❌ Erreur Supabase lors de l'insertion:", error.message);
+      throw error;
+    }
 
-    return res.json({ success: true, message: "Données reçues par le serveur" });
+    console.log("✅ Données enregistrées avec succès dans Supabase !");
+    return res.json({ success: true, message: "Synchro réussie" });
+
   } catch (err) {
     console.error("❌ SYNC ERROR:", err.message);
-    return res.status(500).json({ error: err.message });
+    // On renvoie une erreur plus détaillée
+    return res.status(500).json({ 
+        error: "Le serveur n'a pas pu contacter Supabase",
+        details: err.message 
+    });
   }
 });
 
-// FIX : On force l'écoute sur 0.0.0.0 (IPv4)
+// Lancement du serveur
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`✅ Serveur prêt !`);
-  console.log(`🚀 Local: http://127.0.0.1:${PORT}`);
-  console.log(`📡 Testez avec: curl http://127.0.0.1:${PORT}`);
+  console.log(`\n🚀 SERVEUR DÉMARRÉ SUR LE PORT ${PORT}`);
+  console.log(`🔗 Local: http://localhost:${PORT}`);
+  console.log(`📡 En attente de données de l'extension...\n`);
 });
