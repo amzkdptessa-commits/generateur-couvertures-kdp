@@ -209,22 +209,12 @@
          */
         logout() {
           console.log('🚪 Déconnexion Canva...');
-          // Tokens OAuth (différents noms selon les scripts)
           localStorage.removeItem('canva_access_token');
           localStorage.removeItem('canva_refresh_token');
           localStorage.removeItem('canva_token_expiry');
-          localStorage.removeItem('canva_expires_at');
-          // PKCE / state
           localStorage.removeItem('canva_pkce_verifier');
           sessionStorage.removeItem('pkce_code_verifier');
           sessionStorage.removeItem('oauth_state');
-
-          // Nettoyer l'UI Canva (si présente)
-          try {
-            const c = document.getElementById('canva-designs-container');
-            if (c) c.innerHTML = '';
-          } catch (_) {}
-
           console.log('✅ Déconnexion complète');
         },
 
@@ -2553,7 +2543,6 @@ img {
                 canvaTitle: "Importez depuis Canva",
                 canvaDescription: "Connectez votre compte Canva pour importer vos designs directement dans le générateur",
                 canvaConnectButton: "Se connecter à Canva",
-                canvaDisconnectButton: "Se déconnecter de Canva",
                 canvaAvailabilitySoon: "Cette fonctionnalité sera bientôt disponible",
                 premium: "PREMIUM",
                 preview4k: "Aperçu 4K Ultra HD",
@@ -2701,7 +2690,6 @@ img {
                 canvaTitle: "Import from Canva",
                 canvaDescription: "Connect your Canva account to import your designs directly into the generator",
                 canvaConnectButton: "Connect to Canva",
-                canvaDisconnectButton: "Disconnect from Canva",
                 canvaAvailabilitySoon: "This feature will be available soon",
                 premium: "PREMIUM",
                 preview4k: "4K Ultra HD Preview",
@@ -2800,6 +2788,12 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
             const [coverFinish, setCoverFinish] = useState('matte');
             const [hasBleed, setHasBleed] = useState(true);
             const [pageCount, setPageCount] = useState(100);
+// ✅ Refs to keep latest values for window-exposed handlers (avoids stale closures)
+const formatRef = useRef(format);
+const pageCountRef = useRef(pageCount);
+
+useEffect(() => { formatRef.current = format; }, [format]);
+useEffect(() => { pageCountRef.current = pageCount; }, [pageCount]);
             const [kdpStrictConfirmed, setKdpStrictConfirmed] = useState(false); // 🔒 KDP STRICT
 
             // --- Debounce only for pageCount input to smooth re-renders ---
@@ -4330,7 +4324,18 @@ const getScoreClass = (score) => {
                 try {
                     console.log(`📥 Téléchargement image Canva pour ${type}:`, imageUrl);
                     
-                    // Télécharger l'image depuis Canva
+                    
+// ✅ UX: if no KDP format is selected yet, auto-select a safe default so Canva import is not a "no-op"
+// (Same behavior as Templates: default 6x9 / 100 pages, without preventing the user from changing it)
+if (!format) {
+    console.log('🎨 [CANVA] Aucun format sélectionné → défaut 6x9 (modifiable)');
+    setBindingType('paperback');
+    setFormat('6x9');
+}
+if (!pageCount || Number(pageCount) <= 0) {
+    setPageCount(100);
+}
+// Télécharger l'image depuis Canva
                     const response = await fetch(imageUrl);
                     const blob = await response.blob();
                     
@@ -5940,17 +5945,47 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
             useEffect(() => {
                 window.reactSetFrontImage = (imageData) => {
                     console.log('🎯 [REACT] setFrontImage appelé', imageData);
-                    setFrontImage(imageData);
+                    
+// Ensure a default format is selected so Canva import is never a "no-op"
+if (!formatRef.current) {
+    console.log('🎨 [CANVA] Aucun format sélectionné → défaut 6x9 (modifiable)');
+    setBindingType('paperback');
+    setFormat('6x9');
+}
+if (!pageCountRef.current || Number(pageCountRef.current) <= 0) {
+    setPageCount(100);
+}
+setFrontImage(imageData);
                 };
 
                 window.reactSetBackImage = (imageData) => {
                     console.log('🎯 [REACT] setBackImage appelé', imageData);
-                    setBackImage(imageData);
+                    
+// Ensure a default format is selected so Canva import is never a "no-op"
+if (!formatRef.current) {
+    console.log('🎨 [CANVA] Aucun format sélectionné → défaut 6x9 (modifiable)');
+    setBindingType('paperback');
+    setFormat('6x9');
+}
+if (!pageCountRef.current || Number(pageCountRef.current) <= 0) {
+    setPageCount(100);
+}
+setBackImage(imageData);
                 };
 
                 window.reactSetSpineImage = (imageData) => {
                     console.log('🎯 [REACT] setSpineImage appelé', imageData);
-                    setSpineImage(imageData);
+                    
+// Ensure a default format is selected so Canva import is never a "no-op"
+if (!formatRef.current) {
+    console.log('🎨 [CANVA] Aucun format sélectionné → défaut 6x9 (modifiable)');
+    setBindingType('paperback');
+    setFormat('6x9');
+}
+if (!pageCountRef.current || Number(pageCountRef.current) <= 0) {
+    setPageCount(100);
+}
+setSpineImage(imageData);
                     setSpineImageOffset({ x: 0, y: 0 });
                     setSpineImageZoom(1.0);
                 };
@@ -8182,45 +8217,19 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                         <p className="text-sm text-purple-800 mb-4 leading-relaxed">
                                             {t('canvaDescription')}
                                         </p>
-                                        {(window.CanvaAuth && window.CanvaAuth.isAuthenticated && window.CanvaAuth.isAuthenticated()) ? (
-                                            <div className="space-y-2">
-                                                <div className="text-xs text-green-700 bg-green-50 border border-green-200 rounded-md px-3 py-2">
-                                                    ✅ {language === 'fr' ? 'Connecté à Canva' : 'Connected to Canva'}
-                                                </div>
-                                                <button
-                                                    onClick={() => {
-                                                        const ok = confirm(language === 'fr'
-                                                            ? 'Se déconnecter de Canva ?'
-                                                            : 'Disconnect from Canva?');
-                                                        if (!ok) return;
-                                                        try {
-                                                            if (window.CanvaAuth) window.CanvaAuth.logout();
-                                                        } catch (e) {
-                                                            console.error(e);
-                                                        }
-                                                        // Refresh UI (simple & reliable)
-                                                        window.location.reload();
-                                                    }}
-                                                    className="w-full py-3 px-4 bg-gray-800 hover:bg-gray-900 text-white font-semibold rounded-lg transition-all duration-300 shadow-lg"
-                                                >
-                                                    {t('canvaDisconnectButton')}
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <button
-                                                onClick={() => {
-                                                    console.log('🔘 Bouton Canva cliqué');
-                                                    if (window.CanvaAuth) {
-                                                        window.CanvaAuth.initiateConnection();
-                                                    } else {
-                                                        alert('Fonctionnalité en cours de développement. Revenez bientôt ! 🚀');
-                                                    }
-                                                }}
-                                                className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
-                                            >
-                                                {t('canvaConnectButton')}
-                                            </button>
-                                        )}
+                                        <button
+                                            onClick={() => {
+                                                console.log('🔘 Bouton Canva cliqué');
+                                                if (window.CanvaAuth) {
+                                                    window.CanvaAuth.initiateConnection();
+                                                } else {
+                                                    alert('Fonctionnalité en cours de développement. Revenez bientôt ! 🚀');
+                                                }
+                                            }}
+                                            className="w-full py-3 px-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-semibold rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                                        >
+                                            {t('canvaConnectButton')}
+                                        </button>
                                         <p className="text-xs text-gray-500 mt-3">
                                             {t('canvaAvailabilitySoon')}
                                         </p>
