@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>GabaritKDP Tracker - Dashboard</title>
+    <title>GabaritKDP - Dashboard Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,50 +13,53 @@
         .accent { color: #f97316; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-6 md:p-10">
 
     <div class="max-w-7xl mx-auto">
-        <!-- Header Style Pro -->
-        <div class="flex justify-between items-end mb-10">
+        <header class="flex justify-between items-end mb-10">
             <div>
-                <h1 class="text-3xl font-bold tracking-tight">Tableau de Bord <span class="accent">Ventes</span></h1>
-                <p class="text-slate-400">Rapport consolidé sur les 12 derniers mois</p>
+                <h1 class="text-3xl font-bold tracking-tight">Tableau de Bord <span class="accent">Ventes 12 mois</span></h1>
+                <p class="text-slate-400">Analyse consolidée (Style Publisher Champ)</p>
             </div>
-            <div class="flex flex-col items-end">
-                <span id="syncStatus" class="text-xs font-bold text-green-400 mb-2">Chargement...</span>
+            <div class="flex gap-3">
+                <button onclick="console.log('DEBUG PAYLOAD:', lastPayload)" class="bg-slate-700 px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-600 transition">
+                    🛠️ DEBUG JSON
+                </button>
                 <button onclick="updateStats()" class="bg-orange-600 hover:bg-orange-700 px-6 py-2 rounded-lg font-bold transition">
                     <i class="fas fa-sync-alt mr-2"></i> ACTUALISER
                 </button>
             </div>
-        </div>
+        </header>
 
-        <!-- Stats Cards -->
+        <div id="syncTag" class="mb-6 text-center text-xs text-slate-500 italic">--</div>
+
+        <!-- Chiffres Clés -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
             <div class="card text-center">
                 <h4 class="text-slate-500 text-xs font-bold uppercase mb-2">Royalties Totales</h4>
-                <div class="text-4xl font-bold accent" id="totalRoyalties">0.00 €</div>
+                <div class="text-4xl font-bold accent" id="totalMoney">0.00 €</div>
             </div>
             <div class="card text-center">
                 <h4 class="text-slate-500 text-xs font-bold uppercase mb-2">Unités Vendues</h4>
                 <div class="text-4xl font-bold" id="totalUnits">0</div>
             </div>
             <div class="card text-center">
-                <h4 class="text-slate-500 text-xs font-bold uppercase mb-2">Livres Actifs</h4>
+                <h4 class="text-slate-500 text-xs font-bold uppercase mb-2">Livres Trackés</h4>
                 <div class="text-4xl font-bold text-blue-400" id="totalBooks">0</div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- Table des Livres -->
+            <!-- Liste des Livres -->
             <div class="lg:col-span-2 card">
-                <h3 class="font-bold mb-6 flex items-center gap-2"><i class="fas fa-book accent"></i> Performances par Livre</h3>
+                <h3 class="font-bold mb-6 flex items-center gap-2"><i class="fas fa-book accent"></i> Performance par Livre</h3>
                 <div class="overflow-x-auto h-96">
                     <table class="w-full text-left text-sm">
                         <thead class="text-slate-500 border-b border-slate-700">
-                            <tr><th class="pb-3">Titre du livre</th><th class="pb-3 text-center">Ventes</th><th class="pb-3 text-right">Royalties</th></tr>
+                            <tr><th class="pb-3">Titre</th><th class="pb-3 text-center">Unités</th><th class="pb-3 text-right">Royalties</th></tr>
                         </thead>
                         <tbody id="booksTable" class="divide-y divide-slate-800">
-                            <!-- Données injectées ici -->
+                            <tr><td colspan="3" class="py-20 text-center text-slate-500">Aucune donnée trouvée. Cliquez sur Actualiser.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -75,28 +78,34 @@
         const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
         const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
         const sb = window.supabase.createClient(SB_URL, SB_KEY);
+        
+        let lastPayload = null;
         let myChart = null;
 
         async function updateStats() {
             try {
-                // On récupère le dernier rapport
                 const { data, error } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
-                
                 if (error) throw error;
                 if (!data || data.length === 0) return;
 
-                const lastReport = data[0];
-                document.getElementById('syncStatus').textContent = "Dernière synchro : " + new Date(lastReport.created_at).toLocaleString();
+                const report = data[0];
+                lastPayload = report.payload;
+                document.getElementById('syncTag').textContent = "Données synchronisées le : " + new Date(report.created_at).toLocaleString();
 
-                // On extrait les ventes du JSON d'Amazon
-                // Note: La structure Amazon est généralement dans payload.data.tableData.rows
-                const books = lastReport.payload.data?.tableData?.rows || lastReport.payload.entries || [];
-                
-                processData(books);
-            } catch (err) { console.error(err); }
+                // SCANNER UNIVERSEL : On cherche les données dans tous les formats Amazon possibles
+                let books = [];
+                const p = report.payload;
+
+                if (p.data && p.data.tableData && p.data.tableData.rows) books = p.data.tableData.rows;
+                else if (p.entries) books = p.entries;
+                else if (p.reports && p.reports[0] && p.reports[0].rows) books = p.reports[0].rows;
+                else if (Array.isArray(p)) books = p;
+
+                render(books);
+            } catch (err) { console.error("Erreur Dashboard:", err); }
         }
 
-        function processData(books) {
+        function render(books) {
             const tbody = document.getElementById('booksTable');
             tbody.innerHTML = '';
             
@@ -104,12 +113,17 @@
             let totalMoney = 0;
             const markets = {};
 
+            if (!books || books.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" class="py-20 text-center text-slate-500 italic">Amazon a renvoyé un rapport vide. Vérifiez vos ventes sur KDP Reports.</td></tr>';
+                return;
+            }
+
             books.forEach(b => {
-                // Adaptation aux noms de colonnes Amazon
-                const title = b.title || b.bookTitle || "Inconnu";
-                const u = parseInt(b.units || b.totalUnits || 0);
-                const r = parseFloat(b.royalty || b.totalRoyalty || 0);
-                const m = b.marketplace || "US";
+                // On s'adapte aux noms de variables qui changent selon les pays/comptes
+                const title = b.title || b.bookTitle || b.asin || "Livre sans titre";
+                const u = parseInt(b.units || b.totalUnits || b.quantity || 0);
+                const r = parseFloat(b.royalty || b.totalRoyalty || b.estimatedRoyalty || 0);
+                const m = b.marketplace || b.market || "US";
 
                 totalUnits += u;
                 totalMoney += r;
@@ -124,13 +138,13 @@
             });
 
             document.getElementById('totalUnits').textContent = totalUnits;
-            document.getElementById('totalRoyalties').textContent = totalMoney.toFixed(2) + " €";
+            document.getElementById('totalMoney').textContent = totalMoney.toFixed(2) + " €";
             document.getElementById('totalBooks').textContent = books.length;
 
-            renderChart(markets);
+            updateChart(markets);
         }
 
-        function renderChart(markets) {
+        function updateChart(markets) {
             const ctx = document.getElementById('marketChart').getContext('2d');
             if (myChart) myChart.destroy();
             
@@ -150,11 +164,10 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            // Légende dynamique
             const legend = document.getElementById('marketLegend');
             legend.innerHTML = '';
             labels.forEach((l, i) => {
-                legend.innerHTML += `<div class="flex justify-between"><span>${l}</span><span class="font-bold">${data[i]} ventes</span></div>`;
+                legend.innerHTML += `<div class="flex justify-between"><span>Marché ${l}</span><span class="font-bold">${data[i]} ventes</span></div>`;
             });
         }
 
