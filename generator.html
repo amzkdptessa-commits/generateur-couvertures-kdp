@@ -2794,6 +2794,42 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
             const [language, setLanguage] = useState(() => {
                 return window.currentLang || localStorage.getItem('selectedLanguage') || 'en';
             });
+
+            // === UX: keep active field visible inside the left sticky sidebar (prevents constant manual scrolling)
+            const leftPanelRef = useRef(null);
+
+            const scrollFieldIntoView = (el) => {
+                try {
+                    if (!el) return;
+                    const panel = leftPanelRef.current || el.closest?.('.sticky-left-panel') || el.parentElement;
+                    if (!panel) return;
+
+                    const panelRect = panel.getBoundingClientRect();
+                    const elRect = el.getBoundingClientRect();
+
+                    // If element is outside of visible area, scroll it into view (centered)
+                    const isAbove = elRect.top < panelRect.top + 20;
+                    const isBelow = elRect.bottom > panelRect.bottom - 20;
+
+                    if (isAbove || isBelow) {
+                        const offset = (elRect.top - panelRect.top) - (panelRect.height / 2) + (elRect.height / 2);
+                        panel.scrollTop = panel.scrollTop + offset;
+                    }
+                } catch (e) {
+                    // no-op (UX helper must never break the generator)
+                }
+            };
+
+            const onFieldFocus = (e) => {
+                scrollFieldIntoView(e?.currentTarget || e?.target);
+            };
+
+            const onFieldInput = (e) => {
+                // run after React updates / DOM reflows
+                const target = e?.currentTarget || e?.target;
+                requestAnimationFrame(() => scrollFieldIntoView(target));
+            };
+
             const [format, setFormat] = useState('6x9');
             const [paperType, setPaperType] = useState('white');
             const [bindingType, setBindingType] = useState('paperback');
@@ -6495,7 +6531,7 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                     FIN MODAL STRIPE */}
                     
                     <div className="generator-layout">
-                        <div className="sidebar sticky-left-panel">
+                        <div className="sidebar sticky-left-panel" ref={leftPanelRef}>
                              <div className="sidebar-section">
                                 <h2 className="sidebar-title">
                                     <i className="fas fa-book-open text-blue-500"></i>
@@ -6728,7 +6764,9 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                             <input
                                                 type="text"
                                                 value={bookTitle}
-                                                onChange={(e) => setBookTitle(e.target.value)}
+                                                onFocus={onFieldFocus}
+                                                onInput={onFieldInput}
+                                                onChange={(e) => { setBookTitle(e.target.value); onFieldInput(e); }}
                                                 placeholder={t('bookTitlePlaceholder')}
                                                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                             />
@@ -6781,7 +6819,9 @@ showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
                                             <input
                                                 type="text"
                                                 value={authorName}
-                                                onChange={(e) => setAuthorName(e.target.value)}
+                                                onFocus={onFieldFocus}
+                                                onInput={onFieldInput}
+                                                onChange={(e) => { setAuthorName(e.target.value); onFieldInput(e); }}
                                                 placeholder={t('authorNamePlaceholder')}
                                                 className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500"
                                             />
