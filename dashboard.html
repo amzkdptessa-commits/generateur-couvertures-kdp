@@ -1,169 +1,1278 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - GabaritKDP Tracker</title>
+    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
     
-    <!-- Scripts & Styles -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        :root { --bg-dark: #121212; --card-bg: #2d2d2d; --accent-orange: #f97316; --border: #3e3e3e; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: white; margin: 0; }
-        .header-nav { background: linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 15px 0; }
-        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
-        .logo-nav { display: flex; align-items: center; gap: 15px; text-decoration: none; color: #fff; font-weight: 700; font-size: 1.3rem; }
+        :root {
+            --bg-dark: #121212;
+            --card-bg: #2d2d2d;
+            --accent-orange: #f97316;
+            --text-main: #ffffff;
+            --text-dim: #b3b3b3;
+            --border: #3e3e3e;
+        }
+
+        body { 
+            font-family: 'Segoe UI', sans-serif; 
+            background-color: var(--bg-dark); 
+            color: var(--text-main); 
+            margin: 0; 
+        }
+
+  @media(max-width:1000px) {
+    .nav-links {
+      gap: 15px;
+    }
+  }
+
+  .header-nav {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+    padding: 15px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
+    position: sticky;
+    top: 0;
+    z-index: 999
+  }
+
+  .nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    gap: 0
+  }
+
+  .language-selector {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+    padding: 3px
+  }
+
+  .lang-btn {
+    padding: 6px 10px;
+    border: none;
+    background: transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: .3s;
+    font-weight: 500;
+    font-size: .8rem;
+    color: #000;
+  }
+
+  .lang-btn.active {
+    background: #FF9900;
+    color: #fff
+  }
+
+  .logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    color: #fff;
+    flex-shrink: 0
+  }
+
+  .logo-nav img {
+    height: 40px;
+    width: auto
+  }
+
+  .logo-nav span {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #FF9900
+  }
+
+  .nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    flex-wrap: wrap
+  }
+
+  .nav-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: .3s;
+    padding: 10px 14px;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: .95rem
+  }
+
+  .nav-links a:hover {
+    color: #FF9900;
+    background: rgba(255, 153, 0, .1)
+  }
+
+  .nav-links a.active {
+    color: #FF9900;
+    background: rgba(255, 153, 0, .15)
+  }
+
+  .express-nav-btn {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    color: #fff !important;
+    border-radius: 8px !important;
+    padding: 10px 14px !important;
+    position: relative !important;
+    transition: .3s !important
+  }
+
+  .express-nav-btn:hover {
+    background: linear-gradient(135deg, #0d9488, #047857) !important;
+    color: #fff !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, .4) !important
+  }
+
+  .f-exp-gene {
+    background: linear-gradient(135deg, #10b981, #059669) !important;
+    padding: 8px 10px;
+    border-radius: 5px
+  }
+
+  .f-exp-gene:hover {
+    background: linear-gradient(135deg, #0d9488, #047857) !important;
+    color: #fff
+  }
+
+  .express-nav-btn::before,
+  .f-exp-gene::before {
+    content: "⚡";
+    margin-right: 4px
+  }
+
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, .95);
+    backdrop-filter: blur(10px);
+    z-index: 999;
+    padding: 80px 20px 20px;
+    overflow-y: auto
+  }
+
+  .mobile-menu.active {
+    display: block;
+    animation: slideIn .3s ease
+  }
+
+  @keyframes slideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px)
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0)
+    }
+  }
+
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+    margin: 0 auto
+  }
+
+  .mobile-menu-links a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 15px 20px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, .1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, .2);
+    transition: .3s;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem
+  }
+
+  .mobile-menu-links a:hover {
+    background: rgba(255, 255, 255, .2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, .3)
+  }
+
+  .mobile-menu-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: .3s
+  }
+
+  .mobile-menu-close:hover {
+    background: rgba(255, 255, 255, .1);
+    transform: rotate(90deg)
+  }
+
+  .social-section {
+    background: rgba(255, 255, 255, .05);
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 2rem
+  }
+
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 1rem;
+    flex-wrap: wrap
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+    transition: .3s;
+    position: relative;
+    overflow: hidden
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, .3)
+  }
+
+  .social-link.youtube {
+    background: linear-gradient(135deg, #FF0000, #CC0000)
+  }
+
+  .social-link.facebook {
+    background: linear-gradient(135deg, #1877F2, #0866D3)
+  }
+
+  .social-link.instagram {
+    background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2)
+  }
+
+  .social-link.pinterest {
+    background: linear-gradient(135deg, #BD081C, #E60023)
+  }
+
+  .social-link.tiktok {
+    background: linear-gradient(135deg, #000, #FF0050, #00F2EA)
+  }
+
+  .social-link.linkedin {
+    background: linear-gradient(135deg, #0A66C2, #004182)
+  }
+
+  @media (min-width:769px) {
+    .mobile-menu-toggle {
+      display: none
+    }
+  }
+
+  @media (max-width:480px) {
+    .logo-nav span {
+      display: none
+    }
+    .language-selector {
+      right: 60px;
+      padding: 0 2px 2px 2px;
+      top: 27px
+    }
+
+    .lang-btn {
+      padding: 4px 8px;
+      font-size: .7rem
+    }
+  }
+
+  @media (max-width:768px) {
+    .language-selector {
+      top: 22.5px;
+      right: 60px
+    }
+
+    .nav-links {
+      display: none
+    }
+
+    .social-links {
+      gap: 10px
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem
+    }
+
+    .mobile-menu-toggle {
+      display: block;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 4px;
+      margin-left: auto
+    }
+
+    .mobile-menu-toggle:hover {
+      background: rgba(255, 255, 255, .1)
+    }
+  }
+        
+        .dashboard-container { 
+            max-width: 1400px; 
+            margin: 0 auto; 
+            padding: 20px;
+        }
+
+        /* Banner Extension */
+        .extension-banner {
+            background: rgba(249, 115, 22, 0.05);
+            border: 1px solid var(--accent-orange);
+            border-radius: 8px; padding: 15px 25px;
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;
+        }
+        .btn-sync { background: var(--accent-orange); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .btn-sync:hover { background: #ea580c; }
+
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 25px; }
         .stat-card { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
-        .accent-text { color: var(--accent-orange); }
+        .stat-card h4 { margin: 0; font-size: 0.75rem; color: var(--text-dim); text-transform: uppercase; }
+        .stat-card .value { font-size: 1.8rem; font-weight: bold; margin-top: 10px; color: var(--accent-orange); }
+
+        /* Charts */
+        .charts-row { display: grid; grid-template-columns: 1.5fr 1fr; gap: 15px; margin-bottom: 25px; }
+        .chart-container { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border); height: 320px; }
+
+        /* Categories Grid */
+        .cat-section { text-align: center; margin-bottom: 40px; }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 15px; margin-top: 30px; }
+        .cat-item { cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: 0.3s; opacity: 0.8; }
+        .cat-icon { 
+            width: 90px; height: 90px; background: #f0f2f5; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            border: 3px solid transparent; margin-bottom: 10px; 
+        }
+        .cat-icon i { font-size: 30px; color: #2c3e50; }
+        .cat-item p { font-size: 0.7rem; font-weight: bold; color: var(--text-main); max-width: 110px; line-height: 1.2; margin: 0; }
+        .cat-item:hover, .cat-item.active { opacity: 1; }
+        .cat-item:hover .cat-icon, .cat-item.active .cat-icon { border-color: var(--accent-orange); background: white; transform: translateY(-5px); }
+        .cat-item.active i { color: var(--accent-orange); }
+
+        /* Coming Soon */
+        .coming-soon-box { 
+            background: var(--card-bg); 
+            border-radius: 12px; 
+            padding: 60px 20px; 
+            border: 2px dashed var(--border); 
+            margin-bottom: 30px; 
+            text-align: center;
+        }
+        .coming-soon-box i { font-size: 3rem; color: var(--accent-orange); margin-bottom: 20px; opacity: 0.5; }
+
+        /* Extension Installation Section */
+        .extension-setup {
+            background: linear-gradient(135deg, rgba(249, 115, 22, 0.1) 0%, rgba(251, 146, 60, 0.05) 100%);
+            border: 2px solid var(--accent-orange);
+            border-radius: 15px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .extension-setup h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--accent-orange);
+        }
+        .extension-setup p {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .btn-install-extension {
+            background: var(--accent-orange);
+            color: white;
+            padding: 18px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(249, 115, 22, 0.3);
+        }
+        .btn-install-extension:hover {
+            background: #ea580c;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(249, 115, 22, 0.5);
+        }
+        .setup-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+            text-align: left;
+        }
+        .setup-step {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+        }
+        .setup-step .step-number {
+            display: inline-block;
+            width: 35px;
+            height: 35px;
+            background: var(--accent-orange);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        .setup-step h4 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--text-main);
+        }
+        .setup-step p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin: 0;
+            line-height: 1.5;
+        }
+        .coming-soon-badge {
+            display: inline-block;
+            background: #fbbf24;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+        }
+        .coming-soon-box h3 { font-size: 1.5rem; margin-bottom: 10px; color: var(--text-main); }
+        .coming-soon-box p { color: var(--text-dim); max-width: 500px; margin: 0 auto; line-height: 1.6; }
+        
+        /* Footer CTA */
+        .cta-footer { text-align: center; padding: 40px; border: 1px dashed var(--accent-orange); border-radius: 15px; background: #1a1a1a; margin-top: 20px; }
+        .btn-marketplace { background: #2563eb; color: white; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 15px; transition: 0.3s; }
+        .btn-marketplace:hover { background: #1d4ed8; transform: scale(1.05); }
+
+        /* Footer styles */
+        .social-section{margin-bottom:3rem}
+        .social-links{display:flex;justify-content:center;gap:15px;margin-top:1rem;flex-wrap:wrap}
+        .social-link{display:flex;align-items:center;justify-content:center;width:45px;height:45px;border-radius:50%;color:#fff;text-decoration:none;font-size:1.2rem;transition:.3s;position:relative;overflow:hidden}
+        .social-link:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(0,0,0,.3)}
+        .social-link.youtube{background:linear-gradient(135deg,#FF0000,#CC0000)}
+        .social-link.facebook{background:linear-gradient(135deg,#1877F2,#0866D3)}
+        .social-link.instagram{background:linear-gradient(135deg,#E4405F,#C13584,#8A2BE2)}
+        .social-link.pinterest{background:linear-gradient(135deg,#BD081C,#E60023)}
+        .social-link.tiktok{background:linear-gradient(135deg,#000,#FF0050,#00F2EA)}
+        .social-link.linkedin{background:linear-gradient(135deg,#0A66C2,#004182)}
+        .f-exp-gene{background:linear-gradient(135deg,#10b981,#059669)!important;padding:8px 10px;border-radius:5px}
+        .f-exp-gene:hover{background:linear-gradient(135deg,#0d9488,#047857)!important;color:#fff}
+        .f-exp-gene::before{content:"⚡";margin-right:4px}
+
+        /* Loading */
+        .loading { display: none; text-align: center; padding: 40px; }
+        .loading.active { display: block; }
+
     </style>
 </head>
 <body>
 
-    <!-- Header Navigation -->
-    <header class="header-nav">
-        <div class="nav-container">
-            <a href="./index.html" class="logo-nav">
-                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" style="height: 32px;">
-                <span>GabaritKDP</span>
-            </a>
-            <nav class="hidden md:flex gap-6">
-                <a href="./index.html" class="hover:text-orange-400">🏠 Home</a>
-                <a href="./dashboard.html" class="text-orange-400">📊 Dashboard</a>
-                <a href="./marketplace.html" class="hover:text-orange-400">Marketplace</a>
-            </nav>
-        </div>
-    </header>
+  <!-- Navigation Header -->
 
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto p-6">
-        <div class="flex justify-between items-end mb-8">
-            <div>
-                <h1 class="text-3xl font-bold">Tableau de bord Tracker</h1>
-                <p class="text-gray-400">Utilisateur : <span id="userDisplay" class="accent-text">--</span></p>
-            </div>
-            <div class="text-right">
-                <p class="text-sm text-gray-500" id="lastSync">Dernière synchro : Jamais</p>
-            </div>
+  <header class="header-nav notranslate">
+    <div class="nav-container">
+      <a href="./index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+        <span>GabaritKDP</span>
+      </a>
+
+      <!-- Menu Hamburger - Mobile -->
+      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+      </div>
+
+      <!-- Navigation Desktop -->
+      <nav class="nav-links">
+        <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+        <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn" data-fr="Générateur Express"
+          data-en="Express Generator">Générateur Express</a>
+        <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+        <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
+        <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+        <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
+    <div class="mobile-menu-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+      <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;"
+        data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Générateur Express</a>
+      <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+      <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
+      <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription"
+        data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔓 Connexion" data-en="🔓 Login">🔓 Login</a>
+    </div>
+  </div>
+
+    <!-- Dashboard Content -->
+    <div class="dashboard-container">
+        
+        <!-- Loading State -->
+        <div class="loading active" id="loadingState">
+            <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--accent-orange);"></i>
+            <p style="margin-top: 20px; color: var(--text-dim);">Loading your dashboard...</p>
         </div>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="stat-card">
-                <h4 class="text-gray-400 text-xs uppercase mb-2">Total Synchronisations</h4>
-                <div class="text-4xl font-bold accent-text" id="totalSyncs">0</div>
-            </div>
-            <div class="stat-card">
-                <h4 class="text-gray-400 text-xs uppercase mb-2">Statut Connexion</h4>
-                <div class="text-xl font-bold text-green-500"><i class="fas fa-check-circle"></i> Serveur OK</div>
-            </div>
-            <div class="stat-card flex items-center">
-                <button onclick="refreshKdpData()" class="bg-orange-600 hover:bg-orange-700 w-full py-3 rounded-lg font-bold transition flex items-center justify-center gap-2">
-                    <i class="fas fa-sync-alt"></i> Actualiser les données
-                </button>
-            </div>
-        </div>
-
-        <!-- Charts & History -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 stat-card">
-                <h3 class="font-bold mb-4"><i class="fas fa-chart-line mr-2"></i> Activité récente</h3>
-                <div style="height: 300px;"><canvas id="syncChart"></canvas></div>
-            </div>
+        <!-- Dashboard Content (hidden until loaded) -->
+        <div id="dashboardContent" style="display: none;">
             
-            <div class="stat-card">
-                <h3 class="font-bold mb-4"><i class="fas fa-history mr-2"></i> Derniers rapports</h3>
-                <div id="reportsList" class="space-y-3 overflow-y-auto" style="max-height: 300px;">
-                    <p class="text-gray-500 text-sm">Aucune donnée reçue...</p>
+            <!-- Extension Installation Section -->
+            <div class="extension-setup" id="extensionSetup">
+                <span class="coming-soon-badge">✅ AVAILABLE NOW</span>
+                <h2><i class="fas fa-download"></i> Install Chrome Extension</h2>
+                <p>
+                    Track your Amazon KDP sales automatically! Install the official GabaritKDP Tracker extension from the Chrome Web Store.
+                </p>
+                
+                <a href="https://chromewebstore.google.com/detail/gabaritkdp-tracker/mbngmlkggdapbbncgoijjcbmbcgeomip" 
+                   class="btn-install-extension" 
+                   id="installBtn"
+                   >
+                    <i class="fas fa-chrome"></i> INSTALL EXTENSION NOW
+                </a>
+
+                <!-- Shown when the extension is detected on this browser -->
+                <div id="extensionDetected" style="display:none; margin-top:18px;">
+                    <div style="display:inline-flex; align-items:center; gap:10px; padding:10px 14px; border-radius:999px; background:rgba(16,185,129,.15); border:1px solid rgba(16,185,129,.35); color:#d1fae5; font-weight:700;">
+                        <span>✅ Extension detected</span>
+                        <span id="extensionVersion" style="font-weight:600; opacity:.9;"></span>
+                    </div>
+                    <div style="margin-top:10px; color: var(--text-dim); font-size: 0.95rem;">
+                        You can sync your KDP data directly from this dashboard.
+                    </div>
+                </div>
+
+                <div class="setup-steps">
+                    <div class="setup-step">
+                        <div class="step-number">1</div>
+                        <h4>Install Extension</h4>
+                        <p>Add GabaritKDP Tracker to Chrome from the Chrome Web Store</p>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">2</div>
+                        <h4>Log in to Amazon KDP</h4>
+                        <p>Visit your Amazon KDP dashboard at kdp.amazon.com</p>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">3</div>
+                        <h4>Click Extension Icon</h4>
+                        <p>Click the GabaritKDP Tracker icon in your browser toolbar</p>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">4</div>
+                        <h4>Synchronize</h4>
+                        <p>Enter your GabaritKDP credentials and click "Synchronize with KDP"</p>
+                    </div>
+                    <div class="setup-step">
+                        <div class="step-number">5</div>
+                        <h4>Track Sales</h4>
+                        <p>Your sales data will automatically sync and appear in this dashboard!</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </main>
+            
+            <!-- Banner Extension -->
+            <div class="extension-banner">
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <div style="background:var(--accent-orange); padding:10px; border-radius:8px;"><i class="fas fa-plug"></i></div>
+                    <div>
+                        <strong>GabaritKDP Tracker Connected</strong><br>
+                        <small style="color: var(--text-dim);" id="lastSync">Last sync: Never</small>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span id="extensionStatusPill" style="display:none; padding:8px 12px; border-radius:999px; background:rgba(16,185,129,.15); border:1px solid rgba(16,185,129,.35); color:#d1fae5; font-weight:700; font-size:0.85rem;">
+                        ✅ Extension detected
+                    </span>
+                <button class="btn-sync" onclick="syncData()">
+                    <i class="fas fa-sync"></i> REFRESH DATA
+                </button>
+                </div>
+            </div>
 
-    <!-- Footer -->
-    <footer class="mt-12 py-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-        <p>&copy; 2025 GabaritKDP - Tous droits réservés.</p>
+            <!-- Lightweight toast for premium UX feedback -->
+            <div id="toast" style="display:none; position:fixed; right:18px; bottom:18px; z-index:9999; max-width:420px;">
+                <div id="toastInner" style="background:#111827; border:1px solid rgba(255,255,255,.12); border-radius:14px; padding:14px 16px; box-shadow:0 18px 60px rgba(0,0,0,.45);">
+                    <div id="toastTitle" style="font-weight:800; margin-bottom:4px;"></div>
+                    <div id="toastMsg" style="color:var(--text-dim); font-size:0.95rem; line-height:1.35;"></div>
+                </div>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h4>Total Royalties</h4>
+                    <div class="value" id="totalRoyalties">$0.00</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Units Sold</h4>
+                    <div class="value" id="unitsSold">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Active Books</h4>
+                    <div class="value" id="activeBooks">0</div>
+                </div>
+                <div class="stat-card">
+                    <h4>Top Marketplace</h4>
+                    <div class="value" id="topMarket">--</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="charts-row">
+                <div class="chart-container">
+                    <h3 style="margin:0 0 10px 0; font-size:0.9rem;"><i class="fas fa-chart-line"></i> Revenue Evolution</h3>
+                    <canvas id="revenueChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h3 style="margin:0 0 10px 0; font-size:0.9rem;"><i class="fas fa-globe"></i> Sales Distribution</h3>
+                    <canvas id="marketChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Categories Grid -->
+            <div class="cat-section">
+                <h2 style="text-transform: uppercase;">Best Seller Categories</h2>
+                <div class="category-grid">
+                    <div class="cat-item" onclick="selectCat('Children Books', this)"><div class="cat-icon"><i class="fas fa-rocket"></i></div><p>Children Books</p></div>
+                    <div class="cat-item" onclick="selectCat('Fiction & Literature', this)"><div class="cat-icon"><i class="fas fa-book-open"></i></div><p>Fiction & Literature</p></div>
+                    <div class="cat-item" onclick="selectCat('Foreign Languages', this)"><div class="cat-icon"><i class="fas fa-language"></i></div><p>Foreign Languages</p></div>
+                    <div class="cat-item" onclick="selectCat('Health & Diet', this)"><div class="cat-icon"><i class="fas fa-apple-alt"></i></div><p>Health & Diet</p></div>
+                    <div class="cat-item" onclick="selectCat('Education', this)"><div class="cat-icon"><i class="fas fa-school"></i></div><p>Education</p></div>
+                    <div class="cat-item" onclick="selectCat('Comics', this)"><div class="cat-icon"><i class="fas fa-bolt"></i></div><p>Comics</p></div>
+                    <div class="cat-item" onclick="selectCat('Manga', this)"><div class="cat-icon"><i class="fas fa-user-ninja"></i></div><p>Manga</p></div>
+                    <div class="cat-item" onclick="selectCat('Humanities', this)"><div class="cat-icon"><i class="fas fa-brain"></i></div><p>Humanities</p></div>
+                    <div class="cat-item" onclick="selectCat('Science & Tech', this)"><div class="cat-icon"><i class="fas fa-flask"></i></div><p>Science & Tech</p></div>
+                    <div class="cat-item" onclick="selectCat('Spirituality', this)"><div class="cat-icon"><i class="fas fa-dove"></i></div><p>Spirituality</p></div>
+                    <div class="cat-item" onclick="selectCat('Mystery', this)"><div class="cat-icon"><i class="fas fa-search"></i></div><p>Mystery</p></div>
+                    <div class="cat-item" onclick="selectCat('Cooking', this)"><div class="cat-icon"><i class="fas fa-utensils"></i></div><p>Cooking</p></div>
+                    <div class="cat-item" onclick="selectCat('Planner', this)"><div class="cat-icon"><i class="fas fa-calendar-alt"></i></div><p>Planner</p></div>
+                    <div class="cat-item" onclick="selectCat('Coloring Book', this)"><div class="cat-icon"><i class="fas fa-paint-brush"></i></div><p>Coloring Book</p></div>
+                </div>
+            </div>
+
+            <!-- Coming Soon Message -->
+            <div class="coming-soon-box">
+                <i class="fas fa-search-dollar"></i>
+                <h3 id="coming-soon-title">Niche Analysis: Coming Soon</h3>
+                <p id="coming-soon-desc">We are currently collecting and analyzing multi-platform data for the selected category. Soon, you will be able to visualize earning potentials by market here.</p>
+            </div>
+
+            <!-- Footer CTA -->
+            <div class="cta-footer">
+                <h3>Go to marketplace and create your next book</h3>
+                <a href="https://gabaritkdp.com/marketplace.html" class="btn-marketplace">ACCESS MARKETPLACE <i class="fas fa-rocket"></i></a>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Footer (self-contained to avoid dependency on footer.js) -->
+    <footer style="margin-top:40px; padding:40px 20px; background:linear-gradient(135deg,#0b1220 0%,#0f172a 100%); border-top:1px solid rgba(255,255,255,0.08);">
+      <div style="max-width:1400px; margin:0 auto;">
+        <div class="social-section" style="text-align:center;">
+          <h3 style="margin:0; font-size:1.05rem; color:#fff; font-weight:700;">
+            🚀 <span data-fr="Suivez-nous pour les dernières actualités KDP !" data-en="Follow us for the latest KDP updates!">Suivez-nous pour les dernières actualités KDP !</span>
+          </h3>
+          <div class="social-links" aria-label="Social links">
+            <a class="social-link youtube" href="#" title="YouTube" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a class="social-link facebook" href="#" title="Facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a class="social-link instagram" href="#" title="Instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a class="social-link pinterest" href="#" title="Pinterest" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            <a class="social-link tiktok" href="#" title="TikTok" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a class="social-link linkedin" href="#" title="LinkedIn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          </div>
+          <div style="margin-top:12px; color:rgba(255,255,255,0.75); font-size:0.95rem;">
+            <span data-fr="Astuces KDP · Tutoriels · Actualités · Communauté d’auteurs" data-en="KDP Tips · Tutorials · News · Author Community">Astuces KDP · Tutoriels · Actualités · Communauté d’auteurs</span>
+          </div>
+        </div>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:28px; margin-top:30px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+              <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" style="height:32px; width:auto;">
+              <div style="font-weight:800; color:#FF9900; font-size:1.1rem;">GabaritKDP</div>
+            </div>
+            <div style="color:rgba(255,255,255,0.7); line-height:1.6; font-size:0.95rem;">
+              <span data-fr="Le générateur de couvertures KDP conforme + votre dashboard de pilotage." data-en="KDP-compliant cover generator + your tracking dashboard.">Le générateur de couvertures KDP conforme + votre dashboard de pilotage.</span>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Produit</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <a href="./dashboard.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Tableau de bord" data-en="Dashboard">Tableau de bord</a>
+              <a href="./generator.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a>
+              <a href="./generator-magic.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
+              <a href="./marketplace.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Support</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <a href="./resources.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Ressources" data-en="Resources">Ressources</a>
+              <a href="./tarifs.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Tarifs" data-en="Pricing">Tarifs</a>
+              <a href="./connexion.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Connexion" data-en="Login">Connexion</a>
+            </div>
+          </div>
+
+          <div>
+            <div style="font-weight:800; color:#fff; margin-bottom:10px;">Légal</div>
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <a href="./mentions-legales.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Mentions légales" data-en="Legal notice">Mentions légales</a>
+              <a href="./cgu.html" style="color:rgba(255,255,255,0.75); text-decoration:none;" data-fr="Conditions d'utilisation" data-en="Terms of use">Conditions d'utilisation</a>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:30px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.08); color:rgba(255,255,255,0.55); font-size:0.9rem; text-align:center;">
+          © <span id="footerYear"></span> GabaritKDP
+        </div>
+      </div>
     </footer>
 
-    <!-- Logic Script -->
+    <!-- Supabase Configuration -->
     <script>
-        // CONFIGURATION (Correction du conflit de nom ici)
-        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-        const SB_KEY = 'COLLE_TA_CLE_ANON_ICI'; // <-- METS TA CLÉ ICI
-        const USER_EMAIL = 'peacestreet@hotmail.com';
+        // Supabase Configuration
+      // dashboard.html - Lignes 715-716
+const SUPABASE_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
 
-        // On utilise un nom unique pour éviter "Identifier supabase has already been declared"
-        const mySupabase = window.supabase.createClient(SB_URL, SB_KEY);
-        let activityChart = null;
+// J'AI AJOUTÉ LES GUILLEMETS ' ICI AU DÉBUT ET À LA FIN
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q'; 
 
-        async function refreshKdpData() {
-            console.log("Chargement des données depuis Supabase...");
-            document.getElementById('userDisplay').textContent = USER_EMAIL;
+// Create Supabase client
+const { createClient } = window.supabase;
+const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // Chrome Web Store Extension ID (GabaritKDP Tracker)
+        const GKDP_EXTENSION_ID = 'mbngmlkggdapbbncgoijjcbmbcgeomip';
+        const GKDP_DASHBOARD_ORIGIN = window.location.origin;
+        let gkdpExtension = {
+            present: false,
+            version: null,
+            lastSeenAt: null
+        };
+        
+        let revenueChart, marketChart;
+        let currentUser = null;
 
-            try {
-                const { data, error } = await mySupabase
-                    .from('kdp_reports')
-                    .select('*')
-                    .eq('user_email', USER_EMAIL)
-                    .order('created_at', { ascending: false });
+        // Premium UX helpers
+        function showToast(title, message, type = 'info', timeoutMs = 4500) {
+            const toast = document.getElementById('toast');
+            const inner = document.getElementById('toastInner');
+            const t = document.getElementById('toastTitle');
+            const m = document.getElementById('toastMsg');
+            if (!toast || !inner || !t || !m) return;
 
-                if (error) throw error;
+            t.textContent = title;
+            m.textContent = message;
 
-                // Mise à jour de l'interface
-                document.getElementById('totalSyncs').textContent = data.length;
-                
-                if (data.length > 0) {
-                    const lastDate = new Date(data[0].created_at);
-                    document.getElementById('lastSync').textContent = "Dernière synchro : " + lastDate.toLocaleString();
-                    
-                    // Liste latérale
-                    const listContainer = document.getElementById('reportsList');
-                    listContainer.innerHTML = '';
-                    data.slice(0, 10).forEach(report => {
-                        listContainer.innerHTML += `
-                            <div class="bg-black/20 p-3 rounded text-xs border-l-4 border-orange-500">
-                                <strong>${new Date(report.created_at).toLocaleDateString()}</strong> - ${report.payload?.marketplace || 'US'}<br>
-                                <span class="text-gray-400">ID: ${report.id.substring(0,8)}...</span>
-                            </div>`;
-                    });
+            // Subtle semantic styling
+            if (type === 'success') {
+                inner.style.borderColor = 'rgba(16,185,129,.35)';
+            } else if (type === 'error') {
+                inner.style.borderColor = 'rgba(239,68,68,.35)';
+            } else {
+                inner.style.borderColor = 'rgba(255,255,255,.12)';
+            }
 
-                    drawChart(data);
+            toast.style.display = 'block';
+            clearTimeout(showToast._t);
+            showToast._t = setTimeout(() => {
+                toast.style.display = 'none';
+            }, timeoutMs);
+        }
+
+        // ---------------------------
+        // Extension ↔ Dashboard bridge
+        // ---------------------------
+        function postToExtension(type, payload = {}) {
+            window.postMessage({
+                source: 'gkdp-dashboard',
+                type,
+                payload,
+                origin: GKDP_DASHBOARD_ORIGIN
+            }, '*');
+        }
+
+        function markExtensionPresent(info = {}) {
+            gkdpExtension.present = true;
+            gkdpExtension.lastSeenAt = Date.now();
+            gkdpExtension.version = info.version || gkdpExtension.version;
+
+            // Hide the install block (as requested)
+            const setup = document.getElementById('extensionSetup');
+            if (setup) setup.style.display = 'none';
+
+            // Show premium status pills
+            const pill = document.getElementById('extensionStatusPill');
+            if (pill) pill.style.display = 'inline-flex';
+
+            const detected = document.getElementById('extensionDetected');
+            if (detected) detected.style.display = 'block';
+
+            const v = document.getElementById('extensionVersion');
+            if (v) v.textContent = gkdpExtension.version ? `v${gkdpExtension.version}` : '';
+        }
+
+        // Detect extension presence using window.postMessage handshake.
+        // Requires a lightweight content script in the extension on https://gabaritkdp.com/*
+        function detectExtension(timeoutMs = 900) {
+            return new Promise((resolve) => {
+                let done = false;
+
+                const onMessage = (event) => {
+                    if (!event || !event.data) return;
+                    const msg = event.data;
+                    if (msg.source !== 'gkdp-extension') return;
+                    if (msg.type !== 'GKDP_EXTENSION_PONG') return;
+                    done = true;
+                    window.removeEventListener('message', onMessage);
+                    resolve({ present: true, version: msg.payload?.version || null });
+                };
+
+                window.addEventListener('message', onMessage);
+
+                // Ping the extension bridge
+                postToExtension('GKDP_EXTENSION_PING', { ts: Date.now() });
+
+                setTimeout(() => {
+                    if (done) return;
+                    window.removeEventListener('message', onMessage);
+                    resolve({ present: false, version: null });
+                }, timeoutMs);
+            });
+        }
+
+        // Listen for sync status events pushed by the extension
+        window.addEventListener('message', async (event) => {
+            if (!event || !event.data) return;
+            const msg = event.data;
+            if (msg.source !== 'gkdp-extension') return;
+
+            if (msg.type === 'GKDP_EXTENSION_PONG') {
+                markExtensionPresent({ version: msg.payload?.version });
+                return;
+            }
+
+            if (msg.type === 'GKDP_SYNC_STATUS') {
+                const status = msg.payload?.status;
+                const text = msg.payload?.message || '';
+
+                if (status === 'running') {
+                    showToast('Sync in progress', text || 'Fetching your latest KDP data...', 'info', 6000);
                 }
-            } catch (err) {
-                console.error("Erreur Dashboard:", err);
-                alert("Erreur : " + err.message);
+
+                if (status === 'success') {
+                    showToast('Sync complete', text || 'Dashboard updated.', 'success');
+                    // Refresh dashboard data after a successful sync
+                    await loadDashboardData();
+                }
+
+                if (status === 'error') {
+                    showToast('Sync failed', text || 'Please try again.', 'error', 8000);
+                }
+            }
+        });
+
+        // Check authentication on page load
+        async function checkAuth() {
+            // TEMPORARY: Skip auth check for testing
+            // Use hardcoded user ID from server.js
+            currentUser = { 
+                id: 'ed825c71-c523-4503-b705-02f818f7b71e',
+                email: 'test@gabaritkdp.com'
+            };
+            
+            console.log('Using test user:', currentUser.email);
+            
+            // Load dashboard data
+            await loadDashboardData();
+            
+            // Show dashboard
+            document.getElementById('loadingState').classList.remove('active');
+            document.getElementById('dashboardContent').style.display = 'block';
+            
+            // Update extension installation section
+            updateExtensionSection();
+
+            // Detect extension and upgrade UX if installed
+            try {
+                const det = await detectExtension();
+                if (det.present) {
+                    markExtensionPresent(det);
+                }
+            } catch (e) {
+                console.warn('Extension detection failed:', e);
+            }
+            
+            /* ORIGINAL AUTH CODE (uncomment when ready)
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (!session) {
+                window.location.href = './connexion.html';
+                return;
+            }
+            
+            currentUser = session.user;
+            console.log('User authenticated:', currentUser.email);
+            */
+        }
+
+        // Update extension installation section based on approval status
+        function updateExtensionSection() {
+            // Extension is live on Chrome Web Store
+            const extensionApproved = true;
+            
+            const setupSection = document.getElementById('extensionSetup');
+            const badge = setupSection.querySelector('.coming-soon-badge');
+            const title = setupSection.querySelector('h2');
+            const description = setupSection.querySelector('p');
+            const installBtn = document.getElementById('installBtn');
+            
+            if (extensionApproved) {
+                // Extension is live!
+                badge.innerHTML = '✅ AVAILABLE NOW';
+                badge.style.background = '#10b981';
+                badge.style.color = 'white';
+                
+                description.innerHTML = 'Track your Amazon KDP sales automatically! Install the extension and start syncing your data in minutes.';
+                
+                installBtn.innerHTML = '<i class="fas fa-chrome"></i> INSTALL EXTENSION NOW';
+                installBtn.style.opacity = '1';
+                installBtn.style.pointerEvents = 'auto';
+            } else {
+                // Extension under review
+                console.log('Extension is under review. Will be available soon.');
             }
         }
 
-        function drawChart(data) {
-            const ctx = document.getElementById('syncChart').getContext('2d');
-            const recent = data.slice(0, 7).reverse();
-            const labels = recent.map(r => new Date(r.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
-            const values = recent.map((_, i) => i + 1);
+        // Load dashboard data SupabaseClient.from
+        async function loadDashboardData() {
+            try {
+                // Fetch sales summary
+                const { data: summary, error: summaryError } = await supabaseClient
+                    .from('kdp_summary')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .single();
 
-            if (activityChart) activityChart.destroy();
-            activityChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Nombre d\'envois cumulés',
-                        data: values,
+                if (summaryError && summaryError.code !== 'PGRST116') {
+                    console.error('Error fetching summary:', summaryError);
+                }
+
+                // Fetch sales data
+                const { data: sales, error: salesError } = await supabaseClient
+                    .from('kdp_sales')
+                    .select('*')
+                    .eq('user_id', currentUser.id)
+                    .order('sale_date', { ascending: false })
+                    .limit(30);
+
+                if (salesError) {
+                    console.error('Error fetching sales:', salesError);
+                }
+
+                // Fetch books
+                const { data: books, error: booksError } = await supabaseClient
+                    .from('kdp_books')
+                    .select('*')
+                    .eq('user_id', currentUser.id);
+
+                if (booksError) {
+                    console.error('Error fetching books:', booksError);
+                }
+
+                // Update UI with data
+                updateDashboard(summary, sales, books);
+
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+            }
+        }
+
+        // Update dashboard with real data
+        function updateDashboard(summary, sales, books) {
+            // Update stats
+            if (summary) {
+                document.getElementById('totalRoyalties').textContent = 
+                    '$' + (summary.total_royalties || 0).toFixed(2);
+                document.getElementById('unitsSold').textContent = 
+                    summary.total_sales || 0;
+                document.getElementById('topMarket').textContent = 
+                    summary.marketplace || 'US';
+                
+                if (summary.last_scraped) {
+                    const lastSync = new Date(summary.last_scraped);
+                    document.getElementById('lastSync').textContent = 
+                        'Last sync: ' + lastSync.toLocaleString();
+                }
+            }
+
+            if (books) {
+                document.getElementById('activeBooks').textContent = books.length;
+            }
+
+            // Update charts
+            updateCharts(sales || []);
+        }
+
+        // Update charts with real data
+        function updateCharts(sales) {
+            const chartDefaults = { 
+                responsive: true, 
+                maintainAspectRatio: false, 
+                plugins: { legend: { display: false } } 
+            };
+
+            // Revenue chart
+            const revenueData = sales.slice(0, 30).reverse().map(s => s.royalty || 0);
+            const revenueLabels = sales.slice(0, 30).reverse().map(s => {
+                const date = new Date(s.sale_date);
+                return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            });
+
+            if (revenueChart) revenueChart.destroy();
+            revenueChart = new Chart(document.getElementById('revenueChart'), { 
+                type: 'line', 
+                data: { 
+                    labels: revenueLabels.length > 0 ? revenueLabels : ['No data'],
+                    datasets: [{ 
+                        data: revenueData.length > 0 ? revenueData : [0],
                         borderColor: '#f97316',
                         backgroundColor: 'rgba(249, 115, 22, 0.1)',
                         fill: true,
                         tension: 0.4
-                    }]
-                },
-                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+                    }] 
+                }, 
+                options: chartDefaults 
+            });
+
+            // Market chart
+            const marketData = {};
+            sales.forEach(sale => {
+                const market = sale.marketplace || 'US';
+                marketData[market] = (marketData[market] || 0) + (sale.royalty || 0);
+            });
+
+            const markets = Object.keys(marketData);
+            const marketValues = Object.values(marketData);
+
+            if (marketChart) marketChart.destroy();
+            marketChart = new Chart(document.getElementById('marketChart'), { 
+                type: 'doughnut', 
+                data: { 
+                    labels: markets.length > 0 ? markets : ['No data'],
+                    datasets: [{ 
+                        data: marketValues.length > 0 ? marketValues : [1],
+                        backgroundColor: ['#f97316','#2563eb','#4ade80','#facc15','#a855f7'] 
+                    }] 
+                }, 
+                options: chartDefaults 
             });
         }
 
-        // Lancement au chargement
-        window.onload = refreshKdpData;
+        // Sync data function
+        async function syncData(evt) {
+            const btn = (evt && evt.currentTarget) ? evt.currentTarget : document.querySelector('.btn-sync');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SYNCING...';
+            }
+
+            // If the extension is installed, request a premium sync from the extension.
+            // The extension will push GKDP_SYNC_STATUS events (running/success/error).
+            if (gkdpExtension.present) {
+                showToast('Starting sync', 'Asking the Chrome extension to fetch your latest KDP data…', 'info', 5000);
+                postToExtension('GKDP_START_SYNC', {
+                    userId: currentUser?.id || null,
+                    email: currentUser?.email || null
+                });
+            } else {
+                // Fallback: just refresh supabaseClient.from
+                await loadDashboardData();
+                showToast('Dashboard refreshed', 'Latest data loaded from your workspace.', 'success');
+            }
+
+            // Re-enable button (extension sync completion will also refresh)
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sync"></i> REFRESH DATA';
+            }
+        }
+
+        // Category selection
+        function selectCat(catName, element) {
+            document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
+            element.classList.add('active');
+
+            document.getElementById('coming-soon-title').innerText = "Analysis: " + catName;
+            document.getElementById('coming-soon-desc').innerText = 
+                "Predictive analysis for '" + catName + "' is being prepared. Multi-marketplace scraping data will be available soon.";
+        }
+
+    let currentLanguage = 'en';
+
+    // Safe fallback: older builds referenced animateStats() but never defined it.
+    // Keeping it as a no-op prevents runtime crashes that block the dashboard.
+    function animateStats() {}
+
+    document.addEventListener('DOMContentLoaded', async function () {
+      // Start with English by default, but respect user's saved preference
+      const savedLang = localStorage.getItem('preferredLanguage');
+      currentLanguage = savedLang || 'en';
+
+      // If no saved preference, explicitly set to English
+      if (!savedLang) {
+        localStorage.setItem('preferredLanguage', 'en');
+      }
+
+      applyLanguage(currentLanguage);
+      updateLanguageButtons();
+
+      // Boot the dashboard (data + extension detection)
+      try {
+        await checkAuth();
+      } catch (e) {
+        console.error('Dashboard init failed:', e);
+        // Fail-safe: at least stop the spinner
+        document.getElementById('loadingState')?.classList.remove('active');
+        document.getElementById('dashboardContent')?.style && (document.getElementById('dashboardContent').style.display = 'block');
+      }
+    });
+
+    function switchLanguage(lang) {
+      currentLanguage = lang;
+      localStorage.setItem('preferredLanguage', lang);
+      document.documentElement.lang = lang;
+      applyLanguage(lang);
+      updateLanguageButtons();
+    }
+
+    function applyLanguage(lang) {
+      const elements = document.querySelectorAll('[data-' + lang + ']');
+      elements.forEach(element => {
+        const text = element.getAttribute('data-' + lang);
+        if (text) {
+          if (element.tagName === 'META') {
+            element.setAttribute('content', text);
+          } else if (element.tagName === 'TITLE') {
+            element.textContent = text;
+          } else {
+            element.innerHTML = text;
+          }
+        }
+      });
+      document.documentElement.lang = lang;
+    }
+
+    function updateLanguageButtons() {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === currentLanguage) {
+          btn.classList.add('active');
+        }
+      });
+    }
+
+    function toggleMobileMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      const body = document.body;
+      if (mobileMenu.classList.contains('active')) {
+        mobileMenu.classList.remove('active');
+        body.style.overflow = '';
+      } else {
+        mobileMenu.classList.add('active');
+        body.style.overflow = 'hidden';
+      }
+    }
     </script>
+
+    <script>
+      // Footer year
+      document.getElementById('footerYear').textContent = new Date().getFullYear();
+    </script>
+
 </body>
 </html>
