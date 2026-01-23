@@ -2,91 +2,109 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - GabaritKDP Tracker</title>
+    
+    <!-- Scripts & Styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { background-color: #121212; color: white; font-family: 'Segoe UI', sans-serif; }
-        .stat-card { background: #2d2d2d; padding: 20px; border-radius: 10px; border: 1px solid #3e3e3e; }
-        .accent { color: #f97316; }
+        :root { --bg-dark: #121212; --card-bg: #2d2d2d; --accent-orange: #f97316; --border: #3e3e3e; }
+        body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: white; margin: 0; }
+        .header-nav { background: linear-gradient(135deg,#1e293b 0%,#334155 100%); padding: 15px 0; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
+        .logo-nav { display: flex; align-items: center; gap: 15px; text-decoration: none; color: #fff; font-weight: 700; font-size: 1.3rem; }
+        .stat-card { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
+        .accent-text { color: var(--accent-orange); }
     </style>
 </head>
-<body class="p-8">
+<body>
 
-    <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold accent">📊 Dashboard KDP Tracker</h1>
+    <!-- Header Navigation -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP" style="height: 32px;">
+                <span>GabaritKDP</span>
+            </a>
+            <nav class="hidden md:flex gap-6">
+                <a href="./index.html" class="hover:text-orange-400">🏠 Home</a>
+                <a href="./dashboard.html" class="text-orange-400">📊 Dashboard</a>
+                <a href="./marketplace.html" class="hover:text-orange-400">Marketplace</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto p-6">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h1 class="text-3xl font-bold">Tableau de bord Tracker</h1>
+                <p class="text-gray-400">Utilisateur : <span id="userDisplay" class="accent-text">--</span></p>
+            </div>
             <div class="text-right">
-                <p class="text-gray-400">Utilisateur : <span id="userDisplay">--</span></p>
                 <p class="text-sm text-gray-500" id="lastSync">Dernière synchro : Jamais</p>
             </div>
-        </header>
+        </div>
 
-        <!-- Stats -->
+        <!-- Stats Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="stat-card">
-                <h4 class="text-gray-400 text-sm uppercase">Total Synchronisations</h4>
-                <div class="text-4xl font-bold accent" id="totalSyncs">0</div>
+                <h4 class="text-gray-400 text-xs uppercase mb-2">Total Synchronisations</h4>
+                <div class="text-4xl font-bold accent-text" id="totalSyncs">0</div>
             </div>
             <div class="stat-card">
-                <h4 class="text-gray-400 text-sm uppercase">Statut Serveur</h4>
-                <div class="text-xl font-bold text-green-500">Connecté</div>
+                <h4 class="text-gray-400 text-xs uppercase mb-2">Statut Connexion</h4>
+                <div class="text-xl font-bold text-green-500"><i class="fas fa-check-circle"></i> Serveur OK</div>
             </div>
-            <div class="stat-card">
-                <!-- Correction ici : appel de la fonction par son nouveau nom -->
-                <button onclick="loadDataFromServer()" class="bg-orange-600 hover:bg-orange-700 w-full py-3 rounded-lg font-bold transition">
-                    <i class="fas fa-sync-alt mr-2"></i> Actualiser les données
+            <div class="stat-card flex items-center">
+                <button onclick="refreshKdpData()" class="bg-orange-600 hover:bg-orange-700 w-full py-3 rounded-lg font-bold transition flex items-center justify-center gap-2">
+                    <i class="fas fa-sync-alt"></i> Actualiser les données
                 </button>
             </div>
         </div>
 
-        <!-- Graphique -->
-        <div class="bg-[#2d2d2d] p-6 rounded-lg border border-[#3e3e3e] mb-8">
-            <h3 class="mb-4 font-bold">Activité des dernières synchros</h3>
-            <div style="height: 300px;">
-                <canvas id="syncChart"></canvas>
+        <!-- Charts & History -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 stat-card">
+                <h3 class="font-bold mb-4"><i class="fas fa-chart-line mr-2"></i> Activité récente</h3>
+                <div style="height: 300px;"><canvas id="syncChart"></canvas></div>
+            </div>
+            
+            <div class="stat-card">
+                <h3 class="font-bold mb-4"><i class="fas fa-history mr-2"></i> Derniers rapports</h3>
+                <div id="reportsList" class="space-y-3 overflow-y-auto" style="max-height: 300px;">
+                    <p class="text-gray-500 text-sm">Aucune donnée reçue...</p>
+                </div>
             </div>
         </div>
+    </main>
 
-        <!-- Liste des rapports -->
-        <div class="bg-[#2d2d2d] p-6 rounded-lg border border-[#3e3e3e]">
-            <h3 class="mb-4 font-bold">Historique des données reçues</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead>
-                        <tr class="border-b border-gray-700 text-gray-400">
-                            <th class="py-2">Date</th>
-                            <th>Marketplace</th>
-                            <th>Email</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reportsTable">
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <!-- Footer -->
+    <footer class="mt-12 py-8 border-t border-gray-800 text-center text-gray-500 text-sm">
+        <p>&copy; 2025 GabaritKDP - Tous droits réservés.</p>
+    </footer>
 
+    <!-- Logic Script -->
     <script>
-        // CONFIGURATION
+        // CONFIGURATION (Correction du conflit de nom ici)
         const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-        const SB_KEY = 'COLLE_TA_CLE_ANON_ICI'; // <-- TA CLÉ ANON
+        const SB_KEY = 'COLLE_TA_CLE_ANON_ICI'; // <-- METS TA CLÉ ICI
         const USER_EMAIL = 'peacestreet@hotmail.com';
 
-        // Initialisation du client (nom de variable modifié pour éviter le conflit)
-        const supabaseClient = window.supabase.createClient(SB_URL, SB_KEY);
-        
-        let myChart = null;
+        // On utilise un nom unique pour éviter "Identifier supabase has already been declared"
+        const mySupabase = window.supabase.createClient(SB_URL, SB_KEY);
+        let activityChart = null;
 
-        // Fonction principale renommée pour être sûr
-        async function loadDataFromServer() {
-            console.log("Tentative de récupération des données...");
+        async function refreshKdpData() {
+            console.log("Chargement des données depuis Supabase...");
             document.getElementById('userDisplay').textContent = USER_EMAIL;
 
             try {
-                const { data, error } = await supabaseClient
+                const { data, error } = await mySupabase
                     .from('kdp_reports')
                     .select('*')
                     .eq('user_email', USER_EMAIL)
@@ -94,60 +112,58 @@
 
                 if (error) throw error;
 
-                // Mise à jour de l'affichage
+                // Mise à jour de l'interface
                 document.getElementById('totalSyncs').textContent = data.length;
                 
                 if (data.length > 0) {
                     const lastDate = new Date(data[0].created_at);
                     document.getElementById('lastSync').textContent = "Dernière synchro : " + lastDate.toLocaleString();
                     
-                    const tableBody = document.getElementById('reportsTable');
-                    tableBody.innerHTML = '';
-                    
-                    data.forEach(report => {
-                        const row = `
-                            <tr class="border-b border-gray-800 hover:bg-gray-800">
-                                <td class="py-3 text-sm">${new Date(report.created_at).toLocaleString()}</td>
-                                <td class="text-orange-400 font-bold">${report.payload?.marketplace || 'US'}</td>
-                                <td class="text-gray-400">${report.user_email}</td>
-                            </tr>`;
-                        tableBody.innerHTML += row;
+                    // Liste latérale
+                    const listContainer = document.getElementById('reportsList');
+                    listContainer.innerHTML = '';
+                    data.slice(0, 10).forEach(report => {
+                        listContainer.innerHTML += `
+                            <div class="bg-black/20 p-3 rounded text-xs border-l-4 border-orange-500">
+                                <strong>${new Date(report.created_at).toLocaleDateString()}</strong> - ${report.payload?.marketplace || 'US'}<br>
+                                <span class="text-gray-400">ID: ${report.id.substring(0,8)}...</span>
+                            </div>`;
                     });
 
-                    updateSyncChart(data);
+                    drawChart(data);
                 }
             } catch (err) {
-                console.error("Erreur détaillée:", err);
-                alert("Erreur de connexion : " + err.message);
+                console.error("Erreur Dashboard:", err);
+                alert("Erreur : " + err.message);
             }
         }
 
-        function updateSyncChart(data) {
+        function drawChart(data) {
             const ctx = document.getElementById('syncChart').getContext('2d');
-            const lastData = data.slice(0, 10).reverse();
-            const labels = lastData.map(d => new Date(d.created_at).toLocaleTimeString());
-            const values = lastData.map((_, i) => i + 1);
+            const recent = data.slice(0, 7).reverse();
+            const labels = recent.map(r => new Date(r.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
+            const values = recent.map((_, i) => i + 1);
 
-            if (myChart) myChart.destroy();
-            myChart = new Chart(ctx, {
+            if (activityChart) activityChart.destroy();
+            activityChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Historique des envois',
+                        label: 'Nombre d\'envois cumulés',
                         data: values,
                         borderColor: '#f97316',
-                        backgroundColor: 'rgba(249, 115, 22, 0.2)',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
                         fill: true,
                         tension: 0.4
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
         }
 
-        // Lancement automatique au chargement de la page
-        window.onload = loadDataFromServer;
+        // Lancement au chargement
+        window.onload = refreshKdpData;
     </script>
 </body>
 </html>
