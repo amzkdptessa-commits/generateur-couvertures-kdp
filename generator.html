@@ -4962,75 +4962,27 @@ const getScoreClass = (score) => {
             }, [dimensions, frontImage, backImage, spineImage, spineText, spineColor, spineTextColor, spineTextSize, spineTextFont, hasBleed, isMarketplacePreview, bookTitle, bookTitleSize, bookTitleColor, bookTitleFont, bookTitleX, bookTitleY, authorName, authorNameSize, authorNameColor, authorNameFont, authorNameX, authorNameY, backCoverText, backCoverTextSize, backCoverTextColor, backCoverTextFont, backCoverTextX, backCoverTextY, showBarcodeZone, barcodeZoneColor, useCustomBarcode, customISBN, customBarcodePng, draggingElement, backgroundApplyTo, backCoverBgColor, backCoverTexture, textureColorFilter, viewMode, frontImageOffset, backImageOffset, spineImageOffset, frontImageZoom, backImageZoom, spineImageZoom]);
             
             
-// 🚀 EXPORT PERFORMANCE V2: cache drawable assets (ImageBitmap if possible) between exports
-// Goal: avoid re-download + re-decode on every Export click.
-window.__GKDP_EXPORT_DRAWABLE_CACHE__ = window.__GKDP_EXPORT_DRAWABLE_CACHE__ || new Map();
-const __GKDP_EXPORT_DRAWABLE_CACHE_MAX__ = 60;
+// 🚀 EXPORT PERFORMANCE: cache images between exports (avoids re-download + re-decode)
+window.__GKDP_EXPORT_IMG_CACHE__ = window.__GKDP_EXPORT_IMG_CACHE__ || new Map();
 
-// Internal: maintain a simple LRU by insertion order
-function __gkdpCachePut(url, promise) {
-    const cache = window.__GKDP_EXPORT_DRAWABLE_CACHE__;
-    // refresh insertion order
-    if (cache.has(url)) cache.delete(url);
-    cache.set(url, promise);
-
-    // prune oldest
-    while (cache.size > __GKDP_EXPORT_DRAWABLE_CACHE_MAX__) {
-        const oldestKey = cache.keys().next().value;
-        const oldestPromise = cache.get(oldestKey);
-        cache.delete(oldestKey);
-        // If it was an ImageBitmap, we can try to close it once resolved
-        Promise.resolve(oldestPromise).then(v => {
-            try { if (v && typeof v.close === 'function') v.close(); } catch (_) {}
-        });
-    }
-}
-
-// ✅ Load a drawable that can be passed to ctx.drawImage(): ImageBitmap preferred, else HTMLImageElement.
-// Uses fetch+createImageBitmap when possible for faster decode; falls back to <img> for compatibility.
-const __gkdpLoadDrawable = (url) => {
+const __gkdpLoadImage = (url) => {
     return new Promise((resolve) => {
         if (!url) return resolve(null);
-
-        const cache = window.__GKDP_EXPORT_DRAWABLE_CACHE__;
+        const cache = window.__GKDP_EXPORT_IMG_CACHE__;
         if (cache.has(url)) {
-            return cache.get(url).then(resolve);
+            const entry = cache.get(url);
+            if (entry && entry.img && entry.img.complete) return resolve(entry.img);
+            if (entry && entry.promise) return entry.promise.then(resolve);
         }
-
-        const promise = (async () => {
-            // Prefer ImageBitmap for faster decode and draw
-            if (typeof createImageBitmap === 'function') {
-                try {
-                    const resp = await fetch(url, { mode: 'cors', credentials: 'omit', cache: 'force-cache' });
-                    if (resp && resp.ok) {
-                        const blob = await resp.blob();
-                        const bmp = await createImageBitmap(blob);
-                        return bmp;
-                    }
-                } catch (e) {
-                    // Silent fallback to <img>
-                }
-            }
-
-            // Fallback: HTMLImageElement
-            return await new Promise((res2) => {
-                const img = new Image();
-                img.crossOrigin = "anonymous";
-                img.onload = () => res2(img);
-                img.onerror = () => res2(null);
-                img.src = url;
-            });
-        })();
-
-        __gkdpCachePut(url, promise);
-
-        promise.then((val) => {
-            if (!val) {
-                // remove failed entry so a retry can happen later
-                try { window.__GKDP_EXPORT_DRAWABLE_CACHE__.delete(url); } catch (_) {}
-            }
-            resolve(val);
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        const p = new Promise((res2) => {
+            img.onload = () => res2(img);
+            img.onerror = () => res2(null);
         });
+        cache.set(url, { img, promise: p });
+        img.src = url;
+        p.then(resolve);
     });
 };
 
@@ -5045,52 +4997,11 @@ const __gkdpSafeAddPdfImage = (pdf, exportCanvas, Wpt, Hpt) => {
                 }
             };
 
-// ✅ Safe image download without toDataURL (Worker when possible + fallback to toBlob)
-window.__GKDP_EXPORT_ENCODE_WORKER__ = window.__GKDP_EXPORT_ENCODE_WORKER__ || null;
-
-function __gkdpGetEncodeWorker() {
-    try {
-        if (window.__GKDP_EXPORT_ENCODE_WORKER__) return window.__GKDP_EXPORT_ENCODE_WORKER__;
-        // Worker file expected at: js/export-encode.worker.js
-        window.__GKDP_EXPORT_ENCODE_WORKER__ = new Worker('js/export-encode.worker.js');
-        return window.__GKDP_EXPORT_ENCODE_WORKER__;
-    } catch (e) {
-        return null;
-    }
-}
-
+// ✅ Safe image download without toDataURL
 const __gkdpDownloadCanvasAsImage = (exportCanvas, exportFormat, baseFilename) => {
-    const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
-    const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
-
-    const canUseWorker = (typeof OffscreenCanvas !== 'undefined' && typeof createImageBitmap === 'function' && __gkdpGetEncodeWorker());
-    if (canUseWorker) {
-        return (async () => {
-            const worker = __gkdpGetEncodeWorker();
-            const bitmap = await createImageBitmap(exportCanvas);
-
-            const blob = await new Promise((resolve, reject) => {
-                const onMsg = (evt) => {
-                    const msg = evt.data;
-                    worker.removeEventListener('message', onMsg);
-                    if (!msg || !msg.ok) reject(new Error(msg?.error || 'Worker export failed'));
-                    else resolve(msg.blob);
-                };
-                worker.addEventListener('message', onMsg);
-                worker.postMessage({ bitmap, mimeType, quality: 0.95, filename }, [bitmap]);
-            });
-
-            const url = URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.download = filename;
-            link.href = url;
-            link.click();
-            setTimeout(() => URL.revokeObjectURL(url), 1500);
-        })();
-    }
-
-    // Fallback: toBlob on main thread (still much faster than toDataURL)
     return new Promise((resolve, reject) => {
+        const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+        const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
         exportCanvas.toBlob((blob) => {
             if (!blob) return reject(new Error('Export blob empty'));
             const url = URL.createObjectURL(blob);
@@ -5429,7 +5340,7 @@ const processImage4K = async (imageData, box) => {
         return;
     }
     console.log('🖼️ [EXPORT] Chargement image (cache):', imageData.url.substring(0, 50) + '...');
-    const img = await __gkdpLoadDrawable(imageData.url);
+    const img = await __gkdpLoadImage(imageData.url);
     if (!img) {
         console.error('❌ [EXPORT] Erreur chargement image (cache miss/failed)');
         return;
@@ -5493,7 +5404,7 @@ const drawExportBackground = async (targetBox) => {
 
     // Texture (cache) + filtre couleur éventuel
     if (backCoverTexture && backCoverTexture.url) {
-        const textureImg = await __gkdpLoadDrawable(backCoverTexture.url);
+        const textureImg = await __gkdpLoadImage(backCoverTexture.url);
         if (textureImg) {
             exportCtx.drawImage(textureImg, targetBox.x, targetBox.y, targetBox.width, targetBox.height);
 
