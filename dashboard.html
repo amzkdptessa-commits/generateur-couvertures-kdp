@@ -35,7 +35,8 @@
                 <div class="text-xl font-bold text-green-500">Connecté</div>
             </div>
             <div class="stat-card">
-                <button onclick="loadData()" class="bg-orange-600 hover:bg-orange-700 w-full py-3 rounded-lg font-bold transition">
+                <!-- Correction ici : appel de la fonction par son nouveau nom -->
+                <button onclick="loadDataFromServer()" class="bg-orange-600 hover:bg-orange-700 w-full py-3 rounded-lg font-bold transition">
                     <i class="fas fa-sync-alt mr-2"></i> Actualiser les données
                 </button>
             </div>
@@ -43,7 +44,7 @@
 
         <!-- Graphique -->
         <div class="bg-[#2d2d2d] p-6 rounded-lg border border-[#3e3e3e] mb-8">
-            <h3 class="mb-4 font-bold">Activité des 10 dernières synchros</h3>
+            <h3 class="mb-4 font-bold">Activité des dernières synchros</h3>
             <div style="height: 300px;">
                 <canvas id="syncChart"></canvas>
             </div>
@@ -62,7 +63,6 @@
                         </tr>
                     </thead>
                     <tbody id="reportsTable">
-                        <!-- Rempli par JS -->
                     </tbody>
                 </table>
             </div>
@@ -70,64 +70,63 @@
     </div>
 
     <script>
-        // CONFIGURATION SUPABASE
-        const SUPABASE_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-        const SUPABASE_ANON_KEY = 'COLLE_TA_CLE_ANON_ICI'; // <-- METS TA CLÉ ICI
+        // CONFIGURATION
+        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
+        const SB_KEY = 'COLLE_TA_CLE_ANON_ICI'; // <-- TA CLÉ ANON
+        const USER_EMAIL = 'peacestreet@hotmail.com';
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        const userEmail = 'peacestreet@hotmail.com';
-        let myChart;
+        // Initialisation du client (nom de variable modifié pour éviter le conflit)
+        const supabaseClient = window.supabase.createClient(SB_URL, SB_KEY);
+        
+        let myChart = null;
 
-        async function loadData() {
-            console.log("Chargement des données...");
-            document.getElementById('userDisplay').textContent = userEmail;
+        // Fonction principale renommée pour être sûr
+        async function loadDataFromServer() {
+            console.log("Tentative de récupération des données...");
+            document.getElementById('userDisplay').textContent = USER_EMAIL;
 
             try {
-                const { data, error } = await supabase
+                const { data, error } = await supabaseClient
                     .from('kdp_reports')
                     .select('*')
-                    .eq('user_email', userEmail)
+                    .eq('user_email', USER_EMAIL)
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
-                console.log("Données reçues de Supabase:", data);
-
-                // Mise à jour de l'UI
+                // Mise à jour de l'affichage
                 document.getElementById('totalSyncs').textContent = data.length;
                 
                 if (data.length > 0) {
                     const lastDate = new Date(data[0].created_at);
                     document.getElementById('lastSync').textContent = "Dernière synchro : " + lastDate.toLocaleString();
                     
-                    // Table
                     const tableBody = document.getElementById('reportsTable');
                     tableBody.innerHTML = '';
+                    
                     data.forEach(report => {
                         const row = `
                             <tr class="border-b border-gray-800 hover:bg-gray-800">
                                 <td class="py-3 text-sm">${new Date(report.created_at).toLocaleString()}</td>
-                                <td class="text-orange-400 font-bold">${report.payload.marketplace || 'US'}</td>
+                                <td class="text-orange-400 font-bold">${report.payload?.marketplace || 'US'}</td>
                                 <td class="text-gray-400">${report.user_email}</td>
-                            </tr>
-                        `;
+                            </tr>`;
                         tableBody.innerHTML += row;
                     });
 
-                    updateChart(data);
+                    updateSyncChart(data);
                 }
-
             } catch (err) {
-                console.error("Erreur Dashboard:", err);
-                alert("Erreur lors de la lecture des données. Vérifie ta clé ANON.");
+                console.error("Erreur détaillée:", err);
+                alert("Erreur de connexion : " + err.message);
             }
         }
 
-        function updateChart(data) {
+        function updateSyncChart(data) {
             const ctx = document.getElementById('syncChart').getContext('2d');
-            const last10 = data.slice(0, 10).reverse();
-            const labels = last10.map(d => new Date(d.created_at).toLocaleTimeString());
-            const values = last10.map((_, i) => i + 1);
+            const lastData = data.slice(0, 10).reverse();
+            const labels = lastData.map(d => new Date(d.created_at).toLocaleTimeString());
+            const values = lastData.map((_, i) => i + 1);
 
             if (myChart) myChart.destroy();
             myChart = new Chart(ctx, {
@@ -135,7 +134,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Synchros successives',
+                        label: 'Historique des envois',
                         data: values,
                         borderColor: '#f97316',
                         backgroundColor: 'rgba(249, 115, 22, 0.2)',
@@ -147,8 +146,8 @@
             });
         }
 
-        // Charger au démarrage
-        loadData();
+        // Lancement automatique au chargement de la page
+        window.onload = loadDataFromServer;
     </script>
 </body>
 </html>
