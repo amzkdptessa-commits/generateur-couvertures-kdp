@@ -1,54 +1,40 @@
-const API_URL = 'http://127.0.0.1:3001';
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { width: 350px; font-family: sans-serif; background: #1a1a1a; color: white; padding: 20px; }
+    .header { text-align: center; border-bottom: 2px solid #FF9900; margin-bottom: 15px; padding-bottom: 10px; }
+    h1 { font-size: 18px; color: #FF9900; }
+    .form-group { margin-bottom: 10px; }
+    input { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 5px; }
+    button { width: 100%; padding: 12px; background: #FF9900; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    #status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 15px; }
+    .instructions { font-size: 11px; background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px; margin-top: 15px; color: #ccc; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>📊 GabaritKDP Tracker</h1>
+    <div id="status">Prêt</div>
+  </div>
 
-async function syncKDP() {
-    updateStatus('🔄 Connexion à Amazon KDP...');
+  <form id="loginForm">
+    <div class="form-group">
+      <input type="email" id="email" placeholder="Email GabaritKDP" required value="peacestreet@hotmail.com">
+    </div>
+    <div class="form-group">
+      <input type="password" id="password" placeholder="Mot de passe" required>
+    </div>
+    <button type="submit">🔗 Synchronize with KDP</button>
+  </form>
 
-    try {
-        // 1. On appelle l'API de rapports d'Amazon avec tes cookies de session
-        const amazonRes = await fetch("https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL", {
-            method: 'GET',
-            credentials: 'include', // FORCE l'envoi des cookies de session
-            headers: { 'Accept': 'application/json' }
-        });
+  <div class="instructions">
+    <b>Comment ça marche ?</b><br>
+    1. Ouvre un onglet <b>kdpreports.amazon.com</b><br>
+    2. Clique sur ce bouton pour aspirer les ventes 12 mois.
+  </div>
 
-        // Vérification si Amazon nous renvoie vers le login (HTML) au lieu des données (JSON)
-        const contentType = amazonRes.headers.get("content-type");
-        if (!amazonRes.ok || !contentType || !contentType.includes("application/json")) {
-            throw new Error("Session expirée. Garde l'onglet KDP Reports ouvert et rafraîchis-le.");
-        }
-
-        const salesData = await amazonRes.json();
-        console.log("Données aspirées :", salesData);
-
-        updateStatus('📤 Envoi des données au Dashboard...');
-
-        // 2. Envoi au serveur local
-        const syncResponse = await fetch(`${API_URL}/api/sync-kdp`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                email: document.getElementById('email').value,
-                payload: salesData
-            })
-        });
-
-        if (!syncResponse.ok) throw new Error("Erreur Backend (Serveur éteint ?)");
-
-        updateStatus('✅ Synchronisation réussie !');
-
-    } catch (error) {
-        console.error('Erreur:', error);
-        updateStatus(`❌ ${error.message}`, true);
-    }
-}
-
-function updateStatus(msg, isError = false) {
-    const s = document.getElementById('status');
-    s.textContent = msg;
-    s.style.color = isError ? "#ff4c4c" : "#4cff4c";
-}
-
-document.getElementById('loginForm').addEventListener('submit', (e) => {
-    e.preventDefault();
-    syncKDP();
-});
+  <script src="popup.js"></script>
+</body>
+</html>
