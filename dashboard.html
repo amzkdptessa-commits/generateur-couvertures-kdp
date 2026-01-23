@@ -2,87 +2,169 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>GabaritKDP Dashboard</title>
+    <title>Mon Suivi KDP (Automatisé)</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>body { background:#0f172a; color:white; font-family: 'Inter', sans-serif; }</style>
+    <!-- Graphiques -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>body { background:#0f172a; color:white; font-family: sans-serif; }</style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-6 md:p-12">
     <div class="max-w-6xl mx-auto">
         <header class="flex justify-between items-center mb-10">
-            <h1 class="text-3xl font-bold text-orange-500 italic">GabaritKDP <span class="text-white text-xl">Analytics</span></h1>
+            <div>
+                <h1 class="text-3xl font-bold text-orange-500 italic">KDP <span class="text-white">Live Tracker</span></h1>
+                <p class="text-slate-400 text-sm mt-1">Données interceptées automatiquement</p>
+            </div>
             <div class="text-right">
-                <p id="syncTime" class="text-xs text-slate-500 mb-2">Dernière synchro : --</p>
-                <button onclick="loadStats()" class="bg-orange-600 px-6 py-2 rounded font-bold hover:bg-orange-700 transition">ACTUALISER</button>
+                <p id="lastSync" class="text-xs text-green-400 font-mono mb-2">Chargement...</p>
+                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition">
+                    ↻ Actualiser la page
+                </button>
             </div>
         </header>
 
-        <!-- Stats Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-center">
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                <p class="text-slate-400 text-xs uppercase mb-1">Royalties (12 mois)</p>
-                <p id="totalMoney" class="text-4xl font-bold text-orange-400">0.00 €</p>
+        <!-- KPI CARDS -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <!-- Carte 1 : Royalties -->
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg relative overflow-hidden">
+                <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fas fa-euro-sign text-6xl"></i></div>
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-wider">Royalties (Ce mois)</p>
+                <p id="royaltiesAmt" class="text-5xl font-bold text-orange-500 mt-2">-- €</p>
+                <p class="text-slate-500 text-xs mt-2">Estimation nette</p>
             </div>
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                <p class="text-slate-400 text-xs uppercase mb-1">Unités Vendues</p>
-                <p id="totalUnits" class="text-4xl font-bold">0</p>
+
+            <!-- Carte 2 : Commandes -->
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-wider">Commandes</p>
+                <p id="ordersAmt" class="text-5xl font-bold text-white mt-2">--</p>
+                <p class="text-slate-500 text-xs mt-2">Livres imprimés & Ebooks</p>
             </div>
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
-                <p class="text-slate-400 text-xs uppercase mb-1">Livres Actifs</p>
-                <p id="totalBooks" class="text-4xl font-bold text-blue-400">0</p>
+
+            <!-- Carte 3 : KENP -->
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-wider">Pages Lues (KENP)</p>
+                <p id="kenpAmt" class="text-5xl font-bold text-blue-400 mt-2">--</p>
+                <p class="text-slate-500 text-xs mt-2">Abonnement Kindle</p>
             </div>
         </div>
 
-        <!-- Table -->
-        <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-            <table class="w-full text-left text-sm">
-                <thead class="bg-slate-900 text-slate-400 uppercase text-xs">
-                    <tr><th class="p-4">Titre</th><th class="p-4 text-center">Unités</th><th class="p-4 text-right">Royalties Est.</th></tr>
-                </thead>
-                <tbody id="bookList" class="divide-y divide-slate-700">
-                    <tr><td colspan="3" class="p-10 text-center text-slate-500">En attente de données...</td></tr>
-                </tbody>
-            </table>
+        <!-- GRAPHIQUE -->
+        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 mb-10">
+            <h2 class="text-lg font-bold mb-4 text-slate-300">Évolution des 30 derniers jours</h2>
+            <div class="h-64">
+                <canvas id="salesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- INFO DEBUG -->
+        <div class="text-center text-slate-600 text-xs mt-10">
+            Système connecté à Supabase • Mise à jour auto toutes les heures
         </div>
     </div>
 
     <script>
-        const sb = window.supabase.createClient('https://bgcspojhiupcrpzlkwax.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q');
+        // CONFIG SUPABASE
+        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
+        const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
-        async function loadStats() {
-            const { data } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
-            
-            if (data && data[0]) {
-                const report = data[0];
-                document.getElementById('syncTime').textContent = "Dernière synchro : " + new Date(report.created_at).toLocaleString();
+        async function initDashboard() {
+            // Récupérer la dernière entrée
+            const { data, error } = await sb
+                .from('kdp_reports')
+                .select('*')
+                .eq('user_email', 'peacestreet@hotmail.com')
+                .order('created_at', { ascending: false })
+                .limit(1);
 
-                // Extraction intelligente des lignes (Amazon change les clés souvent)
-                const rows = report.payload.data?.tableData?.rows || report.payload.entries || [];
-                const tbody = document.getElementById('bookList');
-                tbody.innerHTML = '';
+            if (error || !data || data.length === 0) {
+                document.getElementById('lastSync').innerText = "Aucune donnée trouvée.";
+                return;
+            }
+
+            const report = data[0];
+            const json = report.payload;
+            const date = new Date(report.created_at);
+            document.getElementById('lastSync').innerText = "Dernière synchro : " + date.toLocaleDateString() + " à " + date.toLocaleTimeString();
+
+            // --- ANALYSE INTELLIGENTE DES DONNÉES (Format "Overview") ---
+            try {
+                // 1. Récupérer les totaux (Widget Overview)
+                // Amazon met parfois les infos dans "overviewWidget" ou directement à la racine
+                const widget = json.overviewWidget || json;
                 
-                let units = 0; let money = 0;
+                // Royalties
+                let money = 0;
+                if (widget.totalRoyalties) money = widget.totalRoyalties.amount || 0;
+                else if (json.royalties) money = json.royalties.amount || 0;
+                
+                // Commandes
+                let orders = 0;
+                if (widget.totalOrders) orders = widget.totalOrders || 0;
+                
+                // KENP
+                let kenp = 0;
+                if (widget.kenpRead) kenp = widget.kenpRead || 0;
 
-                rows.forEach(book => {
-                    const u = book.units || 0;
-                    const r = book.royalty || 0;
-                    units += u;
-                    money += r;
-                    tbody.innerHTML += `
-                        <tr class="hover:bg-slate-700/50">
-                            <td class="p-4 font-medium">${book.title || 'Livre sans titre'}</td>
-                            <td class="p-4 text-center font-bold">${u}</td>
-                            <td class="p-4 text-right font-bold text-orange-400">${r.toFixed(2)} €</td>
-                        </tr>`;
-                });
+                // Mettre à jour l'affichage
+                document.getElementById('royaltiesAmt').innerText = parseFloat(money).toFixed(2) + " €";
+                document.getElementById('ordersAmt').innerText = orders;
+                document.getElementById('kenpAmt').innerText = kenp;
 
-                document.getElementById('totalUnits').textContent = units;
-                document.getElementById('totalMoney').textContent = money.toFixed(2) + " €";
-                document.getElementById('totalBooks').textContent = rows.length;
+                // 2. Gestion du Graphique (Histogramme)
+                renderChart(json);
+
+            } catch (e) {
+                console.error("Erreur de lecture :", e);
+                document.getElementById('lastSync').innerText += " (Erreur affichage)";
             }
         }
-        window.onload = loadStats;
+
+        function renderChart(json) {
+            const ctx = document.getElementById('salesChart').getContext('2d');
+            
+            // Essayer de trouver les données du graphe
+            let labels = [];
+            let dataPoints = [];
+            
+            // Format standard Amazon "histogram"
+            if (json.histogram && json.histogram.data) {
+                json.histogram.data.forEach(point => {
+                    // On prend juste le jour (ex: "2026-01-23" -> "23")
+                    const dateLabel = point.bin.split('T')[0].split('-')[2]; 
+                    labels.push(dateLabel);
+                    
+                    // On prend les royalties du jour
+                    const val = point.values.Royalties || 0;
+                    dataPoints.push(val);
+                });
+            }
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Royalties (€)',
+                        data: dataPoints,
+                        backgroundColor: '#f97316',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#334155' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+        }
+
+        initDashboard();
     </script>
 </body>
 </html>
