@@ -2,82 +2,78 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Analyse KDP - 12 Mois</title>
+    <title>GabaritKDP Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body { background:#0f172a; color:white; font-family: 'Inter', sans-serif; }
-        .card { background:#1e293b; border:1px solid #334155; border-radius:12px; padding:24px; }
-        .accent { color:#f97316; }
-    </style>
+    <style>body { background:#0f172a; color:white; font-family: 'Inter', sans-serif; }</style>
 </head>
-<body class="p-6 md:p-12">
+<body class="p-4 md:p-10">
     <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-12">
-            <div>
-                <h1 class="text-3xl font-bold">Rapport Annuel <span class="accent">KDP</span></h1>
-                <p class="text-slate-400">Analyse de vos ventes sur 12 mois</p>
+        <header class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-bold text-orange-500 italic">GabaritKDP <span class="text-white text-xl">Analytics</span></h1>
+            <div class="text-right">
+                <p id="syncTime" class="text-xs text-slate-500 mb-2">Dernière synchro : --</p>
+                <button onclick="loadStats()" class="bg-orange-600 px-6 py-2 rounded font-bold hover:bg-orange-700 transition">ACTUALISER</button>
             </div>
-            <button onclick="loadKdpData()" class="bg-orange-600 hover:bg-orange-700 px-8 py-3 rounded-lg font-bold transition shadow-lg">
-                <i class="fas fa-sync-alt mr-2"></i> ACTUALISER
-            </button>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div class="card text-center">
-                <h4 class="text-slate-500 text-xs font-bold uppercase mb-2">Royalties (An)</h4>
-                <div id="totalMoney" class="text-4xl font-bold accent">0.00 €</div>
+        <!-- Stats Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 text-center">
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <p class="text-slate-400 text-xs uppercase mb-1">Royalties (12 mois)</p>
+                <p id="totalMoney" class="text-4xl font-bold text-orange-400">0.00 €</p>
             </div>
-            <div class="card text-center">
-                <h4 class="text-slate-500 text-xs font-bold uppercase mb-2">Unités Vendues</h4>
-                <div id="totalUnits" class="text-4xl font-bold">0</div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <p class="text-slate-400 text-xs uppercase mb-1">Unités Vendues</p>
+                <p id="totalUnits" class="text-4xl font-bold">0</p>
             </div>
-            <div class="card text-center">
-                <h4 class="text-slate-500 text-xs font-bold uppercase mb-2">Livres Trackés</h4>
-                <div id="totalBooks" class="text-4xl font-bold text-blue-400">0</div>
+            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700">
+                <p class="text-slate-400 text-xs uppercase mb-1">Livres Actifs</p>
+                <p id="totalBooks" class="text-4xl font-bold text-blue-400">0</p>
             </div>
         </div>
 
-        <div class="card">
-            <h3 class="font-bold mb-6 flex items-center gap-2"><i class="fas fa-list accent"></i> Détail par livre</h3>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="text-slate-500 border-b border-slate-700 uppercase text-xs">
-                        <tr><th class="pb-4">Titre du livre</th><th class="pb-4 text-center">Ventes</th><th class="pb-4 text-right">Royalties</th></tr>
-                    </thead>
-                    <tbody id="booksBody" class="divide-y divide-slate-800">
-                        <tr><td colspan="3" class="p-10 text-center text-slate-500">Aucune donnée trouvée. Synchronisez via l'extension.</td></tr>
-                    </tbody>
-                </table>
-            </div>
+        <!-- Table -->
+        <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-slate-900 text-slate-400 uppercase text-xs">
+                    <tr><th class="p-4">Titre</th><th class="p-4 text-center">Unités</th><th class="p-4 text-right">Royalties Est.</th></tr>
+                </thead>
+                <tbody id="bookList" class="divide-y divide-slate-700">
+                    <tr><td colspan="3" class="p-10 text-center text-slate-500">En attente de données...</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
 
     <script>
-        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
-        const sb = window.supabase.createClient(SB_URL, SB_KEY);
+        const sb = window.supabase.createClient('https://bgcspojhiupcrpzlkwax.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q');
 
-        async function loadKdpData() {
-            const { data, error } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
+        async function loadStats() {
+            const { data } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
             
             if (data && data[0]) {
-                // Lecture du format spécifique d'Amazon KDP
-                const rows = data[0].payload.data?.tableData?.rows || [];
-                const tbody = document.getElementById('booksBody');
+                const report = data[0];
+                document.getElementById('syncTime').textContent = "Dernière synchro : " + new Date(report.created_at).toLocaleString();
+
+                // Extraction intelligente des lignes (Amazon change les clés souvent)
+                const rows = report.payload.data?.tableData?.rows || report.payload.entries || [];
+                const tbody = document.getElementById('bookList');
                 tbody.innerHTML = '';
                 
                 let units = 0; let money = 0;
 
                 rows.forEach(book => {
-                    units += book.units;
-                    money += book.royalty;
+                    const u = book.units || 0;
+                    const r = book.royalty || 0;
+                    units += u;
+                    money += r;
                     tbody.innerHTML += `
-                        <tr class="hover:bg-slate-800/40 transition">
-                            <td class="py-4 font-medium">${book.title}</td>
-                            <td class="py-4 text-center font-bold text-slate-200">${book.units}</td>
-                            <td class="py-4 text-right font-bold accent">${book.royalty.toFixed(2)} €</td>
+                        <tr class="hover:bg-slate-700/50">
+                            <td class="p-4 font-medium">${book.title || 'Livre sans titre'}</td>
+                            <td class="p-4 text-center font-bold">${u}</td>
+                            <td class="p-4 text-right font-bold text-orange-400">${r.toFixed(2)} €</td>
                         </tr>`;
                 });
 
@@ -86,7 +82,7 @@
                 document.getElementById('totalBooks').textContent = rows.length;
             }
         }
-        window.onload = loadKdpData;
+        window.onload = loadStats;
     </script>
 </body>
 </html>
