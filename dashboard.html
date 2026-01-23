@@ -3,198 +3,207 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyse KDP - 12 Mois</title>
+    <title>Analyse Annuelle KDP</title>
+    
+    <!-- Scripts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
-        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 20px; }
-        .accent { color: #f97316; }
-        .bg-accent { background-color: #f97316; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        :root { --bg-dark: #0f172a; --card-bg: #1e293b; --accent: #f97316; --border: #334155; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-dark); color: white; margin: 0; }
+        .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+        .header-nav { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 15px 0; border-bottom: 1px solid var(--border); }
+        .accent-text { color: var(--accent); }
     </style>
 </head>
-<body class="p-4 md:p-8">
+<body class="p-0 md:p-0">
 
-    <div class="max-w-7xl mx-auto">
-        <!-- HEADER -->
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+    <!-- Header -->
+    <header class="header-nav mb-8">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <img src="logo-gabarit-kdp-site-web.png" alt="Logo" style="height: 35px;">
+                <span class="text-xl font-bold">GabaritKDP <span class="accent-text">Tracker</span></span>
+            </div>
+            <nav class="hidden md:flex gap-6 text-sm">
+                <a href="./index.html">Accueil</a>
+                <a href="./dashboard.html" class="accent-text font-bold">Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-6 pb-12">
+        <!-- Dashboard Header -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-8 gap-4">
             <div>
-                <h1 class="text-3xl font-extrabold tracking-tight">Analyse Annuelle <span class="accent">KDP</span></h1>
-                <p class="text-slate-400 mt-1">Compte : <span id="userEmail" class="font-medium">peacestreet@hotmail.com</span></p>
+                <h1 class="text-3xl font-extrabold">Analyse des 12 derniers mois</h1>
+                <p class="text-slate-400">Compte : <span id="userEmail" class="accent-text">peacestreet@hotmail.com</span></p>
             </div>
             <div class="flex flex-col items-end">
-                <div class="bg-slate-800 px-4 py-2 rounded-full border border-slate-700 mb-2">
-                    <span class="text-sm text-slate-400">Dernière synchro :</span>
-                    <span id="lastSyncDate" class="text-sm font-bold text-green-400 ml-1">Jamais</span>
+                <div class="bg-slate-800 px-4 py-1 rounded-full border border-slate-700 mb-3 text-xs">
+                    Statut : <span id="lastSyncDate" class="text-green-400 font-bold">Chargement...</span>
                 </div>
-                <button onclick="fetchKdpData()" class="bg-accent hover:bg-orange-700 text-white px-6 py-2 rounded-lg font-bold transition flex items-center gap-2">
-                    <i class="fas fa-sync-alt"></i> Actualiser les données
+                <button onclick="fetchKdpDataFromServer()" class="bg-orange-600 hover:bg-orange-700 text-white px-6 py-2 rounded-lg font-bold transition flex items-center gap-2">
+                    <i class="fas fa-sync-alt"></i> ACTUALISER
                 </button>
             </div>
         </div>
 
-        <!-- STATS RAPIDES -->
+        <!-- Chiffres Clés -->
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
             <div class="card">
-                <h4 class="text-slate-400 text-xs uppercase font-bold mb-1">Royalties (12 mois)</h4>
-                <div class="text-3xl font-bold accent" id="totalYearly">0.00 €</div>
+                <h4 class="text-slate-500 text-xs uppercase font-bold mb-1">Ventes Totales (1 an)</h4>
+                <div class="text-3xl font-bold accent-text" id="statRoyalties">0.00 €</div>
             </div>
             <div class="card">
-                <h4 class="text-slate-400 text-xs uppercase font-bold mb-1">Unités Vendues</h4>
-                <div class="text-3xl font-bold" id="totalUnits">0</div>
+                <h4 class="text-slate-500 text-xs uppercase font-bold mb-1">Unités Vendues</h4>
+                <div class="text-3xl font-bold" id="statUnits">0</div>
             </div>
             <div class="card">
-                <h4 class="text-slate-400 text-xs uppercase font-bold mb-1">Livres Actifs</h4>
-                <div class="text-3xl font-bold" id="activeBooksCount">0</div>
+                <h4 class="text-slate-500 text-xs uppercase font-bold mb-1">Livres Trackés</h4>
+                <div class="text-3xl font-bold" id="statBooks">0</div>
             </div>
             <div class="card">
-                <h4 class="text-slate-400 text-xs uppercase font-bold mb-1">Meilleur Marché</h4>
-                <div class="text-3xl font-bold text-blue-400" id="bestMarket">--</div>
+                <h4 class="text-slate-500 text-xs uppercase font-bold mb-1">Top Marketplace</h4>
+                <div class="text-3xl font-bold text-blue-400" id="statMarket">--</div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <!-- VENTES PAR LIVRE (TABLEAU) -->
+            <!-- Tableau des Livres -->
             <div class="lg:col-span-2 card">
                 <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
-                    <i class="fas fa-book accent"></i> Ventes détaillées par livre (1 an)
+                    <i class="fas fa-book-open accent-text"></i> Ventes par livre
                 </h3>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead>
                             <tr class="text-slate-500 border-b border-slate-700">
-                                <th class="pb-3">Titre du livre</th>
+                                <th class="pb-3">Titre</th>
                                 <th class="pb-3">Unités</th>
-                                <th class="pb-3">Royalties</th>
-                                <th class="pb-3">Dernière vente</th>
+                                <th class="pb-3">Royalties Est.</th>
+                                <th class="pb-3">Dernière Synchro</th>
                             </tr>
                         </thead>
-                        <tbody id="booksTableBody" class="divide-y divide-slate-800">
-                            <!-- Les données arriveront ici -->
+                        <tbody id="mainTableBody" class="divide-y divide-slate-800">
+                            <!-- Les données vont apparaître ici -->
                         </tbody>
                     </table>
                 </div>
             </div>
 
-            <!-- RÉPARTITION PAR PAYS (GRAPH) -->
+            <!-- Répartition pays -->
             <div class="card">
                 <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
-                    <i class="fas fa-globe-europe accent"></i> Top Marketplaces
+                    <i class="fas fa-globe accent-text"></i> Par Pays (Marketplace)
                 </h3>
-                <div class="h-64">
-                    <canvas id="marketChart"></canvas>
-                </div>
-                <div id="marketLegend" class="mt-6 space-y-2">
-                    <!-- Légende détaillée -->
+                <div class="h-64"><canvas id="countryChart"></canvas></div>
+                <div id="countryLegend" class="mt-6 space-y-2 text-sm text-slate-400">
+                    <!-- Légende dynamique -->
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <script>
-        // CONFIGURATION SUPABASE
+        // CONFIGURATION
         const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
         const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
-        
-        const supabase = window.supabase.createClient(SB_URL, SB_KEY);
-        const userEmail = 'peacestreet@hotmail.com';
-        let marketPie = null;
+        const USER_EMAIL = 'peacestreet@hotmail.com';
 
-        async function fetchKdpData() {
+        // Initialisation avec nom unique pour éviter le crash
+        const sbClient = window.supabase.createClient(SB_URL, SB_KEY);
+        let myPieChart = null;
+
+        async function fetchKdpDataFromServer() {
             try {
-                // On récupère les rapports du dernier utilisateur
-                const { data, error } = await supabase
+                // Récupération des données dans la table de rapports
+                const { data, error } = await sbClient
                     .from('kdp_reports')
                     .select('*')
-                    .eq('user_email', userEmail)
+                    .eq('user_email', USER_EMAIL)
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
                 if (data.length > 0) {
-                    // 1. Date de dernière synchronisation
-                    const lastSync = new Date(data[0].created_at);
-                    document.getElementById('lastSyncDate').textContent = lastSync.toLocaleString('fr-FR');
+                    // Date de dernière synchro
+                    const lastDate = new Date(data[0].created_at);
+                    document.getElementById('lastSyncDate').textContent = "Dernière synchro : " + lastDate.toLocaleString();
 
-                    // 2. Traitement des données (Simulation d'agrégation basée sur le payload)
-                    // Note : Ici on traite les données reçues. Si ton extension envoie le détail, on l'affiche.
-                    processSalesData(data);
+                    // Traitement des données
+                    renderDashboard(data);
+                } else {
+                    document.getElementById('lastSyncDate').textContent = "Aucune donnée trouvée";
                 }
             } catch (err) {
-                console.error("Erreur:", err);
+                console.error("Erreur de récupération:", err.message);
             }
         }
 
-        function processSalesData(reports) {
-            // Ici, on va simuler l'extraction des données du payload JSON
-            // Dans une version finale, l'extension envoie une liste de livres
-            
-            const table = document.getElementById('booksTableBody');
-            table.innerHTML = '';
+        function renderDashboard(reports) {
+            const tableBody = document.getElementById('mainTableBody');
+            tableBody.innerHTML = '';
 
-            // Exemple de données (ce que ton extension devrait envoyer dans payload)
-            // On va boucler sur les rapports pour montrer l'historique
-            const mockBooks = [
-                { title: "Livre Bohème - Journal de bord", units: 45, royalties: 124.50, last: "2024-12-10", market: "FR" },
-                { title: "Carnet de Notes - Design Floral", units: 12, royalties: 34.20, last: "2024-11-20", market: "US" },
-                { title: "Coloriage Mandalas Zen", units: 89, royalties: 215.80, last: "2024-12-22", market: "DE" }
-            ];
-
-            mockBooks.forEach(book => {
-                table.innerHTML += `
+            // Note : Pour l'instant on affiche les sessions de synchro. 
+            // Quand ton extension enverra le détail des livres dans le "payload", on les extraira ici.
+            reports.slice(0, 10).forEach(report => {
+                tableBody.innerHTML += `
                     <tr class="hover:bg-slate-800/50 transition">
-                        <td class="py-4 font-medium">${book.title}</td>
-                        <td class="py-4">${book.units}</td>
-                        <td class="py-4 font-bold accent">${book.royalties.toFixed(2)} €</td>
-                        <td class="py-4 text-slate-500 text-xs">${book.last}</td>
+                        <td class="py-4 font-medium">Session de Synchronisation</td>
+                        <td class="py-4">1</td>
+                        <td class="py-4 accent-text font-bold">Sync OK</td>
+                        <td class="py-4 text-slate-500 text-xs">${new Date(report.created_at).toLocaleDateString()}</td>
                     </tr>
                 `;
             });
 
-            // Update stats
-            document.getElementById('totalYearly').textContent = "374.50 €";
-            document.getElementById('totalUnits').textContent = "146";
-            document.getElementById('activeBooksCount').textContent = mockBooks.length;
-            document.getElementById('bestMarket').textContent = "FR";
+            // Stats de démo (À remplacer par l'agrégation de ton payload JSON plus tard)
+            document.getElementById('statRoyalties').textContent = "Analyse en cours...";
+            document.getElementById('statUnits').textContent = reports.length;
+            document.getElementById('statBooks').textContent = "Tracking activé";
+            document.getElementById('statMarket').textContent = reports[0].payload?.marketplace || 'US';
 
-            updateMarketChart();
+            updateCountryChart(reports);
         }
 
-        function updateMarketChart() {
-            const ctx = document.getElementById('marketChart').getContext('2d');
-            if (marketPie) marketPie.destroy();
+        function updateCountryChart(reports) {
+            const ctx = document.getElementById('countryChart').getContext('2d');
+            if (myPieChart) myPieChart.destroy();
 
-            marketPie = new Chart(ctx, {
+            // Analyse des marketplaces dans tes données
+            const markets = {};
+            reports.forEach(r => {
+                const m = r.payload?.marketplace || 'US';
+                markets[m] = (markets[m] || 0) + 1;
+            });
+
+            myPieChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
-                    labels: ['France (FR)', 'USA (US)', 'Allemagne (DE)', 'Royaume-Uni (UK)'],
+                    labels: Object.keys(markets),
                     datasets: [{
-                        data: [60, 20, 15, 5],
+                        data: Object.values(markets),
                         backgroundColor: ['#f97316', '#3b82f6', '#10b981', '#a855f7'],
                         borderWidth: 0
                     }]
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: { display: false } }
-                }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
 
-            // Légende manuelle
-            const legend = document.getElementById('marketLegend');
-            legend.innerHTML = `
-                <div class="flex justify-between text-xs"><span>🇫🇷 Amazon.fr</span><span class="font-bold">60%</span></div>
-                <div class="flex justify-between text-xs"><span>🇺🇸 Amazon.com</span><span class="font-bold">20%</span></div>
-                <div class="flex justify-between text-xs"><span>🇩🇪 Amazon.de</span><span class="font-bold">15%</span></div>
-            `;
+            // Légende pays
+            const legend = document.getElementById('countryLegend');
+            legend.innerHTML = '';
+            Object.keys(markets).forEach(m => {
+                legend.innerHTML += `<div class="flex justify-between"><span>Marché ${m}</span><span class="font-bold text-white">${markets[m]} synchros</span></div>`;
+            });
         }
 
-        window.onload = fetchKdpData;
+        // Lancement auto
+        window.onload = fetchKdpDataFromServer;
     </script>
 </body>
 </html>
