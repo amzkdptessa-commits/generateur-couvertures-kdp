@@ -2,74 +2,70 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>KDP Live Tracker</title>
+    <title>KDP Tracker Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>body { background:#0f172a; color:white; font-family: sans-serif; }</style>
+    <style>body { background:#0f172a; color:white; font-family: 'Segoe UI', sans-serif; }</style>
 </head>
 <body class="p-6 md:p-12">
-    <div class="max-w-6xl mx-auto">
+    <div class="max-w-7xl mx-auto">
         <header class="flex justify-between items-center mb-10">
             <div>
-                <h1 class="text-3xl font-bold text-orange-500 italic">KDP <span class="text-white">Live Tracker</span></h1>
-                <p class="text-slate-400 text-sm mt-1">Données interceptées automatiquement</p>
+                <h1 class="text-3xl font-bold text-orange-500 italic">KDP <span class="text-white">Analytics</span></h1>
+                <p id="periodLabel" class="text-slate-400 text-sm mt-1">Analyse des ventes</p>
             </div>
             <div class="text-right">
-                <p id="lastSync" class="text-xs text-green-400 font-mono mb-2">Chargement...</p>
-                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-4 py-2 rounded text-sm transition">
-                    ↻ Actualiser la page
+                <p id="lastSync" class="text-xs text-green-400 font-mono mb-2">--</p>
+                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold transition">
+                    ACTUALISER
                 </button>
             </div>
         </header>
 
-        <!-- KPI CARDS -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+        <!-- KPI GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <!-- Royalties -->
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg relative overflow-hidden">
-                <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fas fa-euro-sign text-6xl"></i></div>
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-wider">Royalties (Ce mois)</p>
-                <p id="royaltiesAmt" class="text-5xl font-bold text-orange-500 mt-2">-- €</p>
-                <p class="text-slate-500 text-xs mt-2">Estimation nette</p>
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 text-slate-700 opacity-20"><i class="fas fa-euro-sign" style="font-size: 150px;">€</i></div>
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties Estimées</p>
+                <p id="royaltiesAmt" class="text-6xl font-extrabold text-orange-500 mt-4">0.00 €</p>
             </div>
 
             <!-- Commandes -->
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-wider">Commandes Totales</p>
-                <p id="ordersAmt" class="text-5xl font-bold text-white mt-2">--</p>
-                <div class="flex gap-4 text-xs text-slate-400 mt-2">
-                    <span id="detailPrint">Broché: 0</span>
-                    <span id="detailEbook">Ebook: 0</span>
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Commandes Totales</p>
+                <p id="ordersAmt" class="text-6xl font-extrabold text-white mt-4">0</p>
+                <div class="mt-4 flex gap-4 text-sm text-slate-400">
+                    <span class="bg-slate-900 px-3 py-1 rounded">📚 Broché: <b id="detailPrint" class="text-white">0</b></span>
+                    <span class="bg-slate-900 px-3 py-1 rounded">📱 Ebook: <b id="detailEbook" class="text-white">0</b></span>
                 </div>
             </div>
 
             <!-- KENP -->
-            <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 shadow-lg">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-wider">Pages Lues (KENP)</p>
-                <p id="kenpAmt" class="text-5xl font-bold text-blue-400 mt-2">--</p>
-                <p class="text-slate-500 text-xs mt-2">Abonnement Kindle</p>
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Pages Lues (KENP)</p>
+                <p id="kenpAmt" class="text-6xl font-extrabold text-blue-400 mt-4">0</p>
+                <p class="text-slate-500 text-xs mt-2">Pages lues via l'abonnement Kindle</p>
             </div>
         </div>
 
         <!-- GRAPHIQUE -->
-        <div class="bg-slate-800 p-6 rounded-xl border border-slate-700 mb-10">
-            <h2 class="text-lg font-bold mb-4 text-slate-300">Répartition par Marché (Pays)</h2>
-            <div class="h-64">
-                <canvas id="salesChart"></canvas>
+        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+            <h2 class="text-lg font-bold mb-6 text-slate-300">Répartition Géographique (Top Marchés)</h2>
+            <div class="h-80">
+                <canvas id="countryChart"></canvas>
             </div>
         </div>
-        
-        <!-- DEBUG CONSOLE (Invisible sauf si besoin) -->
-        <div id="debugArea" class="hidden text-xs text-slate-600 font-mono mt-10 p-4 bg-black rounded"></div>
     </div>
 
     <script>
-        // --- CONFIGURATION SUPABASE ---
         const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
         const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
         const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
-        async function initDashboard() {
+        async function loadData() {
+            // On récupère la dernière entrée
             const { data, error } = await sb
                 .from('kdp_reports')
                 .select('*')
@@ -77,85 +73,80 @@
                 .order('created_at', { ascending: false })
                 .limit(1);
 
-            if (error || !data || data.length === 0) {
-                document.getElementById('lastSync').innerText = "Pas de données.";
-                return;
-            }
+            if (!data || data.length === 0) return;
 
             const report = data[0];
-            const json = report.payload;
+            const payload = report.payload;
+            
+            // Mise à jour date
             const date = new Date(report.created_at);
-            document.getElementById('lastSync').innerText = "Dernière synchro : " + date.toLocaleDateString() + " à " + date.toLocaleTimeString();
+            document.getElementById('lastSync').innerText = `Dernière synchro : ${date.toLocaleDateString()} à ${date.toLocaleTimeString()}`;
 
-            try {
-                // --- CALCUL DES CHIFFRES ---
-                // On cherche l'objet "widget" où sont les totaux
-                const widget = json.overviewWidget || json;
+            // --- 1. TRAITEMENT DES TOTAUX (Overview) ---
+            if (payload.overview) {
+                const w = payload.overview.overviewWidget || payload.overview; // Adaptabilité
 
-                // 1. COMMANDES (Addition Broché + Ebook)
-                const print = widget.printOrders || 0;
-                const ebook = widget.digitalOrders || 0;
-                const totalOrders = print + ebook;
-                
-                document.getElementById('ordersAmt').innerText = totalOrders;
-                document.getElementById('detailPrint').innerText = "Broché: " + print;
-                document.getElementById('detailEbook').innerText = "Ebook: " + ebook;
-
-                // 2. KENP
-                document.getElementById('kenpAmt').innerText = widget.kenpRead || 0;
-
-                // 3. ROYALTIES (Le plus important)
+                // Royalties
                 let money = 0;
-                // Cas 1: C'est un objet avec {amount: 8.74}
-                if (widget.totalRoyalties && widget.totalRoyalties.amount !== undefined) {
-                    money = widget.totalRoyalties.amount;
-                } 
-                // Cas 2: C'est juste un chiffre direct
-                else if (typeof widget.totalRoyalties === 'number') {
-                    money = widget.totalRoyalties;
-                }
-                
+                if (w.totalRoyalties && w.totalRoyalties.amount !== undefined) money = w.totalRoyalties.amount;
+                else if (typeof w.totalRoyalties === 'number') money = w.totalRoyalties;
                 document.getElementById('royaltiesAmt').innerText = parseFloat(money).toFixed(2) + " €";
 
-                // --- GRAPHIQUE PAR PAYS ---
-                renderChart(json);
+                // Commandes
+                const print = w.printOrders || 0;
+                const ebook = w.digitalOrders || 0;
+                document.getElementById('ordersAmt').innerText = print + ebook;
+                document.getElementById('detailPrint').innerText = print;
+                document.getElementById('detailEbook').innerText = ebook;
 
-            } catch (e) {
-                console.error("Erreur Dashboard:", e);
+                // KENP
+                document.getElementById('kenpAmt').innerText = w.kenpRead || 0;
+            }
+
+            // --- 2. TRAITEMENT DU GRAPHIQUE (Distribution) ---
+            if (payload.distribution) {
+                renderCountryChart(payload.distribution);
             }
         }
 
-        function renderChart(json) {
-            const ctx = document.getElementById('salesChart').getContext('2d');
+        function renderCountryChart(json) {
+            const ctx = document.getElementById('countryChart').getContext('2d');
             
             let labels = [];
-            let dataPoints = [];
+            let dataValues = [];
 
-            // On regarde dans "histogram" -> "data"
+            // Amazon range les données dans histogram -> data
             if (json.histogram && json.histogram.data) {
-                json.histogram.data.forEach(item => {
-                    // "bin" contient le nom du pays (ex: Amazon.fr)
-                    labels.push(item.bin);
+                // On trie pour avoir les plus gros pays en premier
+                const sortedData = json.histogram.data.sort((a, b) => {
+                    const valA = a.values.Royalties || a.values.EstEarnings || 0;
+                    const valB = b.values.Royalties || b.values.EstEarnings || 0;
+                    return valB - valA;
+                });
+
+                sortedData.forEach(item => {
+                    // On nettoie le nom (ex: "Amazon.fr" -> "France")
+                    let country = item.bin.replace('Amazon.', '').toUpperCase();
+                    if(country === 'COM') country = 'USA';
+                    if(country === 'UK') country = 'ROYAUME-UNI';
                     
-                    // On cherche le montant des royalties pour ce pays
-                    // Parfois c'est dans values.Royalties, parfois values.EstEarnings
-                    let val = 0;
-                    if (item.values) {
-                        val = item.values.Royalties || item.values.EstEarnings || 0;
-                    }
-                    dataPoints.push(val);
+                    labels.push(country);
+                    
+                    const val = item.values.Royalties || item.values.EstEarnings || 0;
+                    dataValues.push(val);
                 });
             }
 
             new Chart(ctx, {
-                type: 'bar', // Graphique en barres
+                type: 'bar',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Royalties par Marché (€)',
-                        data: dataPoints,
+                        label: 'Royalties (€)',
+                        data: dataValues,
                         backgroundColor: '#f97316',
-                        borderRadius: 5
+                        borderRadius: 6,
+                        barThickness: 40
                     }]
                 },
                 options: {
@@ -163,14 +154,14 @@
                     maintainAspectRatio: false,
                     plugins: { legend: { display: false } },
                     scales: {
-                        y: { beginAtZero: true, grid: { color: '#334155' } },
-                        x: { grid: { display: false }, ticks: { color: '#94a3b8' } }
+                        y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: 'white', font: { weight: 'bold' } } }
                     }
                 }
             });
         }
 
-        initDashboard();
+        loadData();
     </script>
 </body>
 </html>
