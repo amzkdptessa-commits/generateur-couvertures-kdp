@@ -6,28 +6,21 @@ const { createClient } = require("@supabase/supabase-js");
 
 dotenv.config();
 
-const sbUrl = process.env.SUPABASE_URL.trim();
-const sbKey = process.env.SUPABASE_SERVICE_ROLE_KEY.trim();
-const supabase = createClient(sbUrl, sbKey);
-
+const supabase = createClient(process.env.SUPABASE_URL.trim(), process.env.SUPABASE_SERVICE_ROLE_KEY.trim());
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: "5mb" }));
 
-// Prépare les cookies pour Amazon
-function formatCookies(cookies) {
-    return cookies.map(c => `${c.name}=${c.value}`).join('; ');
-}
-
 app.post("/api/sync-kdp", async (req, res) => {
     const { email, cookies } = req.body;
-    console.log(`\n🚀 ASPIRATION DES VENTES (12 MOIS) POUR : ${email}`);
+    console.log(`\n🚀 SYNCHRONISATION STYLE "PUBLISHER CHAMP" POUR : ${email}`);
 
     try {
-        const cookieStr = formatCookies(cookies);
-        
-        // On appelle l'API de rapports d'Amazon pour les 12 derniers mois
-        // Note: period=past12months permet de voir tes ventes de l'année dernière
+        // 1. On transforme les cookies reçus pour Amazon
+        const cookieStr = cookies.map(c => `${c.name}=${c.value}`).join('; ');
+
+        // 2. APPEL À L'API D'AMAZON (Past 12 Months / All Marketplaces)
+        // C'est ici que la magie opère pour récupérer les titres et les pays
         const amazonUrl = "https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL";
         
         const response = await axios.get(amazonUrl, {
@@ -37,29 +30,25 @@ app.post("/api/sync-kdp", async (req, res) => {
             }
         });
 
-        // Les données réelles envoyées par Amazon
-        const salesData = response.data; 
+        // 3. Amazon renvoie un objet JSON structuré (Ventes, KENP, Royalties)
+        const allSalesData = response.data; 
 
-        // On enregistre TOUT (Ventes + Cookies) dans Supabase
-        const { error } = await supabase
-            .from("kdp_reports")
-            .insert([{
-                user_email: email,
-                payload: salesData, 
-                created_at: new Date().toISOString()
-            }]);
+        // 4. On enregistre ce rapport COMPLET dans Supabase
+        const { error } = await supabase.from("kdp_reports").insert([{
+            user_email: email,
+            payload: allSalesData, 
+            created_at: new Date().toISOString()
+        }]);
 
         if (error) throw error;
 
-        console.log("✅ Ventes aspirées et enregistrées !");
-        res.json({ success: true, message: "Aspiration réussie" });
+        console.log("✅ Données extraites avec succès !");
+        res.json({ success: true, message: "Données synchronisées" });
 
     } catch (err) {
         console.error("❌ ERREUR AMAZON:", err.message);
-        res.status(500).json({ error: "Amazon a bloqué la connexion. Re-connectez-vous à KDP." });
+        res.status(500).json({ error: "Erreur de connexion Amazon" });
     }
 });
 
-app.listen(3001, "0.0.0.0", () => {
-    console.log("\n🔥 SERVEUR ASPIRATEUR PRÊT (PORT 3001)");
-});
+app.listen(3001, "0.0.0.0", () => console.log("🔥 BACKEND ANALYTICS PRÊT (PORT 3001)"));
