@@ -12,21 +12,21 @@ const supabase = createClient(
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: "10mb" })); // Important pour les rapports de 12 mois
+app.use(express.json({ limit: "10mb" })); 
 
 app.post("/api/sync-kdp", async (req, res) => {
     const { email, payload } = req.body;
-    console.log(`📩 Données reçues de l'extension pour : ${email}`);
+    console.log(`📩 Rapport reçu pour : ${email}`);
 
     try {
         const { error } = await supabase.from("kdp_reports").insert([{
             user_email: email,
-            payload: payload,
+            payload: payload, 
             created_at: new Date().toISOString()
         }]);
 
         if (error) throw error;
-        console.log("✅ Rapport enregistré dans Supabase !");
+        console.log("✅ Données stockées avec succès.");
         res.json({ success: true });
     } catch (err) {
         console.error("❌ Erreur Supabase:", err.message);
@@ -35,5 +35,5 @@ app.post("/api/sync-kdp", async (req, res) => {
 });
 
 app.listen(3001, "0.0.0.0", () => {
-    console.log("🔥 SERVEUR RÉCEPTEUR PRÊT (PORT 3001)");
+    console.log("🔥 SERVEUR RÉCEPTEUR PRÊT SUR LE PORT 3001");
 });
