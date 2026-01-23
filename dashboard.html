@@ -1,162 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - GabaritKDP Tracker</title>
-    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
     
-    <!-- Scripts -->
+    <!-- Scripts & Styles -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     
     <style>
-        :root { --bg-dark: #121212; --card-bg: #2d2d2d; --accent-orange: #f97316; --text-dim: #b3b3b3; --border: #3e3e3e; }
+        :root { --bg-dark: #121212; --card-bg: #2d2d2d; --accent-orange: #f97316; --border: #3e3e3e; }
         body { font-family: 'Segoe UI', sans-serif; background-color: var(--bg-dark); color: white; margin: 0; }
         .header-nav { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); padding: 15px 0; position: sticky; top: 0; z-index: 999; }
         .nav-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; }
-        .logo-nav { display: flex; align-items: center; gap: 15px; text-decoration: none; color: #fff; }
-        .logo-nav span { font-size: 1.3rem; font-weight: 700; color: #FF9900; }
+        .logo-nav { display: flex; align-items: center; gap: 15px; text-decoration: none; color: #fff; font-weight: 700; font-size: 1.3rem; }
         .stat-card { background: var(--card-bg); padding: 20px; border-radius: 10px; border: 1px solid var(--border); }
-        .value { font-size: 1.8rem; font-weight: bold; margin-top: 10px; color: var(--accent-orange); }
-        .language-selector { background: #fff; border-radius: 20px; padding: 3px; display: flex; }
-        .lang-btn { padding: 6px 10px; border: none; background: transparent; border-radius: 16px; cursor: pointer; color: #000; font-size: .8rem; }
-        .lang-btn.active { background: #FF9900; color: #fff; }
+        .value { font-size: 2.2rem; font-weight: bold; color: var(--accent-orange); }
+        .accent-text { color: var(--accent-orange); }
     </style>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <header class="header-nav">
-    <div class="nav-container">
-      <a href="./index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="Logo" style="height:40px;">
-        <span>GabaritKDP</span>
-      </a>
-      <div class="language-selector">
-        <button class="lang-btn" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" onclick="switchLanguage('en')">🇺🇸</button>
-      </div>
-      <nav class="hidden md:flex gap-6">
-        <a href="./index.html">🏠 Home</a>
-        <a href="./dashboard.html" class="text-orange-500 font-bold">📊 Dashboard</a>
-        <a href="./marketplace.html">📚 Templates</a>
-      </nav>
-    </div>
-  </header>
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="#" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="Logo" style="height: 40px;">
+                <span>GabaritKDP <small class="text-xs text-gray-400">Tracker</small></span>
+            </a>
+            <nav class="flex gap-6 text-sm">
+                <a href="./index.html" class="hover:text-orange-400">Accueil</a>
+                <a href="./dashboard.html" class="text-orange-400 font-bold">Dashboard</a>
+            </nav>
+        </div>
+    </header>
 
-    <div class="max-w-7xl mx-auto p-6">
-        <!-- Loading State -->
-        <div id="loadingState" class="text-center py-20">
-            <i class="fas fa-spinner fa-spin text-4xl text-orange-500"></i>
-            <p class="mt-4 text-gray-400">Loading your data...</p>
+    <main class="max-w-7xl mx-auto p-6">
+        <!-- En-tête -->
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h1 class="text-3xl font-bold">Mes Ventes KDP</h1>
+                <p class="text-gray-400">Compte : <span id="displayEmail" class="accent-text">peacestreet@hotmail.com</span></p>
+            </div>
+            <button class="bg-orange-600 hover:bg-orange-700 px-6 py-2 rounded-lg font-bold transition" onclick="refreshData()">
+                <i class="fas fa-sync-alt mr-2"></i> ACTUALISER
+            </button>
         </div>
 
-        <div id="dashboardContent" style="display: none;">
-            <!-- Stats -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-                <div class="stat-card">
-                    <h4>Total Syncs</h4>
-                    <div class="value" id="totalSyncs">0</div>
-                </div>
-                <div class="stat-card">
-                    <h4>User Account</h4>
-                    <div class="text-sm mt-2 text-gray-400" id="displayEmail">--</div>
-                </div>
-                <div class="stat-card">
-                    <h4>Latest Marketplace</h4>
-                    <div class="value" id="topMarket">--</div>
-                </div>
-                <div class="stat-card flex items-center">
-                    <button class="bg-orange-600 hover:bg-orange-700 w-full py-3 rounded-lg font-bold" onclick="loadDashboardData()">
-                        <i class="fas fa-sync"></i> REFRESH
-                    </button>
-                </div>
+        <!-- Chiffres clés -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="stat-card">
+                <h4 class="text-gray-400 text-xs uppercase">Total Synchronisations</h4>
+                <div class="value" id="totalSyncs">0</div>
             </div>
+            <div class="stat-card">
+                <h4 class="text-gray-400 text-xs uppercase">Dernier Marché</h4>
+                <div class="value" id="lastMarket">--</div>
+            </div>
+            <div class="stat-card">
+                <h4 class="text-gray-400 text-xs uppercase">Statut Serveur</h4>
+                <div class="text-xl font-bold text-green-500 mt-2"><i class="fas fa-check-circle"></i> Connecté</div>
+            </div>
+        </div>
 
-            <!-- Charts -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                <div class="stat-card h-80">
-                    <h3 class="text-sm font-bold uppercase text-gray-500 mb-4">Sync Activity</h3>
-                    <canvas id="revenueChart"></canvas>
-                </div>
-                <div class="stat-card h-80 overflow-y-auto">
-                    <h3 class="text-sm font-bold uppercase text-gray-500 mb-4">Recent Reports</h3>
-                    <div id="reportsList" class="space-y-2"></div>
+        <!-- Graphique et Liste -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div class="lg:col-span-2 stat-card h-96">
+                <h3 class="text-sm font-bold uppercase text-gray-500 mb-6">Activité de synchro</h3>
+                <canvas id="syncChart"></canvas>
+            </div>
+            <div class="stat-card h-96 flex flex-col">
+                <h3 class="text-sm font-bold uppercase text-gray-500 mb-6">Historique des rapports</h3>
+                <div id="reportsList" class="space-y-3 overflow-y-auto flex-1">
+                    <p class="text-gray-500 text-center mt-10">Aucune donnée trouvée.</p>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
-    <!-- Configuration Supabase -->
     <script>
-        const SUPABASE_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q'; // <-- LIGNE 666 : COLLE TA CLÉ ICI
-
-        const { createClient } = window.supabase;
-        const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        // CONFIGURATION SUPABASE (TA CLÉ EST ICI)
+        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
         
-        let revenueChart;
-        // ON UTILISE L'EMAIL QUI ENVOIE LES DONNÉES
-        let currentUser = { email: 'peacestreet@hotmail.com' };
+        const supabase = window.supabase.createClient(SB_URL, SB_KEY);
+        const userEmail = 'peacestreet@hotmail.com';
+        let chart = null;
 
-        async function loadDashboardData() {
+        async function refreshData() {
             try {
-                console.log("Fetching reports for:", currentUser.email);
-                
-                // On interroge la table KDP_REPORTS (celle qui contient tes données !)
-                const { data, error } = await supabaseClient
+                const { data, error } = await supabase
                     .from('kdp_reports')
                     .select('*')
-                    .eq('user_email', currentUser.email)
+                    .eq('user_email', userEmail)
                     .order('created_at', { ascending: false });
 
                 if (error) throw error;
 
-                // UI Updates
-                document.getElementById('loadingState').style.display = 'none';
-                document.getElementById('dashboardContent').style.display = 'block';
-                document.getElementById('displayEmail').textContent = currentUser.email;
+                // 1. Mise à jour des nombres
                 document.getElementById('totalSyncs').textContent = data.length;
-
+                
                 if (data.length > 0) {
-                    document.getElementById('topMarket').textContent = data[0].payload?.marketplace || 'US';
+                    document.getElementById('lastMarket').textContent = data[0].payload?.marketplace || 'US';
                     
-                    // Liste des rapports
+                    // 2. Mise à jour de la liste
                     const list = document.getElementById('reportsList');
                     list.innerHTML = '';
-                    data.slice(0, 10).forEach(r => {
+                    data.slice(0, 15).forEach(r => {
                         list.innerHTML += `
-                            <div class="p-3 bg-black/20 rounded border-l-4 border-orange-500 text-xs">
-                                <strong>${new Date(r.created_at).toLocaleString()}</strong> - 
-                                Market: ${r.payload?.marketplace || 'US'}
+                            <div class="p-3 bg-black/30 rounded border-l-4 border-orange-500 text-xs">
+                                <strong>${new Date(r.created_at).toLocaleString()}</strong><br>
+                                <span class="text-gray-400">Marché : ${r.payload?.marketplace || 'US'}</span>
                             </div>`;
                     });
 
+                    // 3. Mise à jour du graphique
                     updateChart(data);
                 }
-
-            } catch (error) {
-                console.error('Error:', error);
-                alert("Supabase Error: " + error.message);
+            } catch (err) {
+                console.error("Erreur lecture:", err.message);
+                alert("Erreur de lecture Supabase : " + err.message);
             }
         }
 
         function updateChart(data) {
-            const ctx = document.getElementById('revenueChart').getContext('2d');
+            const ctx = document.getElementById('syncChart').getContext('2d');
             const recent = data.slice(0, 10).reverse();
-            const labels = recent.map(r => new Date(r.created_at).toLocaleTimeString());
+            const labels = recent.map(r => new Date(r.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}));
             const values = recent.map((_, i) => i + 1);
 
-            if (revenueChart) revenueChart.destroy();
-            revenueChart = new Chart(ctx, {
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Sync count',
                         data: values,
                         borderColor: '#f97316',
                         backgroundColor: 'rgba(249, 115, 22, 0.1)',
@@ -164,11 +144,12 @@
                         tension: 0.4
                     }]
                 },
-                options: { responsive: true, maintainAspectRatio: false }
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', loadDashboardData);
+        // Charger au démarrage
+        window.onload = refreshData;
     </script>
 </body>
 </html>
