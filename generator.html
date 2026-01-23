@@ -5034,7 +5034,7 @@ const getScoreClass = (score) => {
                                 exportCtx.fillRect(bleedMargin + frontWidth, 0, spineWidth, exportHeight);
                             }
 
-                            const finalizeExport = () => {
+                            const finalizeExport = async () => {
                                 if (spineText && spineWidth > 40 && dimensions.spine > 1.5) {
                                     exportCtx.save();
                                     exportCtx.translate(bleedMargin + frontWidth + spineWidth / 2, exportHeight / 2);
@@ -5209,7 +5209,7 @@ const getScoreClass = (score) => {
                                 // 🔒 KDP STRICT - Nom de fichier avec tous les paramètres
                                 const baseFilename = `couverture-kdp-${userLevel}-${format}-${pageCount}pages-${actualDPI}dpi-${bindingType}-${paperType}-${hasBleed ? 'bleed' : 'nobleed'}`;
 
-                                if (exportFormat === 'pdf') {
+                          if (exportFormat === 'pdf') {
                                     try {
                                         // 🔒 KDP STRICT - Validation bloquante
                                         validateKdpStrict({
@@ -5240,27 +5240,47 @@ const getScoreClass = (score) => {
                                             compress: true
                                         });
 
-                                        // Image placée exactement à la taille de page
-                                        const imgData = exportCanvas.toDataURL('image/png', 1.0);
-                                        pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
+                                        // ✅ Évite toDataURL (très lourd) : on passe le canvas directement si possible
+                                        if (window.GKDPExportHelpers && typeof window.GKDPExportHelpers.safeSavePdf === 'function') {
+                                            window.GKDPExportHelpers.safeSavePdf(pdf, exportCanvas, Wpt, Hpt, baseFilename);
+                                        } else {
+                                            try {
+                                                pdf.addImage(exportCanvas, 'PNG', 0, 0, Wpt, Hpt);
+                                            } catch (e) {
+                                                const imgData = exportCanvas.toDataURL('image/png', 1.0);
+                                                pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
+                                            }
+                                            pdf.save(`${baseFilename}.pdf`);
+                                        }
 
                                         console.log(`🔒 [KDP STRICT] Export PDF: ${Wpt.toFixed(2)}pt × ${Hpt.toFixed(2)}pt (${(Wpt/72).toFixed(3)}" × ${(Hpt/72).toFixed(3)}")`);
 
-                                        pdf.save(`${baseFilename}.pdf`);
                                     } catch (err) {
                                         alert(err.message);
                                         setIsExporting(false);
                                         return;
                                     }
                                 } else {
-                                    const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
-                                    const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
-                                    const link = document.createElement('a');
-                                    link.download = filename;
-                                    link.href = exportCanvas.toDataURL(mimeType, 0.95);
-                                    link.click();
-                                }
-                                alert(t('disclaimerExport'));
+                                    // ✅ PNG/JPEG sans toDataURL : Worker (si dispo) + fallback toBlob
+                                    if (window.GKDPExportHelpers && typeof window.GKDPExportHelpers.downloadCanvasAsImage === 'function') {
+                                        await window.GKDPExportHelpers.downloadCanvasAsImage(exportCanvas, exportFormat, baseFilename);
+                                    } else {
+                                        const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+                                        const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
+                                        await new Promise((resolve, reject) => {
+                                            exportCanvas.toBlob((blob) => {
+                                                if (!blob) return reject(new Error('Blob vide'));
+                                                const url = URL.createObjectURL(blob);
+                                                const link = document.createElement('a');
+                                                link.download = filename;
+                                                link.href = url;
+                                                link.click();
+                                                setTimeout(() => URL.revokeObjectURL(url), 1500);
+                                                resolve();
+                                            }, mimeType, 0.95);
+                                        });
+                                    }
+                                }      alert(t('disclaimerExport'));
 
 showFeedbackPrompt(document.documentElement.lang || 'en'); // feedback
 
@@ -9281,7 +9301,108 @@ function getStored() {
         }
         
         book = new THREE.Mesh(geometry, materials);
-        book.castShadow = true;
+        book.castShadow = true
+<script>
+/**
+ * GKDP Export Helpers
+ * - Supprime les toDataURL lourds (base64)
+ * - Encode PNG/JPEG via Web Worker si possible (OffscreenCanvas)
+ * - Fallback robuste si Worker/OffscreenCanvas indisponible
+ */
+(function() {
+  'use strict';
+
+  // Init Worker (si supporté)
+  let worker = null;
+  try {
+    // IMPORTANT: placez le worker à cet emplacement dans votre projet:
+    // /js/export-encode.worker.js
+    worker = new Worker('js/export-encode.worker.js');
+  } catch (e) {
+    worker = null;
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.download = filename;
+    a.href = url;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1500);
+  }
+
+  async function downloadViaWorker(canvas, mimeType, quality, filename) {
+    if (!worker) throw new Error('Worker not available');
+    if (typeof OffscreenCanvas === 'undefined') throw new Error('OffscreenCanvas not supported');
+    if (typeof createImageBitmap !== 'function') throw new Error('createImageBitmap not supported');
+
+    const bitmap = await createImageBitmap(canvas);
+
+    const blob = await new Promise((resolve, reject) => {
+      const onMsg = (evt) => {
+        const msg = evt.data || {};
+        worker.removeEventListener('message', onMsg);
+        if (!msg.ok) return reject(new Error(msg.error || 'Worker export failed'));
+        resolve(msg.blob);
+      };
+      worker.addEventListener('message', onMsg);
+
+      // ImageBitmap est transférable: on libère de la mémoire côté UI
+      worker.postMessage({ bitmap, mimeType, quality, filename }, [bitmap]);
+    });
+
+    downloadBlob(blob, filename);
+  }
+
+  async function downloadCanvasAsImage(canvas, exportFormat, baseFilename) {
+    const mimeType = exportFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+    const filename = `${baseFilename}.${exportFormat === 'jpeg' ? 'jpg' : 'png'}`;
+    const quality = 0.95;
+
+    // 1) Worker (si dispo) — UI non bloquée
+    if (worker) {
+      try {
+        await downloadViaWorker(canvas, mimeType, quality, filename);
+        return;
+      } catch (e) {
+        console.warn('[EXPORT] Worker failed → fallback to toBlob', e);
+      }
+    }
+
+    // 2) Fallback standard (toBlob) — beaucoup mieux que toDataURL
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob((b) => {
+        if (!b) return reject(new Error('Blob vide'));
+        resolve(b);
+      }, mimeType, quality);
+    });
+
+    downloadBlob(blob, filename);
+  }
+
+  function safeSavePdf(pdf, canvas, Wpt, Hpt, baseFilename) {
+    try {
+      // jsPDF accepte souvent directement un HTMLCanvasElement
+      pdf.addImage(canvas, 'PNG', 0, 0, Wpt, Hpt);
+      pdf.save(`${baseFilename}.pdf`);
+      return;
+    } catch (e) {
+      console.warn('[EXPORT][PDF] addImage(canvas) failed → fallback toDataURL', e);
+    }
+
+    // Fallback ultime (garde compatibilité même si plus lent)
+    const imgData = canvas.toDataURL('image/png', 1.0);
+    pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
+    pdf.save(`${baseFilename}.pdf`);
+  }
+
+  window.GKDPExportHelpers = {
+    downloadCanvasAsImage,
+    safeSavePdf
+  };
+})();
+</script>
+;
         book.receiveShadow = true;
         scene.add(book);
     }
