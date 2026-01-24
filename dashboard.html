@@ -1,106 +1,413 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <title>KDP Annual Tracker</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>body { background:#0f172a; color:white; font-family: 'Segoe UI', sans-serif; }</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard - GabaritKDP Tracker</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root{
+      --bg-dark:#121212;
+      --card-bg:#2d2d2d;
+      --accent-orange:#f97316;
+      --text-main:#ffffff;
+      --text-dim:#b3b3b3;
+      --border:#3e3e3e;
+    }
+    body{
+      font-family:'Segoe UI',sans-serif;
+      background:var(--bg-dark);
+      color:var(--text-main);
+      margin:0;
+    }
+    .dashboard-container{max-width:1400px;margin:0 auto;padding:20px;}
+
+    /* Header Navigation (reprise) */
+    .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:0}
+    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff}
+    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+    .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:25px;flex-wrap:wrap;margin-top:10px}
+    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;position:relative;display:flex;align-items:center;gap:6px;font-size:.95rem}
+    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
+    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+    .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important;border-radius:8px!important;padding:10px 14px!important}
+    .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important;transform:translateY(-2px)!important;box-shadow:0 4px 15px rgba(16,185,129,.4)!important}
+    .express-nav-btn::before{content:"⚡";margin-right:4px}
+
+    /* Banner */
+    .extension-banner{
+      background:rgba(249,115,22,.06);
+      border:1px solid var(--accent-orange);
+      border-radius:10px;padding:15px 25px;
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;
+    }
+    .btn-sync{background:var(--accent-orange);color:#fff;border:none;padding:10px 18px;border-radius:8px;cursor:pointer;font-weight:800}
+    .btn-sync:hover{background:#ea580c}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      background:#111827;border:1px solid #334155;border-radius:999px;
+      padding:8px 12px;color:#e5e7eb;font-size:.9rem;
+    }
+
+    /* Cards */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:15px;margin-bottom:18px}
+    .stat-card{background:var(--card-bg);padding:20px;border-radius:12px;border:1px solid var(--border)}
+    .stat-card h4{margin:0;font-size:.78rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.08em}
+    .stat-card .value{font-size:1.9rem;font-weight:900;margin-top:10px;color:var(--accent-orange)}
+    .stat-card .sub{margin-top:8px;font-size:.85rem;color:var(--text-dim)}
+
+    /* Charts */
+    .charts-row{display:grid;grid-template-columns:1.6fr 1fr;gap:15px;margin-bottom:18px}
+    .chart-container{background:var(--card-bg);padding:18px;border-radius:12px;border:1px solid var(--border);height:340px}
+
+    /* Table */
+    .table-card{background:var(--card-bg);padding:18px;border-radius:12px;border:1px solid var(--border);margin-bottom:18px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px 8px;border-bottom:1px solid rgba(255,255,255,.08);font-size:.92rem}
+    th{color:var(--text-dim);text-transform:uppercase;font-size:.75rem;letter-spacing:.08em;text-align:left}
+    td{color:#e5e7eb}
+    .muted{color:var(--text-dim)}
+    .loading{display:none;text-align:center;padding:40px}
+    .loading.active{display:block}
+  </style>
 </head>
-<body class="p-6 md:p-12">
-    <div class="max-w-7xl mx-auto">
-        <header class="flex justify-between items-center mb-10">
-            <div>
-                <h1 class="text-3xl font-bold text-emerald-400 italic">KDP <span class="text-white">Master</span></h1>
-                <p class="text-slate-400 text-sm mt-1">Vue sur 12 mois glissants</p>
-            </div>
-            <div class="text-right">
-                <p id="lastSync" class="text-xs text-emerald-600 font-mono mb-2">--</p>
-                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold transition">
-                    ACTUALISER
-                </button>
-            </div>
-        </header>
 
-        <!-- KPI GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties (1 An)</p>
-                <p id="royaltiesAmt" class="text-6xl font-extrabold text-emerald-400 mt-4">0.00 €</p>
-            </div>
+<body>
+  <!-- Navigation Header -->
+  <header class="header-nav">
+    <div class="nav-container">
+      <a href="./index.html" class="logo-nav">
+        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo" style="height: 32px;">
+        <span>GabaritKDP</span>
+      </a>
+      <nav class="nav-links">
+        <a href="./index.html">🏠 Home</a>
+        <a href="./dashboard.html" class="active">📊 Dashboard</a>
+        <a href="./generator.html" class="express-nav-btn">Express Generator</a>
+        <a href="./generator-magic.html">Magic Generator</a>
+        <a href="./marketplace.html">Marketplace</a>
+        <a href="./inscription.html">📝 Sign Up</a>
+        <a href="./connexion.html">🔓 Login</a>
+      </nav>
+    </div>
+  </header>
 
-            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Livres Vendus</p>
-                <p id="unitsAmt" class="text-6xl font-extrabold text-white mt-4">0</p>
-            </div>
+  <div class="dashboard-container">
 
-            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">KENP Lus</p>
-                <p id="kenpAmt" class="text-6xl font-extrabold text-blue-400 mt-4">0</p>
-            </div>
-        </div>
-
-        <!-- GRAPHIQUE -->
-        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl mb-8">
-            <h2 class="text-lg font-bold mb-6 text-slate-300">Top Livres (Best Sellers)</h2>
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="text-xs uppercase text-slate-500 border-b border-slate-700">
-                        <tr><th class="py-3">Titre</th><th class="py-3 text-right">Ventes</th><th class="py-3 text-right">Royalties</th></tr>
-                    </thead>
-                    <tbody id="booksTable" class="text-sm divide-y divide-slate-700"></tbody>
-                </table>
-            </div>
-        </div>
+    <div class="loading active" id="loadingState">
+      <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--accent-orange);"></i>
+      <p style="margin-top: 18px; color: var(--text-dim);">Chargement du dashboard…</p>
     </div>
 
-    <script>
-        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
-        const sb = window.supabase.createClient(SB_URL, SB_KEY);
+    <div id="dashboardContent" style="display:none;">
 
-        async function loadData() {
-            const { data } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
+      <!-- Banner -->
+      <div class="extension-banner">
+        <div style="display:flex; align-items:center; gap:15px;">
+          <div style="background:var(--accent-orange); padding:10px; border-radius:8px;">
+            <i class="fas fa-plug"></i>
+          </div>
+          <div>
+            <strong>GabaritKDP Tracker</strong><br>
+            <small class="muted" id="lastSync">Dernière synchro : --</small>
+          </div>
+        </div>
 
-            if (!data || data.length === 0) return;
-            const report = data[0];
-            const json = report.payload;
-            
-            // Date
-            const date = new Date(report.created_at);
-            document.getElementById('lastSync').innerText = `Synchro : ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+          <span class="pill"><i class="fa-regular fa-envelope"></i> <span id="userEmailPill">--</span></span>
+          <button class="btn-sync" id="btnRefresh">
+            <i class="fas fa-sync"></i> ACTUALISER
+          </button>
+        </div>
+      </div>
 
-            // Chiffres Clés (Format API "past12months")
-            // Note: L'API renvoie souvent des tableaux "data"
-            
-            let totalMoney = json.totalRoyalty || 0;
-            let totalUnits = json.totalUnits || 0;
-            let totalKenp = json.totalKenp || 0;
+      <!-- KPI Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h4>Royalties (mois en cours)</h4>
+          <div class="value" id="mtdRoyalties">0.00</div>
+          <div class="sub muted" id="mtdCurrency">Devise : --</div>
+        </div>
 
-            document.getElementById('royaltiesAmt').innerText = parseFloat(totalMoney).toFixed(2) + " €";
-            document.getElementById('unitsAmt').innerText = totalUnits;
-            document.getElementById('kenpAmt').innerText = totalKenp;
+        <div class="stat-card">
+          <h4>Unités (mois en cours)</h4>
+          <div class="value" id="mtdUnits">0</div>
+          <div class="sub muted"><span id="mtdPrint">0</span> print • <span id="mtdDigital">0</span> digital</div>
+        </div>
 
-            // Tableau des livres
-            const tbody = document.getElementById('booksTable');
-            tbody.innerHTML = '';
-            
-            // L'API renvoie parfois une liste dans "entries" ou "data"
-            const books = json.entries || json.data || [];
-            
-            // On prend les 5 premiers
-            books.slice(0, 10).forEach(book => {
-                tbody.innerHTML += `
-                    <tr class="hover:bg-slate-700/30">
-                        <td class="py-3 font-medium text-slate-300">${book.title || 'Inconnu'}</td>
-                        <td class="py-3 text-right font-bold">${book.units || 0}</td>
-                        <td class="py-3 text-right text-emerald-400 font-bold">${parseFloat(book.royalty || 0).toFixed(2)} €</td>
-                    </tr>
-                `;
-            });
+        <div class="stat-card">
+          <h4>KENP lus (mois en cours)</h4>
+          <div class="value" id="mtdKenp">0</div>
+          <div class="sub muted">Pages KENP</div>
+        </div>
+
+        <div class="stat-card">
+          <h4>Statut</h4>
+          <div class="value" id="statusLabel">OK</div>
+          <div class="sub muted" id="statusHint">Données chargées depuis kdp_metrics_daily</div>
+        </div>
+      </div>
+
+      <!-- Charts -->
+      <div class="charts-row">
+        <div class="chart-container">
+          <h3 style="margin:0 0 10px 0; font-size:0.95rem;">
+            <i class="fas fa-chart-line"></i> 30 derniers jours — Royalties
+          </h3>
+          <canvas id="revenueChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+          <h3 style="margin:0 0 10px 0; font-size:0.95rem;">
+            <i class="fas fa-chart-bar"></i> 30 derniers jours — Unités
+          </h3>
+          <canvas id="unitsChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="table-card">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; flex-wrap:wrap;">
+          <h3 style="margin:0; font-size:0.95rem;">
+            <i class="fas fa-table"></i> Derniers enregistrements (debug)
+          </h3>
+          <span class="muted" id="rowCount">--</span>
+        </div>
+
+        <div style="overflow:auto; margin-top:10px;">
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Devise</th>
+                <th>Royalties</th>
+                <th>KENP</th>
+                <th>Print</th>
+                <th>Digital</th>
+                <th>Source report</th>
+              </tr>
+            </thead>
+            <tbody id="metricsTbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="muted" style="text-align:center; padding: 10px 0;">
+        Conseil : si une journée est à 0, cela peut simplement signifier “aucune vente” au moment du run.
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    // ========= CONFIG =========
+    const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_HGEXYCHK0H3JzKEluWy2GQ_tdmb8UWg';
+
+    const { createClient } = window.supabase;
+    const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // ✅ Phase MVP : on lit par user_email.
+    // 1) si l'utilisateur est connecté via Supabase Auth -> on prend session.user.email
+    // 2) sinon, fallback localStorage "kdp_email"
+    // 3) sinon, fallback hardcoded (temp)
+    const FALLBACK_EMAIL = "peacestreet@hotmail.com";
+
+    let revenueChart, unitsChart;
+
+    function fmtMoney(n) {
+      const x = Number(n ?? 0);
+      return x.toFixed(2);
+    }
+
+    function fmtInt(n) {
+      return Number(n ?? 0).toLocaleString("fr-FR");
+    }
+
+    function startOfMonthISO() {
+      const d = new Date();
+      const first = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), 1));
+      return first.toISOString().slice(0, 10); // YYYY-MM-DD
+    }
+
+    function lastNDaysISO(n = 30) {
+      const d = new Date();
+      const past = new Date(d.getTime() - (n - 1) * 24 * 60 * 60 * 1000);
+      return past.toISOString().slice(0, 10);
+    }
+
+    async function getCurrentEmail() {
+      try {
+        const { data } = await sb.auth.getSession();
+        const email = data?.session?.user?.email;
+        if (email) return email;
+      } catch (_) {}
+
+      const ls = localStorage.getItem("kdp_email");
+      if (ls && ls.includes("@")) return ls;
+
+      return FALLBACK_EMAIL;
+    }
+
+    async function loadDashboard() {
+      const email = await getCurrentEmail();
+      document.getElementById("userEmailPill").textContent = email;
+
+      // 1) Dernier snapshot (pour le Last sync + MTD KPI)
+      const { data: latestRows, error: latestErr } = await sb
+        .from("kdp_metrics_daily")
+        .select("metric_date,currency,royalties,kenp_read,print_orders,digital_orders,vvab_orders,source_report_id,updated_at,created_at")
+        .eq("user_email", email)
+        .order("metric_date", { ascending: false })
+        .limit(1);
+
+      if (latestErr) {
+        document.getElementById("statusLabel").textContent = "Erreur";
+        document.getElementById("statusHint").textContent = latestErr.message || "Erreur lecture Supabase";
+        return;
+      }
+
+      const latest = (latestRows && latestRows[0]) ? latestRows[0] : null;
+
+      // 2) MTD aggregation (mois en cours) — somme des snapshots (simple) :
+      //    Si tu veux du “delta journalier”, on le fera ensuite. Là on affiche le dernier snapshot du mois.
+      //    -> Ici on utilise "latest" comme MTD.
+      if (latest) {
+        const units = (latest.print_orders || 0) + (latest.digital_orders || 0);
+
+        document.getElementById("mtdRoyalties").textContent = fmtMoney(latest.royalties);
+        document.getElementById("mtdCurrency").textContent = "Devise : " + (latest.currency || "--");
+        document.getElementById("mtdKenp").textContent = fmtInt(latest.kenp_read);
+        document.getElementById("mtdUnits").textContent = fmtInt(units);
+        document.getElementById("mtdPrint").textContent = fmtInt(latest.print_orders);
+        document.getElementById("mtdDigital").textContent = fmtInt(latest.digital_orders);
+
+        const dt = new Date(latest.created_at || latest.updated_at || Date.now());
+        document.getElementById("lastSync").textContent = "Dernière synchro : " + dt.toLocaleString("fr-FR");
+        document.getElementById("statusLabel").textContent = "OK";
+        document.getElementById("statusHint").textContent = "Dernier snapshot du mois en cours";
+      } else {
+        document.getElementById("statusLabel").textContent = "Vide";
+        document.getElementById("statusHint").textContent = "Aucune donnée encore. Lance une synchro.";
+        document.getElementById("lastSync").textContent = "Dernière synchro : jamais";
+      }
+
+      // 3) 30 derniers jours (pour charts + table)
+      const fromDate = lastNDaysISO(30);
+      const { data: rows, error: rowsErr } = await sb
+        .from("kdp_metrics_daily")
+        .select("metric_date,currency,royalties,kenp_read,print_orders,digital_orders,source_report_id")
+        .eq("user_email", email)
+        .gte("metric_date", fromDate)
+        .order("metric_date", { ascending: true });
+
+      if (rowsErr) {
+        document.getElementById("statusLabel").textContent = "Erreur";
+        document.getElementById("statusHint").textContent = rowsErr.message || "Erreur lecture metrics";
+        return;
+      }
+
+      const safeRows = rows || [];
+      document.getElementById("rowCount").textContent = `${safeRows.length} ligne(s) — période: ${fromDate} → aujourd'hui`;
+
+      // Table
+      const tbody = document.getElementById("metricsTbody");
+      tbody.innerHTML = "";
+      safeRows.slice().reverse().forEach(r => {
+        const units = (r.print_orders || 0) + (r.digital_orders || 0);
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${r.metric_date}</td>
+          <td class="muted">${r.currency || "--"}</td>
+          <td>${fmtMoney(r.royalties)}</td>
+          <td>${fmtInt(r.kenp_read)}</td>
+          <td>${fmtInt(r.print_orders)}</td>
+          <td>${fmtInt(r.digital_orders)}</td>
+          <td class="muted" style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size:.82rem;">
+            ${(r.source_report_id || "--").toString().slice(0, 8)}…
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Charts
+      const labels = safeRows.map(r => r.metric_date.slice(5)); // MM-DD
+      const revenueData = safeRows.map(r => Number(r.royalties || 0));
+      const unitsData = safeRows.map(r => Number((r.print_orders || 0) + (r.digital_orders || 0)));
+
+      const commonOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(255,255,255,.06)" } },
+          y: { ticks: { color: "#cbd5e1" }, grid: { color: "rgba(255,255,255,.06)" } }
         }
-        loadData();
-    </script>
+      };
+
+      if (revenueChart) revenueChart.destroy();
+      revenueChart = new Chart(document.getElementById("revenueChart"), {
+        type: "line",
+        data: {
+          labels: labels.length ? labels : ["--"],
+          datasets: [{
+            data: revenueData.length ? revenueData : [0],
+            borderColor: "#f97316",
+            backgroundColor: "rgba(249,115,22,.18)",
+            fill: true,
+            tension: 0.35,
+          }]
+        },
+        options: commonOptions
+      });
+
+      if (unitsChart) unitsChart.destroy();
+      unitsChart = new Chart(document.getElementById("unitsChart"), {
+        type: "bar",
+        data: {
+          labels: labels.length ? labels : ["--"],
+          datasets: [{
+            data: unitsData.length ? unitsData : [0],
+            backgroundColor: "rgba(59,130,246,.55)"
+          }]
+        },
+        options: commonOptions
+      });
+    }
+
+    async function init() {
+      // UI
+      document.getElementById("btnRefresh").addEventListener("click", async () => {
+        document.getElementById("btnRefresh").disabled = true;
+        document.getElementById("btnRefresh").innerHTML = '<i class="fas fa-spinner fa-spin"></i> CHARGEMENT...';
+        try { await loadDashboard(); }
+        finally {
+          document.getElementById("btnRefresh").disabled = false;
+          document.getElementById("btnRefresh").innerHTML = '<i class="fas fa-sync"></i> ACTUALISER';
+        }
+      });
+
+      // load
+      await loadDashboard();
+
+      document.getElementById("loadingState").classList.remove("active");
+      document.getElementById("dashboardContent").style.display = "block";
+    }
+
+    document.addEventListener("DOMContentLoaded", init);
+  </script>
 </body>
 </html>
