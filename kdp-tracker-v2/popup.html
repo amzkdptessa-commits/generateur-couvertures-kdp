@@ -1,41 +1,51 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GabaritKDP Tracker</title>
   <style>
-    body { width: 350px; font-family: sans-serif; background: #1a1a1a; color: white; padding: 20px; }
-    .header { text-align: center; border-bottom: 2px solid #FF9900; margin-bottom: 15px; padding-bottom: 10px; }
-    h1 { font-size: 18px; color: #FF9900; }
-    .form-group { margin-bottom: 10px; }
-    input { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 5px; }
-    button { width: 100%; padding: 12px; background: #FF9900; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-    #status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 15px; }
-    .instructions { font-size: 11px; background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px; margin-top: 15px; color: #ccc; }
+    body{margin:0;background:#111;color:#fff;font-family:Segoe UI,Arial,sans-serif;width:360px}
+    .wrap{padding:16px}
+    .title{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+    .logo{width:34px;height:34px;border-radius:8px;background:#222;display:flex;align-items:center;justify-content:center}
+    .logo span{font-size:18px}
+    h1{font-size:20px;margin:0;color:#ff9900}
+    .status{margin:10px 0 14px;padding:10px;border-radius:10px;border:1px solid #333;background:#0f0f0f;color:#ff4c4c}
+    .field{width:100%;box-sizing:border-box;margin:10px 0;padding:12px;border-radius:10px;border:1px solid #333;background:#151515;color:#fff}
+    .btn{width:100%;padding:12px;border-radius:10px;border:none;background:#ff9900;color:#111;font-weight:800;cursor:pointer}
+    .btn:hover{background:#ffa726}
+    .help{margin-top:12px;background:#181818;border:1px solid #333;border-radius:10px;padding:10px;color:#d6d6d6;font-size:13px;line-height:1.35}
+    .small{opacity:.85;font-size:12px}
+    .ok{color:#4cff4c}
+    .warn{color:#ffcc00}
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>📊 GabaritKDP Tracker</h1>
-    <div id="status">Prêt</div>
+  <div class="wrap">
+    <div class="title">
+      <div class="logo"><span>📊</span></div>
+      <h1>GabaritKDP Tracker</h1>
+    </div>
+
+    <div id="status" class="status">
+      <span class="warn">⏳</span> Prêt. Clique sur “Synchronize with KDP”.
+    </div>
+
+    <form id="loginForm">
+      <input id="email" class="field" type="email" placeholder="Email (compte Tracker)" value="peacestreet@hotmail.com" required />
+      <input id="password" class="field" type="password" placeholder="Mot de passe (optionnel)" />
+      <button id="btnSync" class="btn" type="submit">🔗 Synchronize with KDP</button>
+    </form>
+
+    <div class="help">
+      <b>Comment ça marche ?</b><br>
+      1. Clique sur le bouton<br>
+      2. Si KDP Reports n’est pas ouvert, l’extension l’ouvre automatiquement<br>
+      3. Elle récupère les données et les envoie au backend<br><br>
+      <span class="small">Note : l’email ici sert à identifier tes données dans l’app, ce n’est pas l’ID KDP Amazon.</span>
+    </div>
   </div>
-
-  <form id="loginForm">
-    <div class="form-group">
-      <input type="email" id="email" placeholder="Email GabaritKDP" required value="peacestreet@hotmail.com">
-    </div>
-    <div class="form-group">
-      <input type="password" id="password" placeholder="Mot de passe" required>
-    </div>
-    <button type="submit">🔗 Synchronize with KDP</button>
-  </form>
-
-  <div class="instructions">
-  <b>Comment ça marche ?</b><br>
-  1. Clique sur le bouton<br>
-  2. Si KDP Reports n'est pas ouvert, l'extension l'ouvre automatiquement<br>
-  3. Elle envoie ensuite les données au backend.
-</div>
-
 
   <script src="popup.js"></script>
 </body>
