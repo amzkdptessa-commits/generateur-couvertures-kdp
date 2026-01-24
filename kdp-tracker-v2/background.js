@@ -1,85 +1,171 @@
-// background.js - Service Worker V3 (Version "Aspirateur")
-console.log('🚀 GabaritKDP Service Worker Démarré');
+// background.js - MV3 service worker (module)
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === 'getCookies') {
-    captureAllCookies()
-      .then(cookies => {
-        console.log(`📤 Envoi de ${cookies.length} cookies à la popup`);
-        sendResponse({ success: true, cookies: cookies });
-      })
-      .catch(error => {
-        console.error('❌ Erreur:', error);
-        sendResponse({ success: false, error: error.message });
-      });
-    return true; // Important pour l'asynchrone
-  }
-});
+/** URLs KDP Reports (les plus stables pour un MVP)
+ * NOTE: Amazon peut changer ces endpoints. L'idée ici est: commencer par month_current + pmr.
+ */
+function buildKdpEndpoints() {
+  const now = new Date();
+  // format YYYY-MM-DDT00:00:00Z (comme tes logs)
+  const yyyy = now.getUTCFullYear();
+  const mm = String(now.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(now.getUTCDate()).padStart(2, "0");
+  const dateZ = `${yyyy}-${mm}-${dd}T00:00:00Z`;
+  const dateEnc = encodeURIComponent(dateZ);
 
-async function captureAllCookies() {
-  console.log('🍪 Démarrage de la capture multi-domaines...');
+  const base = "https://kdpreports.amazon.com";
 
-  // Liste de toutes les URLs possibles où des cookies de session peuvent se cacher
-  const targetUrls = [
-    'https://kdpreports.amazon.com',
-    'https://www.amazon.fr',
-    'https://www.amazon.com',
-    'https://www.amazon.co.uk',
-    'https://www.amazon.de',
-    'https://www.amazon.ca',
-    'https://www.amazon.com.au'
+  // Month current (dashboard)
+  const month_current = [
+    `${base}/metadata/customer/accountInfo`,
+    `${base}/api/v2/reports/customerPreferences`,
+    `${base}/api/v2/reports/reportingViewPreferences`,
+    `${base}/reports/dashboard/overview?date=${dateEnc}&viewOption=YESTERDAY`,
+    `${base}/reports/dashboard/marketplaceDistributionOverview?date=${dateEnc}`,
+    `${base}/reports/dashboard/formatDistributionOverview?date=${dateEnc}`,
+    `${base}/reports/dashboard/topEarningTitles?date=${dateEnc}&viewOption=TODAY`,
+    `${base}/reports/dashboard/histogramOverview/ORDERS?date=${dateEnc}`,
   ];
 
-  let allCookies = [];
+  // PMR / MTD (ex: KENP + DIGITAL) - endpoints que tu vois déjà dans tes logs
+  const pmr = [
+    `${base}/reports/mtd/KENP`,
+    `${base}/reports/mtd/DIGITAL`,
+  ];
 
-  // On boucle sur chaque domaine pour récupérer les cookies
-  for (const url of targetUrls) {
-    try {
-      const cookies = await chrome.cookies.getAll({ url: url });
-      console.log(`📍 ${url} : ${cookies.length} cookies trouvés`);
-      allCookies = [...allCookies, ...cookies];
-    } catch (e) {
-      console.warn(`Impossible de lire ${url}`, e);
-    }
-  }
-
-  // Filtrage : On ne garde que les cookies importants
-  const kdpCookies = allCookies.filter(cookie => {
-    const name = cookie.name.toLowerCase();
-    return (
-      name.includes('session') ||
-      name.includes('ubid') ||
-      name.includes('at-') ||
-      name.includes('x-') ||
-      name === 'token' ||
-      name.includes('csrf')
-    );
-  });
-
-  // Dédoublonnage (car amazon.fr et kdpreports peuvent partager des cookies .amazon.fr)
-  const uniqueCookiesMap = new Map();
-  kdpCookies.forEach(c => {
-    // On utilise nom + domain comme clé unique
-    uniqueCookiesMap.set(c.name + c.domain, c);
-  });
-
-  const finalCookies = Array.from(uniqueCookiesMap.values());
-
-  console.log(`✅ TOTAL FINAL : ${finalCookies.length} cookies uniques prêts à l'envoi.`);
-  
-  // Debug pour vérifier si on a bien chopé la session FR
-  const hasFrSession = finalCookies.some(c => c.domain.includes('.amazon.fr') && c.name.includes('session-id'));
-  if (hasFrSession) console.log('🎉 SESSION FR DÉTECTÉE !');
-  else console.warn('⚠️ Pas de session FR détectée explicitement.');
-
-  return finalCookies;
+  return { month_current, pmr };
 }
 
-// Alarmes (nécessite la permission "alarms")
-chrome.alarms.create('autoSync', { periodInMinutes: 10 });
+/** Assure qu'un onglet KDP Reports existe et est chargé */
+async function ensureKdpTab() {
+  const urlPrefix = "https://kdpreports.amazon.com/";
+  const tabs = await chrome.tabs.query({ url: `${urlPrefix}*` });
 
-chrome.alarms.onAlarm.addListener((alarm) => {
-  if (alarm.name === 'autoSync') {
-    console.log('⏰ Auto-sync déclenché');
+  if (tabs.length) {
+    // privilégie l'onglet actif si possible
+    const active = tabs.find(t => t.active) || tabs[0];
+    await chrome.tabs.update(active.id, { active: true });
+    return active.id;
   }
+
+  const created = await chrome.tabs.create({ url: `${urlPrefix}reports/dashboard` });
+  return created.id;
+}
+
+/** Attend que l'onglet soit en status complete */
+async function waitTabComplete(tabId, timeoutMs = 30000) {
+  const start = Date.now();
+
+  while (Date.now() - start < timeoutMs) {
+    const tab = await chrome.tabs.get(tabId);
+    if (tab.status === "complete") return true;
+    await new Promise(r => setTimeout(r, 400));
+  }
+  throw new Error("Timeout: la page KDP Reports met trop longtemps à charger.");
+}
+
+async function fetchJson(url) {
+  const res = await fetch(url, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      "accept": "application/json, text/plain, */*",
+    },
+  });
+
+  // parfois Amazon renvoie HTML si pas auth → on détecte
+  const ct = res.headers.get("content-type") || "";
+  const text = await res.text();
+
+  if (!res.ok) {
+    throw new Error(`HTTP ${res.status} sur ${url}`);
+  }
+  if (!ct.includes("application/json")) {
+    // essai de parse quand même si c'est JSON sans header
+    try { return JSON.parse(text); } catch {
+      throw new Error("Réponse non-JSON (probablement non connecté).");
+    }
+  }
+  return JSON.parse(text);
+}
+
+/** Insert dans Supabase via REST */
+async function supabaseInsert({ supabaseUrl, supabaseKey, user_email, payload }) {
+  const endpoint = `${supabaseUrl.replace(/\/$/, "")}/rest/v1/kdp_reports`;
+
+  const res = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      "apikey": supabaseKey,
+      "Authorization": `Bearer ${supabaseKey}`,
+      "Content-Type": "application/json",
+      "Prefer": "return=representation"
+    },
+    body: JSON.stringify([{
+      user_email,
+      payload,
+      created_at: new Date().toISOString()
+    }])
+  });
+
+  const text = await res.text();
+  if (!res.ok) {
+    throw new Error(`Supabase insert failed (${res.status}): ${text}`);
+  }
+  // representation retourne tableau
+  try { return JSON.parse(text); } catch { return []; }
+}
+
+/** Run complet: open tab, fetch pages, push Supabase */
+async function runSync({ user_email, supabaseUrl, supabaseKey }) {
+  const tabId = await ensureKdpTab();
+  await waitTabComplete(tabId);
+
+  const endpoints = buildKdpEndpoints();
+
+  const pages = {};
+  const pageKeys = [];
+
+  // helper to capture a page set
+  async function capturePageSet(key, urls) {
+    const payloads = {};
+    for (const u of urls) {
+      try {
+        const json = await fetchJson(u);
+        payloads[u] = json;
+      } catch (e) {
+        // on log l'erreur par URL, mais on continue (résilience)
+        payloads[u] = { __error: (e?.message || String(e)) };
+      }
+    }
+    pages[key] = { kind: "network_dump", urls, payloads };
+    pageKeys.push(key);
+  }
+
+  await capturePageSet("month_current", endpoints.month_current);
+  await capturePageSet("pmr", endpoints.pmr);
+
+  const out = {
+    version: "collector-ext-v1",
+    captured_at: new Date().toISOString(),
+    pages
+  };
+
+  await supabaseInsert({
+    supabaseUrl,
+    supabaseKey,
+    user_email,
+    payload: out
+  });
+
+  return { ok: true, pageKeys };
+}
+
+chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
+  if (msg?.type !== "GKDP_SYNC") return;
+
+  runSync(msg.payload)
+    .then(r => sendResponse(r))
+    .catch(e => sendResponse({ ok: false, error: e?.message || String(e) }));
+
+  return true; // async
 });

@@ -1,136 +1,84 @@
-const API_URL = "http://127.0.0.1:3001";
+/* popup.js - MV3 */
+const els = {
+  status: document.getElementById("status"),
+  userEmail: document.getElementById("userEmail"),
+  sbUrl: document.getElementById("sbUrl"),
+  sbKey: document.getElementById("sbKey"),
+  save: document.getElementById("save"),
+  sync: document.getElementById("sync"),
+};
 
-function updateStatus(msg, isError = false) {
-  const s = document.getElementById("status");
-  s.textContent = msg;
-  s.style.color = isError ? "#ff4c4c" : "#4cff4c";
+function setStatus(kind, title, msg, hint = "") {
+  els.status.classList.remove("error", "ok");
+  if (kind === "error") els.status.classList.add("error");
+  if (kind === "ok") els.status.classList.add("ok");
+  els.status.innerHTML = `
+    <div class="title">${title}</div>
+    <div class="msg">${msg}</div>
+    ${hint ? `<div class="hint">${hint}</div>` : "" }
+  `;
 }
 
-async function sleep(ms) {
-  return new Promise((r) => setTimeout(r, ms));
+async function loadSettings() {
+  const { gkdp_user_email, gkdp_supabase_url, gkdp_supabase_key } = await chrome.storage.local.get([
+    "gkdp_user_email",
+    "gkdp_supabase_url",
+    "gkdp_supabase_key",
+  ]);
+
+  els.userEmail.value = gkdp_user_email || "";
+  els.sbUrl.value = gkdp_supabase_url || "https://bgcspojhiupcrpzlkwax.supabase.co";
+  els.sbKey.value = gkdp_supabase_key || "";
 }
 
-async function getOrOpenKdpTab() {
-  // 1) Cherche un onglet kdpreports, même non actif
-  const tabs = await chrome.tabs.query({ url: "https://kdpreports.amazon.com/*" });
-  if (tabs && tabs.length > 0) return tabs[0];
-
-  // 2) Sinon, ouvre KDP Reports
-  updateStatus("🌐 Ouverture de KDP Reports…");
-  const tab = await chrome.tabs.create({
-    url: "https://kdpreports.amazon.com/reports/dashboard",
-    active: true
-  });
-
-  // 3) Attend chargement
-  await new Promise((resolve) => {
-    const listener = (tabId, changeInfo) => {
-      if (tabId === tab.id && changeInfo.status === "complete") {
-        chrome.tabs.onUpdated.removeListener(listener);
-        resolve();
-      }
-    };
-    chrome.tabs.onUpdated.addListener(listener);
-  });
-
-  return tab;
+async function saveSettings() {
+  const payload = {
+    gkdp_user_email: (els.userEmail.value || "").trim(),
+    gkdp_supabase_url: (els.sbUrl.value || "").trim(),
+    gkdp_supabase_key: (els.sbKey.value || "").trim(),
+  };
+  await chrome.storage.local.set(payload);
+  setStatus("ok", "Sauvegardé", "Paramètres enregistrés.", "Tu peux maintenant lancer la synchronisation.");
 }
 
-async function syncKDP() {
-  const email = document.getElementById("email").value?.trim();
-  const btn = document.getElementById("btnSync");
+async function syncNow() {
+  const user_email = (els.userEmail.value || "").trim();
+  const supabaseUrl = (els.sbUrl.value || "").trim();
+  const supabaseKey = (els.sbKey.value || "").trim();
 
-  if (!email) {
-    updateStatus("❌ Email manquant.", true);
+  if (!user_email) {
+    setStatus("error", "Email manquant", "Renseigne l’email de suivi.", "Ex: amzkdptessa@gmail.com (clé de compte Tracker).");
+    return;
+  }
+  if (!supabaseUrl || !supabaseKey) {
+    setStatus("error", "Supabase incomplet", "Renseigne Supabase URL + publishable key.", "Tu peux les sauvegarder avec le bouton Sauvegarder.");
     return;
   }
 
-  btn.disabled = true;
-  btn.textContent = "⏳ Synchronisation…";
+  els.sync.disabled = true;
+  els.save.disabled = true;
 
   try {
-    updateStatus("🔄 Préparation…");
+    setStatus("", "Synchronisation…", "Ouverture/ciblage de KDP Reports puis capture des JSON…");
 
-    // Onglet KDP
-    const tab = await getOrOpenKdpTab();
-
-    // ✅ Rendre l'onglet KDP actif temporairement
-    // (permet l'injection via activeTab sans erreur de permission)
-    const [currentActive] = await chrome.tabs.query({ active: true, currentWindow: true });
-    const previousTabId = currentActive?.id;
-
-    await chrome.tabs.update(tab.id, { active: true });
-    if (tab.windowId) await chrome.windows.update(tab.windowId, { focused: true });
-    await sleep(450);
-
-    updateStatus("📊 Récupération des données Amazon…");
-
-    // Injection d’un fetch dans la page KDP
-    const results = await chrome.scripting.executeScript({
-      target: { tabId: tab.id },
-      func: async () => {
-        try {
-          // Endpoint “direct” (peut varier selon Amazon)
-          const url = "https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL";
-          const response = await fetch(url, { credentials: "include" });
-
-          if (!response.ok) {
-            return { ok: false, error: `Amazon API ${response.status} (session expirée ou endpoint changé)` };
-          }
-
-          const data = await response.json();
-          return { ok: true, data };
-        } catch (e) {
-          return { ok: false, error: "Erreur fetch Amazon: " + (e?.message || String(e)) };
-        }
-      }
+    const res = await chrome.runtime.sendMessage({
+      type: "GKDP_SYNC",
+      payload: { user_email, supabaseUrl, supabaseKey }
     });
 
-    // Revenir à l’onglet précédent (confort)
-    if (previousTabId && previousTabId !== tab.id) {
-      await chrome.tabs.update(previousTabId, { active: true });
-    }
-
-    const res = results?.[0]?.result;
     if (!res?.ok) {
-      // Message clair si Amazon bloque l’endpoint
-      throw new Error(res?.error || "Impossible de récupérer les données Amazon.");
+      throw new Error(res?.error || "Erreur inconnue.");
     }
 
-    updateStatus("📤 Envoi au backend…");
-
-    // Envoi au backend local (ton Playwright/collector)
-    const syncResponse = await fetch(`${API_URL}/api/sync-kdp`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        payload: res.data
-      })
-    });
-
-    if (!syncResponse.ok) {
-      throw new Error("Le backend est indisponible (Port 3001). Lance le serveur.");
-    }
-
-    updateStatus("✅ Synchronisation réussie !");
-  } catch (error) {
-    console.error("Erreur:", error);
-
-    const msg = String(error?.message || error);
-
-    if (msg.includes("Cannot access contents of the page")) {
-      updateStatus("❌ Permissions Chrome. Va sur chrome://extensions puis Reload l’extension.", true);
-    } else {
-      updateStatus(`❌ ${msg}`, true);
-    }
+    setStatus("ok", "Synchronisation réussie", `1 report inséré (pages: ${res.pageKeys?.join(", ") || "?"}).`, "Tu peux vérifier dans Supabase : table kdp_reports.");
+  } catch (e) {
+    setStatus("error", "Erreur", e.message || String(e), "Vérifie que tu es bien connecté sur kdpreports.amazon.com, puis réessaie.");
   } finally {
-    btn.disabled = false;
-    btn.textContent = "🔗 Synchronize with KDP";
+    els.sync.disabled = false;
+    els.save.disabled = false;
   }
 }
 
-document.getElementById("loginForm").addEventListener("submit", (e) => {
-  e.preventDefault();
-  syncKDP();
-});
+els.save.addEventListener("click", saveSettings);
+els.sync.addEventListener("click", syncNow);
+loadSettings();
