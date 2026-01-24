@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>KDP Tracker Pro - 12 Mois</title>
+    <title>KDP Annual Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -12,34 +12,45 @@
     <div class="max-w-7xl mx-auto">
         <header class="flex justify-between items-center mb-10">
             <div>
-                <h1 class="text-3xl font-bold text-orange-500 italic">KDP <span class="text-white">Analytics</span></h1>
-                <p id="periodLabel" class="text-orange-400 text-sm mt-1 font-bold italic">Analyse des 12 derniers mois</p>
+                <h1 class="text-3xl font-bold text-emerald-400 italic">KDP <span class="text-white">Master</span></h1>
+                <p class="text-slate-400 text-sm mt-1">Vue sur 12 mois glissants</p>
             </div>
             <div class="text-right">
-                <p id="lastSync" class="text-xs text-green-400 font-mono mb-2">--</p>
-                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold transition">ACTUALISER</button>
+                <p id="lastSync" class="text-xs text-emerald-600 font-mono mb-2">--</p>
+                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold transition">
+                    ACTUALISER
+                </button>
             </div>
         </header>
 
+        <!-- KPI GRID -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties Estimées (12m)</p>
-                <p id="royaltiesAmt" class="text-6xl font-extrabold text-orange-500 mt-4">0.00 €</p>
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties (1 An)</p>
+                <p id="royaltiesAmt" class="text-6xl font-extrabold text-emerald-400 mt-4">0.00 €</p>
             </div>
+
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Commandes Totales</p>
-                <p id="ordersAmt" class="text-6xl font-extrabold text-white mt-4">0</p>
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Livres Vendus</p>
+                <p id="unitsAmt" class="text-6xl font-extrabold text-white mt-4">0</p>
             </div>
+
             <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Pages Lues (KENP)</p>
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">KENP Lus</p>
                 <p id="kenpAmt" class="text-6xl font-extrabold text-blue-400 mt-4">0</p>
             </div>
         </div>
 
-        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-            <h2 class="text-lg font-bold mb-6 text-slate-300">Ventes & Royalties par Pays</h2>
-            <div class="h-96">
-                <canvas id="countryChart"></canvas>
+        <!-- GRAPHIQUE -->
+        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl mb-8">
+            <h2 class="text-lg font-bold mb-6 text-slate-300">Top Livres (Best Sellers)</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead class="text-xs uppercase text-slate-500 border-b border-slate-700">
+                        <tr><th class="py-3">Titre</th><th class="py-3 text-right">Ventes</th><th class="py-3 text-right">Royalties</th></tr>
+                    </thead>
+                    <tbody id="booksTable" class="text-sm divide-y divide-slate-700"></tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -50,61 +61,43 @@
         const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
         async function loadData() {
-            const { data, error } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
+            const { data } = await sb.from('kdp_reports').select('*').eq('user_email', 'peacestreet@hotmail.com').order('created_at', { ascending: false }).limit(1);
+
             if (!data || data.length === 0) return;
-
             const report = data[0];
-            const payload = report.payload;
+            const json = report.payload;
             
+            // Date
             const date = new Date(report.created_at);
-            document.getElementById('lastSync').innerText = `Dernière synchro : ${date.toLocaleDateString()} à ${date.toLocaleTimeString()}`;
+            document.getElementById('lastSync').innerText = `Synchro : ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
 
-            if (payload.overview) {
-                const w = payload.overview.overviewWidget || payload.overview;
-                document.getElementById('royaltiesAmt').innerText = (w.totalRoyalties?.amount || 0).toFixed(2) + " €";
-                document.getElementById('ordersAmt').innerText = (w.printOrders || 0) + (w.digitalOrders || 0);
-                document.getElementById('kenpAmt').innerText = w.kenpRead || 0;
-            }
+            // Chiffres Clés (Format API "past12months")
+            // Note: L'API renvoie souvent des tableaux "data"
+            
+            let totalMoney = json.totalRoyalty || 0;
+            let totalUnits = json.totalUnits || 0;
+            let totalKenp = json.totalKenp || 0;
 
-            if (payload.distribution) renderCountryChart(payload.distribution);
-        }
+            document.getElementById('royaltiesAmt').innerText = parseFloat(totalMoney).toFixed(2) + " €";
+            document.getElementById('unitsAmt').innerText = totalUnits;
+            document.getElementById('kenpAmt').innerText = totalKenp;
 
-        function renderCountryChart(json) {
-            const ctx = document.getElementById('countryChart').getContext('2d');
-            let labels = [], royaltyData = [], unitsData = [];
-
-            if (json.histogram && json.histogram.data) {
-                // Tri par royalties décroissantes
-                const sorted = json.histogram.data.sort((a, b) => (b.values.Royalties || 0) - (a.values.Royalties || 0));
-
-                sorted.forEach(item => {
-                    let country = item.bin.replace('Amazon.', '').toUpperCase();
-                    if(country === 'COM') country = 'USA';
-                    labels.push(country);
-                    royaltyData.push(item.values.Royalties || 0);
-                    // On additionne Brochés + Ebooks pour le pays
-                    unitsData.push((item.values.UnitsSold || 0) + (item.values.EbookUnitsSold || 0));
-                });
-            }
-
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        { label: 'Royalties (€)', data: royaltyData, backgroundColor: '#f97316', borderRadius: 5 },
-                        { label: 'Ventes (Unités)', data: unitsData, backgroundColor: '#38bdf8', borderRadius: 5 }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
-                        x: { ticks: { color: 'white', font: { weight: 'bold' } } }
-                    },
-                    plugins: { legend: { labels: { color: 'white' } } }
-                }
+            // Tableau des livres
+            const tbody = document.getElementById('booksTable');
+            tbody.innerHTML = '';
+            
+            // L'API renvoie parfois une liste dans "entries" ou "data"
+            const books = json.entries || json.data || [];
+            
+            // On prend les 5 premiers
+            books.slice(0, 10).forEach(book => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-slate-700/30">
+                        <td class="py-3 font-medium text-slate-300">${book.title || 'Inconnu'}</td>
+                        <td class="py-3 text-right font-bold">${book.units || 0}</td>
+                        <td class="py-3 text-right text-emerald-400 font-bold">${parseFloat(book.royalty || 0).toFixed(2)} €</td>
+                    </tr>
+                `;
             });
         }
         loadData();
