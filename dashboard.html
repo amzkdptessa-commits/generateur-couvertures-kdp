@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KDP Tracker Analytics</title>
-    <!-- Chargement de Supabase et Tailwind CSS -->
+    <title>KDP Tracker Analytics Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -16,82 +15,68 @@
 <body class="p-4 md:p-12">
 
     <div class="max-w-6xl mx-auto">
-        <!-- Header -->
         <header class="flex justify-between items-center mb-12">
             <div>
                 <h1 class="text-4xl font-black text-orange-500 tracking-tighter italic">
                     KDP <span class="text-white not-italic">Analytics</span>
                 </h1>
-                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono">Dernière synchro : En attente...</p>
+                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono italic">Synchronisation en cours...</p>
             </div>
-            <button onclick="location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition">
-                ACTUALISER
+            <button onclick="fetchKDPData()" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2 rounded-lg text-xs font-bold transition uppercase tracking-widest">
+                Actualiser
             </button>
         </header>
 
-        <!-- KPI Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            
-            <!-- Card Royalties -->
-            <div class="kpi-card p-8 rounded-3xl shadow-2xl">
+            <!-- Royalties -->
+            <div class="kpi-card p-8 rounded-3xl shadow-2xl relative overflow-hidden">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Royalties Estimées</p>
                 <div class="flex items-baseline gap-2 mt-4">
                     <p id="royaltiesAmt" class="text-6xl font-black text-orange-500">0.00</p>
                     <span class="text-2xl font-bold text-orange-400">€</span>
                 </div>
                 <div class="w-full bg-slate-700 h-1 mt-6 rounded-full overflow-hidden">
-                    <div class="bg-orange-500 h-full w-2/3"></div>
+                    <div class="bg-orange-500 h-full w-full opacity-20"></div>
                 </div>
             </div>
 
-            <!-- Card Commandes -->
+            <!-- Commandes -->
             <div class="kpi-card p-8 rounded-3xl shadow-2xl">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Commandes Totales</p>
                 <p id="ordersAmt" class="text-7xl font-black text-white mt-4">0</p>
-                <p class="text-slate-500 text-xs mt-4">Unités vendues (tous formats)</p>
+                <p class="text-slate-500 text-xs mt-4">Unités vendues (Mois en cours)</p>
             </div>
 
-            <!-- Card KENP -->
+            <!-- KENP -->
             <div class="kpi-card p-8 rounded-3xl shadow-2xl">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Pages Lues (KENP)</p>
                 <p id="kenpAmt" class="text-7xl font-black text-blue-400 mt-4">0</p>
                 <p class="text-slate-500 text-xs mt-4">Lectures Kindle Unlimited</p>
             </div>
-
         </div>
 
-        <div id="debugStatus" class="mt-12 text-center text-slate-700 text-xs font-mono"></div>
+        <!-- Zone de Diagnostic (Masquée par défaut) -->
+        <div id="debugInfo" class="mt-12 p-4 bg-slate-900 rounded border border-slate-800 text-[10px] text-slate-600 font-mono hidden"></div>
     </div>
 
     <script>
-        // CONFIGURATION SUPABASE
         const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
         const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
         
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // FONCTION DE NETTOYAGE ULTRA-ROBUSTE
-        function cleanAmazonValue(val) {
+        // Nettoyeur de texte Amazon (8,74 € -> 8.74)
+        function clean(val) {
             if (val === undefined || val === null) return 0;
-            
-            // Si c'est déjà un nombre, on le renvoie
             if (typeof val === 'number') return val;
-
-            // Si c'est du texte (ex: "8,74 €*")
-            let cleaned = val.toString()
-                .replace(/[€$*]/g, '')        // Enlève les symboles monétaires et astérisques
-                .replace(/\s/g, '')           // Enlève TOUS les types d'espaces (y compris insécables)
-                .replace(',', '.')            // Remplace virgule par point pour le calcul
-                .trim();
-            
-            let num = parseFloat(cleaned);
-            return isNaN(num) ? 0 : num;
+            let s = val.toString().replace(/[€$*]/g, '').replace(/\s/g, '').replace(',', '.').trim();
+            let n = parseFloat(s);
+            return isNaN(n) ? 0 : n;
         }
 
         async function fetchKDPData() {
             const email = 'peacestreet@hotmail.com';
-            console.log("🚀 Lancement de la récupération...");
-
+            
             const { data, error } = await sb
                 .from('kdp_reports')
                 .select('*')
@@ -105,49 +90,51 @@
             }
 
             if (data && data.length > 0) {
-                const lastReport = data[0];
-                let payload = lastReport.payload;
+                const report = data[0];
+                let payload = report.payload;
 
-                // Sécurité : Si le payload est stocké en String au lieu de JSON
-                if (typeof payload === 'string') {
-                    try { payload = JSON.parse(payload); } catch(e) { console.error("Erreur de parsing JSON"); }
-                }
-
+                // Debug dans la console et sur l'écran si besoin
                 console.log("📦 Données analysées:", payload);
+                document.getElementById('debugInfo').innerText = JSON.stringify(payload);
 
-                // Mise à jour date
-                const syncDate = new Date(lastReport.created_at);
-                document.getElementById('lastSync').innerText = `Dernière synchro : ${syncDate.toLocaleDateString()} à ${syncDate.toLocaleTimeString()}`;
+                document.getElementById('lastSync').innerText = `Dernière synchro : ${new Date(report.created_at).toLocaleString()}`;
 
                 let r = 0, o = 0, k = 0;
 
-                // On cherche dans les deux formats possibles (Scraper ou API)
+                // LOGIQUE DE DÉTECTION AUTOMATIQUE (Fuzzy Search)
+                // On cherche dans payload.overview (Scraper) ou payload.overviewWidget (API)
                 if (payload.overview) {
-                    r = payload.overview.totalRoyalties;
-                    o = payload.overview.totalOrders;
-                    k = payload.overview.totalKenp;
-                } else if (payload.overviewWidget) {
+                    r = payload.overview.totalRoyalties || payload.overview.royalties;
+                    o = payload.overview.totalOrders || payload.overview.orders;
+                    k = payload.overview.totalKenp || payload.overview.kenp;
+                } 
+                else if (payload.overviewWidget) {
                     r = payload.overviewWidget.totalRoyalties?.amount || 0;
                     o = (payload.overviewWidget.printOrders || 0) + (payload.overviewWidget.digitalOrders || 0);
                     k = payload.overviewWidget.kenpRead || 0;
                 }
+                // Si tout échoue, on cherche directement à la racine du payload
+                else {
+                    r = payload.totalRoyalties || payload.royalties || 0;
+                    o = payload.totalOrders || payload.orders || 0;
+                    k = payload.totalKenp || payload.kenp || 0;
+                }
 
                 // Affichage final avec nettoyage
-                document.getElementById('royaltiesAmt').innerText = cleanAmazonValue(r).toFixed(2);
-                document.getElementById('ordersAmt').innerText = Math.floor(cleanAmazonValue(o));
-                document.getElementById('kenpAmt').innerText = Math.floor(cleanAmazonValue(k));
-                
-                document.getElementById('debugStatus').innerText = "Données mises à jour avec succès.";
+                document.getElementById('royaltiesAmt').innerText = clean(r).toFixed(2);
+                document.getElementById('ordersAmt').innerText = Math.floor(clean(o));
+                document.getElementById('kenpAmt').innerText = Math.floor(clean(k));
+
             } else {
-                document.getElementById('debugStatus').innerText = "Aucun rapport trouvé pour cet email.";
+                document.getElementById('lastSync').innerText = "Aucune donnée trouvée en base.";
             }
         }
 
-        // Lancement immédiat
+        // Chargement au démarrage
         fetchKDPData();
-
-        // Rafraîchir toutes les 5 minutes
-        setInterval(fetchKDPData, 300000);
+        
+        // Auto-refresh toutes les 3 minutes
+        setInterval(fetchKDPData, 180000);
     </script>
 </body>
 </html>
