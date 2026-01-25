@@ -6,6 +6,7 @@
     <title>KDP Tracker Analytics Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
         .kpi-card { background: #1e293b; border: 1px solid #334155; transition: transform 0.2s; }
@@ -15,18 +16,20 @@
 <body class="p-4 md:p-12">
 
     <div class="max-w-6xl mx-auto">
+        <!-- Header -->
         <header class="flex justify-between items-center mb-12">
             <div>
                 <h1 class="text-4xl font-black text-orange-500 tracking-tighter italic">
                     KDP <span class="text-white not-italic">Analytics</span>
                 </h1>
-                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono">Chargement des données...</p>
+                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono">Recherche des données...</p>
             </div>
-            <button onclick="fetchKDPData()" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2 rounded-lg text-xs font-bold transition uppercase">
+            <button onclick="fetchKDPData()" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2 rounded-lg text-xs font-bold transition uppercase tracking-widest">
                 Actualiser
             </button>
         </header>
 
+        <!-- KPI Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Royalties -->
             <div class="kpi-card p-8 rounded-3xl shadow-2xl">
@@ -41,7 +44,7 @@
             <div class="kpi-card p-8 rounded-3xl shadow-2xl">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Commandes Totales</p>
                 <p id="ordersAmt" class="text-7xl font-black text-white mt-4">0</p>
-                <p class="text-slate-500 text-xs mt-4">Unités vendues</p>
+                <p class="text-slate-500 text-xs mt-4">Unités traitées</p>
             </div>
 
             <!-- KENP -->
@@ -59,9 +62,9 @@
         
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // Nettoyeur universel pour les formats Amazon
+        // Nettoyeur universel (transforme "8,74 €*" en 8.74)
         function clean(val) {
-            if (!val) return 0;
+            if (val === undefined || val === null) return 0;
             if (typeof val === 'number') return val;
             let s = val.toString().replace(/[€$*]/g, '').replace(/\s/g, '').replace(',', '.').trim();
             let n = parseFloat(s);
@@ -81,44 +84,49 @@
             if (data && data.length > 0) {
                 const report = data[0];
                 const payload = report.payload;
-                console.log("🔍 Payload détecté:", payload);
+                console.log("🔍 Structure détectée:", payload);
 
                 document.getElementById('lastSync').innerText = `Dernière synchro : ${new Date(report.created_at).toLocaleString()}`;
 
                 let r = 0, o = 0, k = 0;
 
-                // --- LOGIQUE SPÉCIFIQUE "COLLECTOR-V7" (Basée sur ta console) ---
+                // --- LOGIQUE COLLECTOR-V7 (Ta structure spécifique) ---
                 if (payload.pages) {
-                    // 1. Chercher les Royalties dans PMR
-                    if (payload.pages.pmr) {
-                        // On cherche une valeur qui contient un symbole monétaire ou un chiffre
-                        r = payload.pages.pmr.totalRoyalties || payload.pages.pmr.total || 0;
-                    }
+                    // On cherche dans "dashboard" et "month_current" car c'est là que sont tes 8.74€
+                    const sources = [payload.pages.dashboard, payload.pages.month_current];
+                    
+                    sources.forEach(source => {
+                        if (source && source.payloads) {
+                            // On parcourt toutes les réponses API capturées dans cette page
+                            Object.values(source.payloads).forEach(p => {
+                                if (p.overviewWidget) {
+                                    r = p.overviewWidget.totalRoyalties?.amount || r;
+                                    o = (p.overviewWidget.printOrders + p.overviewWidget.digitalOrders) || o;
+                                    k = p.overviewWidget.kenpRead || k;
+                                }
+                            });
+                        }
+                    });
+                }
 
-                    // 2. Chercher les Commandes dans Orders
-                    if (payload.pages.orders) {
-                        o = payload.pages.orders.totalOrders || payload.pages.orders.count || 0;
-                    }
-
-                    // 3. Chercher le KENP
-                    k = payload.pages.kenp?.total || payload.pages.pmr?.kenp || 0;
-                } 
-                
-                // --- LOGIQUE DE SECOURS (Si tu utilises mon dernier scraper) ---
+                // --- LOGIQUE DE SECOURS (Si format simplifié) ---
                 if (r === 0 && payload.overview) {
                     r = payload.overview.totalRoyalties;
                     o = payload.overview.totalOrders;
                     k = payload.overview.totalKenp;
                 }
 
-                // Affichage final
+                // Affichage final avec nettoyage
                 document.getElementById('royaltiesAmt').innerText = clean(r).toFixed(2);
                 document.getElementById('ordersAmt').innerText = Math.floor(clean(o));
                 document.getElementById('kenpAmt').innerText = Math.floor(clean(k));
 
+            } else {
+                document.getElementById('lastSync').innerText = "Aucune donnée trouvée en base.";
             }
         }
 
+        // Lancement
         fetchKDPData();
     </script>
 </body>
