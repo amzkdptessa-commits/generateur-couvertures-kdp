@@ -6,7 +6,6 @@
     <title>KDP Tracker Analytics Pro</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
         .kpi-card { background: #1e293b; border: 1px solid #334155; transition: transform 0.2s; }
@@ -16,23 +15,21 @@
 <body class="p-4 md:p-12">
 
     <div class="max-w-6xl mx-auto">
-        <!-- Header -->
         <header class="flex justify-between items-center mb-12">
             <div>
                 <h1 class="text-4xl font-black text-orange-500 tracking-tighter italic">
                     KDP <span class="text-white not-italic">Analytics</span>
                 </h1>
-                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono">Recherche des données...</p>
+                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono italic text-green-400">Synchro détectée...</p>
             </div>
             <button onclick="fetchKDPData()" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2 rounded-lg text-xs font-bold transition uppercase tracking-widest">
                 Actualiser
             </button>
         </header>
 
-        <!-- KPI Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             <!-- Royalties -->
-            <div class="kpi-card p-8 rounded-3xl shadow-2xl">
+            <div class="kpi-card p-8 rounded-3xl shadow-2xl relative">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Royalties Estimées</p>
                 <div class="flex items-baseline gap-2 mt-4">
                     <p id="royaltiesAmt" class="text-6xl font-black text-orange-500">0.00</p>
@@ -44,14 +41,14 @@
             <div class="kpi-card p-8 rounded-3xl shadow-2xl">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Commandes Totales</p>
                 <p id="ordersAmt" class="text-7xl font-black text-white mt-4">0</p>
-                <p class="text-slate-500 text-xs mt-4">Unités traitées</p>
+                <p class="text-slate-500 text-xs mt-4 italic">Unités traitées</p>
             </div>
 
             <!-- KENP -->
             <div class="kpi-card p-8 rounded-3xl shadow-2xl">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Pages Lues (KENP)</p>
                 <p id="kenpAmt" class="text-7xl font-black text-blue-400 mt-4">0</p>
-                <p class="text-slate-500 text-xs mt-4">Kindle Unlimited</p>
+                <p class="text-slate-500 text-xs mt-4 italic">Lectures Kindle</p>
             </div>
         </div>
     </div>
@@ -62,7 +59,7 @@
         
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // Nettoyeur universel (transforme "8,74 €*" en 8.74)
+        // Nettoyeur universel
         function clean(val) {
             if (val === undefined || val === null) return 0;
             if (typeof val === 'number') return val;
@@ -84,49 +81,57 @@
             if (data && data.length > 0) {
                 const report = data[0];
                 const payload = report.payload;
-                console.log("🔍 Structure détectée:", payload);
+                console.log("📦 Analyse du fichier KDP...", payload);
 
                 document.getElementById('lastSync').innerText = `Dernière synchro : ${new Date(report.created_at).toLocaleString()}`;
 
                 let r = 0, o = 0, k = 0;
 
-                // --- LOGIQUE COLLECTOR-V7 (Ta structure spécifique) ---
-                if (payload.pages) {
-                    // On cherche dans "dashboard" et "month_current" car c'est là que sont tes 8.74€
-                    const sources = [payload.pages.dashboard, payload.pages.month_current];
-                    
-                    sources.forEach(source => {
-                        if (source && source.payloads) {
-                            // On parcourt toutes les réponses API capturées dans cette page
-                            Object.values(source.payloads).forEach(p => {
-                                if (p.overviewWidget) {
-                                    r = p.overviewWidget.totalRoyalties?.amount || r;
-                                    o = (p.overviewWidget.printOrders + p.overviewWidget.digitalOrders) || o;
-                                    k = p.overviewWidget.kenpRead || k;
-                                }
-                            });
-                        }
-                    });
-                }
+                // --- LOGIQUE POUR FORMAT "COLLECTOR-V7" (Basée sur ton JSON) ---
+                const pagesToSearch = ['dashboard', 'unknown', 'month_current', 'pmr'];
 
-                // --- LOGIQUE DE SECOURS (Si format simplifié) ---
+                pagesToSearch.forEach(pageName => {
+                    const page = payload[pageName] || (payload.pages ? payload.pages[pageName] : null);
+                    
+                    if (page && page.payloads) {
+                        // On parcourt chaque URL capturée dans cette page
+                        Object.values(page.payloads).forEach(item => {
+                            
+                            // 1. Recherche via overviewWidget (Le plus précis pour tes 8.74€)
+                            if (item.overviewWidget) {
+                                r = item.overviewWidget.totalRoyalties || r;
+                                o = (item.overviewWidget.printOrders + item.overviewWidget.digitalOrders) || o;
+                                k = item.overviewWidget.kenpRead || k;
+                            }
+
+                            // 2. Recherche via Histogram Format (Fallback)
+                            if (r === 0 && item.histogram && item.histogram.data) {
+                                item.histogram.data.forEach(entry => {
+                                    if (entry.values && entry.values.Royalties) {
+                                        r += entry.values.Royalties;
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+
+                // Si les données ont été trouvées via le scraper simple
                 if (r === 0 && payload.overview) {
                     r = payload.overview.totalRoyalties;
                     o = payload.overview.totalOrders;
                     k = payload.overview.totalKenp;
                 }
 
-                // Affichage final avec nettoyage
+                // Affichage final
                 document.getElementById('royaltiesAmt').innerText = clean(r).toFixed(2);
                 document.getElementById('ordersAmt').innerText = Math.floor(clean(o));
                 document.getElementById('kenpAmt').innerText = Math.floor(clean(k));
 
-            } else {
-                document.getElementById('lastSync').innerText = "Aucune donnée trouvée en base.";
+                console.log("💎 Valeurs extraites :", { r, o, k });
             }
         }
 
-        // Lancement
         fetchKDPData();
     </script>
 </body>
