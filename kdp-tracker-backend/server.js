@@ -5,6 +5,7 @@ const { createClient } = require("@supabase/supabase-js");
 
 dotenv.config();
 
+// Assurez-vous que vos variables .env sont correctes
 const supabase = createClient(
     process.env.SUPABASE_URL.trim(), 
     process.env.SUPABASE_SERVICE_ROLE_KEY.trim()
@@ -12,11 +13,11 @@ const supabase = createClient(
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: "10mb" })); 
+app.use(express.json({ limit: "20mb" })); // Augmenté pour les gros rapports
 
 app.post("/api/sync-kdp", async (req, res) => {
     const { email, payload } = req.body;
-    console.log(`📩 Rapport reçu pour : ${email}`);
+    console.log(`📩 Données reçues pour : ${email}`);
 
     try {
         const { error } = await supabase.from("kdp_reports").insert([{
@@ -26,7 +27,7 @@ app.post("/api/sync-kdp", async (req, res) => {
         }]);
 
         if (error) throw error;
-        console.log("✅ Données stockées avec succès.");
+        console.log("✅ Données enregistrées dans Supabase.");
         res.json({ success: true });
     } catch (err) {
         console.error("❌ Erreur Supabase:", err.message);
@@ -35,5 +36,5 @@ app.post("/api/sync-kdp", async (req, res) => {
 });
 
 app.listen(3001, "0.0.0.0", () => {
-    console.log("🔥 SERVEUR RÉCEPTEUR PRÊT SUR LE PORT 3001");
+    console.log("🔥 SERVEUR PRÊT SUR LE PORT 3001");
 });
