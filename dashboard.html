@@ -60,7 +60,6 @@
 
         </div>
 
-        <!-- Debug Info (Optionnel - visible en console) -->
         <div id="debugStatus" class="mt-12 text-center text-slate-700 text-xs font-mono"></div>
     </div>
 
@@ -71,13 +70,18 @@
         
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // FONCTION DE NETTOYAGE DES CHIFFRES D'AMAZON
+        // FONCTION DE NETTOYAGE ULTRA-ROBUSTE
         function cleanAmazonValue(val) {
-            if (!val) return 0;
-            // On transforme "8,74 €*" en "8.74"
+            if (val === undefined || val === null) return 0;
+            
+            // Si c'est déjà un nombre, on le renvoie
+            if (typeof val === 'number') return val;
+
+            // Si c'est du texte (ex: "8,74 €*")
             let cleaned = val.toString()
-                .replace(/[€$* ]/g, '')  // Enlève les symboles
-                .replace(',', '.')      // Remplace virgule par point
+                .replace(/[€$*]/g, '')        // Enlève les symboles monétaires et astérisques
+                .replace(/\s/g, '')           // Enlève TOUS les types d'espaces (y compris insécables)
+                .replace(',', '.')            // Remplace virgule par point pour le calcul
                 .trim();
             
             let num = parseFloat(cleaned);
@@ -86,7 +90,7 @@
 
         async function fetchKDPData() {
             const email = 'peacestreet@hotmail.com';
-            console.log("🚀 Récupération des données pour:", email);
+            console.log("🚀 Lancement de la récupération...");
 
             const { data, error } = await sb
                 .from('kdp_reports')
@@ -97,53 +101,53 @@
 
             if (error) {
                 console.error("❌ Erreur Supabase:", error);
-                document.getElementById('debugStatus').innerText = "Erreur de connexion base de données";
                 return;
             }
 
             if (data && data.length > 0) {
                 const lastReport = data[0];
-                const payload = lastReport.payload;
-                console.log("📦 Rapport trouvé:", lastReport);
+                let payload = lastReport.payload;
 
-                // Mise à jour de la date de synchro
+                // Sécurité : Si le payload est stocké en String au lieu de JSON
+                if (typeof payload === 'string') {
+                    try { payload = JSON.parse(payload); } catch(e) { console.error("Erreur de parsing JSON"); }
+                }
+
+                console.log("📦 Données analysées:", payload);
+
+                // Mise à jour date
                 const syncDate = new Date(lastReport.created_at);
                 document.getElementById('lastSync').innerText = `Dernière synchro : ${syncDate.toLocaleDateString()} à ${syncDate.toLocaleTimeString()}`;
 
-                // Extraction des données (Gestion du format Scraper ou API Amazon)
-                let rawRoyalties = 0;
-                let rawOrders = 0;
-                let rawKenp = 0;
+                let r = 0, o = 0, k = 0;
 
+                // On cherche dans les deux formats possibles (Scraper ou API)
                 if (payload.overview) {
-                    // Format issu du Scraper (popup.js récent)
-                    rawRoyalties = payload.overview.totalRoyalties;
-                    rawOrders = payload.overview.totalOrders;
-                    rawKenp = payload.overview.totalKenp;
+                    r = payload.overview.totalRoyalties;
+                    o = payload.overview.totalOrders;
+                    k = payload.overview.totalKenp;
                 } else if (payload.overviewWidget) {
-                    // Format issu de l'API Amazon (popup.js ancien)
-                    rawRoyalties = payload.overviewWidget.totalRoyalties?.amount || 0;
-                    rawOrders = (payload.overviewWidget.printOrders + payload.overviewWidget.digitalOrders) || 0;
-                    rawKenp = payload.overviewWidget.kenpRead || 0;
+                    r = payload.overviewWidget.totalRoyalties?.amount || 0;
+                    o = (payload.overviewWidget.printOrders || 0) + (payload.overviewWidget.digitalOrders || 0);
+                    k = payload.overviewWidget.kenpRead || 0;
                 }
 
-                // Affichage final avec animation simple
-                document.getElementById('royaltiesAmt').innerText = cleanAmazonValue(rawRoyalties).toFixed(2);
-                document.getElementById('ordersAmt').innerText = Math.floor(cleanAmazonValue(rawOrders));
-                document.getElementById('kenpAmt').innerText = Math.floor(cleanAmazonValue(rawKenp));
+                // Affichage final avec nettoyage
+                document.getElementById('royaltiesAmt').innerText = cleanAmazonValue(r).toFixed(2);
+                document.getElementById('ordersAmt').innerText = Math.floor(cleanAmazonValue(o));
+                document.getElementById('kenpAmt').innerText = Math.floor(cleanAmazonValue(k));
                 
-                document.getElementById('debugStatus').innerText = "Données chargées avec succès";
+                document.getElementById('debugStatus').innerText = "Données mises à jour avec succès.";
             } else {
-                console.warn("⚠️ Aucune donnée trouvée.");
-                document.getElementById('debugStatus').innerText = "Aucune donnée synchronisée pour cet utilisateur.";
+                document.getElementById('debugStatus').innerText = "Aucun rapport trouvé pour cet email.";
             }
         }
 
-        // Démarrage
+        // Lancement immédiat
         fetchKDPData();
 
-        // Rafraîchissement automatique toutes les 2 minutes si la page reste ouverte
-        setInterval(fetchKDPData, 120000);
+        // Rafraîchir toutes les 5 minutes
+        setInterval(fetchKDPData, 300000);
     </script>
 </body>
 </html>
