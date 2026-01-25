@@ -1,35 +1,43 @@
 const API_URL = 'http://127.0.0.1:3001';
 
 async function syncKDP() {
-    updateStatus('🔄 Accès à l\'onglet Amazon...');
+    updateStatus('🔄 Recherche de l\'onglet KDP...');
 
     try {
-        // 1. Trouver l'onglet KDP ouvert
-        const [tab] = await chrome.tabs.query({ url: "https://kdpreports.amazon.com/*", active: true });
+        // 1. On cherche TOUS les onglets qui correspondent à KDP Reports
+        const tabs = await chrome.tabs.query({ url: "https://kdpreports.amazon.com/*" });
         
-        if (!tab) {
-            throw new Error("Ouvre l'onglet KDP Reports et assure-toi qu'il est sélectionné.");
+        if (!tabs || tabs.length === 0) {
+            throw new Error("Onglet KDP non trouvé. Ouvrez https://kdpreports.amazon.com dans Chrome.");
         }
 
-        updateStatus('📊 Récupération des données Amazon (12 mois)...');
+        // On prend le premier onglet trouvé
+        const tab = tabs[0];
+        updateStatus('📊 Extraction des ventes (12 mois)...');
 
-        // 2. Injecter un script dans la page Amazon pour récupérer le JSON de ventes
+        // 2. Injection du script pour récupérer les datas de l'API interne d'Amazon
         const results = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: async () => {
-                const response = await fetch("https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL");
-                if (!response.ok) return { error: "Session expirée sur Amazon" };
-                return await response.json();
+                try {
+                    const response = await fetch("https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL");
+                    if (!response.ok) return { error: "Session Amazon expirée ou accès refusé." };
+                    return await response.json();
+                } catch (e) {
+                    return { error: "Erreur réseau Amazon : " + e.message };
+                }
             }
         });
 
         const salesData = results[0].result;
 
-        if (salesData.error) throw new Error(salesData.error);
+        if (!salesData || salesData.error) {
+            throw new Error(salesData ? salesData.error : "Impossible de lire les données.");
+        }
 
-        updateStatus('📤 Envoi au Dashboard...');
+        updateStatus('📤 Envoi au serveur...');
 
-        // 3. Envoyer le résultat au serveur local
+        // 3. Envoi au backend local
         const syncResponse = await fetch(`${API_URL}/api/sync-kdp`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -39,13 +47,13 @@ async function syncKDP() {
             })
         });
 
-        if (!syncResponse.ok) throw new Error("Le serveur backend est éteint (Port 3001).");
+        if (!syncResponse.ok) throw new Error("Serveur local injoignable (vérifiez Port 3001).");
 
         updateStatus('✅ Synchronisation réussie !');
 
     } catch (error) {
-        console.error('Erreur:', error);
-        updateStatus(`❌ ${error.message}`, true);
+        console.error('Erreur détaillée:', error);
+        updateStatus(`${error.message}`, true);
     }
 }
 

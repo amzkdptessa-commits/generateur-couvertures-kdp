@@ -1,11 +1,10 @@
 {
   "manifest_version": 3,
   "name": "GabaritKDP Tracker",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "permissions": [
     "scripting",
     "tabs",
-    "activeTab",
     "storage"
   ],
   "host_permissions": [

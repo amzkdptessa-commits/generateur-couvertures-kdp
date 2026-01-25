@@ -3,36 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <style>
-    body { width: 350px; font-family: sans-serif; background: #1a1a1a; color: white; padding: 20px; }
-    .header { text-align: center; border-bottom: 2px solid #FF9900; margin-bottom: 15px; padding-bottom: 10px; }
-    h1 { font-size: 18px; color: #FF9900; }
-    .form-group { margin-bottom: 10px; }
-    input { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 5px; }
-    button { width: 100%; padding: 12px; background: #FF9900; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-    #status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 15px; }
-    .instructions { font-size: 11px; background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px; margin-top: 15px; color: #ccc; }
+    body { width: 320px; font-family: 'Segoe UI', sans-serif; background: #121212; color: white; padding: 15px; }
+    .logo { color: #FF9900; text-align: center; font-weight: bold; font-size: 20px; margin-bottom: 15px; }
+    input { width: 100%; padding: 10px; margin-bottom: 10px; background: #222; border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; }
+    button { width: 100%; padding: 12px; background: #FF9900; border: none; border-radius: 4px; color: black; font-weight: bold; cursor: pointer; }
+    button:hover { background: #e68a00; }
+    #status { margin-top: 15px; font-size: 13px; text-align: center; font-weight: 500; min-height: 20px; }
+    .hint { font-size: 11px; color: #888; margin-top: 15px; line-height: 1.4; border-top: 1px solid #333; pt: 10px; }
   </style>
 </head>
 <body>
-  <div class="header">
-    <h1>📊 GabaritKDP Tracker</h1>
-    <div id="status">Prêt</div>
-  </div>
-
+  <div class="logo">📊 GabaritKDP Tracker</div>
+  
   <form id="loginForm">
-    <div class="form-group">
-      <input type="email" id="email" placeholder="Email GabaritKDP" required value="peacestreet@hotmail.com">
-    </div>
-    <div class="form-group">
-      <input type="password" id="password" placeholder="Mot de passe" required>
-    </div>
-    <button type="submit">🔗 Synchronize with KDP</button>
+    <input type="email" id="email" placeholder="Email GabaritKDP" required value="peacestreet@hotmail.com">
+    <input type="password" id="password" placeholder="Mot de passe" required>
+    <button type="submit">SYNCHRONISER MAINTENANT</button>
   </form>
 
-  <div class="instructions">
-    <b>Comment ça marche ?</b><br>
-    1. Ouvre un onglet <b>kdpreports.amazon.com</b><br>
-    2. Clique sur ce bouton pour aspirer les ventes 12 mois.
+  <div id="status">Prêt</div>
+
+  <div class="hint">
+    <b>Note :</b> Gardez votre onglet Amazon KDP Reports ouvert avant de cliquer sur le bouton.
   </div>
 
   <script src="popup.js"></script>
