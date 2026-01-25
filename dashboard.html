@@ -4,53 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDP Tracker Analytics Pro</title>
+    <!-- On ajoute un favicon vide pour supprimer l'erreur 404 dans la console -->
+    <link rel="icon" href="data:,">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
-        .kpi-card { background: #1e293b; border: 1px solid #334155; transition: transform 0.2s; }
-        .kpi-card:hover { transform: translateY(-5px); }
+        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .kpi-card { background: #1e293b; border: 1px solid #334155; transition: all 0.3s ease; }
+        .kpi-card:hover { transform: translateY(-5px); border-color: #f97316; }
+        .loading-pulse { animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
     </style>
 </head>
-<body class="p-4 md:p-12">
+<body class="p-6 md:p-12">
 
     <div class="max-w-6xl mx-auto">
-        <header class="flex justify-between items-center mb-12">
+        <!-- Header -->
+        <header class="flex justify-between items-start mb-12">
             <div>
                 <h1 class="text-4xl font-black text-orange-500 tracking-tighter italic">
                     KDP <span class="text-white not-italic">Analytics</span>
                 </h1>
-                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono italic text-green-400">Synchro détectée...</p>
+                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono">Chargement...</p>
             </div>
-            <button onclick="fetchKDPData()" class="bg-slate-800 hover:bg-slate-700 text-white px-5 py-2 rounded-lg text-xs font-bold transition uppercase tracking-widest">
+            <button onclick="fetchKDPData()" class="bg-slate-800 hover:bg-orange-600 text-white px-6 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest shadow-lg">
                 Actualiser
             </button>
         </header>
 
+        <!-- KPI Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <!-- Royalties -->
-            <div class="kpi-card p-8 rounded-3xl shadow-2xl relative">
+            <!-- Royalties Card -->
+            <div class="kpi-card p-8 rounded-[2rem] shadow-2xl relative overflow-hidden">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Royalties Estimées</p>
                 <div class="flex items-baseline gap-2 mt-4">
                     <p id="royaltiesAmt" class="text-6xl font-black text-orange-500">0.00</p>
                     <span class="text-2xl font-bold text-orange-400">€</span>
                 </div>
+                <div class="absolute bottom-0 left-0 h-1 bg-orange-500 w-full opacity-30"></div>
             </div>
 
-            <!-- Commandes -->
-            <div class="kpi-card p-8 rounded-3xl shadow-2xl">
+            <!-- Commandes Card -->
+            <div class="kpi-card p-8 rounded-[2rem] shadow-2xl">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Commandes Totales</p>
                 <p id="ordersAmt" class="text-7xl font-black text-white mt-4">0</p>
-                <p class="text-slate-500 text-xs mt-4 italic">Unités traitées</p>
+                <p class="text-slate-500 text-xs mt-4 italic font-medium tracking-tight">Ventes nettes cumulées</p>
             </div>
 
-            <!-- KENP -->
-            <div class="kpi-card p-8 rounded-3xl shadow-2xl">
+            <!-- KENP Card -->
+            <div class="kpi-card p-8 rounded-[2rem] shadow-2xl">
                 <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Pages Lues (KENP)</p>
                 <p id="kenpAmt" class="text-7xl font-black text-blue-400 mt-4">0</p>
-                <p class="text-slate-500 text-xs mt-4 italic">Lectures Kindle</p>
+                <p class="text-slate-500 text-xs mt-4 italic font-medium tracking-tight">Kindle Unlimited (Lectures)</p>
             </div>
         </div>
+
+        <div id="statusMsg" class="mt-8 text-center text-slate-600 text-[10px] font-mono uppercase tracking-widest"></div>
     </div>
 
     <script>
@@ -59,9 +68,8 @@
         
         const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        // Nettoyeur universel
-        function clean(val) {
-            if (val === undefined || val === null) return 0;
+        function cleanNum(val) {
+            if (!val) return 0;
             if (typeof val === 'number') return val;
             let s = val.toString().replace(/[€$*]/g, '').replace(/\s/g, '').replace(',', '.').trim();
             let n = parseFloat(s);
@@ -70,7 +78,8 @@
 
         async function fetchKDPData() {
             const email = 'peacestreet@hotmail.com';
-            
+            document.getElementById('statusMsg').innerText = "Récupération en cours...";
+
             const { data, error } = await sb
                 .from('kdp_reports')
                 .select('*')
@@ -78,61 +87,44 @@
                 .order('created_at', { ascending: false })
                 .limit(1);
 
-            if (data && data.length > 0) {
+            if (data && data[0]) {
                 const report = data[0];
                 const payload = report.payload;
-                console.log("📦 Analyse du fichier KDP...", payload);
 
-                document.getElementById('lastSync').innerText = `Dernière synchro : ${new Date(report.created_at).toLocaleString()}`;
+                document.getElementById('lastSync').innerText = `Synchro : ${new Date(report.created_at).toLocaleString()}`;
 
                 let r = 0, o = 0, k = 0;
 
-                // --- LOGIQUE POUR FORMAT "COLLECTOR-V7" (Basée sur ton JSON) ---
-                const pagesToSearch = ['dashboard', 'unknown', 'month_current', 'pmr'];
+                // --- NAVIGATION DANS LA STRUCTURE COLLECTOR-V7 ---
+                // On fouille partout pour trouver les chiffres (Dashboard, month_current, pmr)
+                const pages = payload.pages || payload;
+                const sections = ['dashboard', 'month_current', 'unknown', 'pmr'];
 
-                pagesToSearch.forEach(pageName => {
-                    const page = payload[pageName] || (payload.pages ? payload.pages[pageName] : null);
-                    
-                    if (page && page.payloads) {
-                        // On parcourt chaque URL capturée dans cette page
-                        Object.values(page.payloads).forEach(item => {
-                            
-                            // 1. Recherche via overviewWidget (Le plus précis pour tes 8.74€)
+                sections.forEach(sec => {
+                    const section = pages[sec];
+                    if (section && section.payloads) {
+                        Object.values(section.payloads).forEach(item => {
+                            // Extraction depuis l'overviewWidget (Précis)
                             if (item.overviewWidget) {
                                 r = item.overviewWidget.totalRoyalties || r;
                                 o = (item.overviewWidget.printOrders + item.overviewWidget.digitalOrders) || o;
                                 k = item.overviewWidget.kenpRead || k;
                             }
-
-                            // 2. Recherche via Histogram Format (Fallback)
-                            if (r === 0 && item.histogram && item.histogram.data) {
-                                item.histogram.data.forEach(entry => {
-                                    if (entry.values && entry.values.Royalties) {
-                                        r += entry.values.Royalties;
-                                    }
-                                });
-                            }
                         });
                     }
                 });
 
-                // Si les données ont été trouvées via le scraper simple
-                if (r === 0 && payload.overview) {
-                    r = payload.overview.totalRoyalties;
-                    o = payload.overview.totalOrders;
-                    k = payload.overview.totalKenp;
-                }
-
-                // Affichage final
-                document.getElementById('royaltiesAmt').innerText = clean(r).toFixed(2);
-                document.getElementById('ordersAmt').innerText = Math.floor(clean(o));
-                document.getElementById('kenpAmt').innerText = Math.floor(clean(k));
-
-                console.log("💎 Valeurs extraites :", { r, o, k });
+                // Mise à jour de l'affichage
+                document.getElementById('royaltiesAmt').innerText = cleanNum(r).toFixed(2);
+                document.getElementById('ordersAmt').innerText = Math.floor(cleanNum(o));
+                document.getElementById('kenpAmt').innerText = Math.floor(cleanNum(k));
+                document.getElementById('statusMsg').innerText = "Tableau de bord à jour";
             }
         }
 
         fetchKDPData();
+        // Rafraîchissement automatique toutes les 5 minutes
+        setInterval(fetchKDPData, 300000);
     </script>
 </body>
 </html>
