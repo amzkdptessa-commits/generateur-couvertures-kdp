@@ -1,43 +1,18 @@
 {
   "manifest_version": 3,
   "name": "GabaritKDP Tracker",
-  "version": "2.0.0",
-  "description": "Synchronise les rapports KDP via interception réseau (sans scraping DOM).",
-  "permissions": ["storage", "activeTab", "scripting", "tabs"],
+  "version": "1.1.0",
+  "permissions": [
+    "scripting",
+    "tabs",
+    "activeTab",
+    "storage"
+  ],
   "host_permissions": [
     "https://kdpreports.amazon.com/*",
-    "https://kdp.amazon.com/*",
-    "http://localhost:3001/*"
-  ],
-  "background": {
-    "service_worker": "background.js",
-    "type": "module"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "https://kdpreports.amazon.com/*",
-        "https://kdp.amazon.com/*"
-      ],
-      "js": ["content.js"],
-      "run_at": "document_start"
-    }
-  ],
-  "web_accessible_resources": [
-    {
-      "resources": ["page-sniffer.js"],
-      "matches": [
-        "https://kdpreports.amazon.com/*",
-        "https://kdp.amazon.com/*"
-      ]
-    }
+    "http://127.0.0.1:3001/*"
   ],
   "action": {
     "default_popup": "popup.html"
-  },
-  "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
   }
 }

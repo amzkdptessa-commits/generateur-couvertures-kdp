@@ -1,36 +1,38 @@
-<!doctype html>
-<html lang="fr">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
+  <meta charset="UTF-8">
   <style>
-    body{margin:0;font-family:Segoe UI,sans-serif;background:#121212;color:#fff;width:320px}
-    .wrap{padding:14px}
-    h1{font-size:16px;margin:0 0 10px 0;color:#FF9900}
-    input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.15);background:#0f172a;color:#fff;margin:6px 0}
-    button{width:100%;padding:10px;border:none;border-radius:10px;background:#f97316;color:#fff;font-weight:800;cursor:pointer;margin-top:10px}
-    button:hover{background:#ea580c}
-    .muted{color:#b3b3b3;font-size:12px;margin-top:10px}
-    .status{margin-top:10px;font-size:12px}
-    .err{color:#fecaca}
-    .ok{color:#a7f3d0}
+    body { width: 350px; font-family: sans-serif; background: #1a1a1a; color: white; padding: 20px; }
+    .header { text-align: center; border-bottom: 2px solid #FF9900; margin-bottom: 15px; padding-bottom: 10px; }
+    h1 { font-size: 18px; color: #FF9900; }
+    .form-group { margin-bottom: 10px; }
+    input { width: 100%; padding: 10px; background: #2a2a2a; border: 1px solid #444; color: white; border-radius: 5px; }
+    button { width: 100%; padding: 12px; background: #FF9900; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    #status { font-size: 12px; text-align: center; margin-top: 10px; min-height: 15px; }
+    .instructions { font-size: 11px; background: rgba(255,153,0,0.1); padding: 10px; border-radius: 5px; margin-top: 15px; color: #ccc; }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <h1>GabaritKDP Tracker</h1>
+  <div class="header">
+    <h1>📊 GabaritKDP Tracker</h1>
+    <div id="status">Prêt</div>
+  </div>
 
-    <input id="apiBase" placeholder="API base (ex: http://localhost:3001)" value="http://localhost:3001"/>
-    <input id="email" placeholder="Email"/>
-    <input id="password" type="password" placeholder="Mot de passe"/>
-
-    <button id="loginBtn">Se connecter</button>
-    <button id="syncBtn">Synchroniser avec KDP</button>
-
-    <div class="status" id="status"></div>
-
-    <div class="muted">
-      Conseil : ouvre kdpreports.amazon.com (connectée), puis clique “Synchroniser”.
+  <form id="loginForm">
+    <div class="form-group">
+      <input type="email" id="email" placeholder="Email GabaritKDP" required value="peacestreet@hotmail.com">
     </div>
+    <div class="form-group">
+      <input type="password" id="password" placeholder="Mot de passe" required>
+    </div>
+    <button type="submit">🔗 Synchronize with KDP</button>
+  </form>
+
+  <div class="instructions">
+    <b>Comment ça marche ?</b><br>
+    1. Ouvre un onglet <b>kdpreports.amazon.com</b><br>
+    2. Clique sur ce bouton pour aspirer les ventes 12 mois.
   </div>
 
   <script src="popup.js"></script>
