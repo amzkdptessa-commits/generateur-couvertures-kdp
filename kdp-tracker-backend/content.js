@@ -1,5 +1,5 @@
-// content.js
-(function () {
+// content.js (isolated world) => inject page-sniffer.js into main world
+(() => {
   const s = document.createElement("script");
   s.src = chrome.runtime.getURL("page-sniffer.js");
   s.onload = () => s.remove();
