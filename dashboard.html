@@ -2,61 +2,148 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KDP Tracker Analytics</title>
+    <!-- Chargement de Supabase et Tailwind CSS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0f172a; color: white; font-family: 'Inter', sans-serif; }
+        .kpi-card { background: #1e293b; border: 1px solid #334155; transition: transform 0.2s; }
+        .kpi-card:hover { transform: translateY(-5px); }
+    </style>
 </head>
-<body class="bg-slate-900 text-white p-8">
-    <div class="max-w-5xl mx-auto">
-        <div class="flex justify-between items-end mb-8">
-            <h1 class="text-4xl font-bold text-orange-500">KDP <span class="text-white">Analytics</span></h1>
-            <p id="lastSync" class="text-slate-400 text-sm italic">Dernière synchro : --</p>
+<body class="p-4 md:p-12">
+
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-12">
+            <div>
+                <h1 class="text-4xl font-black text-orange-500 tracking-tighter italic">
+                    KDP <span class="text-white not-italic">Analytics</span>
+                </h1>
+                <p id="lastSync" class="text-slate-500 text-sm mt-2 font-mono">Dernière synchro : En attente...</p>
+            </div>
+            <button onclick="location.reload()" class="bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg text-xs font-bold transition">
+                ACTUALISER
+            </button>
+        </header>
+
+        <!-- KPI Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Card Royalties -->
+            <div class="kpi-card p-8 rounded-3xl shadow-2xl">
+                <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Royalties Estimées</p>
+                <div class="flex items-baseline gap-2 mt-4">
+                    <p id="royaltiesAmt" class="text-6xl font-black text-orange-500">0.00</p>
+                    <span class="text-2xl font-bold text-orange-400">€</span>
+                </div>
+                <div class="w-full bg-slate-700 h-1 mt-6 rounded-full overflow-hidden">
+                    <div class="bg-orange-500 h-full w-2/3"></div>
+                </div>
+            </div>
+
+            <!-- Card Commandes -->
+            <div class="kpi-card p-8 rounded-3xl shadow-2xl">
+                <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Commandes Totales</p>
+                <p id="ordersAmt" class="text-7xl font-black text-white mt-4">0</p>
+                <p class="text-slate-500 text-xs mt-4">Unités vendues (tous formats)</p>
+            </div>
+
+            <!-- Card KENP -->
+            <div class="kpi-card p-8 rounded-3xl shadow-2xl">
+                <p class="text-slate-400 text-xs uppercase font-black tracking-widest">Pages Lues (KENP)</p>
+                <p id="kenpAmt" class="text-7xl font-black text-blue-400 mt-4">0</p>
+                <p class="text-slate-500 text-xs mt-4">Lectures Kindle Unlimited</p>
+            </div>
+
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties Estimées</p>
-                <p id="royaltiesAmt" class="text-5xl font-extrabold text-orange-500 mt-4">0.00 €</p>
-            </div>
-            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Commandes Totales</p>
-                <p id="ordersAmt" class="text-5xl font-extrabold text-white mt-4">0</p>
-            </div>
-            <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
-                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Pages Lues (KENP)</p>
-                <p id="kenpAmt" class="text-5xl font-extrabold text-blue-400 mt-4">0</p>
-            </div>
-        </div>
+        <!-- Debug Info (Optionnel - visible en console) -->
+        <div id="debugStatus" class="mt-12 text-center text-slate-700 text-xs font-mono"></div>
     </div>
 
     <script>
+        // CONFIGURATION SUPABASE
         const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
-        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q'; // <--- TA CLÉ ICI
-        const sb = window.supabase.createClient(SB_URL, SB_KEY);
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
+        
+        const sb = supabase.createClient(SB_URL, SB_KEY);
 
-        async function loadData() {
+        // FONCTION DE NETTOYAGE DES CHIFFRES D'AMAZON
+        function cleanAmazonValue(val) {
+            if (!val) return 0;
+            // On transforme "8,74 €*" en "8.74"
+            let cleaned = val.toString()
+                .replace(/[€$* ]/g, '')  // Enlève les symboles
+                .replace(',', '.')      // Remplace virgule par point
+                .trim();
+            
+            let num = parseFloat(cleaned);
+            return isNaN(num) ? 0 : num;
+        }
+
+        async function fetchKDPData() {
+            const email = 'peacestreet@hotmail.com';
+            console.log("🚀 Récupération des données pour:", email);
+
             const { data, error } = await sb
                 .from('kdp_reports')
                 .select('*')
-                .eq('user_email', 'peacestreet@hotmail.com')
+                .eq('user_email', email)
                 .order('created_at', { ascending: false })
                 .limit(1);
 
-            if (data && data[0]) {
-                const report = data[0];
-                const p = report.payload.overview;
-                
-                document.getElementById('lastSync').innerText = `Dernière synchro : ${new Date(report.created_at).toLocaleString()}`;
-                
-                // Nettoyage des chaînes (enlève €, *, espaces et convertit virgule en point)
-                const clean = (v) => v ? v.toString().replace(/[€* ]/g, '').replace(',', '.').trim() : "0";
+            if (error) {
+                console.error("❌ Erreur Supabase:", error);
+                document.getElementById('debugStatus').innerText = "Erreur de connexion base de données";
+                return;
+            }
 
-                document.getElementById('royaltiesAmt').innerText = clean(p.totalRoyalties) + " €";
-                document.getElementById('ordersAmt').innerText = clean(p.totalOrders);
-                document.getElementById('kenpAmt').innerText = clean(p.totalKenp);
+            if (data && data.length > 0) {
+                const lastReport = data[0];
+                const payload = lastReport.payload;
+                console.log("📦 Rapport trouvé:", lastReport);
+
+                // Mise à jour de la date de synchro
+                const syncDate = new Date(lastReport.created_at);
+                document.getElementById('lastSync').innerText = `Dernière synchro : ${syncDate.toLocaleDateString()} à ${syncDate.toLocaleTimeString()}`;
+
+                // Extraction des données (Gestion du format Scraper ou API Amazon)
+                let rawRoyalties = 0;
+                let rawOrders = 0;
+                let rawKenp = 0;
+
+                if (payload.overview) {
+                    // Format issu du Scraper (popup.js récent)
+                    rawRoyalties = payload.overview.totalRoyalties;
+                    rawOrders = payload.overview.totalOrders;
+                    rawKenp = payload.overview.totalKenp;
+                } else if (payload.overviewWidget) {
+                    // Format issu de l'API Amazon (popup.js ancien)
+                    rawRoyalties = payload.overviewWidget.totalRoyalties?.amount || 0;
+                    rawOrders = (payload.overviewWidget.printOrders + payload.overviewWidget.digitalOrders) || 0;
+                    rawKenp = payload.overviewWidget.kenpRead || 0;
+                }
+
+                // Affichage final avec animation simple
+                document.getElementById('royaltiesAmt').innerText = cleanAmazonValue(rawRoyalties).toFixed(2);
+                document.getElementById('ordersAmt').innerText = Math.floor(cleanAmazonValue(rawOrders));
+                document.getElementById('kenpAmt').innerText = Math.floor(cleanAmazonValue(rawKenp));
+                
+                document.getElementById('debugStatus').innerText = "Données chargées avec succès";
+            } else {
+                console.warn("⚠️ Aucune donnée trouvée.");
+                document.getElementById('debugStatus').innerText = "Aucune donnée synchronisée pour cet utilisateur.";
             }
         }
-        loadData();
+
+        // Démarrage
+        fetchKDPData();
+
+        // Rafraîchissement automatique toutes les 2 minutes si la page reste ouverte
+        setInterval(fetchKDPData, 120000);
     </script>
 </body>
 </html>
