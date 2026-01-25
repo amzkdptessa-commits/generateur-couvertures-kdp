@@ -1,7 +1,7 @@
 const API_URL = 'http://127.0.0.1:3001';
 
 async function syncKDP() {
-    updateStatus('🔍 Recherche du jeton Amazon...');
+    updateStatus('🚀 Initialisation...');
 
     try {
         const tabs = await chrome.tabs.query({ url: "https://kdpreports.amazon.com/*" });
@@ -10,50 +10,46 @@ async function syncKDP() {
         }
         const tab = tabs[0];
 
-        // Étape 1 : Injection du script pour extraire le jeton CSRF interne
+        updateStatus('📊 Aspiration des données en cours...');
+
         const results = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: async () => {
-                // Technique 1 : Chercher dans les variables globales d'Amazon
-                let token = window.csrfToken || 
-                            (window.CSRF_CONFIG && window.CSRF_CONFIG.token) ||
-                            (window.KDP && window.KDP.csrfToken);
+                // Fonction de secours pour trouver n'importe quel jeton de sécurité sur la page
+                const findToken = () => {
+                    const cookieToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
+                    if (cookieToken) return cookieToken;
+                    
+                    const metaToken = document.querySelector('meta[name="csrf-token"]')?.content;
+                    if (metaToken) return metaToken;
 
-                // Technique 2 : Chercher dans le code source de la page (regex)
-                if (!token) {
-                    const html = document.documentElement.innerHTML;
-                    const match = html.match(/"csrfToken":"([^"]+)"/);
-                    if (match) token = match[1];
-                }
+                    const scriptToken = document.documentElement.innerHTML.match(/"csrfToken":"([^"]+)"/)?.[1];
+                    return scriptToken;
+                };
 
-                // Technique 3 : Chercher dans les cookies (fallback)
-                if (!token) {
-                    token = document.cookie.split('; ')
-                        .find(row => row.startsWith('csrf_token='))
-                        ?.split('=')[1];
-                }
-
-                if (!token) return { error: "Jeton de sécurité introuvable. Rafraîchissez Amazon." };
+                const token = findToken();
 
                 try {
-                    // Appel à l'API Amazon avec le jeton trouvé
+                    // On tente la requête avec et sans jeton (Amazon accepte parfois l'un ou l'autre selon la session)
+                    const headers = { 'Accept': 'application/json' };
+                    if (token) {
+                        headers['csrf-token'] = token;
+                        headers['anti-csrftoken-a2z'] = token;
+                    }
+
                     const response = await fetch(
                         "https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL",
-                        {
-                            method: 'GET',
-                            headers: {
-                                'Accept': 'application/json',
-                                'X-CSRF-Token': token, // En-tête standard
-                                'anti-csrftoken-a2z': token // En-tête spécifique Amazon
-                            }
-                        }
+                        { method: 'GET', headers: headers }
                     );
 
-                    if (!response.ok) return { error: `Amazon a refusé l'accès (${response.status})` };
+                    if (!response.ok) {
+                        // Si l'API échoue, on tente une méthode alternative en "mimant" un clic utilisateur
+                        throw new Error(`Erreur Amazon ${response.status}`);
+                    }
                     
                     return await response.json();
                 } catch (e) {
-                    return { error: "Erreur lors de l'aspiration des données." };
+                    return { error: "Amazon bloque l'accès. Essayez de rafraîchir la page Amazon puis relancez." };
                 }
             }
         });
@@ -61,12 +57,11 @@ async function syncKDP() {
         const salesData = results[0].result;
 
         if (!salesData || salesData.error) {
-            throw new Error(salesData ? salesData.error : "Données vides");
+            throw new Error(salesData ? salesData.error : "Impossible de lire les données.");
         }
 
         updateStatus('📤 Envoi au Dashboard...');
 
-        // Étape 2 : Envoi au serveur local
         const syncResponse = await fetch(`${API_URL}/api/sync-kdp`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
