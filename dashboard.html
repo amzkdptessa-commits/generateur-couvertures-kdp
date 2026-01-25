@@ -1,314 +1,167 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Tableau de bord — GabaritKDP Tracker</title>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <style>
-    :root{
-      --bg:#0b0f14;
-      --panel:#141a22;
-      --panel-2:#1c2430;
-      --accent:#f97316;
-      --text:#ffffff;
-      --muted:#b3b3b3;
-      --border:rgba(255,255,255,.12);
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:Segoe UI,system-ui,-apple-system,BlinkMacSystemFont;
-      background:var(--bg);
-      color:var(--text);
-    }
-
-    /* ===== HEADER ===== */
-    header{
-      background:linear-gradient(135deg,#1e293b,#0f172a);
-      border-bottom:1px solid var(--border);
-    }
-    .header-inner{
-      max-width:1200px;
-      margin:0 auto;
-      padding:14px 20px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      font-weight:900;
-      font-size:18px;
-      color:var(--accent);
-    }
-    .nav{
-      display:flex;
-      gap:10px;
-    }
-    .btn{
-      padding:10px 14px;
-      border-radius:10px;
-      border:1px solid var(--border);
-      background:transparent;
-      color:#fff;
-      cursor:pointer;
-      font-weight:700;
-    }
-    .btn-orange{
-      background:var(--accent);
-      border:none;
-    }
-    .btn-orange:hover{background:#ea580c}
-
-    /* ===== PAGE ===== */
-    .wrap{
-      max-width:1200px;
-      margin:0 auto;
-      padding:24px 20px;
-    }
-
-    /* ===== BETA BOX ===== */
-    .beta{
-      border:1px solid var(--accent);
-      background:rgba(249,115,22,.08);
-      border-radius:16px;
-      padding:18px;
-      margin-bottom:22px;
-    }
-    .beta h2{
-      margin:0 0 8px 0;
-      color:var(--accent);
-      font-size:18px;
-    }
-    .beta p{
-      margin:6px 0;
-      color:var(--muted);
-      line-height:1.5;
-    }
-
-    /* ===== GRID ===== */
-    .grid{
-      display:grid;
-      gap:16px;
-      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    }
-
-    .card{
-      background:var(--panel);
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:18px;
-    }
-
-    .k{
-      font-size:12px;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      color:var(--muted);
-    }
-    .v{
-      font-size:30px;
-      font-weight:900;
-      color:var(--accent);
-      margin-top:8px;
-    }
-    .sub{
-      color:var(--muted);
-      margin-top:4px;
-      font-size:13px;
-    }
-
-    canvas{height:280px !important}
-
-    /* ===== FOOTER ===== */
-    footer{
-      margin-top:40px;
-      border-top:1px solid var(--border);
-      background:#0f172a;
-    }
-    .footer-inner{
-      max-width:1200px;
-      margin:0 auto;
-      padding:20px;
-      display:grid;
-      gap:14px;
-      font-size:13px;
-      color:var(--muted);
-    }
-    .footer-inner strong{
-      color:#fff;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>KDP Tracker Pro</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>body { background:#0f172a; color:white; font-family: 'Segoe UI', sans-serif; }</style>
 </head>
+<body class="p-6 md:p-12">
+    <div class="max-w-7xl mx-auto">
+        <header class="flex justify-between items-center mb-10">
+            <div>
+                <h1 class="text-3xl font-bold text-orange-500 italic">KDP <span class="text-white">Analytics</span></h1>
+                <p id="periodLabel" class="text-slate-400 text-sm mt-1">Analyse des ventes</p>
+            </div>
+            <div class="text-right">
+                <p id="lastSync" class="text-xs text-green-400 font-mono mb-2">--</p>
+                <button onclick="window.location.reload()" class="bg-slate-700 hover:bg-slate-600 px-5 py-2 rounded-lg text-sm font-bold transition">
+                    ACTUALISER
+                </button>
+            </div>
+        </header>
 
-<body>
+        <!-- KPI GRID -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Royalties -->
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 text-slate-700 opacity-20"><i class="fas fa-euro-sign" style="font-size: 150px;">€</i></div>
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Royalties Estimées</p>
+                <p id="royaltiesAmt" class="text-6xl font-extrabold text-orange-500 mt-4">0.00 €</p>
+            </div>
 
-<!-- ===== HEADER ===== -->
-<header>
-  <div class="header-inner">
-    <div class="brand">GabaritKDP Tracker</div>
-    <div class="nav">
-      <button class="btn" id="refresh">Rafraîchir</button>
-      <button class="btn btn-orange" id="logout">Déconnexion</button>
-    </div>
-  </div>
-</header>
+            <!-- Commandes -->
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Commandes Totales</p>
+                <p id="ordersAmt" class="text-6xl font-extrabold text-white mt-4">0</p>
+                <div class="mt-4 flex gap-4 text-sm text-slate-400">
+                    <span class="bg-slate-900 px-3 py-1 rounded">📚 Broché: <b id="detailPrint" class="text-white">0</b></span>
+                    <span class="bg-slate-900 px-3 py-1 rounded">📱 Ebook: <b id="detailEbook" class="text-white">0</b></span>
+                </div>
+            </div>
 
-<!-- ===== CONTENT ===== -->
-<div class="wrap">
+            <!-- KENP -->
+            <div class="bg-slate-800 p-8 rounded-2xl border border-slate-700 shadow-xl">
+                <p class="text-slate-400 text-xs uppercase font-bold tracking-widest">Pages Lues (KENP)</p>
+                <p id="kenpAmt" class="text-6xl font-extrabold text-blue-400 mt-4">0</p>
+                <p class="text-slate-500 text-xs mt-2">Pages lues via l'abonnement Kindle</p>
+            </div>
+        </div>
 
-  <!-- ===== BETA MESSAGE ===== -->
-  <div class="beta">
-    <h2>Version bêta — En cours de construction</h2>
-
-    <p>
-      Ce tableau de bord est actuellement en <strong>version bêta</strong>.
-      Les données affichées sont <strong>réelles</strong>, mais certaines fonctionnalités
-      peuvent être incomplètes ou évoluer.
-    </p>
-
-    <p>
-      <strong>Important :</strong> pour que les données apparaissent,
-      vous devez <strong>installer l’extension GabaritKDP Tracker</strong>
-      puis vous <strong>connecter avec le même compte</strong>.
-    </p>
-
-    <p>
-      L’extension collecte automatiquement vos rapports KDP
-      lorsque vous consultez <em>kdpreports.amazon.com</em>.
-      Aucune donnée n’est collectée sans votre action.
-    </p>
-
-    <p id="who">—</p>
-  </div>
-
-  <!-- ===== KPI ===== -->
-  <div class="grid">
-    <div class="card">
-      <div class="k">Droits d’auteur (dernier jour)</div>
-      <div class="v" id="roy">—</div>
-      <div class="sub" id="cur">—</div>
-    </div>
-
-    <div class="card">
-      <div class="k">Unités (dernier jour)</div>
-      <div class="v" id="units">—</div>
-      <div class="sub">print + digital + vvb</div>
+        <!-- GRAPHIQUE -->
+        <div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl">
+            <h2 class="text-lg font-bold mb-6 text-slate-300">Répartition Géographique (Top Marchés)</h2>
+            <div class="h-80">
+                <canvas id="countryChart"></canvas>
+            </div>
+        </div>
     </div>
 
-    <div class="card">
-      <div class="k">Lecture KENP (dernier jour)</div>
-      <div class="v" id="kenp">—</div>
-      <div class="sub">pages lues</div>
-    </div>
+    <script>
+        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
+        const sb = window.supabase.createClient(SB_URL, SB_KEY);
 
-    <div class="card">
-      <div class="k">Statut</div>
-      <div class="v" id="status">—</div>
-      <div class="sub" id="sync">—</div>
-    </div>
-  </div>
+        async function loadData() {
+            // On récupère la dernière entrée
+            const { data, error } = await sb
+                .from('kdp_reports')
+                .select('*')
+                .eq('user_email', 'peacestreet@hotmail.com')
+                .order('created_at', { ascending: false })
+                .limit(1);
 
-  <!-- ===== CHARTS ===== -->
-  <div class="grid" style="margin-top:18px;grid-template-columns:1.5fr 1fr;">
-    <div class="card">
-      <div class="k">30 jours — Redevances (bêta)</div>
-      <canvas id="c1"></canvas>
-    </div>
-    <div class="card">
-      <div class="k">30 jours — Unités (bêta)</div>
-      <canvas id="c2"></canvas>
-    </div>
-  </div>
+            if (!data || data.length === 0) return;
 
-</div>
+            const report = data[0];
+            const payload = report.payload;
+            
+            // Mise à jour date
+            const date = new Date(report.created_at);
+            document.getElementById('lastSync').innerText = `Dernière synchro : ${date.toLocaleDateString()} à ${date.toLocaleTimeString()}`;
 
-<!-- ===== FOOTER ===== -->
-<footer>
-  <div class="footer-inner">
-    <div>
-      <strong>GabaritKDP Tracker</strong> — outil d’analyse indépendant pour Amazon KDP.
-    </div>
-    <div>
-      Version bêta. Les données restent la propriété exclusive de l’utilisateur.
-      Aucune revente, aucune exploitation commerciale.
-    </div>
-    <div>
-      <strong>EN:</strong> This dashboard is in beta. Data is collected only after explicit user action via the browser extension.
-      No credentials are shared with Amazon.
-    </div>
-    <div>
-      © 2026 — GabaritKDP. All rights reserved.
-    </div>
-  </div>
-</footer>
+            // --- 1. TRAITEMENT DES TOTAUX (Overview) ---
+            if (payload.overview) {
+                const w = payload.overview.overviewWidget || payload.overview; // Adaptabilité
 
-<script>
-  let c1, c2;
+                // Royalties
+                let money = 0;
+                if (w.totalRoyalties && w.totalRoyalties.amount !== undefined) money = w.totalRoyalties.amount;
+                else if (typeof w.totalRoyalties === 'number') money = w.totalRoyalties;
+                document.getElementById('royaltiesAmt').innerText = parseFloat(money).toFixed(2) + " €";
 
-  async function api(url){
-    const r = await fetch(url, { credentials:"include" });
-    if(!r.ok) throw new Error("not-auth");
-    return await r.json();
-  }
+                // Commandes
+                const print = w.printOrders || 0;
+                const ebook = w.digitalOrders || 0;
+                document.getElementById('ordersAmt').innerText = print + ebook;
+                document.getElementById('detailPrint').innerText = print;
+                document.getElementById('detailEbook').innerText = ebook;
 
-  async function load(){
-    try{
-      const me = await api("/api/me");
-      document.getElementById("who").textContent =
-        "Connectée : " + me.email + " — via l’extension GabaritKDP Tracker";
+                // KENP
+                document.getElementById('kenpAmt').innerText = w.kenpRead || 0;
+            }
 
-      const latest = await api("/api/kdp/latest");
-      if(!latest) return;
+            // --- 2. TRAITEMENT DU GRAPHIQUE (Distribution) ---
+            if (payload.distribution) {
+                renderCountryChart(payload.distribution);
+            }
+        }
 
-      document.getElementById("roy").textContent = Number(latest.royalties||0).toFixed(2);
-      document.getElementById("cur").textContent = latest.currency || "EUR";
+        function renderCountryChart(json) {
+            const ctx = document.getElementById('countryChart').getContext('2d');
+            
+            let labels = [];
+            let dataValues = [];
 
-      const u = (Number(latest.print_orders||0)+Number(latest.digital_orders||0)+Number(latest.vvab_orders||0));
-      document.getElementById("units").textContent = u;
+            // Amazon range les données dans histogram -> data
+            if (json.histogram && json.histogram.data) {
+                // On trie pour avoir les plus gros pays en premier
+                const sortedData = json.histogram.data.sort((a, b) => {
+                    const valA = a.values.Royalties || a.values.EstEarnings || 0;
+                    const valB = b.values.Royalties || b.values.EstEarnings || 0;
+                    return valB - valA;
+                });
 
-      document.getElementById("kenp").textContent = latest.kenp_read ?? 0;
-      document.getElementById("status").textContent = "OK";
-      document.getElementById("sync").textContent = "Dernière synchro : " + (latest.metric_date || latest.created_at);
+                sortedData.forEach(item => {
+                    // On nettoie le nom (ex: "Amazon.fr" -> "France")
+                    let country = item.bin.replace('Amazon.', '').toUpperCase();
+                    if(country === 'COM') country = 'USA';
+                    if(country === 'UK') country = 'ROYAUME-UNI';
+                    
+                    labels.push(country);
+                    
+                    const val = item.values.Royalties || item.values.EstEarnings || 0;
+                    dataValues.push(val);
+                });
+            }
 
-      const series = await api("/api/kdp/series?days=30");
-      const labels = series.map(x=>x.metric_date);
-      const rev = series.map(x=>Number(x.royalties||0));
-      const units = series.map(x=>Number(x.print_orders||0)+Number(x.digital_orders||0)+Number(x.vvab_orders||0));
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Royalties (€)',
+                        data: dataValues,
+                        backgroundColor: '#f97316',
+                        borderRadius: 6,
+                        barThickness: 40
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: '#334155' }, ticks: { color: '#94a3b8' } },
+                        x: { grid: { display: false }, ticks: { color: 'white', font: { weight: 'bold' } } }
+                    }
+                }
+            });
+        }
 
-      if(c1) c1.destroy();
-      c1 = new Chart(document.getElementById("c1"), {
-        type:"line",
-        data:{ labels, datasets:[{ data:rev, tension:.35, fill:true }] },
-        options:{ plugins:{ legend:{ display:false } } }
-      });
-
-      if(c2) c2.destroy();
-      c2 = new Chart(document.getElementById("c2"), {
-        type:"bar",
-        data:{ labels, datasets:[{ data:units }] },
-        options:{ plugins:{ legend:{ display:false } } }
-      });
-
-    }catch(e){
-      window.location.href="/login.html";
-    }
-  }
-
-  document.getElementById("refresh").onclick = load;
-  document.getElementById("logout").onclick = async () => {
-    await fetch("/api/logout", { method:"POST", credentials:"include" });
-    window.location.href="/login.html";
-  };
-
-  load();
-</script>
-
+        loadData();
+    </script>
 </body>
 </html>
