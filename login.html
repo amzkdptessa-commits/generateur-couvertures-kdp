@@ -1,79 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Connexion - GabaritKDP Tracker</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
   <style>
-    :root{--bg:#121212;--card:#2d2d2d;--accent:#f97316;--text:#fff;--dim:#b3b3b3;--border:#3e3e3e}
-    body{margin:0;font-family:Segoe UI,sans-serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px}
-    .card{width:100%;max-width:480px;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:22px}
-    .logo{display:flex;align-items:center;gap:12px;margin-bottom:16px}
-    .logo img{height:34px}
-    h1{margin:0;font-size:1.2rem}
-    p{color:var(--dim);margin:8px 0 18px 0}
-    label{display:block;margin:10px 0 6px 0;color:var(--dim);font-size:.9rem}
-    input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0f172a;color:#fff}
-    button{width:100%;margin-top:14px;padding:12px;border:none;border-radius:12px;background:var(--accent);color:#fff;font-weight:800;cursor:pointer}
+    body{margin:0;font-family:Segoe UI,sans-serif;background:#121212;color:#fff;display:flex;min-height:100vh;align-items:center;justify-content:center;padding:20px}
+    .card{width:100%;max-width:520px;background:#2d2d2d;border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:20px}
+    h1{margin:0 0 10px 0;color:#FF9900;font-size:18px}
+    .muted{color:#b3b3b3;font-size:13px}
+    input{width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:#0f172a;color:#fff;margin-top:10px}
+    button{width:100%;padding:12px;border:none;border-radius:12px;background:#f97316;color:#fff;font-weight:800;cursor:pointer;margin-top:12px}
     button:hover{background:#ea580c}
-    .err{margin-top:12px;color:#fecaca}
+    .err{margin-top:10px;color:#fecaca}
   </style>
 </head>
 <body>
   <div class="card">
-    <div class="logo">
-      <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP"/>
-      <div>
-        <h1>Connexion — GabaritKDP Tracker</h1>
-        <div style="color:var(--dim);font-size:.9rem">RGPD: session sécurisée, cookies httpOnly</div>
-      </div>
-    </div>
+    <h1>Connexion — GabaritKDP Tracker</h1>
+    <div class="muted">Connexion sécurisée (cookies httpOnly). Aucune clé Supabase exposée.</div>
 
-    <p>Connecte-toi avec ton compte GabaritKDP pour accéder au tableau de bord.</p>
+    <input id="email" placeholder="Email"/>
+    <input id="password" type="password" placeholder="Mot de passe"/>
 
-    <label>Email</label>
-    <input id="email" type="email" placeholder="ex: you@email.com"/>
-
-    <label>Mot de passe</label>
-    <input id="password" type="password" placeholder="••••••••"/>
-
-    <button id="btn"><i class="fa-solid fa-right-to-bracket"></i> Se connecter</button>
+    <button id="btn">Se connecter</button>
     <div class="err" id="err" style="display:none"></div>
   </div>
 
-  <script>
-    const btn = document.getElementById("btn");
-    const err = document.getElementById("err");
+<script>
+  const err = document.getElementById("err");
+  document.getElementById("btn").onclick = async () => {
+    err.style.display="none";
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
 
-    btn.onclick = async () => {
-      err.style.display = "none";
-      btn.disabled = true;
-      btn.textContent = "Connexion...";
-
-      try {
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("password").value;
-
-        const r = await fetch("/api/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ email, password })
-        });
-
-        const j = await r.json().catch(() => ({}));
-        if (!r.ok) throw new Error(j.error || "Erreur de connexion");
-
-        window.location.href = "./dashboard.html";
-      } catch (e) {
-        err.style.display = "block";
-        err.textContent = e.message;
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-right-to-bracket"></i> Se connecter';
-      }
-    };
-  </script>
+    try{
+      const r = await fetch("/api/login", {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        credentials:"include",
+        body: JSON.stringify({ email, password })
+      });
+      const j = await r.json().catch(()=>({}));
+      if(!r.ok) throw new Error(j.error || "Erreur de connexion");
+      window.location.href="/dashboard.html";
+    }catch(e){
+      err.style.display="block";
+      err.textContent=e.message;
+    }
+  };
+</script>
 </body>
 </html>
