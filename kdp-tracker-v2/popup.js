@@ -1,64 +1,50 @@
 const API_URL = 'http://127.0.0.1:3001';
 
 async function syncKDP() {
-    updateStatus('🚀 Initialisation...');
+    updateStatus('🔐 Récupération de la session...');
 
     try {
-        const tabs = await chrome.tabs.query({ url: "https://kdpreports.amazon.com/*" });
-        if (!tabs || tabs.length === 0) {
-            throw new Error("Ouvrez l'onglet KDP Reports");
-        }
-        const tab = tabs[0];
+        // 1. Récupérer l'onglet
+        const [tab] = await chrome.tabs.query({ url: "https://kdpreports.amazon.com/*" });
+        if (!tab) throw new Error("Ouvrez l'onglet KDP Reports");
 
-        updateStatus('📊 Aspiration des données en cours...');
+        // 2. Récupérer les cookies de session "cachés"
+        const cookies = await chrome.cookies.getAll({ domain: "amazon.com" });
+        const cookieString = cookies.map(c => `${c.name}=${c.value}`).join('; ');
 
+        updateStatus('📊 Aspiration des données...');
+
+        // 3. Exécuter le fetch avec les pleins pouvoirs
         const results = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
             func: async () => {
-                // Fonction de secours pour trouver n'importe quel jeton de sécurité sur la page
-                const findToken = () => {
-                    const cookieToken = document.cookie.split('; ').find(row => row.startsWith('csrf_token='))?.split('=')[1];
-                    if (cookieToken) return cookieToken;
-                    
-                    const metaToken = document.querySelector('meta[name="csrf-token"]')?.content;
-                    if (metaToken) return metaToken;
+                // On cherche le token CSRF dans les scripts de la page
+                const html = document.documentElement.innerHTML;
+                const csrfMatch = html.match(/"csrfToken":"([^"]+)"/);
+                const csrfToken = csrfMatch ? csrfMatch[1] : null;
 
-                    const scriptToken = document.documentElement.innerHTML.match(/"csrfToken":"([^"]+)"/)?.[1];
-                    return scriptToken;
-                };
-
-                const token = findToken();
-
-                try {
-                    // On tente la requête avec et sans jeton (Amazon accepte parfois l'un ou l'autre selon la session)
-                    const headers = { 'Accept': 'application/json' };
-                    if (token) {
-                        headers['csrf-token'] = token;
-                        headers['anti-csrftoken-a2z'] = token;
+                const response = await fetch(
+                    "https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL",
+                    {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                            'csrf-token': csrfToken
+                        }
                     }
+                );
 
-                    const response = await fetch(
-                        "https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL",
-                        { method: 'GET', headers: headers }
-                    );
-
-                    if (!response.ok) {
-                        // Si l'API échoue, on tente une méthode alternative en "mimant" un clic utilisateur
-                        throw new Error(`Erreur Amazon ${response.status}`);
-                    }
-                    
-                    return await response.json();
-                } catch (e) {
-                    return { error: "Amazon bloque l'accès. Essayez de rafraîchir la page Amazon puis relancez." };
+                if (response.status === 403 || response.status === 401) {
+                    throw new Error("Amazon bloque l'accès (403).");
                 }
+
+                return await response.json();
             }
         });
 
         const salesData = results[0].result;
-
-        if (!salesData || salesData.error) {
-            throw new Error(salesData ? salesData.error : "Impossible de lire les données.");
-        }
+        if (!salesData || salesData.error) throw new Error(salesData.error || "Erreur de données");
 
         updateStatus('📤 Envoi au Dashboard...');
 
@@ -71,12 +57,10 @@ async function syncKDP() {
             })
         });
 
-        if (!syncResponse.ok) throw new Error("Le serveur backend est éteint.");
-
         updateStatus('✅ Synchronisation réussie !');
 
     } catch (error) {
-        updateStatus(`${error.message}`, true);
+        updateStatus(`❌ ${error.message}`, true);
     }
 }
 
