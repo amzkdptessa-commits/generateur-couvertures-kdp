@@ -1,54 +1,53 @@
 const API_URL = 'http://127.0.0.1:3001';
 
 async function syncKDP() {
-    updateStatus('🔐 Récupération de la session...');
+    updateStatus('🚀 Initialisation du scan...');
 
     try {
-        // 1. Récupérer l'onglet
         const [tab] = await chrome.tabs.query({ url: "https://kdpreports.amazon.com/*" });
         if (!tab) throw new Error("Ouvrez l'onglet KDP Reports");
 
-        // 2. Récupérer les cookies de session "cachés"
-        const cookies = await chrome.cookies.getAll({ domain: "amazon.com" });
-        const cookieString = cookies.map(c => `${c.name}=${c.value}`).join('; ');
+        updateStatus('📊 Lecture des chiffres sur l\'écran...');
 
-        updateStatus('📊 Aspiration des données...');
-
-        // 3. Exécuter le fetch avec les pleins pouvoirs
         const results = await chrome.scripting.executeScript({
             target: { tabId: tab.id },
-            func: async () => {
-                // On cherche le token CSRF dans les scripts de la page
-                const html = document.documentElement.innerHTML;
-                const csrfMatch = html.match(/"csrfToken":"([^"]+)"/);
-                const csrfToken = csrfMatch ? csrfMatch[1] : null;
+            func: () => {
+                // On va chercher les chiffres directement dans le texte de la page
+                const getText = (selector) => {
+                    const el = document.querySelector(selector);
+                    return el ? el.innerText.trim() : "0";
+                };
 
-                const response = await fetch(
-                    "https://kdpreports.amazon.com/api/reports/dashboard?period=past12months&marketplace=ALL",
-                    {
-                        method: 'GET',
-                        headers: {
-                            'Accept': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'csrf-token': csrfToken
-                        }
-                    }
-                );
+                // On essaie de récupérer les 3 KPIs principaux affichés
+                // Les sélecteurs ci-dessous correspondent aux classes standards de KDP
+                const royalties = document.evaluate("//div[contains(text(), 'estimées')]/following-sibling::div", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue?.innerText || 
+                                 document.querySelector('.dashboard-kpi-value')?.innerText || "0";
+                
+                const orders = document.evaluate("//div[contains(text(), 'Commandes')]/following-sibling::div", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue?.innerText || "0";
+                
+                const kenp = document.evaluate("//div[contains(text(), 'KENP')]/following-sibling::div", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue?.innerText || "0";
 
-                if (response.status === 403 || response.status === 401) {
-                    throw new Error("Amazon bloque l'accès (403).");
-                }
-
-                return await response.json();
+                return {
+                    overview: {
+                        totalRoyalties: royalties,
+                        totalOrders: orders,
+                        totalKenp: kenp
+                    },
+                    scrapedAt: new Date().toISOString(),
+                    source: "DOM_Scraping"
+                };
             }
         });
 
-        const salesData = results[0].result;
-        if (!salesData || salesData.error) throw new Error(salesData.error || "Erreur de données");
+        // Correction de l'erreur "null"
+        if (!results || !results[0] || !results[0].result) {
+            throw new Error("Impossible de lire la page. Rafraîchissez Amazon.");
+        }
 
+        const salesData = results[0].result;
         updateStatus('📤 Envoi au Dashboard...');
 
-        const syncResponse = await fetch(`${API_URL}/api/sync-kdp`, {
+        await fetch(`${API_URL}/api/sync-kdp`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
