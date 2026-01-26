@@ -1,582 +1,164 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-fr="Dashboard - GabaritKDP Tracker" data-en="Dashboard - GabaritKDP Tracker">Dashboard - GabaritKDP Tracker</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Tableau de Bord - GabaritKDP" data-en="Dashboard - GabaritKDP">Dashboard - GabaritKDP</title>
+    
+    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; }
+        
+        .language-selector { position: fixed; top: 18px; right: 20px; z-index: 1002; background: #fff; border-radius: 20px; box-shadow: 0 4px 15px rgba(0, 0, 0, .1); padding: 3px; display: flex; }
+        .lang-btn { padding: 6px 10px; border: none; background: transparent; border-radius: 16px; cursor: pointer; transition: .3s; font-weight: 500; font-size: .8rem; color: #64748b; }
+        .lang-btn.active { background: #FF9900; color: #fff }
 
-  <!-- Font Awesome (header icons + dashboard icons) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Tailwind (footer.html uses Tailwind classes) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <style>
-    :root {
-      --bg-dark: #121212;
-      --card-bg: #2d2d2d;
-      --accent-orange: #f97316;
-      --text-main: #ffffff;
-      --text-dim: #b3b3b3;
-      --border: #3e3e3e;
-    }
-
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: var(--bg-dark);
-      color: var(--text-main);
-      margin: 0;
-    }
-
-    .dashboard-container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-
-    /* Banner Extension */
-    .extension-banner {
-      background: rgba(249, 115, 22, 0.05);
-      border: 1px solid var(--accent-orange);
-      border-radius: 8px;
-      padding: 15px 25px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
-      gap: 15px;
-    }
-
-    .btn-sync {
-      background: var(--accent-orange);
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      white-space: nowrap;
-    }
-
-    .btn-sync:hover { background: #ea580c; }
-
-    /* Stats Cards */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .stat-card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-    }
-
-    .stat-card h4 {
-      margin: 0;
-      font-size: 0.75rem;
-      color: var(--text-dim);
-      text-transform: uppercase;
-    }
-
-    .stat-card .value {
-      font-size: 1.8rem;
-      font-weight: bold;
-      margin-top: 10px;
-      color: var(--accent-orange);
-    }
-
-    /* Charts */
-    .charts-row {
-      display: grid;
-      grid-template-columns: 1.5fr 1fr;
-      gap: 15px;
-      margin-bottom: 25px;
-    }
-
-    .chart-container {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 10px;
-      border: 1px solid var(--border);
-      height: 320px;
-    }
-
-    @media (max-width: 900px) {
-      .charts-row { grid-template-columns: 1fr; }
-      .chart-container { height: 300px; }
-      .extension-banner { flex-direction: column; align-items: flex-start; }
-    }
-
-    /* Categories Grid */
-    .cat-section { text-align: center; margin-bottom: 30px; }
-    .category-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 15px;
-      margin-top: 25px;
-    }
-
-    .cat-item {
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: 0.3s;
-      opacity: 0.85;
-    }
-
-    .cat-icon {
-      width: 90px;
-      height: 90px;
-      background: #f0f2f5;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 3px solid transparent;
-      margin-bottom: 10px;
-      transition: 0.3s;
-    }
-
-    .cat-icon i { font-size: 30px; color: #2c3e50; }
-    .cat-item p {
-      font-size: 0.7rem;
-      font-weight: bold;
-      color: var(--text-main);
-      max-width: 110px;
-      line-height: 1.2;
-      margin: 0;
-    }
-
-    .cat-item:hover, .cat-item.active { opacity: 1; }
-    .cat-item:hover .cat-icon, .cat-item.active .cat-icon {
-      border-color: var(--accent-orange);
-      background: white;
-      transform: translateY(-5px);
-    }
-    .cat-item.active i { color: var(--accent-orange); }
-
-    /* Insight box */
-    .info-box {
-      background: var(--card-bg);
-      border-radius: 12px;
-      padding: 22px;
-      border: 1px solid var(--border);
-      margin-bottom: 30px;
-      text-align: left;
-    }
-    .info-box h3 { margin: 0 0 8px 0; font-size: 1.05rem; }
-    .info-box p { margin: 0; color: var(--text-dim); line-height: 1.6; }
-
-    /* CTA */
-    .cta-footer {
-      text-align: center;
-      padding: 35px 20px;
-      border: 1px dashed var(--accent-orange);
-      border-radius: 15px;
-      background: #1a1a1a;
-      margin-top: 10px;
-    }
-    .btn-marketplace {
-      background: #2563eb;
-      color: white;
-      padding: 14px 34px;
-      border-radius: 30px;
-      text-decoration: none;
-      font-weight: bold;
-      display: inline-block;
-      margin-top: 14px;
-      transition: 0.3s;
-    }
-    .btn-marketplace:hover { background: #1d4ed8; transform: scale(1.03); }
-
-    /* Loading */
-    .loading { display: none; text-align: center; padding: 40px; }
-    .loading.active { display: block; }
-  </style>
+        /* Styles Dashboard */
+        .stat-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .guide-box { background: #fff; border: 2px dashed #FF9900; border-radius: 20px; padding: 40px; }
+        .step-badge { background: #FF9900; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-weight: 900; margin-bottom: 12px; font-size: 14px; }
+    </style>
 </head>
-
 <body>
 
-  <!-- HEADER (chargé depuis TON header.html) -->
-  <div id="header-placeholder"></div>
-
-  <!-- CONTENT -->
-  <div class="dashboard-container">
-
-    <div class="loading active" id="loadingState">
-      <i class="fas fa-spinner fa-spin" style="font-size: 3rem; color: var(--accent-orange);"></i>
-      <p style="margin-top: 20px; color: var(--text-dim);" data-fr="Chargement du dashboard..." data-en="Loading your dashboard...">
-        Loading your dashboard...
-      </p>
+    <!-- Language Switch -->
+    <div class="language-selector">
+        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+        <button class="lang-btn" data-lang="en" onclick="switchLanguage('en')">EN</button>
     </div>
 
-    <div id="dashboardContent" style="display:none;">
+    <!-- Header Placeholder -->
+    <div id="header-placeholder"></div>
 
-      <!-- Connected banner -->
-      <div class="extension-banner">
-        <div style="display:flex; align-items:center; gap:15px;">
-          <div style="background:var(--accent-orange); padding:10px; border-radius:8px;">
-            <i class="fas fa-plug"></i>
-          </div>
-          <div>
-            <strong data-fr="GabaritKDP Tracker connecté" data-en="GabaritKDP Tracker Connected">GabaritKDP Tracker Connected</strong><br>
-            <small style="color: var(--text-dim);" id="lastSync" data-fr="Dernière synchro : --" data-en="Last sync: --">Last sync: --</small>
-          </div>
+    <main class="max-w-7xl mx-auto p-6 md:p-12">
+        <!-- Section Onboarding -->
+        <div id="onboardingSection">
+            <div class="guide-box shadow-sm bg-orange-50/30">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
+                    <div>
+                        <h2 class="text-3xl font-black italic uppercase tracking-tighter" data-fr="🚀 Activez votre suivi" data-en="🚀 Activate your tracking">Activate your tracking</h2>
+                        <p class="text-gray-600 mt-2" data-fr="Installez l'extension pour voir vos redevances." data-en="Install the extension to see your royalties.">Install the extension to see your royalties.</p>
+                    </div>
+                    <a href="https://chromewebstore.google.com/detail/gabaritkdp-tracker/mbngmlkggdapbbncgoijjcbmbcgeomip" target="_blank" class="bg-orange-500 text-white px-8 py-4 rounded-2xl font-black text-sm transition shadow-lg flex items-center gap-3">
+                        <i class="fab fa-chrome"></i> INSTALL EXTENSION
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-8">
+                    <div class="text-center md:text-left"><span class="step-badge">1</span><br><b>Extension</b></div>
+                    <div class="text-center md:text-left"><span class="step-badge">2</span><br><b>Login KDP</b></div>
+                    <div class="text-center md:text-left"><span class="step-badge">3</span><br><b>Open Icon</b></div>
+                    <div class="text-center md:text-left"><span class="step-badge">4</span><br><b>Sync</b></div>
+                    <div class="text-center md:text-left"><span class="step-badge">5</span><br><b>Refresh Page</b></div>
+                </div>
+            </div>
+            
+            <div class="max-w-md mx-auto bg-white p-8 rounded-3xl shadow-lg mt-12 border border-slate-100">
+                <h3 class="text-xl font-bold mb-4 text-center" data-fr="Accès Rapide" data-en="Quick Access">Quick Access</h3>
+                <input type="email" id="userEmail" placeholder="votre@email.com" class="w-full p-4 border border-gray-200 rounded-xl mb-4 outline-none focus:border-orange-500 transition">
+                <button onclick="handleLogin()" class="w-full bg-orange-500 text-white font-black py-4 rounded-xl shadow-lg uppercase tracking-widest hover:bg-orange-600 transition">
+                    <span data-fr="ACCÉDER" data-en="ACCESS">ACCESS</span>
+                </button>
+            </div>
         </div>
 
-        <button class="btn-sync" onclick="syncData(event)">
-          <i class="fas fa-sync"></i>
-          <span data-fr="ACTUALISER" data-en="REFRESH DATA">REFRESH DATA</span>
-        </button>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats-grid">
-        <div class="stat-card">
-          <h4 data-fr="Royalties totales" data-en="Total Royalties">Total Royalties</h4>
-          <div class="value" id="totalRoyalties">$0.00</div>
+        <!-- Section Dashboard -->
+        <div id="dashboardSection" style="display:none;">
+            <div class="flex justify-between items-end mb-10">
+                <h2 class="text-4xl font-black italic tracking-tighter text-gray-900">MY <span class="text-orange-500 uppercase">KDP SALES</span></h2>
+                <p id="lastSync" class="text-gray-400 text-xs font-mono">Last sync: --</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="stat-card text-center"><h4 class="text-gray-400 text-[10px] font-black uppercase">Royalties</h4><p id="royaltiesAmt" class="text-5xl font-black text-orange-500 mt-4">0.00 €</p></div>
+                <div class="stat-card text-center"><h4 class="text-gray-400 text-[10px] font-black uppercase">Units</h4><p id="ordersAmt" class="text-5xl font-black text-gray-900 mt-4">0</p></div>
+                <div class="stat-card text-center"><h4 class="text-gray-400 text-[10px] font-black uppercase">KENP</h4><p id="kenpAmt" class="text-5xl font-black text-blue-500 mt-4">0</p></div>
+            </div>
         </div>
-        <div class="stat-card">
-          <h4 data-fr="Unités vendues" data-en="Units Sold">Units Sold</h4>
-          <div class="value" id="unitsSold">0</div>
-        </div>
-        <div class="stat-card">
-          <h4 data-fr="Livres actifs" data-en="Active Books">Active Books</h4>
-          <div class="value" id="activeBooks">0</div>
-        </div>
-        <div class="stat-card">
-          <h4 data-fr="Marketplace n°1" data-en="Top Marketplace">Top Marketplace</h4>
-          <div class="value" id="topMarket">--</div>
-        </div>
-      </div>
+    </main>
 
-      <!-- Charts -->
-      <div class="charts-row">
-        <div class="chart-container">
-          <h3 style="margin:0 0 10px 0; font-size:0.9rem;">
-            <i class="fas fa-chart-line"></i>
-            <span data-fr="Évolution des revenus" data-en="Revenue Evolution">Revenue Evolution</span>
-          </h3>
-          <canvas id="revenueChart"></canvas>
-        </div>
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
-        <div class="chart-container">
-          <h3 style="margin:0 0 10px 0; font-size:0.9rem;">
-            <i class="fas fa-globe"></i>
-            <span data-fr="Répartition par pays" data-en="Sales Distribution">Sales Distribution</span>
-          </h3>
-          <canvas id="marketChart"></canvas>
-        </div>
-      </div>
+    <script>
+        // --- 1. CONFIGURATION & PLACEHOLDERS ---
+        const SB_URL = 'https://bgcspojhiupcrpzlkwax.supabase.co';
+        const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnY3Nwb2poaXVwY3Jwemxrd2F4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjQ3Nzc1NjUsImV4cCI6MjA4MDM1MzU2NX0.8-kcGquwHwv8BCFYZtWu1Op7TLMIfWjXghES2IwJl7Q';
+        const sb = supabase.createClient(SB_URL, SB_KEY);
 
-      <!-- Categories -->
-      <div class="cat-section">
-        <h2 style="text-transform: uppercase;" data-fr="Catégories Best Seller" data-en="Best Seller Categories">Best Seller Categories</h2>
-        <div class="category-grid">
-          <div class="cat-item" onclick="selectCat('Children Books', this)"><div class="cat-icon"><i class="fas fa-rocket"></i></div><p>Children Books</p></div>
-          <div class="cat-item" onclick="selectCat('Fiction & Literature', this)"><div class="cat-icon"><i class="fas fa-book-open"></i></div><p>Fiction & Literature</p></div>
-          <div class="cat-item" onclick="selectCat('Foreign Languages', this)"><div class="cat-icon"><i class="fas fa-language"></i></div><p>Foreign Languages</p></div>
-          <div class="cat-item" onclick="selectCat('Health & Diet', this)"><div class="cat-icon"><i class="fas fa-apple-alt"></i></div><p>Health & Diet</p></div>
-          <div class="cat-item" onclick="selectCat('Education', this)"><div class="cat-icon"><i class="fas fa-school"></i></div><p>Education</p></div>
-          <div class="cat-item" onclick="selectCat('Comics', this)"><div class="cat-icon"><i class="fas fa-bolt"></i></div><p>Comics</p></div>
-          <div class="cat-item" onclick="selectCat('Manga', this)"><div class="cat-icon"><i class="fas fa-user-ninja"></i></div><p>Manga</p></div>
-          <div class="cat-item" onclick="selectCat('Humanities', this)"><div class="cat-icon"><i class="fas fa-brain"></i></div><p>Humanities</p></div>
-          <div class="cat-item" onclick="selectCat('Science & Tech', this)"><div class="cat-icon"><i class="fas fa-flask"></i></div><p>Science & Tech</p></div>
-          <div class="cat-item" onclick="selectCat('Spirituality', this)"><div class="cat-icon"><i class="fas fa-dove"></i></div><p>Spirituality</p></div>
-          <div class="cat-item" onclick="selectCat('Mystery', this)"><div class="cat-icon"><i class="fas fa-search"></i></div><p>Mystery</p></div>
-          <div class="cat-item" onclick="selectCat('Cooking', this)"><div class="cat-icon"><i class="fas fa-utensils"></i></div><p>Cooking</p></div>
-          <div class="cat-item" onclick="selectCat('Planner', this)"><div class="cat-icon"><i class="fas fa-calendar-alt"></i></div><p>Planner</p></div>
-          <div class="cat-item" onclick="selectCat('Coloring Book', this)"><div class="cat-icon"><i class="fas fa-paint-brush"></i></div><p>Coloring Book</p></div>
-        </div>
-      </div>
+        // Fetch Header & Footer
+        fetch('./header.html').then(r => r.text()).then(html => {
+            document.getElementById('header-placeholder').innerHTML = html;
+            initLanguage(); // Initialise la langue APRES le chargement du header
+        });
+        fetch('./footer.html').then(r => r.text()).then(html => document.getElementById('footer-placeholder').innerHTML = html);
 
-      <!-- Insight -->
-      <div class="info-box">
-        <h3 id="info-title" data-fr="Insights catégorie" data-en="Category Insights">Category Insights</h3>
-        <p id="info-desc"
-           data-fr="Clique une catégorie pour afficher des insights (marchés, tendances, recommandations)."
-           data-en="Select a category above to display insights (markets, trends, recommendations).">
-          Select a category above to display insights (markets, trends, recommendations).
-        </p>
-      </div>
-
-      <!-- CTA -->
-      <div class="cta-footer">
-        <h3 data-fr="Va sur Templates et crée ton prochain livre" data-en="Go to Templates and create your next book">
-          Go to Templates and create your next book
-        </h3>
-        <a href="./marketplace.html" class="btn-marketplace">
-          <span data-fr="ACCÉDER AUX TEMPLATES" data-en="ACCESS TEMPLATES">ACCESS TEMPLATES</span>
-          <i class="fas fa-rocket"></i>
-        </a>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- FOOTER (chargé depuis TON footer.html) -->
-  <div id="footer-placeholder"></div>
-
-  <script>
-    // =========================
-    // LANG (copié de la logique index : preferredLanguage)
-    // =========================
-    let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
-
-    function switchLanguage(lang) {
-      currentLanguage = lang;
-      localStorage.setItem('preferredLanguage', lang);
-      document.documentElement.lang = lang;
-      applyLanguage(lang);
-      updateLanguageButtons();
-    }
-
-    function applyLanguage(lang) {
-      const elements = document.querySelectorAll('[data-' + lang + ']');
-      elements.forEach(element => {
-        const text = element.getAttribute('data-' + lang);
-        if (!text) return;
-
-        if (element.tagName === 'META') {
-          element.setAttribute('content', text);
-        } else if (element.tagName === 'TITLE') {
-          element.textContent = text;
-        } else {
-          element.innerHTML = text;
+        // --- 2. LOGIQUE LANGUE (Utilise preferredLanguage) ---
+        function switchLanguage(lang) {
+            localStorage.setItem('preferredLanguage', lang);
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+            document.querySelectorAll('[data-' + lang + ']').forEach(el => {
+                const text = el.getAttribute('data-' + lang);
+                if (el.tagName === 'TITLE') document.title = text;
+                else el.innerHTML = text;
+            });
         }
-      });
-      document.documentElement.lang = lang;
-    }
 
-    function updateLanguageButtons() {
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        const btnLang = btn.getAttribute('data-lang');
-        if (btnLang === currentLanguage) btn.classList.add('active');
-      });
-    }
-
-    // =========================
-    // HEADER / FOOTER injection (comme index)
-    // =========================
-    async function injectHeaderFooter() {
-      // Header
-      try {
-        const headerHtml = await fetch('./header.html', { cache: 'no-cache' }).then(r => r.text());
-        document.getElementById('header-placeholder').innerHTML = headerHtml;
-
-        // Active link = Dashboard
-        const headerLinks = document.querySelectorAll('.nav-links a');
-        headerLinks.forEach(a => a.classList.remove('active'));
-        const dash = document.querySelector('.nav-links a[href="./dashboard.html"], .nav-links a[href="dashboard.html"]');
-        if (dash) dash.classList.add('active');
-
-        // Si ton header contient des boutons .lang-btn avec data-lang,
-        // ils seront gérés par updateLanguageButtons()
-      } catch (e) {
-        console.error('Header load error:', e);
-      }
-
-      // Footer
-      try {
-        const footerHtml = await fetch('./footer.html', { cache: 'no-cache' }).then(r => r.text());
-        document.getElementById('footer-placeholder').innerHTML = footerHtml;
-      } catch (e) {
-        console.error('Footer load error:', e);
-      }
-
-      // Applique la langue après injection
-      applyLanguage(currentLanguage);
-      updateLanguageButtons();
-    }
-
-    // =========================
-    // DASHBOARD (Supabase + charts)
-    // =========================
-    const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_HGEXYCHK0H3JzKEluWy2GQ_tdmb8UWg';
-
-    const { createClient } = window.supabase;
-    const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-    let revenueChart, marketChart;
-    let currentUser = null;
-
-    async function checkAuthAndLoad() {
-      // MODE TEST (identique à ton dashboard actuel)
-      currentUser = {
-        id: 'ed825c71-c523-4503-b705-02f818f7b71e',
-        email: 'test@gabaritkdp.com'
-      };
-
-      await loadDashboardData();
-
-      document.getElementById('loadingState').classList.remove('active');
-      document.getElementById('dashboardContent').style.display = 'block';
-
-      // Si tu veux activer l'auth réelle plus tard, décommente:
-      /*
-      const { data: { session } } = await supabaseClient.auth.getSession();
-      if (!session) { window.location.href = './connexion.html'; return; }
-      currentUser = session.user;
-      await loadDashboardData();
-      document.getElementById('loadingState').classList.remove('active');
-      document.getElementById('dashboardContent').style.display = 'block';
-      */
-    }
-
-    async function loadDashboardData() {
-      try {
-        const { data: summary, error: summaryError } = await supabaseClient
-          .from('kdp_summary')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .single();
-
-        if (summaryError && summaryError.code !== 'PGRST116') console.error('Error fetching summary:', summaryError);
-
-        const { data: sales, error: salesError } = await supabaseClient
-          .from('kdp_sales')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .order('sale_date', { ascending: false })
-          .limit(30);
-
-        if (salesError) console.error('Error fetching sales:', salesError);
-
-        const { data: books, error: booksError } = await supabaseClient
-          .from('kdp_books')
-          .select('*')
-          .eq('user_id', currentUser.id);
-
-        if (booksError) console.error('Error fetching books:', booksError);
-
-        updateDashboard(summary, sales || [], books || []);
-      } catch (error) {
-        console.error('Error loading dashboard:', error);
-      }
-    }
-
-    function updateDashboard(summary, sales, books) {
-      if (summary) {
-        document.getElementById('totalRoyalties').textContent = '$' + (summary.total_royalties || 0).toFixed(2);
-        document.getElementById('unitsSold').textContent = summary.total_sales || 0;
-        document.getElementById('topMarket').textContent = summary.marketplace || 'US';
-
-        if (summary.last_scraped) {
-          const lastSync = new Date(summary.last_scraped);
-          document.getElementById('lastSync').textContent =
-            (currentLanguage === 'fr' ? 'Dernière synchro : ' : 'Last sync: ') + lastSync.toLocaleString();
+        function initLanguage() {
+            const lang = localStorage.getItem('preferredLanguage') || 'en';
+            switchLanguage(lang);
         }
-      }
 
-      document.getElementById('activeBooks').textContent = Array.isArray(books) ? books.length : 0;
+        // --- 3. AUTH & DATA ---
+        window.addEventListener('load', () => {
+            const email = localStorage.getItem('kdp_user_email');
+            if (email) showDashboard(email);
+        });
 
-      updateCharts(sales);
-    }
+        function handleLogin() {
+            const email = document.getElementById('userEmail').value.trim();
+            if (email.includes('@')) {
+                localStorage.setItem('kdp_user_email', email);
+                showDashboard(email);
+            }
+        }
 
-    function updateCharts(sales) {
-      const chartDefaults = {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } }
-      };
+        function showDashboard(email) {
+            document.getElementById('onboardingSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            fetchKDPData();
+        }
 
-      // Revenue chart
-      const revenueData = sales.slice(0, 30).reverse().map(s => s.royalty || 0);
-      const revenueLabels = sales.slice(0, 30).reverse().map(s => {
-        const date = new Date(s.sale_date);
-        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-      });
+        async function fetchKDPData() {
+            const email = localStorage.getItem('kdp_user_email');
+            const { data } = await sb.from('kdp_reports').select('*').eq('user_email', email).order('created_at', { ascending: false }).limit(1);
 
-      if (revenueChart) revenueChart.destroy();
-      revenueChart = new Chart(document.getElementById('revenueChart'), {
-        type: 'line',
-        data: {
-          labels: revenueLabels.length ? revenueLabels : ['No data'],
-          datasets: [{
-            data: revenueData.length ? revenueData : [0],
-            borderColor: '#f97316',
-            backgroundColor: 'rgba(249, 115, 22, 0.1)',
-            fill: true,
-            tension: 0.4
-          }]
-        },
-        options: chartDefaults
-      });
+            if (data && data[0]) {
+                const p = data[0].payload;
+                const pages = p.pages || p;
+                document.getElementById('lastSync').innerText = `Sync: ${new Date(data[0].created_at).toLocaleTimeString()}`;
 
-      // Market chart
-      const marketData = {};
-      sales.forEach(sale => {
-        const market = sale.marketplace || 'US';
-        marketData[market] = (marketData[market] || 0) + (sale.royalty || 0);
-      });
-
-      const markets = Object.keys(marketData);
-      const marketValues = Object.values(marketData);
-
-      if (marketChart) marketChart.destroy();
-      marketChart = new Chart(document.getElementById('marketChart'), {
-        type: 'doughnut',
-        data: {
-          labels: markets.length ? markets : ['No data'],
-          datasets: [{
-            data: marketValues.length ? marketValues : [1],
-            backgroundColor: ['#f97316', '#2563eb', '#4ade80', '#facc15', '#a855f7']
-          }]
-        },
-        options: chartDefaults
-      });
-    }
-
-    async function syncData(ev) {
-      const btn = ev?.currentTarget;
-      if (btn) {
-        btn.disabled = true;
-        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (currentLanguage === 'fr' ? 'SYNCHRO...' : 'SYNCING...');
-      }
-
-      await loadDashboardData();
-
-      if (btn) {
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-sync"></i> ' + (currentLanguage === 'fr' ? 'ACTUALISER' : 'REFRESH DATA');
-      }
-    }
-
-    function selectCat(catName, element) {
-      document.querySelectorAll('.cat-item').forEach(i => i.classList.remove('active'));
-      element.classList.add('active');
-
-      const title = (currentLanguage === 'fr')
-        ? 'Insights : ' + catName
-        : 'Insights: ' + catName;
-
-      const desc = (currentLanguage === 'fr')
-        ? "Ici tu peux afficher les recommandations pour '" + catName + "' (marchés, tendances, actions)."
-        : "You can display recommendations for '" + catName + "' (markets, trends, actions).";
-
-      document.getElementById('info-title').textContent = title;
-      document.getElementById('info-desc').textContent = desc;
-    }
-
-    // Init
-    document.addEventListener('DOMContentLoaded', async function () {
-      await injectHeaderFooter();
-      await checkAuthAndLoad();
-    });
-  </script>
-
+                let r = 0, o = 0, k = 0;
+                ['dashboard', 'month_current', 'unknown', 'pmr'].forEach(sec => {
+                    const section = pages[sec];
+                    if (section && section.payloads) {
+                        Object.values(section.payloads).forEach(item => {
+                            if (item.overviewWidget) {
+                                r = item.overviewWidget.totalRoyalties || r;
+                                o = (item.overviewWidget.printOrders + item.overviewWidget.digitalOrders) || o;
+                                k = item.overviewWidget.kenpRead || k;
+                            }
+                        });
+                    }
+                });
+                document.getElementById('royaltiesAmt').innerText = r.toFixed(2) + " €";
+                document.getElementById('ordersAmt').innerText = Math.floor(o);
+                document.getElementById('kenpAmt').innerText = Math.floor(k);
+            }
+        }
+    </script>
 </body>
 </html>
