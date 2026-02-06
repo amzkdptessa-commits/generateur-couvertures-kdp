@@ -15,16 +15,16 @@
         content="Professional tool to create KDP covers with exact Amazon dimensions. French interface, precise calculations.">
 
     <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
-    
-    <!-- 🔤 GOOGLE FONTS - Polices pour les couvertures -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Lora:wght@400;700&family=Spectral:wght@400;700&family=Crimson+Text:wght@400;700&family=EB+Garamond:wght@400;700&family=Bitter:wght@400;700&family=Roboto+Slab:wght@400;700&family=Oswald:wght@400;700&family=Montserrat:wght@400;700&family=Raleway:wght@400;700&family=Poppins:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Dancing+Script:wght@400;700&family=Pacifico&family=Great+Vibes&family=Satisfy&family=Sacramento&family=Allura&family=Alex+Brush&family=Tangerine:wght@400;700&family=Pinyon+Script&family=Berkshire+Swash&family=Abril+Fatface&family=Alfa+Slab+One&family=Bangers&family=Permanent+Marker&family=Righteous&family=Creepster&family=Nosifer&family=Metal+Mania&family=Butcherman&family=Rubik+Glitch&family=Orbitron:wght@400;700&family=Press+Start+2P&family=VT323&display=swap"
-      media="print"
-      onload="this.media='all'">
+<!-- 🔤 GOOGLE FONTS (UI ONLY) -->
+<!--
+  ⚠️ Performance: on ne charge au démarrage que les polices de l’interface.
+  Les polices “cover” sont chargées à la demande via loadFontOnDemand() (voir plus bas).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap">
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -33,6 +33,72 @@
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
+
+<script>
+  // 🔤 Google Fonts lazy-loader (covers/fonts)
+  // - Charge uniquement la police choisie par l’utilisateur (au lieu de 40+ polices au démarrage).
+  // - Conserve un cache pour éviter les doublons.
+  (function () {
+    const SYSTEM_FONTS = new Set([
+      'Arial','Helvetica','Verdana','Times New Roman','Georgia','Impact',
+      '-apple-system','BlinkMacSystemFont','Segoe UI','sans-serif','serif'
+    ]);
+
+    // Certaines familles n’exposent pas l’axe wght (ou pas 700). On demande donc la famille "simple".
+    const NO_WGHT_AXIS = new Set([
+      'Pacifico','Great Vibes','Satisfy','Sacramento','Allura','Alex Brush','Pinyon Script',
+      'Berkshire Swash','Abril Fatface','Alfa Slab One','Bangers','Permanent Marker','Righteous',
+      'Creepster','Nosifer','Metal Mania','Butcherman','Rubik Glitch','Press Start 2P','VT323'
+    ]);
+
+    const loaded = new Set();
+    function toGoogleFamily(name) { return String(name || '').trim().replace(/\s+/g, '+'); }
+
+    window.loadFontOnDemand = function loadFontOnDemand(fontName) {
+      const name = String(fontName || '').trim();
+      if (!name || SYSTEM_FONTS.has(name)) return Promise.resolve();
+
+      // Déjà chargé ?
+      if (loaded.has(name)) return Promise.resolve();
+      if (document.fonts && document.fonts.check && document.fonts.check(`1em "${name}"`)) {
+        loaded.add(name);
+        return Promise.resolve();
+      }
+
+      const family = toGoogleFamily(name);
+      const href = NO_WGHT_AXIS.has(name)
+        ? `https://fonts.googleapis.com/css2?family=${family}&display=swap`
+        : `https://fonts.googleapis.com/css2?family=${family}:wght@400;700&display=swap`;
+
+      // Évite de ré-injecter le même <link>
+      const existing = document.querySelector(`link[data-gkdp-font="${CSS.escape(name)}"]`);
+      if (existing) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.setAttribute('data-gkdp-font', name);
+        link.onload = () => { loaded.add(name); resolve(); };
+        link.onerror = () => resolve(); // on ne bloque jamais l’UI
+        document.head.appendChild(link);
+
+        // Fallback: si on ne reçoit pas onload (rare), on résout quand même rapidement.
+        setTimeout(() => resolve(), 1500);
+      });
+    };
+
+    // Optionnel : attendre explicitement que la police soit prête avant un rendu canvas/export.
+    window.ensureFontLoaded = async function ensureFontLoaded(fontName) {
+      await window.loadFontOnDemand(fontName);
+      if (document.fonts && document.fonts.load) {
+        try { await document.fonts.load(`16px "${fontName}"`); } catch (_) {}
+      }
+    };
+  })();
+</script>
+
+
 
     <!-- 🎬 THREE.JS pour Mockup 3D -->
     <!-- 🛒 MARKETPLACE EARLY CAPTURE - DOIT ÊTRE AVANT TOUT AUTRE SCRIPT -->
@@ -2759,20 +2825,35 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
             }
         };
         
-        // 🔤 COMPOSANT FONT SELECT - Avec aperçu des polices
+                // 🔤 COMPOSANT FONT SELECT - Avec aperçu des polices (lazy-load Google Fonts)
         const FontSelect = ({ value, onChange, fonts, label }) => {
+            // Pré-charge la police courante pour que l’aperçu soit correct
+            useEffect(() => {
+                if (typeof window.ensureFontLoaded === 'function' && value) {
+                    window.ensureFontLoaded(value);
+                }
+            }, [value]);
+
+            const handleChange = async (e) => {
+                const selectedFont = e.target.value;
+                if (typeof window.ensureFontLoaded === 'function') {
+                    await window.ensureFontLoaded(selectedFont);
+                }
+                onChange(selectedFont);
+            };
+
             return (
                 <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
                     <select
                         value={value}
-                        onChange={(e) => onChange(e.target.value)}
+                        onChange={handleChange}
                         className="w-full p-2 border border-gray-300 rounded text-sm"
                         style={{ fontFamily: value }}
                     >
                         {fonts.map((font, idx) => (
-                            <option 
-                                key={idx} 
+                            <option
+                                key={idx}
                                 value={font.name}
                                 style={{ fontFamily: font.name }}
                             >
@@ -2780,7 +2861,7 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
                             </option>
                         ))}
                     </select>
-                    <div 
+                    <div
                         className="mt-1 p-2 bg-gray-100 rounded text-center text-lg"
                         style={{ fontFamily: value }}
                     >
@@ -2789,8 +2870,8 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
                 </div>
             );
         };
-        
-        
+
+
 const KDPCoverGenerator = ({ onReset }) => {
 
             // ✅ UX: keep active form fields visible (prevents constant manual scrolling)
@@ -3865,6 +3946,14 @@ const KDPCoverGenerator = ({ onReset }) => {
             const [backCoverTextX, setBackCoverTextX] = useState(50); // % depuis la gauche de la zone BACK
             const [backCoverTextY, setBackCoverTextY] = useState(15); // % depuis le haut
             
+
+// ⚡ Pré-charge les polices actives (utile pour l’aperçu + export canvas/pdf)
+useEffect(() => {
+    if (typeof window.ensureFontLoaded !== 'function') return;
+    const fontsToLoad = [bookTitleFont, authorNameFont, backCoverTextFont, spineTextFont].filter(Boolean);
+    fontsToLoad.forEach((f) => window.ensureFontLoaded(f));
+}, [bookTitleFont, authorNameFont, backCoverTextFont, spineTextFont]);
+
             // 🖱️ DRAG & DROP STATE
             const [draggingElement, setDraggingElement] = useState(null); // 'title', 'author', 'backText'
             const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
