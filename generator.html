@@ -15,16 +15,16 @@
         content="Professional tool to create KDP covers with exact Amazon dimensions. French interface, precise calculations.">
 
     <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
-<!-- 🔤 GOOGLE FONTS (UI ONLY) -->
-<!--
-  ⚠️ Performance: on ne charge au démarrage que les polices de l’interface.
-  Les polices “cover” sont chargées à la demande via loadFontOnDemand() (voir plus bas).
--->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap">
+    
+    <!-- 🔤 GOOGLE FONTS - Polices pour les couvertures -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Merriweather:wght@400;700&family=Cinzel:wght@400;700&family=Cormorant+Garamond:wght@400;700&family=Libre+Baskerville:wght@400;700&family=Lora:wght@400;700&family=Spectral:wght@400;700&family=Crimson+Text:wght@400;700&family=EB+Garamond:wght@400;700&family=Bitter:wght@400;700&family=Roboto+Slab:wght@400;700&family=Oswald:wght@400;700&family=Montserrat:wght@400;700&family=Raleway:wght@400;700&family=Poppins:wght@400;700&family=Open+Sans:wght@400;700&family=Lato:wght@400;700&family=Dancing+Script:wght@400;700&family=Pacifico&family=Great+Vibes&family=Satisfy&family=Sacramento&family=Allura&family=Alex+Brush&family=Tangerine:wght@400;700&family=Pinyon+Script&family=Berkshire+Swash&family=Abril+Fatface&family=Alfa+Slab+One&family=Bangers&family=Permanent+Marker&family=Righteous&family=Creepster&family=Nosifer&family=Metal+Mania&family=Butcherman&family=Rubik+Glitch&family=Orbitron:wght@400;700&family=Press+Start+2P&family=VT323&display=swap"
+      media="print"
+      onload="this.media='all'">
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
@@ -32,73 +32,7 @@
         gtag('config', 'G-MYG5JJM8EC');
     </script>
 
-    <link href="style.min.css" rel="stylesheet">
-
-<script>
-  // 🔤 Google Fonts lazy-loader (covers/fonts)
-  // - Charge uniquement la police choisie par l’utilisateur (au lieu de 40+ polices au démarrage).
-  // - Conserve un cache pour éviter les doublons.
-  (function () {
-    const SYSTEM_FONTS = new Set([
-      'Arial','Helvetica','Verdana','Times New Roman','Georgia','Impact',
-      '-apple-system','BlinkMacSystemFont','Segoe UI','sans-serif','serif'
-    ]);
-
-    // Certaines familles n’exposent pas l’axe wght (ou pas 700). On demande donc la famille "simple".
-    const NO_WGHT_AXIS = new Set([
-      'Pacifico','Great Vibes','Satisfy','Sacramento','Allura','Alex Brush','Pinyon Script',
-      'Berkshire Swash','Abril Fatface','Alfa Slab One','Bangers','Permanent Marker','Righteous',
-      'Creepster','Nosifer','Metal Mania','Butcherman','Rubik Glitch','Press Start 2P','VT323'
-    ]);
-
-    const loaded = new Set();
-    function toGoogleFamily(name) { return String(name || '').trim().replace(/\s+/g, '+'); }
-
-    window.loadFontOnDemand = function loadFontOnDemand(fontName) {
-      const name = String(fontName || '').trim();
-      if (!name || SYSTEM_FONTS.has(name)) return Promise.resolve();
-
-      // Déjà chargé ?
-      if (loaded.has(name)) return Promise.resolve();
-      if (document.fonts && document.fonts.check && document.fonts.check(`1em "${name}"`)) {
-        loaded.add(name);
-        return Promise.resolve();
-      }
-
-      const family = toGoogleFamily(name);
-      const href = NO_WGHT_AXIS.has(name)
-        ? `https://fonts.googleapis.com/css2?family=${family}&display=swap`
-        : `https://fonts.googleapis.com/css2?family=${family}:wght@400;700&display=swap`;
-
-      // Évite de ré-injecter le même <link>
-      const existing = document.querySelector(`link[data-gkdp-font="${CSS.escape(name)}"]`);
-      if (existing) return Promise.resolve();
-
-      return new Promise((resolve) => {
-        const link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = href;
-        link.setAttribute('data-gkdp-font', name);
-        link.onload = () => { loaded.add(name); resolve(); };
-        link.onerror = () => resolve(); // on ne bloque jamais l’UI
-        document.head.appendChild(link);
-
-        // Fallback: si on ne reçoit pas onload (rare), on résout quand même rapidement.
-        setTimeout(() => resolve(), 1500);
-      });
-    };
-
-    // Optionnel : attendre explicitement que la police soit prête avant un rendu canvas/export.
-    window.ensureFontLoaded = async function ensureFontLoaded(fontName) {
-      await window.loadFontOnDemand(fontName);
-      if (document.fonts && document.fonts.load) {
-        try { await document.fonts.load(`16px "${fontName}"`); } catch (_) {}
-      }
-    };
-  })();
-</script>
-
-
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- 🎬 THREE.JS pour Mockup 3D -->
     <!-- 🛒 MARKETPLACE EARLY CAPTURE - DOIT ÊTRE AVANT TOUT AUTRE SCRIPT -->
@@ -2825,38 +2759,20 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
             }
         };
         
-                // 🔤 COMPOSANT FONT SELECT - Avec aperçu des polices (lazy-load on demand)
+        // 🔤 COMPOSANT FONT SELECT - Avec aperçu des polices
         const FontSelect = ({ value, onChange, fonts, label }) => {
-            const handleChange = (e) => {
-                const selectedFont = e.target.value;
-
-                // ✅ Déclenche le téléchargement de la police au clic (lazy-load)
-                try {
-                    if (window.loadFontOnDemand) window.loadFontOnDemand(selectedFont);
-                } catch (_) {}
-
-                onChange(selectedFont);
-            };
-
-            // ✅ Précharge la police déjà sélectionnée (utile au premier rendu et pour l'export)
-            try {
-                if (value && window.loadFontOnDemand) window.loadFontOnDemand(value);
-            } catch (_) {}
-
-
-
             return (
                 <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
                     <select
                         value={value}
-                        onChange={handleChange}
+                        onChange={(e) => onChange(e.target.value)}
                         className="w-full p-2 border border-gray-300 rounded text-sm"
                         style={{ fontFamily: value }}
                     >
                         {fonts.map((font, idx) => (
-                            <option
-                                key={idx}
+                            <option 
+                                key={idx} 
                                 value={font.name}
                                 style={{ fontFamily: font.name }}
                             >
@@ -2864,7 +2780,7 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
                             </option>
                         ))}
                     </select>
-                    <div
+                    <div 
                         className="mt-1 p-2 bg-gray-100 rounded text-center text-lg"
                         style={{ fontFamily: value }}
                     >
@@ -2873,8 +2789,8 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
                 </div>
             );
         };
-
-
+        
+        
 const KDPCoverGenerator = ({ onReset }) => {
 
             // ✅ UX: keep active form fields visible (prevents constant manual scrolling)
@@ -3949,14 +3865,6 @@ const KDPCoverGenerator = ({ onReset }) => {
             const [backCoverTextX, setBackCoverTextX] = useState(50); // % depuis la gauche de la zone BACK
             const [backCoverTextY, setBackCoverTextY] = useState(15); // % depuis le haut
             
-
-// ⚡ Pré-charge les polices actives (utile pour l’aperçu + export canvas/pdf)
-useEffect(() => {
-    if (typeof window.ensureFontLoaded !== 'function') return;
-    const fontsToLoad = [bookTitleFont, authorNameFont, backCoverTextFont, spineTextFont].filter(Boolean);
-    fontsToLoad.forEach((f) => window.ensureFontLoaded(f));
-}, [bookTitleFont, authorNameFont, backCoverTextFont, spineTextFont]);
-
             // 🖱️ DRAG & DROP STATE
             const [draggingElement, setDraggingElement] = useState(null); // 'title', 'author', 'backText'
             const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
@@ -5078,16 +4986,43 @@ const __gkdpLoadImage = (url) => {
     });
 };
 
-// ✅ Safe PDF save without expensive base64 unless needed
-const __gkdpSafeAddPdfImage = (pdf, exportCanvas, Wpt, Hpt) => {
-                try {
-                    pdf.addImage(exportCanvas, 'PNG', 0, 0, Wpt, Hpt);
-                } catch (e) {
-                    console.warn('PDF addImage(canvas) failed -> fallback toDataURL', e);
-                    const imgData = exportCanvas.toDataURL('image/png', 1.0);
-                    pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
-                }
-            };
+// ✅ Safe PDF image insert (robust): canvas -> PNG (fast path), then DataURL, then Blob->DataURL
+const __gkdpSafeAddPdfImage = async (pdf, exportCanvas, Wpt, Hpt) => {
+    if (!exportCanvas || exportCanvas.width === 0 || exportCanvas.height === 0) {
+        throw new Error(`Canvas is empty (${exportCanvas?.width || 0}x${exportCanvas?.height || 0}).`);
+    }
+
+    // 1) Fast path: pass canvas directly
+    try {
+        pdf.addImage(exportCanvas, 'PNG', 0, 0, Wpt, Hpt);
+        return;
+    } catch (e1) {
+        console.warn('PDF addImage(canvas) failed -> fallback toDataURL', e1);
+    }
+
+    // 2) Fallback: toDataURL (may be heavy but compatible)
+    try {
+        const imgData = exportCanvas.toDataURL('image/png');
+        if (!imgData || imgData === 'data:,') throw new Error('Canvas PNG is empty.');
+        pdf.addImage(imgData, 'PNG', 0, 0, Wpt, Hpt);
+        return;
+    } catch (e2) {
+        console.warn('PDF addImage(dataURL) failed -> fallback toBlob', e2);
+    }
+
+    // 3) Last resort: toBlob -> DataURL via FileReader (more memory-friendly than huge sync strings)
+    const blob = await new Promise((resolve) => exportCanvas.toBlob(resolve, 'image/png', 1.0));
+    if (!blob) throw new Error('Canvas toBlob() returned null.');
+
+    const dataUrl = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(r.result);
+        r.onerror = () => reject(r.error || new Error('FileReader failed.'));
+        r.readAsDataURL(blob);
+    });
+
+    pdf.addImage(dataUrl, 'PNG', 0, 0, Wpt, Hpt);
+};
 
 // ✅ Safe image download without toDataURL
 const __gkdpDownloadCanvasAsImage = (exportCanvas, exportFormat, baseFilename) => {
@@ -5381,31 +5316,28 @@ switch(canvasQuality) {
 
                                         const { jsPDF } = window.jspdf;
 
-// 🔒 Conversion dimensions mm -> points (pt)
-const Wpt = mmToPt(dimensions.total.width);
-const Hpt = mmToPt(dimensions.total.height);
+                                        // 🔒 Conversion dimensions mm -> points (pt)
+                                        const Wpt = mmToPt(dimensions.total.width);
+                                        const Hpt = mmToPt(dimensions.total.height);
 
-const pdf = new jsPDF({
-    orientation: (Wpt >= Hpt) ? 'landscape' : 'portrait',
-    unit: 'pt',
-    format: [Wpt, Hpt],
-    compress: true // Active la compression native
-});
+                                        // Garde-fous anti valeurs bizarres
+                                        if (!Number.isFinite(Wpt) || !Number.isFinite(Hpt)) {
+                                            throw new Error("Export PDF: invalid page size.");
+                                        }
 
-// OPTIMISATION : On ajoute le canvas DIRECTEMENT au lieu d'une image Base64
-// Cela évite la saturation de la RAM sur les gros fichiers
-pdf.addImage(exportCanvas, 'PNG', 0, 0, Wpt, Hpt, undefined, 'FAST');
+                                        const orientation = (Wpt >= Hpt) ? 'landscape' : 'portrait';
 
-console.log(`🔒 [KDP STRICT] Export PDF: ${Wpt.toFixed(2)}pt × ${Hpt.toFixed(2)}pt`);
-pdf.save(`${baseFilename}.pdf`);
-
-// LIBÉRATION MÉMOIRE IMMÉDIATE
-exportCanvas.width = 0;
-exportCanvas.height = 0;
+                                        // 🔒 jsPDF en POINTS (pas mm) - évite le fallback A4
+                                        const pdf = new jsPDF({
+                                            orientation,
+                                            unit: 'pt',
+                                            format: [Wpt, Hpt],
+                                            compress: true
+                                        });
 
                                         // Image placée exactement à la taille de page
                                         // Image placée exactement à la taille de page (sans base64)
-                                        __gkdpSafeAddPdfImage(pdf, exportCanvas, Wpt, Hpt);
+                                        await __gkdpSafeAddPdfImage(pdf, exportCanvas, Wpt, Hpt);
                                         
 
                                         console.log(`🔒 [KDP STRICT] Export PDF: ${Wpt.toFixed(2)}pt × ${Hpt.toFixed(2)}pt (${(Wpt/72).toFixed(3)}" × ${(Hpt/72).toFixed(3)}")`);
