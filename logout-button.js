@@ -1,46 +1,68 @@
-// Utilisation d'un sélecteur plus précis pour éviter de scanner tout le DOM
-const updateUIElements = (isLoggedIn) => {
-    // On cible uniquement les éléments avec les classes spécifiques
-    const authElements = document.querySelectorAll('.auth-required');
-    const guestElements = document.querySelectorAll('.guest-only');
+/**
+ * GABARIT KDP - Script de gestion de session optimisé
+ * Supprime les tâches longues et corrige les erreurs de chargement Supabase
+ */
 
-    authElements.forEach(el => {
-        el.style.display = isLoggedIn ? 'block' : 'none';
-    });
+(function() {
+    'use strict';
 
-    guestElements.forEach(el => {
-        el.style.display = isLoggedIn ? 'none' : 'block';
-    });
-};
+    // Mise à jour de l'interface selon l'état de connexion
+    const updateUIElements = (isLoggedIn, userEmail = '') => {
+        const authElements = document.querySelectorAll('.auth-required');
+        const guestElements = document.querySelectorAll('.guest-only');
+        const userEmailElem = document.getElementById('user-email');
 
-async function checkLoginStatus() {
-    try {
-        const { data: { session } } = await supabase.auth.getSession();
-        const isLoggedIn = !!session;
+        authElements.forEach(el => el.style.display = isLoggedIn ? 'block' : 'none');
+        guestElements.forEach(el => el.style.display = isLoggedIn ? 'none' : 'block');
         
-        updateUIElements(isLoggedIn);
-
-        if (isLoggedIn) {
-            const { data: { user } } = await supabase.auth.getUser();
-            if (user) {
-                const userEmailElem = document.getElementById('user-email');
-                if (userEmailElem) userEmailElem.textContent = user.email;
-            }
+        if (isLoggedIn && userEmailElem && userEmail) {
+            userEmailElem.textContent = userEmail;
         }
-    } catch (error) {
-        console.error('Erreur checkLoginStatus:', error);
-    }
-}
+    };
 
-// Gestion de la déconnexion
-async function handleLogout() {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-        alert("Erreur lors de la déconnexion");
+    async function checkLoginStatus() {
+        // 🛡️ SÉCURITÉ : On vérifie si Supabase est bien chargé
+        const supabase = window.supabaseClient;
+        
+        if (!supabase || !supabase.auth) {
+            // Si pas prêt, on réessaie une seule fois après 500ms sans bloquer le thread
+            setTimeout(checkLoginStatus, 500);
+            return;
+        }
+
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            const isLoggedIn = !!session;
+
+            if (isLoggedIn && session.user) {
+                updateUIElements(true, session.user.email);
+            } else {
+                updateUIElements(false);
+            }
+        } catch (error) {
+            console.error('Logout script error:', error);
+        }
+    }
+
+    // Fonction de déconnexion globale
+    window.handleLogout = async function() {
+        const supabase = window.supabaseClient;
+        if (!supabase) return;
+
+        try {
+            const { error } = await supabase.auth.signOut();
+            if (error) throw error;
+            window.location.href = 'index.html';
+        } catch (error) {
+            alert("Erreur lors de la déconnexion");
+            console.error(error);
+        }
+    };
+
+    // Lancement au chargement du DOM
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', checkLoginStatus);
     } else {
-        window.location.href = 'index.html';
+        checkLoginStatus();
     }
-}
-
-// Initialisation au chargement
-document.addEventListener('DOMContentLoaded', checkLoginStatus);
+})();
