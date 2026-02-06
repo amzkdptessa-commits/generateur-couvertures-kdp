@@ -2825,22 +2825,29 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
             }
         };
         
-                // 🔤 COMPOSANT FONT SELECT - Avec aperçu des polices (lazy-load Google Fonts)
+                // 🔤 COMPOSANT FONT SELECT - Avec aperçu des polices (lazy-load on demand)
         const FontSelect = ({ value, onChange, fonts, label }) => {
-            // Pré-charge la police courante pour que l’aperçu soit correct
-            useEffect(() => {
-                if (typeof window.ensureFontLoaded === 'function' && value) {
-                    window.ensureFontLoaded(value);
-                }
-            }, [value]);
-
             const handleChange = async (e) => {
                 const selectedFont = e.target.value;
-                if (typeof window.ensureFontLoaded === 'function') {
-                    await window.ensureFontLoaded(selectedFont);
-                }
+
+                // ✅ Charge la police à la demande (sans bloquer l'UI)
+                try {
+                    if (window.ensureFontLoaded) {
+                        await window.ensureFontLoaded(selectedFont);
+                    } else if (window.loadFontOnDemand) {
+                        await window.loadFontOnDemand(selectedFont);
+                    }
+                } catch (_) {}
+
                 onChange(selectedFont);
             };
+
+            // ✅ Précharge la police déjà sélectionnée (utile au premier rendu et pour l'export)
+            try {
+                if (value && window.loadFontOnDemand) window.loadFontOnDemand(value);
+            } catch (_) {}
+
+
 
             return (
                 <div>
@@ -5378,24 +5385,27 @@ switch(canvasQuality) {
 
                                         const { jsPDF } = window.jspdf;
 
-                                        // 🔒 Conversion dimensions mm -> points (pt)
-                                        const Wpt = mmToPt(dimensions.total.width);
-                                        const Hpt = mmToPt(dimensions.total.height);
+// 🔒 Conversion dimensions mm -> points (pt)
+const Wpt = mmToPt(dimensions.total.width);
+const Hpt = mmToPt(dimensions.total.height);
 
-                                        // Garde-fous anti valeurs bizarres
-                                        if (!Number.isFinite(Wpt) || !Number.isFinite(Hpt)) {
-                                            throw new Error("Export PDF: invalid page size.");
-                                        }
+const pdf = new jsPDF({
+    orientation: (Wpt >= Hpt) ? 'landscape' : 'portrait',
+    unit: 'pt',
+    format: [Wpt, Hpt],
+    compress: true // Active la compression native
+});
 
-                                        const orientation = (Wpt >= Hpt) ? 'landscape' : 'portrait';
+// OPTIMISATION : On ajoute le canvas DIRECTEMENT au lieu d'une image Base64
+// Cela évite la saturation de la RAM sur les gros fichiers
+pdf.addImage(exportCanvas, 'PNG', 0, 0, Wpt, Hpt, undefined, 'FAST');
 
-                                        // 🔒 jsPDF en POINTS (pas mm) - évite le fallback A4
-                                        const pdf = new jsPDF({
-                                            orientation,
-                                            unit: 'pt',
-                                            format: [Wpt, Hpt],
-                                            compress: true
-                                        });
+console.log(`🔒 [KDP STRICT] Export PDF: ${Wpt.toFixed(2)}pt × ${Hpt.toFixed(2)}pt`);
+pdf.save(`${baseFilename}.pdf`);
+
+// LIBÉRATION MÉMOIRE IMMÉDIATE
+exportCanvas.width = 0;
+exportCanvas.height = 0;
 
                                         // Image placée exactement à la taille de page
                                         // Image placée exactement à la taille de page (sans base64)
