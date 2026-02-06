@@ -22,7 +22,7 @@
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;700&display=swap">
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
     <script>
@@ -32,7 +32,7 @@
         gtag('config', 'G-MYG5JJM8EC');
     </script>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="style.min.css" rel="stylesheet">
 
 <script>
   // 🔤 Google Fonts lazy-loader (covers/fonts)
@@ -2827,16 +2827,12 @@ howToStep1: "1. Set up your book (binding type, format, pages, bleed, ink, finis
         
                 // 🔤 COMPOSANT FONT SELECT - Avec aperçu des polices (lazy-load on demand)
         const FontSelect = ({ value, onChange, fonts, label }) => {
-            const handleChange = async (e) => {
+            const handleChange = (e) => {
                 const selectedFont = e.target.value;
 
-                // ✅ Charge la police à la demande (sans bloquer l'UI)
+                // ✅ Déclenche le téléchargement de la police au clic (lazy-load)
                 try {
-                    if (window.ensureFontLoaded) {
-                        await window.ensureFontLoaded(selectedFont);
-                    } else if (window.loadFontOnDemand) {
-                        await window.loadFontOnDemand(selectedFont);
-                    }
+                    if (window.loadFontOnDemand) window.loadFontOnDemand(selectedFont);
                 } catch (_) {}
 
                 onChange(selectedFont);
