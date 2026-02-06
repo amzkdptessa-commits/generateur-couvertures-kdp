@@ -1,0 +1,395 @@
+{
+  "metadata": {
+    "version": "1.0",
+    "lastUpdated": "2025-01-03",
+    "totalCategories": 130,
+    "description": "GabaritKDP Marketplace - Categories dynamiques"
+  },
+  "categories": {
+    "fullcover": {
+      "name": "FULL COVER Premium",
+      "icon": "🔥",
+      "description": "Professional KDP book covers ready to use",
+      "badge": "premium",
+      "items": [
+        {
+          "id": "art",
+          "name": "Art Styles",
+          "icon": "🎨",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Art/STYLE%20PICASSO/fullcover_art_style_picasso_007.jpg",
+          "path": "FULL COVER/Art",
+          "file": "subcategory-full-cover-art.html",
+          "badge": "premium",
+          "subcategories": [
+            {
+              "id": "art-basquiat",
+              "name": "Basquiat Inspired",
+              "path": "FULL COVER/Art/Basquiat Inspired",
+              "file": "gallery-full-cover-art-basquiat-inspired.html"
+            },
+            {
+              "id": "art-frida-kahlo",
+              "name": "Frida Kahlo Inspired",
+              "path": "FULL COVER/Art/Frida Kahlo Inspired Art",
+              "file": "gallery-full-cover-art-frida-kahlo-inspired-art.html"
+            },
+            {
+              "id": "art-ukiyo-e",
+              "name": "Japanese Ukiyo-e",
+              "path": "FULL COVER/Art/Style Japonais Ukiyo E",
+              "file": "gallery-full-cover-art-style-japonais-ukiyo-e.html"
+            },
+            {
+              "id": "art-klimt",
+              "name": "Klimt Style",
+              "path": "FULL COVER/Art/Style Klimt",
+              "file": "gallery-full-cover-art-style-klimt.html"
+            },
+            {
+              "id": "art-picasso",
+              "name": "Picasso Style",
+              "path": "FULL COVER/Art/Style Picasso",
+              "file": "gallery-full-cover-art-style-picasso.html"
+            },
+            {
+              "id": "art-pop-art",
+              "name": "Pop Art",
+              "path": "FULL COVER/Art/Style Pop Art",
+              "file": "gallery-full-cover-art-style-pop-art.html"
+            },
+            {
+              "id": "art-renaissance",
+              "name": "Renaissance Style",
+              "path": "FULL COVER/Art/Style Renaissance",
+              "file": "gallery-full-cover-art-style-renaissance.html"
+            },
+            {
+              "id": "art-van-gogh",
+              "name": "Van Gogh Style",
+              "path": "FULL COVER/Art/Van Gogh Style",
+              "file": "gallery-full-cover-art-van-gogh-style.html"
+            }
+          ]
+        },
+        {
+          "id": "boheme",
+          "name": "Bohème",
+          "icon": "🌸",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Boheme/fullcover_couverture_de_livres_boheme_003.jpg",
+          "path": "FULL COVER/Boheme",
+          "file": "category-boheme.html"
+        },
+        {
+          "id": "fantasy",
+          "name": "Fantasy",
+          "icon": "🧙",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/FANTASY/EPIC%20FANTASY/fullcover_fantasy_epic_fantasy_030.jpg",
+          "path": "FULL COVER/FANTASY",
+          "file": "category-fantasy.html",
+          "badge": "popular"
+        },
+        {
+          "id": "fleurs",
+          "name": "Fleurs",
+          "icon": "🌺",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Fleurs/fullcover_couverture_de_livres_fleurs_006.png",
+          "path": "FULL COVER/Fleurs",
+          "file": "category-fleurs.html"
+        },
+        {
+          "id": "historical",
+          "name": "Historical",
+          "icon": "🏛️",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Historical/Historical/fullcover_couverture_de_livres_historical_013.jpg",
+          "path": "FULL COVER/Historical",
+          "file": "category-historical.html"
+        },
+        {
+          "id": "horror",
+          "name": "Horror",
+          "icon": "👻",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Horror/Horror/fullcover_couverture_de_livres_horror_058.jpg",
+          "path": "FULL COVER/Horror",
+          "file": "category-horror.html",
+          "badge": "new"
+        },
+        {
+          "id": "magie-art-nouveau",
+          "name": "Magie x Art Nouveau",
+          "icon": "✨",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/MAGIE%20x%20ART%20NOUVEAU%20(STYLE%20PREMIUM)/Art%20Nouveau%20Bleu%20Nuit%20%26%20Or/fullcover_magie_x_art_nouveau_style_premium_art_nouveau_bleu_nuit_or_001.jpg",
+          "path": "FULL COVER/MAGIE x ART NOUVEAU (STYLE PREMIUM)",
+          "file": "category-magie-x-art-nouveau-style-premium.html",
+          "badge": "premium"
+        },
+        {
+          "id": "mystery",
+          "name": "Mystery",
+          "icon": "🔍",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Mystery/Mystery/fullcover_couverture_de_livres_mystery_062.jpg",
+          "path": "FULL COVER/Mystery",
+          "file": "category-mystery.html"
+        },
+        {
+          "id": "paysages",
+          "name": "Paysages",
+          "icon": "🏞️",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Paysages/fullcover_couverture_de_livres_paysages_009.png",
+          "path": "FULL COVER/Paysages",
+          "file": "category-paysages.html"
+        },
+        {
+          "id": "religions",
+          "name": "Religions & Spirituality",
+          "icon": "✝️",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/RELIGIONS/CHRISTIANISME/Style%20Louange%20%20Gospel/fullcover_religions_christianisme_style_louange_gospel_007.jpg",
+          "path": "FULL COVER/RELIGIONS",
+          "file": "category-religions.html",
+          "badge": "premium",
+          "subcategories": [
+            {
+              "id": "religions-christianisme",
+              "name": "Christianisme",
+              "path": "FULL COVER/RELIGIONS/Christianisme",
+              "file": "gallery-full-cover-religions-christianisme.html"
+            },
+            {
+              "id": "religions-islam",
+              "name": "Islam",
+              "path": "FULL COVER/RELIGIONS/Islam",
+              "file": "gallery-full-cover-religions-islam.html"
+            },
+            {
+              "id": "religions-judaisme",
+              "name": "Judaïsme",
+              "path": "FULL COVER/RELIGIONS/Judaisme",
+              "file": "gallery-full-cover-religions-judaisme.html"
+            },
+            {
+              "id": "religions-vaudou",
+              "name": "Vaudou",
+              "path": "FULL COVER/RELIGIONS/Vaudou",
+              "file": "gallery-full-cover-religions-vaudou.html"
+            },
+            {
+              "id": "religions-animisme",
+              "name": "Animisme",
+              "path": "FULL COVER/RELIGIONS/Animisme",
+              "file": "gallery-full-cover-religions-animisme.html"
+            },
+            {
+              "id": "religions-spiritualite-africaine",
+              "name": "Spiritualité Africaine",
+              "path": "FULL COVER/RELIGIONS/Spiritualite Africaine",
+              "file": "gallery-full-cover-religions-spiritualite-africaine.html"
+            }
+          ]
+        },
+        {
+          "id": "romance",
+          "name": "Romance",
+          "icon": "💖",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Romance/Romance%20Intense%20%20Passion%20%20Enemies-to-lovers/fullcover_romance_contemporary_romance_intense_passion_enemies_to_lovers_006.jpg",
+          "path": "FULL COVER/Romance",
+          "file": "category-romance.html",
+          "badge": "best"
+        },
+        {
+          "id": "sci-fi",
+          "name": "Sci-Fi",
+          "icon": "🚀",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Sci-fi/Sci-fi/fullcover_couverture_de_livres_sci_fi_001.jpg",
+          "path": "FULL COVER/Sci-fi",
+          "file": "category-sci-fi.html",
+          "badge": "popular"
+        },
+        {
+          "id": "thriller",
+          "name": "Thriller",
+          "icon": "🔪",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Thriller/Thriller/fullcover_couverture_de_livres_thriller_001.jpg",
+          "path": "FULL COVER/Thriller",
+          "file": "category-thriller.html",
+          "badge": "popular"
+        },
+        {
+          "id": "vintage",
+          "name": "Vintage",
+          "icon": "📻",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Vintage/1930s%20Buildings%20%20City/fullcover_vintage_1930s_buildings_city_001.jpg",
+          "path": "FULL COVER/Vintage",
+          "file": "category-vintage.html"
+        },
+        {
+          "id": "voyages",
+          "name": "Voyages & Travel",
+          "icon": "✈️",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FULL%20COVER/Voyages/Paris/fullcover_voyages_paris_001.jpg",
+          "path": "FULL COVER/Voyages",
+          "file": "category-voyages.html",
+          "subcategories": [
+            {
+              "id": "voyages-paris",
+              "name": "Paris",
+              "file": "gallery-full-cover-voyages-paris.html"
+            },
+            {
+              "id": "voyages-new-york",
+              "name": "New York",
+              "file": "gallery-full-cover-voyages-new-york.html"
+            },
+            {
+              "id": "voyages-london",
+              "name": "Londres",
+              "file": "gallery-full-cover-voyages-londres.html"
+            },
+            {
+              "id": "voyages-tokyo",
+              "name": "Tokyo",
+              "file": "gallery-full-cover-voyages-tokyo.html"
+            },
+            {
+              "id": "voyages-dubai",
+              "name": "Dubai",
+              "file": "gallery-full-cover-voyages-dubai.html"
+            }
+          ]
+        }
+      ]
+    },
+    "backgrounds": {
+      "name": "Backgrounds & Textures",
+      "icon": "🎨",
+      "description": "High-quality backgrounds for book covers and interiors",
+      "items": [
+        {
+          "id": "animaux",
+          "name": "Animaux",
+          "icon": "🐺",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/ANIMAUX/Loups/animaux_loups_001.jpg",
+          "path": "ANIMAUX",
+          "file": "category-animaux.html"
+        },
+        {
+          "id": "art",
+          "name": "Art Backgrounds",
+          "icon": "🎨",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/Art/STYLE%20PICASSO/art_style_picasso_001.jpg",
+          "path": "Art",
+          "file": "category-art.html"
+        },
+        {
+          "id": "boheme",
+          "name": "Bohème",
+          "icon": "🌸",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/Boheme/boheme_001.jpg",
+          "path": "Boheme",
+          "file": "category-boheme.html"
+        },
+        {
+          "id": "business",
+          "name": "Business",
+          "icon": "💼",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/Business/business_001.jpg",
+          "path": "Business",
+          "file": "category-business.html"
+        },
+        {
+          "id": "fantasy",
+          "name": "Fantasy",
+          "icon": "🧙",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/FANTASY/EPIC%20FANTASY/fantasy_epic_fantasy_001.jpg",
+          "path": "FANTASY",
+          "file": "category-fantasy.html"
+        },
+        {
+          "id": "fleurs",
+          "name": "Fleurs",
+          "icon": "🌺",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/Fleurs/fleurs_001.jpg",
+          "path": "Fleurs",
+          "file": "category-fleurs.html"
+        },
+        {
+          "id": "textures",
+          "name": "Textures",
+          "icon": "🎭",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/Textures/textures_001.jpg",
+          "path": "Textures",
+          "file": "category-textures.html"
+        },
+        {
+          "id": "vintage",
+          "name": "Vintage",
+          "icon": "📻",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/Vintage/vintage_001.jpg",
+          "path": "Vintage",
+          "file": "category-vintage.html"
+        }
+      ]
+    },
+    "planners": {
+      "name": "Planners & Journals",
+      "icon": "📓",
+      "description": "Ready-to-use planners and journal interiors",
+      "items": [
+        {
+          "id": "monthly-planners",
+          "name": "Monthly Planners 2026-2030",
+          "icon": "📅",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/PLANNERS/2026-2030%20Monthly%20Planner%20PNG/planners_2026_2030_monthly_planner_png_001.png",
+          "path": "PLANNERS/2026-2030 Monthly Planner PNG",
+          "file": "gallery-planners-2026-2030-monthly-planner-png.html"
+        },
+        {
+          "id": "bucket-list",
+          "name": "Bucket List Journal",
+          "icon": "✓",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/PLANNERS/Bucket%20List%20Journal%20PNG/planners_bucket_list_journal_png_001.png",
+          "path": "PLANNERS/Bucket List Journal PNG",
+          "file": "gallery-planners-bucket-list-journal-png.html"
+        }
+      ]
+    },
+    "coloriages": {
+      "name": "Coloring Books",
+      "icon": "🖍️",
+      "description": "Coloring pages for adults and children",
+      "items": [
+        {
+          "id": "coloriage-noel",
+          "name": "Christmas Coloring",
+          "icon": "🎄",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/COLORIAGES/Coloriage%20de%20Noel/COVER/coloriages_coloriage_de_noel_cover_001.jpg",
+          "path": "COLORIAGES/Coloriage de Noel",
+          "file": "subcategory-coloriages-coloriage-de-noel.html",
+          "badge": "new"
+        },
+        {
+          "id": "coloriages-animaux",
+          "name": "Animals Coloring",
+          "icon": "🦁",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/COLORIAGES/Animaux/coloriages_animaux_001.jpg",
+          "path": "COLORIAGES/Animaux",
+          "file": "subcategory-coloriages-animaux.html"
+        },
+        {
+          "id": "coloriages-fleurs",
+          "name": "Flowers Coloring",
+          "icon": "🌻",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/COLORIAGES/Fleurs/coloriages_fleurs_001.jpg",
+          "path": "COLORIAGES/Fleurs",
+          "file": "subcategory-coloriages-fleurs.html"
+        },
+        {
+          "id": "coloriages-portraits",
+          "name": "Portraits Coloring",
+          "icon": "👤",
+          "thumbnail": "https://gabaritkdp.b-cdn.net/COLORIAGES/Portraits/coloriages_portraits_001.jpg",
+          "path": "COLORIAGES/Portraits",
+          "file": "subcategory-coloriages-portraits.html"
+        }
+      ]
+    }
+  }
+}

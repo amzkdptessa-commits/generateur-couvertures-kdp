@@ -1,81 +1,98 @@
-// background.js - Service Worker V3 (Version "Aspirateur")
-console.log('🚀 GabaritKDP Service Worker Démarré');
+// background.js - Service Worker pour Manifest V3
+console.log('🚀 GabaritKDP Tracker Service Worker démarré');
 
+// Installation
+chrome.runtime.onInstalled.addListener(() => {
+  console.log('✅ Extension installée avec succès');
+});
+
+// Écouter les messages de la popup
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  console.log('📩 Message reçu:', request);
+
   if (request.action === 'getCookies') {
-    captureAllCookies()
+    // Capturer les cookies Amazon
+    captureCookies(request.marketplace)
       .then(cookies => {
-        console.log(`📤 Envoi de ${cookies.length} cookies à la popup`);
+        console.log(`✅ ${cookies.length} cookies capturés`);
         sendResponse({ success: true, cookies: cookies });
       })
       .catch(error => {
-        console.error('❌ Erreur:', error);
+        console.error('❌ Erreur capture cookies:', error);
         sendResponse({ success: false, error: error.message });
       });
-    return true; // Important pour l'asynchrone
+    
+    // IMPORTANT: Retourner true pour indiquer une réponse asynchrone
+    return true;
   }
 });
 
-async function captureAllCookies() {
-  console.log('🍪 Démarrage de la capture multi-domaines...');
+// Fonction pour capturer les cookies - VERSION CORRIGÉE
+async function captureCookies(marketplace) {
+  console.log('🍪 Capture des cookies pour marketplace:', marketplace);
 
-  // Liste de toutes les URLs possibles où des cookies de session peuvent se cacher
-  const targetUrls = [
-    'https://kdpreports.amazon.com',
-    'https://www.amazon.fr',
-    'https://www.amazon.com',
-    'https://www.amazon.co.uk',
-    'https://www.amazon.de',
-    'https://www.amazon.ca',
-    'https://www.amazon.com.au'
-  ];
+  // 1. Mappage Marketplace -> URL (pas juste le domaine)
+  // On utilise l'URL principale du magasin car c'est là que résident les cookies "maîtres"
+  const urls = {
+    'US': 'https://www.amazon.com',
+    'UK': 'https://www.amazon.co.uk',
+    'DE': 'https://www.amazon.de',
+    'FR': 'https://www.amazon.fr',
+    'CA': 'https://www.amazon.ca',
+    'AU': 'https://www.amazon.com.au'
+  };
 
-  let allCookies = [];
+  const targetUrl = urls[marketplace] || 'https://www.amazon.com';
+  console.log('🌍 URL Cible pour extraction:', targetUrl);
 
-  // On boucle sur chaque domaine pour récupérer les cookies
-  for (const url of targetUrls) {
-    try {
-      const cookies = await chrome.cookies.getAll({ url: url });
-      console.log(`📍 ${url} : ${cookies.length} cookies trouvés`);
-      allCookies = [...allCookies, ...cookies];
-    } catch (e) {
-      console.warn(`Impossible de lire ${url}`, e);
+  try {
+    // 2. CRITIQUE : Utiliser 'url' au lieu de 'domain'
+    // Cela récupère les cookies HostOnly + les cookies de domaine (.amazon.com)
+    const storeCookies = await chrome.cookies.getAll({ url: targetUrl });
+    const reportCookies = await chrome.cookies.getAll({ url: 'https://kdpreports.amazon.com' });
+    
+    // Fusionner les deux sources
+    const allCookies = [...storeCookies, ...reportCookies];
+    
+    console.log(`📦 ${allCookies.length} cookies bruts trouvés (${storeCookies.length} store + ${reportCookies.length} reports)`);
+
+    if (allCookies.length === 0) {
+      console.warn("⚠️ Attention: 0 cookies trouvés. Vérifiez si l'utilisateur est connecté sur : " + targetUrl);
     }
-  }
 
-  // Filtrage : On ne garde que les cookies importants
-  const kdpCookies = allCookies.filter(cookie => {
-    const name = cookie.name.toLowerCase();
-    return (
-      name.includes('session') ||
-      name.includes('ubid') ||
-      name.includes('at-') ||
-      name.includes('x-') ||
-      name === 'token' ||
-      name.includes('csrf')
+    // 3. Filtrage des cookies pertinents
+    const kdpCookies = allCookies.filter(cookie => {
+      const name = cookie.name.toLowerCase();
+      return (
+        name.includes('session') ||
+        name.includes('ubid') ||
+        name.includes('at-') ||
+        name.includes('x-') ||
+        name === 'token' ||
+        name.includes('csrf') ||
+        name === 'session-id' ||
+        name === 'session-id-time' ||
+        name === 'session-token'
+      );
+    });
+
+    // Dédoublonner par nom de cookie
+    const uniqueCookies = Array.from(
+      new Map(kdpCookies.map(c => [c.name, c])).values()
     );
-  });
 
-  // Dédoublonnage (car amazon.fr et kdpreports peuvent partager des cookies .amazon.fr)
-  const uniqueCookiesMap = new Map();
-  kdpCookies.forEach(c => {
-    // On utilise nom + domain comme clé unique
-    uniqueCookiesMap.set(c.name + c.domain, c);
-  });
+    console.log(`🎯 ${uniqueCookies.length} cookies KDP pertinents filtrés`);
+    console.log('Noms des cookies:', uniqueCookies.map(c => c.name).join(', '));
 
-  const finalCookies = Array.from(uniqueCookiesMap.values());
+    return uniqueCookies;
 
-  console.log(`✅ TOTAL FINAL : ${finalCookies.length} cookies uniques prêts à l'envoi.`);
-  
-  // Debug pour vérifier si on a bien chopé la session FR
-  const hasFrSession = finalCookies.some(c => c.domain.includes('.amazon.fr') && c.name.includes('session-id'));
-  if (hasFrSession) console.log('🎉 SESSION FR DÉTECTÉE !');
-  else console.warn('⚠️ Pas de session FR détectée explicitement.');
-
-  return finalCookies;
+  } catch (error) {
+    console.error('❌ Erreur dans captureCookies:', error);
+    throw error;
+  }
 }
 
-// Alarmes (nécessite la permission "alarms")
+// Auto-sync toutes les 10 minutes (optionnel)
 chrome.alarms.create('autoSync', { periodInMinutes: 10 });
 
 chrome.alarms.onAlarm.addListener((alarm) => {
