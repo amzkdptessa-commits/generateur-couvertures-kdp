@@ -1,860 +1,566 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-fr="Intérieurs de Livres - GabaritKDP" data-en="Book Interiors - GabaritKDP">Book Interiors - GabaritKDP</title>
-  <meta name="description" data-fr="2000+ templates d'intérieurs pour planners et livres de coloriage KDP" data-en="2000+ interior templates for planners and coloring books KDP">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Intérieurs KDP | GabaritKDP" data-en="KDP Interiors | GabaritKDP">KDP Interiors | GabaritKDP</title>
+    <meta name="description" data-fr="Découvrez 34,000+ templates d'intérieurs KDP : coloriages, planners, journals, et plus." data-en="Discover 34,000+ KDP interior templates: coloring books, planners, journals, and more.">
+    
+    <link href="style.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-  <script>
-    function detectUserLanguage() {
-      const userChoice = localStorage.getItem('preferredLanguage');
-      if (userChoice) return userChoice;
-      return 'en';
-    }
-    const defaultLang = detectUserLanguage();
-    document.documentElement.lang = defaultLang;
-  </script>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f8f9fa;
+        }
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        /* Language Selector */
+        .language-selector {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            padding: 3px;
+        }
 
-  <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+        .lang-btn {
+            padding: 6px 10px;
+            border: none;
+            background: transparent;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
 
-    .language-selector{background:#fff;border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,.1);padding:3px}
-    .lang-btn{padding:6px 10px;border:none;background:transparent;border-radius:16px;cursor:pointer;transition:.3s;font-weight:500;font-size:.8rem}
-    .lang-btn.active{background:#FF9900;color:#fff}
+        .lang-btn.active {
+            background: #FF9900;
+            color: white;
+        }
 
-    .header-nav{background:linear-gradient(135deg,#1e293b 0%,#334155 100%);padding:15px 0;box-shadow:0 4px 20px rgba(0,0,0,.1);position:sticky;top:0;z-index:999}
-    .nav-container{max-width:1400px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-wrap:wrap;gap:0}
-    .logo-nav{display:flex;align-items:center;gap:15px;text-decoration:none;color:#fff;flex-shrink:0}
-    .logo-nav img{height:40px;width:auto}
-    .logo-nav span{font-size:1.3rem;font-weight:700;color:#FF9900}
+        /* Header Navigation */
+        .header-nav {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
 
-    .nav-links{width:100%;display:flex;justify-content:center;align-items:center;gap:25px;flex-wrap:wrap}
-    .nav-links a{color:#fff;text-decoration:none;font-weight:500;transition:.3s;padding:10px 14px;border-radius:8px;position:relative;display:flex;align-items:center;gap:6px;font-size:.95rem}
-    .nav-links a:hover{color:#FF9900;background:rgba(255,153,0,.1)}
-    .nav-links a.active{color:#FF9900;background:rgba(255,153,0,.15)}
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
 
-    .express-nav-btn{background:linear-gradient(135deg,#10b981,#059669)!important;color:#fff!important}
-    .express-nav-btn:hover{background:linear-gradient(135deg,#0d9488,#047857)!important}
-    .express-nav-btn::before{content:"⚡";margin-right:4px}
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+        }
 
-    .hero-gradient{background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%)}
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
 
-    .interior-card{
-      position:relative;
-      border-radius:16px;
-      overflow:hidden;
-      cursor:pointer;
-      transition:all .3s ease;
-      box-shadow:0 4px 15px rgba(0,0,0,.1);
-      background:#fff;
-      border: 2px solid #e5e7eb;
-    }
-    .interior-card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 20px 40px rgba(0,0,0,.15);
-      border-color: #FF9900;
-    }
-    
-    .interior-thumbnail{
-      width:100%;
-      height:280px;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      background:linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
-      position:relative;
-      overflow:hidden;
-    }
-    
-    .interior-thumbnail-icon{
-      font-size:5rem;
-      opacity:0.3;
-    }
-    
-    .interior-info{
-      padding:1.25rem;
-    }
-    
-    .interior-title{
-      font-size:1.125rem;
-      font-weight:700;
-      color:#111827;
-      margin-bottom:0.5rem;
-      line-height:1.4;
-    }
-    
-    .interior-meta{
-      display:flex;
-      gap:1rem;
-      font-size:0.875rem;
-      color:#6b7280;
-      margin-bottom:0.75rem;
-      flex-wrap:wrap;
-    }
-    
-    .interior-keywords{
-      display:flex;
-      flex-wrap:wrap;
-      gap:0.5rem;
-      margin-bottom:1rem;
-    }
-    
-    .keyword-tag{
-      padding:0.25rem 0.75rem;
-      background:#f3f4f6;
-      border-radius:9999px;
-      font-size:0.75rem;
-      color:#4b5563;
-      font-weight:500;
-    }
-    
-    .pro-badge{
-      position:absolute;
-      top:1rem;
-      right:1rem;
-      background:linear-gradient(135deg,#f59e0b,#d97706);
-      color:#fff;
-      padding:0.5rem 1rem;
-      border-radius:9999px;
-      font-size:0.75rem;
-      font-weight:700;
-      box-shadow:0 4px 15px rgba(245,158,11,.4);
-      z-index:10;
-    }
-    
-    .pro-lock-overlay{
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,.7);
-      backdrop-filter:blur(3px);
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      opacity:0;
-      transition:opacity .3s ease;
-      z-index:5;
-    }
-    
-    .interior-card:hover .pro-lock-overlay{
-      opacity:1;
-    }
-    
-    .pro-lock-icon{
-      font-size:3rem;
-      color:#f59e0b;
-      margin-bottom:1rem;
-    }
-    
-    .pro-lock-text{
-      color:#fff;
-      font-weight:600;
-      font-size:1rem;
-      text-align:center;
-    }
-    
-    .download-btn{
-      width:100%;
-      padding:0.875rem;
-      background:linear-gradient(135deg,#10b981,#059669);
-      color:#fff;
-      border:none;
-      border-radius:8px;
-      font-weight:600;
-      cursor:pointer;
-      transition:all .3s ease;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:0.5rem;
-    }
-    
-    .download-btn:hover{
-      background:linear-gradient(135deg,#059669,#047857);
-      box-shadow:0 4px 15px rgba(16,185,129,.4);
-    }
-    
-    .download-btn.pro-locked{
-      background:linear-gradient(135deg,#6b7280,#4b5563);
-      cursor:not-allowed;
-    }
-    
-    .filter-section{
-      background:#fff;
-      border-radius:12px;
-      padding:1.5rem;
-      box-shadow:0 4px 15px rgba(0,0,0,.1);
-      margin-bottom:2rem;
-    }
-    
-    .search-input{
-      width:100%;
-      padding:1rem;
-      border:2px solid #e5e7eb;
-      border-radius:8px;
-      font-size:1rem;
-      transition:all .3s ease;
-    }
-    
-    .search-input:focus{
-      outline:none;
-      border-color:#FF9900;
-      box-shadow:0 0 0 3px rgba(255,153,0,.1);
-    }
-    
-    .category-tabs{
-      display:flex;
-      gap:1rem;
-      margin-bottom:2rem;
-      flex-wrap:wrap;
-      justify-content:center;
-    }
-    
-    .tab-btn{
-      padding:0.875rem 2rem;
-      background:#f3f4f6;
-      border:2px solid #e5e7eb;
-      border-radius:8px;
-      font-weight:600;
-      cursor:pointer;
-      transition:all .3s ease;
-      display:flex;
-      align-items:center;
-      gap:0.5rem;
-    }
-    
-    .tab-btn:hover{
-      background:#e5e7eb;
-    }
-    
-    .tab-btn.active{
-      background:linear-gradient(135deg,#FF9900,#f59e0b);
-      color:#fff;
-      border-color:#FF9900;
-    }
-    
-    .section-header{
-      text-align:center;
-      margin-bottom:3rem;
-    }
-    
-    .section-title{
-      font-size:2.5rem;
-      font-weight:700;
-      color:#111827;
-      margin-bottom:0.5rem;
-    }
-    
-    .section-subtitle{
-      font-size:1.25rem;
-      color:#6b7280;
-    }
+        .logo-nav span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF9900;
+        }
 
-    .mobile-menu{display:none;position:fixed;top:0;left:0;width:100%;height:100vh;background:rgba(0,0,0,.95);backdrop-filter:blur(10px);z-index:999;padding:80px 20px 20px;overflow-y:auto}
-    .mobile-menu.active{display:block;animation:slideIn .3s ease}
-    @keyframes slideIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
-    .mobile-menu-links{display:flex;flex-direction:column;gap:15px;max-width:400px;margin:0 auto}
-    .mobile-menu-links a{color:#fff;text-decoration:none;font-weight:600;padding:15px 20px;border-radius:12px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);transition:.3s;display:flex;align-items:center;gap:12px;font-size:1.1rem}
-    .mobile-menu-close{position:absolute;top:20px;right:20px;background:none;border:none;color:#fff;font-size:1.8rem;cursor:pointer}
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
 
-    @media (max-width:768px){
-      .nav-links{display:none}
-      .mobile-menu-toggle{display:block;background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;padding:8px;margin-left:auto}
-      .section-title{font-size:2rem}
-      .interior-thumbnail{height:200px}
-      .category-tabs{gap:0.5rem}
-      .tab-btn{padding:0.625rem 1rem;font-size:0.875rem}
-    }
-    @media (min-width:769px){.mobile-menu-toggle{display:none}}
-  </style>
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            background: rgba(255, 153, 0, 0.2);
+            color: #FF9900;
+        }
+
+        /* Hero Section Interiors */
+        .category-hero {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(139, 92, 246, 0.95) 100%),
+                        url('./images/Vignette_Interiors.png') center center / cover no-repeat;
+            padding: 100px 20px;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .category-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.85) 0%, rgba(139, 92, 246, 0.85) 100%);
+            z-index: 1;
+        }
+
+        .category-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .category-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .category-hero p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            line-height: 1.6;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            max-width: 1400px;
+            margin: 30px auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: #FF6B35;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .breadcrumb a:hover {
+            color: #F7931E;
+        }
+
+        /* Sub-Categories Section */
+        .subcategories-section {
+            max-width: 1400px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+
+        .section-title p {
+            font-size: 1.1rem;
+            color: #64748b;
+        }
+
+        .subcategories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        .subcategory-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .subcategory-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.12);
+        }
+
+        .subcategory-image {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .subcategory-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .subcategory-card:hover .subcategory-image img {
+            transform: scale(1.1);
+        }
+
+        .subcategory-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            padding: 24px;
+            color: white;
+        }
+
+        .subcategory-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+
+        .subcategory-count {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .subcategory-info {
+            padding: 24px;
+        }
+
+        .subcategory-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+
+        .subcategory-description {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .subcategory-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .subcategory-btn:hover {
+            transform: translateX(5px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.3);
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            background: linear-gradient(135deg, #FF6B35 0%, #F7931E 100%);
+            padding: 60px 20px;
+            margin: 80px 0;
+        }
+
+        .stats-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            text-align: center;
+        }
+
+        .stat-item {
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.95;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .category-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .subcategories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
 </head>
+<body>
 
-<body class="bg-gray-50">
+    <!-- Navigation Header -->
+    <header class="header-nav">
+        <div class="nav-container">
+            <a href="./index.html" class="logo-nav">
+                <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+                <span>GabaritKDP</span>
+            </a>
 
-  <!-- Navigation Header -->
-  <header class="header-nav">
-    <div class="nav-container">
-      <a href="/index.html" class="logo-nav">
-        <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
-        <span>GabaritKDP</span>
-      </a>
-      <button class="mobile-menu-toggle" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
-      <div class="language-selector">
-        <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
-        <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
-      </div>
-      <nav class="nav-links">
-        <a href="/index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-        <a href="/generator.html" class="express-nav-btn" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
-        <a href="/generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
-        <a href="/marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
-        <a href="/pricing.html" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
-        <a href="/inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-        <a href="/connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
-      </nav>
-    </div>
-  </header>
+            <!-- Language Selector -->
+            <div class="language-selector">
+                <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">🇫🇷</button>
+                <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">🇺🇸</button>
+            </div>
 
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-close" onclick="toggleMobileMenu()"><i class="fas fa-times"></i></button>
-    <div class="mobile-menu-links">
-      <a href="/index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-      <a href="/generator.html" style="background: linear-gradient(135deg, #10b981, #059669);" data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
-      <a href="/generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Magic Generator</a>
-      <a href="/marketplace.html" data-fr="Marché" data-en="Marketplace">Marketplace</a>
-      <a href="/pricing.html" style="background: rgba(251, 191, 36, 0.2);" data-fr="💰 Tarifs" data-en="💰 Pricing">💰 Pricing</a>
-      <a href="/inscription.html" style="background: rgba(34, 197, 94, 0.2);" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-      <a href="/connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
-    </div>
-  </div>
-
-  <!-- Hero Section -->
-  <section class="hero-gradient py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="section-header">
-        <h1 class="section-title">
-          📖 <span data-fr="Intérieurs de Livres" data-en="Book Interiors">Book Interiors</span>
-        </h1>
-        <p class="section-subtitle" data-fr="Plus de 2000 templates pour planners et livres de coloriage" data-en="2000+ templates for planners and coloring books">2000+ templates for planners and coloring books</p>
-        <div class="flex justify-center gap-6 mt-6 flex-wrap">
-          <div class="bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">1969</div>
-            <div class="text-sm text-gray-600">Planners</div>
-          </div>
-          <div class="bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#FF9900;">188</div>
-            <div class="text-sm text-gray-600" data-fr="Livres de Coloriage" data-en="Coloring Books">Coloring Books</div>
-          </div>
-          <div class="bg-white rounded-xl px-6 py-3 shadow">
-            <div class="text-3xl font-bold" style="color:#f59e0b;">PRO</div>
-            <div class="text-sm text-gray-600" data-fr="Exclusif" data-en="Exclusive">Exclusive</div>
-          </div>
+            <!-- Navigation Desktop -->
+            <nav class="nav-links">
+                <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+                <a href="./generator.html" data-fr="⚡ Générateur" data-en="⚡ Generator">⚡ Generator</a>
+                <a href="./marketplace.html" class="active" data-fr="🛒 Marketplace" data-en="🛒 Marketplace">🛒 Marketplace</a>
+                <a href="./pricing.html" data-fr="💎 Tarifs" data-en="💎 Pricing">💎 Pricing</a>
+                <a href="./connexion.html" data-fr="🔐 Connexion" data-en="🔐 Sign In">🔐 Sign In</a>
+            </nav>
         </div>
-      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="category-hero">
+        <div class="category-hero-content">
+            <h1 data-fr="📚 Intérieurs KDP" data-en="📚 KDP Interiors">📚 KDP Interiors</h1>
+            <p data-fr="Plus de 34,000 templates d'intérieurs prêts à l'emploi pour vos livres Amazon KDP. Coloriages, planners, journals, activités, et bien plus encore." data-en="Over 34,000 ready-to-use interior templates for your Amazon KDP books. Coloring books, planners, journals, activities, and much more.">
+                Over 34,000 ready-to-use interior templates for your Amazon KDP books. Coloring books, planners, journals, activities, and much more.
+            </p>
+        </div>
+    </section>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="./index.html" data-fr="Accueil" data-en="Home">Home</a>
+        <span>›</span>
+        <a href="./marketplace.html" data-fr="Marketplace" data-en="Marketplace">Marketplace</a>
+        <span>›</span>
+        <span data-fr="Intérieurs" data-en="Interiors">Interiors</span>
     </div>
-  </section>
 
-  <!-- Category Tabs -->
-  <section class="py-6 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="category-tabs">
-        <button class="tab-btn active" onclick="switchCategory('planners')" id="tab-planners">
-          <i class="fas fa-calendar-alt"></i>
-          <span data-fr="Planners 2026" data-en="Planners 2026">Planners 2026</span>
-        </button>
-        <button class="tab-btn" onclick="switchCategory('coloring-kids')" id="tab-coloring-kids">
-          <i class="fas fa-child"></i>
-          <span data-fr="Coloriage Enfants" data-en="Coloring Kids">Coloring Kids</span>
-        </button>
-        <button class="tab-btn" onclick="switchCategory('coloring-adult')" id="tab-coloring-adult">
-          <i class="fas fa-palette"></i>
-          <span data-fr="Coloriage Adultes" data-en="Coloring Adult">Coloring Adult</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Main Content -->
-  <section class="py-12">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      
-      <!-- Filter Section -->
-      <div class="filter-section">
-        <div class="relative">
-          <input 
-            type="text" 
-            id="searchInput" 
-            class="search-input" 
-            placeholder="Search by keyword... (e.g. 'academic', 'budget', 'unicorn')"
-            data-fr-placeholder="Rechercher par mot-clé... (ex: 'académique', 'budget', 'licorne')"
-            data-en-placeholder="Search by keyword... (e.g. 'academic', 'budget', 'unicorn')"
-            oninput="filterInteriors()"
-          >
-          <i class="fas fa-search absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+    <!-- Section Title -->
+    <section class="subcategories-section">
+        <div class="section-title">
+            <h2 data-fr="Explorez par Catégorie" data-en="Explore by Category">Explore by Category</h2>
+            <p data-fr="Trouvez le type d'intérieur parfait pour votre prochain livre" data-en="Find the perfect interior type for your next book">Find the perfect interior type for your next book</p>
         </div>
-      </div>
 
-      <!-- Interiors Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="interiorsGrid">
-        <!-- Cards will be dynamically inserted here -->
-      </div>
+        <!-- Sub-Categories Grid -->
+        <div class="subcategories-grid">
 
-      <!-- No Results Message -->
-      <div id="noResults" class="text-center py-12 hidden">
-        <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
-        <p class="text-xl text-gray-600" data-fr="Aucun résultat trouvé" data-en="No results found">No results found</p>
-      </div>
+            <!-- Adult Coloring Books -->
+            <div class="subcategory-card" onclick="window.location.href='./category-coloring-adults.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=600&h=400&fit=crop&q=80" alt="Adult Coloring">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">🎨</div>
+                        <div class="subcategory-count" data-fr="12,000+ templates" data-en="12,000+ templates">12,000+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Coloriages Adultes" data-en="Adult Coloring Books">Adult Coloring Books</h3>
+                    <p class="subcategory-description" data-fr="Mandalas, motifs complexes, relaxation, méditation, et designs artistiques" data-en="Mandalas, intricate patterns, relaxation, meditation, and artistic designs">Mandalas, intricate patterns, relaxation, meditation, and artistic designs</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
 
-    </div>
-  </section>
+            <!-- Kids Coloring Books -->
+            <div class="subcategory-card" onclick="window.location.href='./category-coloring-kids.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?w=600&h=400&fit=crop&q=80" alt="Kids Coloring">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">🖍️</div>
+                        <div class="subcategory-count" data-fr="8,000+ templates" data-en="8,000+ templates">8,000+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Coloriages Enfants" data-en="Kids Coloring Books">Kids Coloring Books</h3>
+                    <p class="subcategory-description" data-fr="Animaux, personnages, alphabet, chiffres, et thèmes éducatifs" data-en="Animals, characters, alphabet, numbers, and educational themes">Animals, characters, alphabet, numbers, and educational themes</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
 
-  <!-- Footer -->
-  <footer style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: #e5e7eb; padding: 3rem 0;">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-        <div>
-          <h4 class="text-white font-semibold mb-4">GabaritKDP</h4>
-          <p class="text-sm" data-fr="Créez des couvertures KDP parfaites en quelques clics" data-en="Create perfect KDP covers in a few clicks">Create perfect KDP covers in a few clicks</p>
+            <!-- Planners & Journals -->
+            <div class="subcategory-card" onclick="window.location.href='./category-planners.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=600&h=400&fit=crop&q=80" alt="Planners">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">📅</div>
+                        <div class="subcategory-count" data-fr="5,000+ templates" data-en="5,000+ templates">5,000+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Planners & Journals" data-en="Planners & Journals">Planners & Journals</h3>
+                    <p class="subcategory-description" data-fr="Quotidiens, hebdomadaires, mensuels, gratitude, budget, fitness" data-en="Daily, weekly, monthly, gratitude, budget, fitness planners">Daily, weekly, monthly, gratitude, budget, fitness planners</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Notebooks -->
+            <div class="subcategory-card" onclick="window.location.href='./category-notebooks.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1455884981818-54cb785db6fc?w=600&h=400&fit=crop&q=80" alt="Notebooks">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">📓</div>
+                        <div class="subcategory-count" data-fr="3,000+ templates" data-en="3,000+ templates">3,000+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Notebooks" data-en="Notebooks">Notebooks</h3>
+                    <p class="subcategory-description" data-fr="Lignes, pointillés, grilles, blancs, Cornell notes, et formats personnalisés" data-en="Lined, dotted, grid, blank, Cornell notes, and custom formats">Lined, dotted, grid, blank, Cornell notes, and custom formats</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Activities & Puzzles -->
+            <div class="subcategory-card" onclick="window.location.href='./category-activities.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?w=600&h=400&fit=crop&q=80" alt="Activities">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">🧩</div>
+                        <div class="subcategory-count" data-fr="4,000+ templates" data-en="4,000+ templates">4,000+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Activités & Puzzles" data-en="Activities & Puzzles">Activities & Puzzles</h3>
+                    <p class="subcategory-description" data-fr="Sudoku, mots croisés, labyrinthes, cherche et trouve, jeux de logique" data-en="Sudoku, crosswords, mazes, word search, logic games">Sudoku, crosswords, mazes, word search, logic games</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- KDP Templates -->
+            <div class="subcategory-card" onclick="window.location.href='./category-templates.html'">
+                <div class="subcategory-image">
+                    <img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&h=400&fit=crop&q=80" alt="Templates">
+                    <div class="subcategory-overlay">
+                        <div class="subcategory-icon">📋</div>
+                        <div class="subcategory-count" data-fr="2,000+ templates" data-en="2,000+ templates">2,000+ templates</div>
+                    </div>
+                </div>
+                <div class="subcategory-info">
+                    <h3 class="subcategory-title" data-fr="Templates KDP" data-en="KDP Templates">KDP Templates</h3>
+                    <p class="subcategory-description" data-fr="Recettes, trackers, logbooks, workbooks, et formats spécialisés" data-en="Recipe books, trackers, logbooks, workbooks, and specialized formats">Recipe books, trackers, logbooks, workbooks, and specialized formats</p>
+                    <button class="subcategory-btn">
+                        <span data-fr="Explorer" data-en="Browse">Browse</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
         </div>
-        <div>
-          <h4 class="text-white font-semibold mb-4" data-en="Quick Links" data-fr="Liens Rapides">Quick Links</h4>
-          <ul class="space-y-2">
-            <li><a href="/index.html" class="hover:text-white transition" data-en="Home" data-fr="Accueil">Home</a></li>
-            <li><a href="/generator.html" class="hover:text-white transition" data-en="Generator" data-fr="Générateur">Generator</a></li>
-            <li><a href="/marketplace.html" class="hover:text-white transition" data-en="Marketplace" data-fr="Marketplace">Marketplace</a></li>
-            <li><a href="/pricing.html" class="hover:text-white transition" data-en="Pricing" data-fr="Tarifs">Pricing</a></li>
-          </ul>
+    </section>
+
+    <!-- Stats Banner -->
+    <section class="stats-banner">
+        <div class="stats-container">
+            <div class="stat-item">
+                <div class="stat-number">34,000+</div>
+                <div class="stat-label" data-fr="Templates Disponibles" data-en="Templates Available">Templates Available</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">6</div>
+                <div class="stat-label" data-fr="Catégories" data-en="Categories">Categories</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label" data-fr="KDP Conformes" data-en="KDP Compliant">KDP Compliant</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">24/7</div>
+                <div class="stat-label" data-fr="Téléchargement Instantané" data-en="Instant Download">Instant Download</div>
+            </div>
         </div>
-        <div>
-          <h4 class="text-white font-semibold mb-4" data-en="Support" data-fr="Support">Support</h4>
-          <ul class="space-y-2">
-            <li><a href="/faq.html" class="hover:text-white transition">FAQ</a></li>
-            <li><a href="/contact.html" class="hover:text-white transition">Contact</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="text-white font-semibold mb-4" data-en="Legal" data-fr="Légal">Legal</h4>
-          <ul class="space-y-2">
-            <li><a href="/mentions-legales.html" class="hover:text-white transition" data-en="Legal Notice" data-fr="Mentions Légales">Legal Notice</a></li>
-            <li><a href="/cgu.html" class="hover:text-white transition" data-en="Terms of Service" data-fr="Conditions d'utilisation">Terms of Service</a></li>
-            <li><a href="/confidentialite.html" class="hover:text-white transition" data-en="Privacy Policy" data-fr="Politique de confidentialité">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
-      </div>
-    </div>
-  </footer>
+    </section>
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <script>
-    const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
-    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3dkYWljcGxhamxqcGZremh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MzMxMjQsImV4cCI6MjA3NzUwOTEyNH0.0IDHysD84_0ghjb-a4K0UkNrJbzdQBKUjm5mQbSfro8';
-    
-    window.supabaseClient = window.supabaseClient || window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-    const supabase = window.supabaseClient;
-
-    let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
-    let currentCategory = 'planners';
-    let isProUser = false;
-    let allInteriors = [];
-
-    // Language switching
-    function switchLanguage(lang) {
-      currentLanguage = lang;
-      localStorage.setItem('preferredLanguage', lang);
-      document.documentElement.lang = lang;
-      
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.toggle('active', btn.dataset.lang === lang);
-      });
-      
-      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
-        const text = el.getAttribute(`data-${lang}`);
-        if (text) {
-          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-            el.placeholder = text;
-          } else {
-            el.innerHTML = text;
-          }
-        }
-      });
-
-      // Update placeholder
-      const searchInput = document.getElementById('searchInput');
-      if (searchInput) {
-        searchInput.placeholder = searchInput.getAttribute(`data-${lang}-placeholder`);
-      }
-    }
-    
-    function toggleMobileMenu() {
-      document.getElementById('mobileMenu').classList.toggle('active');
-    }
-
-    // Check if user is Pro
-    async function checkProStatus() {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) {
-          isProUser = false;
-          return;
-        }
-
-        const { data: profile } = await supabase
-          .from('user_profiles')
-          .select('subscription_status')
-          .eq('id', user.id)
-          .single();
-
-        isProUser = profile?.subscription_status === 'active';
-      } catch (error) {
-        console.error('Error checking Pro status:', error);
-        isProUser = false;
-      }
-    }
-
-    // Interior templates data
-    const interiorsData = {
-      planners: [
-        {
-          id: 1,
-          title: 'Academic Planners 2026',
-          keywords: ['academic', 'student', 'school', 'education', 'university', 'college'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Academic%20Planners.zip',
-          fileSize: '11.51 MB',
-          templatesCount: 100,
-          icon: '🎓'
-        },
-        {
-          id: 2,
-          title: 'Budget Planners',
-          keywords: ['budget', 'finance', 'money', 'expense', 'tracking', 'savings'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Budget%20Planners.zip',
-          fileSize: '6.99 MB',
-          templatesCount: 85,
-          icon: '💰'
-        },
-        {
-          id: 3,
-          title: 'Business Planners',
-          keywords: ['business', 'entrepreneur', 'professional', 'company', 'startup', 'corporate'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Business%20Planners.zip',
-          fileSize: '20.81 MB',
-          templatesCount: 120,
-          icon: '💼'
-        },
-        {
-          id: 4,
-          title: 'Brain Dump & Idea Journal',
-          keywords: ['ideas', 'brainstorm', 'creative', 'notes', 'journal', 'thinking'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Brain-Dump-Idea-Journal-121538262.zip',
-          fileSize: '8.31 MB',
-          templatesCount: 90,
-          icon: '🧠'
-        },
-        {
-          id: 5,
-          title: 'Bucket List Journal',
-          keywords: ['bucket list', 'goals', 'dreams', 'travel', 'adventure', 'life goals'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Bucket%20List%20Journal.zip',
-          fileSize: '46.12 MB',
-          templatesCount: 75,
-          icon: '🎯'
-        },
-        {
-          id: 6,
-          title: 'Emotion & Therapy Planners',
-          keywords: ['emotion', 'therapy', 'mental health', 'wellness', 'mindfulness', 'self-care'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Emotion%20%26%20Therapy%20Planners.zip',
-          fileSize: '9.19 MB',
-          templatesCount: 95,
-          icon: '💝'
-        },
-        {
-          id: 7,
-          title: 'Fitness & Workout Tracker',
-          keywords: ['fitness', 'workout', 'exercise', 'gym', 'health', 'training'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Fitness%20%26%20Workout%20Tracker.zip',
-          fileSize: '15.88 MB',
-          templatesCount: 110,
-          icon: '💪'
-        },
-        {
-          id: 8,
-          title: 'Meal Planning & Food Journal',
-          keywords: ['meal', 'food', 'recipe', 'cooking', 'nutrition', 'diet'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Meal%20Planning%20%26%20Food%20Journal.zip',
-          fileSize: '28.73 MB',
-          templatesCount: 130,
-          icon: '🍽️'
-        },
-        {
-          id: 9,
-          title: 'Wedding Planner',
-          keywords: ['wedding', 'marriage', 'bride', 'groom', 'ceremony', 'celebration'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/Wedding%20Planner.zip',
-          fileSize: '12.45 MB',
-          templatesCount: 105,
-          icon: '💒'
-        },
-        {
-          id: 10,
-          title: '2026 Daily Planner 365 Days',
-          keywords: ['daily', '365', 'everyday', 'routine', 'schedule', 'calendar'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/PLANNERS%202026/2026-KDP-INTERIOR-MEGA-1273776.zip',
-          fileSize: '2.63 GB',
-          templatesCount: 365,
-          icon: '📅'
-        }
-      ],
-      'coloring-kids': [
-        {
-          id: 101,
-          title: 'Cute Unicorn Coloring Pages',
-          keywords: ['unicorn', 'cute', 'fantasy', 'magic', 'rainbow', 'kids'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/100-Cute-Unicorn-Coloring-Pages-106365.pdf',
-          fileSize: '142.26 MB',
-          pagesCount: 100,
-          icon: '🦄'
-        },
-        {
-          id: 102,
-          title: 'Kids Coloring Pages',
-          keywords: ['kids', 'children', 'fun', 'simple', 'easy', 'learning'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/105-Kids-Coloring-Pages-for-1164655.pdf',
-          fileSize: '96.87 MB',
-          pagesCount: 105,
-          icon: '🎨'
-        },
-        {
-          id: 103,
-          title: 'Monster Truck Coloring',
-          keywords: ['monster truck', 'vehicles', 'trucks', 'boys', 'racing', 'cars'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/120-Monster-Truck-Coloring-Pages-7.pdf',
-          fileSize: '71.58 MB',
-          pagesCount: 120,
-          icon: '🚚'
-        },
-        {
-          id: 104,
-          title: 'Cute Easter Coloring Pages',
-          keywords: ['easter', 'bunny', 'eggs', 'spring', 'holiday', 'celebration'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/150-Cute-Easter-Coloring-Pages-866.pdf',
-          fileSize: '44.52 MB',
-          pagesCount: 150,
-          icon: '🐰'
-        },
-        {
-          id: 105,
-          title: 'Happy Christmas Coloring',
-          keywords: ['christmas', 'santa', 'holiday', 'winter', 'xmas', 'festive'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/300-Happy-Christmas-Coloring.pdf',
-          fileSize: '105.77 MB',
-          pagesCount: 300,
-          icon: '🎄'
-        }
-      ],
-      'coloring-adult': [
-        {
-          id: 201,
-          title: 'Cute Animal Coloring Pages',
-          keywords: ['animal', 'cute', 'wildlife', 'nature', 'pets', 'relaxing'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/267-Cute-Animal-Coloring-Pages-10.pdf',
-          fileSize: '36.13 MB',
-          pagesCount: 267,
-          icon: '🦊'
-        },
-        {
-          id: 202,
-          title: 'Cute Kawaii Coloring Pages',
-          keywords: ['kawaii', 'cute', 'japanese', 'manga', 'anime', 'artistic'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/200-Cute-Kawaii-Coloring-Pages-89.pdf',
-          fileSize: '32.84 MB',
-          pagesCount: 200,
-          icon: '🌸'
-        },
-        {
-          id: 203,
-          title: 'Cute Monster Coloring',
-          keywords: ['monster', 'creature', 'fantasy', 'fun', 'creative', 'imagination'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/200-Cute-Monster-Coloring-pages-8.pdf',
-          fileSize: '87.61 MB',
-          pagesCount: 200,
-          icon: '👾'
-        },
-        {
-          id: 204,
-          title: 'Christmas Dot-To-Dot',
-          keywords: ['christmas', 'dot to dot', 'puzzle', 'connect', 'game', 'activity'],
-          fileUrl: 'https://gabaritkdp.b-cdn.net/COLORING%20BOOKS%20KIDS/30-Christmas-Dot-To-Dot-78062859.pdf',
-          fileSize: '33.58 MB',
-          pagesCount: 30,
-          icon: '🎅'
-        }
-      ]
-    };
-
-    // Category switching
-    function switchCategory(category) {
-      currentCategory = category;
-      
-      // Update tab buttons
-      document.querySelectorAll('.tab-btn').forEach(btn => {
-        btn.classList.remove('active');
-      });
-      document.getElementById(`tab-${category}`).classList.add('active');
-      
-      // Clear search
-      document.getElementById('searchInput').value = '';
-      
-      // Display interiors
-      displayInteriors();
-    }
-
-    // Display interiors
-    function displayInteriors() {
-      const grid = document.getElementById('interiorsGrid');
-      const noResults = document.getElementById('noResults');
-      allInteriors = interiorsData[currentCategory] || [];
-      
-      if (allInteriors.length === 0) {
-        grid.innerHTML = '';
-        noResults.classList.remove('hidden');
-        return;
-      }
-      
-      noResults.classList.add('hidden');
-      
-      grid.innerHTML = allInteriors.map(interior => {
-        const canDownload = isProUser;
+    <!-- JavaScript -->
+    <script>
+        // Language Switching
+        let currentLang = 'en';
         
-        return `
-          <div class="interior-card">
-            ${!canDownload ? '<div class="pro-badge">PRO</div>' : ''}
+        function switchLanguage(lang) {
+            currentLang = lang;
             
-            <div class="interior-thumbnail">
-              <div class="interior-thumbnail-icon">${interior.icon}</div>
-            </div>
+            // Update button active state
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
             
-            ${!canDownload ? `
-              <div class="pro-lock-overlay">
-                <i class="fas fa-lock pro-lock-icon"></i>
-                <p class="pro-lock-text" data-fr="Exclusif PRO" data-en="PRO Exclusive">PRO Exclusive</p>
-              </div>
-            ` : ''}
-            
-            <div class="interior-info">
-              <h3 class="interior-title">${interior.title}</h3>
-              
-              <div class="interior-meta">
-                <span><i class="fas fa-file-archive"></i> ${interior.fileSize}</span>
-                ${interior.templatesCount ? `<span><i class="fas fa-layer-group"></i> ${interior.templatesCount} templates</span>` : ''}
-                ${interior.pagesCount ? `<span><i class="fas fa-file-pdf"></i> ${interior.pagesCount} pages</span>` : ''}
-              </div>
-              
-              <div class="interior-keywords">
-                ${interior.keywords.slice(0, 4).map(kw => `<span class="keyword-tag">${kw}</span>`).join('')}
-              </div>
-              
-              <button 
-                class="download-btn ${!canDownload ? 'pro-locked' : ''}"
-                ${canDownload ? `onclick="downloadInterior('${interior.fileUrl}', '${interior.title}')"` : `onclick="showProModal()"`}
-              >
-                <i class="fas fa-${canDownload ? 'download' : 'lock'}"></i>
-                <span data-fr="${canDownload ? 'Télécharger' : 'Passer PRO'}" data-en="${canDownload ? 'Download' : 'Upgrade PRO'}">${canDownload ? 'Download' : 'Upgrade PRO'}</span>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-      
-      // Update language for new content
-      switchLanguage(currentLanguage);
-    }
-
-    // Filter interiors
-    function filterInteriors() {
-      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-      const grid = document.getElementById('interiorsGrid');
-      const noResults = document.getElementById('noResults');
-      
-      if (!searchTerm) {
-        displayInteriors();
-        return;
-      }
-      
-      const filtered = allInteriors.filter(interior => {
-        return interior.title.toLowerCase().includes(searchTerm) ||
-               interior.keywords.some(kw => kw.toLowerCase().includes(searchTerm));
-      });
-      
-      if (filtered.length === 0) {
-        grid.innerHTML = '';
-        noResults.classList.remove('hidden');
-        return;
-      }
-      
-      noResults.classList.add('hidden');
-      
-      grid.innerHTML = filtered.map(interior => {
-        const canDownload = isProUser;
-        
-        return `
-          <div class="interior-card">
-            ${!canDownload ? '<div class="pro-badge">PRO</div>' : ''}
-            
-            <div class="interior-thumbnail">
-              <div class="interior-thumbnail-icon">${interior.icon}</div>
-            </div>
-            
-            ${!canDownload ? `
-              <div class="pro-lock-overlay">
-                <i class="fas fa-lock pro-lock-icon"></i>
-                <p class="pro-lock-text" data-fr="Exclusif PRO" data-en="PRO Exclusive">PRO Exclusive</p>
-              </div>
-            ` : ''}
-            
-            <div class="interior-info">
-              <h3 class="interior-title">${interior.title}</h3>
-              
-              <div class="interior-meta">
-                <span><i class="fas fa-file-archive"></i> ${interior.fileSize}</span>
-                ${interior.templatesCount ? `<span><i class="fas fa-layer-group"></i> ${interior.templatesCount} templates</span>` : ''}
-                ${interior.pagesCount ? `<span><i class="fas fa-file-pdf"></i> ${interior.pagesCount} pages</span>` : ''}
-              </div>
-              
-              <div class="interior-keywords">
-                ${interior.keywords.slice(0, 4).map(kw => `<span class="keyword-tag">${kw}</span>`).join('')}
-              </div>
-              
-              <button 
-                class="download-btn ${!canDownload ? 'pro-locked' : ''}"
-                ${canDownload ? `onclick="downloadInterior('${interior.fileUrl}', '${interior.title}')"` : `onclick="showProModal()"`}
-              >
-                <i class="fas fa-${canDownload ? 'download' : 'lock'}"></i>
-                <span data-fr="${canDownload ? 'Télécharger' : 'Passer PRO'}" data-en="${canDownload ? 'Download' : 'Upgrade PRO'}">${canDownload ? 'Download' : 'Upgrade PRO'}</span>
-              </button>
-            </div>
-          </div>
-        `;
-      }).join('');
-      
-      // Update language for new content
-      switchLanguage(currentLanguage);
-    }
-
-    // Download interior
-    function downloadInterior(url, title) {
-      window.open(url, '_blank');
-      
-      // Track download in Supabase (optional)
-      console.log(`Downloaded: ${title}`);
-    }
-
-    // Show Pro modal
-    function showProModal() {
-      if (confirm(currentLanguage === 'fr' 
-        ? 'Cette fonctionnalité est réservée aux membres PRO. Voulez-vous passer PRO maintenant ?' 
-        : 'This feature is reserved for PRO members. Do you want to upgrade to PRO now?')) {
-        window.location.href = '/pricing.html';
-      }
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', async () => {
-      switchLanguage(currentLanguage);
-      await checkProStatus();
-      displayInteriors();
-    });
-  </script>
+            // Update all translatable elements
+            document.querySelectorAll('[data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${lang}`);
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = text;
+                } else {
+                    el.textContent = text;
+                }
+            });
+        }
+    </script>
 
 </body>
 </html>
