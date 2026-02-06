@@ -1,40 +1,97 @@
-// api/list-files.js (Pour Vercel)
-const fetch = require('node-fetch');
+// Netlify Function: netlify/functions/list-bunny-files.js
+// VERSION: cdn.gabaritkdp.com (Custom Domain)
 
-export default async function handler(req, res) {
-  // Configuration CORS
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET');
+exports.handler = async (event) => {
+  // CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json'
+  };
 
-  const { path = '' } = req.query;
-  const STORAGE_ZONE = 'gabaritkdp-images'; 
-  const ACCESS_KEY = process.env.BUNNY_STORAGE_API_KEY; // À régler dans le tableau de bord Vercel
-  const CDN_URL = 'https://cdn.gabaritkdp.com'; 
+  // Handle preflight request
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 200, headers, body: '' };
+  }
 
   try {
-    const url = `https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURIComponent(path)}/`;
+    // Récupérer le paramètre 'path' depuis l'URL
+    const path = event.queryStringParameters?.path || '';
     
-    const response = await fetch(url, {
+    if (!path) {
+      return {
+        statusCode: 400,
+        headers,
+        body: JSON.stringify({ error: 'Missing path parameter' })
+      };
+    }
+
+    console.log('📂 Listing files for path:', path);
+
+    // Configuration Bunny CDN
+    const STORAGE_ZONE = 'gabaritkdp-images';
+    const STORAGE_API_KEY = process.env.BUNNY_STORAGE_API_KEY;
+    const CDN_HOSTNAME = 'cdn.gabaritkdp.com'; // 🎯 Custom domain
+    const BUNNY_API_URL = `https://storage.bunnycdn.com/${STORAGE_ZONE}/${encodeURIComponent(path)}/`;
+
+    // Appel API à Bunny CDN
+    const response = await fetch(BUNNY_API_URL, {
       method: 'GET',
-      headers: { 
-        'AccessKey': ACCESS_KEY,
-        'Accept': 'application/json' 
+      headers: {
+        'AccessKey': STORAGE_API_KEY
       }
     });
 
-    const data = await response.json();
+    if (!response.ok) {
+      console.error('❌ Bunny API Error:', response.status, response.statusText);
+      return {
+        statusCode: response.status,
+        headers,
+        body: JSON.stringify({ 
+          error: `Bunny API Error: ${response.status}`,
+          path: path
+        })
+      };
+    }
 
-    const formattedData = data.map(item => ({
-      name: item.ObjectName,
-      isDir: item.IsDirectory,
-      url: item.IsDirectory 
-           ? `${CDN_URL}/${path}/${item.ObjectName}/vignette.png` 
-           : `${CDN_URL}/${path}/${item.ObjectName}`,
-      path: `${path}/${item.ObjectName}`.replace(/\/+/g, '/')
-    }));
+    const files = await response.json();
+    
+    // Filtrer seulement les images
+    const imageFiles = files
+      .filter(file => 
+        !file.IsDirectory && 
+        /\.(jpg|jpeg|png|webp)$/i.test(file.ObjectName)
+      )
+      .map(file => ({
+        name: file.ObjectName,
+        size: file.Length,
+        lastModified: file.LastChanged,
+        // URL avec custom domain
+        url: `https://${CDN_HOSTNAME}/${path}/${encodeURIComponent(file.ObjectName)}`
+      }));
 
-    return res.status(200).json(formattedData);
+    console.log(`✅ Found ${imageFiles.length} images in ${path}`);
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({
+        path: path,
+        count: imageFiles.length,
+        files: imageFiles
+      })
+    };
+
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    console.error('❌ Function error:', error);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ 
+        error: 'Internal server error',
+        message: error.message 
+      })
+    };
   }
-}
+};

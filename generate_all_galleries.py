@@ -106,7 +106,7 @@ def generate_html_page(main_cat, sub_cat, count, icon, first_image):
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{main_cat} → {sub_cat} | GabaritKDP Marketplace</title>
   <meta name="description" content="{count} templates professionnels pour vos couvertures KDP">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="style.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     body{{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;margin:0;padding:0}}

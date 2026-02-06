@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GabaritKDP Tracker</title>
+  <style>
+    :root{
+      --bg:#0f1115;
+      --panel:#171a21;
+      --panel2:#12151b;
+      --text:#e6e8ee;
+      --muted:#9aa3b2;
+      --accent:#f59e0b;
+      --danger:#ff4d4d;
+      --ok:#22c55e;
+      --border: rgba(255,255,255,.08);
+      --shadow: 0 10px 30px rgba(0,0,0,.45);
+    }
+    body{
+      margin:0;
+      width:360px;
+      background: radial-gradient(1200px 600px at 10% -20%, rgba(245,158,11,.18), transparent 50%),
+                  radial-gradient(1200px 600px at 100% 0%, rgba(245,158,11,.10), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+    .wrap{ padding:14px 14px 16px; }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:10px;
+    }
+    .logo{
+      width:28px; height:28px; border-radius:8px;
+      background: linear-gradient(145deg, rgba(245,158,11,.95), rgba(245,158,11,.55));
+      display:grid; place-items:center;
+      color:#111;
+      font-weight:800;
+    }
+    h1{ font-size:18px; margin:0; letter-spacing:.2px;}
+    .sub{ margin:0; margin-top:2px; font-size:12px; color:var(--muted); }
+
+    .status{
+      margin-top:10px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.04);
+      border-radius:12px;
+      padding:10px 10px;
+      font-size:12px;
+      line-height:1.35;
+    }
+    .status.error{ border-color: rgba(255,77,77,.35); }
+    .status.ok{ border-color: rgba(34,197,94,.35); }
+    .status .title{ font-weight:700; margin-bottom:4px;}
+    .status .msg{ color:var(--text); }
+    .status .hint{ color:var(--muted); margin-top:6px; }
+
+    .field{ margin-top:10px; }
+    label{ display:block; font-size:12px; color:var(--muted); margin-bottom:6px; }
+    input{
+      width:100%;
+      box-sizing:border-box;
+      background: var(--panel);
+      border:1px solid var(--border);
+      color:var(--text);
+      border-radius:10px;
+      padding:10px 10px;
+      outline:none;
+      font-size:13px;
+    }
+    input:focus{ border-color: rgba(245,158,11,.55); box-shadow: 0 0 0 3px rgba(245,158,11,.12); }
+
+    .row{ display:flex; gap:10px; margin-top:10px; }
+    .btn{
+      width:100%;
+      border:0;
+      cursor:pointer;
+      background: linear-gradient(145deg, rgba(245,158,11,.95), rgba(245,158,11,.65));
+      color:#121212;
+      font-weight:800;
+      border-radius:12px;
+      padding:12px 12px;
+      box-shadow: var(--shadow);
+      font-size:14px;
+    }
+    .btn:disabled{ opacity:.55; cursor:not-allowed; }
+    .secondary{
+      background: transparent;
+      border:1px solid var(--border);
+      color:var(--text);
+      font-weight:700;
+      box-shadow:none;
+    }
+
+    .how{
+      margin-top:12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background: rgba(0,0,0,.20);
+      padding:10px 10px;
+      font-size:12px;
+      color:var(--muted);
+    }
+    .how b{ color:var(--text); }
+    .small{ font-size:11px; color:var(--muted); margin-top:6px; }
+    .link{ color: var(--accent); text-decoration:none; font-weight:700; }
+    .divider{ height:1px; background: var(--border); margin:10px 0; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="logo">GK</div>
+      <div>
+        <h1>GabaritKDP Tracker</h1>
+        <p class="sub">Synchronisation KDP Reports → Supabase</p>
+      </div>
+    </div>
+
+    <div id="status" class="status">
+      <div class="title">Prêt</div>
+      <div class="msg">Clique sur <b>Synchronize with KDP</b>.</div>
+      <div class="hint">Aucun script n’est injecté dans la page (plus fiable). L’extension utilise vos cookies déjà présents.</div>
+    </div>
+
+    <div class="field">
+      <label for="userEmail">Email de suivi (clé de compte Tracker)</label>
+      <input id="userEmail" type="email" placeholder="ex: amzkdptessa@gmail.com" />
+      <div class="small">Cet email sert uniquement d’identifiant dans ta base (champ <b>user_email</b>). Ce n’est pas ton identifiant vendeur Amazon KDP.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+      <label for="sbUrl">Supabase URL</label>
+      <input id="sbUrl" type="text" placeholder="https://xxxx.supabase.co" />
+    </div>
+    <div class="field">
+      <label for="sbKey">Supabase Publishable key (anon)</label>
+      <input id="sbKey" type="password" placeholder="sb_publishable_..." />
+      <div class="small">Clé publishable uniquement. Ne colle jamais ta <b>secret key</b> dans une extension.</div>
+    </div>
+
+    <div class="row">
+      <button id="save" class="btn secondary" type="button">Sauvegarder</button>
+      <button id="sync" class="btn" type="button">Synchronize with KDP</button>
+    </div>
+
+    <div class="how">
+      <b>Comment ça marche ?</b><br/>
+      1) L’extension ouvre (ou cible) <b>kdpreports.amazon.com</b><br/>
+      2) Elle appelle les endpoints JSON (month_current + pmr)<br/>
+      3) Elle insère 1 ligne dans <b>kdp_reports</b> (payload JSONB)<br/>
+      <span class="small">Tu peux ensuite alimenter <b>kdp_metrics_daily</b> via ton SQL/trigger.</span>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

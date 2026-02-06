@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ressources — GabaritKDP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Guides, tutoriels et ressources pour publier sans rejet sur Amazon KDP avec GabaritKDP." />
+
+  <link href="style.min.css" rel="stylesheet">
+
+  <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
+
+  <style>
+    .card {
+      background: #fff;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 22px;
+      transition: box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+    }
+    .card:hover {
+      box-shadow: 0 12px 30px rgba(0,0,0,.08);
+      transform: translateY(-1px);
+      border-color: #f3f4f6;
+    }
+    .kicker {
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background:#fff;
+      color:#111827;
+      font-weight:700;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-900">
+
+  <!-- Switch language flottant (autonome) -->
+  <div class="fixed top-4 right-4 z-[9999] bg-white rounded-full shadow-lg border border-gray-200 p-1 flex gap-1">
+    <button id="btnFR" class="px-3 py-1.5 rounded-full text-sm font-semibold" type="button">FR</button>
+    <button id="btnEN" class="px-3 py-1.5 rounded-full text-sm font-semibold" type="button">EN</button>
+  </div>
+
+  <script>
+    (function () {
+      const lang = localStorage.getItem('preferredLanguage') || 'fr';
+      const btnFR = document.getElementById('btnFR');
+      const btnEN = document.getElementById('btnEN');
+
+      function paint(active) {
+        const on = "bg-orange-500 text-white";
+        const off = "bg-transparent text-gray-700 hover:bg-gray-100";
+        btnFR.className = `px-3 py-1.5 rounded-full text-sm font-semibold ${active === 'fr' ? on : off}`;
+        btnEN.className = `px-3 py-1.5 rounded-full text-sm font-semibold ${active === 'en' ? on : off}`;
+      }
+
+      paint(lang);
+
+      btnFR.addEventListener('click', () => {
+        localStorage.setItem('preferredLanguage', 'fr');
+        window.location.href = './resources.html';
+      });
+
+      btnEN.addEventListener('click', () => {
+        localStorage.setItem('preferredLanguage', 'en');
+        // Demain tu crées resources-en.html (copie traduite)
+        window.location.href = './resources-en.html';
+      });
+    })();
+  </script>
+
+  <!-- Header centralisé (cohérent avec ton SaaS) -->
+  <div id="header-placeholder"></div>
+  <script>
+    fetch('./header.html')
+      .then(r => r.text())
+      .then(html => { document.getElementById('header-placeholder').innerHTML = html; })
+      .catch(() => console.warn("header.html introuvable"));
+  </script>
+
+  <main class="max-w-7xl mx-auto px-6 py-10 md:py-14">
+
+    <!-- HERO (plus vivant + mascotte Eureka) -->
+    <section class="mb-16">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+
+        <div>
+          <div class="kicker">
+            <span>📚</span>
+            <span>Ressources officielles</span>
+          </div>
+
+          <h1 class="mt-5 text-4xl md:text-5xl font-extrabold tracking-tight">
+            Ressources <span class="text-orange-500">GabaritKDP</span>
+          </h1>
+
+          <p class="mt-5 text-lg text-gray-600 max-w-xl">
+            Tout ce qu’il faut pour publier plus vite sur Amazon KDP,
+            sans rejet, sans approximation, sans stress.
+          </p>
+
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href="#guides"
+               class="px-5 py-3 rounded-xl bg-gray-900 text-white font-semibold hover:bg-black transition">
+              Commencer par les guides
+            </a>
+
+            <a href="./generator.html"
+               class="px-5 py-3 rounded-xl border bg-white font-semibold hover:bg-gray-50 transition">
+              Ouvrir le générateur
+            </a>
+
+            <a href="./resources.html#articles"
+               class="px-5 py-3 rounded-xl border bg-white font-semibold hover:bg-gray-50 transition">
+              Lire les articles
+            </a>
+          </div>
+
+          <p class="mt-4 text-sm text-gray-500">
+            Conseil : ajoute un lien “Besoin d’aide ?” dans le générateur vers cette page.
+          </p>
+        </div>
+
+        <div class="relative">
+          <div class="absolute -inset-6 bg-gradient-to-br from-orange-100 to-blue-50 rounded-3xl blur-2xl opacity-70"></div>
+          <div class="relative bg-white border rounded-3xl p-6 shadow-sm flex items-center justify-center">
+            <!-- Mascotte Eureka -->
+            <img src="./mascotte_eureka.png" alt="Mascotte GabaritKDP (Eureka)" class="w-72 h-72 object-contain">
+          </div>
+          <p class="mt-3 text-sm text-gray-500 text-center">
+            “Eureka” : le coin où tout devient clair.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GUIDES -->
+    <section id="guides" class="mb-16">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <h2 class="text-2xl font-bold">📘 Guides essentiels</h2>
+        <span class="text-sm text-gray-500">Le chemin le plus rapide vers “zéro refus”.</span>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <a href="./guide.html" class="card">
+          <h3 class="font-bold text-lg">Guide conformité Amazon KDP</h3>
+          <p class="mt-3 text-sm text-gray-600">
+            Le protocole technique complet pour une validation immédiate.
+          </p>
+          <span class="inline-block mt-6 font-semibold text-orange-600">Lire le guide →</span>
+        </a>
+
+        <a href="./guide-conformite-amazon-kdp-gabaritkdp.pdf" target="_blank" class="card">
+          <h3 class="font-bold text-lg">Checklist conformité (PDF)</h3>
+          <p class="mt-3 text-sm text-gray-600">
+            Fond perdu, zones de sécurité, DPI, tranche.
+          </p>
+          <span class="inline-block mt-6 font-semibold text-orange-600">Ouvrir le PDF →</span>
+        </a>
+
+        <a href="./generator.html" class="card">
+          <h3 class="font-bold text-lg">Workflow avec le générateur</h3>
+          <p class="mt-3 text-sm text-gray-600">
+            Créer une couverture prête KDP en quelques minutes.
+          </p>
+          <span class="inline-block mt-6 font-semibold text-orange-600">Accéder au générateur →</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- ARTICLES (tu pourras les rendre dynamiques via Supabase ensuite) -->
+    <section id="articles" class="mb-16">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <h2 class="text-2xl font-bold">🧠 Articles pédagogiques</h2>
+        <span class="text-sm text-gray-500">Comprendre pour éviter les erreurs.</span>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card">
+          <h3 class="font-semibold text-lg">Pourquoi Amazon KDP rejette vos fichiers</h3>
+          <p class="mt-3 text-sm text-gray-600">
+            Les vrais critères techniques derrière les refus Amazon.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 class="font-semibold text-lg">Fond perdu : l’erreur n°1 des auteurs</h3>
+          <p class="mt-3 text-sm text-gray-600">
+            Un détail qui provoque une grande partie des rejets.
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-6 text-sm text-gray-500">
+        Ces articles peuvent être publiés automatiquement via ton admin Supabase (sans coder).
+      </p>
+    </section>
+
+    <!-- TUTOS -->
+    <section id="tutos" class="mb-16">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <h2 class="text-2xl font-bold">🎥 Tutoriels</h2>
+        <span class="text-sm text-gray-500">Guides rapides orientés action.</span>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6">
+        <div class="card">
+          <h3 class="font-semibold text-lg">Créer une couverture conforme en 10 minutes</h3>
+          <p class="mt-3 text-sm text-gray-600">
+            Démonstration pas à pas avec GabaritKDP.
+          </p>
+        </div>
+
+        <div class="card">
+          <h3 class="font-semibold text-lg">Exporter sans rejet (PDF / PNG)</h3>
+          <p class="mt-3 text-sm text-gray-600">
+            Les paramètres critiques avant upload Amazon.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PARTENARIATS -->
+    <section id="partenariats" class="mb-16">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <h2 class="text-2xl font-bold">🤝 Partenariats</h2>
+        <span class="text-sm text-gray-500">Créateurs, designers, outils.</span>
+      </div>
+
+      <div class="card text-sm text-gray-700">
+        <ul class="list-disc list-inside space-y-2">
+          <li>Créateurs & influenceurs KDP</li>
+          <li>Templates partenaires</li>
+          <li>Outils compatibles (Canva, banques d’images, mockups)</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ACTUALITÉS -->
+    <section id="actus" class="mb-4">
+      <div class="flex items-end justify-between gap-4 mb-6">
+        <h2 class="text-2xl font-bold">📰 Actualités</h2>
+        <span class="text-sm text-gray-500">Produit + Amazon + annonces.</span>
+      </div>
+
+      <div class="card text-sm text-gray-700">
+        Nouvelles fonctionnalités, règles Amazon, annonces GabaritKDP.
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t bg-white mt-16">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-sm text-gray-500">
+      © 2026 GabaritKDP — Ressources
+    </div>
+  </footer>
+
+</body>
+</html>
