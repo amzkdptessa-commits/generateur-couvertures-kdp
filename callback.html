@@ -1,510 +1,116 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Connexion à Canva - GabaritKDP</title>
-  <link rel="icon" type="image/png" href="/logo-gabarit-kdp-site-web.png">
-  
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canva Authentication</title>
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      margin: 0;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      padding: 20px;
     }
-
-    .card {
-      width: 100%;
-      max-width: 480px;
-      background: #fff;
-      border-radius: 20px;
-      padding: 48px 36px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
-      text-align: center;
-      animation: slideUp 0.4s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* Logo GabaritKDP */
-    .logo {
-      width: 60px;
-      height: 60px;
-      margin: 0 auto 20px;
-      background: linear-gradient(135deg, #FF9900, #FF6B00);
-      border-radius: 16px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: 900;
-      color: #fff;
-      box-shadow: 0 8px 20px rgba(255, 153, 0, 0.3);
-    }
-
-    /* Spinner de chargement */
-    .spinner {
-      width: 64px;
-      height: 64px;
-      margin: 0 auto 24px;
-      border-radius: 50%;
-      border: 5px solid #f3f4f6;
-      border-top-color: #667eea;
-      animation: spin 0.8s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    /* Icônes de statut */
-    .status-icon {
-      font-size: 72px;
-      margin: 0 auto 20px;
-      display: block;
-      animation: scaleIn 0.5s ease;
-    }
-
-    @keyframes scaleIn {
-      from {
-        opacity: 0;
-        transform: scale(0.5);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .success-icon {
-      color: #10b981;
-    }
-
-    .error-icon {
-      color: #ef4444;
-    }
-
-    .warning-icon {
-      color: #f59e0b;
-    }
-
-    /* Titres */
-    h2 {
-      font-size: 1.5rem;
-      color: #111827;
-      margin-bottom: 12px;
-      font-weight: 700;
-      line-height: 1.3;
-    }
-
-    /* Sous-titres */
-    p {
-      color: #6b7280;
-      margin-bottom: 8px;
-      line-height: 1.6;
-      font-size: 0.95rem;
-    }
-
-    p.highlight {
-      background: #fef3c7;
-      padding: 12px 16px;
-      border-radius: 10px;
-      border-left: 4px solid #f59e0b;
-      margin: 16px 0;
-      font-weight: 500;
-      color: #92400e;
-    }
-
-    /* Boutons */
-    .btn {
-      display: inline-block;
-      margin-top: 20px;
-      padding: 14px 28px;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: #fff;
+    .container {
+      background: white;
+      padding: 2rem;
       border-radius: 12px;
-      text-decoration: none;
-      font-weight: 600;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-      font-size: 1rem;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
     }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 25px rgba(102, 126, 234, 0.5);
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
     }
-
-    .btn-secondary {
-      background: #f3f4f6;
-      color: #374151;
-      box-shadow: none;
-      margin-left: 12px;
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
-
-    .btn-secondary:hover {
-      background: #e5e7eb;
-    }
-
-    /* Barre de progression */
-    .progress-bar {
-      width: 100%;
-      height: 4px;
-      background: #e5e7eb;
-      border-radius: 4px;
-      margin: 24px 0 0;
-      overflow: hidden;
-    }
-
-    .progress-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #667eea, #764ba2);
-      border-radius: 4px;
-      animation: progress 2s ease;
-    }
-
-    @keyframes progress {
-      from { width: 0%; }
-      to { width: 100%; }
-    }
-
-    /* Messages techniques */
-    .tech-details {
-      margin-top: 16px;
-      padding: 12px;
-      background: #f9fafb;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      color: #6b7280;
-      text-align: left;
-    }
-
-    .tech-details code {
-      background: #e5e7eb;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: 'Courier New', monospace;
-      color: #374151;
-    }
-
-    /* Responsive */
-    @media (max-width: 500px) {
-      .card {
-        padding: 36px 24px;
-      }
-      
-      h2 {
-        font-size: 1.3rem;
-      }
-      
-      .btn {
-        width: 100%;
-        margin-left: 0 !important;
-        margin-top: 10px;
-      }
-    }
-
-    /* Animation du logo Canva */
-    .canva-logo {
-      width: 48px;
-      height: 48px;
-      margin: 0 auto 16px;
-      animation: pulse 2s ease infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.8;
-        transform: scale(1.05);
-      }
-    }
+    h1 { color: #333; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p { color: #666; }
+    .error { color: #d32f2f; background: #ffebee; padding: 1rem; border-radius: 8px; margin-top: 1rem; }
   </style>
 </head>
 <body>
-  <main class="card" id="card">
-    <!-- Contenu dynamique injecté par JavaScript -->
-    <div class="logo">K</div>
-    <div class="spinner"></div>
-    <h2>Connexion à Canva en cours...</h2>
-    <p>Veuillez patienter pendant que nous sécurisons votre connexion.</p>
-    <div class="progress-bar">
-      <div class="progress-fill"></div>
-    </div>
-  </main>
+  <div class="container">
+    <div class="loader"></div>
+    <h1>🎨 Canva Authentication</h1>
+    <p id="status">Processing authorization...</p>
+  </div>
 
   <script>
     (async function() {
-      'use strict';
-
-      // ⚙️ CONFIGURATION - À adapter à votre environnement
-      const CONFIG = {
-        WORKER_URL: 'https://canva-token.amzkdptessa.workers.dev',
-        SITE_ORIGIN: window.location.origin, // Détection automatique
-        CALLBACK_PATH: '/auth/callback.html',
-        FINAL_REDIRECT: '/generator.html',
-        REDIRECT_DELAY: 1800 // ms avant redirection (succès)
-      };
-
-      const card = document.getElementById('card');
-
-      // =========================================================================
-      // FONCTIONS D'AFFICHAGE
-      // =========================================================================
-
-      /**
-       * Affiche l'état de chargement
-       */
-      function renderLoading() {
-        card.innerHTML = `
-          <div class="logo">K</div>
-          <div class="spinner"></div>
-          <h2>🔐 Authentification en cours...</h2>
-          <p>Échange sécurisé avec Canva en cours.<br>Cela ne prend que quelques secondes.</p>
-          <div class="progress-bar">
-            <div class="progress-fill"></div>
-          </div>
-        `;
-      }
-
-      /**
-       * Affiche le succès et redirige automatiquement
-       */
-      function renderSuccessAndRedirect() {
-        card.innerHTML = `
-          <div class="logo">K</div>
-          <div class="status-icon success-icon">✓</div>
-          <h2>🎉 Connexion réussie !</h2>
-          <p>Votre compte Canva est maintenant connecté à GabaritKDP.</p>
-          <p>Vous pouvez désormais importer vos designs Canva directement dans le générateur.</p>
-          <p class="highlight">Redirection automatique dans ${CONFIG.REDIRECT_DELAY/1000} secondes...</p>
-          <a class="btn" href="${CONFIG.FINAL_REDIRECT}">Accéder au générateur maintenant →</a>
-        `;
-
-        // Redirection automatique après délai
-        setTimeout(() => {
-          window.location.href = CONFIG.FINAL_REDIRECT;
-        }, CONFIG.REDIRECT_DELAY);
-      }
-
-      /**
-       * Affiche une erreur avec message personnalisé
-       */
-      function renderError(message, technical = null) {
-        card.innerHTML = `
-          <div class="logo">K</div>
-          <div class="status-icon error-icon">✗</div>
-          <h2>❌ Erreur d'authentification</h2>
-          <p>${message}</p>
-          <p>Veuillez réessayer ou contacter notre support si le problème persiste.</p>
-          ${technical ? `
-            <div class="tech-details">
-              <strong>Détails techniques :</strong><br>
-              <code>${technical}</code>
-            </div>
-          ` : ''}
-          <a class="btn" href="${CONFIG.FINAL_REDIRECT}">Retour au générateur</a>
-          <a class="btn btn-secondary" href="mailto:support@gabaritkdp.com">Contacter le support</a>
-        `;
-      }
-
-      /**
-       * Affiche l'état "connexion annulée"
-       */
-      function renderCancelled() {
-        card.innerHTML = `
-          <div class="logo">K</div>
-          <div class="status-icon warning-icon">⚠</div>
-          <h2>⚠️ Connexion annulée</h2>
-          <p>Vous avez refusé l'accès à Canva.</p>
-          <p>Pour utiliser vos designs Canva dans GabaritKDP, vous devez autoriser l'accès à vos designs.</p>
-          <p class="highlight">
-            Rassurez-vous : GabaritKDP peut uniquement <strong>lire</strong> vos designs.<br>
-            Nous ne pouvons ni les modifier, ni les supprimer.
-          </p>
-          <a class="btn" href="${CONFIG.FINAL_REDIRECT}">Réessayer la connexion</a>
-          <a class="btn btn-secondary" href="${CONFIG.FINAL_REDIRECT}">Continuer sans Canva</a>
-        `;
-      }
-
-      /**
-       * Affiche l'erreur "session expirée"
-       */
-      function renderSessionExpired() {
-        card.innerHTML = `
-          <div class="logo">K</div>
-          <div class="status-icon warning-icon">⏱</div>
-          <h2>⏱️ Session expirée</h2>
-          <p>Votre session de connexion a expiré.</p>
-          <p>Cela arrive si vous avez pris trop de temps pour autoriser l'accès, ou si vous avez rafraîchi la page.</p>
-          <p class="highlight">
-            <strong>Solution :</strong> Relancez la connexion depuis le générateur.
-          </p>
-          <a class="btn" href="${CONFIG.FINAL_REDIRECT}">Retour au générateur</a>
-        `;
-      }
-
-      // =========================================================================
-      // LOGIQUE PRINCIPALE
-      // =========================================================================
-
+      const statusEl = document.getElementById('status');
+      
       try {
-        renderLoading();
-
-        // Récupérer les paramètres de l'URL
+        // 1. Récupérer code et state de l'URL
         const params = new URLSearchParams(window.location.search);
         const code = params.get('code');
+        const state = params.get('state');
         const error = params.get('error');
-
-        // Cas 1 : L'utilisateur a refusé l'accès
-        if (error) {
-          console.log('❌ Erreur OAuth:', error);
-          return renderCancelled();
-        }
-
-        // Cas 2 : Pas de code d'autorisation
-        if (!code) {
-          console.error('❌ Code d\'autorisation manquant');
-          return renderError(
-            'Le code d\'autorisation est manquant dans l\'URL.',
-            'Paramètre "code" absent'
-          );
-        }
-
-        // Cas 3 : Récupération du PKCE code_verifier
-        const verifier = 
-          sessionStorage.getItem('pkce_code_verifier') ||
-          localStorage.getItem('canva_pkce_verifier') ||
-          localStorage.getItem('pkce_code_verifier') ||
-          localStorage.getItem('code_verifier');
-
-        if (!verifier) {
-          console.error('❌ PKCE code_verifier manquant');
-          return renderSessionExpired();
-        }
-
-        console.log('✅ Code et verifier récupérés, échange en cours...');
-
-        // Cas 4 : Échange du code contre un access_token
-        const redirectUri = CONFIG.SITE_ORIGIN + CONFIG.CALLBACK_PATH;
         
-        const response = await fetch(CONFIG.WORKER_URL, {
+        if (error) {
+          throw new Error(`Canva OAuth error: ${error}`);
+        }
+        
+        if (!code) {
+          throw new Error('No authorization code received');
+        }
+        
+        statusEl.textContent = 'Exchanging authorization code...';
+        
+        // 2. Échanger le code contre un token
+        const tokenResponse = await fetch('https://api.canva.com/rest/v1/oauth/token', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/x-www-form-urlencoded',
           },
-          body: JSON.stringify({
+          body: new URLSearchParams({
+            grant_type: 'authorization_code',
             code: code,
-            code_verifier: verifier,
-            redirect_uri: redirectUri
-          }),
-          credentials: 'include'
+            client_id: 'OC-AZnaRLvMwpXk',
+            redirect_uri: 'https://gabaritkdp.com/auth/callback.html'
+          })
         });
-
-        // Parse de la réponse
-        let data;
-        try {
-          data = await response.json();
-        } catch (parseError) {
-          console.error('❌ Erreur parsing JSON:', parseError);
-          return renderError(
-            'Le serveur a renvoyé une réponse invalide.',
-            'JSON parse error'
-          );
-        }
-
-        // Gestion des erreurs HTTP
-        if (!response.ok) {
-          console.error('❌ Token exchange failed:', response.status, data);
-          
-          const errorMsg = data?.error_description || data?.error || 'Erreur inconnue';
-          
-          // Messages d'erreur adaptés
-          if (response.status === 400 && errorMsg.includes('code')) {
-            return renderError(
-              'Le code d\'autorisation est invalide ou a déjà été utilisé.',
-              errorMsg
-            );
-          }
-          
-          if (response.status === 401) {
-            return renderError(
-              'Les credentials de l\'application sont incorrects.',
-              'Vérifier CLIENT_ID et CLIENT_SECRET'
-            );
-          }
-
-          return renderError(
-            `Une erreur s'est produite lors de l'échange du token (${response.status}).`,
-            errorMsg
-          );
-        }
-
-        // Vérification de la présence du token
-        if (!data.access_token) {
-          console.error('❌ Réponse sans access_token:', data);
-          return renderError(
-            'Le serveur n\'a pas renvoyé de token d\'accès.',
-            'access_token manquant dans la réponse'
-          );
-        }
-
-        // 💾 Stockage des tokens
-        console.log('✅ Access token reçu, stockage...');
         
-        localStorage.setItem('canva_access_token', data.access_token);
-        
-        if (data.refresh_token) {
-          localStorage.setItem('canva_refresh_token', data.refresh_token);
-          console.log('✅ Refresh token stocké');
+        if (!tokenResponse.ok) {
+          const errorData = await tokenResponse.json();
+          throw new Error(`Token exchange failed: ${errorData.error || tokenResponse.statusText}`);
         }
         
-        if (data.expires_in) {
-          const expiresAt = Date.now() + (data.expires_in * 1000);
-          localStorage.setItem('canva_token_expiry', expiresAt.toString());
-          localStorage.setItem('canva_expires_at', expiresAt.toString());
-          console.log(`✅ Token expire dans ${Math.floor(data.expires_in / 60)} minutes`);
-        }
-
-        // Nettoyage du code_verifier (usage unique)
-        sessionStorage.removeItem('pkce_code_verifier');
-        localStorage.removeItem('canva_pkce_verifier');
-        localStorage.removeItem('pkce_code_verifier');
-        localStorage.removeItem('code_verifier');
-
-        console.log('🎉 Authentification réussie !');
+        const tokenData = await tokenResponse.json();
         
-        // Affichage du succès et redirection
-        renderSuccessAndRedirect();
-
-      } catch (error) {
-        console.error('❌ Erreur inattendue:', error);
-        renderError(
-          'Une erreur inattendue s\'est produite.',
-          error.message || 'Voir la console pour plus de détails'
-        );
+        // 3. Stocker le token dans localStorage
+        const expiresAt = Date.now() + (tokenData.expires_in * 1000);
+        
+        localStorage.setItem('canva_access_token', tokenData.access_token);
+        localStorage.setItem('canva_refresh_token', tokenData.refresh_token || '');
+        localStorage.setItem('canva_token_expiry', expiresAt.toString());
+        localStorage.setItem('canva_connected', 'true');
+        
+        statusEl.textContent = 'Success! Redirecting...';
+        
+        // 4. Rediriger vers le générateur
+        setTimeout(() => {
+          window.location.href = 'https://gabaritkdp.com/generator.html';
+        }, 1000);
+        
+      } catch (err) {
+        console.error('Canva callback error:', err);
+        statusEl.innerHTML = `<div class="error">
+          <strong>Authentication Failed</strong><br/>
+          ${err.message}<br/><br/>
+          <a href="https://gabaritkdp.com/generator.html" style="color: #667eea;">Return to Generator</a>
+        </div>`;
       }
     })();
   </script>
