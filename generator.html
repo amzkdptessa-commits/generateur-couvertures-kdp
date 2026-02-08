@@ -16,8 +16,138 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   
   <!-- Site CSS -->
-  <link href="/style.min.css" rel="stylesheet">
+<style>
+  /* Header Styles */
+  .header-nav {
+    background: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .logo-nav {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: #333;
+    font-weight: 700;
+  }
+  .logo-nav img {
+    height: 40px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 1.5rem;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: #333;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+  .nav-links a:hover {
+    background: #f0f0f0;
+  }
+  .express-nav-btn {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff !important;
+    font-weight: 600;
+  }
+  .language-selector {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .lang-btn {
+    padding: 0.25rem 0.75rem;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .lang-btn.active {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
   
+  /* Footer Styles */
+  .bg-gray-900 {
+    background-color: #1a202c;
+  }
+  .text-gray-300 {
+    color: #d1d5db;
+  }
+  .text-gray-400 {
+    color: #9ca3af;
+  }
+  .text-white {
+    color: #fff;
+  }
+  .py-12 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  .max-w-7xl {
+    max-width: 80rem;
+  }
+  .mx-auto {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .grid {
+    display: grid;
+  }
+  .md\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .gap-8 {
+    gap: 2rem;
+  }
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  .social-link {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #374151;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s;
+  }
+  .social-link:hover {
+    transform: translateY(-3px);
+  }
+  .border-t {
+    border-top: 1px solid #374151;
+  }
+  .mt-8 {
+    margin-top: 2rem;
+  }
+  .pt-8 {
+    padding-top: 2rem;
+  }
+  .text-center {
+    text-align: center;
+  }
+</style>  
   <!-- React App CSS (généré par Vite) -->
   <link rel="stylesheet" crossorigin href="/dist/assets/index-CkZaMbO5.css">
   
