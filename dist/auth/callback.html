@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canva Authentication</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    .container {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
+    }
+    .loader {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #667eea;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 1rem;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    h1 { color: #333; font-size: 1.5rem; margin-bottom: 0.5rem; }
+    p { color: #666; }
+    .error { color: #d32f2f; background: #ffebee; padding: 1rem; border-radius: 8px; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="loader"></div>
+    <h1>🎨 Canva Authentication</h1>
+    <p id="status">Processing authorization...</p>
+  </div>
+
+  <script>
+    (async function() {
+      const statusEl = document.getElementById('status');
+      
+      try {
+        // 1. Récupérer code et state de l'URL
+        const params = new URLSearchParams(window.location.search);
+        const code = params.get('code');
+        const state = params.get('state');
+        const error = params.get('error');
+        
+        if (error) {
+          throw new Error(`Canva OAuth error: ${error}`);
+        }
+        
+        if (!code) {
+          throw new Error('No authorization code received');
+        }
+        
+        statusEl.textContent = 'Exchanging authorization code...';
+        
+        // 2. Échanger le code contre un token
+        const tokenResponse = await fetch('https://api.canva.com/rest/v1/oauth/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            grant_type: 'authorization_code',
+            code: code,
+            client_id: 'OC-AZnaRLvMwpXk',
+            redirect_uri: 'https://gabaritkdp.com/auth/callback.html'
+          })
+        });
+        
+        if (!tokenResponse.ok) {
+          const errorData = await tokenResponse.json();
+          throw new Error(`Token exchange failed: ${errorData.error || tokenResponse.statusText}`);
+        }
+        
+        const tokenData = await tokenResponse.json();
+        
+        // 3. Stocker le token dans localStorage
+        const expiresAt = Date.now() + (tokenData.expires_in * 1000);
+        
+        localStorage.setItem('canva_access_token', tokenData.access_token);
+        localStorage.setItem('canva_refresh_token', tokenData.refresh_token || '');
+        localStorage.setItem('canva_token_expiry', expiresAt.toString());
+        localStorage.setItem('canva_connected', 'true');
+        
+        statusEl.textContent = 'Success! Redirecting...';
+        
+        // 4. Rediriger vers le générateur
+        setTimeout(() => {
+          window.location.href = 'https://gabaritkdp.com/generator.html';
+        }, 1000);
+        
+      } catch (err) {
+        console.error('Canva callback error:', err);
+        statusEl.innerHTML = `<div class="error">
+          <strong>Authentication Failed</strong><br/>
+          ${err.message}<br/><br/>
+          <a href="https://gabaritkdp.com/generator.html" style="color: #667eea;">Return to Generator</a>
+        </div>`;
+      }
+    })();
+  </script>
+</body>
+</html>
