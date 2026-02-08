@@ -4,7 +4,7 @@
 <head>
   <meta name="google" content="notranslate">
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"><meta http-equiv="Cache-Control" content="public, max-age=31536000">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-fr="Générateur KDP - Créez vos Gabarits Conformes | GabaritKDP"
     data-en="KDP Generator - Create Your Compliant Templates | GabaritKDP">KDP Generator - Create Your Compliant
     Templates | GabaritKDP</title>
@@ -24,9 +24,13 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap" media="print" onload="this.media='all'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap"></noscript>
 
-<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga("create","G-MYG5JJM8EC","auto");ga("send","pageview");</script><script async src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga("create","G-MYG5JJM8EC","auto");ga("send","pageview");
+</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
 
-  <link rel="preload" href="style.min.css" as="style"><link href="style.min.css" rel="stylesheet">
+  <link href="style.min.css" rel="stylesheet">
 
 <script>
   // 🔤 Google Fonts lazy-loader (covers/fonts)
@@ -4122,20 +4126,7 @@ console.log('🛒 [MARKETPLACE] Type:', isFullCover ? 'FULL COVER' : 'BACKGROUND
         '8.5x11': { width: 215.9, height: 279.4, name: '21,59 × 27,94 cm (8,5" × 11") ⚠️ COMPLEXE', binding: ['paperback'], complex: true },
         '6x9-hc': { width: 152.4, height: 228.6, name: '15,24 × 22,86 cm (6" × 9") - Relié ⭐', binding: ['hardcover'], popular: true },
         '7x10-hc': { width: 177.8, height: 254, name: '17,78 × 25,4 cm (7" × 10") - Relié', binding: ['hardcover'] },
-        '8.25x11-hc': { width: 209.5, height: 279.4, name: '20,95 × 27,94 cm (8,25" × 11") - Relié', binding: ['hardcover'] },
-  'jp_4.06x7.17': { width: 103, height: 182, name: '10,3 × 18,2 cm (JP 4,06" × 7,17")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_4.13x6.81': { width: 105, height: 173, name: '10,5 × 17,3 cm (JP 4,13" × 6,81")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_4.41x6.85': { width: 112, height: 174, name: '11,2 × 17,4 cm (JP 4,41" × 6,85")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_5x7.4': { width: 127, height: 188, name: '12,7 × 18,8 cm (JP 5" × 7,4")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_5.04x7.17': { width: 128, height: 182, name: '12,8 × 18,2 cm (JP 5,04" × 7,17")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_5.83x8.27': { width: 148, height: 210, name: '14,8 × 21,0 cm (JP 5,83" × 8,27")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_5.98x8.58': { width: 152, height: 218, name: '15,2 × 21,8 cm (JP 5,98" × 8,58")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_5.98x8.94': { width: 152, height: 227, name: '15,2 × 22,7 cm (JP 5,98" × 8,94")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_7.17x10.12': { width: 182, height: 257, name: '18,2 × 25,7 cm (JP 7,17" × 10,12")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_7.17x8.11': { width: 182, height: 206, name: '18,2 × 20,6 cm (JP 7,17" × 8,11")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_8.27x10.12': { width: 210, height: 257, name: '21,0 × 25,7 cm (JP 8,27" × 10,12")', binding: ['paperback'], region: 'JP', popular: false },
-  'jp_8.27x11.69': { width: 210, height: 297, name: '21,0 × 29,7 cm (JP 8,27" × 11,69")', binding: ['paperback'], region: 'JP', popular: false },
-
+        '8.25x11-hc': { width: 209.5, height: 279.4, name: '20,95 × 27,94 cm (8,25" × 11") - Relié', binding: ['hardcover'] }
       };
 
       // 🔒 KDP STRICT - Table d'épaisseur par page (en pouces)
@@ -9049,7 +9040,20 @@ function getStored() {
     }
 
     console.error(`❌ [CANVA] Aucune fonction d'import disponible pour ${target}`);
-    alert("Erreur: import Canva indisponible. Rechargez la page.");
+    alert("Erreur: import Canva indisponible. Rechargez la page.");,
+    'jp_4.06x7.17': { width: 103, height: 182, name: '10,3 × 18,2 cm (JP 4,06" × 7,17")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_4.13x6.81': { width: 105, height: 173, name: '10,5 × 17,3 cm (JP 4,13" × 6,81")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_4.41x6.85': { width: 112, height: 174, name: '11,2 × 17,4 cm (JP 4,41" × 6,85")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_5x7.4': { width: 127, height: 188, name: '12,7 × 18,8 cm (JP 5" × 7,4")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_5.04x7.17': { width: 128, height: 182, name: '12,8 × 18,2 cm (JP 5,04" × 7,17")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_5.83x8.27': { width: 148, height: 210, name: '14,8 × 21,0 cm (JP 5,83" × 8,27")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_5.98x8.58': { width: 152, height: 218, name: '15,2 × 21,8 cm (JP 5,98" × 8,58")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_5.98x8.94': { width: 152, height: 227, name: '15,2 × 22,7 cm (JP 5,98" × 8,94")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_7.17x10.12': { width: 182, height: 257, name: '18,2 × 25,7 cm (JP 7,17" × 10,12")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_7.17x8.11': { width: 182, height: 206, name: '18,2 × 20,6 cm (JP 7,17" × 8,11")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_8.27x10.12': { width: 210, height: 257, name: '21,0 × 25,7 cm (JP 8,27" × 10,12")', binding: ['paperback'], region: 'JP', popular: false },
+    'jp_8.27x11.69': { width: 210, height: 297, name: '21,0 × 29,7 cm (JP 8,27" × 11,69")', binding: ['paperback'], region: 'JP', popular: false }
+
     };
 
     img.onerror = (error) => {
