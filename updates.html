@@ -544,6 +544,7 @@
                 font-size: 1rem;
             }
         }
+
         /* Mobile Menu */
         .mobile-menu {
             display: none;
@@ -680,8 +681,8 @@
         .logo-nav img {
             height: 40px;
             width: auto;
-        }   
-        
+        }
+
         /* Social Links */
         .social-section {
             background: rgba(255, 255, 255, 0.05);
@@ -752,28 +753,29 @@
                 height: 40px;
                 font-size: 1rem;
             }
-        }        
+        }
     </style>
 </head>
 
 <body class="bg-white">
     <!-- Navigation Header -->
-<div id="header-placeholder"></div>
-<script>
-  fetch('./header.html')
-    .then(r => r.text())
-    .then(html => {
-      document.getElementById('header-placeholder').innerHTML = html;
-    });
-</script>
+    <div id="header-placeholder"></div>
+    <script>
+        fetch('./header.html')
+            .then(r => r.text())
+            .then(html => {
+                document.getElementById('header-placeholder').innerHTML = html;
+            });
+    </script>
 
 
     <!-- Hero Section Updates -->
     <section class="hero-updates">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="version-badge" data-fr="🚀 Version Beta 1.3.0 - Intégration Canva Révolutionnaire"
-                data-en="🚀 Beta Version 1.3.0 - Revolutionary Canva Integration">
-                🚀 Beta Version 1.3.0 - Revolutionary Canva Integration
+            <div class="version-badge"
+                data-fr="🎉 v2.1.0 - Canva Connect API approuvée (OFFICIEL)"
+                data-en="🎉 v2.1.0 - Canva Connect API approved (OFFICIAL)">
+                🎉 v2.1.0 - Canva Connect API approved (OFFICIAL)
             </div>
             <h1 class="text-4xl md:text-5xl font-bold mb-6" data-fr="Nouveautés & Mises à jour"
                 data-en="What's New & Updates">
@@ -794,6 +796,65 @@
                 data-en="🔥 Latest Updates">
                 🔥 Latest Updates
             </h2>
+
+            <!-- Version 2.1.0 - CANVA CONNECT API APPROVED -->
+            <div class="update-card canva">
+                <div class="update-header">
+                    <div>
+                        <div class="update-version" data-fr="v2.1.0 - Canva Connect API Approuvée 🎉"
+                            data-en="v2.1.0 - Canva Connect API Approved 🎉">
+                            v2.1.0 - Canva Connect API Approved 🎉
+                        </div>
+                        <div class="update-date" data-fr="8 février 2026" data-en="February 8, 2026">February 8, 2026</div>
+                    </div>
+                    <div class="update-type type-canva" data-fr="🎨 Canva Approval" data-en="🎨 Canva Approval">
+                        🎨 Canva Approval
+                    </div>
+                </div>
+
+                <div class="update-content">
+                    <p class="mb-4"
+                        data-fr="🎉 <strong>ANNONCE MAJEURE</strong> : L’intégration officielle <strong>Canva Connect API</strong> de GabaritKDP a été validée par Canva. Les utilisateurs pourront connecter leur compte Canva et importer leurs designs directement dans GabaritKDP pour générer des couvertures Amazon KDP parfaitement conformes."
+                        data-en="🎉 <strong>MAJOR ANNOUNCEMENT</strong>: The official <strong>Canva Connect API</strong> integration of GabaritKDP has been approved by Canva. Users will be able to connect their Canva account and import their designs directly into GabaritKDP to generate perfectly compliant Amazon KDP covers.">
+                        🎉 <strong>MAJOR ANNOUNCEMENT</strong>: The official <strong>Canva Connect API</strong> integration of GabaritKDP has been approved by Canva.
+                    </p>
+
+                    <ul class="feature-list">
+                        <li>
+                            <div class="feature-icon icon-canva">🔗</div>
+                            <span data-fr="<strong>Connexion Canva officielle</strong> - Autorisation sécurisée OAuth validée par Canva"
+                                data-en="<strong>Official Canva connection</strong> - Secure OAuth authorization validated by Canva">
+                                <strong>Official Canva connection</strong> - Secure OAuth authorization validated by Canva
+                            </span>
+                        </li>
+                        <li>
+                            <div class="feature-icon icon-canva">⚡</div>
+                            <span data-fr="<strong>Import direct des designs</strong> - Importez vos couvertures Canva en un clic"
+                                data-en="<strong>Direct design import</strong> - Import your Canva covers in one click">
+                                <strong>Direct design import</strong> - Import your Canva covers in one click
+                            </span>
+                        </li>
+                        <li>
+                            <div class="feature-icon icon-canva">📐</div>
+                            <span data-fr="<strong>Validation technique automatique</strong> - Dimensions, bleed et spine recalculés instantanément"
+                                data-en="<strong>Automatic technical validation</strong> - Dimensions, bleed and spine recalculated instantly">
+                                <strong>Automatic technical validation</strong> - Dimensions, bleed and spine recalculated instantly
+                            </span>
+                        </li>
+                    </ul>
+
+                    <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 mt-4">
+                        <div class="text-purple-800 font-semibold mb-2" data-fr="🚀 Prochaine étape :" data-en="🚀 Next step:">
+                            🚀 Next step:
+                        </div>
+                        <div class="text-purple-700"
+                            data-fr="Validation finale de l’application sur la <strong>Canva Apps Marketplace</strong>."
+                            data-en="Final approval of the application on the <strong>Canva Apps Marketplace</strong>.">
+                            Final approval of the application on the <strong>Canva Apps Marketplace</strong>.
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <!-- Version 2.0.0 - BETA LAUNCH -->
             <div class="update-card major">
@@ -1197,26 +1258,26 @@
                 <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
             </div>
         </div>
-    </footer>   
+    </footer>
 
     <script>
         // ============================================
         // SCRIPT UNIFIÉ - Language Switch + Mobile Menu
         // ============================================
-        
+
         let currentLanguage = localStorage.getItem('preferredLanguage') || 'en';
-        
+
         function switchLanguage(lang) {
             if (!['en', 'fr'].includes(lang)) return;
             currentLanguage = lang;
             localStorage.setItem('preferredLanguage', lang);
-            
+
             // Mettre à jour les boutons
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.lang === lang) btn.classList.add('active');
             });
-            
+
             // Mettre à jour le contenu
             document.querySelectorAll('[data-en][data-fr]').forEach(el => {
                 const text = el.getAttribute(`data-${lang}`);
@@ -1226,7 +1287,7 @@
                 }
             });
         }
-        
+
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobileMenu');
             const body = document.body;
@@ -1239,7 +1300,7 @@
                 body.style.overflow = 'hidden';
             }
         }
-        
+
         // Initialiser la langue au chargement
         document.addEventListener('DOMContentLoaded', () => switchLanguage(currentLanguage));
     </script>
