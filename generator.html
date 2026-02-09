@@ -1,87 +1,2340 @@
 <!DOCTYPE html>
-<html lang="en">
+<html translate="no" lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KDP Generator - Create Your Compliant Templates | GabaritKDP</title>
-  <link rel="icon" type="image/png" href="./logo-gabarit-kdp-site-web.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link rel="stylesheet" crossorigin href="./dist-generator/assets/index-CkZaMbO5.css">
-  <style>
-    .header-nav{background:#fff;border-bottom:1px solid rgba(0,0,0,0.08);position:sticky;top:0;z-index:100;}
-    .nav-container{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 16px;}
-    .nav-left{display:flex;align-items:center;gap:14px;}
-    .logo{height:40px;}
-    .brand{font-weight:700;font-size:20px;color:#1f2f44;}
-    .nav-links{display:flex;align-items:center;gap:22px;}
-    .nav-link{text-decoration:none;color:#1f2f44;font-weight:600;font-size:15px;}
-    .nav-link:hover{color:#2563eb;}
-    .lang-switch{display:flex;gap:8px;margin-right:20px;}
-    .lang-btn{border:1px solid #d1d5db;padding:6px 10px;border-radius:6px;cursor:pointer;font-weight:600;background:#f9fafb;}
-    .lang-btn.active{background:#2563eb;color:#fff;border-color:#2563eb;}
-    #kdp-react-root{min-height:600px;width:100%;flex:1;}
-    body{display:flex;flex-direction:column;min-height:100vh;margin:0;font-family:'Open Sans',sans-serif;}
-    .bg-gray-900{background-color:#1a202c;}
-    .text-gray-300{color:#d1d5db;}
-    .text-white{color:#fff;}
-    .py-12{padding-top:3rem;padding-bottom:3rem;}
-    .max-w-7xl{max-width:80rem;}
-    .mx-auto{margin:0 auto;}
-    .px-4{padding:0 1rem;}
-    .social-section{margin-bottom:3rem;padding-bottom:2rem;border-bottom:1px solid #374151;}
-    .social-links{display:flex;justify-content:center;gap:1rem;margin:1.5rem 0;}
-    .social-link{width:45px;height:45px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#374151;color:#fff;text-decoration:none;font-size:1.25rem;transition:all 0.3s;}
-    .social-link:hover{transform:translateY(-3px);}
-    .grid{display:grid;}
-    .md\:grid-cols-4{grid-template-columns:repeat(4,1fr);}
-    .gap-8{gap:2rem;}
-    .text-center{text-align:center;}
-    @media (max-width:768px){.nav-links{display:none;}.md\:grid-cols-4{grid-template-columns:1fr;}}
-  </style>
+    <meta name="google" content="notranslate">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-fr="Générateur KDP - Créez vos Gabarits Conformes | GabaritKDP"
+        data-en="KDP Generator - Create Your Compliant Templates | GabaritKDP">KDP Generator - Create Your Compliant
+        Templates | GabaritKDP</title>
+    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
+    <meta name="description"
+        data-fr="Outil professionnel pour créer des couvertures KDP aux dimensions exactes Amazon. Interface française, calculs précis."
+        data-en="Professional tool to create KDP covers with exact Amazon dimensions. French interface, precise calculations."
+        content="Professional tool to create KDP covers with exact Amazon dimensions. French interface, precise calculations.">
+
+    <link rel="icon" type="image/png" href="logo-gabarit-kdp-site-web.png">
+<!-- 🔤 GOOGLE FONTS (UI ONLY) -->
+<!--
+  ⚠️ Performance: on ne charge au démarrage que les polices de l’interface.
+  Les polices “cover” sont chargées à la demande via loadFontOnDemand() (voir plus bas).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600;700&display=swap">
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MYG5JJM8EC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-MYG5JJM8EC');
+    </script>
+
+    <link href="style.min.css" rel="stylesheet">
+
+<script>
+  // 🔤 Google Fonts lazy-loader (covers/fonts)
+  // - Charge uniquement la police choisie par l’utilisateur (au lieu de 40+ polices au démarrage).
+  // - Conserve un cache pour éviter les doublons.
+  (function () {
+    const SYSTEM_FONTS = new Set([
+      'Arial','Helvetica','Verdana','Times New Roman','Georgia','Impact',
+      '-apple-system','BlinkMacSystemFont','Segoe UI','sans-serif','serif'
+    ]);
+
+    // Certaines familles n’exposent pas l’axe wght (ou pas 700). On demande donc la famille "simple".
+    const NO_WGHT_AXIS = new Set([
+      'Pacifico','Great Vibes','Satisfy','Sacramento','Allura','Alex Brush','Pinyon Script',
+      'Berkshire Swash','Abril Fatface','Alfa Slab One','Bangers','Permanent Marker','Righteous',
+      'Creepster','Nosifer','Metal Mania','Butcherman','Rubik Glitch','Press Start 2P','VT323'
+    ]);
+
+    const loaded = new Set();
+    function toGoogleFamily(name) { return String(name || '').trim().replace(/\s+/g, '+'); }
+
+    window.loadFontOnDemand = function loadFontOnDemand(fontName) {
+      const name = String(fontName || '').trim();
+      if (!name || SYSTEM_FONTS.has(name)) return Promise.resolve();
+
+      // Déjà chargé ?
+      if (loaded.has(name)) return Promise.resolve();
+      if (document.fonts && document.fonts.check && document.fonts.check(`1em "${name}"`)) {
+        loaded.add(name);
+        return Promise.resolve();
+      }
+
+      const family = toGoogleFamily(name);
+      const href = NO_WGHT_AXIS.has(name)
+        ? `https://fonts.googleapis.com/css2?family=${family}&display=swap`
+        : `https://fonts.googleapis.com/css2?family=${family}:wght@400;700&display=swap`;
+
+      // Évite de ré-injecter le même <link>
+      const existing = document.querySelector(`link[data-gkdp-font="${CSS.escape(name)}"]`);
+      if (existing) return Promise.resolve();
+
+      return new Promise((resolve) => {
+        const link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = href;
+        link.setAttribute('data-gkdp-font', name);
+        link.onload = () => { loaded.add(name); resolve(); };
+        link.onerror = () => resolve(); // on ne bloque jamais l’UI
+        document.head.appendChild(link);
+
+        // Fallback: si on ne reçoit pas onload (rare), on résout quand même rapidement.
+        setTimeout(() => resolve(), 1500);
+      });
+    };
+
+    // Optionnel : attendre explicitement que la police soit prête avant un rendu canvas/export.
+    window.ensureFontLoaded = async function ensureFontLoaded(fontName) {
+      await window.loadFontOnDemand(fontName);
+      if (document.fonts && document.fonts.load) {
+        try { await document.fonts.load(`16px "${fontName}"`); } catch (_) {}
+      }
+    };
+  })();
+</script>
+
+
+
+    <!-- 🎬 THREE.JS pour Mockup 3D -->
+    <!-- 🛒 MARKETPLACE EARLY CAPTURE - DOIT ÊTRE AVANT TOUT AUTRE SCRIPT -->
+    <script>
+    (function captureTemplateParamEarly() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const t = params.get("template") || params.get("img");
+            if (t) {
+                // Sauvegarder AVANT que OAuth ne nettoie l'URL
+                sessionStorage.setItem("gkdp_template_url", t);
+                window.__GKDP_TEMPLATE_URL__ = t;
+                console.log("🛒 [MARKETPLACE][EARLY] ✅ Captured:", t);
+            } else {
+                console.log("🛒 [MARKETPLACE][EARLY] No template param in URL");
+            }
+        } catch (e) {
+            console.error("🛒 [MARKETPLACE][EARLY] Error:", e);
+        }
+    })();
+    </script>
+    <script>
+  // ✅ Lazy-load Three.js : chargé uniquement quand nécessaire
+  window.ensureThree = function () {
+    return new Promise((resolve, reject) => {
+      if (window.THREE) return resolve(window.THREE);
+
+      const s = document.createElement('script');
+      s.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+      s.async = true;
+      s.onload = () => resolve(window.THREE);
+      s.onerror = () => reject(new Error('Failed to load Three.js'));
+      document.head.appendChild(s);
+    });
+  };
+</script>
+
+    <script>
+    (function() {
+      'use strict';
+      
+      // ⚙️ Configuration
+      const CANVA_CONFIG = {
+        CLIENT_ID: 'OC-AZnaRLvMwpXk', // CLIENT ID MIS À JOUR
+        SITE_ORIGIN: window.location.origin,
+        CALLBACK_PATH: '/auth/callback.html',
+        OAUTH_URL: 'https://www.canva.com/api/oauth/authorize',
+        SCOPES: ['design:meta:read', 'design:content:read', 'asset:read']
+      };
+
+      console.log('🚀 Initialisation Canva OAuth...');
+      console.log('📍 Origin:', CANVA_CONFIG.SITE_ORIGIN);
+
+      // =========================================================================
+      // Utilitaires PKCE
+      // =========================================================================
+      
+      function generateRandomString(length = 43) {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+        const values = new Uint8Array(length);
+        crypto.getRandomValues(values);
+        return Array.from(values).map(v => chars[v % chars.length]).join('');
+      }
+
+      async function sha256(plain) {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(plain);
+        return await crypto.subtle.digest('SHA-256', data);
+      }
+
+      function base64urlencode(arrayBuffer) {
+        const bytes = new Uint8Array(arrayBuffer);
+        let str = '';
+        bytes.forEach(byte => str += String.fromCharCode(byte));
+        return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      }
+
+      async function generateCodeChallenge(verifier) {
+        const hashed = await sha256(verifier);
+        return base64urlencode(hashed);
+      }
+
+      // =========================================================================
+      // Objet CanvaAuth global
+      // =========================================================================
+      
+      window.CanvaAuth = {
+        config: CANVA_CONFIG,
+
+        /**
+         * Vérifie si l'utilisateur est authentifié
+         */
+        isAuthenticated() {
+          const token = localStorage.getItem('canva_access_token');
+          const expiry = parseInt(localStorage.getItem('canva_token_expiry') || '0', 10);
+          
+          if (!token || !expiry) {
+            console.log('❌ Pas de token ou expiry');
+            return false;
+          }
+          
+          const isValid = Date.now() < (expiry - 300000); // 5min de marge
+          // Log supprimé pour éviter le spam console
+          return isValid;
+        },
+
+        /**
+         * Obtient le token actuel
+         */
+        getToken() {
+          if (!this.isAuthenticated()) return null;
+          return localStorage.getItem('canva_access_token');
+        },
+
+        /**
+         * Lance le processus de connexion OAuth
+         */
+        async initiateConnection() {
+          console.log('🎯 Début connexion OAuth Canva...');
+          
+          try {
+            // Vérifier la config
+            if (!CANVA_CONFIG.CLIENT_ID) {
+              alert('⚠️ CLIENT_ID Canva non configuré ! Vérifiez le script.');
+              console.error('❌ CLIENT_ID manquant ou invalide');
+              return;
+            }
+
+            // 1. Générer PKCE
+            console.log('🔑 Génération PKCE...');
+            const codeVerifier = generateRandomString(43);
+            const codeChallenge = await generateCodeChallenge(codeVerifier);
+            
+            console.log('✅ Verifier généré:', codeVerifier.substring(0, 10) + '...');
+            console.log('✅ Challenge généré:', codeChallenge.substring(0, 10) + '...');
+
+            // 2. Stocker le verifier
+            sessionStorage.setItem('pkce_code_verifier', codeVerifier);
+            localStorage.setItem('canva_pkce_verifier', codeVerifier);
+            console.log('💾 Verifier stocké dans sessionStorage et localStorage');
+
+            // 3. Construire l'URL
+            const redirectUri = CANVA_CONFIG.SITE_ORIGIN + CANVA_CONFIG.CALLBACK_PATH;
+            const state = generateRandomString(32);
+            sessionStorage.setItem('oauth_state', state);
+
+            const params = new URLSearchParams({
+              client_id: CANVA_CONFIG.CLIENT_ID,
+              redirect_uri: redirectUri,
+              response_type: 'code',
+              scope: CANVA_CONFIG.SCOPES.join(' '),
+              code_challenge: codeChallenge,
+              code_challenge_method: 'S256',
+              state: state
+            });
+
+            const authUrl = `${CANVA_CONFIG.OAUTH_URL}?${params.toString()}`;
+            
+            console.log('🔗 Redirect URI:', redirectUri);
+            console.log('🌐 URL OAuth complète:', authUrl);
+            console.log('🚀 Redirection vers Canva...');
+
+            // 4. Rediriger
+            window.location.href = authUrl;
+
+          } catch (error) {
+            console.error('❌ Erreur initiation OAuth:', error);
+            alert('Erreur lors de la connexion à Canva: ' + error.message);
+          }
+        },
+
+        /**
+         * Déconnexion
+         */
+        logout() {
+          console.log('🚪 Déconnexion Canva...');
+          // Tokens OAuth (différents noms selon les scripts)
+          localStorage.removeItem('canva_access_token');
+          localStorage.removeItem('canva_refresh_token');
+          localStorage.removeItem('canva_token_expiry');
+          localStorage.removeItem('canva_expires_at');
+          // PKCE / state
+          localStorage.removeItem('canva_pkce_verifier');
+          sessionStorage.removeItem('pkce_code_verifier');
+          sessionStorage.removeItem('oauth_state');
+
+          // Nettoyer l'UI Canva (si présente)
+          try {
+            const c = document.getElementById('canva-designs-container');
+            if (c) c.innerHTML = '';
+          } catch (_) {}
+
+          console.log('✅ Déconnexion complète');
+        },
+
+        /**
+         * Test de connexion
+         */
+        async testConnection() {
+          const token = this.getToken();
+          if (!token) {
+            console.error('❌ Pas de token pour tester');
+            return false;
+          }
+
+          try {
+            console.log('🧪 Test de connexion API Canva...');
+            const response = await fetch('https://api.canva.com/rest/v1/users/me', {
+              headers: { 'Authorization': `Bearer ${token}` }
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              console.log('✅ Connexion OK, utilisateur:', data);
+              return true;
+            } else {
+              console.error('❌ Connexion échouée:', response.status);
+              return false;
+            }
+          } catch (error) {
+            console.error('❌ Erreur test connexion:', error);
+            return false;
+          }
+        }
+      };
+
+      console.log('✅ window.CanvaAuth créé et prêt');
+      console.log('📱 Utilisez window.CanvaAuth.initiateConnection() pour connecter');
+      
+      // Test au chargement
+      if (window.CanvaAuth.isAuthenticated()) {
+        console.log('✅ Utilisateur déjà authentifié');
+      } else {
+        console.log('ℹ️ Utilisateur non authentifié');
+      }
+
+    })();
+    </script>
+
+    <!-- 🔐 SUPABASE - Vérification abonnement -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    (async function checkSubscriptionStatus() {
+        const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3dkYWljcGxhamxqcGZremh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MzMxMjQsImV4cCI6MjA3NzUwOTEyNH0.0IDHysD84_0ghjb-a4K0UkNrJbzdQBKUjm5mQbSfro8';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        
+        // Exposer globalement
+        window.supabaseClient = supabase;
+        window.dispatchEvent(new Event('supabase:ready'));
+        console.log('✅ [SUPABASE] Client initialisé');
+        
+        // 🔧 FONCTION GLOBALE: Vérifier si l'utilisateur est connecté
+        window.isUserLoggedIn = function() {
+            return !!localStorage.getItem('userEmail');
+        };
+        
+        // 🔧 FONCTION GLOBALE: Obtenir les crédits restants
+        window.getExportCredits = function() {
+            const isPro = localStorage.getItem('userProfile') === 'pro';
+            if (isPro) return Infinity;
+            return parseInt(localStorage.getItem('exportCredits') || '0', 10);
+        };
+        
+        // 🔧 FONCTION GLOBALE: Décompter un export (async)
+        window.decrementExportCredit = async function() {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session || !session.user) {
+                    console.log('Pas de session → pas de décrément');
+                    return false;
+                }
+                
+                const userId = session.user.id;
+                
+                // 1) Récupérer les crédits actuels
+                const { data: profile, error: fetchError } = await supabase
+                    .from('user_profiles')
+                    .select('exports_available, total_exports_used, is_pro')
+                    .eq('id', userId)
+                    .single();
+                
+                if (fetchError || !profile) {
+                    console.error('Erreur récupération crédits', fetchError);
+                    return false;
+                }
+                
+                // Si PRO, pas de décrément
+                if (profile.is_pro) {
+                    console.log('✅ [EXPORT] Utilisateur PRO - exports illimités');
+                    return true;
+                }
+                
+                if (profile.exports_available <= 0) {
+                    console.log('Plus de crédits disponibles');
+                    return false;
+                }
+                
+                // 2) Décrémenter dans Supabase
+                const { error: updateError } = await supabase
+                    .from('user_profiles')
+                    .update({
+                        exports_available: profile.exports_available - 1,
+                        total_exports_used: (profile.total_exports_used || 0) + 1
+                    })
+                    .eq('id', userId);
+                
+                if (updateError) {
+                    console.error('Erreur décrément export', updateError);
+                    return false;
+                }
+                
+                // 3) Mettre à jour localStorage pour l'UI
+                const newCredits = profile.exports_available - 1;
+                localStorage.setItem('exportCredits', newCredits.toString());
+                console.log('✅ [EXPORT] Crédit décompté:', newCredits, 'restants');
+                return true;
+            } catch (e) {
+                console.error('❌ [EXPORT] Erreur:', e);
+                return false;
+            }
+        };
+        
+        // 🔧 FONCTION GLOBALE: Rafraîchir les crédits depuis Supabase
+        window.refreshExportCredits = async function() {
+            try {
+                const { data: { session } } = await supabase.auth.getSession();
+                if (!session || !session.user) return 0;
+                
+                const { data, error } = await supabase
+                    .from('user_profiles')
+                    .select('exports_available, is_pro')
+                    .eq('id', session.user.id)
+                    .single();
+                
+                if (data) {
+                    localStorage.setItem('exportCredits', data.exports_available.toString());
+                    if (data.is_pro) localStorage.setItem('userProfile', 'pro');
+                    return data.exports_available;
+                }
+            } catch (e) {
+                console.error('❌ [REFRESH] Erreur:', e);
+            }
+            return 0;
+        };
+        
+        try {
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (session && session.user) {
+                console.log('👤 [AUTH] Utilisateur connecté:', session.user.email);
+                
+                // Chercher le profil par ID (plus fiable)
+                let { data: userData, error } = await supabase
+                    .from('user_profiles')
+                    .select('is_pro, exports_available, subscription_type')
+                    .eq('id', session.user.id)
+                    .single();
+                
+                // Si pas de profil trouvé, le créer automatiquement (inscription sociale)
+                if (error || !userData) {
+                    console.log('📝 [AUTH] Création profil FREE pour nouvel utilisateur social...');
+                    
+                    const { error: insertError } = await supabase
+                        .from('user_profiles')
+                        .insert({
+                            id: session.user.id,
+                            email: session.user.email,
+                            is_pro: false,
+                            exports_available: 3,
+                            total_exports_used: 0
+                        });
+                    
+                    if (insertError) {
+                        console.error('❌ [AUTH] Erreur création profil:', insertError);
+                    } else {
+                        console.log('✅ [AUTH] Profil FREE créé avec 3 exports!');
+                        userData = { is_pro: false, exports_available: 3, subscription_type: null };
+                    }
+                }
+                
+                console.log('📊 [AUTH] Données utilisateur:', userData);
+                
+                if (userData) {
+                    if (userData.is_pro === true) {
+                        localStorage.setItem('userProfile', 'pro');
+                    } else {
+                        localStorage.removeItem('userProfile');
+                    }
+                    if (userData.subscription_type) {
+                        localStorage.setItem('subscription_type', userData.subscription_type);
+                    }
+                    localStorage.setItem('exportCredits', (userData.exports_available || 0).toString());
+                    console.log('✅ [AUTH] Crédits exports:', userData.exports_available);
+                }
+                
+                localStorage.setItem('userEmail', session.user.email);
+            } else {
+                console.log('ℹ️ [AUTH] Aucun utilisateur connecté');
+                localStorage.removeItem('userProfile');
+                localStorage.removeItem('userEmail');
+                localStorage.removeItem('exportCredits');
+            }
+        } catch (err) {
+            console.error('❌ [AUTH] Erreur:', err);
+        }
+    })();
+    </script>
+
+    <!-- 💾 DESIGN SAVE SYSTEM - Sauvegarde pour redirection inscription -->
+    <script>
+    (function() {
+        'use strict';
+        
+        const STORAGE_KEY = 'gkdp_saved_design';
+        const TEMP_STORAGE_KEY = 'gkdp_temp_design'; // Pour les non-connectés avant inscription
+        const ACTIVE_TEMPLATE_KEY = 'gkdp_active_template_url'; // Template actuellement actif (Marketplace)
+        const LIBRARY_KEY = 'gkdp_design_library_v1'; // Bibliothèque de designs (local)
+
+        // 🎯 Template actif (permet d'éviter de restaurer un ancien design sur un nouveau template)
+        window.setActiveTemplateUrl = function(url) {
+            try {
+                if (!url) {
+                    localStorage.removeItem(ACTIVE_TEMPLATE_KEY);
+                    return;
+                }
+                localStorage.setItem(ACTIVE_TEMPLATE_KEY, url);
+            } catch (e) {
+                console.error('❌ [ACTIVE TEMPLATE] Error:', e);
+            }
+        };
+
+        window.getActiveTemplateUrl = function() {
+            try {
+                return localStorage.getItem(ACTIVE_TEMPLATE_KEY) || null;
+            } catch (e) {
+                return null;
+            }
+        };
+
+        // 📚 Design Library (localStorage) — CRUD
+        function readLibrary() {
+            try {
+                const raw = localStorage.getItem(LIBRARY_KEY);
+                const arr = raw ? JSON.parse(raw) : [];
+                return Array.isArray(arr) ? arr : [];
+            } catch (e) {
+                console.error('❌ [LIBRARY] read error:', e);
+                return [];
+            }
+        }
+
+        function writeLibrary(items) {
+            try {
+                localStorage.setItem(LIBRARY_KEY, JSON.stringify(items || []));
+                return true;
+            } catch (e) {
+                console.error('❌ [LIBRARY] write error:', e);
+                return false;
+            }
+        }
+
+        function genId() {
+            try {
+                return (crypto && crypto.randomUUID) ? crypto.randomUUID() : ('id_' + Date.now() + '_' + Math.random().toString(16).slice(2));
+            } catch (e) {
+                return 'id_' + Date.now() + '_' + Math.random().toString(16).slice(2);
+            }
+        }
+
+        window.gkdpListDesigns = function() {
+            const items = readLibrary();
+            // Tri: récemment utilisés d'abord
+            return items.sort((a,b) => (b.lastUsedAt || b.updatedAt || b.createdAt || '').localeCompare(a.lastUsedAt || a.updatedAt || a.createdAt || ''));
+        };
+
+        window.gkdpGetDesign = function(id) {
+            const items = readLibrary();
+            return items.find(d => d && d.id === id) || null;
+        };
+
+        // Upsert: crée si pas d'id, sinon update
+        window.gkdpUpsertDesign = function(payload) {
+            try {
+                const items = readLibrary();
+                const now = new Date().toISOString();
+                const id = payload && payload.id ? payload.id : genId();
+
+                const templateUrl = (payload && payload.templateUrl) || window.getActiveTemplateUrl?.() || null;
+                const title = (payload && payload.title) || 'Untitled design';
+
+                const designData = (payload && payload.designData) ? payload.designData : null;
+
+                const existingIdx = items.findIndex(d => d && d.id === id);
+                const record = {
+                    id,
+                    templateUrl,
+                    title,
+                    designData,
+                    createdAt: existingIdx >= 0 ? (items[existingIdx].createdAt || now) : now,
+                    updatedAt: now,
+                    lastUsedAt: payload && payload.lastUsedAt ? payload.lastUsedAt : (existingIdx >= 0 ? (items[existingIdx].lastUsedAt || null) : null)
+                };
+
+                if (existingIdx >= 0) items[existingIdx] = { ...items[existingIdx], ...record };
+                else items.unshift(record);
+
+                writeLibrary(items);
+                return record;
+            } catch (e) {
+                console.error('❌ [LIBRARY] upsert error:', e);
+                return null;
+            }
+        };
+
+        window.gkdpTouchDesign = function(id) {
+            try {
+                const items = readLibrary();
+                const idx = items.findIndex(d => d && d.id === id);
+                if (idx < 0) return null;
+                const now = new Date().toISOString();
+                items[idx] = { ...items[idx], lastUsedAt: now, updatedAt: now };
+                writeLibrary(items);
+                return items[idx];
+            } catch (e) {
+                return null;
+            }
+        };
+
+        window.gkdpDeleteDesign = function(id) {
+            try {
+                const items = readLibrary();
+                const next = items.filter(d => d && d.id !== id);
+                writeLibrary(next);
+                return true;
+            } catch (e) {
+                return false;
+            }
+        };
+
+        
+        // 💾 Sauvegarder le design TEMPORAIREMENT (avant redirection vers inscription)
+        window.saveTempDesign = function(designData) {
+            try {
+                const dataToSave = {
+                    ...designData,
+                    templateUrl: (designData && designData.templateUrl) ? designData.templateUrl : (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
+                    savedAt: new Date().toISOString()
+                };
+                localStorage.setItem(TEMP_STORAGE_KEY, JSON.stringify(dataToSave));
+                console.log('💾 [TEMP SAVE] ✅ Design temporaire sauvegardé!');
+                return true;
+            } catch (e) {
+                console.error('💾 [TEMP SAVE] Erreur:', e);
+                return false;
+            }
+        };
+        
+        // 💾 Charger le design temporaire (après connexion)
+        window.loadTempDesign = function() {
+            try {
+                const saved = localStorage.getItem(TEMP_STORAGE_KEY);
+                if (!saved) return null;
+                console.log('💾 [TEMP LOAD] ✅ Design temporaire trouvé!');
+                return JSON.parse(saved);
+            } catch (e) {
+                console.error('💾 [TEMP LOAD] Erreur:', e);
+                return null;
+            }
+        };
+        
+        // 💾 Effacer le design temporaire
+        window.clearTempDesign = function() {
+            localStorage.removeItem(TEMP_STORAGE_KEY);
+            console.log('💾 [TEMP CLEAR] Design temporaire effacé');
+        };
+        
+        // 💾 Sauvegarder le design permanent (pour utilisateurs connectés)
+        window.saveDesignPermanent = function(designData) {
+            if (!window.isUserLoggedIn || !window.isUserLoggedIn()) {
+                return false;
+            }
+            try {
+                const dataToSave = {
+                    ...designData,
+                    templateUrl: (designData && designData.templateUrl) ? designData.templateUrl : (window.getActiveTemplateUrl ? window.getActiveTemplateUrl() : null),
+                    savedAt: new Date().toISOString(),
+                    userEmail: localStorage.getItem('userEmail')
+                };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+                console.log('💾 [PERM SAVE] ✅ Design permanent sauvegardé!');
+                return true;
+            } catch (e) {
+                console.error('💾 [PERM SAVE] Erreur:', e);
+                return false;
+            }
+        };
+        
+        // 💾 Charger le design permanent
+        window.loadPermanentDesign = function() {
+            if (!window.isUserLoggedIn || !window.isUserLoggedIn()) {
+                return null;
+            }
+            try {
+                const saved = localStorage.getItem(STORAGE_KEY);
+                if (!saved) return null;
+                const data = JSON.parse(saved);
+                if (data.userEmail !== localStorage.getItem('userEmail')) {
+                    return null;
+                }
+                console.log('💾 [PERM LOAD] ✅ Design permanent trouvé!');
+                return data;
+            } catch (e) {
+                console.error('💾 [PERM LOAD] Erreur:', e);
+                return null;
+            }
+        };
+        
+        // 💾 Sauvegarder le design actuel dans la bibliothèque
+        window.gkdpSaveCurrentDesign = function() {
+            try {
+                // Récupérer le design actuel depuis React
+                if (!window.getCurrentDesignData) {
+                    console.error('❌ [LIBRARY SAVE] getCurrentDesignData manquant');
+                    alert('Erreur: impossible de récupérer le design actuel');
+                    return false;
+                }
+
+                const data = window.getCurrentDesignData();
+                if (!data) {
+                    console.error('❌ [LIBRARY SAVE] Aucun design à sauvegarder');
+                    alert('Aucun design à sauvegarder');
+                    return false;
+                }
+
+                // Demander un titre
+                const title = prompt('Nom du design:', data.title || 'Mon design');
+                if (!title) return false; // Annulé
+
+                // Créer l'objet design
+                const design = {
+                    id: 'dsg_' + Date.now(),
+                    title: title,
+                    templateUrl: window.getActiveTemplateUrl?.() || null,
+                    designData: data,
+                    createdAt: new Date().toISOString(),
+                    updatedAt: new Date().toISOString(),
+                    lastUsedAt: new Date().toISOString()
+                };
+
+                // Ajouter à la bibliothèque
+                const result = window.gkdpUpsertDesign(design);
+                
+                if (result) {
+                    console.log('💾 [LIBRARY SAVE] Design sauvegardé:', result);
+                    alert('✅ Design sauvegardé !');
+                    return true;
+                } else {
+                    console.error('❌ [LIBRARY SAVE] Échec de la sauvegarde');
+                    alert('❌ Erreur lors de la sauvegarde');
+                    return false;
+                }
+
+            } catch (e) {
+                console.error('❌ [LIBRARY SAVE] Erreur:', e);
+                alert('❌ Erreur: ' + e.message);
+                return false;
+            }
+        };
+        
+        console.log('💾 [DESIGN SAVE] Système initialisé');
+    })();
+    </script>
+
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="js/canva-integration.js" defer></script>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "t09tdy9nqm");
+</script>
+    <style>html, body {
+    height: 100%;
+    overflow-y: scroll; /* FIX JUMP: force consistent scrollbar to avoid layout shift */
+}
+
+        /* 💾 Animations pour les notifications */
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideInCenter {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+        
+        #kdp-generator-container {
+            min-height: 90vh; /* Réserve l'espace pour l'application React pendant son chargement pour éviter le saut de page */
+    display: flex;
+    align-items: center;
+    justify-content: center;}
+
+  .language-selector {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, .1);
+    padding: 3px;
+  }
+
+  .lang-btn {
+    padding: 6px 10px;
+    border: none;
+    background: transparent;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: .3s;
+    font-weight: 500;
+    font-size: .8rem;
+  }
+
+  .lang-btn.active {
+    background: #FF9900;
+    color: #fff
+  }
+
+        .header-nav {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 15px 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo-nav {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .logo-nav img {
+            height: 40px;
+            width: auto;
+        }
+
+        .logo-nav span {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #FF9900;
+        }
+
+        .nav-links {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 10px 14px;
+            border-radius: 8px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #FF9900;
+            background: rgba(255, 153, 0, 0.1);
+        }
+
+        .express-nav-btn {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            color: white !important;
+            border-radius: 8px !important;
+        }
+
+        .express-nav-btn:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4) !important;
+        }
+
+        .f-exp-gene {
+            background: linear-gradient(135deg, #10b981, #059669) !important;
+            padding: 8px 10px;
+            border-radius: 5px;
+        }
+
+        .f-exp-gene:hover {
+            background: linear-gradient(135deg, #0d9488, #047857) !important;
+            color: #FFFFFF;
+        }
+
+        .express-nav-btn::before,
+        .f-exp-gene::before {
+            content: "⚡";
+            margin-right: 4px;
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 999;
+            padding: 80px 20px 20px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+
+        .social-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .social-link.youtube {
+            background: linear-gradient(135deg, #FF0000, #CC0000);
+        }
+
+        .social-link.facebook {
+            background: linear-gradient(135deg, #1877F2, #0866D3);
+        }
+
+        .social-link.instagram {
+            background: linear-gradient(135deg, #E4405F, #C13584, #8A2BE2);
+        }
+
+        .social-link.pinterest {
+            background: linear-gradient(135deg, #BD081C, #E60023);
+        }
+
+        .social-link.tiktok {
+            background: linear-gradient(135deg, #000000, #FF0050, #00F2EA);
+        }
+
+        .social-link.linkedin {
+            background: linear-gradient(135deg, #0A66C2, #004182);
+        }        
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .mobile-menu-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .mobile-menu-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 15px 20px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.1rem;
+        }
+
+        .mobile-menu-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+        }
+
+         .generator-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr 300px;
+    gap: 20px;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+        .preview-zone {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+            height: fit-content;
+        }
+
+        .preview-header {
+            display: flex;
+            justify-content: space-between;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e5e7eb;
+            gap: 15px;
+        }
+
+        .preview-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .preview-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .zoom-btn {
+            background: #6b7280;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .zoom-btn:hover {
+            background: #4b5563;
+            transform: scale(1.05);
+        }
+
+        .canvas-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            border-radius: 12px;
+            padding: 40px 20px;
+            overflow: visible;
+            position: relative;
+            min-height: 400px;
+        }
+
+        .canvas-4k {
+            border: 3px solid #d1d5db;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .canvas-4k:hover {
+            box-shadow: 0 15px 60px rgba(0, 0, 0, 0.25);
+            transform: scale(1.02);
+        }
+
+        .position-labels {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 40px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            font-weight: 600;
+            font-size: 0.875rem;
+            color: #374151;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .dimensions-overlay {
+            position: absolute;
+            bottom: 15px;
+            left: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            backdrop-filter: blur(5px);
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            height: fit-content;
+            max-height: none;
+            overflow-y: visible;
+        }
+
+        
+
+        /* UX: Left sidebar stays visible while scrolling */
+        .sticky-left-panel {
+            position: sticky;
+            top: 95px; /* adjust if header height changes */
+            align-self: start;
+            max-height: calc(100vh - 110px);
+            overflow-y: auto;
+        }
+.sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .sidebar-section:last-child {
+            border-bottom: none;
+        }
+
+        .sidebar-title {
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .quality-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 3px 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .validation-smart {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+        }
+
+        .validation-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .validation-score {
+            padding: 16px 20px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .score-excellent {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .score-tres-bon {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+
+        .score-acceptable {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .score-problematique {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .validation-alerts {
+            padding: 16px 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .alert-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            line-height: 1.4;
+        }
+
+        .alert-excellent {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #065f46;
+        }
+
+        .alert-good {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #1e3a8a;
+        }
+
+        .alert-warning {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            color: #92400e;
+        }
+
+        .alert-critical {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #991b1b;
+        }
+
+        .alert-info {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            color: #3730a3;
+        }
+
+        .alert-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .validation-tips {
+            background: #f8fafc;
+            padding: 16px 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .tips-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tip-item {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .no-analysis {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+        }
+
+        /* Canva Spinners */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        .spinner-small {
+            animation: spin 1s linear infinite;
+        }
+
+        .format-alert-critical {
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin: 16px 0;
+            border: 2px solid #b91c1c;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.3);
+        }
+
+        .format-alert-critical .alert-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .format-alert-critical .alert-content {
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 1400px) {
+            .generator-layout {
+                grid-template-columns: 300px 1fr 280px;
+                gap: 15px;
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 1250px) {
+            .generator-layout {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .preview-zone {
+                min-height: 500px;
+                order: 2;
+            }
+
+            .sidebar {
+                max-height: none;
+                order: 1;
+            }
+
+            .sidebar:last-child {
+                order: 3;
+            }
+        
+            .sticky-left-panel {
+                position: static;
+                max-height: none;
+                overflow: visible;
+            }
+}
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+    .language-selector {
+      top: 22.5px;
+      right: 60px
+    }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+                padding: 8px;
+                margin-left: auto;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .mobile-menu-toggle {
+                display: none;
+            }
+        }
+        .feedback-section {
+            width: 100%;
+            padding: 4rem 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        .feedback-section h3 {
+            color: #1e293b;
+            font-weight: 900;
+            font-size: 48px;
+            line-height: 1;
+        }
+        .feedback-section p {
+            margin-top: 16px;
+            font-size: 18px;
+            color: #4B5563;
+        }
+        .feedback-section button {
+            background: #10B981;
+            color: #FFFFFF;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            max-width: 250px;
+            width: 100%;
+            font-weight: 600;
+            margin-top: 40px;
+            transition: 0.3s;
+        }
+        .feedback-section button:hover {
+            background: #16A34A;
+        }
+        @media(max-width:769px) {
+            .feedback-section h3 {
+            color: #1e293b;
+            font-weight: 900;
+            font-size: 36px;
+            line-height: 1;
+        }
+        }        
+    
+.notranslate { unicode-bidi: plaintext; }
+/* ============================================================
+   STYLES POUR L'IMPORT CANVA DESIGNS
+   ============================================================ */
+
+/* Conteneur de la grille de designs */
+#canva-designs-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  max-height: 600px;
+  overflow-y: auto;
+  padding: 0.5rem;
+}
+
+/* Scrollbar personnalisée */
+#canva-designs-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+#canva-designs-container::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+#canva-designs-container::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+#canva-designs-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Carte de design */
+.canva-design-item {
+  border: 2px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: white;
+}
+
+.canva-design-item:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px -1px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.canva-design-item.selected {
+  border-color: #10b981;
+  background-color: #f0fdf4;
+}
+
+/* Zone de prévisualisation */
+.canva-design-preview {
+  width: 100%;
+  height: 150px;
+  background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+  border-radius: 0.375rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+}
+
+.canva-design-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* Info du design */
+.canva-design-info {
+  margin-top: 0.75rem;
+}
+
+.canva-design-title {
+  font-weight: 600;
+  font-size: 0.875rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #1f2937;
+  margin-bottom: 0.25rem;
+}
+
+.canva-design-size {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 0.75rem;
+}
+
+/* Boutons d'import */
+.btn-import-design {
+  font-size: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.btn-import-design:hover {
+  transform: scale(1.05);
+}
+
+.btn-import-design:active {
+  transform: scale(0.95);
+}
+
+.btn-import-design:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Animation de chargement */
+@keyframes pulse-loading {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse-loading 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ========================================
+   RESPONSIVE DESIGN COMPLET
+   ======================================== */
+
+
+
+/* Tablettes */
+@media (max-width: 992px) {
+    /* .generator-layout {
+        grid-template-columns: 280px 1fr;
+        gap: 15px;
+    }
+     */
+    .preview-zone {
+        padding: 15px;
+    }
+    
+    .preview-title {
+        font-size: 1.25rem;
+    }
+}
+
+/* Mobile - Portrait */
+@media (max-width: 768px) {
+    /* .generator-layout {
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 10px;
+    }
+     */
+    /* Sidebars en pleine largeur sur mobile */
+    .sidebar {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .sidebar-section {
+        padding: 15px;
+    }
+    
+    .sidebar-title {
+        font-size: 1rem;
+    }
+    
+    .preview-zone {
+        padding: 15px;
+        min-height: auto;
+    }
+    
+    .preview-title {
+        font-size: 1.1rem;
+    }
+    
+    .preview-controls {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .zoom-btn {
+        width: 32px;
+        height: 32px;
+        font-size: 25px;
+    }
+    
+    .canvas-container {
+        min-height: 300px;
+        padding: 10px;
+    }
+    
+    /* Ajuster les formulaires sur mobile */
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+        font-size: 16px !important; /* Évite le zoom iOS */
+        padding: 10px;
+        width: 100%;
+    }
+    
+    button {
+        min-height: 44px; /* Taille tactile optimale */
+        padding: 10px 16px;
+    }
+    
+    /* Guide rapide - texte plus petit sur mobile */
+    .sidebar-section .text-sm {
+        font-size: 0.875rem;
+    }
+    
+    .sidebar-section .text-xs {
+        font-size: 0.75rem;
+    }
+    
+    /* Canvas settings */
+    .canvas-settings {
+        padding: 12px;
+    }
+    
+    .canvas-settings h3 {
+        font-size: 1rem;
+    }
+    
+    /* Espacements réduits sur mobile */
+    .space-y-4 > * + * {
+        margin-top: 0.75rem;
+    }
+    
+    .space-y-3 > * + * {
+        margin-top: 0.5rem;
+    }
+}
+
+/* Petit mobile */
+@media (max-width: 480px) {
+    .generator-layout {
+        padding: 8px;
+        gap: 12px;
+    }
+    
+    .sidebar-section {
+        padding: 12px;
+    }
+    
+    .sidebar-title {
+        font-size: 0.95rem;
+    }
+    
+    .preview-zone {
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    .preview-title {
+        font-size: 1rem;
+        flex-direction: column;
+        gap: 5px;
+        align-items: flex-start;
+    }
+    
+    .preview-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .canvas-container {
+        min-height: 250px;
+    }
+    
+    /* Textes plus petits */
+    body {
+        font-size: 14px;
+    }
+    
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    h2 {
+        font-size: 1.25rem;
+    }
+    
+    h3 {
+        font-size: 1.1rem;
+    }
+    
+    /* Select et inputs plus grands pour tactile */
+    select,
+    input[type="text"],
+    input[type="number"] {
+        font-size: 16px !important;
+        padding: 12px;
+        min-height: 44px;
+    }
+    
+    /* Boutons empilés et plus grands */
+    .button-group {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .button-group button {
+        width: 100%;
+        min-height: 44px;
+    }
+    
+    /* Améliorer l'espacement du guide */
+    .sidebar-section .space-y-3 > * + * {
+        margin-top: 0.75rem;
+    }
+    
+    /* Texte du guide plus lisible */
+    .sidebar-section p {
+        line-height: 1.5;
+    }
+}
+
+/* Très petit mobile */
+@media (max-width: 360px) {
+    .generator-layout {
+        padding: 5px;
+    }
+    
+    .sidebar-section {
+        padding: 10px;
+    }
+    
+    .preview-zone {
+        padding: 10px;
+    }
+    
+    .preview-title {
+        font-size: 0.9rem;
+    }
+    
+    input[type="text"],
+    input[type="number"],
+    select {
+        font-size: 14px !important;
+        padding: 10px;
+    }
+    
+    button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    /* Texte encore plus compact */
+    .sidebar-section .text-sm {
+        font-size: 0.8125rem;
+    }
+    
+    .sidebar-section .text-xs {
+        font-size: 0.6875rem;
+    }
+}
+
+/* Prévenir les débordements sur tous les écrans */
+* {
+    box-sizing: border-box;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Gestion du débordement de texte */
+.sidebar-section p,
+.sidebar-section div {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+}
+
+/* Amélioration tactile globale */
+@media (hover: none) and (pointer: coarse) {
+    /* Appareils tactiles */
+    button,
+    select,
+    input,
+    a {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Espacements plus généreux pour le tactile */
+    .sidebar-section {
+        padding: 16px;
+    }
+    
+    /* Éviter les hover effects sur tactile */
+    button:hover,
+    a:hover {
+        transform: none;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  #canva-designs-container {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 0.75rem;
+    max-height: 400px;
+  }
+  
+  .canva-design-preview {
+    height: 120px;
+  }
+  
+  .canva-design-title {
+    font-size: 0.8125rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #canva-designs-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 📚 MOCKUP 3D STYLES */
+.mockup-3d-container {
+    perspective: 1500px;
+    perspective-origin: center center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 400px;
+    background: linear-gradient(145deg, #1a1a2e 0%, #16213e 50%, #0f0f23 100%);
+    border-radius: 12px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+}
+
+.mockup-3d-container::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 40%;
+    background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.book-3d {
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+}
+
+.book-3d.perspective {
+    transform: rotateY(-25deg) rotateX(5deg);
+}
+
+.book-3d.flat {
+    transform: rotateY(-5deg) rotateX(2deg);
+}
+
+.book-3d.standing {
+    transform: rotateY(-35deg) rotateX(10deg);
+}
+
+.book-3d:hover {
+    transform: rotateY(-15deg) rotateX(3deg);
+}
+
+.book-front {
+    position: relative;
+    box-shadow: 
+        5px 5px 20px rgba(0,0,0,0.4),
+        inset -2px 0 10px rgba(0,0,0,0.2);
+    border-radius: 0 3px 3px 0;
+    overflow: hidden;
+    backface-visibility: hidden;
+}
+
+.book-spine {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    transform-origin: left center;
+    transform: rotateY(-90deg);
+    background: linear-gradient(90deg, #1a1a1a 0%, #2a2a2a 50%, #1a1a1a 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.book-spine-text {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transform: rotate(180deg);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 90%;
+    padding: 10px 5px;
+}
+
+.book-back {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transform: translateZ(-20px);
+    background: #1a1a1a;
+    border-radius: 3px 0 0 3px;
+}
+
+.mockup-3d-controls {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    background: rgba(255,255,255,0.1);
+    padding: 8px 12px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+}
+
+.mockup-3d-controls button {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+}
+
+.mockup-3d-controls button.active {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: white;
+}
+
+.mockup-3d-controls button:not(.active) {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.mockup-3d-controls button:hover:not(.active) {
+    background: rgba(255,255,255,0.2);
+}
+
+.view-toggle {
+    display: flex;
+    background: #e5e7eb;
+    border-radius: 8px;
+    padding: 3px;
+    gap: 2px;
+}
+
+.view-toggle button {
+    padding: 6px 16px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.view-toggle button.active {
+    background: white;
+    color: #1f2937;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.view-toggle button:not(.active) {
+    background: transparent;
+    color: #6b7280;
+}
+
+.view-toggle button:hover:not(.active) {
+    color: #374151;
+}
+
+@media (max-width:480px) {
+    .language-selector {
+      right: 60px;
+      padding: 2px;
+      top: 27px
+    }
+
+    .lang-btn {
+      padding: 4px 8px;
+      font-size: .7rem
+    }
+}
+
+</style>
+    <script src="canva-designs-fetcher.js" defer></script>
+
+
+
+
+<!-- React App CSS -->
+<link rel="stylesheet" crossorigin href="./dist-generator/assets/index-CkZaMbO5.css">
+
 </head>
+
 <body>
-  <header class="header-nav">
-    <div class="nav-container">
-      <div class="nav-left">
-        <img src="https://gabaritkdp.b-cdn.net/IMAGE/gabaritkdp.webp" class="logo" alt="GabaritKDP">
-        <div class="brand">GabaritKDP</div>
-      </div>
-      <div class="nav-links">
-        <div class="lang-switch">
-          <button class="lang-btn active">FR</button>
-          <button class="lang-btn">US</button>
-        </div>
-        <a href="https://gabaritkdp.com" class="nav-link">🏠 Accueil</a>
-        <a href="https://gabaritkdp.com/dashboard" class="nav-link">📊 Tableau de bord</a>
-        <a href="https://gabaritkdp.com/magic" class="nav-link">✨ Magie</a>
-        <a href="https://gabaritkdp.com/marketplace" class="nav-link">📚 Modèles</a>
-        <a href="https://gabaritkdp.com/signup" class="nav-link">📝 Inscription</a>
-        <a href="https://gabaritkdp.com/login" class="nav-link">🔐 Connexion</a>
-      </div>
+<!-- Navigation Header (inlined to avoid file:// CORS on fetch) -->
+<header class="header-nav notranslate">
+  <div class="nav-container">
+
+    <!-- Logo -->
+    <a href="./index.html" class="logo-nav">
+      <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
+      <span>GabaritKDP</span>
+    </a>
+
+    <!-- Menu Hamburger - Mobile -->
+    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Language Selector -->
+    <div class="language-selector">
+      <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
+      <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">US</button>
     </div>
-  </header>
-  <div id="kdp-react-root"></div>
-  <footer class="bg-gray-900 text-gray-300 py-12">
-    <div class="max-w-7xl mx-auto px-4">
-      <div class="social-section">
-        <h4 class="text-white text-center">🚀 Follow us for the latest KDP news!</h4>
-        <div class="social-links">
-          <a href="https://www.youtube.com/@Gabaritkdp" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
-          <a href="https://www.facebook.com/profile.php?id=61578785408904" class="social-link" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="https://www.instagram.com/gabaritkdp/" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="https://fr.pinterest.com/Gabaritkdp/" class="social-link" target="_blank"><i class="fab fa-pinterest-p"></i></a>
-          <a href="https://www.tiktok.com/@gabaritkdp" class="social-link" target="_blank"><i class="fab fa-tiktok"></i></a>
-          <a href="https://www.linkedin.com/in/gabarit-kdp-073368378/" class="social-link" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-        </div>
-      </div>
-      <div class="text-center" style="margin-top:2rem;padding-top:2rem;border-top:1px solid #374151;">
-        <p>&copy; 2025 GabaritKDP. All rights reserved.</p>
-      </div>
+
+    <!-- Navigation Desktop -->
+    <nav class="nav-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+
+      <a href="./dashboard.html"
+         data-fr="📊 Tableau de bord"
+         data-en="📊 Dashboard">📊 Dashboard</a>
+
+      <a href="./generator.html"
+   class="express-nav-btn"
+   data-fr="Générateur Express"
+   data-en="Express Generator">
+   Express Generator
+</a>
+
+
+
+      <a href="./generator-magic.html"
+         data-fr="🪄 Générateur Magique"
+         data-en="🪄 Magic Generator">🪄 Magic Generator</a>
+
+      <a href="./marketplace.html"
+         data-fr="📚 Templates"
+         data-en="📚 Templates">📚 Templates</a>
+
+      <a href="./inscription.html"
+         data-fr="📝 Inscription"
+         data-en="📝 Sign Up">📝 Sign Up</a>
+
+      <a href="./connexion.html"
+         data-fr="🔐 Connexion"
+         data-en="🔐 Login">🔐 Login</a>
+    </nav>
+  </div>
+
+  <!-- Menu Mobile -->
+  <div class="mobile-menu" id="mobileMenu">
+    <button class="mobile-menu-close" onclick="toggleMobileMenu()">
+      <i class="fas fa-times"></i>
+    </button>
+
+    <div class="mobile-menu-links">
+      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
+      <a href="./dashboard.html" data-fr="📊 Tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
+      <a href="./generator.html" data-fr="⚡ Générateur Express" data-en="⚡ Express Generator">⚡ Express Generator</a>
+      <a href="./generator-magic.html" data-fr="🪄 Générateur Magique" data-en="🪄 Magic Generator">🪄 Magic Generator</a>
+      <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
+      <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
+      <a href="./connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
     </div>
-  </footer>
-  <script type="module" crossorigin src="./dist-generator/assets/index-C-1XqDNo.js"></script>
+  </div>
+  <style>
+  /* Safety defaults: desktop shows nav-links; mobile menu hidden */
+  .mobile-menu { display: none; }
+  .mobile-menu-toggle { display: none; }
+
+  /* Mobile breakpoint */
+  @media (max-width: 768px) {
+    .nav-links { display: none !important; }
+    .mobile-menu-toggle { display: inline-flex !important; }
+  }
+
+  /* When opened via JS */
+  .mobile-menu.open { display: block; }
+</style>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobileMenu');
+    if (!menu) return;
+    menu.classList.toggle('open');
+  }
+</script>
+
+</header>
+
+
+   
+
+  <!-- Menu Mobile -->
+  
+
+    <div id="kdp-react-root"></div>
+
+</body>
+<!-- ✅ Auto-scroll vers l'aperçu (sans toucher à React/Canva) -->
+<script>
+(function () {
+  if (window.__GKDP_AUTO_SCROLL_PREVIEW__) return;
+  window.__GKDP_AUTO_SCROLL_PREVIEW__ = true;
+
+  function getHeaderOffset(){
+    const header = document.querySelector('.header-nav');
+    const h = header ? header.getBoundingClientRect().height : 0;
+    return Math.max(70, Math.round(h));
+  }
+
+  function scrollToPreviewIfHidden(){
+    const preview = document.querySelector('.preview-zone');
+    if (!preview) return;
+
+    const rect = preview.getBoundingClientRect();
+    const topSafe = getHeaderOffset() + 20;
+    const bottomSafe = 40;
+    const isVisible = rect.top >= topSafe && rect.bottom <= (window.innerHeight - bottomSafe);
+
+    if (isVisible) return;
+
+    const y = rect.top + window.pageYOffset - getHeaderOffset();
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  let t = null;
+  function schedule(){
+    if (t) clearTimeout(t);
+    t = setTimeout(scrollToPreviewIfHidden, 120);
+  }
+
+  // On capte les saisies dans le générateur (inputs, textarea, select)
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+
+  // On capte aussi les changements (select / range)
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+})();
+</script>
+
+
+<script type="module" crossorigin src="./dist-generator/assets/index-C-1XqDNo.js"></script>
+
 </body>
 </html>
