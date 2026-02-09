@@ -170,9 +170,6 @@ header.header-nav .nav-links span {
 
   // 📚 Canva Designs grid (optional)
   window.GKDP.loadCanvaDesigns = async function() {
-    // Afficher le container
-    const container = document.getElementById("canva-designs-container");
-    if (container) container.style.display = "block";
     await loadScriptOnce('./canva-designs-fetcher.js');
     // If the script exposes an init function, call it safely
     if (window.CanvaDesigns && typeof window.CanvaDesigns.init === 'function') {
@@ -2312,28 +2309,86 @@ img {
 </header>
 
 <!-- React Generator -->
-<div id="kdp-react-root"></div>
 
-<!-- 🎨 Bouton pour charger Canva -->
-<div style="margin: 20px; text-align: center;">
-  <button onclick="loadCanvaDesignsOnDemand()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+<!-- 🎨 BOUTON CANVA - AU-DESSUS DE REACT -->
+<div style="max-width: 1400px; margin: 20px auto; padding: 0 20px;">
+  <button 
+    id="load-canva-btn"
+    onclick="loadCanvaDesignsNow()" 
+    style="
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+      transition: all 0.3s;
+      margin-bottom: 20px;
+    "
+    onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 6px 20px rgba(102, 126, 234, 0.6)';"
+    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(102, 126, 234, 0.4)';"
+  >
     🎨 Load Canva Designs
   </button>
 </div>
 
+<div id="kdp-react-root"></div>
+
+<!-- 🎨 CONTAINER CANVA - EN-DESSOUS DE REACT -->
+<div 
+  id="canva-designs-container" 
+  style="
+    display: none;
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    min-height: 150px;
+  "
+>
+  <!-- La grille Canva sera injectée ici -->
+</div>
+
 <script>
-async function loadCanvaDesignsOnDemand() {
-  if (window.GKDP && window.GKDP.loadCanvaDesigns) {
-    await window.GKDP.loadCanvaDesigns();
-    console.log("✅ Canva loaded");
+async function loadCanvaDesignsNow() {
+  const btn = document.getElementById('load-canva-btn');
+  const container = document.getElementById('canva-designs-container');
+  
+  if (btn) {
+    btn.textContent = '⏳ Loading Canva...';
+    btn.disabled = true;
+  }
+  
+  try {
+    if (window.GKDP && window.GKDP.loadCanvaDesigns) {
+      // Afficher le container
+      if (container) container.style.display = 'block';
+      
+      // Charger Canva
+      await window.GKDP.loadCanvaDesigns();
+      
+      if (btn) {
+        btn.textContent = '✅ Canva Loaded!';
+        btn.style.background = 'linear-gradient(135deg, #11998e 0%, #38ef7d 100%)';
+      }
+      
+      console.log('✅ Canva designs loaded');
+    }
+  } catch (err) {
+    console.error('❌ Error loading Canva:', err);
+    if (btn) {
+      btn.textContent = '❌ Error - Click to retry';
+      btn.disabled = false;
+    }
   }
 }
 </script>
-
-<!-- 🎨 Container Canva (en dehors de React pour compatibilité legacy) -->
-<div id="canva-designs-container" style="display: none; min-height: 150px; margin: 20px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-  <!-- La grille Canva sera injectée ici par canva-designs-fetcher.js -->
-</div>
 
 
 
