@@ -170,6 +170,9 @@ header.header-nav .nav-links span {
 
   // 📚 Canva Designs grid (optional)
   window.GKDP.loadCanvaDesigns = async function() {
+    // Afficher le container
+    const container = document.getElementById("canva-designs-container");
+    if (container) container.style.display = "block";
     await loadScriptOnce('./canva-designs-fetcher.js');
     // If the script exposes an init function, call it safely
     if (window.CanvaDesigns && typeof window.CanvaDesigns.init === 'function') {
@@ -2310,6 +2313,28 @@ img {
 
 <!-- React Generator -->
 <div id="kdp-react-root"></div>
+
+<!-- 🎨 Bouton pour charger Canva -->
+<div style="margin: 20px; text-align: center;">
+  <button onclick="loadCanvaDesignsOnDemand()" style="padding: 12px 24px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
+    🎨 Load Canva Designs
+  </button>
+</div>
+
+<script>
+async function loadCanvaDesignsOnDemand() {
+  if (window.GKDP && window.GKDP.loadCanvaDesigns) {
+    await window.GKDP.loadCanvaDesigns();
+    console.log("✅ Canva loaded");
+  }
+}
+</script>
+
+<!-- 🎨 Container Canva (en dehors de React pour compatibilité legacy) -->
+<div id="canva-designs-container" style="display: none; min-height: 150px; margin: 20px; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <!-- La grille Canva sera injectée ici par canva-designs-fetcher.js -->
+</div>
+
 
 
 <!-- ❌ Removed legacy in-browser Babel generator (migrated to React/Vite) -->
