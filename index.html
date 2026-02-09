@@ -1957,7 +1957,7 @@
           animate(current, total);
 
           if (badge) {
-            badge.textContent = today ? `+€{format(today)} today` : "";
+            badge.textContent = today ? `+${format(today)} today` : "";
             badge.style.display = today ? "inline-block" : "none";
           }
         } catch (err) {
