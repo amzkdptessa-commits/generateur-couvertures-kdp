@@ -905,7 +905,7 @@
             <a href="generator.html" class="px-8 py-4 text-white text-lg font-semibold rounded-lg transition"
               style="background-color:#FF9900;" onmouseover="this.style.backgroundColor='#e68900'"
               onmouseout="this.style.backgroundColor='#FF9900'" data-fr="CRÉER MA COUVERTURE KDP"
-              data-en="CREATE MY KDP COVER" onclick="return goToGenerator(event, this.href)">
+              data-en="CREATE MY KDP COVER">
               CREATE MY KDP COVER
             </a>
             <a href="#tarifs"
@@ -1306,7 +1306,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="generator.html"
             class="px-8 py-4 bg-orange-500 text-white text-lg font-semibold rounded-lg hover:bg-orange-600 transition-all duration-300 transform hover:scale-105"
-            data-fr="🚀 Essayer gratuitement" data-en="🚀 Try for free" onclick="return goToGenerator(event, this.href)">🚀 Essayer gratuitement</a>
+            data-fr="🚀 Essayer gratuitement" data-en="🚀 Try for free">🚀 Essayer gratuitement</a>
           <button
             class="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 text-lg font-semibold rounded-lg hover:border-orange-500 hover:text-orange-600 transition-all duration-300"
             data-fr="📖 Lire plus d'avis" data-en="📖 Read more reviews">📖 Lire plus d'avis</button>
@@ -1653,7 +1653,7 @@
           <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
           <ul class="space-y-2">
             <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene"
-                data-fr="Générateur Express" data-en="Express Generator" onclick="return goToGenerator(event, this.href)">Générateur Express</a></li>
+                data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a></li>
             <li><a href="generator-magic.html" class="hover:text-white transition" data-fr="Générateur Magique"
                 data-en="Magic Generator">Générateur Magique</a></li>
             <li><a href="./marketplace.html" class="hover:text-white transition">Marketplace</a></li>
@@ -2099,6 +2099,19 @@
       return false;
     }
   }
+
+// Auto-hook all links to generator.html (no HTML changes needed)
+  function hookGeneratorLinks(){
+    try{
+      const links = document.querySelectorAll('a[href="generator.html"], a[href^="generator.html#"], a[href^="generator.html?"]');
+      links.forEach(a => {
+        if(a.__gkdpHooked) return;
+        a.__gkdpHooked = true;
+        a.addEventListener('click', (e) => goToGenerator(e, a.href));
+      });
+    }catch(e){}
+  }
+  document.addEventListener('DOMContentLoaded', hookGeneratorLinks);
 
   window.addEventListener('pageshow', () => {
     const overlay = document.getElementById('gkdpLoadingOverlay');
