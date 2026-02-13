@@ -905,7 +905,7 @@
             <a href="generator.html" class="px-8 py-4 text-white text-lg font-semibold rounded-lg transition"
               style="background-color:#FF9900;" onmouseover="this.style.backgroundColor='#e68900'"
               onmouseout="this.style.backgroundColor='#FF9900'" data-fr="CRÉER MA COUVERTURE KDP"
-              data-en="CREATE MY KDP COVER">
+              data-en="CREATE MY KDP COVER" onclick="return goToGenerator(event, this.href)">
               CREATE MY KDP COVER
             </a>
             <a href="#tarifs"
@@ -1306,7 +1306,7 @@
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="generator.html"
             class="px-8 py-4 bg-orange-500 text-white text-lg font-semibold rounded-lg hover:bg-orange-600 transition-all duration-300 transform hover:scale-105"
-            data-fr="🚀 Essayer gratuitement" data-en="🚀 Try for free">🚀 Essayer gratuitement</a>
+            data-fr="🚀 Essayer gratuitement" data-en="🚀 Try for free" onclick="return goToGenerator(event, this.href)">🚀 Essayer gratuitement</a>
           <button
             class="px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 text-lg font-semibold rounded-lg hover:border-orange-500 hover:text-orange-600 transition-all duration-300"
             data-fr="📖 Lire plus d'avis" data-en="📖 Read more reviews">📖 Lire plus d'avis</button>
@@ -1653,7 +1653,7 @@
           <h4 class="text-white font-semibold mb-4" data-fr="Produit" data-en="Product">Produit</h4>
           <ul class="space-y-2">
             <li style="margin-bottom: 10px;"><a href="generator.html" class="hover:text-white transition f-exp-gene"
-                data-fr="Générateur Express" data-en="Express Generator">Générateur Express</a></li>
+                data-fr="Générateur Express" data-en="Express Generator" onclick="return goToGenerator(event, this.href)">Générateur Express</a></li>
             <li><a href="generator-magic.html" class="hover:text-white transition" data-fr="Générateur Magique"
                 data-en="Magic Generator">Générateur Magique</a></li>
             <li><a href="./marketplace.html" class="hover:text-white transition">Marketplace</a></li>
@@ -1974,6 +1974,139 @@
       setInterval(getSparklineData, 300000); // actualise sparkline toutes les 5 minutes
     })();
   </script>
+<!-- === GKDP Loading Overlay (Index -> Generator) === -->
+<!-- GKDP_LOADING_OVERLAY_INDEX_TO_GENERATOR -->
+<div id="gkdpLoadingOverlay" aria-hidden="true">
+  <div class="gkdp-loader-card">
+    <div class="gkdp-loader-bubble" id="gkdpLoaderText">Preparing your generator…</div>
+    <img class="gkdp-loader-mascotte" src="mascotte-gabaritkdp.png" alt="GabaritKDP Mascotte">
+    <div class="gkdp-loader-bar"><span></span></div>
+    <div class="gkdp-loader-hint" id="gkdpLoaderHint">Loading assets, fonts & Canva…</div>
+  </div>
+</div>
+
+<style>
+  #gkdpLoadingOverlay{
+    position:fixed; inset:0;
+    display:none;
+    place-items:center;
+    background: radial-gradient(1200px 800px at 20% 10%, rgba(255,153,0,.18), transparent 55%),
+                linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.95));
+    z-index: 99999;
+    backdrop-filter: blur(10px);
+  }
+  #gkdpLoadingOverlay.is-open{ display:grid; }
+
+  .gkdp-loader-card{
+    width:min(520px, 92vw);
+    text-align:center;
+    padding: 22px 18px 18px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 30px 80px rgba(0,0,0,.45);
+  }
+
+  .gkdp-loader-mascotte{
+    width: 190px;
+    height:auto;
+    filter: drop-shadow(0 18px 40px rgba(0,0,0,.35));
+    animation: gkdpFloat 1.8s ease-in-out infinite;
+    user-select:none;
+    pointer-events:none;
+  }
+  @keyframes gkdpFloat{
+    0%,100%{ transform: translateY(0) rotate(-1deg); }
+    50%{ transform: translateY(-10px) rotate(1deg); }
+  }
+
+  .gkdp-loader-bubble{
+    display:inline-block;
+    max-width: 95%;
+    margin: 0 auto 14px;
+    background:#fff;
+    color:#0f172a;
+    font-weight:700;
+    font-size: 14px;
+    padding: 10px 14px;
+    border-radius: 999px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  }
+
+  .gkdp-loader-bar{
+    height: 10px;
+    border-radius: 999px;
+    overflow:hidden;
+    margin: 14px auto 10px;
+    width: min(420px, 90%);
+    background: rgba(255,255,255,.15);
+    border: 1px solid rgba(255,255,255,.18);
+  }
+  .gkdp-loader-bar > span{
+    display:block;
+    height:100%;
+    width: 35%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, rgba(255,153,0,.2), rgba(255,153,0,.95), rgba(255,153,0,.2));
+    animation: gkdpBar 1.2s ease-in-out infinite;
+  }
+  @keyframes gkdpBar{
+    0%{ transform: translateX(-110%); }
+    100%{ transform: translateX(320%); }
+  }
+
+  .gkdp-loader-hint{
+    color: rgba(255,255,255,.78);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .2px;
+  }
+</style>
+
+<script>
+  (function prefetchGenerator(){
+    try{
+      const l = document.createElement('link');
+      l.rel = 'prefetch';
+      l.href = 'generator.html';
+      document.head.appendChild(l);
+    }catch(e){}
+  })();
+
+  function goToGenerator(e, url){
+    try{
+      e.preventDefault();
+      const overlay = document.getElementById('gkdpLoadingOverlay');
+      const txt = document.getElementById('gkdpLoaderText');
+      const hint = document.getElementById('gkdpLoaderHint');
+
+      const lang = (window.currentLanguage || localStorage.getItem('preferredLanguage') || 'en');
+      if(lang === 'fr'){
+        txt.textContent = "Je prépare ton générateur…";
+        hint.textContent = "Chargement des ressources, polices & Canva…";
+      } else {
+        txt.textContent = "Preparing your generator…";
+        hint.textContent = "Loading assets, fonts & Canva…";
+      }
+
+      overlay.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+
+      setTimeout(() => { window.location.href = url; }, 120);
+      return false;
+    } catch(err){
+      window.location.href = url;
+      return false;
+    }
+  }
+
+  window.addEventListener('pageshow', () => {
+    const overlay = document.getElementById('gkdpLoadingOverlay');
+    if(overlay) overlay.classList.remove('is-open');
+    document.body.style.overflow = '';
+  });
+</script>
+
 </body>
 
 </html>
