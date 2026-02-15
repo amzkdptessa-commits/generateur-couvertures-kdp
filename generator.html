@@ -773,10 +773,9 @@
         console.log('💾 [DESIGN SAVE] Système initialisé');
     })();
     </script>
-
- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
@@ -2477,7 +2476,7 @@ body.gkdp-loading{
   function tickBoost(now){
     const t = (now - start) / 800;
     const eased = 1 - Math.pow(1 - Math.min(1, t), 3); // easeOutCubic
-    pct = 62 * eased;
+    pct = 75 * eased;
     setUI(pct);
 
     if (t >= 1) {
@@ -2491,7 +2490,7 @@ body.gkdp-loading{
 
   function tickWork(now){
     const elapsed = (now - start);
-    const target = 62 + Math.min(28, (elapsed / 7000) * 28); // -> 90
+const target = 75 + Math.min(20, (elapsed / 7000) * 20);
     const wobble = (Math.sin(now / 500) + 1) * 0.35; // 0..0.7
     pct = Math.min(90, Math.max(pct, target + wobble));
     setUI(pct);
