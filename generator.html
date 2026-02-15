@@ -773,6 +773,13 @@
         console.log('💾 [DESIGN SAVE] Système initialisé');
     })();
     </script>
+<!-- ⚡ Perf: warm up + preload CDNJS scripts (React/Babel) -->
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js">
+<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js">
+<link rel="preload" as="script" href="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js">
+
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
