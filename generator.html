@@ -2436,6 +2436,8 @@ body.gkdp-loading{
   let raf = null;
   let phase = 0; // 0=boost, 1=work, 2=final
   let start = performance.now();
+  const MIN_VISIBLE_MS = 900;
+  const bootShownAt = performance.now();
 
   const hints = [
     { at: 10, fr: "Préparation de l’interface…", en: "Preparing interface…" },
@@ -2490,24 +2492,46 @@ body.gkdp-loading{
 
   function tickWork(now){
     const elapsed = (now - start);
-const target = 75 + Math.min(20, (elapsed / 7000) * 20);
+
+    // 🎯 Perception: monter vite puis ralentir (sans dépasser 95%)
+    const target = 75 + Math.min(20, (elapsed / 3500) * 20); // 75 → 95 en ~3.5s
     const wobble = (Math.sin(now / 500) + 1) * 0.35; // 0..0.7
-    pct = Math.min(90, Math.max(pct, target + wobble));
+
+    // Progression monotone (évite les "sauts" visuels)
+    pct = Math.min(95, Math.max(pct + 0.15, target + wobble));
     setUI(pct);
     raf = requestAnimationFrame(tickWork);
   }
 
   function finish(){
     if (phase === 2) return;
+
+    // ⏱️ Garantit une durée minimum visible (évite 75% → 100% instant)
+    const waited = performance.now() - bootShownAt;
+    if (waited < MIN_VISIBLE_MS) {
+      setTimeout(finish, MIN_VISIBLE_MS - waited);
+      return;
+    }
+
     phase = 2;
     if (raf) cancelAnimationFrame(raf);
 
     document.documentElement.classList.remove('gkdp-loading');
     document.body.classList.remove('gkdp-loading');
 
-    setUI(100);
-    loader.classList.add('hide');
-    setTimeout(() => { loader.style.display = 'none'; }, 260);
+    // 🎬 Anime 95 → 100
+    const from = Math.max(pct, 92);
+    const t0 = performance.now();
+    (function anim(now){
+      const t = Math.min(1, (now - t0) / 450);
+      const v = from + (100 - from) * (1 - Math.pow(1 - t, 3));
+      pct = v; setUI(v);
+      if (t < 1) requestAnimationFrame(anim);
+      else {
+        loader.classList.add('hide');
+        setTimeout(() => { loader.style.display = 'none'; }, 260);
+      }
+    })(t0);
   }
 
   // Hook global: ton code React appelle déjà window.__gkdpHideBootLoader()
@@ -2519,8 +2543,11 @@ const target = 75 + Math.min(20, (elapsed / 7000) * 20);
     }
   };
 
-  setUI(0);
-  raf = requestAnimationFrame(tickBoost);
+  pct = 75;
+  setUI(75);
+  phase = 1;
+  start = performance.now();
+  raf = requestAnimationFrame(tickWork);
 
   setTimeout(() => {
     if (loader && loader.style.display !== 'none') finish();
@@ -2530,15 +2557,6 @@ const target = 75 + Math.min(20, (elapsed / 7000) * 20);
 
 
 
-<script>
-  window.__gkdpHideBootLoader = function(){
-    const el = document.getElementById('gkdpBootLoader');
-    if(!el) return;
-    el.style.transition = 'opacity .18s ease';
-    el.style.opacity = '0';
-    setTimeout(() => { try{ el.remove(); }catch(e){} }, 220);
-  };
-</script>
 
 <script type="text/babel">
         const { useState, useRef, useEffect, useCallback, useMemo } = React;
