@@ -778,9 +778,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.4/babel.min.js"></script>
 
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
-<script defer src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
-<script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
+<script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="js/canva-integration.js" defer></script>
 <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
@@ -2276,13 +2276,270 @@ img {
   
 
     <div id="kdp-generator-container" class="notranslate">
-  <!-- Boot loader supprimé pour affichage immédiat -->
+  <!-- Fallback loader visible jusqu’au montage React -->
+  <!-- GKDP_BOOT_LOADER_GENERATOR -->
+<div id="gkdpBootLoader" class="gkdp-boot" aria-live="polite">
+  <div class="gkdp-boot-card">
+
+    <div class="gkdp-boot-title" data-fr="Chargement du générateur…" data-en="Loading generator…">
+      Loading generator…
+    </div>
+
+    <!-- VIDEO LOADING -->
+    <video class="gkdp-boot-video" autoplay muted loop playsinline preload="auto">
+      <source src="loading.mp4" type="video/mp4">
+    </video>
+
+    <!-- PROGRESS -->
+    <div class="gkdp-boot-progress-wrap" role="progressbar"
+         aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"
+         aria-label="Loading">
+      <div id="gkdpBootBar" class="gkdp-boot-bar"></div>
+    </div>
+
+    <div class="gkdp-boot-row">
+      <div id="gkdpBootPct" class="gkdp-boot-pct">0%</div>
+      <div id="gkdpBootHint" class="gkdp-boot-hint" data-fr="Initialisation…" data-en="Initializing…">
+        Initializing…
+      </div>
+    </div>
+
+    <div class="gkdp-boot-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <div class="gkdp-boot-sub" data-fr="On prépare l’aperçu 4K et tes options." data-en="Preparing 4K preview and settings.">
+      Preparing 4K preview and settings.
+    </div>
+
   </div>
 </div>
 
-<!-- Styles boot loader supprimés -->
+<style>
+.gkdp-boot{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:24px 12px;
+  z-index: 99999;
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(6px);
+}
 
-<!-- Script hideBootLoader supprimé -->
+html.gkdp-loading,
+body.gkdp-loading{
+  overflow:hidden !important;
+}
+
+.gkdp-boot-card{
+  width:min(560px, 94vw);
+  text-align:center;
+  padding:22px 18px 18px;
+  border-radius:18px;
+  background:linear-gradient(135deg, rgba(255,153,0,0.10), rgba(99,102,241,0.08));
+  border:1px solid rgba(15,23,42,0.12);
+  box-shadow:0 18px 50px rgba(0,0,0,0.12);
+}
+
+.gkdp-boot-title{
+  font-size:1.25rem;
+  font-weight:800;
+  margin-bottom:10px;
+  color:#0f172a;
+}
+
+.gkdp-boot-video{
+  width:280px;
+  max-width:78%;
+  border-radius:14px;
+  margin:12px auto 14px;
+  display:block;
+}
+
+.gkdp-boot-progress-wrap{
+  width:min(420px, 88%);
+  height:12px;
+  margin:0 auto 10px;
+  background:rgba(15,23,42,0.10);
+  border-radius:999px;
+  overflow:hidden;
+  border:1px solid rgba(15,23,42,0.10);
+}
+
+.gkdp-boot-bar{
+  height:100%;
+  width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg, #FF9900, #6366f1);
+  transition:width 180ms ease;
+}
+
+.gkdp-boot-row{
+  width:min(420px, 88%);
+  margin:0 auto;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  font-size:.85rem;
+  color:#334155;
+}
+
+.gkdp-boot-pct{ font-weight:800; }
+.gkdp-boot-hint{ opacity:.85; text-align:right; flex:1; }
+
+.gkdp-boot-dots span{
+  display:inline-block;
+  width:8px; height:8px;
+  margin:10px 4px 0;
+  border-radius:50%;
+  background:#ff9900;
+  animation:blink 1.4s infinite both;
+}
+.gkdp-boot-dots span:nth-child(2){animation-delay:.2s}
+.gkdp-boot-dots span:nth-child(3){animation-delay:.4s}
+@keyframes blink{ 0%,80%,100%{opacity:.2} 40%{opacity:1} }
+
+.gkdp-boot-sub{
+  margin-top:10px;
+  font-size:.9rem;
+  opacity:.78;
+  color:#334155;
+}
+
+.gkdp-boot.hide{
+  opacity:0;
+  transform:translateY(6px);
+  transition:opacity 220ms ease, transform 220ms ease;
+  pointer-events:none;
+}
+</style>
+
+<script>
+(function () {
+  if (window.__GKDP_BOOT_PROGRESS__) return;
+  window.__GKDP_BOOT_PROGRESS__ = true;
+
+  document.documentElement.classList.add('gkdp-loading');
+  document.body.classList.add('gkdp-loading');
+
+  const loader = document.getElementById('gkdpBootLoader');
+  const bar = document.getElementById('gkdpBootBar');
+  const pctEl = document.getElementById('gkdpBootPct');
+  const hintEl = document.getElementById('gkdpBootHint');
+  const progWrap = loader ? loader.querySelector('.gkdp-boot-progress-wrap') : null;
+
+  if (!loader || !bar || !pctEl) return;
+
+  let pct = 0;
+  let raf = null;
+  let phase = 0; // 0=boost, 1=work, 2=final
+  let start = performance.now();
+
+  const hints = [
+    { at: 10, fr: "Préparation de l’interface…", en: "Preparing interface…" },
+    { at: 35, fr: "Chargement des polices…", en: "Loading fonts…" },
+    { at: 55, fr: "Initialisation du canvas 4K…", en: "Initializing 4K canvas…" },
+    { at: 75, fr: "Connexion des modules…", en: "Connecting modules…" },
+    { at: 88, fr: "Derniers réglages…", en: "Final tweaks…" },
+  ];
+
+  function setAria(v){
+    if (!progWrap) return;
+    progWrap.setAttribute('aria-valuenow', String(v));
+  }
+
+  function getLang(){
+    const htmlLang = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+    if (htmlLang.startsWith('fr')) return 'fr';
+    // fallback: si le bouton FR/US est utilisé sans changer lang=""
+    const frBtn = document.querySelector('.lang-btn[data-lang="fr"].active');
+    if (frBtn) return 'fr';
+    return 'en';
+  }
+
+  function setUI(v){
+    const clamped = Math.max(0, Math.min(100, Math.round(v)));
+    bar.style.width = clamped + '%';
+    pctEl.textContent = clamped + '%';
+    setAria(clamped);
+
+    if (hintEl) {
+      const lang = getLang();
+      for (let i = hints.length - 1; i >= 0; i--){
+        if (clamped >= hints[i].at) { hintEl.textContent = hints[i][lang]; break; }
+      }
+    }
+  }
+
+  function tickBoost(now){
+    const t = (now - start) / 800;
+    const eased = 1 - Math.pow(1 - Math.min(1, t), 3); // easeOutCubic
+    pct = 62 * eased;
+    setUI(pct);
+
+    if (t >= 1) {
+      phase = 1;
+      start = performance.now();
+      raf = requestAnimationFrame(tickWork);
+      return;
+    }
+    raf = requestAnimationFrame(tickBoost);
+  }
+
+  function tickWork(now){
+    const elapsed = (now - start);
+    const target = 62 + Math.min(28, (elapsed / 7000) * 28); // -> 90
+    const wobble = (Math.sin(now / 500) + 1) * 0.35; // 0..0.7
+    pct = Math.min(90, Math.max(pct, target + wobble));
+    setUI(pct);
+    raf = requestAnimationFrame(tickWork);
+  }
+
+  function finish(){
+    if (phase === 2) return;
+    phase = 2;
+    if (raf) cancelAnimationFrame(raf);
+
+    document.documentElement.classList.remove('gkdp-loading');
+    document.body.classList.remove('gkdp-loading');
+
+    setUI(100);
+    loader.classList.add('hide');
+    setTimeout(() => { loader.style.display = 'none'; }, 260);
+  }
+
+  // Hook global: ton code React appelle déjà window.__gkdpHideBootLoader()
+  const prev = window.__gkdpHideBootLoader;
+  window.__gkdpHideBootLoader = function(){
+    try { finish(); } catch(e) {}
+    if (typeof prev === 'function') {
+      try { prev(); } catch(e) {}
+    }
+  };
+
+  setUI(0);
+  raf = requestAnimationFrame(tickBoost);
+
+  setTimeout(() => {
+    if (loader && loader.style.display !== 'none') finish();
+  }, 20000);
+})();
+</script>
+
+
+
+<script>
+  window.__gkdpHideBootLoader = function(){
+    const el = document.getElementById('gkdpBootLoader');
+    if(!el) return;
+    el.style.transition = 'opacity .18s ease';
+    el.style.opacity = '0';
+    setTimeout(() => { try{ el.remove(); }catch(e){} }, 220);
+  };
+</script>
 
 <script type="text/babel">
         const { useState, useRef, useEffect, useCallback, useMemo } = React;
@@ -8242,7 +8499,7 @@ const drawExportBackground = async (targetBox) => {
 
   // laisse un frame pour que React “peigne”, puis cache le loader
   requestAnimationFrame(() => {
-    // Boot loader supprimé - affichage immédiat
+    requestAnimationFrame(() => window.__gkdpHideBootLoader && window.__gkdpHideBootLoader());
   });
 }
     </script>
