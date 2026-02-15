@@ -788,14 +788,7 @@
 <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
 <script src="js/canva-integration.js" defer></script>
-<script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "t09tdy9nqm");
-</script>
-    <style>html, body {
+<style>html, body {
     height: 100%;
     overflow-y: scroll; /* FIX JUMP: force consistent scrollbar to avoid layout shift */
 }
@@ -2662,12 +2655,13 @@ const target = 75 + Math.min(20, (elapsed / 7000) * 20);
                 
                 removeImage: "Supprimer l'image",
                 canvaImport: "Import depuis Canva",
-                canvaComingSoon: "🚀 Bientôt disponible",
+canvaComingSoon: "🚀 Disponible maintenant",
+canvaAvailabilitySoon: "Import direct depuis Canva disponible",
                 canvaTitle: "Importez depuis Canva",
                 canvaDescription: "Connectez votre compte Canva pour importer vos designs directement dans le générateur",
                 canvaConnectButton: "Se connecter à Canva",
                 canvaDisconnectButton: "Se déconnecter de Canva",
-                canvaAvailabilitySoon: "Cette fonctionnalité sera bientôt disponible",
+canvaAvailabilitySoon: "Import direct depuis Canva disponible",
                 premium: "PREMIUM",
                 preview4k: "Aperçu 4K Ultra HD",
                 generating: "Génération 4K en cours...",
@@ -9033,11 +9027,6 @@ function getStored() {
 
 <!-- Système Beta 100 Founding Testers -->
 <!-- Beta system désactivé pour le lancement -->
-<!-- <script src="beta-system.js"></script> -->
-
-<!-- 🔴 Widget activité en temps réel - TEMPORAIREMENT DÉSACTIVÉ -->
-<!-- <script defer src="realtime-activity-widget.js"></script> -->
-
 <!-- 🎬 THREE.JS BOOK 3D MOCKUP (Version Découpe Full Cover) -->
 <script>
 (function() {
