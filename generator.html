@@ -2281,7 +2281,7 @@ img {
   <div id="gkdpBootLoader" class="gkdp-boot">
     <div class="gkdp-boot-card">
       <div class="gkdp-boot-title" data-fr="Chargement du générateur…" data-en="Loading generator…">Loading generator…</div>
-      <img src="mascotte-gabaritkdp.png" alt="GabaritKDP Mascotte" class="gkdp-boot-mascotte">
+      <video class="gkdp-boot-video" autoplay muted loop playsinline preload="auto" poster="mascotte-gabaritkdp.png"><source src="/loading.mp4" type="video/mp4"></video>
       <div class="gkdp-boot-dots" aria-hidden="true"><span></span><span></span><span></span></div>
       <div class="gkdp-boot-sub" data-fr="On prépare l’aperçu 4K et tes options." data-en="Preparing 4K preview and settings.">
         Preparing 4K preview and settings.
@@ -2321,7 +2321,18 @@ img {
     user-select:none;
     pointer-events:none;
   }
-  @keyframes gkdpBootFloat{
+  
+  .gkdp-boot-video{
+    width: 180px;
+    height: 180px;
+    border-radius: 18px;
+    object-fit: cover;
+    box-shadow: 0 18px 40px rgba(0,0,0,.18);
+    background: #000;
+    animation: gkdpBootFloat 1.8s ease-in-out infinite;
+  }
+
+@keyframes gkdpBootFloat{
     0%,100%{ transform: translateY(0) rotate(-1deg); }
     50%{ transform: translateY(-10px) rotate(1deg); }
   }
@@ -2361,6 +2372,20 @@ img {
     setTimeout(() => { try{ el.remove(); }catch(e){} }, 220);
   };
 </script>
+
+<script>
+  // Ensure the loader video starts (autoplay can still be deferred by the browser while JS is busy)
+  document.addEventListener('DOMContentLoaded', () => {
+    const v = document.querySelector('#gkdpBootLoader video.gkdp-boot-video');
+    if(!v) return;
+    try { v.muted = true; } catch(e){}
+    const tryPlay = () => { v.play().catch(()=>{}); };
+    tryPlay();
+    setTimeout(tryPlay, 200);
+    setTimeout(tryPlay, 800);
+  });
+</script>
+
 
 <script type="text/babel">
         const { useState, useRef, useEffect, useCallback, useMemo } = React;
@@ -8424,8 +8449,18 @@ const drawExportBackground = async (targetBox) => {
             </div>
         </div>
     </footer>
+<script>
+    // Replace with your final Tally form links
+    const tallyForms = {
+        en: "https://tally.so/r/3yB7pd",
+        fr: "https://tally.so/r/mY2DJN"
+    };
 
-  
+    document.getElementById("feedbackBtn").addEventListener("click", () => {
+        const lang = localStorage.getItem("preferredLanguage") || "en";
+        window.open(tallyForms[lang], "_blank");
+    });
+</script>
 
 <script id="lang-switch-module">
 (function(){
@@ -9298,3 +9333,58 @@ function getStored() {
   }, true);
 })();
 </script>
+
+</body>
+<!-- ✅ Auto-scroll vers l'aperçu (sans toucher à React/Canva) -->
+<script>
+(function () {
+  if (window.__GKDP_AUTO_SCROLL_PREVIEW__) return;
+  window.__GKDP_AUTO_SCROLL_PREVIEW__ = true;
+
+  function getHeaderOffset(){
+    const header = document.querySelector('.header-nav');
+    const h = header ? header.getBoundingClientRect().height : 0;
+    return Math.max(70, Math.round(h));
+  }
+
+  function scrollToPreviewIfHidden(){
+    const preview = document.querySelector('.preview-zone');
+    if (!preview) return;
+
+    const rect = preview.getBoundingClientRect();
+    const topSafe = getHeaderOffset() + 20;
+    const bottomSafe = 40;
+    const isVisible = rect.top >= topSafe && rect.bottom <= (window.innerHeight - bottomSafe);
+
+    if (isVisible) return;
+
+    const y = rect.top + window.pageYOffset - getHeaderOffset();
+    window.scrollTo({ top: y, behavior: 'smooth' });
+  }
+
+  let t = null;
+  function schedule(){
+    if (t) clearTimeout(t);
+    t = setTimeout(scrollToPreviewIfHidden, 120);
+  }
+
+  // On capte les saisies dans le générateur (inputs, textarea, select)
+  document.addEventListener('input', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+
+  // On capte aussi les changements (select / range)
+  document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (!el) return;
+    if (!el.closest || !el.closest('#kdp-generator-container')) return;
+    if (el.matches('input, textarea, select')) schedule();
+  }, true);
+})();
+</script>
+
+</body>
+</html>
