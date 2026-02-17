@@ -30,9 +30,6 @@
       background:#667eea; color:#fff; border-radius:10px;
       text-decoration:none; font-weight:600;
     }
-    .small { font-size:11px; opacity:.8; margin-top:12px; padding:10px; 
-      background:#f9fafb; border-radius:6px; word-break:break-all; 
-      text-align:left; font-family:monospace; }
   </style>
 </head>
 <body>
@@ -51,13 +48,12 @@
 
       const card = document.getElementById("card");
 
-      function renderError(message, debugInfo) {
+      function renderError(message) {
         card.innerHTML = `
           <div class="error-icon">✗</div>
           <h2>Erreur lors de l'authentification</h2>
           <p>${message}</p>
           <a class="btn" href="${FINAL_REDIRECT}">Retour au générateur</a>
-          ${debugInfo ? `<div class="small"><strong>Debug:</strong><br/>${debugInfo}</div>` : ""}
         `;
       }
 
@@ -71,48 +67,44 @@
       }
 
       try {
-        console.log("🚀 Début du processus callback");
+        console.log("🚀 Début callback Canva");
 
         const params = new URLSearchParams(window.location.search);
         const code = params.get("code");
         const state = params.get("state");
         const error = params.get("error");
 
-        console.log("Paramètres URL:", { 
-          hasCode: !!code, 
-          hasError: !!error,
-          hasState: !!state
-        });
-
         if (error) return renderError("Accès refusé à Canva.");
         if (!code) return renderError("Code d'autorisation manquant.");
 
-        // 1. Essayer localStorage et sessionStorage
+        // Chercher le verifier - stratégie 1: clés exactes
         let verifier = 
           localStorage.getItem('canva_pkce_verifier') ||
-          sessionStorage.getItem('canva_pkce_verifier') ||
-          localStorage.getItem('pkce_verifier') ||
-          localStorage.getItem('code_verifier');
+          sessionStorage.getItem('canva_pkce_verifier');
 
-        // 2. Si pas trouvé, extraire depuis le state parameter (backup)
+        // Stratégie 2: chercher toute clé qui COMMENCE par 'canva_pkce_verifier'
+        if (!verifier) {
+          const allKeys = Object.keys(localStorage);
+          const verifierKey = allKeys.find(k => k.startsWith('canva_pkce_verifier'));
+          if (verifierKey) {
+            verifier = localStorage.getItem(verifierKey);
+            console.log("✅ Verifier trouvé avec clé:", verifierKey);
+          }
+        }
+
+        // Stratégie 3: extraire depuis le state parameter
         if (!verifier && state) {
           try {
             const stateData = JSON.parse(atob(state));
             verifier = stateData.v || stateData.verifier;
-            console.log("✅ Verifier récupéré depuis state parameter");
-          } catch(e) {
-            console.warn("Impossible de parser le state:", e);
-          }
+            console.log("✅ Verifier récupéré depuis state");
+          } catch(e) {}
         }
 
         console.log("Verifier trouvé:", !!verifier);
-        console.log("localStorage keys:", Object.keys(localStorage));
 
         if (!verifier) {
-          return renderError(
-            "Session expirée. Relancez la connexion.",
-            "Keys: " + JSON.stringify(Object.keys(localStorage))
-          );
+          return renderError("Session expirée. Relancez la connexion.");
         }
 
         // Échanger le code contre un token
@@ -133,33 +125,31 @@
         try { data = JSON.parse(text); } catch (e) {}
 
         if (!resp.ok) {
-          return renderError(
-            `Échec échange token (${resp.status})`,
-            data.error || text
-          );
+          return renderError(`Échec échange token (${resp.status}): ${data.error || text}`);
         }
 
         if (!data.access_token) {
-          return renderError("Token manquant dans la réponse.", text);
+          return renderError("Token manquant dans la réponse.");
         }
 
         // Sauvegarder le token
         localStorage.setItem("canva_access_token", data.access_token);
         if (data.refresh_token) localStorage.setItem("canva_refresh_token", data.refresh_token);
         if (data.expires_in) {
-          localStorage.setItem("canva_token_expiry", 
+          localStorage.setItem("canva_token_expiry",
             String(Date.now() + (data.expires_in * 1000)));
         }
 
-        // Nettoyer
-        localStorage.removeItem("canva_pkce_verifier");
-        sessionStorage.removeItem("canva_pkce_verifier");
+        // Nettoyer TOUS les verifiers
+        Object.keys(localStorage)
+          .filter(k => k.startsWith('canva_pkce'))
+          .forEach(k => localStorage.removeItem(k));
 
         renderSuccess();
 
       } catch (err) {
         console.error(err);
-        renderError("Erreur script: " + (err.message || String(err)));
+        renderError("Erreur: " + (err.message || String(err)));
       }
     })();
   </script>
