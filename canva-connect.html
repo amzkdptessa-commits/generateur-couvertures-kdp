@@ -39,7 +39,6 @@
       const OAUTH_URL = "https://www.canva.com/api/oauth/authorize";
       const SCOPES = "design:meta:read design:content:read asset:read";
 
-      // Générer le PKCE verifier et challenge
       function generateVerifier() {
         const array = new Uint8Array(32);
         crypto.getRandomValues(array);
@@ -55,25 +54,26 @@
           .replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
       }
 
-      // Générer et sauvegarder le verifier sur gabaritkdp.com
       const verifier = generateVerifier();
       const challenge = await generateChallenge(verifier);
 
-      // Sauvegarder dans localStorage de gabaritkdp.com
+      // Sauvegarder dans localStorage ET sessionStorage
       localStorage.setItem('canva_pkce_verifier', verifier);
-      console.log('✅ Verifier sauvegardé sur gabaritkdp.com:', verifier.substring(0, 10) + '...');
+      sessionStorage.setItem('canva_pkce_verifier', verifier);
 
-      // Construire l'URL OAuth
+      // Passer le verifier dans state aussi comme backup
+      const stateData = btoa(JSON.stringify({ v: verifier, ts: Date.now() }));
+
       const params = new URLSearchParams({
         client_id: CLIENT_ID,
         redirect_uri: REDIRECT_URI,
         response_type: 'code',
         scope: SCOPES,
         code_challenge: challenge,
-        code_challenge_method: 'S256'
+        code_challenge_method: 'S256',
+        state: stateData
       });
 
-      // Rediriger vers Canva
       window.location.href = OAUTH_URL + '?' + params.toString();
     })();
   </script>
