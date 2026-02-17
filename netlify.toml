@@ -13,6 +13,28 @@
   node_bundler = "esbuild"
 
 # =========================
+# Proxy vers React App (Cloud Run)
+# =========================
+[[redirects]]
+  from = "/generator.html"
+  to = "https://kdp-cover-generator-586405206336.us-west1.run.app/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/generator.html/*"
+  to = "https://kdp-cover-generator-586405206336.us-west1.run.app/:splat"
+  status = 200
+  force = true
+
+# Assets de l'app React (JS, CSS, etc.)
+[[redirects]]
+  from = "/assets/*"
+  to = "https://kdp-cover-generator-586405206336.us-west1.run.app/assets/:splat"
+  status = 200
+  force = true
+
+# =========================
 # Redirect API KDP
 # =========================
 [[redirects]]
