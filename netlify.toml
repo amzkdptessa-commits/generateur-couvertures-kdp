@@ -35,6 +35,21 @@
   force = true
 
 # =========================
+# Proxy → Page Canva React (Cloud Run)
+# =========================
+[[redirects]]
+  from = "/canva.html"
+  to = "https://gabaritkdp-react-586405206336.us-west1.run.app/"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/canva.html/*"
+  to = "https://gabaritkdp-react-586405206336.us-west1.run.app/:splat"
+  status = 200
+  force = true
+
+# =========================
 # Redirect API KDP
 # =========================
 [[redirects]]
