@@ -45,9 +45,13 @@
          data-fr="📝 Inscription"
          data-en="📝 Sign Up">📝 Sign Up</a>
 
-      <a href="./connexion.html"
+      <a href="./connexion.html" id="nav-login-btn"
          data-fr="🔐 Connexion"
          data-en="🔐 Login">🔐 Login</a>
+      <a href="#" id="nav-logout-btn" onclick="headerSignOut(event)"
+         style="display:none; color:#ef4444 !important;"
+         data-fr="🚪 Déconnexion"
+         data-en="🚪 Logout">🚪 Logout</a>
     </nav>
   </div>
 
@@ -64,7 +68,11 @@
       <a href="./generator-magic.html" data-fr="🪄 Générateur Magique" data-en="🪄 Magic Generator">🪄 Magic Generator</a>
       <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
       <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-      <a href="./connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
+      <a href="./connexion.html" id="mob-login-btn" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
+      <a href="#" id="mob-logout-btn" onclick="headerSignOut(event)"
+         style="display:none; background:rgba(239,68,68,.2) !important; border-color:#ef4444 !important; color:#ef4444 !important;"
+         data-fr="🚪 Déconnexion"
+         data-en="🚪 Logout">🚪 Logout</a>
     </div>
   </div>
   <style>
@@ -87,6 +95,55 @@
     const menu = document.getElementById('mobileMenu');
     if (!menu) return;
     menu.classList.toggle('open');
+  }
+</script>
+
+
+<script>
+  // Auth state dans le header
+  (function() {
+    const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3dkYWljcGxhamxqcGZremh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MzMxMjQsImV4cCI6MjA3NzUwOTEyNH0.0IDHysD84_0ghjb-a4K0UkNrJbzdQBKUjm5mQbSfro8';
+
+    function waitForSupabase(cb, tries = 0) {
+      if (window.supabase && window.supabase.createClient) {
+        cb(window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY));
+      } else if (tries < 30) {
+        setTimeout(() => waitForSupabase(cb, tries + 1), 100);
+      }
+    }
+
+    function updateHeaderAuth(isLoggedIn) {
+      const loginDesktop  = document.getElementById('nav-login-btn');
+      const logoutDesktop = document.getElementById('nav-logout-btn');
+      const loginMobile   = document.getElementById('mob-login-btn');
+      const logoutMobile  = document.getElementById('mob-logout-btn');
+
+      if (loginDesktop)  loginDesktop.style.display  = isLoggedIn ? 'none' : '';
+      if (logoutDesktop) logoutDesktop.style.display = isLoggedIn ? '' : 'none';
+      if (loginMobile)   loginMobile.style.display   = isLoggedIn ? 'none' : '';
+      if (logoutMobile)  logoutMobile.style.display  = isLoggedIn ? '' : 'none';
+    }
+
+    waitForSupabase(function(sb) {
+      sb.auth.getSession().then(({ data }) => {
+        updateHeaderAuth(!!data.session);
+      });
+      sb.auth.onAuthStateChange((_event, session) => {
+        updateHeaderAuth(!!session);
+      });
+      window._headerSbClient = sb;
+    });
+  })();
+
+  async function headerSignOut(e) {
+    e.preventDefault();
+    if (window._headerSbClient) {
+      await window._headerSbClient.auth.signOut();
+    } else {
+      localStorage.clear();
+    }
+    window.location.href = './connexion.html';
   }
 </script>
 
