@@ -58,7 +58,11 @@
   }
 
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    visibility: hidden;
+  }
+  body.ready {
+    visibility: visible;
   }
 
   .language-selector {
@@ -1548,6 +1552,7 @@
         }
       });
       document.documentElement.lang = lang;
+      document.body.classList.add('ready');
     }
 
     function updateLanguageButtons() {
