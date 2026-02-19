@@ -37,7 +37,7 @@
 
   <!-- Tailwind CSS CDN - Note: L'avertissement en console est normal en développement.
        Pour la production, installez Tailwind via npm: https://tailwindcss.com/docs/installation -->
-  <link href="style.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -654,75 +654,6 @@
   .book-marquee{ animation: none; }
 }
 
-
-/* =======================================
-   CANVA LIVE BANNER
-   ======================================= */
-.canva-live-banner{
-  background: linear-gradient(90deg,#ff7a18,#ffb347,#ff2d55,#7c3aed);
-  color:#fff;
-  padding: 12px 0;
-  position: relative;
-  z-index: 998; /* under sticky header */
-}
-.canva-live-inner{
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:16px;
-  flex-wrap:wrap;
-}
-.canva-live-left{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.canva-live-badge{
-  background: rgba(0,0,0,0.25);
-  border: 1px solid rgba(255,255,255,0.35);
-  padding: 6px 10px;
-  border-radius: 999px;
-  font-weight: 900;
-  letter-spacing: .06em;
-  font-size: .75rem;
-}
-.canva-live-text{
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-.canva-live-actions{
-  display:flex;
-  align-items:center;
-  gap:12px;
-  flex-wrap:wrap;
-}
-.canva-live-btn{
-  background: rgba(255,255,255,0.95);
-  color:#111827;
-  text-decoration:none;
-  font-weight: 900;
-  padding: 10px 14px;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-.canva-live-btn:hover{
-  transform: translateY(-1px);
-  box-shadow: 0 10px 26px rgba(0,0,0,0.22);
-}
-.canva-live-link{
-  color: rgba(255,255,255,0.95);
-  text-decoration: underline;
-  font-weight: 700;
-}
-@media (max-width: 640px){
-  .canva-live-text{font-size: .98rem;}
-}
-
 </style>
 </head>
 
@@ -730,121 +661,12 @@
 
   <!-- Navigation Header -->
 
- <header class="header-nav notranslate">
-  <div class="nav-container">
-
-    <!-- Logo -->
-    <a href="./index.html" class="logo-nav">
-      <img src="logo-gabarit-kdp-site-web.png" alt="GabaritKDP Logo">
-      <span>GabaritKDP</span>
-    </a>
-
-    <!-- Menu Hamburger - Mobile -->
-    <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-      <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Language Selector -->
-    <div class="language-selector">
-      <button class="lang-btn" data-lang="fr" onclick="switchLanguage('fr')">FR</button>
-      <button class="lang-btn active" data-lang="en" onclick="switchLanguage('en')">US</button>
-    </div>
-
-    <!-- Navigation Desktop -->
-    <nav class="nav-links">
-      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-
-      <a href="./dashboard.html"
-         data-fr="📊 Tableau de bord"
-         data-en="📊 Dashboard">📊 Dashboard</a>
-
-      <a href="./generator.html"
-   class="express-nav-btn"
-   data-fr=" Générateur Express"
-   data-en=" Express Generator">
-   Express Generator
-</a>
-
-      <a href="./generator-magic.html"
-         data-fr="🪄 Générateur Magique"
-         data-en="🪄 Magic Generator">🪄 Magic Generator</a>
-
-      <a href="./marketplace.html"
-         data-fr="📚 Templates"
-         data-en="📚 Templates">📚 Templates</a>
-
-      <a href="./inscription.html"
-         data-fr="📝 Inscription"
-         data-en="📝 Sign Up">📝 Sign Up</a>
-
-      <a href="./connexion.html"
-         data-fr="🔐 Connexion"
-         data-en="🔐 Login">🔐 Login</a>
-    </nav>
-  </div>
-
-  <!-- Menu Mobile -->
-  <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-close" onclick="toggleMobileMenu()">
-      <i class="fas fa-times"></i>
-    </button>
-
-    <div class="mobile-menu-links">
-      <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
-      <a href="./dashboard.html" data-fr="📊 Tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
-      <a href="./generator.html" data-fr="Générateur Express" data-en="Express Generator">Express Generator</a>
-      <a href="./generator-magic.html" data-fr="🪄 Générateur Magique" data-en="🪄 Magic Generator">🪄 Magic Generator</a>
-      <a href="./marketplace.html" data-fr="📚 Templates" data-en="📚 Templates">📚 Templates</a>
-      <a href="./inscription.html" data-fr="📝 Inscription" data-en="📝 Sign Up">📝 Sign Up</a>
-      <a href="./connexion.html" data-fr="🔐 Connexion" data-en="🔐 Login">🔐 Login</a>
-    </div>
-  </div>
-  <style>
-  /* Safety defaults: desktop shows nav-links; mobile menu hidden */
-  .mobile-menu { display: none; }
-  .mobile-menu-toggle { display: none; }
-
-  /* Mobile breakpoint */
-  @media (max-width: 768px) {
-    .nav-links { display: none !important; }
-    .mobile-menu-toggle { display: inline-flex !important; }
-  }
-
-  /* When opened via JS */
-  .mobile-menu.open { display: block; }
-</style>
-
+ <div id="header-placeholder"></div>
 <script>
-  function toggleMobileMenu() {
-    const menu = document.getElementById('mobileMenu');
-    if (!menu) return;
-    menu.classList.toggle('open');
-  }
+  fetch('./header.html')
+    .then(r => r.text())
+    .then(html => document.getElementById('header-placeholder').innerHTML = html);
 </script>
-
-</header>
-
-<!-- Canva LIVE Announcement Banner -->
-<div class="canva-live-banner notranslate" role="region" aria-label="Canva Import Available Now">
-  <div class="canva-live-inner">
-    <div class="canva-live-left">
-      <span class="canva-live-badge">LIVE</span>
-      <span class="canva-live-text" data-fr="🎆 <strong>IMPORT CANVA ILLIMITÉ — DISPONIBLE MAINTENANT</strong> 🎆"
-            data-en="🎆 <strong>UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆">
-        🎆 <strong>UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆
-      </span>
-    </div>
-    <div class="canva-live-actions">
-      <a class="canva-live-btn" href="./generator.html"
-         data-fr="Essayer l’import Canva"
-         data-en="Try Canva import">Try Canva import</a>
-      <a class="canva-live-link" href="./updates.html"
-         data-fr="Voir l’annonce"
-         data-en="Read the announcement">Read the announcement</a>
-    </div>
-  </div>
-</div>
-
 
   <!-- Language Switch (FR/EN) -->
   <div class="language-selector" id="languageSelector" aria-label="Language switch">
@@ -860,7 +682,7 @@
       <a href="./index.html" data-fr="🏠 Accueil" data-en="🏠 Home">🏠 Home</a>
       <a href="./dashboard.html" data-fr="📊 tableau de bord" data-en="📊 Dashboard">📊 Dashboard</a>
       <a href="./generator.html" style="background:linear-gradient(135deg,#10b981,#059669);border-color:#10b981;"
-        data-fr="Générateur Express" data-en="Express Generator"> ⚡Générateur Express</a>
+        data-fr="Générateur Express" data-en="Express Generator">⚡ Générateur Express</a>
       <a href="./generator-magic.html" data-fr="Générateur Magique" data-en="Magic Generator">Générateur Magique</a>
       <a href="./marketplace.html" data-fr="Templates" data-en="Templates">Templates</a>
       <a href="./inscription.html" style="background:rgba(34,197,94,.2);border-color:#22c55e;" data-fr="📝 Inscription"
@@ -924,145 +746,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ===== GENERATOR PREVIEW ===== -->
-  <section style="background:linear-gradient(180deg,#060c18 0%,#0a1020 100%);padding:88px 0 96px;position:relative;overflow:hidden;">
-
-    <!-- Ambient orbs -->
-    <div style="position:absolute;inset:0;pointer-events:none;overflow:hidden;">
-      <div style="position:absolute;width:1100px;height:1100px;background:radial-gradient(circle,rgba(255,153,0,0.08) 0%,transparent 55%);top:-450px;left:50%;transform:translateX(-50%);"></div>
-      <div style="position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(255,80,0,0.05) 0%,transparent 65%);bottom:-150px;right:0;"></div>
-      <div style="position:absolute;width:400px;height:400px;background:radial-gradient(circle,rgba(255,153,0,0.04) 0%,transparent 70%);top:60px;left:5%;"></div>
-    </div>
-
-    <div style="max-width:1500px;margin:0 auto;padding:0 40px;position:relative;z-index:1;">
-
-      <!-- Header -->
-      <div style="text-align:center;margin-bottom:52px;">
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,153,0,0.08);border:1px solid rgba(255,153,0,0.3);color:#FF9900;padding:6px 20px;border-radius:100px;font-size:0.68rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:22px;">
-          <span style="width:6px;height:6px;background:#FF9900;border-radius:50%;display:inline-block;animation:gkblink 1.4s infinite;"></span>
-          <span data-fr="Le g&#233;n&#233;rateur en action" data-en="The generator in action">The generator in action</span>
-        </div>
-        <h2 style="font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;color:white;margin:0 0 12px;letter-spacing:-0.025em;line-height:1.15;"
-            data-fr="Du gabarit vierge à <span style='color:#FF9900'>votre couverture finale</span>"
-            data-en="From blank template to <span style='color:#FF9900'>your finished cover</span>">
-          From blank template to <span style="color:#FF9900">your finished cover</span>
-        </h2>
-        <p style="font-size:0.92rem;color:rgba(255,255,255,0.32);margin:0;"
-           data-fr="Bascule automatiquement toutes les 4 secondes"
-           data-en="Switches automatically every 4 seconds">Switches automatically every 4 seconds</p>
-      </div>
-
-      <!-- Big frame -->
-      <div style="position:relative;max-width:1300px;margin:0 auto;">
-
-        <!-- Outer glow bloom -->
-        <div id="gkglow" style="position:absolute;inset:-30px;border-radius:28px;background:radial-gradient(ellipse at 50% 50%,rgba(255,153,0,0.22),transparent 70%);filter:blur(30px);z-index:0;transition:opacity 0.9s ease;pointer-events:none;"></div>
-
-        <!-- Border gradient -->
-        <div style="position:relative;z-index:1;border-radius:18px;padding:2px;background:linear-gradient(135deg,rgba(255,153,0,0.8),rgba(255,153,0,0.08),rgba(255,153,0,0.6));">
-          <div style="border-radius:16px;overflow:hidden;background:#0d1525;box-shadow:0 40px 100px rgba(0,0,0,0.7);">
-
-            <!-- Browser bar -->
-            <div style="background:#141e30;padding:13px 20px;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,0.05);">
-              <span style="width:12px;height:12px;background:#ef4444;border-radius:50%;display:inline-block;opacity:0.8;"></span>
-              <span style="width:12px;height:12px;background:#f59e0b;border-radius:50%;display:inline-block;opacity:0.8;"></span>
-              <span style="width:12px;height:12px;background:#22c55e;border-radius:50%;display:inline-block;opacity:0.8;"></span>
-              <div style="flex:1;background:rgba(255,255,255,0.06);border-radius:6px;padding:6px 16px;margin:0 16px;font-size:0.72rem;color:rgba(255,255,255,0.25);font-family:'SF Mono',monospace;display:flex;align-items:center;gap:6px;">
-                <span style="color:rgba(255,153,0,0.6);">&#128274;</span> gabaritkdp.com/generator
-              </div>
-              <div style="font-size:0.65rem;color:rgba(255,255,255,0.15);letter-spacing:0.1em;text-transform:uppercase;">KDP Generator</div>
-            </div>
-
-            <!-- Crossfade images — full width -->
-            <div style="position:relative;line-height:0;">
-              <img id="gkI1" src="1771426522984_image.png" alt="GabaritKDP gabarit vierge"
-                style="width:100%;display:block;transition:opacity 1s ease;">
-              <img id="gkI2" src="1771426678729_image.png" alt="GabaritKDP avec design Canva"
-                style="width:100%;display:block;position:absolute;inset:0;opacity:0;transition:opacity 1s ease;">
-
-              <!-- Canva badge overlay -->
-              <div id="gkbadge" style="position:absolute;top:20px;right:20px;background:linear-gradient(135deg,rgba(125,42,232,0.95),rgba(80,20,160,0.95));backdrop-filter:blur(12px);color:white;font-size:0.75rem;font-weight:700;padding:7px 16px;border-radius:100px;opacity:0;transition:opacity 0.5s 0.4s;letter-spacing:0.08em;box-shadow:0 4px 20px rgba(125,42,232,0.4);">
-                &#10022; Canva import
-              </div>
-
-              <!-- Bottom gradient fade for elegance -->
-              <div style="position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,rgba(13,21,37,0.4));pointer-events:none;"></div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Sweep shine on load -->
-        <div style="position:absolute;inset:0;z-index:2;border-radius:18px;overflow:hidden;pointer-events:none;">
-          <div style="width:60%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,0.05),transparent);animation:gkswp 2s ease 0.5s both;"></div>
-        </div>
-
-      </div>
-
-      <!-- Caption + progress bar -->
-      <div style="text-align:center;margin-top:22px;">
-        <span id="gkcap" style="font-size:0.72rem;color:rgba(255,255,255,0.3);letter-spacing:0.15em;text-transform:uppercase;transition:opacity 0.35s;"
-          data-en="Blank template — Amazon KDP dimensions calculated automatically">Blank template — Amazon KDP dimensions calculated automatically</span>
-      </div>
-      <div style="max-width:200px;margin:14px auto 0;height:2px;background:rgba(255,255,255,0.07);border-radius:2px;overflow:hidden;">
-        <div id="gkbar" style="height:100%;background:linear-gradient(90deg,rgba(255,153,0,0.4),rgba(255,153,0,0.8));border-radius:2px;width:0%;"></div>
-      </div>
-
-      <!-- CTA -->
-      <div style="text-align:center;margin-top:52px;">
-        <a href="./generator.html"
-          style="display:inline-flex;align-items:center;gap:12px;background:#FF9900;color:#060c18;padding:18px 48px;border-radius:12px;font-weight:800;font-size:1.05rem;text-decoration:none;letter-spacing:0.01em;box-shadow:0 8px 40px rgba(255,153,0,0.4);transition:all 0.25s;"
-          onmouseover="this.style.transform='translateY(-4px)';this.style.boxShadow='0 0 80px rgba(255,153,0,0.25),0 16px 48px rgba(255,153,0,0.55)';"
-          onmouseout="this.style.transform='';this.style.boxShadow='0 8px 40px rgba(255,153,0,0.4)';"
-          data-fr="Cr&#233;er ma couverture &#8212; gratuit" data-en="Create my cover &#8212; free">
-          <span data-fr="Cr&#233;er ma couverture &#8212; gratuit" data-en="Create my cover &#8212; free">Create my cover &#8212; free</span>
-          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <div style="margin-top:12px;font-size:0.72rem;color:rgba(255,255,255,0.2);"
-          data-fr="3 exports gratuits &#183; Sans carte de cr&#233;dit"
-          data-en="3 free exports &#183; No credit card required">3 free exports &#183; No credit card required</div>
-      </div>
-
-    </div>
-  </section>
-
-  <style>
-    @keyframes gkswp { from{transform:translateX(-100%)} to{transform:translateX(250%)} }
-    @keyframes gkblink { 0%,100%{opacity:1} 50%{opacity:0.15} }
-  </style>
-
-  <script>
-  (function(){
-    var D=4000;
-    var caps={
-      0:{fr:"Gabarit vierge — dimensions KDP calculées automatiquement",en:"Blank template — KDP dimensions calculated automatically"},
-      1:{fr:"Design importé depuis Canva — conforme Amazon instantanément",en:"Design imported from Canva — Amazon-compliant instantly"}
-    };
-    var cur=0;
-    function show(n){
-      cur=n;
-      var d=(n===1);
-      document.getElementById("gkI1").style.opacity=d?"0":"1";
-      document.getElementById("gkI2").style.opacity=d?"1":"0";
-      document.getElementById("gkbadge").style.opacity=d?"1":"0";
-      document.getElementById("gkglow").style.opacity=d?"1":"0.6";
-      var lang=window.currentLanguage||localStorage.getItem("preferredLanguage")||"en";
-      var cap=document.getElementById("gkcap");
-      cap.style.opacity="0";
-      setTimeout(function(){cap.textContent=caps[n][lang==="fr"?"fr":"en"];cap.style.opacity="1";},250);
-      var bar=document.getElementById("gkbar");
-      bar.style.transition="none";bar.style.width="0%";
-      requestAnimationFrame(function(){requestAnimationFrame(function(){
-        bar.style.transition="width "+D+"ms linear";bar.style.width="100%";
-      });});
-    }
-    show(0);
-    setInterval(function(){show(cur===0?1:0);},D);
-  })();
-  </script>
-  <!-- ===== END GENERATOR PREVIEW ===== -->
-
   <!-- ===== BOOK MARQUEE (single row) ===== -->
   <section class="book-marquee-wrap">
     <div class="book-marquee-inner">
@@ -1070,8 +753,8 @@
         <div class="book-marquee-title" data-en="Cover inspiration gallery" data-fr="Galerie d’inspiration de couvertures">
           Cover inspiration gallery
         </div>
-        <a class="book-marquee-cta" href="./marketplace.html" data-en="Explore Templates →" data-fr="Explorer Templates →">
-          Explore Templates →
+        <a class="book-marquee-cta" href="./marketplace.html" data-en="Explore the Marketplace →" data-fr="Explorer la Marketplace →">
+          Explore the Marketplace →
         </a>
       </div>
     </div>
@@ -1578,7 +1261,7 @@
             <h3 class="text-2xl font-extrabold text-gray-900 mb-1" data-fr="Plan Gratuit" data-en="Free Plan">Free Plan</h3>
             <p class="text-sm text-gray-600" data-fr="Les curieux, débutants, auteurs en herbe" data-en="Curious users, beginners, aspiring authors">Curious users, beginners, aspiring authors</p>
             <div class="mt-5">
-              <span class="text-5xl font-extrabold text-gray-900">€0</span>
+              <span class="text-5xl font-extrabold text-gray-900">$0</span>
               <span class="text-gray-600 font-semibold" data-fr="/mois" data-en="/month">/month</span>
             </div>
           </div>
@@ -1589,7 +1272,7 @@
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="3 exports gratuits (offre découverte)" data-en="3 free exports (discovery offer)">3 free exports (discovery offer)</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Qualité haute résolution" data-en="High-resolution quality">High-resolution quality</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès à toutes les fonctionnalités du générateur express" data-en="Access to all Express Generator features">Access to all Express Generator features</span></li>
-              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="🎆 <strong>NOUVEAUTÉ : Import Canva illimité — DISPONIBLE MAINTENANT</strong> 🎆" data-en="🎆 <strong>NEW: UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆">🎆 <strong>NEW: UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès à l’import Canva" data-en="Coming soon: Canva import access">Coming soon: Canva import access</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
             </ul>
 
@@ -1601,7 +1284,7 @@
         <!-- PAY PER EXPORT -->
         <div class="pricing-card bg-white rounded-2xl shadow-xl p-8 border-2 border-blue-200 relative overflow-visible">
           <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-          <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
             <span class="bg-blue-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow" data-fr="Le plus populaire" data-en="Most popular">Most popular</span>
           </div>
 
@@ -1613,7 +1296,7 @@
             <h3 class="text-2xl font-extrabold text-gray-900 mb-1" data-fr="Paiement par export" data-en="Pay per export">Pay per export</h3>
             <p class="text-sm text-gray-600" data-fr="Auteurs modérés" data-en="Moderate-output authors">Moderate-output authors</p>
             <div class="mt-5">
-              <span class="text-5xl font-extrabold text-blue-600">€2.50</span>
+              <span class="text-5xl font-extrabold text-blue-600">$2.50</span>
               <span class="text-gray-600 font-semibold" data-fr="/export" data-en="/export">/export</span>
             </div>
           </div>
@@ -1623,7 +1306,7 @@
             <ul class="space-y-3">
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Qualité haute résolution" data-en="High-resolution quality">High-resolution quality</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès à toutes les fonctionnalités du générateur express" data-en="Access to all Express Generator features">Access to all Express Generator features</span></li>
-              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="🎆 <strong>NOUVEAUTÉ : Import Canva illimité — DISPONIBLE MAINTENANT</strong> 🎆" data-en="🎆 <strong>NEW: UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆">🎆 <strong>NEW: UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆</span></li>
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès à l’import Canva" data-en="Coming soon: Canva import access">Coming soon: Canva import access</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès aux templates premium prêts à l’emploi + bibliothèque Pixabay (5+ millions d’images libres de droits)" data-en="Access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)">Access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)</span></li>
             </ul>
@@ -1634,17 +1317,8 @@
         </div>
 
         <!-- PRO -->
-        <div class="pricing-card bg-white rounded-2xl shadow-lg p-8 border border-purple-200 relative overflow-visible">
+        <div class="pricing-card bg-white rounded-2xl shadow-lg p-8 border border-purple-200 relative overflow-hidden">
           <div class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-purple-600 to-fuchsia-500"></div>
-
-          <div class="absolute -top-5 left-1/2 -translate-x-1/2 z-10">
-            <span class="bg-purple-600 text-white px-4 py-1.5 rounded-full text-xs font-semibold shadow whitespace-nowrap leading-none"
-                  data-fr="PRO — LE PLUS POPULAIRE"
-                  data-en="PRO — MOST POPULAR">
-              PRO — MOST POPULAR
-            </span>
-          </div>
-
 
           <div class="text-center mb-6">
             <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold mb-3">
@@ -1654,7 +1328,7 @@
             <h3 class="text-2xl font-extrabold text-gray-900 mb-1" data-fr="Pro Illimité" data-en="Pro Unlimited">Pro Unlimited</h3>
             <p class="text-sm text-gray-600" data-fr="Aspirant KDP EMPIRE, auteurs prolifiques, agences et maisons d’éditions" data-en="Aspiring KDP empire builders, prolific authors, agencies and publishers">Aspiring KDP empire builders, prolific authors, agencies and publishers</p>
             <div class="mt-5">
-              <span class="text-5xl font-extrabold text-purple-600">€19.99</span>
+              <span class="text-5xl font-extrabold text-purple-600">$19.99</span>
               <span class="text-gray-600 font-semibold" data-fr="/mois" data-en="/month">/month</span>
             </div>
           </div>
@@ -1664,9 +1338,7 @@
             <ul class="space-y-3">
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Qualité haute résolution" data-en="High-resolution quality">High-resolution quality</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès illimité à toutes les fonctionnalités du générateur express" data-en="Unlimited access to all Express Generator features">Unlimited access to all Express Generator features</span></li>
-              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="NOUVEAUTÉ : Bientôt disponible : accès illimité au Dashboard (ventes, marketplaces & KENP)" data-en="NEW: Coming soon: unlimited Dashboard access (sales, marketplaces & KENP)">NEW: Coming soon: unlimited Dashboard access (sales, marketplaces & KENP)</span></li>
-              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="🎆 <strong>NOUVEAUTÉ : Import Canva illimité — DISPONIBLE MAINTENANT</strong> 🎆" data-en="🎆 <strong>NEW: UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆">🎆 <strong>NEW: UNLIMITED CANVA IMPORT — AVAILABLE NOW</strong> 🎆</span></li>
-
+              <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Bientôt disponible : accès illimité à l’import Canva" data-en="Coming soon: unlimited Canva import access">Coming soon: unlimited Canva import access</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Support gratuit" data-en="Free support">Free support</span></li>
               <li class="flex items-start gap-3"><span class="mt-0.5 text-green-600">✓</span><span class="text-sm text-gray-700" data-fr="Accès illimité aux templates premium prêts à l’emploi + bibliothèque Pixabay (5+ millions d’images libres de droits)" data-en="Unlimited access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)">Unlimited access to ready-to-use premium templates + Pixabay library (5+ million royalty-free images)</span></li>
             
@@ -1961,8 +1633,12 @@
     // ===================================
     // 🔵 STRIPE INTEGRATION - CONFIGURÉ
     // ===================================
+    const SUPABASE_URL = 'https://kucwdaicplajljpfkzhu.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y3dkYWljcGxhamxqcGZremh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE5MzMxMjQsImV4cCI6MjA3NzUwOTEyNH0.0IDHysD84_0ghjb-a4K0UkNrJbzdQBKUjm5mQbSfro8';
+    const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     const STRIPE_LINKS = {
-      free: "generator.html",  // Chemin relatif pour fonctionner en local ET en prod
+      free: "generator.html",
       payPerExport: "https://buy.stripe.com/6oUaEX7ORdXRa022RjgUM05",
       proUnlimited: "https://buy.stripe.com/9B6fZhc570718VY3VngUM06"
     };
@@ -1971,12 +1647,28 @@
       window.location.href = STRIPE_LINKS.free;
     }
 
-    function buyOneExport() {
-      window.open(STRIPE_LINKS.payPerExport, "_blank", "noopener,noreferrer");
+    async function buyOneExport() {
+      const { data: { session } } = await sbClient.auth.getSession();
+      if (!session) {
+        window.location.href = 'connexion.html?next=index.html%23tarifs';
+        return;
+      }
+      window.open(
+        `${STRIPE_LINKS.payPerExport}?client_reference_id=${session.user.id}`,
+        "_blank", "noopener,noreferrer"
+      );
     }
 
-    function subscribePro() {
-      window.open(STRIPE_LINKS.proUnlimited, "_blank", "noopener,noreferrer");
+    async function subscribePro() {
+      const { data: { session } } = await sbClient.auth.getSession();
+      if (!session) {
+        window.location.href = 'connexion.html?next=index.html%23tarifs';
+        return;
+      }
+      window.open(
+        `${STRIPE_LINKS.proUnlimited}?client_reference_id=${session.user.id}`,
+        "_blank", "noopener,noreferrer"
+      );
     }
 
     document.addEventListener('DOMContentLoaded', function () {
@@ -2032,18 +1724,18 @@
         const points = data.map((d, i) => {
           const x = (i / (data.length - 1)) * (width - padding * 2) + padding;
           const y = height - padding - ((d.uniques - min) / range) * (height - padding * 2);
-          return `€{x},€{y}`;
+          return `${x},${y}`;
         });
 
         // Créer le path pour la courbe
-        const path = `M €{points.join(' L ')}`;
+        const path = `M ${points.join(' L ')}`;
 
         // Créer le path pour le gradient (zone sous la courbe)
-        const areaPath = `M €{padding},€{height} L €{points.join(' L ')} L €{width - padding},€{height} Z`;
+        const areaPath = `M ${padding},${height} L ${points.join(' L ')} L ${width - padding},${height} Z`;
 
         // Créer le SVG
         const svg = `
-        <svg width="100%" height="100%" viewBox="0 0 €{width} €{height}" preserveAspectRatio="none" style="display: block;">
+        <svg width="100%" height="100%" viewBox="0 0 ${width} ${height}" preserveAspectRatio="none" style="display: block;">
           <defs>
             <linearGradient id="sparkline-gradient" x1="0%" y1="0%" x2="0%" y2="100%">
               <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:0.3" />
@@ -2051,11 +1743,11 @@
             </linearGradient>
           </defs>
           <!-- Zone sous la courbe avec gradient -->
-          <path d="€{areaPath}" fill="url(#sparkline-gradient)" />
+          <path d="${areaPath}" fill="url(#sparkline-gradient)" />
           <!-- Ligne de la courbe -->
-          <path d="€{path}" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="${path}" fill="none" stroke="#3b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
           <!-- Point final (aujourd'hui) -->
-          <circle cx="€{points[points.length - 1].split(',')[0]}" cy="€{points[points.length - 1].split(',')[1]}" r="2.5" fill="#3b82f6" />
+          <circle cx="${points[points.length - 1].split(',')[0]}" cy="${points[points.length - 1].split(',')[1]}" r="2.5" fill="#3b82f6" />
         </svg>
       `;
 
@@ -2074,7 +1766,7 @@
           const from = thirtyDaysAgo.toISOString().split('T')[0];
           const to = today.toISOString().split('T')[0];
 
-          const url = `https://gabaritkdp-stats.amzkdptessa.workers.dev/?from=€{from}&to=€{to}`;
+          const url = `https://gabaritkdp-stats.amzkdptessa.workers.dev/?from=${from}&to=${to}`;
           const res = await fetch(url, { cache: "no-store" });
           const data = await res.json();
 
@@ -2113,152 +1805,6 @@
       setInterval(getSparklineData, 300000); // actualise sparkline toutes les 5 minutes
     })();
   </script>
-<!-- === GKDP Loading Overlay (Index -> Generator) === -->
-<!-- GKDP_LOADING_OVERLAY_INDEX_TO_GENERATOR -->
-<div id="gkdpLoadingOverlay" aria-hidden="true">
-  <div class="gkdp-loader-card">
-    <div class="gkdp-loader-bubble" id="gkdpLoaderText">Preparing your generator…</div>
-    <img class="gkdp-loader-mascotte" src="mascotte-gabaritkdp.png" alt="GabaritKDP Mascotte">
-    <div class="gkdp-loader-bar"><span></span></div>
-    <div class="gkdp-loader-hint" id="gkdpLoaderHint">Loading assets, fonts & Canva…</div>
-  </div>
-</div>
-
-<style>
-  #gkdpLoadingOverlay{
-    position:fixed; inset:0;
-    display:none;
-    place-items:center;
-    background: radial-gradient(1200px 800px at 20% 10%, rgba(255,153,0,.18), transparent 55%),
-                linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.95));
-    z-index: 99999;
-    backdrop-filter: blur(10px);
-  }
-  #gkdpLoadingOverlay.is-open{ display:grid; }
-
-  .gkdp-loader-card{
-    width:min(520px, 92vw);
-    text-align:center;
-    padding: 22px 18px 18px;
-    border-radius: 18px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.18);
-    box-shadow: 0 30px 80px rgba(0,0,0,.45);
-  }
-
-  .gkdp-loader-mascotte{
-    width: 190px;
-    height:auto;
-    filter: drop-shadow(0 18px 40px rgba(0,0,0,.35));
-    animation: gkdpFloat 1.8s ease-in-out infinite;
-    user-select:none;
-    pointer-events:none;
-  }
-  @keyframes gkdpFloat{
-    0%,100%{ transform: translateY(0) rotate(-1deg); }
-    50%{ transform: translateY(-10px) rotate(1deg); }
-  }
-
-  .gkdp-loader-bubble{
-    display:inline-block;
-    max-width: 95%;
-    margin: 0 auto 14px;
-    background:#fff;
-    color:#0f172a;
-    font-weight:700;
-    font-size: 14px;
-    padding: 10px 14px;
-    border-radius: 999px;
-    box-shadow: 0 10px 30px rgba(0,0,0,.25);
-  }
-
-  .gkdp-loader-bar{
-    height: 10px;
-    border-radius: 999px;
-    overflow:hidden;
-    margin: 14px auto 10px;
-    width: min(420px, 90%);
-    background: rgba(255,255,255,.15);
-    border: 1px solid rgba(255,255,255,.18);
-  }
-  .gkdp-loader-bar > span{
-    display:block;
-    height:100%;
-    width: 35%;
-    border-radius: 999px;
-    background: linear-gradient(90deg, rgba(255,153,0,.2), rgba(255,153,0,.95), rgba(255,153,0,.2));
-    animation: gkdpBar 1.2s ease-in-out infinite;
-  }
-  @keyframes gkdpBar{
-    0%{ transform: translateX(-110%); }
-    100%{ transform: translateX(320%); }
-  }
-
-  .gkdp-loader-hint{
-    color: rgba(255,255,255,.78);
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: .2px;
-  }
-</style>
-
-<script>
-  (function prefetchGenerator(){
-    try{
-      const l = document.createElement('link');
-      l.rel = 'prefetch';
-      l.href = 'generator.html';
-      document.head.appendChild(l);
-    }catch(e){}
-  })();
-
-  function goToGenerator(e, url){
-    try{
-      e.preventDefault();
-      const overlay = document.getElementById('gkdpLoadingOverlay');
-      const txt = document.getElementById('gkdpLoaderText');
-      const hint = document.getElementById('gkdpLoaderHint');
-
-      const lang = (window.currentLanguage || localStorage.getItem('preferredLanguage') || 'en');
-      if(lang === 'fr'){
-        txt.textContent = "Je prépare ton générateur…";
-        hint.textContent = "Chargement des ressources, polices & Canva…";
-      } else {
-        txt.textContent = "Preparing your generator…";
-        hint.textContent = "Loading assets, fonts & Canva…";
-      }
-
-      overlay.classList.add('is-open');
-      document.body.style.overflow = 'hidden';
-
-      setTimeout(() => { window.location.href = url; }, 120);
-      return false;
-    } catch(err){
-      window.location.href = url;
-      return false;
-    }
-  }
-
-// Auto-hook all links to generator.html (no HTML changes needed)
-  function hookGeneratorLinks(){
-    try{
-      const links = document.querySelectorAll('a[href="generator.html"], a[href^="generator.html#"], a[href^="generator.html?"]');
-      links.forEach(a => {
-        if(a.__gkdpHooked) return;
-        a.__gkdpHooked = true;
-        a.addEventListener('click', (e) => goToGenerator(e, a.href));
-      });
-    }catch(e){}
-  }
-  document.addEventListener('DOMContentLoaded', hookGeneratorLinks);
-
-  window.addEventListener('pageshow', () => {
-    const overlay = document.getElementById('gkdpLoadingOverlay');
-    if(overlay) overlay.classList.remove('is-open');
-    document.body.style.overflow = '';
-  });
-</script>
-
 </body>
 
 </html>
