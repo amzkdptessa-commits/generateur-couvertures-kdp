@@ -1,18 +1,37 @@
-# Configuration Netlify pour GabaritKDP
+# ================================
+# CONFIG NETLIFY - GabaritKDP
+# ================================
 
 [build]
-  functions = "netlify/functions"
-  command = ""
   publish = "."
+  functions = "netlify/functions"
 
 [functions]
   node_bundler = "esbuild"
 
-# =========================
-# GENERATOR (Cloud Run) - URL canonique /generator
-# =========================
+# ================================
+# GENERATOR (React build)
+# URL publique → /generator
+# ================================
 
-# 1) Redirections vers l'URL propre
+# Redirection propre
+[[redirects]]
+  from = "/generator"
+  to = "/dist-generator"
+  status = 301
+  force = true
+
+# Assets + routing React
+[[redirects]]
+  from = "/generator/*"
+  to = "/dist-generator/:splat"
+  status = 200
+  force = true
+
+# ================================
+# ANCIENES URLS (optionnel)
+# ================================
+
 [[redirects]]
   from = "/generator.html"
   to = "/generator"
@@ -25,58 +44,11 @@
   status = 301
   force = true
 
-# 2) Proxy du générateur (SPA)
-[[redirects]]
-  from = "/generator"
-  to = "https://kdp-cover-generator-586405206336.us-west1.run.app/"
-  status = 200
-  force = true
+# ================================
+# SPA fallback (IMPORTANT)
+# ================================
 
 [[redirects]]
-  from = "/generator/*"
-  to = "https://kdp-cover-generator-586405206336.us-west1.run.app/:splat"
+  from = "/*"
+  to = "/index.html"
   status = 200
-  force = true
-
-# ⚠️ IMPORTANT : ne PAS proxy /assets/* globalement (ça casse le marketing)
-# Si ton app Cloud Run sert des assets sous /assets, route-les sous un préfixe dédié :
-[[redirects]]
-  from = "/generator-assets/*"
-  to = "https://kdp-cover-generator-586405206336.us-west1.run.app/assets/:splat"
-  status = 200
-  force = true
-
-# =========================
-# Canva page (Cloud Run)
-# =========================
-[[redirects]]
-  from = "/canva.html"
-  to = "https://gabaritkdp-react-586405206336.us-west1.run.app/"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/canva.html/*"
-  to = "https://gabaritkdp-react-586405206336.us-west1.run.app/:splat"
-  status = 200
-  force = true
-
-# =========================
-# Redirect API KDP
-# =========================
-[[redirects]]
-  from = "/api/kdp-sync"
-  to = "/.netlify/functions/kdp-sync"
-  status = 200
-
-# =========================
-# Headers globaux
-# =========================
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type"
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
