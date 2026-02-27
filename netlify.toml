@@ -1,24 +1,13 @@
 [build]
-  command = ""
-  publish = "."
+  command = "npm run build"
+  publish = "dist"
 
-# --- Générateur React buildé dans /dist-generator ---
-# /generator doit afficher /dist-generator/index.html
 [[redirects]]
   from = "/generator"
-  to = "/dist-generator/"
-  status = 301
-  force = true
-
-[[redirects]]
-  from = "/generator/*"
-  to = "/dist-generator/index.html"
+  to = "/generator.html"
   status = 200
-  force = true
 
-# (Optionnel) accès direct à dist-generator
 [[redirects]]
-  from = "/dist-generator"
-  to = "/dist-generator/"
-  status = 301
-  force = true
+  from = "/*"
+  to = "/index.html"
+  status = 200
