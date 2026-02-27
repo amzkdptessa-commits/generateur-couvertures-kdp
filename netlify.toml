@@ -1,54 +1,18 @@
-# ================================
-# CONFIG NETLIFY - GabaritKDP
-# ================================
-
 [build]
-  publish = "."
-  functions = "netlify/functions"
+  command = "npm install && npm run build"
+  publish = "dist"
 
 [functions]
   node_bundler = "esbuild"
 
-# ================================
-# GENERATOR (React build)
-# URL publique → /generator
-# ================================
-
-# Redirection propre
-[[redirects]]
-  from = "/generator"
-  to = "/dist-generator"
-  status = 301
-  force = true
-
-# Assets + routing React
+# SPA fallback (React router)
 [[redirects]]
   from = "/generator/*"
-  to = "/dist-generator/:splat"
+  to = "/generator/index.html"
   status = 200
-  force = true
 
-# ================================
-# ANCIENES URLS (optionnel)
-# ================================
-
+# optionnel (clean URL)
 [[redirects]]
-  from = "/generator.html"
-  to = "/generator"
+  from = "/generator"
+  to = "/generator/"
   status = 301
-  force = true
-
-[[redirects]]
-  from = "/generator.html/*"
-  to = "/generator"
-  status = 301
-  force = true
-
-# ================================
-# SPA fallback (IMPORTANT)
-# ================================
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
