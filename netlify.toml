@@ -1,18 +1,24 @@
 [build]
-  command = "npm install && npm run build"
-  publish = "dist"
+  command = ""
+  publish = "."
 
-[functions]
-  node_bundler = "esbuild"
-
-# SPA fallback (React router)
-[[redirects]]
-  from = "/generator/*"
-  to = "/generator/index.html"
-  status = 200
-
-# optionnel (clean URL)
+# --- Générateur React buildé dans /dist-generator ---
+# /generator doit afficher /dist-generator/index.html
 [[redirects]]
   from = "/generator"
-  to = "/generator/"
+  to = "/dist-generator/"
   status = 301
+  force = true
+
+[[redirects]]
+  from = "/generator/*"
+  to = "/dist-generator/index.html"
+  status = 200
+  force = true
+
+# (Optionnel) accès direct à dist-generator
+[[redirects]]
+  from = "/dist-generator"
+  to = "/dist-generator/"
+  status = 301
+  force = true
